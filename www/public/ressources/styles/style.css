@@ -1,0 +1,665 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    /* Gestion de l'affichage 'fade-in' de chaque page, afin de rendre l'affichage des pages plus agréable
+    Voir @keyframes fadeInAnimation en complément ci-dessous */
+    animation: fadeInAnimation ease 0.00001s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    font-family: 'Roboto', sans-serif !important;
+    width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    /* background-color: #262525; */
+    background-color: #333333;
+    color: whitesmoke; /* couleur par défaut */
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 150px; /* Set same as footer's height */
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+p, label, a, i, span {
+    font-size: 14px;
+    color: whitesmoke;
+}
+
+a {
+    text-decoration: none;
+}
+
+span {
+    line-height: inherit !important;
+    vertical-align: middle;
+}
+
+b, strong {
+    font-weight: bolder;
+}
+
+h2 {
+    color: whitesmoke;
+    font-weight: 600;
+    /* opacity: 0.50; */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+p, h2 {
+    line-height: 1.5em;
+}
+
+hr {
+    border-color: gray;
+    opacity: 0.11;
+}
+
+pre {
+    font-family: monospace, monospace;
+    font-size: 12px;
+}
+
+/* Classes génériques */
+.inline { display: inline; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+.float-left { float: left; }
+.float-right { float: right; }
+.align-top { vertical-align: top; }
+.text-center { text-align: center; }
+.relative { position: relative; }
+.pointer { cursor: pointer; }
+/* Classes génériques permettant de créer des textes de couleurs */
+.greentext { color: #489f4d; }
+.redtext { color: #d9534f; }
+.yellowtext { color: #cc9951; }
+.graytext { color : gray; }
+.center { text-align: center; }
+.baseline { vertical-align: baseline; }
+.lowopacity { opacity: 0.33; }
+.mediumopacity { opacity: 0.55 }
+.verylowopacity { opacity: 0.08; }
+.lowopacity:hover, .mediumopacity:hover, .verylowopacity:hover { opacity: 1 }
+.opacity-80 { opacity: 0.80; }
+
+.div-28 { width: 28%; padding: 10px; }.div-29 { width: 29%; padding: 10px; }.div-30 { width: 30%; padding: 10px; }
+.div-33 { width: 33%; padding: 10px; }.div-45 { width: 45%; padding: 10px; }.div-48 { width: 48%; padding: 10px; }
+.div-49 { width: 49%; padding: 10px; }.div-50 { width: 50%; padding: 10px; }.div-65 { width: 65%; padding: 10px; }
+.div-67 { width: 67%; padding: 10px; }.div-68 { width: 68%; padding: 10px; }.div-69 { width: 69%; padding: 10px; }
+.div-70 { width: 70%; padding: 10px; }
+.flex { display: flex; }
+.flex-div-15 { flex: 0 0 14%; }
+.flex-div-20 { flex: 0 0 19%; }
+.flex-div-25 { flex: 0 0 24%; }
+.flex-div-30 { flex: 0 0 29%; }
+.flex-div-33 { flex: 0 0 32%; }
+.flex-div-40 { flex: 0 0 39%; }
+.flex-div-50 { flex: 0 0 47%; }
+.flex-div-60 { flex: 0 0 59%; }
+.flex-div-65 { flex: 0 0 64%; }
+.flex-div-68 { flex: 0 0 67%; }
+.flex-div-80 { flex: 0 0 79%; }
+.flex-div-100 { flex: 0 0 98%; }
+
+table {
+    width: 100%;
+    font-size: 14px;
+    table-layout: auto !important;
+}
+.table-large  { width: 100%; }
+.table-medium { width: 65%; }
+.table-small  { width: 25% }
+
+/**
+ *  Tableaux génériques
+ */
+
+/* Concerne toutes les classes commencant par table-generic- */
+[class^="table-generic"] {
+    border-collapse: separate !important;
+    border-spacing: 0 4px;
+    table-layout: auto !important;
+    white-space: nowrap;
+}
+[class^="table-generic"] tr td {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+[class^="table-generic"] tr td:first-child {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+[class^="table-generic"] tr td:last-child {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+[class^="table-generic"] thead tr {
+    background: none !important;
+    font-weight: bold;
+}
+.table-generic-blue tr { background-color: #2b426e; }
+.table-generic-red tr  { background-color: #d9534f; }
+
+/* Classe td génériques */
+th {
+    text-align: center;
+    font-weight: 600;
+    vertical-align: middle;
+}
+td {
+    color: whitesmoke;
+    height: 36px;
+    vertical-align: middle;
+}
+
+.td-fit { /* cellule qui s'adapte à la taille du contenu, avec léger padding sur les côté pour ne pas finir collé au reste */
+    width: 1%;
+    /* width: 0px; */
+    white-space: nowrap;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.td-small { width: 200px; }
+.td-medium { width: 300px; }
+.td-large { width: 500px; }
+.td-10, .td-30, .td-50, .td-100 {
+    width: 0px;
+    margin: 0px;
+    white-space: nowrap;
+}
+.td-10 { padding-right: 10px !important; }
+.td-30 { padding-right: 30px !important; }
+.td-50 { padding-right: 50px !important; }
+.td-100 { padding-right: 100px !important; }
+
+.hide {
+    display: none;
+}
+
+/* conf commune à toutes les icones */
+.icon, .icon-small, .icon-lowopacity, .icon-verylowopacity, .icon-invisible, .icon-mediumopacity, .icon-nf {
+    height: 13px;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    /* filter: invert(100%) sepia(4%) saturate(1596%) hue-rotate(265deg) brightness(105%) contrast(101%); */
+}
+
+.icon-small { height: 8px; }
+.icon-lowopacity {
+    opacity: 0.33;
+}
+.icon-verylowopacity { /* pour une icone encore plus transparente */
+    opacity: 0.08;
+}
+.icon-lowopacity:hover, .icon-verylowopacity:hover, .icon-invisible:hover, .icon-mediumopacity:hover {
+    opacity: 1;
+}
+.icon-invisible { /* icone invisible, révélée par un passage de souris (hover) */
+    opacity: 0;
+}
+.icon-mediumopacity {
+    opacity: 0.55;
+}
+
+/* form, button, input, textarea */
+
+input[type=text], input[type=date], input[type=time], input[type=number], input[type=email], input[type=password], input[type=color], input[type=file], select {
+    width: 100%;
+    height: 30px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-left: 4px;
+    display: inline-block;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: whitesmoke;
+    background-color:#474747;
+}
+
+input[type=file] {
+    background: none !important;
+}
+
+input[type=color].color-xsmall { width: 50px; vertical-align: middle; }
+input[type].input-small, .select-small { width: 100px; }
+input[type].input-medium, .select-medium { width: 150px; }
+input[type].input-large, .select-large { width: 250px; }
+input:checked { opacity: 1; }
+.select-xxlarge {
+    width: 400px;
+}
+
+/* Tous les boutons */
+[class^="btn-"], [class*=" btn-"] {
+    padding: 7px 5px 7px 5px;
+    border: none;
+    border-radius: 2px;
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Boutons carrés */
+[class^="btn-square"] {
+    width: 150px;
+    height: 150px;
+    border: none;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 4px;
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0px 0px 7px 8px rgba(0,0,0,0.02);
+    box-shadow: inset 0px 0px 7px 8px rgba(0,0,0,0.02);
+}
+
+/* Tous les boutons bleus */
+.btn-large-blue, .btn-medium-blue, .btn-small-blue, .btn-xsmall-blue, .btn-xxsmall-blue, .btn-fit-blue {
+    background-color: #2b426e;
+}
+/* Tous les boutons verts */
+.btn-large-green, .btn-medium-green, .btn-small-green, .btn-xsmall-green, .btn-xxsmall-green, .btn-fit-green, .btn-square-green {
+    background-color: #489f4d;
+}
+/* Tous les boutons rouges */
+.btn-large-red, .btn-medium-red, .btn-small-red, .btn-xsmall-red, .btn-xxsmall-red, .btn-fit-red, .btn-square-red {
+    background-color: #d9534f;
+}
+/* Tous les boutons jaunes */
+.btn-large-yellow, .btn-medium-yellow, .btn-small-yellow, .btn-xsmall-yellow, .btn-xxsmall-yellow, .btn-fit-yellow {
+    background-color: #eb984e;
+}
+.btn-square-none {
+    background-color: #43414100;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+/* Boutons taille large */
+.button-large, .btn-large-blue, .btn-large-green, .btn-large-red {
+    width: 100%;
+}
+/* Boutons taille moyenne */
+.button-medium, .btn-medium-blue, .btn-medium-green, .btn-medium-red {
+    width: 150px;
+}
+/* Boutons petite taille */
+.button-small, .btn-small-blue, .btn-small-green, .btn-small-red {
+    width: 100px;
+}
+/* Boutons très petite taille */
+.button-xsmall, .btn-xsmall-blue, .btn-xsmall-green, .btn-xsmall-red {
+    width: 50px;
+}
+/* Boutons carré */
+.button-xxsmall, .btn-xxsmall-blue, .btn-xxsmall-green, .btn-xxsmall-red {
+    margin: 2px;
+    width: 30px;
+}
+
+/* Tous les boutons bleus :hover */
+.btn-large-blue:hover, .btn-medium-blue:hover, .btn-small-blue:hover, .btn-xsmall-blue:hover, .btn-xxsmall-blue:hover, .btn-fit-blue:hover {
+    transition-duration: 0.4s;
+    background-color: #263859;
+}
+/* Tous les boutons verts :hover */
+.btn-large-green:hover, .btn-medium-green:hover, .btn-small-green:hover, .btn-xsmall-green:hover, .btn-xxsmall-green:hover, .btn-fit-green:hover, .btn-square-green:hover {
+    transition-duration: 0.4s;
+    background-color: #3e8e41;
+}
+/* Tous les boutons rouges :hover */
+.btn-large-red:hover, .btn-medium-red:hover, .btn-small-red:hover, .btn-xsmall-red:hover, .btn-xxsmall-red:hover, .btn-fit-red:hover, .btn-square-red:hover {
+    transition-duration: 0.4s;
+    background-color: #b14440;
+}
+
+/* Taille des icones dans les boutons carrés */
+.btn-square-green img.icon, .btn-square-red img.icon {
+    width: 30%;
+    height: 30%;
+}
+
+/* boutons switch-field */
+.switch-field {
+    display: flex;
+    overflow: hidden;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.switch-field input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: 0;
+    margin-right: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+.switch-field label {
+    background-color: whitesmoke;
+    color: #3b3b3b;
+    line-height: 1;
+    text-align: center;
+    padding: 3px 7px;
+    margin-right: -1px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+    cursor: pointer;
+}
+
+.switch-field input:checked + label {
+    background-color: #2b426e;
+    box-shadow: none;
+    color: whitesmoke;
+}
+
+.switch-field label:first-of-type {
+    border-radius: 2px 0 0 2px;
+}
+
+.switch-field label:last-of-type {
+    border-radius: 0 2px 2px 0;
+}
+
+/** Switchs On/Off */
+
+/* The onoff-switch-label - the box around the slider */
+.onoff-switch-label {
+    position: relative;
+    display: inline-block;
+    width: 35px;
+    height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+/* Hide default HTML checkbox */
+.onoff-switch-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+/* The slider */
+.onoff-switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+.onoff-switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+.onoff-switch-input:checked + .onoff-switch-slider {
+    background-color: #2b426e;
+}
+.onoff-switch-input:focus + .onoff-switch-slider {
+    box-shadow: 0 0 1px #2b426e;
+}
+.onoff-switch-input:checked + .onoff-switch-slider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+}
+
+/* Container grid */
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-evenly;
+    margin-top: 50px;
+}
+
+#configuration-container {
+    width: 50%;
+    margin: auto;
+    margin-top: 80px;
+}
+
+.item {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#motion-alert-table, #motion-configuration-table, .camera-config-table {
+    width: 100%;
+    padding: 10px 15px 10px 15px;
+    display: block;
+    border: 1px solid #202020;
+    border-radius: 4px;
+    border-collapse: separate;
+    border-spacing: 4px 0px;
+}
+
+#motion-alert-table {
+    max-width: 350px;
+}
+
+.camera-config-table tbody {
+    width: 100%;
+    display: table;
+}
+
+#camera-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-evenly;
+    margin: 50px 15px 50px 15px;
+    column-gap: 20px;
+}
+
+.camera-btn-div {
+    margin: auto;
+    width: fit-content;
+}
+
+.camera-image img {
+    display: none;
+    max-width: 100%;
+    max-height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+}
+
+.loading-camera-image img {
+    width: 30%;
+    height: 30%;
+}
+
+.full-screen {
+    position: absolute;
+    top: -40px;
+    width: 98%;
+    height: 100vh;
+    max-height: 100vh;
+    background: #2c2c2c;
+    border: 1px solid #202020;
+    border-radius: 4px;
+    z-index: 99;
+}
+
+.close-full-screen-camera-btn {
+    display: none;
+}
+
+.full-screen img {
+    max-height: 80vh;
+    display: block !important;
+    margin: auto;
+}
+
+#new-camera-form {
+    padding: 15px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    margin-top: 100px;
+}
+footer p { color: gray; }
+
+.action, .alert, .alert-success, .alert-error, .confirmAlert { /* div affichant une alerte au milieu de la page */
+    width: 100%;
+    height: 18px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 16px;
+    position: fixed; /* on positionne le div au centre de la page */
+    bottom: 0;
+    left: 0;
+    z-index:99;
+    box-shadow:
+     0px 1px 1px 0px rgba(0, 0, 0, 0.5) inset,
+     0px 2px 2px 0px rgba(109, 109, 109, 0.2);
+    background-color:#252525;
+    color: whitesmoke;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.alert-success { background-color: #489f4d; }
+.alert-error { background-color: firebrick; }
+.alert span, .alert-success span, .alert-error span, .confirmAlert span {
+    font-size: 16px;
+}
+.confirmAlert-message, .alert-message {
+    font-size: 18px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.confirmAlert-buttons-container {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.btn-doConfirm, .btn-doCancel {
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid black;
+}
+.btn-doConfirm {
+    background-color: #d9534f;
+}
+.btn-doConfirm:hover {
+    background-color: #b14440;
+}
+
+/* Scrollbar personnalisée */
+/* Compatible Chrome uniquement */
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #252525;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #596EB5;
+    border-radius: 5px;
+    /*border: 1px solid #2b426e;*/
+}
+
+#how-to-alert-container {
+    width: 80%;
+    border: 1px solid #202020;
+    padding: 10px 15px 10px 15px;
+    margin: 20px auto 80px auto;
+}
+
+pre {
+    border: 1px solid #262626;
+    border-radius: 2px;
+    background-color: #2c2c2c;
+    padding: 2px;
+    white-space: pre-wrap;
+    line-height: 1.5em;
+}
+
+/* Pour les mobiles on ne souhaite afficher qu'une seule caméra par ligne */
+@media (max-width: 640px) {
+    .container {
+        grid-template-columns: auto;
+    }
+
+    #configuration-container, #how-to-alert-container {
+        width: 98%;
+    }
+
+    #motion-configuration-table tr th {
+        overflow-wrap: anywhere;
+        word-wrap: break-all;
+    }
+
+    #camera-container {
+        grid-template-columns: auto;
+    }
+}
