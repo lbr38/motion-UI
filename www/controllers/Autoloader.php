@@ -12,7 +12,7 @@ class Autoloader
         spl_autoload_register(function ($className) {
 
             $className = str_replace('\\', '/', $className);
-            // $className = str_replace('Models', 'models', $className);
+            $className = str_replace('Models', 'models', $className);
             $className = str_replace('Controllers', 'controllers', $className);
 
             if (file_exists(ROOT . '/' . $className . '.php')) {
@@ -23,27 +23,19 @@ class Autoloader
 
     public static function load()
     {
-        define('ALERT_INI', '/etc/motion/alert.ini');
-        define('CAMERA_DIR', ROOT . '/configurations');
+        define('DATA_DIR', '/var/lib/motionui');
+        define('DB', DATA_DIR . '/db/motionui.sqlite');
+        define('CAMERA_DIR', DATA_DIR . '/configurations');
 
         /**
-         *  Création des répertoires de base si n'existent pas
+         *  Create base directories if not exist
          */
-        if (!is_dir(CAMERA_DIR)) {
-            mkdir(CAMERA_DIR, 0700, true);
+        if (!is_dir(DATA_DIR . '/db')) {
+            mkdir(DATA_DIR . '/db', 0770, true);
         }
 
-        if (!file_exists(ALERT_INI)) {
-            $content = 'alert_enable = "no"' . PHP_EOL;
-            $content .= 'monday = 00:00-23:59' . PHP_EOL;
-            $content .= 'tuesday = 00:00-23:59' . PHP_EOL;
-            $content .= 'wednesday = 00:00-23:59' . PHP_EOL;
-            $content .= 'thursday = 00:00-23:59' . PHP_EOL;
-            $content .= 'friday = 00:00-23:59' . PHP_EOL;
-            $content .= 'saturday = 00:00-23:59' . PHP_EOL;
-            $content .= 'sunday = 00:00-23:59' . PHP_EOL;
-
-            file_put_contents(ALERT_INI, $content);
+        if (!is_dir(CAMERA_DIR)) {
+            mkdir(CAMERA_DIR, 0700, true);
         }
 
         \Controllers\Autoloader::register();

@@ -59,7 +59,6 @@ b, strong {
 h2 {
     color: whitesmoke;
     font-weight: 600;
-    /* opacity: 0.50; */
     margin-top: 20px;
     margin-bottom: 10px;
     text-align: center;
@@ -162,7 +161,7 @@ table {
 
 /* Classe td génériques */
 th {
-    text-align: center;
+    text-align: left;
     font-weight: 600;
     vertical-align: middle;
 }
@@ -191,10 +190,6 @@ td {
 .td-30 { padding-right: 30px !important; }
 .td-50 { padding-right: 50px !important; }
 .td-100 { padding-right: 100px !important; }
-
-.hide {
-    display: none;
-}
 
 /* conf commune à toutes les icones */
 .icon, .icon-small, .icon-lowopacity, .icon-verylowopacity, .icon-invisible, .icon-mediumopacity, .icon-nf {
@@ -255,6 +250,7 @@ input:checked { opacity: 1; }
 
 /* Tous les boutons */
 [class^="btn-"], [class*=" btn-"] {
+    margin-top: 5px;
     padding: 7px 5px 7px 5px;
     border: none;
     border-radius: 2px;
@@ -454,12 +450,16 @@ input:checked { opacity: 1; }
     transform: translateX(15px);
 }
 
+#motionui-status {
+    margin-top: 30px;
+}
+
 /* Container grid */
 .container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 25%);
     justify-content: space-evenly;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 #configuration-container {
@@ -469,24 +469,39 @@ input:checked { opacity: 1; }
 }
 
 .item {
+    width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
 }
 
-#motion-alert-table, #motion-configuration-table, .camera-config-table {
-    width: 100%;
-    padding: 10px 15px 10px 15px;
+.config-div {
+    width: 90%;
+    padding: 8px;
+    margin: 15px auto 15px auto;
     display: block;
     border: 1px solid #202020;
     border-radius: 4px;
+}
+
+#autostart-btn-div, #alert-btn-div {
+    display: flex;
+    justify-content: center;
+}
+
+#alert-btn-div span {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.config-div table {
     border-collapse: separate;
     border-spacing: 4px 0px;
 }
 
-#motion-alert-table {
-    max-width: 350px;
+.camera-configuration-div {
+    max-width: 100%;
 }
 
 .camera-config-table tbody {
@@ -547,6 +562,10 @@ input:checked { opacity: 1; }
     padding: 15px;
 }
 
+.hide {
+    display: none;
+}
+
 footer {
     position: absolute;
     bottom: 0;
@@ -556,13 +575,13 @@ footer {
 }
 footer p { color: gray; }
 
-.action, .alert, .alert-success, .alert-error, .confirmAlert { /* div affichant une alerte au milieu de la page */
+.action, .alert, .alert-success, .alert-error, .confirmAlert {
     width: 100%;
     height: 18px;
     padding-top: 30px;
     padding-bottom: 30px;
     font-size: 16px;
-    position: fixed; /* on positionne le div au centre de la page */
+    position: fixed;
     bottom: 0;
     left: 0;
     z-index:99;
@@ -628,13 +647,6 @@ footer p { color: gray; }
     /*border: 1px solid #2b426e;*/
 }
 
-#how-to-alert-container {
-    width: 80%;
-    border: 1px solid #202020;
-    padding: 10px 15px 10px 15px;
-    margin: 20px auto 80px auto;
-}
-
 pre {
     border: 1px solid #262626;
     border-radius: 2px;
@@ -647,14 +659,14 @@ pre {
 /* Pour les mobiles on ne souhaite afficher qu'une seule caméra par ligne */
 @media (max-width: 640px) {
     .container {
-        grid-template-columns: auto;
+        grid-template-columns: repeat(1, 100%);
     }
 
-    #configuration-container, #how-to-alert-container {
+    #configuration-container {
         width: 98%;
     }
 
-    #motion-configuration-table tr th {
+    .motion-configuration-table tr th {
         overflow-wrap: anywhere;
         word-wrap: break-all;
     }

@@ -1,0 +1,9 @@
+[Unit]
+Description=Motion-UI service
+
+[Service]
+Type=simple
+ExecStart=/var/lib/motionui/service/motionui-service
+
+[Install]
+WantedBy=multi-user.target

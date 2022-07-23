@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+set -u
+
+EVENTS_DIR="/var/lib/motionui/events"
+DAY=$(LC_ALL="en_EN.UTF-8" date +%A)
+TIME=$(date +%H%M)
+DATE_NOW=$(date +%Y-%m-%d)
+TIME_NOW=$(date +%H:%M)
+REGISTER_EVENT_ID=""
+EVENT_ID=""
+REGISTER_EVENT_ID=""
+EVENT_FILE=""
+CAMERA_ID=""
+CAMERA_NAME=""
+
+function addEvent
+{
+    echo "ID=$REGISTER_EVENT_ID" > "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    echo "STATUS=new" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    echo "DATE_START=$DATE_NOW" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    echo "TIME_START=$TIME_NOW" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    echo "CAMERA_ID=$CAMERA_ID" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    echo "CAMERA_NAME=$CAMERA_NAME" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+}
+
+function addEventFile
+{
+    if [ -z "$EVENT_ID" ];then
+        echo "Error: Event Id must be specified when using --file parameter."
+        return
+    fi
+
+    if [ ! -f "$EVENTS_DIR/event-${EVENT_ID}" ];then
+        echo "Error: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
+        return
+    fi
+
+    echo "FILE=$EVENT_FILE" >> "$EVENTS_DIR/event-${EVENT_ID}"
+}
+
+function endEvent
+{
+    if [ -z "$EVENT_ID" ];then
+        echo "Error: Event Id must be specified when using --end-event parameter."
+        return
+    fi
+
+    if [ ! -f "$EVENTS_DIR/event-${EVENT_ID}" ];then
+        echo "Error: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
+        return
+    fi
+
+    # Add end date and time for this event
+    echo "DATE_END=${DATE_NOW}" >> "$EVENTS_DIR/event-${EVENT_ID}"
+    echo "TIME_END=${TIME_NOW}" >> "$EVENTS_DIR/event-${EVENT_ID}"
+}
+
+mkdir -p "$EVENTS_DIR"
+
+while [ $# -ge 1 ];do
+    case "$1" in
+        -ci|--cam-id)
+            CAMERA_ID="$2"
+            shift
+        ;;
+        -cn|--cam-name)
+            CAMERA_NAME="$2"
+            shift
+        ;;
+        -re|--register-event)
+            REGISTER_EVENT_ID="$2"
+            addEvent
+            exit
+        ;;
+        -e|--event)
+            EVENT_ID="$2"
+            shift
+        ;;
+        -ee|--end-event)
+            EVENT_ID="$2"
+            endEvent
+            exit
+        ;;
+        -f|--file)
+            EVENT_FILE="$2"
+            addEventFile
+            exit
+        ;;
+           *)
+        echo "Unknown parameter : $1"
+        ;;
+    esac
+    shift
+done
+
+exit

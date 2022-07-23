@@ -170,7 +170,7 @@ class Camera
 
             <!-- Loading image div -->
             <div class="loading-camera-image">
-                <button class="btn-square-none"><img src="ressources/images/loading.gif" class="icon" title="Loading image" /></button>
+                <button class="btn-square-none"><img src="resources/icons/loading.gif" class="icon" title="Loading image" /></button>
                 <span class="block center lowopacity">Loading image</span>
             </div>
 
@@ -187,7 +187,7 @@ class Camera
 
             <!-- Unavailable image div -->
             <div id="camera<?= $id ?>-unavailable" class="hide">
-                <button class="btn-square-red"><img src="ressources/images/error.png" class="icon" title="Unavailable" /></button>
+                <button class="btn-square-red"><img src="resources/icons/error.png" class="icon" title="Unavailable" /></button>
                 <span class="block center lowopacity">Unavailable</span>
             </div>
 
@@ -201,9 +201,9 @@ class Camera
 
             <br>
             
-            <div class="camera-configuration-div hide" camera-id="<?= $id ?>">
+            <div class="camera-configuration-div config-div hide" camera-id="<?= $id ?>">
                 <form class="edit-camera-configuration-form" camera-id="<?= $id ?>" autocomplete="off">
-                    <table class="camera-config-table">
+                    <table>
                         <tr>
                             <td class="td-30">Id</td>
                             <td>

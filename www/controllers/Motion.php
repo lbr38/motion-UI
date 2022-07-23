@@ -6,35 +6,231 @@ use Exception;
 
 class Motion
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new \Models\Motion();
+    }
+
     /**
      *  Returns motion service status
      */
     public function getStatus()
     {
-        $motionStatus = shell_exec('/usr/sbin/service motion status');
-        if (preg_match('/Active: active/', $motionStatus)) {
-            return 'started';
+        $status = trim(shell_exec('systemctl is-active motion'));
+
+        if ($status == 'active') {
+            return 'active';
         }
-        if (preg_match('/Active: inactive/', $motionStatus)) {
-            return 'stopped';
-        }
+
+        return 'inactive';
     }
 
     /**
-     *  Start or stop motion capture
+     *  Returns status of systemd 'motionui' service
+     */
+    public function getMotionUIServiceStatus()
+    {
+        $status = trim(shell_exec('systemctl is-active motionui'));
+
+        if ($status == 'active') {
+            return 'active';
+        }
+
+        return 'inactive';
+    }
+
+    /**
+     *  Returns actual autostart time slots configuration
+     */
+    public function getAutostartConfiguration()
+    {
+        /**
+         *  Get actual configuration
+         */
+        $configuration = $this->model->getAutostartConfiguration();
+
+        return $configuration;
+    }
+
+    /**
+     *  Returns autostart parameter status
+     */
+    public function getAutostartStatus()
+    {
+        $status = $this->getAutostartConfiguration();
+
+        return $status['Status'];
+    }
+
+    /**
+     *  Returns autostart on device presence parameter status
+     */
+    public function getAutostartOnDevicePresenceStatus()
+    {
+        $status = $this->getAutostartConfiguration();
+
+        return $status['Device_presence'];
+    }
+
+    /**
+     *  Returns known devices
+     */
+    public function getAutostartDevices()
+    {
+        return $this->model->getAutostartDevices();
+    }
+
+    /**
+     *  Returns actual alerts time slots configuration
+     */
+    public function getAlertConfiguration()
+    {
+        /**
+         *  Get actual configuration
+         */
+        $configuration = $this->model->getAlertConfiguration();
+
+        return $configuration;
+    }
+
+    /**
+     *  Returns alert parameter status
+     */
+    public function getAlertStatus()
+    {
+        $status = $this->getAlertConfiguration();
+
+        return $status['Status'];
+    }
+
+    /**
+     *  Start / stop motion capture
      */
     public function startStop(string $status)
     {
         if ($status == 'start') {
-            exec("sudo /usr/sbin/service motion start");
+            if (!file_exists(DATA_DIR . '/start-motion.request')) {
+                touch(DATA_DIR . '/start-motion.request');
+            }
         }
         if ($status == 'stop') {
-            exec("sudo /usr/sbin/service motion stop");
+            if (!file_exists(DATA_DIR . '/stop-motion.request')) {
+                touch(DATA_DIR . '/stop-motion.request');
+            }
         }
     }
 
     /**
-     *  Configure motion
+     *  Enable / disable motion autostart
+     */
+    public function enableAutostart(string $status)
+    {
+        if ($status != 'enabled' and $status != 'disabled') {
+            throw new Exception('Invalid parameter');
+        }
+
+        $this->model->enableAutostart($status);
+    }
+
+    /**
+     *  Enable / disable autostart on device presence
+     */
+    public function enableDevicePresence(string $status)
+    {
+        if ($status != 'enabled' and $status != 'disabled') {
+            throw new Exception('Invalid parameter');
+        }
+
+        $this->model->enableDevicePresence($status);
+    }
+
+    /**
+     *  Configure motion autostart
+     */
+    public function configureAutostart(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd)
+    {
+        $this->model->configureAutostart(
+            \Controllers\Common::validateData($mondayStart),
+            \Controllers\Common::validateData($mondayEnd),
+            \Controllers\Common::validateData($tuesdayStart),
+            \Controllers\Common::validateData($tuesdayEnd),
+            \Controllers\Common::validateData($wednesdayStart),
+            \Controllers\Common::validateData($wednesdayEnd),
+            \Controllers\Common::validateData($thursdayStart),
+            \Controllers\Common::validateData($thursdayEnd),
+            \Controllers\Common::validateData($fridayStart),
+            \Controllers\Common::validateData($fridayEnd),
+            \Controllers\Common::validateData($saturdayStart),
+            \Controllers\Common::validateData($saturdayEnd),
+            \Controllers\Common::validateData($sundayStart),
+            \Controllers\Common::validateData($sundayEnd)
+        );
+    }
+
+    /**
+     *  Add a new device name and ip address to known devices
+     */
+    public function addDevice(string $name, string $ip)
+    {
+        $name = \Controllers\Common::validateData($name);
+        $ip = \Controllers\Common::validateData($ip);
+
+        $this->model->addDevice($name, $ip);
+    }
+
+    /**
+     *  Remove a known device
+     */
+    public function removeDevice(int $id)
+    {
+        if (!is_numeric($id)) {
+            throw new Exception('Invalid device id');
+        }
+
+        $this->model->removeDevice($id);
+    }
+
+    /**
+     *  Enable / disable motion alerts
+     */
+    public function enableAlert(string $status)
+    {
+        if ($status != 'enabled' and $status != 'disabled') {
+            throw new Exception('Invalid parameter');
+        }
+
+        $this->model->enableAlert($status);
+    }
+
+    /**
+     *  Configure motion alerts
+     */
+    public function configureAlert(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd, string $mailRecipient, string $muttConfig)
+    {
+        $this->model->configureAlert(
+            \Controllers\Common::validateData($mondayStart),
+            \Controllers\Common::validateData($mondayEnd),
+            \Controllers\Common::validateData($tuesdayStart),
+            \Controllers\Common::validateData($tuesdayEnd),
+            \Controllers\Common::validateData($wednesdayStart),
+            \Controllers\Common::validateData($wednesdayEnd),
+            \Controllers\Common::validateData($thursdayStart),
+            \Controllers\Common::validateData($thursdayEnd),
+            \Controllers\Common::validateData($fridayStart),
+            \Controllers\Common::validateData($fridayEnd),
+            \Controllers\Common::validateData($saturdayStart),
+            \Controllers\Common::validateData($saturdayEnd),
+            \Controllers\Common::validateData($sundayStart),
+            \Controllers\Common::validateData($sundayEnd),
+            \Controllers\Common::validateData($mailRecipient),
+            \Controllers\Common::validateData($muttConfig)
+        );
+    }
+
+    /**
+     *  Edit motion configuration (in /etc/motion/)
      */
     public function configure(string $filename, array $options)
     {

@@ -15,10 +15,10 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
          *  Enable / disable alerts
          */
         if ($_POST['action'] == "enableAlert" and !empty($_POST['status'])) {
-            $myalert = new \Controllers\Alert();
+            $mymotion = new \Controllers\Motion();
 
             try {
-                $myalert->enable($_POST['status']);
+                $mymotion->enableAlert($_POST['status']);
             } catch (\Exception $e) {
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
@@ -44,10 +44,89 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
             and isset($_POST['saturdayEnd'])
             and isset($_POST['sundayStart'])
             and isset($_POST['sundayEnd'])) {
-            $myalert = new \Controllers\Alert();
+            $mymotion = new \Controllers\Motion();
 
             try {
-                $myalert->configure(
+                $mymotion->configureAlert(
+                    $_POST['mondayStart'],
+                    $_POST['mondayEnd'],
+                    $_POST['tuesdayStart'],
+                    $_POST['tuesdayEnd'],
+                    $_POST['wednesdayStart'],
+                    $_POST['wednesdayEnd'],
+                    $_POST['thursdayStart'],
+                    $_POST['thursdayEnd'],
+                    $_POST['fridayStart'],
+                    $_POST['fridayEnd'],
+                    $_POST['saturdayStart'],
+                    $_POST['saturdayEnd'],
+                    $_POST['sundayStart'],
+                    $_POST['sundayEnd'],
+                    $_POST['mailRecipient'],
+                    $_POST['muttConfig']
+                );
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            /**
+             *  Si il n'y a pas eu d'erreur
+             */
+            response(HTTP_OK, 'Settings saved');
+        }
+
+        /*
+         *  Enable / disable autostart
+         */
+        if ($_POST['action'] == "enableAutostart" and !empty($_POST['status'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->enableAutostart($_POST['status']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, '');
+        }
+
+        /**
+         *  Start / stop motion capture
+         */
+        if ($_POST['action'] == "startStopMotion" and !empty($_POST['status'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->startStop($_POST['status']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, '');
+        }
+
+        /*
+         *  Configure motion autostart
+         */
+        if ($_POST['action'] == "configureAutostart"
+            and isset($_POST['mondayStart'])
+            and isset($_POST['mondayEnd'])
+            and isset($_POST['tuesdayStart'])
+            and isset($_POST['tuesdayEnd'])
+            and isset($_POST['wednesdayStart'])
+            and isset($_POST['wednesdayEnd'])
+            and isset($_POST['thursdayStart'])
+            and isset($_POST['thursdayEnd'])
+            and isset($_POST['fridayStart'])
+            and isset($_POST['fridayEnd'])
+            and isset($_POST['saturdayStart'])
+            and isset($_POST['saturdayEnd'])
+            and isset($_POST['sundayStart'])
+            and isset($_POST['sundayEnd'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->configureAutostart(
                     $_POST['mondayStart'],
                     $_POST['mondayEnd'],
                     $_POST['tuesdayStart'],
@@ -74,18 +153,48 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
         }
 
         /**
-         *  Start / stop motion capture
+         *  Add a new device
          */
-        if ($_POST['action'] == "startStopMotion" and !empty($_POST['status'])) {
+        if ($_POST['action'] == "addDevice" and !empty($_POST['name']) and !empty($_POST['ip'])) {
             $mymotion = new \Controllers\Motion();
 
             try {
-                $mymotion->startStop($_POST['status']);
+                $mymotion->addDevice($_POST['name'], $_POST['ip']);
             } catch (\Exception $e) {
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
 
-            response(HTTP_OK, '');
+            response(HTTP_OK, 'Device added');
+        }
+
+        /**
+         *  Remove a known device
+         */
+        if ($_POST['action'] == "removeDevice" and !empty($_POST['id'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->removeDevice($_POST['id']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, 'Device removed');
+        }
+
+        /**
+         *  Enable / disable autostart on device presence
+         */
+        if ($_POST['action'] == "enableDevicePresence" and !empty($_POST['status'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->enableDevicePresence($_POST['status']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, 'Settings saved');
         }
 
         /**
@@ -100,7 +209,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
 
-            response(HTTP_OK, 'Configuration saved');
+            response(HTTP_OK, 'Configuration saved, please restart <b>motion</b> to apply it.');
         }
 
         /**
