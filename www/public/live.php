@@ -44,7 +44,7 @@ $camerasTotal = $mycamera->getTotal();
             <form id="new-camera-form" autocomplete="off">
                 <p>Name:</p>
                 <input type="text" name="camera-name" />
-                <p>URL:<img src="ressources/images/info.png" class="icon-lowopacity" title="Insert an URL that points directly to a JPEG image." /></p>
+                <p>URL:<img src="resources/icons/info.png" class="icon-lowopacity" title="Insert an URL that points directly to a JPEG image." /></p>
                 <input type="text" name="camera-url" placeholder="e.g. http(s)://.../snapshot" />
                 <br><br>
                 <button class="btn-medium-green">Add camera</button>
@@ -55,7 +55,7 @@ $camerasTotal = $mycamera->getTotal();
 
             <h2>Motion</h2>
 
-            <a href="index.php"><button class="btn-square-green"><img src="ressources/images/motion.png" class="icon"></button></a>
+            <a href="index.php"><button class="btn-square-green"><img src="resources/icons/motion.png" class="icon"></button></a>
             <span class="block center lowopacity">Configure</span>
         </div>
     </div>

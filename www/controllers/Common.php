@@ -169,6 +169,6 @@ class Common
 
         array_unshift($array, $value);
 
-        return $array;
+        return array_unique($array);
     }
 }
