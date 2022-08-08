@@ -23,9 +23,32 @@ class Autoloader
 
     public static function load()
     {
+        if (!defined('ROOT')) {
+            define('ROOT', dirname(__FILE__, 2));
+        }
         define('DATA_DIR', '/var/lib/motionui');
         define('DB', DATA_DIR . '/db/motionui.sqlite');
         define('CAMERA_DIR', DATA_DIR . '/configurations');
+        define('VERSION', trim(file_get_contents(ROOT . '/version')));
+
+        if (!file_exists(DATA_DIR . '/version.available')) {
+            touch(DATA_DIR . '/version.available');
+        }
+
+        define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
+        if (defined('VERSION') and defined('GIT_VERSION')) {
+            if (VERSION !== GIT_VERSION) {
+                if (!defined('UPDATE_AVAILABLE')) {
+                    define('UPDATE_AVAILABLE', 'yes');
+                }
+            } else {
+                if (!defined('UPDATE_AVAILABLE')) {
+                    define('UPDATE_AVAILABLE', 'no');
+                }
+            }
+        } else {
+            define('UPDATE_AVAILABLE', 'no');
+        }
 
         /**
          *  Create base directories if not exist

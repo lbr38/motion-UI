@@ -1,6 +1,6 @@
 <?php
 
-define("ROOT", dirname(__FILE__, 3));
+define("ROOT", dirname(__FILE__, 4));
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400;
@@ -213,62 +213,49 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
         }
 
         /**
-         *  Add a new camera
+         *  Duplicate motion configuration file
          */
-        if ($_POST['action'] == "addCamera" and !empty($_POST['cameraName']) and !empty($_POST['cameraUrl'])) {
-            $mycamera = new \Controllers\Camera();
+        if ($_POST['action'] == "duplicateConf" and !empty($_POST['filename'])) {
+            $mymotion = new \Controllers\Motion();
 
             try {
-                $mycamera->add($_POST['cameraName'], $_POST['cameraUrl']);
+                $mymotion->duplicateConf($_POST['filename']);
             } catch (\Exception $e) {
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
 
-            response(HTTP_OK, 'Camera added');
+            response(HTTP_OK, 'Configuration file duplicated.');
         }
 
         /**
-         *  Edit camera configuration
+         *  Delete motion configuration file
          */
-        if ($_POST['action'] == "editCamera" and isset($_POST['cameraId']) and isset($_POST['cameraName']) and isset($_POST['cameraUrl']) and isset($_POST['cameraRotate']) and isset($_POST['cameraRefresh'])) {
-            $mycamera = new \Controllers\Camera();
+        if ($_POST['action'] == "deleteConf" and !empty($_POST['filename'])) {
+            $mymotion = new \Controllers\Motion();
 
             try {
-                $mycamera->edit($_POST['cameraId'], $_POST['cameraName'], $_POST['cameraUrl'], $_POST['cameraRotate'], $_POST['cameraRefresh']);
+                $mymotion->deleteConf($_POST['filename']);
             } catch (\Exception $e) {
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
 
-            response(HTTP_OK, 'Camera <b>' . $_POST['cameraName'] . '</b> edited');
+            response(HTTP_OK, 'Configuration file deleted, please restart <b>motion</b> to apply.');
         }
 
         /**
-         *  Delete camera
+         *  Rename motion configuration file
          */
-        if ($_POST['action'] == "deleteCamera" and !empty($_POST['cameraId'])) {
-            $mycamera = new \Controllers\Camera();
+        if ($_POST['action'] == "renameConf" and !empty($_POST['filename']) and !empty($_POST['newName'])) {
+            $mymotion = new \Controllers\Motion();
 
             try {
-                $mycamera->delete($_POST['cameraId']);
+                $mymotion->renameConf($_POST['filename'], $_POST['newName']);
             } catch (\Exception $e) {
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
 
-            response(HTTP_OK, 'Camera deleted');
+            response(HTTP_OK, 'Configuration file renamed to ' . $_POST['newName']);
         }
-
-        if ($_POST['action'] == "reloadImage" and !empty($_POST['cameraId'])) {
-            $mycamera = new \Controllers\Camera();
-
-            try {
-                $mycamera->reloadImage($_POST['cameraId']);
-            } catch (\Exception $e) {
-                response(HTTP_BAD_REQUEST, $e->getMessage());
-            }
-
-            response(HTTP_OK, '');
-        }
-
 
         /**
          *  If action doesn't match any action above
