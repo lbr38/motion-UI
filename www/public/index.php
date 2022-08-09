@@ -50,7 +50,9 @@ if (!empty($_GET['motion'])) {
     <div class="container">
         <div class="item">
             <h2>Live</h2>
-            <a href="<?= '/live.php' ?>"><button class="btn-square-green"><img src="resources/icons/camera.png" class="icon" /></button></a>
+            <a href="<?= '/live.php' ?>">
+                <button class="btn-square-blue"><img src="resources/icons/camera.png" class="icon" /></button>
+            </a>
             <span class="block center lowopacity">Visualize</span>
         </div>
 
@@ -299,8 +301,8 @@ if (!empty($_GET['motion'])) {
                             /**
                              *  Display a warning if event script does not exists
                              */
-                            if (!file_exists(DATA_DIR . '/events/event')) {
-                                echo '<tr><td colspan="100%"><p class="yellowtext">The bash script <b>' . DATA_DIR . '/events/event</b> is not found. You may configure alerts but you will not receive them.</p></td></tr>';
+                            if (!file_exists(DATA_DIR . '/tools/event')) {
+                                echo '<tr><td colspan="100%"><p class="yellowtext">The event script <b>' . DATA_DIR . '/tools/event</b> is not found. You may configure alerts but you will not receive them.</p></td></tr>';
                             }
 
                             /**
@@ -330,196 +332,161 @@ if (!empty($_GET['motion'])) {
     </div>
 
     <div id="how-to-alert-container" class="config-div hide">
-        <p class="center">
-            <b>How to edit motion's configuration files to receive alerts</b><br><br>
-        <p>
-
-        <p>
-            <b>Prerequisite</b><br><br>
-        </p>
-
-        <p>
-            1. Set up a mail client:<br>
-            - Install <b>mutt</b> package if not already installed.<br>
-            - Create a new configuration file <b>/var/lib/motionui/.muttrc</b>. You can create it anywhere else but it should be readable by <b>motion</b> user.<br>
-            - Insert your mutt configuration (you can easily find exemples on the Internet) and check if motion can send a mail:<br>
-        </p>
-        <pre>sudo -u motion echo '' | mutt -s 'test' -F /var/lib/motionui/.muttrc myemail@mail.com</pre>
-        <br><br>
-
-        <p>
-            2. Be sure that the <b>event</b> script is present in <b>/var/lib/motionui/events/event</b>.<br>
-            - This script will be used by motion to generate event file that will be processed by motionui systemd service.<br>
-            - Ensure motion user can <b>execute</b> this script:
-        </p>
-        <pre>sudo chmod 550 /var/lib/motionui/events/event<br>sudo chown motion:motionui /var/lib/motionui/events/event<br><br>ls -l /var/lib/motionui/events/event<br>-r-xr-x--- 1 motion motionui 5667 juil. 24 14:18 /var/lib/motionui/events/event</pre>
-        <br><br>
-
-        <p>
-            3. Be sure that <b>motionui</b> service is started and enabled on boot:
-        </p>
-
-        <pre>sudo systemctl start motionui<br>sudo systemctl enable motionui</pre>
-        <br><br>
-
-        <p>
-            <b>Configuration</b><br><br>
-        </p>
-
-        <p>
-            4. Configure motion to send alert on specific triggers. Edit your motion configuration file from the <b>Motion: configuration</b> section below and set the following triggers to execute the <b>event</b> script:<br>
-            - Enable and edit this parameter to be sure to receive a mail alert on every new motion detection:
-        </p>
-        <pre>Parameter: on_event_start<br>Value: /var/lib/motionui/events/event --cam-id %t --register-event %v</pre>
-
-        <p>
-            - Enable and edit this parameter to be sure that the event end will be take into account:
-        </p>
-        <pre>Parameter: on_event_end<br>Value: /var/lib/motionui/events/event --end-event %v</pre>
-        <p>
-            - (Opt.) Enable and edit this parameter to be sure to receive a mail with an attached video generated from the last detected motion:
-        </p>
-        <pre>Parameter: on_movie_end<br>Value : /var/lib/motionui/events/event --event %v --file %f</pre>
-        <p>
-            - (Opt.) Enable and edit this parameter to be sure to receive a mail with attached JPEG pictures from the last detected motion (this parameter is not advised as you will receive a lot of mail):
-        </p>
-        <pre>Parameter: on_picture_save<br>Value: /var/lib/motionui/events/event --event %v --file %f</pre>
-        <p>
-            - Save configuration and (re)start motion to apply.
-        </p>
+        <?php include_once('../includes/how-to-alert.php'); ?>
     </div>
 
     <hr>
 
-    <div id="configuration-container">
+    <div id="motion-configuration-div">
 
         <h2>Motion: configuration</h2>
 
+        <div id="configuration-container">
             <?php
-            $configurationFiles = glob("/etc/motion/*.conf");
+            $configurationFiles = glob('/etc/motion/*.conf');
 
             /**
              *  Set the main configuration file as first member of the array, to be displayed first
              */
             $configurationFiles = \Controllers\Common::arrayReorder($configurationFiles, '/etc/motion/motion.conf');
 
-            foreach ($configurationFiles as $configurationFile) :
-                /**
-                 *  Keep only the filename (and not the entire path)
-                 */
-                $configurationFile = basename($configurationFile);
-                ?>
+            if (!empty($configurationFiles)) :
+                foreach ($configurationFiles as $configurationFile) :
+                    /**
+                     *  Keep only the filename (and not the entire path)
+                     */
+                    $configurationFile = basename($configurationFile); ?>
 
-                <div class="center">
-                    <span class="lowopacity">
-                        <?= $configurationFile ?>
-                        <?php
-                        if (preg_match('/motion.conf/', $configurationFile)) {
-                            echo ' (main configuration file)';
-                        } ?>
-                    </span>
-                    <br><br>
-                    <span class="btn-small-yellow show-motion-conf-btn" filename="<?= $configurationFile ?>">Show</span>
-                </div>
-
-                <br>
-
-                <div class="config-div hide" filename="<?= $configurationFile ?>">
-                    <form class="motion-configuration-form" filename="<?= $configurationFile ?>" autocomplete="off">
-                        <table class="motion-configuration-table">
-                            <tr>
-                                <th>E / D</th>
-                                <th>Parameter</th>
-                                <th>Value</th>
-                            </tr>
+                    <div>
+                        <div class="center">
+                            <input type="text" class="input-medium center rename-motion-conf-input" filename="<?= $configurationFile ?>" placeholder="Rename <?= $configurationFile ?>" value="<?= $configurationFile ?>">
 
                             <?php
-                            $content = file('/etc/motion/' . $configurationFile);
-                            $content = str_replace('; ', ';', $content);
+                            if ($configurationFile == 'motion.conf') {
+                                echo '<br><span class="lowopacity">(main configuration file)</span>';
+                            }
+                            ?>
 
-                            $i = 0;
+                            <?php
+                            /**
+                             *  Check that config file is readable and writable
+                             */
+                            if (!is_readable('/etc/motion/' . $configurationFile)) {
+                                echo '<span class="yellowtext"><img src="resources/icons/warning.png" class="icon" />File not readable</span>';
+                            }
+                            if (!is_writable('/etc/motion/' . $configurationFile)) {
+                                echo '<span class="yellowtext"><img src="resources/icons/warning.png" class="icon" />File not writable</span>';
+                            }
+                            ?>
 
-                            foreach ($content as $line) :
-                                /**
-                                 *  Si la ligne est un commentaire alors on l'ignore
-                                 */
-                                if (preg_match('/^#/', $line)) {
-                                    continue;
-                                }
+                            <br><br>
 
-                                /**
-                                 *  On parse la ligne pour séparer le parametre et sa valeur.
-                                 *  Le parametre est alors placé en [0] et sa valeur (le reste de la ligne) en [1]
-                                 */
-                                $line = explode(' ', $line, 2);
-
-                                /**
-                                 *  Si la ligne est vide on passe à la suivante
-                                 */
-                                if (empty($line[0]) or empty($line[1])) {
-                                    continue;
-                                }
-
-                                if (!empty($line[0])) {
-                                    $optionName = $line[0];
-                                } else {
-                                    $optionName = '';
-                                }
-
-                                if (isset($line[1]) and $line[1] != "") {
-                                    $optionValue = $line[1];
-                                } else {
-                                    $optionValue = '';
-                                }
-
-                                /**
-                                 *  Si le paramètre commence par ';' alors celui-ci est désactivé
-                                 *  On retire également le ';' dans l'affichage du paramètre
-                                 */
-                                if (preg_match('/^;/', $optionName)) {
-                                    $status = 'disabled';
-                                    $optionName = str_replace(';', '', $optionName);
-                                } else {
-                                    $status = 'enabled';
-                                }
-
-                                /**
-                                 *  Si l'option contient un dièse # alors il s'agit d'un commentaire
-                                 *  On l'ignore et on passe à la ligne suivante
-                                 */
-                                if (preg_match('/^#/', $optionName)) {
-                                    continue;
-                                }
-                                ?>
-
-                                <tr>
-                                    <td class="td-fit">
-                                        <label class="onoff-switch-label">
-                                            <input class="onoff-switch-input" type="checkbox" name="option-status" option-id="<?= $i ?>" value="enabled" <?php echo ($status == 'enabled') ? 'checked' : ''?>>
-                                            <span class="onoff-switch-slider"></span>
-                                        </label>
-                                    </td>
-                                    <th class="td-10">
-                                        <input type="hidden" name="option-name" option-id="<?= $i ?>" value="<?= $optionName ?>" />
-                                        <?= $optionName ?>
-                                    </th>
-                                    <td>
-                                        <input type="text" name="option-value" option-id="<?= $i ?>" value="<?= $optionValue ?>" />
-                                    </td>
-                                </tr>
-
-                                <?php
-                                ++$i;
-                            endforeach ?>
-                        </table>
+                            <span class="btn-small-yellow show-motion-conf-btn" filename="<?= $configurationFile ?>">Show</span>
+                            <span class="btn-small-blue duplicate-motion-conf-btn" filename="<?= $configurationFile ?>">Duplicate</span>
+                            <span class="btn-xsmall-red delete-motion-conf-btn" filename="<?= $configurationFile ?>">Delete</span>
+                        </div>
 
                         <br>
-                        <button type="submit" class="btn-small-blue">Save</button>
-                        <button type="button" class="btn-small-yellow hide-motion-conf-btn" filename="<?= $configurationFile ?>">Hide</button>
-                    </form>
-                </div>
-                <?php
-            endforeach ?>
+
+                        <div class="config-div hide" filename="<?= $configurationFile ?>">
+                            <form class="motion-configuration-form" filename="<?= $configurationFile ?>" autocomplete="off">
+                                <table class="motion-configuration-table">
+                                    <tr>
+                                        <th>E / D</th>
+                                        <th>Parameter</th>
+                                        <th>Value</th>
+                                    </tr>
+
+                                    <?php
+                                    $content = file('/etc/motion/' . $configurationFile);
+                                    $content = str_replace('; ', ';', $content);
+
+                                    $i = 0;
+
+                                    foreach ($content as $line) :
+                                        /**
+                                         *  Si la ligne est un commentaire alors on l'ignore
+                                         */
+                                        if (preg_match('/^#/', $line)) {
+                                            continue;
+                                        }
+
+                                        /**
+                                         *  On parse la ligne pour séparer le parametre et sa valeur.
+                                         *  Le parametre est alors placé en [0] et sa valeur (le reste de la ligne) en [1]
+                                         */
+                                        $line = explode(' ', $line, 2);
+
+                                        /**
+                                         *  Si la ligne est vide on passe à la suivante
+                                         */
+                                        if (empty($line[0]) or empty($line[1])) {
+                                            continue;
+                                        }
+
+                                        if (!empty($line[0])) {
+                                            $optionName = $line[0];
+                                        } else {
+                                            $optionName = '';
+                                        }
+
+                                        if (isset($line[1]) and $line[1] != "") {
+                                            $optionValue = $line[1];
+                                        } else {
+                                            $optionValue = '';
+                                        }
+
+                                        /**
+                                         *  Si le paramètre commence par ';' alors celui-ci est désactivé
+                                         *  On retire également le ';' dans l'affichage du paramètre
+                                         */
+                                        if (preg_match('/^;/', $optionName)) {
+                                            $status = 'disabled';
+                                            $optionName = str_replace(';', '', $optionName);
+                                        } else {
+                                            $status = 'enabled';
+                                        }
+
+                                        /**
+                                         *  Si l'option contient un dièse # alors il s'agit d'un commentaire
+                                         *  On l'ignore et on passe à la ligne suivante
+                                         */
+                                        if (preg_match('/^#/', $optionName)) {
+                                            continue;
+                                        }
+                                        ?>
+
+                                        <tr>
+                                            <td class="td-fit">
+                                                <label class="onoff-switch-label">
+                                                    <input class="onoff-switch-input" type="checkbox" name="option-status" option-id="<?= $i ?>" value="enabled" <?php echo ($status == 'enabled') ? 'checked' : ''?>>
+                                                    <span class="onoff-switch-slider"></span>
+                                                </label>
+                                            </td>
+                                            <th class="td-10">
+                                                <input type="hidden" name="option-name" option-id="<?= $i ?>" value="<?= $optionName ?>" />
+                                                <?= $optionName ?>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="option-value" option-id="<?= $i ?>" value="<?= $optionValue ?>" />
+                                            </td>
+                                        </tr>
+
+                                        <?php
+                                        ++$i;
+                                    endforeach ?>
+                                </table>
+
+                                <br>
+                                <button type="submit" class="btn-small-blue">Save</button>
+                                <button type="button" class="btn-small-yellow hide-motion-conf-btn" filename="<?= $configurationFile ?>">Hide</button>
+                            </form>
+                        </div>
+                    </div>
+                    <?php
+                endforeach;
+            endif; ?>
+        </div>
     </div>
 
     <?php include_once('../includes/footer.inc.php'); ?>

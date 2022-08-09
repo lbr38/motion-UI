@@ -248,6 +248,10 @@ input:checked { opacity: 1; }
     width: 400px;
 }
 
+.rename-motion-conf-input {
+    background-color: #333333 !important;
+}
+
 /* Tous les boutons */
 [class^="btn-"], [class*=" btn-"] {
     margin-top: 5px;
@@ -284,7 +288,7 @@ input:checked { opacity: 1; }
 }
 
 /* Tous les boutons bleus */
-.btn-large-blue, .btn-medium-blue, .btn-small-blue, .btn-xsmall-blue, .btn-xxsmall-blue, .btn-fit-blue {
+.btn-large-blue, .btn-medium-blue, .btn-small-blue, .btn-xsmall-blue, .btn-xxsmall-blue, .btn-fit-blue, .btn-square-blue {
     background-color: #2b426e;
 }
 /* Tous les boutons verts */
@@ -321,13 +325,13 @@ input:checked { opacity: 1; }
     width: 50px;
 }
 /* Boutons carré */
-.button-xxsmall, .btn-xxsmall-blue, .btn-xxsmall-green, .btn-xxsmall-red {
+.button-xxsmall, .btn-xxsmall-blue, .btn-xxsmall-green, .btn-xxsmall-red , .btn-xxsmall-yellow {
     margin: 2px;
     width: 30px;
 }
 
 /* Tous les boutons bleus :hover */
-.btn-large-blue:hover, .btn-medium-blue:hover, .btn-small-blue:hover, .btn-xsmall-blue:hover, .btn-xxsmall-blue:hover, .btn-fit-blue:hover {
+.btn-large-blue:hover, .btn-medium-blue:hover, .btn-small-blue:hover, .btn-xsmall-blue:hover, .btn-xxsmall-blue:hover, .btn-fit-blue:hover, .btn-square-blue:hover {
     transition-duration: 0.4s;
     background-color: #263859;
 }
@@ -343,7 +347,7 @@ input:checked { opacity: 1; }
 }
 
 /* Taille des icones dans les boutons carrés */
-.btn-square-green img.icon, .btn-square-red img.icon {
+[class^="btn-square"] img.icon {
     width: 30%;
     height: 30%;
 }
@@ -463,9 +467,12 @@ input:checked { opacity: 1; }
 }
 
 #configuration-container {
-    width: 50%;
+    width: 98%;
+    display: grid;
+    grid-template-columns: repeat(1, 100%);
+    justify-content: space-evenly;
     margin: auto;
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .item {
@@ -575,6 +582,12 @@ footer {
 }
 footer p { color: gray; }
 
+#new-release-div {
+    width: 99%;
+    margin: auto;
+    text-align: center;
+}
+
 .action, .alert, .alert-success, .alert-error, .confirmAlert {
     width: 100%;
     height: 18px;
@@ -662,9 +675,9 @@ pre {
         grid-template-columns: repeat(1, 100%);
     }
 
-    #configuration-container {
+    /* #configuration-container {
         width: 98%;
-    }
+    } */
 
     .motion-configuration-table tr th {
         overflow-wrap: anywhere;
@@ -674,4 +687,12 @@ pre {
     #camera-container {
         grid-template-columns: auto;
     }
+}
+
+/* Desktop configuration */
+@media (min-width:1025px) {
+    #configuration-container {
+        grid-template-columns: repeat(2, 49%);
+    }
+
 }

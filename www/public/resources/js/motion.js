@@ -65,12 +65,43 @@ $(document).on('click','#configure-alerts-btn',function () {
     $("#alert-div").slideToggle('100');
 });
 
-
 /**
  *  Event: show how to configure alerts div
  */
 $(document).on('click','#how-to-alert-btn',function () {
     $("#how-to-alert-container").slideToggle('100');
+});
+
+/**
+ *  Event: duplicate motion configuration file
+ */
+$(document).on('click','.duplicate-motion-conf-btn',function () {
+    var filename = $(this).attr('filename');
+
+    duplicateConf(filename);
+});
+
+/**
+ *  Event: delete motion configuration file
+ */
+$(document).on('click','.delete-motion-conf-btn',function () {
+    var filename = $(this).attr('filename');
+
+    deleteConf(filename);
+});
+
+/**
+ *  Event: rename motion configuration file
+ */
+$(document).on('keypress','.rename-motion-conf-input',function () {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+        var filename = $(this).attr('filename');
+        var newName = $(this).val();
+
+        renameConf(filename, newName);
+    }
+    event.stopPropagation();
 });
 
 /**
@@ -226,7 +257,7 @@ function startStopMotion(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "startStopMotion",
             status: status
@@ -257,7 +288,7 @@ function enableAutostart(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "enableAutostart",
             status: status
@@ -295,7 +326,7 @@ function configureAutostart(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, we
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "configureAutostart",
             mondayStart: mondayStart,
@@ -333,7 +364,7 @@ function enableDevicePresence(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "enableDevicePresence",
             status: status
@@ -360,7 +391,7 @@ function addDevice(name, ip)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "addDevice",
             name: name,
@@ -387,7 +418,7 @@ function removeDevice(id)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "removeDevice",
             id: id
@@ -413,7 +444,7 @@ function enableAlert(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "enableAlert",
             status: status
@@ -451,7 +482,7 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "configureAlert",
             mondayStart: mondayStart,
@@ -493,7 +524,7 @@ function configure(filename, options_array)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/ajax.php",
+        url: "controllers/motion/ajax.php",
         data: {
             action: "configureMotion",
             filename: filename,
@@ -503,7 +534,87 @@ function configure(filename, options_array)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('configuration-container');
+            reloadContentById('motion-configuration-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: duplicate motion config file
+ * @param {*} filename
+ */
+function duplicateConf(filename)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "duplicateConf",
+            filename: filename
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentById('motion-configuration-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: delete motion config file
+ * @param {*} filename
+ */
+function deleteConf(filename)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "deleteConf",
+            filename: filename
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentById('motion-configuration-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: rename motion config file
+ * @param {*} filename
+ * @param {*} newName
+ */
+function renameConf(filename, newName)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "renameConf",
+            filename: filename,
+            newName: newName
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentById('motion-configuration-div');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

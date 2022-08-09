@@ -12,3 +12,9 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 </head>
+
+<?php
+if (!empty($_GET['action']) and \Controllers\Common::validateData($_GET['action']) == "update") {
+    $myupdate = new \Controllers\Update();
+    $updateStatus = $myupdate->update();
+} ?>

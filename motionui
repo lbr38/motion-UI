@@ -74,20 +74,20 @@ function deployService
     # askPath
 
     # Exit function if services files cannot be found
-    if [ ! -f "${DATA_DIR}/service/motionui.systemd.template" ];then
-        echo -e "[$YELLOW ERROR $RESET] Systemd template service file ${YELLOW}${DATA_DIR}/service/motionui.systemd.template${RESET} does not exist..."
+    if [ ! -f "${DATA_DIR}/tools/service/motionui.systemd.template" ];then
+        echo -e "[$YELLOW ERROR $RESET] Systemd template service file ${YELLOW}${DATA_DIR}/tools/service/motionui.systemd.template${RESET} does not exist..."
         exit
     fi
-    if [ ! -f "${DATA_DIR}/service/motionui-service" ];then
-        echo -e "[$YELLOW ERROR $RESET] Motion-UI service script ${YELLOW}${DATA_DIR}/service/motionui-service${RESET} does not exist..."
+    if [ ! -f "${DATA_DIR}/tools/service/motionui-service" ];then
+        echo -e "[$YELLOW ERROR $RESET] Motion-UI service script ${YELLOW}${DATA_DIR}/tools/service/motionui-service${RESET} does not exist..."
         exit
     fi
 
     # Deploy systemd service template file
     echo -ne "\n➤ Deploying service... "
-    \cp "$DATA_DIR/service/motionui.systemd.template" /lib/systemd/system/motionui.service &&
+    \cp "$DATA_DIR/tools/service/motionui.systemd.template" /lib/systemd/system/motionui.service &&
     ln -fs /lib/systemd/system/motionui.service /etc/systemd/system/motionui.service &&
-    chmod 700 "${DATA_DIR}/service/motionui-service"
+    chmod 700 "${DATA_DIR}/tools/service/motionui-service"
     echo -e "${GREEN}Done${RESET}"
 
     systemctl daemon-reload --quiet
@@ -120,8 +120,8 @@ function permissions
         chown -R ${WWW_USER}:motionui "$DATA_DIR"
 
         chmod 550 ${DATA_DIR}/motionui
-        chmod 500 ${DATA_DIR}/service/motionui-service
-        chmod 500 ${DATA_DIR}/events/event
+        chmod 500 ${DATA_DIR}/tools/service/motionui-service
+        chmod 500 ${DATA_DIR}/tools/event
 
         find "/etc/motion" -type f -exec chmod 0660 {} \;
         find "/etc/motion" -type d -exec chmod 0770 {} \;
@@ -177,8 +177,7 @@ function installation
     cp -r ${PWD}/www/* ${WWW_DIR}/
 
     # Copy events and service files
-    cp -r ${PWD}/events ${DATA_DIR}/
-    cp -r ${PWD}/service ${DATA_DIR}/
+    cp -r ${PWD}/tools ${DATA_DIR}/
 
     # Copy this script
     cp ${PWD}/motionui ${DATA_DIR}/motionui

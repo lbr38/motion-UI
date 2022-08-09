@@ -171,4 +171,12 @@ class Common
 
         return array_unique($array);
     }
+
+    /**
+     *  Generate random number between 10000 and 99999
+     */
+    public static function generateRandom()
+    {
+        return mt_rand(10000, 99999);
+    }
 }

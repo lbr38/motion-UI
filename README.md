@@ -56,7 +56,6 @@ Execute installation script (with sudo):
 
 ```
 cd /tmp/motion-UI/
-chmod +x motionui
 sudo ./motionui --install
 ```
 

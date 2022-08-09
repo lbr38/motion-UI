@@ -1,0 +1,11 @@
+.git*
+TODO
+todo
+README*
+create-version
+.tarignore
+archives
+archive
+wip
+WIP
+phpcs.xml

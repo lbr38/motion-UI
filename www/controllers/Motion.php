@@ -252,7 +252,7 @@ class Motion
             }
 
             /**
-             *  On vérifie que le nom de l'option est valide, càd qu'il ne contient pas de caractère spéciaux
+             *  Check that option name is valid and does not contains invalid caracters
              */
             if (\Controllers\Common::isAlphanumDash($optionName) === false) {
                 throw new Exception("<b>$optionName</b> parameter value contains invalid caracter(s)");
@@ -270,11 +270,118 @@ class Motion
         }
 
         /**
-         *  Enfin, on écrit le contenu dans le fichier spécifié
+         *  Write to file
          */
         if (file_exists('/etc/motion/' . $filename)) {
             file_put_contents('/etc/motion/' . $filename, $content);
         }
         unset($content);
+    }
+
+    /**
+     *  Duplicate motion configuration file
+     */
+    public function duplicateConf(string $filename)
+    {
+        /**
+         *  Check that specified source file exist
+         */
+        if (!file_exists('/etc/motion/' . $filename)) {
+            throw new Exception('Specified file does not exist.');
+        }
+
+        /**
+         *  Check that file is readable
+         */
+        if (!is_readable('/etc/motion/' . $filename)) {
+            throw new Exception('Specified file is not readable.');
+        }
+
+        /**
+         *  Generate a new file name
+         */
+        $newFileName = \Controllers\Common::generateRandom() . '-' . $filename;
+
+        /**
+         *  Regenerate name if already exist
+         */
+        while (file_exists('/etc/motion/' . $newFileName)) {
+            $newFileName = \Controllers\Common::generateRandom() . '-' . $filename;
+        }
+
+        /**
+         *  Copy source file to new file
+         */
+        if (!copy('/etc/motion/' . $filename, '/etc/motion/' . $newFileName)) {
+            throw new Exception('Error while trying to duplicate ' . $filename);
+        }
+    }
+
+    /**
+     *  Delete motion configuration file
+     */
+    public function deleteConf(string $filename)
+    {
+        /**
+         *  Check that specified file exist
+         */
+        if (!file_exists('/etc/motion/' . $filename)) {
+            throw new Exception('Specified file does not exist.');
+        }
+
+        /**
+         *  Check that file is writable
+         */
+        if (!is_writable('/etc/motion/' . $filename)) {
+            throw new Exception('Specified file is not writable.');
+        }
+
+        /**
+         *  Delete file
+         */
+        if (!unlink('/etc/motion/' . $filename)) {
+            throw new Exception('Error while trying to delete ' . $filename);
+        }
+    }
+
+    /**
+     *  Rename motion configuration file
+     */
+    public function renameConf(string $filename, string $newName)
+    {
+        /**
+         *  Check that the new name is valid and does not contains invalid caracters
+         */
+        if (\Controllers\Common::isAlphanumDash($newName, array('.')) === false) {
+            throw new Exception("Specified new name <b>$newName</b> is not valid.");
+        }
+
+        /**
+         *  Check that a file does not already exist with the same name
+         */
+        if (file_exists('/etc/motion/' . $newName)) {
+            throw new Exception('A file with the same name <b>' . $newName . '</b> already exists.');
+        }
+
+        /**
+         *  Check that a file ends with .conf
+         */
+        if (!preg_match('/.conf$/', $newName)) {
+            throw new Exception('File must end with .conf');
+        }
+
+        /**
+         *  Check that the file is writable
+         */
+        if (!is_writable('/etc/motion/' . $filename)) {
+            throw new Exception('Specified file is not writable.');
+        }
+
+        /**
+         *  Rename file
+         */
+        if (!rename('/etc/motion/' . $filename, '/etc/motion/' . $newName)) {
+            throw new Exception('Error while trying to rename ' . $filename);
+        }
     }
 }

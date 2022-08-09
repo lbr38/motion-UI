@@ -6,7 +6,7 @@ trap 'kill 0' EXIT
 # sleep 30
 
 SCRIPT_PATH=$(realpath $0)
-DATA_DIR=$(echo "$SCRIPT_PATH" | sed 's|/service/motionui-service||g')
+DATA_DIR="/var/lib/motionui"
 DB="$DATA_DIR/db/motionui.sqlite"
 EVENTS_DIR="$DATA_DIR/events"
 DAY=$(LC_ALL="en_EN.UTF-8" date +%A)
@@ -19,6 +19,7 @@ ALERT_ENABLED=""
 ALERT_RECIPIENT=""
 MUTT_CMD=""
 MUTT_CONF=""
+COUNTER="0"
 
 function generalChecks
 {
@@ -118,6 +119,14 @@ function getAlertTime
     # So convert it to a high number to pass all conditions and be sure to send alert till the end of the day.
     if [ "$ALERT_TODAY_END" == "0000" ];then
         ALERT_TODAY_END="9999"
+    fi
+}
+
+# Check if a new version is available on Github
+function checkVersion
+{
+    if [ -f "${DATA_DIR}/version.available" ];then
+        curl -s -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/lbr38/motion-UI/main/www/version" > ${DATA_DIR}/version.available
     fi
 }
 
@@ -338,6 +347,15 @@ function processEvent
 
 # Execution
 while true; do
+    # Execute actions on service start (COUNTER = 0) and then every hour (COUNTER = 720)
+    # 3600 / 5sec (sleep 5) = 720
+    if [ "$COUNTER" -eq "0" ] || [ "$COUNTER" -eq "720" ];then
+        # Check version
+        checkVersion
+
+        # Reset counter
+        COUNTER="0"
+    fi
 
     # Check that conf files exists
     generalChecks
@@ -356,7 +374,9 @@ while true; do
         autostart
     fi
 
-    sleep 2
+    sleep 5
+
+    (( COUNTER++ ))
 done
 
 exit

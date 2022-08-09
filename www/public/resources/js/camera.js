@@ -98,7 +98,7 @@ $(document).on('click','.full-screen-camera-btn',function () {
  {
      $.ajax({
             type: "POST",
-            url: "controllers/ajax.php",
+            url: "controllers/camera/ajax.php",
             data: {
                 action: "addCamera",
                 cameraName: cameraName,
@@ -129,7 +129,7 @@ $(document).on('click','.full-screen-camera-btn',function () {
  {
      $.ajax({
             type: "POST",
-            url: "controllers/ajax.php",
+            url: "controllers/camera/ajax.php",
             data: {
                 action: "editCamera",
                 cameraId: cameraId,
@@ -159,7 +159,7 @@ $(document).on('click','.full-screen-camera-btn',function () {
  {
      $.ajax({
             type: "POST",
-            url: "controllers/ajax.php",
+            url: "controllers/camera/ajax.php",
             data: {
                 action: "deleteCamera",
                 cameraId: cameraId
@@ -185,7 +185,7 @@ $(document).on('click','.full-screen-camera-btn',function () {
  {
      $.ajax({
             type: "POST",
-            url: "controllers/ajax.php",
+            url: "controllers/camera/ajax.php",
             data: {
                 action: "reloadImage",
                 cameraId: cameraId
