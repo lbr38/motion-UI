@@ -139,10 +139,10 @@ class Connection extends SQLite3
         /**
          *  Create motion_stats table
          */
-        $this->exec("CREATE TABLE IF NOT EXISTS motion_stats (
-        Date DATE NOT NULL,
-        Time TIME NOT NULL,
-        Id_conf INTEGER NOT NULL)");
+        // $this->exec("CREATE TABLE IF NOT EXISTS motion_stats (
+        // Date DATE NOT NULL,
+        // Time TIME NOT NULL,
+        // Id_conf INTEGER NOT NULL)");
     }
 
     /**

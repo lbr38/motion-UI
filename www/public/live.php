@@ -20,16 +20,12 @@ $camerasTotal = $mycamera->getTotal();
     <div id="camera-container">
         <?php
         /**
-         *  Affichage des caméras si il y en a
+         *  Print cameras if there are
          */
         if ($camerasTotal > 0) {
             $camerasIds = $mycamera->getCamerasIds();
 
             foreach ($camerasIds as $camerasId) {
-
-                /**
-                 *  Affichage de la caméra
-                 */
                 $mycamera->display($camerasId);
             }
         } ?>
