@@ -266,7 +266,7 @@ class Motion
                 throw new Exception("<b>$optionName</b> parameter value contains invalid caracter(s)");
             }
 
-            if (\Controllers\Common::isAlphanumDash($optionValue, array('.', ' ', ',', ':', '/', '\\', '%', '(', ')', '=', '\'', '[', ']', '@')) === false) {
+            if (\Controllers\Common::isAlphanumDash($optionValue, array('.', ' ', ',', ':', '/', '\\', '%', '(', ')', '=', '\'', '[', ']', '@', '$')) === false) {
                 throw new Exception("<b>$optionName</b> parameter value contains invalid caracter(s)");
             }
 

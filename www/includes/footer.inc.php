@@ -16,5 +16,6 @@
 </footer>
 
 <script src="resources/js/functions.js"></script>
+<script src="resources/js/settings.js"></script>
 <script src="resources/js/motion.js"></script>
 <script src="resources/js/camera.js"></script>

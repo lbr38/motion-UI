@@ -1,6 +1,14 @@
 /**
- * Rechargement du contenu d'un élément, par son Id
- * @param {string} id
+ *  Reload <body> content
+ */
+function reloadBody()
+{
+    $('body').load(location.href + ' body > *');
+}
+
+/**
+ *  Reload content of an element, by its Id
+ *  @param {string} id
  */
 function reloadContentById(id)
 {
@@ -8,9 +16,10 @@ function reloadContentById(id)
 }
 
 /**
- * Afficher un message d'alerte (success ou error)
- * @param {*} message
- * @param {*} type
+ *  Print alert or error message
+ *  @param {string} message
+ *  @param {string} type
+ *  @param {int} timeout
  */
 function printAlert(message, type = null, timeout = 2500)
 {
@@ -35,6 +44,12 @@ function printAlert(message, type = null, timeout = 2500)
     }
 }
 
+/**
+ * Print a confirm alert box before executing specified function
+ * @param {*} message
+ * @param {*} myfunction
+ * @param {*} confirmBox
+ */
 function deleteConfirm(message, myfunction, confirmBox = 'Delete')
 {
     /**
