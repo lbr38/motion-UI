@@ -133,6 +133,7 @@ class Connection extends SQLite3
          *  Create motion_events_files table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS motion_events_files (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         File VARCHAR(255) NOT NULL,
         Id_event INTEGER NOT NULL)");
 

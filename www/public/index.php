@@ -115,15 +115,27 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
     </div>
 
     <hr>
+    
+    <div id="motion-stats-captures-container">
+        <?php
+        /**
+         *  Include motion stats div
+         */
+        if ($printMotionStats == 'yes') {
+            include_once('../includes/motion-stats.php');
+        }
+
+        /**
+         *  Include motion captures div
+         */
+        if ($printMotionCaptures == 'yes') {
+            include_once('../includes/motion-captures.php');
+        } ?>
+    </div>
+
+    <hr>
 
     <?php
-    /**
-     *  Include motion stats div
-     */
-    if ($printMotionStats == 'yes') {
-        include_once('../includes/motion-stats.php');
-    }
-
     /**
      *  Include motion configuration div
      */

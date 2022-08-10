@@ -179,7 +179,7 @@ class Camera
                 /**
                  *  Get image from http camera
                  */
-                $this->downloadImage($this->id, $this->url);?>
+                $this->downloadImage($this->id, $this->url); ?>
 
                 <!-- Camera image -->
                 <img src=".live/camera<?= $this->id ?>/image" style="transform:rotate(<?= $this->rotate ?>deg);">

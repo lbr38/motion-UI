@@ -73,6 +73,29 @@ class Motion extends Model
     }
 
     /**
+     *  Return a list of the last events' files
+     */
+    public function getLastEventsFiles()
+    {
+        $eventsFiles = array();
+
+        $result = $this->db->query("SELECT
+        motion_events_files.Id AS File_id,
+        motion_events_files.File,
+        motion_events_files.Id_event,
+        motion_events.*
+        FROM motion_events_files
+        LEFT JOIN motion_events ON motion_events_files.Id_event = motion_events.Id 
+        ORDER BY Date_start DESC, Time_start DESC");
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $eventsFiles[] = $row;
+        }
+
+        return $eventsFiles;
+    }
+
+    /**
      *  Enable / disable motion autostart
      */
     public function enableAutostart(string $status)

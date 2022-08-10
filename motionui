@@ -17,7 +17,7 @@ function help
 {
     echo -e "\n   Available parameters:"
     echo -e "   -i | --install          ➤  Execute Motion-UI installation wizard."
-    echo -e "   -p | --set-permissions  ➤  Set permissions on Motion-UI directories and files."
+    echo -e "   -p | --set-permissions  ➤  Set necessary permissions on Motion-UI directories and files."
     echo -e "   -s | --deploy-service   ➤  Deploy Motion-UI service.\n\n\n"
 }
 

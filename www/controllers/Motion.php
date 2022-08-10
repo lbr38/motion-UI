@@ -114,6 +114,14 @@ class Motion
     }
 
     /**
+     *  Return a list of the last events' files
+     */
+    public function getLastEventsFiles()
+    {
+        return $this->model->getLastEventsFiles();
+    }
+
+    /**
      *  Start / stop motion capture
      */
     public function startStop(string $status)
