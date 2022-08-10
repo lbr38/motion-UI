@@ -55,6 +55,24 @@ class Motion extends Model
     }
 
     /**
+     *  Get event for the specified date
+     */
+    public function getDailyEvent(string $date)
+    {
+        $events = array();
+
+        $stmt = $this->db->prepare("SELECT * FROM motion_events WHERE Date_start = :date");
+        $stmt->bindValue(':date', $date);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $events[] = $row;
+        }
+
+        return $events;
+    }
+
+    /**
      *  Enable / disable motion autostart
      */
     public function enableAutostart(string $status)

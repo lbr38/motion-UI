@@ -275,6 +275,10 @@ function autostart
 # Check if any new event files are present and register them if so.
 function processEvent
 {
+    if [ ! -d "$EVENTS_DIR" ];then
+        mkdir -p "$EVENTS_DIR"
+    fi
+
     # If no new event are declared, quit
     if [ ! "$(ls -A $EVENTS_DIR/)" ];then
         return

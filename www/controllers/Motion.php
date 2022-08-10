@@ -106,6 +106,14 @@ class Motion
     }
 
     /**
+     *  Get event count for the specified date
+     */
+    public function getDailyEventCount(string $date)
+    {
+        return count($this->model->getDailyEvent($date));
+    }
+
+    /**
      *  Start / stop motion capture
      */
     public function startStop(string $status)

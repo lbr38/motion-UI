@@ -29,6 +29,8 @@ class Autoloader
         define('DATA_DIR', '/var/lib/motionui');
         define('DB', DATA_DIR . '/db/motionui.sqlite');
         define('CAMERA_DIR', DATA_DIR . '/configurations');
+        define('DATE_YMD', date("Y-m-d"));
+
         define('VERSION', trim(file_get_contents(ROOT . '/version')));
 
         if (!file_exists(DATA_DIR . '/version.available')) {

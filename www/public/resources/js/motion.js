@@ -87,7 +87,9 @@ $(document).on('click','.duplicate-motion-conf-btn',function () {
 $(document).on('click','.delete-motion-conf-btn',function () {
     var filename = $(this).attr('filename');
 
-    deleteConf(filename);
+    deleteConfirm('Are you sure you want to delete ' + filename + '?', function () {
+        deleteConf(filename)
+    });
 });
 
 /**
@@ -107,7 +109,7 @@ $(document).on('keypress','.rename-motion-conf-input',function () {
 /**
  *  Event: Show/hide motion configuration file
  */
-$(document).on('click','.show-motion-conf-btn, .hide-motion-conf-btn',function () {
+$(document).on('click','.show-motion-conf-btn',function () {
     var filename = $(this).attr('filename');
 
     $("div[filename='" + filename + "']").slideToggle('100');
