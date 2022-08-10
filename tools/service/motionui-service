@@ -2,7 +2,7 @@
 set -u
 trap 'kill 0' EXIT
 
-# Laisse un délai de 30sec pour laisser le temps au système de démarrer
+# Leave 30sec for the system to boot
 # sleep 30
 
 SCRIPT_PATH=$(realpath $0)
@@ -21,6 +21,7 @@ MUTT_CMD=""
 MUTT_CONF=""
 COUNTER="0"
 
+# Database and files checks
 function generalChecks
 {
     # Check that database exists
@@ -36,6 +37,17 @@ function generalChecks
     fi
 }
 
+# Check if this service needs to be restarted
+function checkRestartNeeded
+{
+    if [ -f "$DATA_DIR/service.restart" ];then
+        echo "A restart of this service is required. Restarting..."
+        rm "$DATA_DIR/service.restart" -f
+        exec systemctl --quiet restart motionui
+    fi
+}
+
+# Get autostart configuration from database
 function getAutostartConf
 {
     # Get autostart configuration
@@ -45,6 +57,7 @@ function getAutostartConf
     USE_DEVICE_PRESENCE=$(/usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "SELECT Device_presence FROM autostart" | sed 's/ //g')
 }
 
+# Get alert configuration from database
 function getAlertConf
 {
     ALERT_ENABLED=$(/usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "SELECT Status FROM alerts" | sed 's/ //g')
@@ -69,6 +82,7 @@ function getAlertConf
     fi
 }
 
+# Get known devices IP
 function getDevicesIp
 {
     DEVICES_IP=$(/usr/bin/sqlite3 -noheader -batch -column -cmd '.timeout 5000' "$DB" "SELECT Ip FROM devices")
@@ -360,6 +374,9 @@ while true; do
         # Reset counter
         COUNTER="0"
     fi
+
+    # Check if a restart of this service is needed
+    checkRestartNeeded
 
     # Check that conf files exists
     generalChecks

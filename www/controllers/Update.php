@@ -155,19 +155,23 @@ class Update
             $this->updateDB();
 
             /**
-             *  Apply permissions on motion-UI service script
+             *  Apply permissions on scripts
              */
             chmod(DATA_DIR . '/tools/service/motionui-service', 550);
-
-            /**
-             *  Edit version file
-             */
-            file_put_contents(ROOT . 'version', GIT_VERSION);
+            chmod(DATA_DIR . '/tools/event', 550);
+            chmod(DATA_DIR . '/motionui', 550);
 
             /**
              *  Delete working dir
              */
             exec("rm '$this->workingDir' -rf ");
+
+            /**
+             *  Create a file to restart motionui service
+             */
+            if (!file_exists(DATA_DIR . '/service.restart')) {
+                touch(DATA_DIR . '/service.restart');
+            }
 
             return '<span class="greentext">Update to ' . GIT_VERSION . ' successful</span>';
         } catch (Exception $e) {

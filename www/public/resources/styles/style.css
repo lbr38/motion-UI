@@ -1,13 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-html {
+/* html {
     width: 100%;
     height: 100%;
-}
+} */
 
-body {
-    /* Gestion de l'affichage 'fade-in' de chaque page, afin de rendre l'affichage des pages plus agréable
-    Voir @keyframes fadeInAnimation en complément ci-dessous */
+/* body {
     animation: fadeInAnimation ease 0.00001s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
@@ -16,7 +14,23 @@ body {
     min-height: 100%;
     margin: 0px;
     padding: 0px;
-    /* background-color: #262525; */
+    background-color: #333333;
+    color: whitesmoke;
+    overflow-x: hidden;
+    position: relative;
+} */
+
+body {
+    /* Gestion de l'affichage 'fade-in' de chaque page, afin de rendre l'affichage des pages plus agréable
+    Voir @keyframes fadeInAnimation en complément ci-dessous */
+    animation: fadeInAnimation ease 0.00001s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    font-family: 'Roboto', sans-serif !important;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
     background-color: #333333;
     color: whitesmoke; /* couleur par défaut */
     overflow-x: hidden;
@@ -56,7 +70,7 @@ b, strong {
     font-weight: bolder;
 }
 
-h2 {
+h2, h3 {
     color: whitesmoke;
     font-weight: 600;
     margin-top: 20px;
@@ -64,7 +78,13 @@ h2 {
     text-align: center;
 }
 
-p, h2 {
+h3 {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: left;
+}
+
+p, h2, h3 {
     line-height: 1.5em;
 }
 
@@ -463,25 +483,68 @@ input:checked { opacity: 1; }
     transform: translateX(15px);
 }
 
-#motion-stats-div, #motion-configuration-div {
-    margin-top: 40px;
+#settings-div {
+    position: relative;
+    top: 0;
 }
 
-#motionui-status {
-    margin-top: 30px;
+#print-settings-btn, #hide-settings-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
 }
 
-#motion-stats-container {
-    display: grid;
-    grid-template-columns: repeat(1, 98%);
+#print-settings-btn img, #hide-settings-btn img {
+    width: 20px;
+}
+
+#settings-container {
+    background-color: #3b3b3bd1;
+    width: 100vw;
+    height: 100% !important;
+    position: absolute;
+    z-index: 99;
+    display: none;
+}
+
+#settings {
+    display: block;
+    float: right;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    background-color: #3b3b3b;
+    box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 50%) inset, -2px 0px 4px 0px rgb(109 109 109 / 20%);
+    background-color:#252525;
+    position: relative;
 }
 
 /* Container grid */
 .container {
     display: grid;
-    grid-template-columns: repeat(4, 25%);
+    grid-template-columns: repeat(1, 100%);
     justify-content: space-evenly;
-    margin-top: 10px;
+}
+
+.item {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#motion-stats-div, #motion-configuration-div {
+    margin-top: 40px;
+}
+
+#motionui-status {
+    padding-top: 30px;
+}
+
+#motion-stats-container {
+    display: grid;
+    grid-template-columns: repeat(1, 90%);
 }
 
 #configuration-container {
@@ -497,12 +560,9 @@ input:checked { opacity: 1; }
     display: none;
 }
 
-.item {
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
+.motion-configuration-table tr th {
+    overflow-wrap: anywhere;
+    word-wrap: break-all;
 }
 
 #autostart-btn-div, #alert-btn-div {
@@ -531,7 +591,7 @@ input:checked { opacity: 1; }
 
 #camera-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: auto;
     justify-content: space-evenly;
     margin: 50px 15px 50px 15px;
     column-gap: 20px;
@@ -682,24 +742,16 @@ pre {
     line-height: 1.5em;
 }
 
-/* Pour les mobiles on ne souhaite afficher qu'une seule caméra par ligne */
-@media (max-width: 640px) {
-    .container {
-        grid-template-columns: repeat(1, 100%);
-    }
-
-    .motion-configuration-table tr th {
-        overflow-wrap: anywhere;
-        word-wrap: break-all;
-    }
-
-    #camera-container {
-        grid-template-columns: auto;
-    }
-}
-
 /* Desktop configuration */
 @media (min-width:1025px) {
+    #settings {
+        width: 25%;
+    }
+
+    .container {
+        grid-template-columns: repeat(4, 25%);
+    }
+
     #configuration-container {
         grid-template-columns: repeat(2, 49%);
     }
@@ -714,5 +766,9 @@ pre {
     #motion-stats-container {
         grid-template-columns: repeat(2, 40%);
         justify-content: space-evenly;
+    }
+
+    #camera-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

@@ -187,7 +187,7 @@ class Camera
 
             <!-- Unavailable image div -->
             <div id="camera<?= $id ?>-unavailable" class="hide">
-                <button class="btn-square-red"><img src="resources/icons/error.png" class="icon" title="Unavailable" /></button>
+                <button class="btn-square-red"><img src="resources/icons/error-close.png" class="icon" title="Unavailable" /></button>
                 <span class="block center lowopacity">Unavailable</span>
             </div>
 

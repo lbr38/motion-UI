@@ -120,8 +120,8 @@ function permissions
         chown -R ${WWW_USER}:motionui "$DATA_DIR"
 
         chmod 550 ${DATA_DIR}/motionui
-        chmod 500 ${DATA_DIR}/tools/service/motionui-service
-        chmod 500 ${DATA_DIR}/tools/event
+        chmod 550 ${DATA_DIR}/tools/service/motionui-service
+        chmod 550 ${DATA_DIR}/tools/event
 
         find "/etc/motion" -type f -exec chmod 0660 {} \;
         find "/etc/motion" -type d -exec chmod 0770 {} \;

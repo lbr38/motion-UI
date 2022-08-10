@@ -71,7 +71,7 @@ class Connection extends SQLite3
         Sunday_end CHAR(5))");
 
         /**
-         *  If alerts table is empty, add default values
+         *  If alerts table is empty, fill it with default values
          */
         $result = $this->query("SELECT Status FROM alerts");
         if ($this->isempty($result) === true) {
@@ -100,7 +100,7 @@ class Connection extends SQLite3
         Sunday_end CHAR(5))");
 
         /**
-         *  If autostart table is empty, add default values
+         *  If autostart table is empty, fill it with default values
          */
         $result = $this->query("SELECT Status FROM autostart");
         if ($this->isempty($result) === true) {
@@ -137,12 +137,26 @@ class Connection extends SQLite3
         Id_event INTEGER NOT NULL)");
 
         /**
-         *  Create motion_stats table
+         *  Create settings table
          */
-        // $this->exec("CREATE TABLE IF NOT EXISTS motion_stats (
-        // Date DATE NOT NULL,
-        // Time TIME NOT NULL,
-        // Id_conf INTEGER NOT NULL)");
+        $this->exec("CREATE TABLE IF NOT EXISTS settings (
+        Print_live_btn CHAR(3),
+        Print_motion_start_btn CHAR(3),
+        Print_motion_autostart_btn CHAR(3),
+        Print_motion_alert_btn CHAR(3),
+        Print_motion_stats CHAR(3),
+        Print_motion_captures CHAR(3),
+        Print_motion_config CHAR(3))");
+
+        /**
+         *  If settings table is empty, fill it with default values
+         */
+        $result = $this->query("SELECT Print_live_btn FROM settings");
+        if ($this->isempty($result) === true) {
+            $this->exec("INSERT INTO settings 
+            (Print_live_btn, Print_motion_start_btn, Print_motion_autostart_btn, Print_motion_alert_btn, Print_motion_stats, Print_motion_captures, Print_motion_config)
+            VALUES ('yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes')");
+        }
     }
 
     /**
