@@ -21,6 +21,8 @@ function addEvent
     echo "TIME_START=$TIME_NOW" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
     echo "CAMERA_ID=$CAMERA_ID" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
     echo "CAMERA_NAME=$CAMERA_NAME" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+
+    chmod 660 "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
 }
 
 function addEventFile

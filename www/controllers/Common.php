@@ -179,4 +179,22 @@ class Common
     {
         return mt_rand(10000, 99999);
     }
+
+    /**
+     *  Sort an array by the specified key
+     */
+    public static function groupBy($key, $data)
+    {
+        $result = array();
+
+        foreach ($data as $val) {
+            if (array_key_exists($key, $val)) {
+                $result[$val[$key]][] = $val;
+            } else {
+                $result[""][] = $val;
+            }
+        }
+
+        return $result;
+    }
 }

@@ -38,8 +38,7 @@ $eventChartData  = rtrim($eventChartData, ', ');
 
     <h2>Motion: stats</h2>
 
-    <div id="motion-stats-container">
-        
+    <div id="motion-stats-container" class="config-div">
         <div>
             <canvas id="motion-event-chart"></canvas>
             <script>
@@ -50,7 +49,7 @@ $eventChartData  = rtrim($eventChartData, ', ');
                         labels: [<?= $eventChartLabels ?>],
                         datasets: [{
                             data: [<?= $eventChartData ?>],
-                            label: "Events count",
+                            label: "Total events per day",
                             borderColor: '#3e95cd',
                             fill: false
                         }]
@@ -72,9 +71,5 @@ $eventChartData  = rtrim($eventChartData, ', ');
                 });
             </script>
         </div>
-
     </div>
-
 </div>
-
-<hr>
