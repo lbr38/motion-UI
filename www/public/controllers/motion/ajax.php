@@ -70,7 +70,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
             }
 
             /**
-             *  Si il n'y a pas eu d'erreur
+             *  If there was no error
              */
             response(HTTP_OK, 'Settings saved');
         }
@@ -147,7 +147,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
             }
 
             /**
-             *  Si il n'y a pas eu d'erreur
+             *  If there was no error
              */
             response(HTTP_OK, 'Settings saved');
         }
@@ -195,6 +195,21 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
             }
 
             response(HTTP_OK, 'Settings saved');
+        }
+
+        /**
+         *  Get event image or video link to visualize
+         */
+        if ($_POST['action'] == "getEventFile" and !empty($_POST['fileId'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $symlinkName = $mymotion->getEventFile($_POST['fileId']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, $symlinkName);
         }
 
         /**

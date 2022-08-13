@@ -535,14 +535,14 @@ input:checked { opacity: 1; }
 }
 
 #motion-stats-container {
-    height: 300px;
+    height: 350px;
     display: grid;
     grid-template-columns: repeat(1, 90%);
     align-items: center;
 }
 
 #events-captures-container {
-    height: 300px;
+    height: 350px;
     display: grid;
     grid-template-columns: repeat(1, 90%);
     overflow-x: auto;
@@ -656,6 +656,40 @@ footer {
     margin-top: 100px;
 }
 footer p { color: gray; }
+
+#event-print-file-div {
+    position: absolute;
+    top: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #3b3b3bd1;
+}
+
+#event-print-file-container {
+    width: fit-content;
+    height: 100%;
+    margin: auto;
+    padding: 15px;
+    background-color: #252525;
+}
+
+#event-print-file {
+    width: fit-content;
+    max-width: 100%;
+    margin: auto;
+}
+
+#event-print-file img, #event-print-file video {
+    width: 100%;
+    max-height: 100vh;
+}
+
+#event-print-file-close-btn {
+    display: block;
+    margin: auto;
+    width: fit-content;
+}
 
 #new-release-div {
     width: 99%;

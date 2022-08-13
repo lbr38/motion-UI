@@ -28,7 +28,7 @@ $printMotionStartBtn = $settings['Print_motion_start_btn'];
 $printMotionAutostartBtn = $settings['Print_motion_autostart_btn'];
 $printMotionAlertBtn = $settings['Print_motion_alert_btn'];
 $printMotionStats = $settings['Print_motion_stats'];
-$printMotionCaptures = $settings['Print_motion_captures'];
+$printMotionCaptures = $settings['Print_motion_events'];
 $printMotionConfig = $settings['Print_motion_config'];
 
 /**
@@ -129,7 +129,7 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
          *  Include motion captures div
          */
         if ($printMotionCaptures == 'yes') {
-            include_once('../includes/motion-captures.php');
+            include_once('../includes/motion-events.php');
         } ?>
     </div>
 
@@ -146,6 +146,11 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
     /**
      *  Footer
      */
-    include_once('../includes/footer.inc.php'); ?>
+    include_once('../includes/footer.inc.php');
+
+    /**
+     *  Event print capture
+     */
+    include_once('../includes/print-event.php'); ?>
 </body>
 </html>

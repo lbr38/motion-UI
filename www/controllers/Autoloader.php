@@ -29,14 +29,16 @@ class Autoloader
         define('DATA_DIR', '/var/lib/motionui');
         define('DB', DATA_DIR . '/db/motionui.sqlite');
         define('CAMERA_DIR', DATA_DIR . '/configurations');
+        define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
         define('DATE_YMD', date("Y-m-d"));
 
+        /**
+         *  Version contants
+         */
         define('VERSION', trim(file_get_contents(ROOT . '/version')));
-
         if (!file_exists(DATA_DIR . '/version.available')) {
             touch(DATA_DIR . '/version.available');
         }
-
         define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
         if (defined('VERSION') and defined('GIT_VERSION')) {
             if (VERSION !== GIT_VERSION) {
@@ -60,7 +62,11 @@ class Autoloader
         }
 
         if (!is_dir(CAMERA_DIR)) {
-            mkdir(CAMERA_DIR, 0700, true);
+            mkdir(CAMERA_DIR, 0770, true);
+        }
+
+        if (!is_dir(EVENTS_PICTURES)) {
+            mkdir(EVENTS_PICTURES, 0770, true);
         }
 
         \Controllers\Autoloader::register();
