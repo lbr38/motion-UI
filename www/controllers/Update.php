@@ -157,9 +157,9 @@ class Update
             /**
              *  Apply permissions on scripts
              */
-            chmod(DATA_DIR . '/tools/service/motionui-service', 0550);
-            chmod(DATA_DIR . '/tools/event', 0550);
-            chmod(DATA_DIR . '/motionui', 0550);
+            chmod(DATA_DIR . '/tools/service/motionui-service', octdec("0550"));
+            chmod(DATA_DIR . '/tools/event', octdec("0550"));
+            chmod(DATA_DIR . '/motionui', octdec("0550"));
 
             /**
              *  Set back 'motionui' group on the event script and dir if not already setted

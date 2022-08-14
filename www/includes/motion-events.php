@@ -28,6 +28,7 @@
                     $date = $eventDetails['Date_start'];
                     $time = $eventDetails['Time_start'];
                     $cameraId = $eventDetails['Camera_id'];
+                    $cameraName = $eventDetails['Camera_name'];
 
                     /**
                      *  Print date if not already printed
@@ -50,7 +51,15 @@
                          */
                         $totalFilesCount = $mymotion->getEventFileCount($eventId);
 
-                        echo '<p><br><b>' . $time . ' - Event ' . $eventMotionId . '</b> (' . $totalFilesCount . ' files)';
+                        echo '<p><br><b>' . $time . ' - ';
+
+                        if (!empty($cameraName)) {
+                            echo $cameraName;
+                        } else {
+                            echo 'Camera Id ' . $cameraId;
+                        }
+
+                        echo ' - Event ' . $eventMotionId . '</b> (' . $totalFilesCount . ' files)';
 
                         /**
                          *  If the event is still being processed by motion then print a message
