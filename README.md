@@ -36,11 +36,11 @@ E.g:
 You can install the following dependencies or it will be installed automatically by the installation wizard:
 
 ```
-apt install motion sqlite3 mutt wget curl git
+apt install motion sqlite3 mutt wget curl
 ```
 
 ```
-yum install motion sqlite3 mutt wget curl git
+yum install motion sqlite3 mutt wget curl
 ```
 
 <b>Installation</b>
@@ -72,20 +72,20 @@ upstream php-handler {
 }
 
 server {
-	listen SERVER-IP:80;
-	server_name SERVERNAME.MYDOMAIN.COM;
+    listen SERVER-IP:80;
+    server_name SERVERNAME.MYDOMAIN.COM;
 
-	# Force https
-	return 301 https://$server_name$request_uri;
+    # Force https
+    return 301 https://$server_name$request_uri;
 
     # Path to log files
-	access_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_access.log;
-	error_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_error.log;
+    access_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_access.log;
+    error_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_error.log;
 }
 
 server {
-	listen SERVER-IP:443 ssl;
-	server_name SERVERNAME.MYDOMAIN.COM;
+    listen SERVER-IP:443 ssl;
+    server_name SERVERNAME.MYDOMAIN.COM;
 
     # Path to log files
     access_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_ssl_access.log combined;
@@ -95,8 +95,8 @@ server {
     ssl_certificate PATH-TO-CERTIFICATE.crt;
     ssl_certificate_key PATH-TO-PRIVATE-KEY.key;
 
-	# Add headers to serve security related headers
-	add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
+    # Add headers to serve security related headers
+    add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
     add_header Referrer-Policy "no-referrer" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-Download-Options "noopen" always;
@@ -108,27 +108,27 @@ server {
     # Remove X-Powered-By, which is an information leak
     fastcgi_hide_header X-Powered-By;
 
-	# Path to motionui root dir
-	root /var/www/motionui/public;
+    # Path to motionui root dir
+    root /var/www/motionui/public;
 
     # Motion-UI does not have any login page for the moment. You can use a .htpasswd file to set up basic authentication.
     # Uncomment the lines below and generate a .htpasswd file:
-	# auth_basic "You must login";
+    # auth_basic "You must login";
     # auth_basic_user_file /var/www/.htpasswd;
 
     # Enable gzip
-	gzip on;
+    gzip on;
     gzip_vary on;
     gzip_comp_level 4;
     gzip_min_length 256;
     gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
     gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
 
-	location = /robots.txt {
+    location = /robots.txt {
         deny all;
-		log_not_found off;
+        log_not_found off;
         access_log off;
-	}
+    }
 
     location / {
         rewrite ^ /index.php;
@@ -147,12 +147,8 @@ server {
         fastcgi_request_buffering off;
     }
 
-    location ~ \.(?:css|js|woff2?|svg|gif|map)$ {
+    location ~ \.(?:css|js|svg|gif|map|png|html|ttf|ico|jpg|jpeg)$ {
         try_files $uri $uri/ =404;
-        access_log off;
-    }
-
-    location ~ \.(?:png|html|ttf|ico|jpg|jpeg|bcmap)$ {
         access_log off;
     }
 }

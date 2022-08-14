@@ -28,12 +28,12 @@ function addEvent
 function addEventFile
 {
     if [ -z "$EVENT_ID" ];then
-        echo "Error: Event Id must be specified when using --file parameter."
+        echo "Error trying to add event file: Event Id must be specified when using --file parameter."
         return
     fi
 
     if [ ! -f "$EVENTS_DIR/event-${EVENT_ID}" ];then
-        echo "Error: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
+        echo "Error trying to add event file: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
         return
     fi
 
@@ -43,12 +43,12 @@ function addEventFile
 function endEvent
 {
     if [ -z "$EVENT_ID" ];then
-        echo "Error: Event Id must be specified when using --end-event parameter."
+        echo "Error trying to end event: Event Id must be specified when using --end-event parameter."
         return
     fi
 
     if [ ! -f "$EVENTS_DIR/event-${EVENT_ID}" ];then
-        echo "Error: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
+        echo "Error trying to end event: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
         return
     fi
 

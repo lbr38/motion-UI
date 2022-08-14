@@ -314,7 +314,7 @@ function startStopMotion(status)
              *  Reload div after 5sec
              */
             setTimeout(function () {
-                reloadContentById('motion-start-container');
+                reloadContentById('motion-start-div');
             }, 5000);
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
