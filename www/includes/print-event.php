@@ -1,9 +1,9 @@
 <div id="event-print-file-div">
 
     <div id="event-print-file-container">
+    
         <!-- Event image or video -->
         <div id="event-print-file">
-
         </div>
 
         <br>
