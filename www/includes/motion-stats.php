@@ -1,37 +1,64 @@
 <?php
-$eventChartLabels = '';
-$eventChartData = '';
-$dateCounter = date('Y-m-d', strtotime('-1 week', strtotime(DATE_YMD)));
 $mymotion = new \Controllers\Motion();
 
-/**
- *  On traite toutes les dates jusqu'à atteindre la date du jour (qu'on traite aussi)
- */
-while ($dateCounter != date('Y-m-d', strtotime('+1 day', strtotime(DATE_YMD)))) {
-    $dateEventCount = $mymotion->getDailyEventCount($dateCounter);
+$chartLabels = '';
+$eventChartData = '';
+$filesChartData = '';
 
-    if (!empty($dateEventCount)) {
-        $eventChartData .= $dateEventCount . ', ';
+/**
+ *
+ */
+$dateLoop = date('Y-m-d', strtotime('-1 week', strtotime(DATE_YMD)));
+
+/**
+ *  Process each dates until today's date (that is also processed)
+ */
+while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime(DATE_YMD)))) {
+    /**
+     *  Get total event for the actual day
+     */
+    $eventCount = $mymotion->getDailyEventCount($dateLoop);
+
+    /**
+     *  Add count to data
+     */
+    if (!empty($eventCount)) {
+        $eventChartData .= $eventCount . ', ';
     } else {
         $eventChartData .= '0, ';
     }
 
     /**
-     *  Ajout de la date en cours aux labels
+     *  Get total files for the actual day
      */
-    $eventChartLabels .= "'$dateCounter', ";
+    $filesCount = $mymotion->getDailyFileCount($dateLoop);
 
     /**
-     *  On incrémente de 1 jour pour pouvori traiter la date suivante
+     *  Add count to data
      */
-    $dateCounter = date('Y-m-d', strtotime('+1 day', strtotime($dateCounter)));
+    if (!empty($filesCount)) {
+        $filesChartData .= $filesCount . ', ';
+    } else {
+        $filesChartData .= '0, ';
+    }
+
+    /**
+     *  Add actual day to the labels
+     */
+    $chartLabels .= "'$dateLoop', ";
+
+    /**
+     *  Increment date to process next date until reaching today's date +1
+     */
+    $dateLoop = date('Y-m-d', strtotime('+1 day', strtotime($dateLoop)));
 }
 
 /**
- *  Suppression de la dernière virgule
+ *  Remove last comma
  */
-$eventChartLabels = rtrim($eventChartLabels, ', ');
+$chartLabels = rtrim($chartLabels, ', ');
 $eventChartData  = rtrim($eventChartData, ', ');
+$filesChartData = rtrim($filesChartData, ', ');
 ?>
 
 <div id="motion-stats-div">
@@ -46,7 +73,7 @@ $eventChartData  = rtrim($eventChartData, ', ');
                 var myRepoAccessChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: [<?= $eventChartLabels ?>],
+                        labels: [<?= $chartLabels ?>],
                         datasets: [{
                             data: [<?= $eventChartData ?>],
                             label: "Total events per day",
@@ -55,6 +82,41 @@ $eventChartData  = rtrim($eventChartData, ', ');
                         }]
                     },
                     options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                display: true,
+                            },
+                            y: {
+                                beginAtZero: true,
+                                display: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        },
+                    }
+                });
+            </script>
+        </div>
+
+        <div>
+            <canvas id="motion-files-chart"></canvas>
+            <script>
+                var ctx = document.getElementById('motion-files-chart').getContext('2d');
+                var myRepoAccessChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [<?= $chartLabels ?>],
+                        datasets: [{
+                            data: [<?= $filesChartData ?>],
+                            label: "Total files recorded per day",
+                            borderColor: '#ea974d',
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
                         scales: {
                             x: {
                                 display: true,

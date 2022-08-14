@@ -73,19 +73,61 @@ class Motion extends Model
     }
 
     /**
-     *  Return a list of the last events' files
+     *  Get files recorded for the specified date
      */
-    public function getLastEventsFiles()
+    public function getDailyFile(string $date)
+    {
+        $files = array();
+
+        $stmt = $this->db->prepare("SELECT *
+        FROM motion_events_files
+        INNER JOIN motion_events
+        ON motion_events.Id = motion_events_files.Id_event
+        WHERE Date_start = :date");
+        $stmt->bindValue(':date', $date);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $files[] = $row;
+        }
+
+        return $files;
+    }
+
+    /**
+     *  Get total files recorded for the specified event Id
+     *  Id must be the autoincrement Id in database, not the motion's event Id
+     */
+    public function getEventFile(string $eventId)
+    {
+        $files = array();
+
+        $stmt = $this->db->prepare("SELECT *
+        FROM motion_events_files
+        WHERE Id_event = :eventId");
+        $stmt->bindValue(':eventId', $eventId);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $files[] = $row;
+        }
+
+        return $files;
+    }
+
+    /**
+     *  Return a list of the last events
+     */
+    public function getLastEvents()
     {
         $eventsFiles = array();
 
-        $result = $this->db->query("SELECT
+        $result = $this->db->query("SELECT motion_events.*,
         motion_events_files.Id AS File_id,
-        motion_events_files.File,
-        motion_events_files.Id_event,
-        motion_events.*
-        FROM motion_events_files
-        LEFT JOIN motion_events ON motion_events_files.Id_event = motion_events.Id 
+        motion_events_files.File
+        FROM motion_events
+        LEFT JOIN motion_events_files
+        ON motion_events_files.Id_event = motion_events.Id
         ORDER BY Date_start DESC, Time_start DESC");
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -93,6 +135,24 @@ class Motion extends Model
         }
 
         return $eventsFiles;
+    }
+
+    /**
+     *  Get path of a file from its Id
+     */
+    public function getEventFilePath($fileId)
+    {
+        $filePath = '';
+
+        $stmt = $this->db->prepare("SELECT File FROM motion_events_files WHERE Id = :fileId");
+        $stmt->bindValue(':fileId', $fileId);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $filePath = $row['File'];
+        }
+
+        return $filePath;
     }
 
     /**

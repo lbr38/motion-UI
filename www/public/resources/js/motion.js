@@ -66,10 +66,52 @@ $(document).on('click','#configure-alerts-btn',function () {
 });
 
 /**
- *  Event: show how to configure alerts div
+ *  Event: show 'how to configure alerts' div
  */
 $(document).on('click','#how-to-alert-btn',function () {
     $("#how-to-alert-container").slideToggle('100');
+});
+
+/**
+ *  Event: vizualize event image
+ */
+$(document).on('click','.play-image-btn',function () {
+    var fileId = $(this).attr('file-id');
+
+    visualize(fileId, 'image');
+});
+
+/**
+ *  Event: vizualize event video
+ */
+$(document).on('click','.play-video-btn',function () {
+    var fileId = $(this).attr('file-id');
+
+    visualize(fileId, 'video');
+});
+
+/**
+ *  Event: download event image or video
+ */
+$(document).on('click','.save-image-btn, .save-video-btn',function () {
+    var fileId = $(this).attr('file-id');
+
+    download(fileId);
+});
+
+/**
+ *  Event: close event picture or video
+ */
+$(document).on('click','#event-print-file-close-btn',function () {
+    /**
+     *  Mask container div
+     */
+    $('#event-print-file-div').hide();
+
+    /**
+     *  Clear div
+     */
+    $('#event-print-file').html('');
 });
 
 /**
@@ -509,6 +551,82 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
             reloadContentById('alert-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: visualize event file
+ * @param {*} fileId
+ * @param {*} type
+ */
+function visualize(fileId, type)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "getEventFile",
+            fileId: fileId
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            /**
+             *  Inject image or video
+             */
+            if (type == 'image') {
+                $('#event-print-file').html('<img src="resources/events-pictures/'+jsonValue.message+'" />');
+            }
+            if (type == 'video') {
+                $('#event-print-file').html('<video controls><source src="resources/events-pictures/'+jsonValue.message+'"><p>You browser does not support embedded videos.</p></video>');
+            }
+
+            /**
+             *  Show div and scroll to top
+             */
+            $('#event-print-file-div').show();
+            scroll(0,0);
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: download event file
+ * @param {*} fileId
+ */
+function download(fileId)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "getEventFile",
+            fileId: fileId
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+
+            /**
+             *  Append a new <a> tag with 'download' attribute that points to the file
+             *  The 'download' attribute will force download the file and not redirect to it in a new tab
+             *  Click on the generate <a> then remove it from the DOM
+             */
+            var a = $("<a />");
+            a.attr("download", '');
+            a.attr("href", 'resources/events-pictures/'+jsonValue.message);
+            $("body").append(a);
+            a[0].click();
+            $("body").remove(a);
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

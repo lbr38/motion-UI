@@ -33,7 +33,7 @@ class Settings extends Model
         Print_motion_autostart_btn = :printMotionAutostartBtn,
         Print_motion_alert_btn = :printMotionAlertBtn,
         Print_motion_stats = :printMotionStatsBtn,
-        Print_motion_captures = :printMotionsCaptures,
+        Print_motion_events = :printMotionsCaptures,
         Print_motion_config = :printMotionConfig");
         $stmt->bindValue(':printLiveBtn', $printLiveBtn);
         $stmt->bindValue(':printMotionStartBtn', $printMotionStartBtn);

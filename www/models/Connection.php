@@ -146,7 +146,7 @@ class Connection extends SQLite3
         Print_motion_autostart_btn CHAR(3),
         Print_motion_alert_btn CHAR(3),
         Print_motion_stats CHAR(3),
-        Print_motion_captures CHAR(3),
+        Print_motion_events CHAR(3),
         Print_motion_config CHAR(3))");
 
         /**
@@ -155,7 +155,7 @@ class Connection extends SQLite3
         $result = $this->query("SELECT Print_live_btn FROM settings");
         if ($this->isempty($result) === true) {
             $this->exec("INSERT INTO settings 
-            (Print_live_btn, Print_motion_start_btn, Print_motion_autostart_btn, Print_motion_alert_btn, Print_motion_stats, Print_motion_captures, Print_motion_config)
+            (Print_live_btn, Print_motion_start_btn, Print_motion_autostart_btn, Print_motion_alert_btn, Print_motion_stats, Print_motion_events, Print_motion_config)
             VALUES ('yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes')");
         }
     }

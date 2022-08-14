@@ -106,7 +106,7 @@ class Motion
     }
 
     /**
-     *  Get event count for the specified date
+     *  Get total event count for the specified date
      */
     public function getDailyEventCount(string $date)
     {
@@ -114,11 +114,28 @@ class Motion
     }
 
     /**
+     *  Get total files recorded count for the specified date
+     */
+    public function getDailyFileCount(string $date)
+    {
+        return count($this->model->getDailyFile($date));
+    }
+
+    /**
+     *  Get total files recorded for the specified event Id
+     *  Id must be the autoincrement Id in database, not the motion's event Id
+     */
+    public function getEventFileCount(string $eventId)
+    {
+        return count($this->model->getEventFile($eventId));
+    }
+
+    /**
      *  Return a list of the last events' files
      */
-    public function getLastEventsFiles()
+    public function getLastEvents()
     {
-        return $this->model->getLastEventsFiles();
+        return $this->model->getLastEvents();
     }
 
     /**
@@ -243,6 +260,57 @@ class Motion
             \Controllers\Common::validateData($mailRecipient),
             \Controllers\Common::validateData($muttConfig)
         );
+    }
+
+    /**
+     *  Generate event image or video link to visualize
+     */
+    public function getEventFile(string $fileId)
+    {
+        /**
+         *  File Id must be numeric
+         */
+        if (!is_numeric($fileId)) {
+            throw new Exception('The specified file is invalid.');
+        }
+
+        /**
+         *  Get path to the file from its Id
+         */
+        $filePath = $this->model->getEventFilePath($fileId);
+
+        if (empty($filePath)) {
+            throw new Exception('Cannot find the specified file.');
+        }
+
+        /**
+         *  Generate symlin name from filename
+         */
+        $symlinkName = basename($filePath);
+
+        /**
+         *  Generate symlink path
+         */
+        $symlinkPath = EVENTS_PICTURES . '/' . $symlinkName;
+
+        /**
+         *  Create a symlink to the real file, if not already exist
+         */
+        if (!file_exists($symlinkPath)) {
+            symlink($filePath, $symlinkPath);
+        }
+
+        /**
+         *  Finaly, check if symlink content is readable
+         */
+        if (!is_readable($symlinkPath)) {
+            throw new Exception('Cannot read file - permission denied.');
+        }
+
+        /**
+         *  Return symlink name, it will be used to visualize or download the file
+         */
+        return $symlinkName;
     }
 
     /**

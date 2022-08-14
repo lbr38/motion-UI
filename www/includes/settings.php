@@ -49,13 +49,13 @@
                 </label>
                 <span>Print charts</span>
 
-                <h3>Motion captures</h3>
+                <h3>Motion events</h3>
 
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-captures-btn" <?php echo ($settings['Print_motion_captures']  == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-captures-btn" <?php echo ($settings['Print_motion_events']  == 'yes') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
-                <span>Print motion captures</span>
+                <span>Print motion events and captures</span>
 
                 <h3>Motion configuration</h3>
                 <label class="onoff-switch-label">
