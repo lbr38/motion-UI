@@ -195,6 +195,8 @@ class Update
 
                 touch(DATA_DIR . '/logs/update/update.log');
 
+                file_put_contents(DATA_DIR . $e->getMessage(), $log . PHP_EOL, FILE_APPEND);
+
                 foreach ($this->log as $log) {
                     file_put_contents(DATA_DIR . '/logs/update/update.log', $log . PHP_EOL, FILE_APPEND);
                 }

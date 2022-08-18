@@ -1,12 +1,16 @@
 <?php
 $mymotion = new \Controllers\Motion();
 
-$chartLabels = '';
+$eventChartLabels = '';
 $eventChartData = '';
 $filesChartData = '';
 
+$statusChartLabels = '';
+$statusChartData = '';
+
 /**
- *
+ *  The event chart will print data from 1 week ago to today
+ *  Initialize $dateLoop to 1 week ago
  */
 $dateLoop = date('Y-m-d', strtotime('-1 week', strtotime(DATE_YMD)));
 
@@ -45,7 +49,7 @@ while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime(DATE_YMD)))) {
     /**
      *  Add actual day to the labels
      */
-    $chartLabels .= "'$dateLoop', ";
+    $eventChartLabels .= "'$dateLoop', ";
 
     /**
      *  Increment date to process next date until reaching today's date +1
@@ -54,11 +58,39 @@ while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime(DATE_YMD)))) {
 }
 
 /**
- *  Remove last comma
+ *  The motion start and stop chart will print data on 48 hours
  */
-$chartLabels = rtrim($chartLabels, ', ');
+$motionDailyStatus = $mymotion->getMotionServiceStatus();
+
+foreach ($motionDailyStatus as $motionStatus) {
+    $statusChartLabels .= '"' . $motionStatus['Time'] . '", ';
+
+    if ($motionStatus['Status'] == 'inactive') {
+        $statusChartData .= '0, ';
+    }
+    if ($motionStatus['Status'] == 'active') {
+        $statusChartData .= '1, ';
+    }
+}
+/**
+ *  Then add current motion status to the list
+ */
+$statusChartLabels .= '"' . date('H:i:s') . '", ';
+
+if ($mymotion->getStatus() == 'active') {
+    $statusChartData .= '1, ';
+} else {
+    $statusChartData .= '0, ';
+}
+
+/**
+ *  Remove last comma on all label and data vars
+ */
+$eventChartLabels = rtrim($eventChartLabels, ', ');
 $eventChartData  = rtrim($eventChartData, ', ');
 $filesChartData = rtrim($filesChartData, ', ');
+$statusChartLabels = rtrim($statusChartLabels, ', ');
+$statusChartData = rtrim($statusChartData, ', ');
 ?>
 
 <div id="motion-stats-div">
@@ -73,16 +105,26 @@ $filesChartData = rtrim($filesChartData, ', ');
                 var myRepoAccessChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: [<?= $chartLabels ?>],
-                        datasets: [{
+                        labels: [<?= $eventChartLabels ?>],
+                        datasets: [
+                            {
                             data: [<?= $eventChartData ?>],
                             label: "Total events per day",
                             borderColor: '#3e95cd',
                             fill: false
-                        }]
+                            },
+                            {
+                                data: [<?= $filesChartData ?>],
+                                label: "Total files recorded per day",
+                                borderColor: '#ea974d',
+                                fill: false
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
+                        tension: 0.2,
                         scales: {
                             x: {
                                 display: true,
@@ -101,22 +143,28 @@ $filesChartData = rtrim($filesChartData, ', ');
         </div>
 
         <div>
-            <canvas id="motion-files-chart"></canvas>
+            <canvas id="motion-status-chart"></canvas>
             <script>
-                var ctx = document.getElementById('motion-files-chart').getContext('2d');
+                var yLabels = {
+                    0 : 'inactive',
+                    1 : 'active'
+                }
+                var ctx = document.getElementById('motion-status-chart').getContext('2d');
                 var myRepoAccessChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: [<?= $chartLabels ?>],
+                        labels: [<?= $statusChartLabels ?>],
                         datasets: [{
-                            data: [<?= $filesChartData ?>],
-                            label: "Total files recorded per day",
-                            borderColor: '#ea974d',
+                            data: [<?= $statusChartData ?>],
+                            label: "Motion service activity",
+                            borderColor: '#d8524e',
                             fill: false
                         }]
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
+                        tension: 0.2,
                         scales: {
                             x: {
                                 display: true,
@@ -125,7 +173,10 @@ $filesChartData = rtrim($filesChartData, ', ');
                                 beginAtZero: true,
                                 display: true,
                                 ticks: {
-                                    stepSize: 1
+                                    stepSize: 1,
+                                    callback: function(value, index, values) {
+                                        return yLabels[value];
+                                    }
                                 }
                             }
                         },

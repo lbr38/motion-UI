@@ -30,7 +30,8 @@ class Autoloader
         define('DB', DATA_DIR . '/db/motionui.sqlite');
         define('CAMERA_DIR', DATA_DIR . '/configurations');
         define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
-        define('DATE_YMD', date("Y-m-d"));
+        define('DATE_YMD', date('Y-m-d'));
+        define('TIME', date('H:i'));
 
         /**
          *  Version contants

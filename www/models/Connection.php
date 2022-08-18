@@ -138,6 +138,15 @@ class Connection extends SQLite3
         Id_event INTEGER NOT NULL)");
 
         /**
+         *  Create motion_status table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS motion_status (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Date DATE NOT NULL,
+        Time TIME NOT NULL,
+        Status VARCHAR(8))");
+
+        /**
          *  Create settings table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS settings (

@@ -139,6 +139,65 @@ class Motion
     }
 
     /**
+     *  Generate event image or video link to visualize
+     */
+    public function getEventFile(string $fileId)
+    {
+        /**
+         *  File Id must be numeric
+         */
+        if (!is_numeric($fileId)) {
+            throw new Exception('The specified file is invalid.');
+        }
+
+        /**
+         *  Get path to the file from its Id
+         */
+        $filePath = $this->model->getEventFilePath($fileId);
+
+        if (empty($filePath)) {
+            throw new Exception('Cannot find the specified file.');
+        }
+
+        /**
+         *  Generate symlin name from filename
+         */
+        $symlinkName = basename($filePath);
+
+        /**
+         *  Generate symlink path
+         */
+        $symlinkPath = EVENTS_PICTURES . '/' . $symlinkName;
+
+        /**
+         *  Create a symlink to the real file, if not already exist
+         */
+        if (!file_exists($symlinkPath)) {
+            symlink($filePath, $symlinkPath);
+        }
+
+        /**
+         *  Finaly, check if symlink content is readable
+         */
+        if (!is_readable($symlinkPath)) {
+            throw new Exception('Cannot read file - permission denied.');
+        }
+
+        /**
+         *  Return symlink name, it will be used to visualize or download the file
+         */
+        return $symlinkName;
+    }
+
+    /**
+     *  Get daily motion service status (for stats)
+     */
+    public function getMotionServiceStatus()
+    {
+        return $this->model->getMotionServiceStatus();
+    }
+
+    /**
      *  Start / stop motion capture
      */
     public function startStop(string $status)
@@ -260,57 +319,6 @@ class Motion
             \Controllers\Common::validateData($mailRecipient),
             \Controllers\Common::validateData($muttConfig)
         );
-    }
-
-    /**
-     *  Generate event image or video link to visualize
-     */
-    public function getEventFile(string $fileId)
-    {
-        /**
-         *  File Id must be numeric
-         */
-        if (!is_numeric($fileId)) {
-            throw new Exception('The specified file is invalid.');
-        }
-
-        /**
-         *  Get path to the file from its Id
-         */
-        $filePath = $this->model->getEventFilePath($fileId);
-
-        if (empty($filePath)) {
-            throw new Exception('Cannot find the specified file.');
-        }
-
-        /**
-         *  Generate symlin name from filename
-         */
-        $symlinkName = basename($filePath);
-
-        /**
-         *  Generate symlink path
-         */
-        $symlinkPath = EVENTS_PICTURES . '/' . $symlinkName;
-
-        /**
-         *  Create a symlink to the real file, if not already exist
-         */
-        if (!file_exists($symlinkPath)) {
-            symlink($filePath, $symlinkPath);
-        }
-
-        /**
-         *  Finaly, check if symlink content is readable
-         */
-        if (!is_readable($symlinkPath)) {
-            throw new Exception('Cannot read file - permission denied.');
-        }
-
-        /**
-         *  Return symlink name, it will be used to visualize or download the file
-         */
-        return $symlinkName;
     }
 
     /**

@@ -156,6 +156,25 @@ class Motion extends Model
     }
 
     /**
+     *  Get daily motion service status (for stats)
+     */
+    public function getMotionServiceStatus()
+    {
+        $status = array();
+
+        $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE Date = :dateYesterday OR Date = :dateToday");
+        $stmt->bindValue(':dateYesterday', date('Y-m-d', strtotime('-1 day', strtotime(DATE_YMD))));
+        $stmt->bindValue(':dateToday', DATE_YMD);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $status[] = $row;
+        }
+
+        return $status;
+    }
+
+    /**
      *  Enable / disable motion autostart
      */
     public function enableAutostart(string $status)

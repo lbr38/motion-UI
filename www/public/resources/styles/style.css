@@ -293,8 +293,16 @@ input:checked { opacity: 1; }
     display: block;
     font-size: 13px;
     cursor: pointer;
-    -webkit-box-shadow: inset 0px 0px 7px 8px rgba(0,0,0,0.02);
-    box-shadow: inset 0px 0px 7px 8px rgba(0,0,0,0.02);
+}
+
+.btn-square-green {
+    -webkit-box-shadow: 0px 0px 10px 0.5px rgb(0 0 0 / 40%);
+    box-shadow: 0px 0px 10px 0.5px rgb(0 0 0 / 40%);
+}
+
+.btn-square-red {
+    -webkit-box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
+    box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
 }
 
 /* Tous les boutons bleus */
@@ -535,14 +543,18 @@ input:checked { opacity: 1; }
 }
 
 #motion-stats-container {
-    height: 350px;
+    height: 600px;
     display: grid;
-    grid-template-columns: repeat(1, 90%);
+    grid-template-columns: repeat(1, 100%);
     align-items: center;
 }
 
+#motion-stats-container div {
+    height: 90%;
+}
+
 #events-captures-container {
-    height: 350px;
+    height: 600px;
     display: grid;
     grid-template-columns: repeat(1, 90%);
     overflow-x: auto;
@@ -803,10 +815,10 @@ pre {
         grid-template-columns: repeat(2, 50%);
     }
 
-    #motion-stats-container {
+    /* #motion-stats-container {
         grid-template-columns: repeat(2, 45%);
         justify-content: space-evenly;
-    }
+    } */
 
     #events-captures-container {
         grid-template-columns: repeat(2, 45%);
