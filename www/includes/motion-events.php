@@ -7,7 +7,7 @@
         $events = $mymotion->getLastEvents();
 
         if (empty($events)) {
-            echo '<p>No files recorded yet.</p>';
+            echo '<p>No event files recorded yet.</p>';
         }
 
         if (!empty($events)) :
