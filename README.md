@@ -1,20 +1,33 @@
 # motion-UI
 
-A web responsive interface to control motion (open-source security camera software) and visualize live stream from http cameras.
+A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (open-source motion detection software) and visualize live stream from http cameras.
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=24% align="top"> 
-<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=24% align="top">
 <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=24% align="top">
+<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=24% align="top">
 <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=24% align="top">
 </div>
 
 <br>
 
+<b>Features</b>
+
+- <b>Start and stop</b> motion service directly from the web interface,
+- Enable <b>autostart and stop</b> of the motion service, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion service will be automatically started as nobody is at home.
+- Receive <b>mail alerts</b> on motion detection.
+- Visualize captured images and videos and/or download them.
+- Modify <b>motion</b> configuration files.
+- Vizualize http cameras stream.
+
+<hr>
+
 <b>Where to install motion-UI?</b>
 
-Install <b>motion-UI</b> on a local server that run motion service and has access to your local http camera(s). Access your camera from your PC/smartphone by browsing through <b>motion-UI</b>.
+You must install <b>motion-UI</b> on a local server that run the <b>motion</b> service.
+If you want to access and watch your http cameras stream from <b>motion-UI</b>, the server must have access to those cameras as well.
 
+E.g of a home installation:
 <p align="center">
 <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-draw-io.png">
 </p>
@@ -28,12 +41,17 @@ E.g:
 
 <b>Requirements</b>
 
-- The system running motion must also run a web-service (apache/nginx + PHP).
-- No third-party application needed as it is the web server which deliver the control interface. All you need is DNS configuration to make sure you can access the web UI from outside.
+- The server running <b>motion</b> and <b>motion-UI</b> must also run a webserver with PHP enabled (apache/nginx + PHP).
+- You may need DNS configuration to make sure you can access <b>motion-UI</b> from outside.
 
 <b>Dependencies</b>
 
-You can install the following dependencies or it will be installed automatically by the installation wizard:
+Following dependencies are required:
+
+- motion: the motion detection software (if not aleready installed)
+- sqlite3: motion-UI systemd service needs to access and insert data in motion-UI database
+- mutt: to receive mail alerts when a new motion has been detected
+- wget and curl: to check for new release available and download it
 
 ```
 apt install motion sqlite3 mutt wget curl
@@ -59,7 +77,7 @@ cd /tmp/motion-UI/
 sudo ./motionui --install
 ```
 
-Done ! Access Motion-UI from a web browser. It will automaticaly create necessary files and database.
+<b>Done</b> ! Access <b>Motion-UI</b> from a web browser. It will automaticaly create necessary files and database.
 
 For this you must create a basic vhost in your web server to serve <b>/var/www/motionui/public</b> directory (with PHP enabled to execute scripts from that directory).
 
