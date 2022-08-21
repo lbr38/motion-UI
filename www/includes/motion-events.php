@@ -1,11 +1,42 @@
 <div id="events-captures-div">
 
+    <?php
+    /**
+     *  Get date start and end from cookies if there are, else set a default interval of 3 days.
+     */
+    if (empty($_COOKIE['eventDateStart'])) {
+        $eventDateStart = date('Y-m-d', strtotime('-3 day', strtotime(DATE_YMD)));
+    } else {
+        $eventDateStart = $_COOKIE['eventDateStart'];
+    }
+
+    if (empty($_COOKIE['eventDateEnd'])) {
+        $eventDateEnd = DATE_YMD;
+    } else {
+        $eventDateEnd = $_COOKIE['eventDateEnd'];
+    }
+
+    /**
+     *  Get events between selected dates
+     */
+    $events = $mymotion->getEvents($eventDateStart, $eventDateEnd); ?>
+
     <h2>Motion: events</h2>
+
+    <div>
+        <form id="eventDateForm" autocomplete="off">
+            <input type="date" name="dateStart" class="input-small" value="<?= $eventDateStart ?>" />
+            <input type="date" name="dateEnd" class="input-small" value="<?= $eventDateEnd ?>" />
+
+            <button type="submit" class="btn-small-blue">Show</button>
+        </form>
+    </div>
 
     <div id="events-captures-container" class="config-div">
         <?php
-        $events = $mymotion->getLastEvents();
-
+        /**
+         *  Print events if there are
+         */
         if (empty($events)) {
             echo '<p>No event files recorded yet.</p>';
         }
@@ -84,10 +115,15 @@
                                     /**
                                      *  If file exists and is readable
                                      */
-                                    if (file_exists($filepath)) : ?>
-                                        <img src="resources/icons/play.png" class="icon-lowopacity play-image-btn" file-id="<?= $fileId ?>" title="Visualize image" /><img src="resources/icons/save.png" class="icon-lowopacity save-image-btn" file-id="<?= $fileId ?>" title="Download image" />
+                                    if (file_exists($filepath)) :
+                                        if (is_readable($filepath)) : ?>
+                                            <img src="resources/icons/play.png" class="icon-lowopacity play-image-btn" file-id="<?= $fileId ?>" title="Visualize image" /><img src="resources/icons/save.png" class="icon-lowopacity save-image-btn" file-id="<?= $fileId ?>" title="Download image" />
+                                        <?php else : ?>
+                                            <span class="yellowtext"> (permission denied)</span>
+                                            <?php
+                                        endif ?>
                                     <?php else : ?>
-                                        <span class="yellowtext"> (permission denied)</span>
+                                        <span class="redtext"> (deleted)</span>
                                         <?php
                                     endif ?>
                                 </p>
@@ -106,12 +142,17 @@
                                     /**
                                      *  If file exists and is readable
                                      */
-                                    if (file_exists($filepath)) : ?>
-                                        <img src="resources/icons/play.png" class="icon-lowopacity play-video-btn" file-id="<?= $fileId ?>" title="Play video" /><img src="resources/icons/save.png" class="icon-lowopacity save-video-btn" file-id="<?= $fileId ?>" title="Download video" />
+                                    if (file_exists($filepath)) :
+                                        if (is_readable($filepath)) : ?>
+                                            <img src="resources/icons/play.png" class="icon-lowopacity play-video-btn" file-id="<?= $fileId ?>" title="Play video" /><img src="resources/icons/save.png" class="icon-lowopacity save-video-btn" file-id="<?= $fileId ?>" title="Download video" />
+                                        <?php else : ?>
+                                            <span class="yellowtext"> (permission denied)</span>
+                                            <?php
+                                        endif ?>
                                     <?php else : ?>
-                                        <span class="yellowtext"> (permission denied)</span>
+                                        <span class="redtext"> (deleted)</span>
                                         <?php
-                                    endif ?>
+                                    endif ?>    
                                 </p>
                             </div>
                             <?php

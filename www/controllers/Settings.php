@@ -36,8 +36,6 @@ class Settings
 
         $settings = json_decode($settings, true);
 
-        file_put_contents('/tmp/toto', print_r($settings, true));
-
         if (!empty($settings['print-live-btn']) and $settings['print-live-btn'] == 'yes') {
             $printLiveBtn = 'yes';
         }

@@ -1,5 +1,5 @@
 <head>
-    <title>Configuration</title>
+    <title>Motion-UI</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Pour indiquer aux navigateurs mobiles qu'ils doivent ajuster la largeur de la fenêtre à la largeur de l'écran de l'appareil, et mettre l'échelle du document à 100% de sa taille prévue -->
     <meta name="viewport" content="width=device-width,initial-scale=1">

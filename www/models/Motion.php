@@ -118,17 +118,21 @@ class Motion extends Model
     /**
      *  Return a list of the last events
      */
-    public function getLastEvents()
+    public function getEvents(string $dateStart, string $dateEnd)
     {
         $eventsFiles = array();
 
-        $result = $this->db->query("SELECT motion_events.*,
+        $stmt = $this->db->prepare("SELECT motion_events.*,
         motion_events_files.Id AS File_id,
         motion_events_files.File
         FROM motion_events
         LEFT JOIN motion_events_files
         ON motion_events_files.Id_event = motion_events.Id
+        WHERE Date_start BETWEEN :dateStart AND :dateEnd 
         ORDER BY Date_start DESC, Time_start DESC");
+        $stmt->bindValue(':dateStart', $dateStart);
+        $stmt->bindValue(':dateEnd', $dateEnd);
+        $result = $stmt->execute();
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $eventsFiles[] = $row;

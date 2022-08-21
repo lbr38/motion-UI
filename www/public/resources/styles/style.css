@@ -553,6 +553,11 @@ input:checked { opacity: 1; }
     height: 90%;
 }
 
+#statsDateForm, #eventDateForm {
+    width: fit-content;
+    margin: auto;
+}
+
 #events-captures-container {
     height: 600px;
     display: grid;

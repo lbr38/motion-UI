@@ -238,10 +238,7 @@ function autostart
             while true; do
                 sleep 5
 
-                DEVICE_PRESENCE_COUNT="0"
-                IP_ADRESSES=""
-
-                # Always check if alert and device presence are enabled, cause it can be disabled at any moment by the user from the web ui
+                # Always check if autostart and device presence are enabled, cause it can be disabled at any moment by the user from the web ui
                 getAutostartConf
 
                 if [ "$AUTOSTART_ENABLED" != "enabled" ] || [ "$USE_DEVICE_PRESENCE" != "enabled" ];then
@@ -257,15 +254,23 @@ function autostart
                         # Try to ping the first device of the loop 
                         # If there is a response, then stop motion cause there is at least 1 device present on the network.
                         # Else, try to ping the next device
-                        if ping -q -c1 -W2 -n "$DEVICE_IP" > /dev/null;then
-                            if systemctl is-active --quiet motion;then
-                                echo "At least 1 active device has been found on the network - someone is home - stopping motion"
-                                stopMotion
+
+                        # There will be 2 pings tries for the same device. Some devices sometimes not respond on the first try but do on the second.
+                        TRY_COUNT="0"
+
+                        while [ "$TRY_COUNT" != "2" ];do
+                            if ping -q -c1 -W2 -n "$DEVICE_IP" > /dev/null;then
+                                if systemctl is-active --quiet motion;then
+                                    echo "At least 1 active device has been found on the network - someone is home - stopping motion"
+                                    stopMotion
+                                fi
+
+                                # Break this 'while' loop and go back to the 'while true' loop
+                                continue 3
                             fi
 
-                            # Break this for loop and go back to the while loop
-                            continue 2
-                        fi
+                            (( TRY_COUNT++ ))
+                        done
                     done
 
                     # If all the devices are absent from the local network, then start motion

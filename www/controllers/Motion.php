@@ -133,9 +133,9 @@ class Motion
     /**
      *  Return a list of the last events' files
      */
-    public function getLastEvents()
+    public function getEvents(string $dateStart, string $dateEnd)
     {
-        return $this->model->getLastEvents();
+        return $this->model->getEvents($dateStart, $dateEnd);
     }
 
     /**
