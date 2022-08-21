@@ -1,83 +1,80 @@
-$(document).ready(function () {
-    /**
-     *  Create empty motion status and events charts
-     */
-    var ctx = document.getElementById('motion-event-chart').getContext('2d');
-    var myEventChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [
-            {
-                data: [],
-                label: "Total events per day",
-                borderColor: '#3e95cd',
-                fill: false
+/**
+ *  Create empty motion status and events charts
+ */
+var ctx = document.getElementById('motion-event-chart').getContext('2d');
+var myEventChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+        {
+            data: [],
+            label: "Total events per day",
+            borderColor: '#3e95cd',
+            fill: false
+        },
+        {
+            data: [],
+            label: "Total files recorded per day",
+            borderColor: '#ea974d',
+            fill: false
+        }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        tension: 0.2,
+        scales: {
+            x: {
+                display: true,
             },
-            {
-                data: [],
-                label: "Total files recorded per day",
-                borderColor: '#ea974d',
-                fill: false
+            y: {
+                beginAtZero: true,
+                display: true,
+                ticks: {
+                    stepSize: 1
+                }
             }
-            ]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            tension: 0.2,
-            scales: {
-                x: {
-                    display: true,
-                },
-                y: {
-                    beginAtZero: true,
-                    display: true,
-                    ticks: {
-                        stepSize: 1
-                    }
-                }
-            },
-        }
-    });
-
-    var yLabels = {
-        0 : 'inactive',
-        1 : 'active'
     }
-    var ctx = document.getElementById('motion-status-chart').getContext('2d');
-    var myMotionStatusChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                data: [],
-                label: "Motion service activity (48h)",
-                borderColor: '#d8524e',
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            tension: 0.2,
-            scales: {
-                x: {
-                    display: true,
-                },
-                y: {
-                    beginAtZero: true,
-                    display: true,
-                    ticks: {
-                        stepSize: 1,
-                        callback: function (value, index, values) {
-                            return yLabels[value];
-                        }
+});
+var yLabels = {
+    0 : 'inactive',
+    1 : 'active'
+}
+var ctx = document.getElementById('motion-status-chart').getContext('2d');
+var myMotionStatusChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            data: [],
+            label: "Motion service activity (48h)",
+            borderColor: '#d8524e',
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        tension: 0.2,
+        scales: {
+            x: {
+                display: true,
+            },
+            y: {
+                beginAtZero: true,
+                display: true,
+                ticks: {
+                    stepSize: 1,
+                    callback: function (value, index, values) {
+                        return yLabels[value];
                     }
                 }
-            },
-        }
-    });
+            }
+        },
+    }
 });
 
 /**
