@@ -15,46 +15,61 @@ CAMERA_NAME=""
 
 function addEvent
 {
-    echo "ID=$REGISTER_EVENT_ID" > "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
-    echo "STATUS=new" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
-    echo "DATE_START=$DATE_NOW" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
-    echo "TIME_START=$TIME_NOW" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
-    echo "CAMERA_ID=$CAMERA_ID" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
-    echo "CAMERA_NAME=$CAMERA_NAME" >> "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    if [ -z "$CAMERA_ID" ];then
+        echo "Error trying to create event: you must specify camera Id (--cam-id) to register event"
+        exit
+    fi
 
-    chmod 660 "$EVENTS_DIR/event-${REGISTER_EVENT_ID}"
+    EVENT_CONTENT="ID=$REGISTER_EVENT_ID\n"
+    EVENT_CONTENT+="STATUS=new\n"
+    EVENT_CONTENT+="DATE_START=$DATE_NOW\n"
+    EVENT_CONTENT+="TIME_START=$TIME_NOW\n"
+    EVENT_CONTENT+="CAMERA_ID=$CAMERA_ID\n"
+    EVENT_CONTENT+="CAMERA_NAME=$CAMERA_NAME"
+
+    echo -e "$EVENT_CONTENT" > "$EVENTS_DIR/${CAMERA_ID}-event-${REGISTER_EVENT_ID}"
+    chmod 660 "$EVENTS_DIR/${CAMERA_ID}-event-${REGISTER_EVENT_ID}"
 }
 
 function addEventFile
 {
+    if [ -z "$CAMERA_ID" ];then
+        echo "Error trying to add event file: you must specify camera Id (--cam-id) to register event"
+        exit
+    fi
+
     if [ -z "$EVENT_ID" ];then
         echo "Error trying to add event file: Event Id must be specified when using --file parameter."
         return
     fi
 
-    if [ ! -f "$EVENTS_DIR/event-${EVENT_ID}" ];then
-        echo "Error trying to add event file: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
+    if [ ! -f "$EVENTS_DIR/${CAMERA_ID}-event-${EVENT_ID}" ];then
+        echo "Error trying to add event file: Event file '$EVENTS_DIR/${CAMERA_ID}-event-${EVENT_ID}' not found."
         return
     fi
 
-    echo "FILE=$EVENT_FILE" >> "$EVENTS_DIR/event-${EVENT_ID}"
+    echo "FILE=$EVENT_FILE" >> "$EVENTS_DIR/${CAMERA_ID}-event-${EVENT_ID}"
 }
 
 function endEvent
 {
+    if [ -z "$CAMERA_ID" ];then
+        echo "Error trying to end event: you must specify camera Id (--cam-id) to end event"
+        exit
+    fi
+
     if [ -z "$EVENT_ID" ];then
         echo "Error trying to end event: Event Id must be specified when using --end-event parameter."
         return
     fi
 
-    if [ ! -f "$EVENTS_DIR/event-${EVENT_ID}" ];then
-        echo "Error trying to end event: Event file '$EVENTS_DIR/event-${EVENT_ID}' not found."
+    if [ ! -f "$EVENTS_DIR/${CAMERA_ID}-event-${EVENT_ID}" ];then
+        echo "Error trying to end event: Event file '$EVENTS_DIR/${CAMERA_ID}-event-${EVENT_ID}' not found."
         return
     fi
 
     # Add end date and time for this event
-    echo "DATE_END=${DATE_NOW}" >> "$EVENTS_DIR/event-${EVENT_ID}"
-    echo "TIME_END=${TIME_NOW}" >> "$EVENTS_DIR/event-${EVENT_ID}"
+    echo -e "DATE_END=${DATE_NOW}\nTIME_END=${TIME_NOW}" >> "$EVENTS_DIR/${CAMERA_ID}-event-${EVENT_ID}"
 }
 
 mkdir -p "$EVENTS_DIR"

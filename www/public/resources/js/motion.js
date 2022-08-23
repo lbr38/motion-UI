@@ -120,8 +120,8 @@ function statsDateSelect(dateStart, dateEnd)
     /**
      *  Add specified dates into cookies
      */
-    document.cookie = "statsDateStart="+dateStart;
-    document.cookie = "statsDateEnd="+dateEnd;
+    document.cookie = "statsDateStart="+dateStart+";max-age=900;";
+    document.cookie = "statsDateEnd="+dateEnd+";max-age=900;";
 
     /**
      *  Then reload stats div
@@ -146,8 +146,8 @@ function eventDateSelect(dateStart, dateEnd)
     /**
      *  Add specified dates into cookies
      */
-    document.cookie = "eventDateStart="+dateStart;
-    document.cookie = "eventDateEnd="+dateEnd;
+    document.cookie = "eventDateStart="+dateStart+";max-age=900;";
+    document.cookie = "eventDateEnd="+dateEnd+";max-age=900;";
 
     /**
      *  Then reload events div
