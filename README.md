@@ -2,12 +2,24 @@
 
 A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (open-source motion detection software) and visualize live stream from http cameras.
 
+**Mobile views**
+
 <div align="center">
-<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=24% align="top"> 
-<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=24% align="top">
-<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=24% align="top">
-<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=24% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=19% align="top"> 
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-5.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=19% align="top">
 </div>
+
+<br>
+
+**Desktop view**
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-desktop.png" width=100% align="top"> 
+</div>
+
 
 <br>
 
@@ -102,6 +114,9 @@ server {
 }
 
 server {
+    # Set motion-UI web directory location
+    set $WWW_DIR '/var/www/motionui'; # default is /var/www/motionui
+
     listen SERVER-IP:443 ssl;
     server_name SERVERNAME.MYDOMAIN.COM;
 
@@ -127,7 +142,7 @@ server {
     fastcgi_hide_header X-Powered-By;
 
     # Path to motionui root dir
-    root /var/www/motionui/public;
+    root $WWW_DIR/public;
 
     # Motion-UI does not have any login page for the moment. You can use a .htpasswd file to set up basic authentication.
     # Uncomment the lines below and generate a .htpasswd file:
@@ -153,7 +168,7 @@ server {
     }
 
     location ~ \.php$ {
-        root /var/www/motionui/public;
+        root $WWW_DIR/public;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $request_filename;
         #include fastcgi.conf;
