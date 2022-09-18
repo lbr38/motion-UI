@@ -2,14 +2,14 @@
  *  Event: print settings div
  */
 $(document).on('click','#print-settings-btn',function () {
-    $('#settings-container').show('100');
+    openSlide('#settings-div');
 });
 
 /**
  *  Event: hide settings div
  */
 $(document).on('click','#hide-settings-btn',function () {
-    $('#settings-container').hide('100');
+    closeSlide('#settings-div');
 });
 
 /**
@@ -18,7 +18,7 @@ $(document).on('click','#hide-settings-btn',function () {
 $(document).on('click','#save-settings-btn',function () {
     var settings_params = {};
 
-    $('#settings').find('.settings-param').each(function () {
+    $('#settings-div').find('.settings-param').each(function () {
         var name = $(this).attr('setting-name');
         if ($(this).is(":checked")) {
             var value = 'yes';
@@ -55,9 +55,11 @@ function editSetting(settings_params_json)
             /**
              *  Close settings div and reload page
              */
-            $.when($('#settings-container').hide('100')).done(function () {
+            closeSlide('#settings-div');
+
+            setTimeout(function () {
                 location.reload();
-            });
+            }, 500);
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

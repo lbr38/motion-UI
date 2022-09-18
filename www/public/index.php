@@ -48,7 +48,19 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
 ?>
 
 <body>
-    <?php include_once('../includes/settings.php'); ?>
+    <div id="top-buttons-container">
+        <div>
+            <img id="print-userspace-btn" src="resources/icons/user.svg" class="pointer lowopacity" title="Show userspace" />
+        </div>
+        <div>
+            <img id="print-settings-btn" src="resources/icons/cog.svg" class="pointer lowopacity" title="Show settings" />
+        </div>
+    </div>
+
+    <?php
+        include_once('../includes/settings.php');
+        include_once('../includes/userspace.php');
+    ?>
 
     <div id="motionui-status">
         <?php
@@ -66,7 +78,7 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
             <div class="item">
                 <h2>Live</h2>
                 <a href="<?= '/live.php' ?>">
-                    <button class="btn-square-green"><img src="resources/icons/camera.png" class="icon" /></button>
+                    <button class="btn-square-green"><img src="resources/icons/camera.svg" class="icon" /></button>
                 </a>
                 <span class="block center lowopacity">Visualize</span>
             </div>
@@ -80,7 +92,7 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
                 <?php
                 if ($motionStatus != 'active') : ?>
                     <button id="start-motion-btn" class="btn-square-green" title="Start motion service now">
-                        <img src="resources/icons/power.png" class="icon" />
+                        <img src="resources/icons/power.svg" class="icon" />
                     </button>
                     <span class="block center lowopacity">Start capture</span>
                     
@@ -88,7 +100,7 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
                 endif;
 
                 if ($motionStatus == 'active') {
-                    echo '<button id="stop-motion-btn" class="btn-square-red" title="Stop motion service"><img src="resources/icons/power.png" class="icon" /></button>';
+                    echo '<button id="stop-motion-btn" class="btn-square-red" title="Stop motion service"><img src="resources/icons/power.svg" class="icon" /></button>';
                     echo '<span class="block center lowopacity">Stop capture</span>';
                 } ?>
             </div>

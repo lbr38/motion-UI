@@ -42,8 +42,8 @@
 
                         <br><br>
 
-                        <span class="btn-small-yellow show-motion-conf-btn" filename="<?= $configurationFile ?>">Show/Hide</span>
-                        <span class="btn-small-blue duplicate-motion-conf-btn" filename="<?= $configurationFile ?>">Duplicate</span>
+                        <span class="btn-small-green show-motion-conf-btn" filename="<?= $configurationFile ?>">Show/Hide</span>
+                        <span class="btn-small-green duplicate-motion-conf-btn" filename="<?= $configurationFile ?>">Duplicate</span>
                         <span class="btn-xsmall-red delete-motion-conf-btn" filename="<?= $configurationFile ?>">Delete</span>
                     </div>
 
@@ -127,7 +127,7 @@
                             </table>
                             <br>
 
-                            <button type="submit" class="btn-small-blue">Save</button>
+                            <button type="submit" class="btn-small-green">Save</button>
 
                         </form>
                     </div>

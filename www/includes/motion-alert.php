@@ -3,11 +3,11 @@
 
             <?php
             if ($alertEnabled == "disabled") {
-                echo '<button type="button" id="enable-alert-btn" class="btn-square-green" title="Enable motion alerts"><img src="resources/icons/alarm.png" class="icon"></button>';
+                echo '<button type="button" id="enable-alert-btn" class="btn-square-green" title="Enable motion alerts"><img src="resources/icons/alarm.svg" class="icon"></button>';
                 echo '<span class="block center lowopacity">Enable and configure alerts</span>';
             }
             if ($alertEnabled == "enabled") {
-                echo '<button type="button" id="disable-alert-btn" class="btn-square-red" title="Disable motion alerts"><img src="resources/icons/alarm.png" class="icon"></button>';
+                echo '<button type="button" id="disable-alert-btn" class="btn-square-red" title="Disable motion alerts"><img src="resources/icons/alarm.svg" class="icon"></button>';
                 echo '<span class="block center lowopacity">Disable alerts</span>';
             } ?>
 
@@ -16,7 +16,7 @@
             <div id="alert-btn-div">
                 <?php
                 if ($alertEnabled == "enabled") {
-                    echo '<span id="configure-alerts-btn" class="btn-small-blue">Configure alerts</span>';
+                    echo '<span id="configure-alerts-btn" class="btn-small-green">Configure alerts</span>';
                     echo '<button type="button" id="how-to-alert-btn" class="btn-medium-yellow">How to</button>';
                 } ?>
             </div>
@@ -103,7 +103,7 @@
                         </table>
 
                         <br>
-                        <button type="submit" class="btn-small-blue">Save</button>
+                        <button type="submit" class="btn-small-green">Save</button>
                     
                         <br>
                     </form>

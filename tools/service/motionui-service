@@ -396,8 +396,21 @@ function processEvent
     done
 }
 
+# Check if this service needs to be restarted
+function checkRestartNeeded
+{
+    if [ -f "$DATA_DIR/service.restart" ];then
+        echo "A restart of this service is required. Restarting..."
+        rm "$DATA_DIR/service.restart" -f
+        exec systemctl --quiet restart motionui
+    fi
+}
+
 # Execution
 while true; do
+    # Check if a restart of this service is needed
+    checkRestartNeeded
+    
     # Execute actions on service start (COUNTER = 0) and then every hour (COUNTER = 720)
     # 3600 / 5sec (sleep 5) = 720
     if [ "$COUNTER" -eq "0" ] || [ "$COUNTER" -eq "720" ];then
