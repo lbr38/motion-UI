@@ -73,7 +73,7 @@ apt install motion sqlite3 mutt wget curl
 yum install motion sqlite3 mutt wget curl
 ```
 
-<b>Installation</b>
+**Installation**
 
 Clone:
 
@@ -89,9 +89,9 @@ cd /tmp/motion-UI/
 sudo ./motionui --install
 ```
 
-<b>Done</b> ! Access <b>Motion-UI</b> from a web browser. It will automaticaly create necessary files and database.
+**Done** ! Access **Motion-UI** from a web browser. It will automaticaly create necessary files and database.
 
-For this you must create a basic vhost in your web server to serve <b>/var/www/motionui/public</b> directory (with PHP enabled to execute scripts from that directory).
+For this you must create a basic vhost in your web server to serve **/var/www/motionui/public** directory (with PHP enabled to execute scripts from that directory).
 
 E.g vhost for nginx:
 
@@ -186,10 +186,15 @@ server {
     }
 }
 ```
+**Default login and password**
 
-<b>Useful</b>
+- Login: **admin**
+- Password: **motionui**
 
-You can use <b>motionui</b> script to perform actions on your installation. Script is located at:
+
+**Useful**
+
+You can use **motionui** script to perform actions on your installation. Script is located at:
 
 ```
 /var/lib/motionui/motionui
