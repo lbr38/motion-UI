@@ -124,7 +124,7 @@
             <input type="date" name="dateStart" class="input-small" value="<?= $statsDateStart ?>" />
             <input type="date" name="dateEnd" class="input-small" value="<?= $statsDateEnd ?>" />
 
-            <button type="submit" class="btn-small-blue">Show</button>
+            <button type="submit" class="btn-small-green">Show</button>
         </form>
     </div>
 

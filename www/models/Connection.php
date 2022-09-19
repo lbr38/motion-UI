@@ -167,6 +167,62 @@ class Connection extends SQLite3
             (Print_live_btn, Print_motion_start_btn, Print_motion_autostart_btn, Print_motion_alert_btn, Print_motion_stats, Print_motion_events, Print_motion_config)
             VALUES ('yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes')");
         }
+
+        /**
+         *  Create users table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS users (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Username VARCHAR(255) NOT NULL,
+        Password CHAR(60),
+        First_name VARCHAR(50),
+        Last_name VARCHAR(50),
+        Email VARCHAR(100),
+        Role INTEGER NOT NULL,
+        Type CHAR(5) NOT NULL,
+        State CHAR(7) NOT NULL)"); /* active / deleted */
+
+        /**
+         *  Create user_role table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS user_role (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Name CHAR(15) NOT NULL UNIQUE)");
+
+        /**
+         *  If user_role table is empty, fill it with default values
+         */
+        $result = $this->query("SELECT Id FROM user_role");
+        if ($this->isempty($result) === true) {
+            /**
+             *  super-administrator role (all perms)
+             */
+            $this->exec("INSERT INTO user_role ('Name') VALUES ('super-administrator')");
+            /**
+             *  administrator role
+             */
+            $this->exec("INSERT INTO user_role ('Name') VALUES ('administrator')");
+            /**
+             *  usage role
+             */
+            $this->exec("INSERT INTO user_role ('Name') VALUES ('usage')");
+        }
+
+        /**
+         *  If users table is empty, then create admin user with default password 'motionui'
+         */
+        $result = $this->query("SELECT Id FROM users");
+
+        if ($this->isempty($result) === true) {
+            $password_hashed = '$2y$10$QjQqA7UwcxTJtBHYccyebOHRKw6P6YOARXCfsN1O.ZfBNoEkwWyFq';
+            try {
+                $stmt = $this->prepare("INSERT INTO users ('Username', 'Password', 'First_name', 'Role', 'State', 'Type') VALUES ('admin', :password_hashed, 'Administrator', '1', 'active', 'local')");
+                $stmt->bindValue(':password_hashed', $password_hashed);
+                $stmt->execute();
+            } catch (\Exception $e) {
+                \Controllers\Common::dbError($e);
+            }
+        }
     }
 
     /**

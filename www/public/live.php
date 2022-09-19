@@ -16,6 +16,18 @@ $camerasTotal = $mycamera->getTotal();
 include_once('../includes/head.inc.php'); ?>
 
 <body>
+    <div id="top-buttons-container">
+        <div>
+            <a href="index.php"><img src="resources/icons/back.svg" class="pointer lowopacity" title="Go back" /></a>
+        </div>
+
+        <div>
+            <img id="print-new-camera-btn" src="resources/icons/plus.svg" class="pointer lowopacity" title="Add a camera" />
+        </div>
+    </div>
+
+    <?php include_once('../includes/new-camera.php'); ?>
+
     <div id="camera-container">
         <?php
         /**
@@ -27,35 +39,16 @@ include_once('../includes/head.inc.php'); ?>
             foreach ($camerasIds as $camerasId) {
                 $mycamera->display($camerasId);
             }
-        } ?>
+        }
 
-        <div class="item">
+        if ($camerasTotal == 0) : ?>
+            <div class="item">
+                <h2>Getting started</h2>
 
-            <h2>Add a new camera</h2>
-
-            <span class="block center lowopacity">Add a MJPEG-stream based camera (mjpg_streamer, ustreamer...)</span>
-            <br>
-
-            <form id="new-camera-form" autocomplete="off">
-                <p>Name:</p>
-                <input type="text" name="camera-name" />
-
-                <p>URL:<img src="resources/icons/info.png" class="icon-lowopacity" title="Insert an URL that points directly to a JPEG image." /></p>
-                <input type="text" name="camera-url" placeholder="e.g. http(s)://.../snapshot" />
-
-                <br><br>
-
-                <button class="btn-medium-green">Add camera</button>
-            </form>
-        </div>
-
-        <div class="item">
-
-            <h2>Motion</h2>
-
-            <a href="index.php"><button class="btn-square-green"><img src="resources/icons/motion.png" class="icon"></button></a>
-            <span class="block center lowopacity">Configure</span>
-        </div>
+                <p>Use the <img src="resources/icons/plus.svg" class="icon" /> button in the right corner to add a new camera</p> 
+            </div>
+            <?php
+        endif ?>
     </div>
 
     <?php include_once('../includes/footer.inc.php'); ?>

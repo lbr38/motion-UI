@@ -187,13 +187,13 @@ class Camera
 
             <!-- Unavailable image div -->
             <div id="camera<?= $id ?>-unavailable" class="hide">
-                <button class="btn-square-red"><img src="resources/icons/error-close.png" class="icon" title="Unavailable" /></button>
+                <button class="btn-square-red"><img src="resources/icons/error-close.svg" class="icon" title="Unavailable" /></button>
                 <span class="block center lowopacity">Unavailable</span>
             </div>
 
             <br>
             <div class="camera-btn-div">
-                <button id="camera<?= $id ?>-toggle" class="configure-camera-btn btn-small-blue" camera-id="<?= $id ?>">Configure</button>
+                <button id="camera<?= $id ?>-toggle" class="configure-camera-btn btn-small-green" camera-id="<?= $id ?>">Configure</button>
                 <button class="delete-camera-btn btn-small-red" camera-id="<?= $id ?>">Delete</button>
                 <button class="full-screen-camera-btn btn-medium-yellow" camera-id="<?= $id ?>">Full screen</button>
                 <button class="close-full-screen-camera-btn btn-medium-yellow" camera-id="<?= $id ?>">Close full screen</button>
@@ -242,7 +242,7 @@ class Camera
                     </table>
 
                     <br>
-                    <button type="submit" class="btn-small-blue">Save</button>
+                    <button type="submit" class="btn-small-green">Save</button>
                 </form>
             </div>
 

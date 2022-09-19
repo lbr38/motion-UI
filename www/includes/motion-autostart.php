@@ -4,14 +4,14 @@
     <?php
     if ($motionAutostartEnabled == "disabled") : ?>
         <button id="enable-autostart-btn" class="btn-square-green" title="Enable motion service autostart">
-            <img src="resources/icons/time.png" class="icon" />
+            <img src="resources/icons/time.svg" class="icon" />
         </button>
         <span class="block center lowopacity">Enable and configure autostart</span>
         <?php
     endif;
     if ($motionAutostartEnabled == "enabled") : ?>
         <button id="disable-autostart-btn" class="btn-square-red" title="Disable motion service autostart">
-            <img src="resources/icons/time.png" class="icon" />
+            <img src="resources/icons/time.svg" class="icon" />
         </button>
         <span class="block center lowopacity">Disable autostart</span>
         <?php
@@ -22,7 +22,7 @@
     <div id="autostart-btn-div">
         <?php
         if ($motionAutostartEnabled == "enabled") : ?>
-            <span id="configure-autostart-btn" class="btn-medium-blue">Configure autostart</span>
+            <span id="configure-autostart-btn" class="btn-medium-green">Configure autostart</span>
             <?php
         endif ?>
     </div>
@@ -81,7 +81,7 @@
                     ?>
                 </table>
                 <br>
-                <button type="submit" class="btn-small-blue">Save</button>
+                <button type="submit" class="btn-small-green">Save</button>
             </form>
             <br>
                     
@@ -108,7 +108,7 @@
                             $deviceId = $knownDevice['Id'];
                             $deviceName = $knownDevice['Name'];
                             $deviceIp = $knownDevice['Ip'];
-                            echo '<tr class="td-fit"><td><b>' . $deviceName . '</b></td><td>' . $deviceIp . '</td><td><img src="resources/icons/bin.png" class="icon-lowopacity remove-device-btn" device-id="' . $deviceId . '" title="Remove device ' . $deviceName . '" /></td></tr>';
+                            echo '<tr class="td-fit"><td><b>' . $deviceName . '</b></td><td>' . $deviceIp . '</td><td><img src="resources/icons/bin.svg" class="icon-lowopacity remove-device-btn" device-id="' . $deviceId . '" title="Remove device ' . $deviceName . '" /></td></tr>';
                         } ?>
                     </table>
                     <hr>
@@ -119,7 +119,7 @@
                     <input type="text" name="device-name" placeholder="Device name" required />
                     <input type="text" name="device-ip" placeholder="IP address" required />
                     <br><br>
-                    <button type="submit" class="btn-small-blue">Add device</button>
+                    <button type="submit" class="btn-small-green">Add device</button>
                 </form>
                 <?php
             endif ?>

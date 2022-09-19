@@ -28,7 +28,7 @@
             <input type="date" name="dateStart" class="input-small" value="<?= $eventDateStart ?>" />
             <input type="date" name="dateEnd" class="input-small" value="<?= $eventDateEnd ?>" />
 
-            <button type="submit" class="btn-small-blue">Show</button>
+            <button type="submit" class="btn-small-green">Show</button>
         </form>
     </div>
 
@@ -110,14 +110,14 @@
                         if (preg_match('#\b(.jpg|.webp|.ppm|.grey)\b#', $filepath)) : ?>
                             <div>
                                 <p>
-                                    <img src="resources/icons/picture.png" class="icon" />Image
+                                    <img src="resources/icons/picture.svg" class="icon" />Image
                                     <?php
                                     /**
                                      *  If file exists and is readable
                                      */
                                     if (file_exists($filepath)) :
                                         if (is_readable($filepath)) : ?>
-                                            <img src="resources/icons/play.png" class="icon-lowopacity play-image-btn" file-id="<?= $fileId ?>" title="Visualize image" /><img src="resources/icons/save.png" class="icon-lowopacity save-image-btn" file-id="<?= $fileId ?>" title="Download image" />
+                                            <img src="resources/icons/play.svg" class="icon-lowopacity play-image-btn" file-id="<?= $fileId ?>" title="Visualize image" /><img src="resources/icons/save.svg" class="icon-lowopacity save-image-btn" file-id="<?= $fileId ?>" title="Download image" />
                                         <?php else : ?>
                                             <span class="yellowtext"> (permission denied)</span>
                                             <?php
@@ -137,14 +137,14 @@
                         if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
                             <div>
                                 <p>
-                                    <img src="resources/icons/video.png" class="icon" />Video
+                                    <img src="resources/icons/video.svg" class="icon" />Video
                                     <?php
                                     /**
                                      *  If file exists and is readable
                                      */
                                     if (file_exists($filepath)) :
                                         if (is_readable($filepath)) : ?>
-                                            <img src="resources/icons/play.png" class="icon-lowopacity play-video-btn" file-id="<?= $fileId ?>" title="Play video" /><img src="resources/icons/save.png" class="icon-lowopacity save-video-btn" file-id="<?= $fileId ?>" title="Download video" />
+                                            <img src="resources/icons/play.svg" class="icon-lowopacity play-video-btn" file-id="<?= $fileId ?>" title="Play video" /><img src="resources/icons/save.svg" class="icon-lowopacity save-video-btn" file-id="<?= $fileId ?>" title="Download video" />
                                         <?php else : ?>
                                             <span class="yellowtext"> (permission denied)</span>
                                             <?php

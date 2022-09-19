@@ -21,4 +21,7 @@
 if (!empty($_GET['action']) and \Controllers\Common::validateData($_GET['action']) == "update") {
     $myupdate = new \Controllers\Update();
     $updateStatus = $myupdate->update();
-} ?>
+}
+
+include('maintenance.inc.php');
+include('update.inc.php'); ?>

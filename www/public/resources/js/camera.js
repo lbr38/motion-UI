@@ -1,4 +1,18 @@
 /**
+ *  Event: print new camera div
+ */
+$(document).on('click','#print-new-camera-btn',function () {
+    openSlide('#new-camera-div');
+});
+
+/**
+ *  Event: hide settings div
+ */
+$(document).on('click','#hide-new-camera-btn',function () {
+    closeSlide('#new-camera-div');
+});
+
+/**
  *  Event: Add a new camera
  */
 $(document).on('submit','#new-camera-form',function () {
