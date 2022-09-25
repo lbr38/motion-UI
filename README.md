@@ -1,6 +1,6 @@
 # motion-UI
 
-A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (open-source motion detection software) and visualize live stream from http cameras.
+A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize live stream from http cameras.
 
 **Mobile views**
 
@@ -23,21 +23,22 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 
 <br>
 
-<b>Features</b>
+## Features
 
-- <b>Start and stop</b> motion service directly from the web interface,
-- Enable <b>autostart and stop</b> of the motion service, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion service will be automatically started as nobody is at home.
-- Receive <b>mail alerts</b> on motion detection.
+- **Start and stop** motion service directly from the web interface,
+- Enable **autostart and stop** of the motion service, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion service will be automatically started as nobody is at home.
+- Receive **mail alerts** on motion detection.
 - Visualize captured images and videos and/or download them.
-- Modify <b>motion</b> configuration files.
+- Modify **motion** configuration files.
 - Vizualize http cameras stream.
 
 <hr>
 
-<b>Where to install motion-UI?</b>
+## Where to install motion-UI?
 
-You must install <b>motion-UI</b> on a local server that run the <b>motion</b> service.
-If you want to access and watch your http cameras stream from <b>motion-UI</b>, the server must have access to those cameras as well.
+You must install **motion-UI** on the same host/server that runs the **motion** service.
+
+If you want to access and watch your http cameras stream from **motion-UI**, the server must have access to those cameras as well.
 
 E.g of a home installation:
 <p align="center">
@@ -51,29 +52,44 @@ E.g:
 
 <hr>
 
-<b>Requirements</b>
+## Requirements
 
-- The server running <b>motion</b> and <b>motion-UI</b> must also run a webserver with PHP enabled (apache/nginx + PHP).
-- You may need DNS configuration to make sure you can access <b>motion-UI</b> from outside.
+Following **dependencies** are required:
 
-<b>Dependencies</b>
+- **motion**: the motion detection software (if not aleready installed)
+- **sqlite**: motion-UI service may need to access and insert data in motion-UI database
+- **mutt**: to receive mail alerts when a new motion has been detected
+- **wget** and **curl**: to check for new release available and download it
 
-Following dependencies are required:
-
-- motion: the motion detection software (if not aleready installed)
-- sqlite3: motion-UI systemd service needs to access and insert data in motion-UI database
-- mutt: to receive mail alerts when a new motion has been detected
-- wget and curl: to check for new release available and download it
+**Installation on a Debian system:**
 
 ```
 apt install motion sqlite3 mutt wget curl
 ```
 
+**Installation on a Redhat/CentOS system:**
+
 ```
-yum install motion sqlite3 mutt wget curl
+yum install motion sqlite mutt wget curl
 ```
 
-**Installation**
+- The server running **motion** must run a webserver with PHP enabled (nginx recommended) to run **motion-UI**.
+
+**Installation on a Debian system** (you will need to have access to a repository providing PHP8.1 packages):
+
+```
+apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3
+```
+
+**Installation on a Redhat/CentOS system** (you will need to have access to a repository providing PHP8.1 packages):
+
+```
+yum install nginx php-fpm php-cli php-pdo
+```
+
+- You later may need a **domain name** and DNS configuration to make sure you can access **motion-UI** from outside.
+
+## Motion-UI installation
 
 Clone:
 
@@ -89,11 +105,21 @@ cd /tmp/motion-UI/
 sudo ./motionui --install
 ```
 
-**Done** ! Access **Motion-UI** from a web browser. It will automaticaly create necessary files and database.
+**Done**! You must complete your webserver and vhost configuration to access **Motion-UI** from a web browser.
 
-For this you must create a basic vhost in your web server to serve **/var/www/motionui/public** directory (with PHP enabled to execute scripts from that directory).
+## Serving motion-UI
 
-E.g vhost for nginx:
+You must create a basic vhost in your web server to serve **/var/www/motionui/public** directory (with PHP enabled to execute scripts from that directory).
+
+I can't provide full nginx and PHP configuration but here is an e.g vhost for nginx below. Be sure to adapt some values:
+
+```
+server unix:/var/run/php-fpm/php-fpm.sock; => path to PHP unix socket
+SERVER-IP                                  => Server IP address
+SERVERNAME.MYDOMAIN.COM                    => motion-UI dedicated domain name 
+PATH-TO-CERTIFICATE                        => SSL certificate and key files names
+set $WWW_DIR '/var/www/motionui';          => specify root path to the motion-UI directory (default is /var/www/motionui)
+```
 
 ```
 # Path to unix socket
@@ -144,11 +170,6 @@ server {
     # Path to motionui root dir
     root $WWW_DIR/public;
 
-    # Motion-UI does not have any login page for the moment. You can use a .htpasswd file to set up basic authentication.
-    # Uncomment the lines below and generate a .htpasswd file:
-    # auth_basic "You must login";
-    # auth_basic_user_file /var/www/.htpasswd;
-
     # Enable gzip
     gzip on;
     gzip_vary on;
@@ -186,15 +207,18 @@ server {
     }
 }
 ```
+
+Once the configuration is applied, you can access motion-UI through a web browser, log in using default login below:
+
 **Default login and password**
 
 - Login: **admin**
 - Password: **motionui**
 
 
-**Useful**
+## Useful
 
-You can use **motionui** script to perform actions on your installation. Script is located at:
+You can use the **motionui** script to perform actions on your installation. Script is located at:
 
 ```
 /var/lib/motionui/motionui
