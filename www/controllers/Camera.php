@@ -166,7 +166,7 @@ class Camera
 
         <div id="camera<?= $id ?>-container">
 
-            <h2><?= $this->name ?></h2>
+            <h3><?= $this->name ?></h3>
 
             <!-- Loading image div -->
             <div class="loading-camera-image">
@@ -323,12 +323,12 @@ class Camera
         /**
          *  Check availability before
          */
-        if ($this->checkAvailability($this->url) === false) {
-            /**
-             *  Throw exception that will make ajax print an 'unavailable div' for this camera
-             */
-            throw new Exception('Unavailable');
-        }
+        // if ($this->checkAvailability($this->url) === false) {
+        //     /**
+        //      *  Throw exception that will make ajax print an 'unavailable div' for this camera
+        //      */
+        //     throw new Exception('Unavailable');
+        // }
 
         /**
          *  Try to download a new image

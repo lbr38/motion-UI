@@ -21,8 +21,6 @@
      */
     $events = $mymotion->getEvents($eventDateStart, $eventDateEnd); ?>
 
-    <h2>Motion: events</h2>
-
     <div>
         <form id="eventDateForm" autocomplete="off">
             <input type="date" name="dateStart" class="input-small" value="<?= $eventDateStart ?>" />
@@ -38,7 +36,7 @@
          *  Print events if there are
          */
         if (empty($events)) {
-            echo '<p>No event files recorded yet.</p>';
+            echo '<p>No event recorded yet.</p>';
         }
 
         if (!empty($events)) :

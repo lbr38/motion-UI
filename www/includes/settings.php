@@ -2,62 +2,73 @@
     <div class="param-slide">
         <img id="hide-settings-btn" src="resources/icons/error-close.svg" class="close-btn lowopacity" title="Close" />
 
-        <h2>Settings</h2>
+        <h2 class="center">Settings</h2>
 
         <div id="settings">
 
-            <h3>Buttons</h3>
+            <h2>Buttons</h2>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-live-btn" <?php echo ($settings['Print_live_btn'] == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Live button</span>
-            <br>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-live-btn" <?php echo ($settings['Print_live_btn'] == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Live button</span>
+            </div>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-start-btn" <?php echo ($settings['Print_motion_start_btn'] == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Motion start/stop button</span>
-            <br>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-start-btn" <?php echo ($settings['Print_motion_start_btn'] == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Motion start/stop button</span>
+            </div>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-autostart-btn" <?php echo ($settings['Print_motion_autostart_btn'] == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Motion autostart button</span>
-            <br>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-autostart-btn" <?php echo ($settings['Print_motion_autostart_btn'] == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Motion autostart button</span>
+            </div>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-alert-btn" <?php echo ($settings['Print_motion_alert_btn'] == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Motion alerts button</span>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-alert-btn" <?php echo ($settings['Print_motion_alert_btn'] == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Motion alerts button</span>
+            </div>
 
-            <h3>Motion statistics</h3>
+            <h2>Motion statistics</h2>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-stats-btn" <?php echo ($settings['Print_motion_stats'] == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Print charts</span>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-stats-btn" <?php echo ($settings['Print_motion_stats'] == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Print charts</span>
+            </div>
 
-            <h3>Motion events</h3>
+            <h2>Motion events</h2>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-captures-btn" <?php echo ($settings['Print_motion_events']  == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Print motion events and captures</span>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-captures-btn" <?php echo ($settings['Print_motion_events']  == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Print motion events and captures</span>
+            </div>
 
-            <h3>Motion configuration</h3>
+            <h2>Motion configuration</h2>
 
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-config-btn" <?php echo ($settings['Print_motion_config']  == 'yes') ? 'checked' : ''?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-            <span>Print motion configuration files</span>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-config-btn" <?php echo ($settings['Print_motion_config']  == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Print motion configuration files</span>
+            </div>
        
             <br>
             <br>

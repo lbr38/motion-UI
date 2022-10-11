@@ -1,5 +1,5 @@
 <p class="center">
-    <b>How to edit motion's configuration files to receive alerts</b><br><br>
+    <b>How to edit motion's configuration files to send mail alerts</b><br><br>
 <p>
 
 <p>
@@ -10,7 +10,7 @@
     1. Set up a mail client:<br>
     - Install <b>mutt</b> package if not already installed.<br>
     - Create a new configuration file <b>/var/lib/motionui/.muttrc</b>. You can create it anywhere else but it should be readable by <b>motion</b> user.<br>
-    - Insert your mutt configuration (you can easily find exemples on the Internet) and check if motion can send a mail:<br>
+    - Insert your muttrc configuration (you can easily find exemples on the Internet) and check if motion can send a mail:<br>
 </p>
 
 <pre>sudo -u motion echo '' | mutt -s 'test' -F /var/lib/motionui/.muttrc myemail@mail.com</pre>

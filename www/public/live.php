@@ -28,28 +28,30 @@ include_once('../includes/head.inc.php'); ?>
 
     <?php include_once('../includes/new-camera.php'); ?>
 
-    <div id="camera-container">
+    <?php
+    if ($camerasTotal == 0) : ?>
+        <div>
+            <h1>GETTING STARTED</h1>
+
+            <p class="center">Use the <img src="resources/icons/plus.svg" class="icon" /> button in the right corner to add a new camera</p> 
+        </div>
         <?php
-        /**
-         *  Print cameras if there are
-         */
-        if ($camerasTotal > 0) {
+    endif;
+
+    /**
+     *  Print cameras if there are
+     */
+    if ($camerasTotal > 0) : ?>
+        <div id="camera-container">
+            <?php
             $camerasIds = $mycamera->getCamerasIds();
 
             foreach ($camerasIds as $camerasId) {
                 $mycamera->display($camerasId);
-            }
-        }
-
-        if ($camerasTotal == 0) : ?>
-            <div class="item">
-                <h2>Getting started</h2>
-
-                <p>Use the <img src="resources/icons/plus.svg" class="icon" /> button in the right corner to add a new camera</p> 
-            </div>
-            <?php
-        endif ?>
-    </div>
+            } ?>
+        </div>
+        <?php
+    endif ?>
 
     <?php include_once('../includes/footer.inc.php'); ?>
 </body>

@@ -23,6 +23,14 @@ class Autoloader
 
     public static function load()
     {
+        /**
+         *  Define a cookie with the actual URI
+         *  Useful to redirect to the same page after logout/login
+         */
+        if (!empty($_SERVER['REQUEST_URI'])) {
+            setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
+        }
+
         \Controllers\Autoloader::loadConstant();
         \Controllers\Autoloader::register();
         \Controllers\Autoloader::loadSession();

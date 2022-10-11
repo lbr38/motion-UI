@@ -117,8 +117,6 @@
         <span id="motion-status-chart-labels-data" labels="<?= $statusChartLabels ?>" status-data="<?= $statusChartData ?>"></span>
     </div>
 
-    <h2>Motion: stats</h2>
-
     <div>
         <form id="statsDateForm" autocomplete="off">
             <input type="date" name="dateStart" class="input-small" value="<?= $statsDateStart ?>" />

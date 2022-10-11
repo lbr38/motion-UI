@@ -29,8 +29,8 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 - Enable **autostart and stop** of the motion service, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion service will be automatically started as nobody is at home.
 - Receive **mail alerts** on motion detection.
 - Visualize captured images and videos and/or download them.
-- Modify **motion** configuration files.
-- Vizualize http cameras stream.
+- Edit **motion** configuration files.
+- Visualize http cameras stream.
 
 <hr>
 
@@ -214,7 +214,6 @@ Once the configuration is applied, you can access motion-UI through a web browse
 
 - Login: **admin**
 - Password: **motionui**
-
 
 ## Useful
 
