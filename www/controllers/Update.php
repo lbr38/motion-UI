@@ -55,14 +55,9 @@ class Update
     private function download()
     {
         /**
-         *  Quit if wget if not installed
+         *  Try to download release tar
          */
-        if (!file_exists('/usr/bin/wget')) {
-            throw new Exception('/usr/bin/wget not found.');
-        }
-
-        exec('wget --no-cache -q "https://github.com/lbr38/motion-UI/releases/download/' . GIT_VERSION . '/motion-UI_' . GIT_VERSION . '.tar.gz" -O "' . $this->workingDir . '/motion-UI_' . GIT_VERSION . '.tar.gz"', $output, $return);
-        if ($return != 0) {
+        if (!copy('https://github.com/lbr38/motion-UI/releases/download/' . GIT_VERSION . '/motion-UI_' . GIT_VERSION . '.tar.gz', $this->workingDir . '/motion-UI_' . GIT_VERSION . '.tar.gz')) {
             throw new Exception('Error while downloading new release.');
         }
 

@@ -3,7 +3,7 @@
     if (UPDATE_AVAILABLE == "yes") : ?>
         <div id="new-release-div">
             <span class="center yellowtext">New release available: <?= GIT_VERSION ?></span>
-            <a href="?action=update" title="Update to <?= GIT_VERSION ?>"><button class="btn-xxsmall-yellow">↻</button></a>
+            <a href="?action=update" title="Update to <?= GIT_VERSION ?>"><button class="btn-medium-yellow">↻ Update now</button></a>
         </div>
         <?php
     endif; ?>

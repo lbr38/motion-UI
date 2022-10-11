@@ -68,7 +68,7 @@
                          */
                         $totalEventsCount = $mymotion->getDailyEventCount($date);
 
-                        echo '<h3>' . $date . ' (' . $totalEventsCount . ' events)</h3>';
+                        echo '<h2>' . $date . ' (' . $totalEventsCount . ' events)</h2>';
                     }
 
                     /**
