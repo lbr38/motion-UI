@@ -68,7 +68,6 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
             response(HTTP_OK, '');
         }
 
-
         /**
          *  If action doesn't match any action above
          */

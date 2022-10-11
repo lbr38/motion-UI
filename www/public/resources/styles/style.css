@@ -379,13 +379,6 @@ input:checked { opacity: 1; }
     height: 30%;
 }
 
-#settings div.flex {
-    align-content: center;
-    align-items: center;
-    justify-content: flex-start;
-    column-gap: 5px;
-}
-
 /* boutons switch-field */
 .switch-field {
     display: flex;
@@ -503,6 +496,13 @@ input:checked { opacity: 1; }
 
 #top-buttons-container img {
     height: 30px;
+}
+
+#settings div.flex {
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 5px;
 }
 
 .param-slide-container {

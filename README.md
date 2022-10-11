@@ -59,18 +59,18 @@ Following **dependencies** are required:
 - **motion**: the motion detection software (if not aleready installed)
 - **sqlite**: motion-UI service may need to access and insert data in motion-UI database
 - **mutt**: to receive mail alerts when a new motion has been detected
-- **wget** and **curl**: to check for new release available and download it
+- **curl**: to check for new release available and download it
 
 **Installation on a Debian system:**
 
 ```
-apt install motion sqlite3 mutt wget curl
+apt install motion sqlite3 mutt curl
 ```
 
 **Installation on a Redhat/CentOS system:**
 
 ```
-yum install motion sqlite mutt wget curl
+yum install motion sqlite mutt curl
 ```
 
 - The server running **motion** must run a webserver with PHP enabled (nginx recommended) to run **motion-UI**.
@@ -78,13 +78,13 @@ yum install motion sqlite mutt wget curl
 **Installation on a Debian system** (you will need to have access to a repository providing PHP8.1 packages):
 
 ```
-apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3
+apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3 php8.1-curl
 ```
 
 **Installation on a Redhat/CentOS system** (you will need to have access to a repository providing PHP8.1 packages):
 
 ```
-yum install nginx php-fpm php-cli php-pdo
+yum install nginx php-fpm php-cli php-pdo php-curl
 ```
 
 - You later may need a **domain name** and DNS configuration to make sure you can access **motion-UI** from outside.

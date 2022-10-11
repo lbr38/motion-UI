@@ -179,7 +179,7 @@ class Camera
                 /**
                  *  Get image from http camera
                  */
-                $this->downloadImage($this->id, $this->url); ?>
+                //$this->downloadImage($this->id, $this->url); ?>
 
                 <!-- Camera image -->
                 <img src=".live/camera<?= $this->id ?>/image" style="transform:rotate(<?= $this->rotate ?>deg);">
@@ -284,11 +284,19 @@ class Camera
     public function checkAvailability(string $url)
     {
         /**
-         *  On vérifie si la caméra est accessible par un curl (timeout de 1sec)
+         *  Checks if camera is available with a tiemout of 1sec
+         *  To avoid long page loading when some cameras are offline
          */
-        exec("curl -m 1 -f -L -k " . $url . " > /dev/null", $output, $return);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_exec($ch);
+        curl_close($ch);
 
-        if ($return != 0) {
+        if (curl_errno($ch) != 0) {
             return false;
         }
 
@@ -303,10 +311,7 @@ class Camera
         if (!is_dir(ROOT . '/public/.live/camera' . $this->id)) {
             mkdir(ROOT . '/public/.live/camera' . $this->id, 0770, true);
         }
-
-        exec('wget ' . $url . ' -O ' . ROOT . '/public/.live/camera' . $id . '/image', $output, $return);
-
-        if ($return != 0) {
+        if (!copy($url, ROOT . '/public/.live/camera' . $id . '/image')) {
             return false;
         }
 
@@ -323,12 +328,12 @@ class Camera
         /**
          *  Check availability before
          */
-        // if ($this->checkAvailability($this->url) === false) {
-        //     /**
-        //      *  Throw exception that will make ajax print an 'unavailable div' for this camera
-        //      */
-        //     throw new Exception('Unavailable');
-        // }
+        if ($this->checkAvailability($this->url) === false) {
+            /**
+             *  Throw exception that will make ajax print an 'unavailable div' for this camera
+             */
+            throw new Exception('Unavailable');
+        }
 
         /**
          *  Try to download a new image
