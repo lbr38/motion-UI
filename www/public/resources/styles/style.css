@@ -51,18 +51,24 @@ b, strong {
     font-weight: bolder;
 }
 
+h1 {
+    color: white;
+    width: max-content;
+    font-size: 18px;
+    margin: 70px auto 50px auto;
+    border-bottom: 1px solid #15bf7f;
+}
+
 h2, h3 {
     color: white;
     font-weight: 600;
     margin-top: 20px;
     margin-bottom: 10px;
-    text-align: center;
 }
 
 h3 {
     font-weight: 600;
-    font-size: 14px;
-    text-align: left;
+    text-align: center;
 }
 
 p, h2, h3 {
@@ -347,8 +353,8 @@ input:checked { opacity: 1; }
 }
 /* Boutons carré */
 .button-xxsmall, .btn-xxsmall-blue, .btn-xxsmall-green, .btn-xxsmall-red , .btn-xxsmall-yellow {
-    margin: 2px;
-    width: 30px;
+    /* margin: 2px; */
+    /* width: 30px; */
 }
 
 /* Tous les boutons bleus :hover */
@@ -371,6 +377,13 @@ input:checked { opacity: 1; }
 [class^="btn-square"] img.icon {
     width: 30%;
     height: 30%;
+}
+
+#settings div.flex {
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 5px;
 }
 
 /* boutons switch-field */
@@ -476,11 +489,12 @@ input:checked { opacity: 1; }
 }
 
 #top-buttons-container {
-    width: 100%;
-    height: 40px;
+    margin-right: 10px;
+    height: 50px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    column-gap: 5px;
 }
 
 #top-buttons-container div {
@@ -488,7 +502,7 @@ input:checked { opacity: 1; }
 }
 
 #top-buttons-container img {
-    height: 20px;
+    height: 30px;
 }
 
 .param-slide-container {
@@ -499,6 +513,7 @@ input:checked { opacity: 1; }
     right: 0;
     z-index: 99;
     display: none;
+    background-color: #3b3b3b2b;
 }
 
 .param-slide {
@@ -570,7 +585,7 @@ input:checked { opacity: 1; }
 }
 
 #configuration-container {
-    width: 98%;
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(1, 100%);
     justify-content: space-evenly;
@@ -850,6 +865,10 @@ pre {
 
 /* Desktop configuration */
 @media (min-width:1025px) {
+    h1 {
+        margin: 70px 0 50px 35px;
+    }
+
     #settings-sub-container, #userspace-sub-container {
         width: 25%;
     }
@@ -863,7 +882,7 @@ pre {
     }
 
     #configuration-container {
-        grid-template-columns: repeat(2, 49%);
+        grid-template-columns: repeat(2, 50%);
     }
 
     .motion-conf-div {
@@ -877,11 +896,6 @@ pre {
         grid-template-columns: repeat(2, 50%);
     }
 
-    /* #motion-stats-container {
-        grid-template-columns: repeat(2, 45%);
-        justify-content: space-evenly;
-    } */
-
     #events-captures-container {
         grid-template-columns: repeat(2, 45%);
         justify-content: space-evenly;
@@ -889,5 +903,9 @@ pre {
 
     #camera-container {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    #top-buttons-container img {
+        height: 20px;
     }
 }

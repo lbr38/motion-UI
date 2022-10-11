@@ -21,6 +21,14 @@ MUTT_CMD=""
 MUTT_CONF=""
 COUNTER="0"
 
+# Check if a new release version is available on Github
+function checkVersion
+{
+    if [ -f "${DATA_DIR}/version.available" ];then
+        curl -s -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/lbr38/motion-UI/main/www/version" > ${DATA_DIR}/version.available
+    fi
+}
+
 # Database and files checks
 function generalChecks
 {
@@ -164,12 +172,16 @@ function setDbMotionStatus
     /usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "INSERT INTO motion_status (Date, Time, Status) VALUES ('$CURRENT_DATE', '$CURRENT_TIME', '$MOTION_STATUS')"
 }
 
-# Check if a new version is available on Github
-function checkVersion
+# Check current motion service status and add it into database
+function monitorMotionStatus
 {
-    if [ -f "${DATA_DIR}/version.available" ];then
-        curl -s -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/lbr38/motion-UI/main/www/version" > ${DATA_DIR}/version.available
+    MOTION_STATUS="inactive"
+
+    if systemctl is-active --quiet motion;then
+        MOTION_STATUS="active"
     fi
+
+    setDbMotionStatus
 }
 
 # Send a mail alert on a new motion event
@@ -414,8 +426,11 @@ while true; do
     # Execute actions on service start (COUNTER = 0) and then every hour (COUNTER = 720)
     # 3600 / 5sec (sleep 5) = 720
     if [ "$COUNTER" -eq "0" ] || [ "$COUNTER" -eq "720" ];then
-        # Check version
+        # Check new release version available
         checkVersion
+
+        # Every hour, check motion service and add its status in database
+        monitorMotionStatus
 
         # Reset counter
         COUNTER="0"

@@ -2,7 +2,7 @@
     <div class="param-slide">
         <img id="hide-new-camera-btn" src="resources/icons/error-close.svg" class="close-btn pointer lowopacity" title="Close" />
 
-        <h2>Add a new camera</h2>
+        <h2 class="center">Add a new camera</h2>
 
         <span class="block center lowopacity">Add a MJPEG-stream based camera (mjpg_streamer, ustreamer...)</span>
         <br>

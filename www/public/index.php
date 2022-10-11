@@ -76,7 +76,7 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
         <?php
         if ($printLiveBtn == 'yes') : ?>
             <div class="item">
-                <h2>Live</h2>
+                <h3>Live</h3>
                 <a href="<?= '/live.php' ?>">
                     <button class="btn-square-green"><img src="resources/icons/camera.svg" class="icon" /></button>
                 </a>
@@ -87,7 +87,7 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
 
         if ($printMotionStartBtn == 'yes') : ?>
             <div id="motion-start-div" class="item">
-                <h2>Motion</h2>
+                <h3>Motion</h3>
 
                 <?php
                 if ($motionStatus != 'active') : ?>
@@ -125,9 +125,9 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
     <div id="how-to-alert-container" class="config-div hide">
         <?php include_once('../includes/how-to-alert.php'); ?>
     </div>
-
-    <hr>
     
+    <h1>MOTION STATS & EVENTS</h1>
+
     <div id="motion-stats-captures-container">
         <?php
         /**
@@ -144,8 +144,6 @@ $autostartKnownDevices = $mymotion->getAutostartDevices();
             include_once('../includes/motion-events.php');
         } ?>
     </div>
-
-    <hr>
 
     <?php
     /**

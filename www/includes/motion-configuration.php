@@ -1,6 +1,6 @@
-<div id="motion-configuration-div">
+<h1>MOTION CONFIGURATION</h1>
 
-    <h2>Motion: configuration</h2>
+<div id="motion-configuration-div">
 
     <div id="configuration-container">
 
@@ -21,10 +21,11 @@
                 <div>
                     <div class="center">
                         <input type="text" class="input-large center rename-motion-conf-input" filename="<?= $configurationFile ?>" placeholder="Rename <?= $configurationFile ?>" value="<?= $configurationFile ?>">
-                        
+                        <br>
+
                         <?php
                         if ($configurationFile == 'motion.conf') {
-                            echo '<br><span class="lowopacity">(main configuration file)</span>';
+                            echo '<span class="lowopacity">(main configuration file)</span>';
                         }
                         ?>
 
@@ -33,18 +34,18 @@
                          *  Check that config file is readable and writable
                          */
                         if (!is_readable('/etc/motion/' . $configurationFile)) {
-                            echo '<span class="yellowtext"><img src="resources/icons/warning.png" class="icon" />File not readable</span>';
+                            echo '<span class="yellowtext"><img src="resources/icons/warning.png" class="icon" />File is not readable</span>';
                         }
                         if (!is_writable('/etc/motion/' . $configurationFile)) {
-                            echo '<span class="yellowtext"><img src="resources/icons/warning.png" class="icon" />File not writable</span>';
+                            echo '<span class="yellowtext"><img src="resources/icons/warning.png" class="icon" />File is not writable</span>';
                         }
                         ?>
 
                         <br><br>
 
-                        <span class="btn-small-green show-motion-conf-btn" filename="<?= $configurationFile ?>">Show/Hide</span>
-                        <span class="btn-small-green duplicate-motion-conf-btn" filename="<?= $configurationFile ?>">Duplicate</span>
-                        <span class="btn-xsmall-red delete-motion-conf-btn" filename="<?= $configurationFile ?>">Delete</span>
+                        <span title="Show/hide configuration" class="btn-small-green show-motion-conf-btn" filename="<?= $configurationFile ?>">Show/Hide</span>
+                        <span title="Duplicate file" class="btn-small-green duplicate-motion-conf-btn" filename="<?= $configurationFile ?>">Duplicate</span>
+                        <span title="Delete file" class="btn-xxsmall-red delete-motion-conf-btn" filename="<?= $configurationFile ?>"><img src="resources/icons/bin.svg" class="icon" /></span>
                     </div>
 
                     <br>
