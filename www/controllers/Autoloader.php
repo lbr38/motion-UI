@@ -14,6 +14,7 @@ class Autoloader
             $className = str_replace('\\', '/', $className);
             $className = str_replace('Models', 'models', $className);
             $className = str_replace('Controllers', 'controllers', $className);
+            $className = str_replace('Views', 'views', $className);
 
             if (file_exists(ROOT . '/' . $className . '.php')) {
                 require_once(ROOT . '/' . $className . '.php');
@@ -126,19 +127,19 @@ class Autoloader
     }
 
     /**
-     *  Démarrage et vérification de la session en cours
+     *  Start and check actual session
      */
     private static function loadSession()
     {
         /**
-         *  On démarre la session
+         *  Start session
          */
         if (!isset($_SESSION)) {
             session_start();
         }
 
         /**
-         *  Si les variables de session username ou role sont vides alors on redirige vers la page de login
+         *  If username and role session variables are empty then redirect to login page
          */
         if (empty($_SESSION['username']) or empty($_SESSION['role'])) {
             header('Location: login.php');
@@ -146,15 +147,15 @@ class Autoloader
         }
 
         /**
-         *  Si la session a dépassé les 30min alors on redirige vers logout.php qui se chargera de détruire la session
+         *  If session has reached 60min timeout then redirect to logout page
          */
-        if (isset($_SESSION['start_time']) && (time() - $_SESSION['start_time'] > 1800)) {
+        if (isset($_SESSION['start_time']) && (time() - $_SESSION['start_time'] > 3600)) {
             header('Location: logout.php');
             exit();
         }
 
         /**
-         *  On défini l'heure de création de la session (ou on la renouvelle si la session est toujours en cours)
+         *  Define the new session start time (or renew the current session)
          */
         $_SESSION['start_time'] = time();
     }

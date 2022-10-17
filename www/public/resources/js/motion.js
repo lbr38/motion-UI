@@ -184,10 +184,17 @@ $(document).on('click','#disable-autostart-btn',function () {
 });
 
 /**
- *  Event: configure autostart
+ *  Event: show autostart div
  */
 $(document).on('click','#configure-autostart-btn',function () {
-    $("#autostart-div").slideToggle('100');
+    openSlide("#autostart-div");
+});
+
+/**
+ *  Event: hide autostart div
+ */
+$(document).on('click','#hide-autostart-btn',function () {
+    closeSlide("#autostart-div");
 });
 
 /**
@@ -216,10 +223,17 @@ $(document).on('click','#disable-alert-btn',function () {
 });
 
 /**
- *  Event: configure alerts
+ *  Event: show alerts div
  */
 $(document).on('click','#configure-alerts-btn',function () {
-    $("#alert-div").slideToggle('100');
+    openSlide('#alert-div');
+});
+
+/**
+ *  Event: hide alerts div
+ */
+$(document).on('click','#hide-alert-btn',function () {
+    closeSlide('#alert-div');
 });
 
 /**
@@ -230,31 +244,23 @@ $(document).on('click','#how-to-alert-btn',function () {
 });
 
 /**
- *  Event: validate select event dates form
+ *  Event: select stats dates
  */
-$(document).on('submit','#statsDateForm',function () {
-    event.preventDefault();
-
-    var dateStart = $(this).find('input[type=date][name="dateStart"]').val();
-    var dateEnd = $(this).find('input[type=date][name="dateEnd"]').val();
+$(document).on('change','.stats-date-input',function () {
+    var dateStart = $('.stats-date-input[name=dateStart]').val();
+    var dateEnd = $('.stats-date-input[name=dateEnd]').val();
 
     statsDateSelect(dateStart, dateEnd);
-
-    return false;
 });
 
 /**
- *  Event: validate select event dates form
+ *  Event: select events dates
  */
-$(document).on('submit','#eventDateForm',function () {
-    event.preventDefault();
-
-    var dateStart = $(this).find('input[type=date][name="dateStart"]').val();
-    var dateEnd = $(this).find('input[type=date][name="dateEnd"]').val();
+$(document).on('change','.event-date-input',function () {
+    var dateStart = $('.event-date-input[name=dateStart]').val();
+    var dateEnd = $('.event-date-input[name=dateEnd]').val();
 
     eventDateSelect(dateStart, dateEnd);
-
-    return false;
 });
 
 /**
@@ -309,12 +315,80 @@ $(document).on('click','.duplicate-motion-conf-btn',function () {
 });
 
 /**
+ *  Event: save motion configuration file
+ */
+$(document).on('click','.save-motion-conf-btn',function () {
+    var options_array = [];
+
+    /**
+     *  Get the name of the configuration file
+     */
+    var filename = $(this).attr('filename');
+    var form = '.motion-configuration-form[filename="'+filename+'"]';
+
+    /**
+     *  Get all the parameters and their value in the form
+     */
+
+    /**
+     *  First count all input that has name=option-name in the form
+     */
+    var countTotal = $(form).find('input[name=option-name]').length
+
+    /**
+     *  Every configuration param and its value have an Id
+     *  Getting param name and the value that have the same Id, then push it all into an array
+     */
+    if (countTotal > 0) {
+        for (let i = 0; i < countTotal; i++) {
+            /**
+             *  Get parameter status (slider checked or not)
+             */
+            if ($(form).find('input[name=option-status][option-id=' + i + ']').is(':checked')) {
+                var option_status = 'enabled';
+            } else {
+                var option_status = '';
+            }
+            /**
+             *  Get parameter name and its value
+             */
+            var option_name = $(form).find('input[name=option-name][option-id=' + i + ']').val();
+            var option_value = $(form).find('input[name=option-value][option-id=' + i + ']').val()
+
+            /**
+             *  Push all to options_array
+             */
+            options_array.push(
+                {
+                    status: option_status,
+                    name: option_name,
+                    value: option_value
+                }
+            );
+        }
+    }
+
+    configure(filename, options_array);
+});
+
+/**
+ *  Event: set up event in a motion configuration file
+ */
+$(document).on('click','.setup-event-motion-conf-btn',function () {
+    var filename = $(this).attr('filename');
+
+    confirmBox('This will overwrite <b>on_event_start</b>, <b>on_event_end</b> and <b>on_movie_end</b> parameters in this file. Are you sure?', function () {
+        setUpEvent(filename);
+    }, 'Confirm');
+});
+
+/**
  *  Event: delete motion configuration file
  */
 $(document).on('click','.delete-motion-conf-btn',function () {
     var filename = $(this).attr('filename');
 
-    deleteConfirm('Are you sure you want to delete ' + filename + '?', function () {
+    confirmBox('Are you sure you want to delete ' + filename + '?', function () {
         deleteConf(filename)
     });
 });
@@ -339,7 +413,7 @@ $(document).on('keypress','.rename-motion-conf-input',function () {
 $(document).on('click','.show-motion-conf-btn',function () {
     var filename = $(this).attr('filename');
 
-    $("div[filename='" + filename + "']").slideToggle('100');
+    $(".motion-file-configuration[filename='" + filename + "']").slideToggle('100');
 });
 
 /**
@@ -411,69 +485,31 @@ $(document).on('submit','#alert-conf-form',function () {
     var sundayStart = $(this).find('input[type=time][name="sunday-start"]').val();
     var sundayEnd = $(this).find('input[type=time][name="sunday-end"]').val();
     var mailRecipient = $(this).find('input[type=email][name="mail-recipient"]').val();
-    var muttConfig = $(this).find('input[type=text][name="mutt-config"]').val();
 
-    configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednesdayStart, wednesdayEnd, thursdayStart, thursdayEnd, fridayStart, fridayEnd, saturdayStart, saturdayEnd, sundayStart, sundayEnd, mailRecipient, muttConfig);
+    configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednesdayStart, wednesdayEnd, thursdayStart, thursdayEnd, fridayStart, fridayEnd, saturdayStart, saturdayEnd, sundayStart, sundayEnd, mailRecipient);
 
     return false;
 });
 
 /**
- *  Event: Configure motion
+ *  Event: Generate muttrc template file
  */
-$(document).on('submit','.motion-configuration-form',function () {
+$(document).on('click','#generate-muttrc-btn',function () {
+    generateMuttrc();
+});
+
+/**
+ *  Event: Edit muttrc configuration
+ */
+$(document).on('submit','#mutt-config-form',function () {
     event.preventDefault();
 
-    var options_array = [];
+    var realName = $(this).find('input[type=text][name=realname]').val();
+    var from = $(this).find('input[type=email][name=from]').val();
+    var smtpPassword = $(this).find('input[type=password][name=smtp-password]').val();
+    var smtpUrl = $(this).find('input[type=text][name=smtp-url]').val();
 
-    /**
-     *  Get the name of the configuration file
-     */
-    var filename = $(this).attr('filename');
-
-    /**
-     *  Get all the parameters and their value in the form
-     */
-
-    /**
-     *  D'abord on compte le nombre d'input de class 'sourceConfForm-optionName' dans ce formulaire
-     */
-    var countTotal = $(this).find('input[name=option-name]').length
-
-    /**
-     *  Chaque paramètre de configuration et leur valeur associée possèdent un id
-     *  On récupère le nom du paramètre et sa valeur associée ayant le même id et on push le tout dans un tableau
-     */
-    if (countTotal > 0) {
-        for (let i = 0; i < countTotal; i++) {
-            /**
-             *  Get parameter status (slider checked or not)
-             */
-            if ($(this).find('input[name=option-status][option-id=' + i + ']').is(':checked')) {
-                var option_status = 'enabled';
-            } else {
-                var option_status = '';
-            }
-            /**
-             *  Get parameter name and its value
-             */
-            var option_name = $(this).find('input[name=option-name][option-id=' + i + ']').val();
-            var option_value = $(this).find('input[name=option-value][option-id=' + i + ']').val()
-
-            /**
-             *  Push all to options_array
-             */
-            options_array.push(
-                {
-                    status: option_status,
-                    name: option_name,
-                    value: option_value
-                }
-            );
-        }
-    }
-
-    configure(filename, options_array);
+    editMutt(realName, from, smtpPassword, smtpUrl);
 
     return false;
 });
@@ -706,8 +742,9 @@ function enableAlert(status)
  * @param {*} saturdayEnd
  * @param {*} sundayStart
  * @param {*} sundayEnd
+ * @param {*} mailRecipient
  */
-function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednesdayStart, wednesdayEnd, thursdayStart, thursdayEnd, fridayStart, fridayEnd, saturdayStart, saturdayEnd, sundayStart, sundayEnd, mailRecipient, muttConfig)
+function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednesdayStart, wednesdayEnd, thursdayStart, thursdayEnd, fridayStart, fridayEnd, saturdayStart, saturdayEnd, sundayStart, sundayEnd, mailRecipient)
 {
     $.ajax({
         type: "POST",
@@ -728,8 +765,60 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
             saturdayEnd: saturdayEnd,
             sundayStart: sundayStart,
             sundayEnd: sundayEnd,
-            mailRecipient: mailRecipient,
-            muttConfig: muttConfig
+            mailRecipient: mailRecipient
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentById('alert-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ *  Ajax: Generate muttrc template file
+ */
+function generateMuttrc()
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "generateMuttrc"
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentById('alert-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ *  Ajax: Edit muttrc configuration file
+ *  @param {*} content
+ */
+function editMutt(realName, from, smtpPassword, smtpUrl)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "editMutt",
+            realName: realName,
+            from: from,
+            smtpUrl: smtpUrl,
+            smtpPassword: smtpPassword
         },
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
@@ -839,7 +928,6 @@ function configure(filename, options_array)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('motion-configuration-div');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -920,6 +1008,32 @@ function renameConf(filename, newName)
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
             reloadContentById('motion-configuration-div');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: set up event registering in config file
+ * @param {*} filename
+ */
+function setUpEvent(filename)
+{
+    $.ajax({
+        type: "POST",
+        url: "controllers/motion/ajax.php",
+        data: {
+            action: "setUpEvent",
+            filename: filename
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentByClass('motion-file-configuration[filename="'+filename+'"]');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

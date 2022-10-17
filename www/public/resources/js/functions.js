@@ -30,6 +30,15 @@ function reloadContentById(id)
 }
 
 /**
+ * Reload content of an element, by its class
+ * @param {*} className
+ */
+function reloadContentByClass(className)
+{
+    $('.' + className).load(location.href + ' .' + className + ' > *');
+}
+
+/**
  *  Print alert or error message
  *  @param {string} message
  *  @param {string} type
@@ -64,14 +73,14 @@ function printAlert(message, type = null, timeout = 2500)
  * @param {*} myfunction
  * @param {*} confirmBox
  */
-function deleteConfirm(message, myfunction, confirmBox = 'Delete')
+function confirmBox(message, myfunction, confirmBox = 'Delete')
 {
     /**
      *  D'abord on supprime toute alerte déjà active et qui ne serait pas fermée
      */
      $("#newConfirmAlert").remove();
 
-    var $content = '<div id="newConfirmAlert" class="confirmAlert"><span class="confirmAlert-message">' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm">' + confirmBox + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
+    var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm">' + confirmBox + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
 
     $('footer').append($content);
 

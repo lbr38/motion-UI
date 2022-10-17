@@ -162,13 +162,13 @@ class Camera
          *  Get camera configuration (url,..)
          */
         $this->getConfiguration($id);
-        ?>
+
+        include('../includes/configure-camera.inc.php'); ?>
 
         <div id="camera<?= $id ?>-container">
 
             <h3><?= $this->name ?></h3>
 
-            <!-- Loading image div -->
             <div class="loading-camera-image">
                 <button class="btn-square-none"><img src="resources/icons/loading.gif" class="icon" title="Loading image" /></button>
                 <span class="block center lowopacity">Loading image</span>
@@ -193,58 +193,25 @@ class Camera
 
             <br>
             <div class="camera-btn-div">
-                <button id="camera<?= $id ?>-toggle" class="configure-camera-btn btn-small-green" camera-id="<?= $id ?>">Configure</button>
-                <button class="delete-camera-btn btn-small-red" camera-id="<?= $id ?>">Delete</button>
-                <button class="full-screen-camera-btn btn-medium-yellow" camera-id="<?= $id ?>">Full screen</button>
+                <div class="slide-btn configure-camera-btn" title="Configure" camera-id="<?= $id ?>">
+                    <img src="resources/icons/cog.svg" />
+                    <span>Configure</span>
+                </div>
+
+                <div class="slide-btn-red delete-camera-btn" title="Delete" camera-id="<?= $id ?>">
+                    <img src="resources/icons/bin.svg" />
+                    <span>Delete</span>
+                </div>
+
+                <div class="slide-btn-yellow full-screen-camera-btn" title="Full screen" camera-id="<?= $id ?>">
+                    <img src="resources/icons/screen.svg" />
+                    <span>Full screen</span>
+                </div> 
+                
                 <button class="close-full-screen-camera-btn btn-medium-yellow" camera-id="<?= $id ?>">Close full screen</button>
             </div>
 
             <br>
-            
-            <div class="camera-configuration-div config-div hide" camera-id="<?= $id ?>">
-                <form class="edit-camera-configuration-form" camera-id="<?= $id ?>" autocomplete="off">
-                    <table>
-                        <tr>
-                            <td class="td-30">Id</td>
-                            <td>
-                                <input type="text" value="<?= $id ?>" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td-30">Name</td>
-                            <td>
-                                <input type="text" name="camera-name" value="<?= $this->name ?>" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td-30">URL</td>
-                            <td>
-                                <input type="text" name="camera-url" value="<?= $this->url ?>" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td-30">Rotate</td>
-                            <td>
-                                <select name="camera-rotate">
-                                    <option value="0" <?php echo ($this->rotate == "0") ? 'selected' : '' ?>>0</option>
-                                    <option value="90" <?php echo ($this->rotate == "90") ? 'selected' : '' ?>>90</option>
-                                    <option value="180" <?php echo ($this->rotate == "180") ? 'selected' : '' ?>>180</option>
-                                    <option value="270" <?php echo ($this->rotate == "270") ? 'selected' : '' ?>>270</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td-30">Refresh (sec.)</td>
-                            <td>
-                                <input type="number" name="camera-refresh" value="<?= $this->refresh ?>" />
-                            </td>
-                        </tr>
-                    </table>
-
-                    <br>
-                    <button type="submit" class="btn-small-green">Save</button>
-                </form>
-            </div>
 
             <script>
                 $(document).ready(function(){

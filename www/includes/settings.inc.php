@@ -40,16 +40,6 @@
                 <span>Motion alerts button</span>
             </div>
 
-            <h2>Motion statistics</h2>
-
-            <div class="flex">
-                <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-stats-btn" <?php echo ($settings['Print_motion_stats'] == 'yes') ? 'checked' : ''?>>
-                    <span class="onoff-switch-slider"></span>
-                </label>
-                <span>Print charts</span>
-            </div>
-
             <h2>Motion events</h2>
 
             <div class="flex">
@@ -58,6 +48,16 @@
                     <span class="onoff-switch-slider"></span>
                 </label>
                 <span>Print motion events and captures</span>
+            </div>
+
+            <h2>Motion metrics</h2>
+
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-stats-btn" <?php echo ($settings['Print_motion_stats'] == 'yes') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Print charts</span>
             </div>
 
             <h2>Motion configuration</h2>
@@ -72,7 +72,10 @@
        
             <br>
             <br>
-            <span id="save-settings-btn" class="btn-small-green pointer">Save</span>
+            <div id="save-settings-btn" class="round-btn" title="Save">
+                <img src="resources/icons/save.svg" />
+                <span>Save</span>
+            </div>
         </div>
     </div>
 </div>

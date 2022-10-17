@@ -1,9 +1,15 @@
 <footer>
     <?php
-    if (UPDATE_AVAILABLE == "yes") : ?>
+    if (true) :
+    // if (UPDATE_AVAILABLE == "yes") : ?>
         <div id="new-release-div">
-            <span class="center yellowtext">New release available: <?= GIT_VERSION ?></span>
-            <a href="?action=update" title="Update to <?= GIT_VERSION ?>"><button class="btn-medium-yellow">↻ Update now</button></a>
+            <span class="center yellowtext">A new release is available: <?= GIT_VERSION ?></span>
+            <a href="?action=update" title="Update to <?= GIT_VERSION ?>">
+                <div class="slide-btn-yellow" title="Update now">
+                    <img src="resources/icons/update.svg" />
+                    <span>Update now</span>
+                </div>
+            </a>
         </div>
         <?php
     endif; ?>

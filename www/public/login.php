@@ -17,7 +17,6 @@ $error = 0;
  *  Vérification de username et du mot de passe
  */
 if (!empty($_POST['username']) and !empty($_POST['password'])) {
-
     /**
      *  On continue si il n'y a pas eu d'erreur
      */

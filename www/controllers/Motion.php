@@ -122,20 +122,43 @@ class Motion
     }
 
     /**
-     *  Get total files recorded for the specified event Id
-     *  Id must be the autoincrement Id in database, not the motion's event Id
+     *  Return events between dates
      */
-    public function getEventFileCount(string $eventId)
+    public function getEventsDate(string $dateStart, string $dateEnd)
     {
-        return count($this->model->getEventFile($eventId));
+        return $this->model->getEventsDate($dateStart, $dateEnd);
     }
 
     /**
-     *  Return a list of the last events' files
+     *  Return events time by date
      */
-    public function getEvents(string $dateStart, string $dateEnd)
+    public function getEventsTime(string $date)
     {
-        return $this->model->getEvents($dateStart, $dateEnd);
+        return $this->model->getEventsTime($date);
+    }
+
+    /**
+     *  Return all events details by date and time
+     */
+    public function getEventsDetails(string $date, string $time)
+    {
+        return $this->model->getEventsDetails($date, $time);
+    }
+
+    /**
+     *  Return total event count by date
+     */
+    public function totalEventByDate(string $date)
+    {
+        return count($this->model->totalEventByDate($date));
+    }
+
+    /**
+     *  Return total files count from an event
+     */
+    public function totalFilesByEventId(string $eventId)
+    {
+        return count($this->model->totalFilesByEventId($eventId));
     }
 
     /**
@@ -299,7 +322,7 @@ class Motion
     /**
      *  Configure motion alerts
      */
-    public function configureAlert(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd, string $mailRecipient, string $muttConfig)
+    public function configureAlert(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd, string $mailRecipient)
     {
         $this->model->configureAlert(
             \Controllers\Common::validateData($mondayStart),
@@ -316,9 +339,67 @@ class Motion
             \Controllers\Common::validateData($saturdayEnd),
             \Controllers\Common::validateData($sundayStart),
             \Controllers\Common::validateData($sundayEnd),
-            \Controllers\Common::validateData($mailRecipient),
-            \Controllers\Common::validateData($muttConfig)
+            \Controllers\Common::validateData($mailRecipient)
         );
+    }
+
+    /**
+     *  Generate a new muttrc template file
+     */
+    public function generateMuttrc()
+    {
+        if (file_exists(DATA_DIR . '/.muttrc')) {
+            throw new Exception('Muttrc config file already exists');
+        }
+
+        /**
+         *  Touching the file
+         */
+        if (!touch(DATA_DIR . '/.muttrc')) {
+            throw new Exception('Error while creating muttrc config template');
+        }
+
+        /**
+         *  Setting proper permissions on the new file
+         */
+        if (!chmod(DATA_DIR . '/.muttrc', octdec("0660"))) {
+            throw new Exception('Error while setting permissions on ' . DATA_DIR . '/.muttrc');
+        }
+
+        if (!chgrp(DATA_DIR . '/.muttrc', 'motionui')) {
+            throw new Exception('Error while setting group owner on ' . DATA_DIR . '/.muttrc');
+        }
+
+        /**
+         *  Adding template configuration
+         */
+        if (!file_put_contents(DATA_DIR . '/.muttrc', file_get_contents(ROOT . '/templates/muttrc-template'))) {
+            throw new Exception('Error while generating muttrc config template');
+        }
+    }
+
+    /**
+     *  Save muttrc configuration
+     */
+    public function editMutt(string $realName, string $from, string $smtpUrl, string $smtpPassword)
+    {
+        $realName = Common::validateData($realName);
+        $from = Common::validateData($from);
+        $smtpPassword = Common::validateData($smtpPassword);
+        $smtpUrl = Common::validateData($smtpUrl);
+
+        $muttArray = array();
+        $muttArray['set ssl_starttls'] = 'yes';
+        $muttArray['set ssl_force_tls'] = 'yes';
+        $muttArray['set use_envelope_from'] = 'yes';
+        $muttArray['set copy'] = 'no';
+        $muttArray['set charset'] = 'utf-8';
+        $muttArray['set realname'] = $realName;
+        $muttArray['set from'] = $from;
+        $muttArray['set smtp_url'] = $smtpUrl;
+        $muttArray['set smtp_pass'] = $smtpPassword;
+
+        Common::writeToIni($muttArray, DATA_DIR . '/.muttrc');
     }
 
     /**
@@ -474,6 +555,77 @@ class Motion
          */
         if (!rename('/etc/motion/' . $filename, '/etc/motion/' . $newName)) {
             throw new Exception('Error while trying to rename ' . $filename);
+        }
+    }
+
+    /**
+     *  Set up event registering in specified configuration file
+     */
+    public function setUpEvent(string $filename)
+    {
+        $filename = Common::validateData($filename);
+
+        if (!file_exists('/etc/motion/' . $filename)) {
+            throw new Exception('Specified configuratin file does not exist <b>' . $filename . '</b>');
+        }
+
+        if (!is_writable('/etc/motion/' . $filename)) {
+            throw new Exception('Configuration file <b>' . $filename . '</b> is not writable');
+        }
+
+        $content = file_get_contents('/etc/motion/' . $filename);
+
+        /**
+         *  Check if 'on_event_start' param is present in the file
+         *  If so, remove it
+         *  Then just add the parameter with its new value
+         *
+         *  Regex:
+         *  ;?    => matches ';' if there are
+         *  \s*?  => matches one or more white spaces if there are
+         */
+        if (preg_match('/;?\s*?on_event_start.*/i', $content)) {
+            $content = preg_replace('/;?\s*?on_event_start.*/i', PHP_EOL, $content);
+        }
+        /**
+         *  Also check if 'camera_name' param is present and uncomment it if it is commented
+         */
+        if (preg_match('/;?\s*?camera_name.*/i', $content)) {
+            $content = preg_replace('/;?\s*?camera_name/i', 'camera_name', $content);
+
+            /**
+             *  --cam-name is added if 'camera_name' param is present
+             */
+            $content .= PHP_EOL . 'on_event_start /var/lib/motionui/tools/event --cam-id %t --cam-name %$ --register-event %v' . PHP_EOL;
+        } else {
+            $content .= PHP_EOL . 'on_event_start /var/lib/motionui/tools/event --cam-id %t --register-event %v' . PHP_EOL;
+        }
+
+        /**
+         *  Check if 'on_event_end' param is present in the file
+         *  If so, remove it
+         *  Then just add the parameter with its new value
+         */
+        if (preg_match('/;?\s*?on_event_end.*/i', $content)) {
+            $content = preg_replace('/;?\s*?on_event_end.*/i', PHP_EOL, $content);
+        }
+        $content .= PHP_EOL . 'on_event_end /var/lib/motionui/tools/event --cam-id %t --end-event %v' . PHP_EOL;
+
+        /**
+         *  Check if 'on_movie_end' param is present in the file
+         *  If so, remove it
+         *  Then just add the parameter with its new value
+         */
+        if (preg_match('/;?\s*?on_movie_end.*/i', $content)) {
+            $content = preg_replace('/;?\s*?on_movie_end(.*)/i', PHP_EOL, $content);
+        }
+        $content .= PHP_EOL . 'on_movie_end /var/lib/motionui/tools/event --cam-id %t --event %v --file %f' . PHP_EOL;
+
+        /**
+         *  Write content to the file
+         */
+        if (!file_put_contents('/etc/motion/' . $filename, $content)) {
+            throw new Exception('Error while writing to <b>/etc/motion/' . $filename . '</b>');
         }
     }
 }

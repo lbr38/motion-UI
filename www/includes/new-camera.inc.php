@@ -15,7 +15,8 @@
             <input type="text" name="camera-url" placeholder="e.g. http(s)://.../snapshot" />
             
             <br><br>
-            <button class="btn-medium-green">Add</button>
+            
+            <button type="submit" class="btn-small-green">Add</button>
         </form>
     </div>
 </div>
