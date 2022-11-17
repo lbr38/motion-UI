@@ -662,6 +662,10 @@ textarea {
     overflow-y: auto;
 }
 
+.event-id {
+    margin: 2px 0 0 20px;
+}
+
 .event-running img {
     height: 20px;
 }
