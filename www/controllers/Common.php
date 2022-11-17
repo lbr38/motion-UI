@@ -10,6 +10,7 @@ class Common
     public static function writeToIni(array $configuration, string $iniFile)
     {
         $res = array();
+
         foreach ($configuration as $key => $val) {
             if (is_array($val)) {
                 $res[] = "[$key]";

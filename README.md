@@ -59,7 +59,7 @@ Following **dependencies** are required:
 - **motion**: the motion detection software (if not aleready installed)
 - **sqlite**: motion-UI service may need to access and insert data in motion-UI database
 - **mutt**: to receive mail alerts when a new motion has been detected
-- **curl**: to check for new release available and download it
+- **curl**: to check for new available release
 
 **Installation on a Debian system:**
 

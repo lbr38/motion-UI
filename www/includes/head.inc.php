@@ -18,7 +18,7 @@
 </head>
 
 <?php
-if (!empty($_GET['action']) and \Controllers\Common::validateData($_GET['action']) == "update") {
+if (!empty($_GET['action']) and $_GET['action'] == "update") {
     $myupdate = new \Controllers\Update();
     $updateStatus = $myupdate->update();
 }

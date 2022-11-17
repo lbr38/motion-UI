@@ -172,6 +172,7 @@ function installation
     # Create webdir and datadir
     mkdir -p "$WWW_DIR"
     mkdir -p "$DATA_DIR"
+    mkdir -p "$DATA_DIR/events"
 
     # Copy web sources
     cp -r ${PWD}/www/* ${WWW_DIR}/
@@ -206,6 +207,9 @@ function installation
     fi
 
     echo -e "\n ${GREEN}Installation success!${RESET}"
+    echo -e " You can login once you have completed your webserver configuration."
+    echo -e " Login     :  ${YELLOW}admin${RESET}"
+    echo -e " Password  :  ${YELLOW}motionui${RESET}\n"
 }
 
 echo '

@@ -18,7 +18,6 @@ DEVICES_IP=""
 ALERT_ENABLED=""
 ALERT_RECIPIENT=""
 MUTT_CMD=""
-MUTT_CONF=""
 COUNTER="0"
 
 # Check if a new release version is available on Github
@@ -71,6 +70,16 @@ function getAlertConf
     ALERT_ENABLED=$(/usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "SELECT Status FROM alerts" | sed 's/ //g')
 
     if [ "$ALERT_ENABLED" == "enabled" ];then
+        # If no mutt config file is found, disable alert
+        if [ ! -f "$DATA_DIR/.muttrc" ];then
+            echo "Error: No mutt configuration file has been found at $DATA_DIR/.muttrc, alert(s) will not be send."
+            
+            ALERT_ENABLED="disabled"
+            
+            return
+        fi
+
+        # Get mail recipient(s)
         ALERT_RECIPIENT=$(/usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "SELECT Recipient FROM alerts" | sed 's/ //g')
 
         # If no mail recipient is specified, disable alert
@@ -81,9 +90,6 @@ function getAlertConf
             
             return
         fi
-
-        # Get mutt config file path if specified
-        MUTT_CONF=$(/usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "SELECT Mutt_config FROM alerts" | sed 's/ //g')
 
         # Get alert time slot for the actual day
         getAlertTime
@@ -198,15 +204,12 @@ function newEventAlert
         # Building final mutt command
         MUTT_SUBJECT="[ Motion - event $EVENT_MOTION_ID ] - New motion detected"
 
-        MUTT_MESSAGE="A new motion has been detected by this camera. Details:\n"
+        MUTT_MESSAGE="A new motion has been detected by this camera.\n\n"
+        MUTT_MESSAGE+="Details:\n"
         MUTT_MESSAGE+="Date: $EVENT_DATE_START at $EVENT_TIME_START\n"
         MUTT_MESSAGE+="Camera id: $EVENT_CAMERA_ID\n"
-        
-        if [ ! -z "$MUTT_CONF" ];then
-            echo -e "$MUTT_MESSAGE" | mutt -F "$MUTT_CONF" -s "$MUTT_SUBJECT" -- $ALERT_RECIPIENT &
-        else
-            echo -e "$MUTT_MESSAGE" | mutt -s "$MUTT_SUBJECT" -- $ALERT_RECIPIENT &
-        fi
+
+        echo -e "$MUTT_MESSAGE" | mutt -F "$DATA_DIR/.muttrc" -s "$MUTT_SUBJECT" -- $ALERT_RECIPIENT &
     fi
 }
 
@@ -224,16 +227,13 @@ function newEventFileAlert
         # Building final mutt command
         MUTT_SUBJECT="[ Motion - event $EVENT_MOTION_ID ] - Attached file from this event"
 
-        MUTT_MESSAGE="A new file has been generated from the previous motion event. Details:\n"
+        MUTT_MESSAGE="A new file has been generated from the previous motion event.\n\n"
+        MUTT_MESSAGE+="Details:\n"
         MUTT_MESSAGE+="Event Id: $EVENT_MOTION_ID\n"
         MUTT_MESSAGE+="Date: $EVENT_DATE_START at $EVENT_TIME_START\n"
         MUTT_MESSAGE+="Camera id: $EVENT_CAMERA_ID\n"
 
-        if [ ! -z "$MUTT_CONF" ];then
-            echo -e "$MUTT_MESSAGE" | mutt -F "$MUTT_CONF" -s "$MUTT_SUBJECT" -a "$EVENT_FILE" -- $ALERT_RECIPIENT &
-        else 
-            echo -e "$MUTT_MESSAGE" | mutt -s "$MUTT_SUBJECT" -a "$EVENT_FILE" -- $ALERT_RECIPIENT &
-        fi
+        echo -e "$MUTT_MESSAGE" | mutt -F "$DATA_DIR/.muttrc" -s "$MUTT_SUBJECT" -a "$EVENT_FILE" -- $ALERT_RECIPIENT &
     fi
 }
 

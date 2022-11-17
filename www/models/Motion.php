@@ -116,29 +116,113 @@ class Motion extends Model
     }
 
     /**
-     *  Return a list of the last events
+     *  Return events between dates
      */
-    public function getEvents(string $dateStart, string $dateEnd)
+    public function getEventsDate(string $dateStart, string $dateEnd)
     {
-        $eventsFiles = array();
+        $events = array();
 
-        $stmt = $this->db->prepare("SELECT motion_events.*,
-        motion_events_files.Id AS File_id,
-        motion_events_files.File
+        $stmt = $this->db->prepare("SELECT DISTINCT Date_start
         FROM motion_events
-        LEFT JOIN motion_events_files
-        ON motion_events_files.Id_event = motion_events.Id
         WHERE Date_start BETWEEN :dateStart AND :dateEnd 
-        ORDER BY Date_start DESC, Time_start DESC");
+        ORDER BY Date_start DESC");
         $stmt->bindValue(':dateStart', $dateStart);
         $stmt->bindValue(':dateEnd', $dateEnd);
         $result = $stmt->execute();
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $eventsFiles[] = $row;
+            $events[] = $row;
         }
 
-        return $eventsFiles;
+        return $events;
+    }
+
+    /**
+     *  Return events time by date
+     */
+    public function getEventsTime(string $date)
+    {
+        $events = array();
+
+        $stmt = $this->db->prepare("SELECT DISTINCT Time_start, Status
+        FROM motion_events
+        WHERE Date_start = :date
+        ORDER BY Time_start DESC");
+        $stmt->bindValue(':date', $date);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $events[] = $row;
+        }
+
+        return $events;
+    }
+
+    /**
+     *  Return all events details by date and time
+     */
+    public function getEventsDetails(string $date, string $time)
+    {
+        $events = array();
+
+        $stmt = $this->db->prepare("SELECT motion_events.*,
+        motion_events_files.Id as FileId,
+        motion_events_files.File,
+        motion_events_files.Id_event
+        FROM motion_events
+        INNER JOIN motion_events_files
+        ON motion_events.Id = motion_events_files.Id_event
+        WHERE Date_start = :date
+        AND Time_start = :time");
+        $stmt->bindValue(':date', $date);
+        $stmt->bindValue(':time', $time);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $events[] = $row;
+        }
+
+        return $events;
+    }
+
+    /**
+     *  Return total event count by date
+     */
+    public function totalEventByDate(string $date)
+    {
+        $events = array();
+
+        $stmt = $this->db->prepare("SELECT motion_events.Id
+        FROM motion_events
+        WHERE Date_start = :date");
+        $stmt->bindValue(':date', $date);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $events[] = $row;
+        }
+
+        return $events;
+    }
+
+    /**
+     *  Return total files count from an event
+     */
+    public function totalFilesByEventId(string $eventId)
+    {
+        $files = array();
+
+        $stmt = $this->db->prepare("SELECT Id
+        FROM motion_events_files
+        WHERE Id_event = :id");
+        $stmt->bindValue(':id', $eventId);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $files[] = $row;
+        }
+
+        return $files;
     }
 
     /**
@@ -269,11 +353,10 @@ class Motion extends Model
     /**
      *  Configure motion alerts
      */
-    public function configureAlert(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd, string $mailRecipient, string $muttConfig)
+    public function configureAlert(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd, string $mailRecipient)
     {
         $stmt = $this->db->prepare("UPDATE alerts SET
         Recipient = :mailRecipient,
-        Mutt_config = :muttConfig,
         Monday_start = :mondayStart,
         Monday_end = :mondayEnd,
         Tuesday_start = :tuesdayStart,
@@ -289,7 +372,6 @@ class Motion extends Model
         Sunday_start = :sundayStart,
         Sunday_end = :sundayEnd");
         $stmt->bindValue(':mailRecipient', $mailRecipient);
-        $stmt->bindValue(':muttConfig', $muttConfig);
         $stmt->bindValue(':mondayStart', $mondayStart);
         $stmt->bindValue(':mondayEnd', $mondayEnd);
         $stmt->bindValue(':tuesdayStart', $tuesdayStart);

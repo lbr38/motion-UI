@@ -49,7 +49,7 @@ $(document).on('submit','.edit-camera-configuration-form',function () {
 $(document).on('click','.delete-camera-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
-    deleteConfirm('Are you sure you want to delete this camera?', function () {
+    confirmBox('Are you sure you want to delete this camera?', function () {
         deleteCamera(cameraId);
     });
 });
@@ -59,8 +59,16 @@ $(document).on('click','.delete-camera-btn',function () {
  */
 $(document).on('click','.configure-camera-btn',function () {
     var cameraId = $(this).attr('camera-id');
+    openSlide('.camera-configuration-div[camera-id='+cameraId+']');
+});
 
-    $('.camera-configuration-div[camera-id='+cameraId+']').slideToggle('100');
+/**
+ *  Event: hide camera configuration form
+ */
+$(document).on('click','.hide-camera-configuration-btn',function () {
+    var cameraId = $(this).attr('camera-id');
+
+    closeSlide('.camera-configuration-div[camera-id='+cameraId+']');
 });
 
 /**

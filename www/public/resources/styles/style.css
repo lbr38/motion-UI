@@ -44,7 +44,7 @@ a {
 
 span {
     line-height: inherit !important;
-    vertical-align: middle;
+    /* vertical-align: middle; */
 }
 
 b, strong {
@@ -55,7 +55,7 @@ h1 {
     color: white;
     width: max-content;
     font-size: 18px;
-    margin: 70px auto 50px auto;
+    margin: 70px auto 30px auto;
     border-bottom: 1px solid #15bf7f;
 }
 
@@ -105,7 +105,7 @@ pre {
 .lowopacity { opacity: 0.33; }
 .mediumopacity { opacity: 0.55 }
 .verylowopacity { opacity: 0.08; }
-.lowopacity:hover, .mediumopacity:hover, .verylowopacity:hover { opacity: 1 }
+/* .lowopacity:hover, .mediumopacity:hover, .verylowopacity:hover { opacity: 1 } */
 .opacity-80 { opacity: 0.80; }
 
 .div-28 { width: 28%; padding: 10px; }.div-29 { width: 29%; padding: 10px; }.div-30 { width: 30%; padding: 10px; }
@@ -114,6 +114,12 @@ pre {
 .div-67 { width: 67%; padding: 10px; }.div-68 { width: 68%; padding: 10px; }.div-69 { width: 69%; padding: 10px; }
 .div-70 { width: 70%; padding: 10px; }
 .flex { display: flex; }
+.flex-align-cnt-center {
+    align-content: center;
+}
+.flex-align-itm-center {
+    align-items: center;
+}
 .flex-div-15 { flex: 0 0 14%; }
 .flex-div-20 { flex: 0 0 19%; }
 .flex-div-25 { flex: 0 0 24%; }
@@ -127,6 +133,16 @@ pre {
 .flex-div-80 { flex: 0 0 79%; }
 .flex-div-100 { flex: 0 0 98%; }
 
+.div-generic-blue {
+    position: relative;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background-color: #182b3e;
+    -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
+    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
+}
+
 table {
     width: 100%;
     font-size: 14px;
@@ -136,35 +152,10 @@ table {
 .table-medium { width: 65%; }
 .table-small  { width: 25% }
 
-/**
- *  Tableaux génériques
- */
-
-/* Concerne toutes les classes commencant par table-generic- */
-[class^="table-generic"] {
-    border-collapse: separate !important;
-    border-spacing: 0 4px;
-    table-layout: auto !important;
-    white-space: nowrap;
+.config-table {
+    border-collapse: separate;
+    border-spacing: 4px 0px;
 }
-[class^="table-generic"] tr td {
-    padding-left: 8px;
-    padding-right: 8px;
-}
-[class^="table-generic"] tr td:first-child {
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-}
-[class^="table-generic"] tr td:last-child {
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-[class^="table-generic"] thead tr {
-    background: none !important;
-    font-weight: bold;
-}
-.table-generic-blue tr { background-color: #5473e8; }
-.table-generic-red tr  { background-color: #ff0044; }
 
 /* Classe td génériques */
 th {
@@ -261,8 +252,22 @@ input[type].input-small, .select-small { width: 100px; }
 input[type].input-medium, .select-medium { width: 150px; }
 input[type].input-large, .select-large { width: 250px; }
 input:checked { opacity: 1; }
-.select-xxlarge {
-    width: 400px;
+input::placeholder {
+    color: #ffffff9e;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    font-size: 14px;
+    color: white;
+    background-color:#25394b;
+    border-radius: 3px;
+    border: none;
+}
+
+.textarea-400 {
+    height: 400px;
 }
 
 .rename-motion-conf-input {
@@ -351,12 +356,6 @@ input:checked { opacity: 1; }
 .button-xsmall, .btn-xsmall-blue, .btn-xsmall-green, .btn-xsmall-red {
     width: 50px;
 }
-/* Boutons carré */
-.button-xxsmall, .btn-xxsmall-blue, .btn-xxsmall-green, .btn-xxsmall-red , .btn-xxsmall-yellow {
-    /* margin: 2px; */
-    /* width: 30px; */
-}
-
 /* Tous les boutons bleus :hover */
 .btn-large-blue:hover, .btn-medium-blue:hover, .btn-small-blue:hover, .btn-xsmall-blue:hover, .btn-xxsmall-blue:hover, .btn-fit-blue:hover, .btn-square-blue:hover {
     transition-duration: 0.4s;
@@ -534,8 +533,55 @@ input:checked { opacity: 1; }
     cursor: pointer;
 }
 
-/* Container grid */
-.container {
+[class^="slide-btn"], [class^="round-btn"] {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    text-decoration: none;
+    width: auto;
+    max-width: 28px;
+    height: 28px;
+    -webkit-transition: max-width 0.7s;
+    transition: max-width 0.7s;
+    margin: 0 3px 0 3px;
+    color: white;
+    background-color: #15bf7f;
+    border-radius: 60px;
+    cursor: pointer;
+}
+[class^="slide-btn"]:hover, [class^="round-btn"]:hover {
+    max-width: 300px;
+    background-color: #12a16a;
+}
+[class^="round-btn"] {
+    max-width: 300px !important;
+}
+[class^="slide-btn"] img, [class^="round-btn"] img {
+    width: 16px;
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+}
+
+[class^="slide-btn"] span, [class^="round-btn"] span {
+    white-space: nowrap;
+    padding-right: 12px;
+    padding-left: 8px;
+}
+.slide-btn-red, .round-btn-red {
+    background-color: #ff0044;
+}
+.slide-btn-red:hover, .round-btn-red:hover {
+    background-color: #dc0044;
+}
+.slide-btn-yellow, .round-btn-yellow {
+    background-color: #eb984e;
+}
+.slide-btn-yellow:hover, .round-btn-yellow:hover {
+    background-color: #eb984e;
+}
+
+#buttons-container {
     display: grid;
     grid-template-columns: repeat(1, 100%);
     justify-content: space-evenly;
@@ -549,52 +595,116 @@ input:checked { opacity: 1; }
     margin-right: auto;
 }
 
-#motion-stats-captures-container {
+.main-container {
+    width: 95%;
     display: grid;
     grid-template-columns: repeat(1, 100%);
     align-items: start;
-    margin-top: 40px;
-}
-
-#motion-configuration-div {
-    margin-top: 40px;
+    row-gap: 40px;
+    margin: 0px auto 0px auto;
 }
 
 #motion-stats-container {
+    width: 100%;
     height: 600px;
+    margin: 15px auto 15px auto;
     display: grid;
     grid-template-columns: repeat(1, 100%);
     align-items: center;
 }
 
 #motion-stats-container div {
-    height: 90%;
+    height: 250px !important;
 }
 
-#statsDateForm, #eventDateForm {
-    width: fit-content;
-    margin: auto;
-}
-
-#events-captures-container {
-    height: 600px;
+#motion-events-captures-container {
+    max-height: 600px;
     display: grid;
-    grid-template-columns: repeat(1, 90%);
+    grid-template-columns: repeat(1, 100%);
+    justify-content: center;
     overflow-x: auto;
     overflow-y: auto;
 }
 
-#configuration-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(1, 100%);
-    justify-content: space-evenly;
-    margin: auto;
-    margin-top: 50px;
+.event-container {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
 }
 
-.motion-conf-div {
-    display: none;
+.event-date-container {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.event-date {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.event-date p:first-child {
+    font-size: 18px;
+}
+
+.event-time {
+    font-size: 22px;
+    padding-right: 10px;
+    border-right: 1px solid #24405c66;
+}
+
+.event-camera {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.event-running img {
+    height: 20px;
+}
+
+#events-captures-div, #motion-stats-div, #motion-configuration-div {
+    width: 100%;
+}
+
+.motion-conf-file-container {
+    max-width: 100%;
+}
+
+.motion-conf-file-container > div:first-child {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.motion-file-name {
+    width: 200px;
+    font-size: 18px;
+    padding-right: 10px;
+    border-right: 1px solid #24405c66;
+}
+
+.motion-file-name input[type=text] {
+    font-size: 18px !important;
+    background-color: #182b3e !important;
+}
+
+.motion-file-info-btns-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.motion-file-btns {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 35px;
 }
 
 .motion-configuration-table tr th {
@@ -610,11 +720,6 @@ input:checked { opacity: 1; }
 #alert-btn-div span {
     margin-left: 4px;
     margin-right: 4px;
-}
-
-.config-div table {
-    border-collapse: separate;
-    border-spacing: 4px 0px;
 }
 
 .camera-configuration-div {
@@ -728,9 +833,12 @@ footer p { color: gray; }
 }
 
 #new-release-div {
-    width: 99%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+    width: fit-content;
     margin: auto;
-    text-align: center;
 }
 
 .action, .alert, .alert-success, .alert-error, .confirmAlert {
@@ -748,7 +856,14 @@ footer p { color: gray; }
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     color: white;
     text-align: center;
-    vertical-align: middle;
+}
+
+.confirmAlert {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
 }
 
 .alert-success { background-color: #14be7e; }
@@ -756,20 +871,9 @@ footer p { color: gray; }
 .alert span, .alert-success span, .alert-error span, .confirmAlert span {
     font-size: 16px;
 }
-.confirmAlert-message, .alert-message {
-    font-size: 18px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    -moz-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-}
 .confirmAlert-buttons-container {
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    transform: translateY(-50%);
+    display: flex;
+    justify-content: flex-end;
 }
 .btn-doConfirm, .btn-doCancel {
     margin-left: 15px;
@@ -866,39 +970,42 @@ pre {
 /* Desktop configuration */
 @media (min-width:1025px) {
     h1 {
-        margin: 70px 0 50px 35px;
-    }
-
-    #settings-sub-container, #userspace-sub-container {
-        width: 25%;
+        margin: 70px 0 30px 0;
     }
 
     .param-slide {
         width: 29.5%;
     }
 
-    .container {
+    .action, .alert, .confirmAlert {
+        display: grid;
+        grid-template-columns: repeat(3, 33%);
+    }
+
+    #buttons-container {
         grid-template-columns: repeat(4, 25%);
     }
 
-    #configuration-container {
-        grid-template-columns: repeat(2, 50%);
+    .main-container {
+        grid-template-columns: repeat(1, 95%);
+        justify-content: space-around;
     }
 
-    .motion-conf-div {
-        display: block;
-        max-height: 400px;
-        overflow-x: auto;
-        overflow-y: auto;
+    #motion-events-captures-container {
+        grid-template-columns: repeat(3, 30%);
+        justify-content: space-between;
     }
 
-    #motion-stats-captures-container {
-        grid-template-columns: repeat(2, 50%);
+    #motion-stats-container {
+        width: 100%;
     }
 
-    #events-captures-container {
-        grid-template-columns: repeat(2, 45%);
-        justify-content: space-evenly;
+    .event-date-container {
+        width: 100%;
+    }
+
+    #motion-configuration-div {
+        width: 50%;
     }
 
     #camera-container {

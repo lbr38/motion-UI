@@ -43,7 +43,8 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
             and isset($_POST['saturdayStart'])
             and isset($_POST['saturdayEnd'])
             and isset($_POST['sundayStart'])
-            and isset($_POST['sundayEnd'])) {
+            and isset($_POST['sundayEnd'])
+            and isset($_POST['mailRecipient'])) {
             $mymotion = new \Controllers\Motion();
 
             try {
@@ -62,8 +63,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
                     $_POST['saturdayEnd'],
                     $_POST['sundayStart'],
                     $_POST['sundayEnd'],
-                    $_POST['mailRecipient'],
-                    $_POST['muttConfig']
+                    $_POST['mailRecipient']
                 );
             } catch (\Exception $e) {
                 response(HTTP_BAD_REQUEST, $e->getMessage());
@@ -73,6 +73,36 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
              *  If there was no error
              */
             response(HTTP_OK, 'Settings saved');
+        }
+
+        /*
+         *  Generate muttrc template file
+         */
+        if ($_POST['action'] == "generateMuttrc") {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->generateMuttrc();
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, 'Muttrc template file has been generated');
+        }
+
+        /*
+         *  Edit muttrc configuration file
+         */
+        if ($_POST['action'] == "editMutt" and !empty($_POST['realName']) and !empty($_POST['from']) and !empty($_POST['smtpUrl']) and !empty($_POST['smtpPassword'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->editMutt($_POST['realName'], $_POST['from'], $_POST['smtpUrl'], $_POST['smtpPassword']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, 'Mutt configuration has been saved');
         }
 
         /*
@@ -269,7 +299,22 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH
                 response(HTTP_BAD_REQUEST, $e->getMessage());
             }
 
-            response(HTTP_OK, 'Configuration file renamed to ' . $_POST['newName']);
+            response(HTTP_OK, 'Configuration file renamed to <b>' . $_POST['newName'] . '</b>');
+        }
+
+        /**
+         *  Set up event registering in motion configuration file
+         */
+        if ($_POST['action'] == "setUpEvent" and !empty($_POST['filename'])) {
+            $mymotion = new \Controllers\Motion();
+
+            try {
+                $mymotion->setUpEvent($_POST['filename']);
+            } catch (\Exception $e) {
+                response(HTTP_BAD_REQUEST, $e->getMessage());
+            }
+
+            response(HTTP_OK, 'Event registering setted up in <b>' . $_POST['filename'] . '</b>');
         }
 
         /**

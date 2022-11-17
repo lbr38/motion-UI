@@ -28,6 +28,7 @@ $(document).on('submit','#new-password-form',function () {
     return false;
 });
 
+
 /**
  * Ajax: change user password
  * @param {*} username
