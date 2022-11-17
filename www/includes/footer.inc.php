@@ -1,7 +1,6 @@
 <footer>
     <?php
-    if (true) :
-    // if (UPDATE_AVAILABLE == "yes") : ?>
+    if (UPDATE_AVAILABLE == "yes") : ?>
         <div id="new-release-div">
             <span class="center yellowtext">A new release is available: <?= GIT_VERSION ?></span>
             <a href="?action=update" title="Update to <?= GIT_VERSION ?>">

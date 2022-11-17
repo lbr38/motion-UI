@@ -109,21 +109,23 @@
                                                 $totalFilesCount = $mymotion->totalFilesByEventId($eventId);
 
                                                 if ($cameraId != $lastCameraId) :
-                                                    echo '<div class="event-id">';
+                                                    echo '<div>';
 
+                                                    echo '<p><b>';
                                                     if (!empty($cameraName)) {
                                                         echo $cameraName;
                                                     } else {
                                                         echo 'Camera Id ' . $cameraId;
                                                     }
-                                                endif;
+                                                    echo '</b></p>';
+                                                endif; ?>
 
-                                                if ($motionEventId != $lastMotionEventId) {
-                                                    echo ' - Event ' . $motionEventId . ' (' . $totalFilesCount . ' files)';
-                                                } ?>
-
-                                                <div>
+                                                <div class="event-id">
                                                     <?php
+                                                    if ($motionEventId != $lastMotionEventId) {
+                                                        echo '<span> Event ' . $motionEventId . ' (' . $totalFilesCount . ' files)</span>';
+                                                    }
+
                                                     /**
                                                      *  Case it's an image
                                                      */
@@ -179,7 +181,7 @@
 
                                                 <?php
                                                 if ($cameraId != $lastCameraId) {
-                                                    echo '</div>'; // close event-id
+                                                    echo '</div>';
                                                 }
 
                                                 $lastCameraId = $cameraId;
