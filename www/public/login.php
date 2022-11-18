@@ -59,9 +59,9 @@ if (!empty($_POST['username']) and !empty($_POST['password'])) {
             }
 
             /**
-             *  Sinon on redirige vers index.php
+             *  Sinon on redirige vers /
              */
-            header('Location: index.php');
+            header('Location: /');
             exit();
         } catch (Exception $e) {
             $loginErrors[] = $e->getMessage();

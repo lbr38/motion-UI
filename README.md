@@ -185,7 +185,7 @@ server {
     }
 
     location / {
-        rewrite ^ /index.php;
+        index index.php;
     }
 
     location ~ \.php$ {
