@@ -111,7 +111,7 @@
                                                 if ($cameraId != $lastCameraId) :
                                                     echo '<div>';
 
-                                                    echo '<p><b>';
+                                                    echo '<p class="event-camera-id"><b>';
                                                     if (!empty($cameraName)) {
                                                         echo $cameraName;
                                                     } else {

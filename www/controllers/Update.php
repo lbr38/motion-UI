@@ -227,6 +227,7 @@ class Update
             }
             chmod(DATA_DIR . '/tools/event', octdec("0550"));
             chmod(DATA_DIR . '/motionui', octdec("0550"));
+            chgrp(DATA_DIR . '/tools/event', 'motionui');
 
             /**
              *  Delete working dir

@@ -662,8 +662,16 @@ textarea {
     overflow-y: auto;
 }
 
+.event-camera-id {
+    background: #5372e7;
+    width: fit-content;
+    border-radius: 60px;
+    padding: 1px 6px;
+    margin-bottom: 6px;
+}
+
 .event-id {
-    margin: 2px 0 0 20px;
+    margin: 2px 0 0 4px;
 }
 
 .event-running img {
