@@ -6,9 +6,10 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 
 <div align="center">
     <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=19% align="top"> 
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=19% align="top">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=19% align="top">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-5.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-alerts.png" width=19% align="top">
     <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=19% align="top">
 </div>
 
@@ -105,7 +106,7 @@ cd /tmp/motion-UI/
 sudo ./motionui --install
 ```
 
-**Done**! You must complete your webserver and vhost configuration to access **Motion-UI** from a web browser.
+**Done**! You must complete your webserver and vhost configuration to access **motion-UI** from a web browser.
 
 ## Serving motion-UI
 
@@ -215,6 +216,12 @@ Once the configuration is applied, you can access motion-UI through a web browse
 - Login: **admin**
 - Password: **motionui**
 
+<h2>Documentation</h2>
+
+Official documentation is available <a href="https://github.com/lbr38/motion-UI/wiki/Documentation">here</a>.
+
+It should help you starting using **motion-UI**.
+
 ## Useful
 
 You can use the **motionui** script to perform actions on your installation. Script is located at:
@@ -226,7 +233,7 @@ You can use the **motionui** script to perform actions on your installation. Scr
 Available parameters are:
 
 <pre>
--i | --install          ➤  Execute Motion-UI installation wizard.
--p | --set-permissions  ➤  Set necessary permissions on Motion-UI directories and files.
--s | --deploy-service   ➤  Deploy Motion-UI service.
+-i | --install          ➤  Execute motion-UI installation wizard.
+-p | --set-permissions  ➤  Set necessary permissions on motion-UI directories and files.
+-s | --deploy-service   ➤  Deploy motion-UI service.
 </pre>

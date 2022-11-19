@@ -123,7 +123,7 @@
                                                 <div class="event-id">
                                                     <?php
                                                     if ($motionEventId != $lastMotionEventId) {
-                                                        echo '<span> Event ' . $motionEventId . ' (' . $totalFilesCount . ' files)</span>';
+                                                        echo '<span><br>Event ' . $motionEventId . ' (' . $totalFilesCount . ' files)</span>';
                                                     }
 
                                                     /**

@@ -48,14 +48,11 @@ function printAlert(message, type = null, timeout = 2500)
 {
     $('#newalert').remove();
 
-    if (type == null) {
-        $('footer').append('<div id="newalert" class="alert">' + message + '</div>');
-    }
     if (type == "error") {
-        $('footer').append('<div id="newalert" class="alert-error">' + message + '</div>');
+        $('footer').append('<div id="newalert" class="alert-error"><div>' + message + '</div></div>');
     }
     if (type == "success") {
-        $('footer').append('<div id="newalert" class="alert-success">' + message + '</div>');
+        $('footer').append('<div id="newalert" class="alert-success"><div>' + message + '</div></div>');
     }
 
     if (timeout != 'none') {
@@ -96,7 +93,7 @@ function confirmBox(message, myfunction, confirmBox = 'Delete')
         /**
          *  Puis suppression de l'alerte
          */
-        $("#newConfirmAlert").slideToggle(150, function () {
+        $("#newConfirmAlert").slideToggle(0, function () {
             $("#newConfirmAlert").remove();
         });
     });
@@ -108,7 +105,7 @@ function confirmBox(message, myfunction, confirmBox = 'Delete')
         /**
          *  Suppression de l'alerte
          */
-        $("#newConfirmAlert").slideToggle(150, function () {
+        $("#newConfirmAlert").slideToggle(0, function () {
             $("#newConfirmAlert").remove();
         });
     });

@@ -928,6 +928,7 @@ function configure(filename, options_array)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
+            reloadContentByClass('motion-configuration-form[filename="'+filename+'"]');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
