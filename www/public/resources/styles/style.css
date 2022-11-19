@@ -671,7 +671,7 @@ textarea {
 }
 
 .event-id {
-    margin: 2px 0 0 4px;
+    margin: 2px 0 0px 4px;
 }
 
 .event-running img {
@@ -712,11 +712,22 @@ textarea {
 }
 
 .motion-file-btns {
-    width: 100%;
+    width: 10%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     row-gap: 35px;
+}
+
+.motion-file-btns > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 5px;
+}
+
+.motion-configuration-table {
+    margin-top: 30px;
 }
 
 .motion-configuration-table tr th {
@@ -853,11 +864,16 @@ footer p { color: gray; }
     margin: auto;
 }
 
-.action, .alert, .alert-success, .alert-error, .confirmAlert {
+.action, .alert-success, .alert-error, .confirmAlert {
     width: 100%;
-    height: 18px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    min-height: 60px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     font-size: 16px;
     position: fixed;
     bottom: 0;
@@ -870,12 +886,9 @@ footer p { color: gray; }
     text-align: center;
 }
 
-.confirmAlert {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: space-between;
-    align-items: center;
-    align-content: center;
+.alert-success, .alert-error {
+    grid-template-columns: repeat(1, auto) !important;
+    justify-content: space-around !important;
 }
 
 .alert-success { background-color: #14be7e; }
@@ -989,7 +1002,7 @@ pre {
         width: 29.5%;
     }
 
-    .action, .alert, .confirmAlert {
+    .action, .alert-success, .alert-error, .confirmAlert {
         display: grid;
         grid-template-columns: repeat(3, 33%);
     }
@@ -1014,6 +1027,14 @@ pre {
 
     .event-date-container {
         width: 100%;
+    }
+
+    .motion-file-btns {
+        width: auto;
+    }
+
+    .motion-file-btns > div:first-child {
+        flex-direction: row;
     }
 
     #motion-configuration-div {

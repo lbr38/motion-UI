@@ -13,6 +13,8 @@
         if (!empty($configurationFiles)) :
             foreach ($configurationFiles as $configurationFile) :
                 $eventRegistering = '';
+                $cameraId = '';
+                $cameraName = '';
 
                 /**
                  *  Keep only the filename (and not the entire path)
@@ -25,8 +27,17 @@
                  *  Check if event registering can be set up for this file.
                  *  The file must at least contain the 'camera_id' parameter.
                  */
-                if (preg_grep('/camera_id/i', $contentArray)) {
+                $cameraId = preg_grep('/camera_id/i', $contentArray);
+                if (!empty($cameraId)) {
                     $eventRegistering = true;
+                    $cameraId = array_values(preg_grep('/camera_id/i', $contentArray));
+                    $cameraId = trim(str_replace('camera_id', '', $cameraId[0]));
+                }
+
+                $cameraName = preg_grep('/camera_name/i', $contentArray);
+                if (!empty($cameraName)) {
+                    $cameraName = array_values(preg_grep('/camera_name/i', $contentArray));
+                    $cameraName = trim(str_replace('camera_name', '', $cameraName[0]));
                 } ?>
 
                 <div class="motion-conf-file-container div-generic-blue">
@@ -42,6 +53,14 @@
                                     echo '<span class="lowopacity">Main configuration file</span><br>';
                                 }
 
+                                if (!empty($cameraId)) {
+                                    echo '<span class="lowopacity">Camera Id: ' . $cameraId . '</span><br>';
+                                }
+
+                                if (!empty($cameraName)) {
+                                    echo '<span class="lowopacity">Camera name: ' . $cameraName . '</span><br>';
+                                }
+
                                 /**
                                  *  Check that config file is readable and writable
                                  */
@@ -55,6 +74,15 @@
 
                             <div class="motion-file-btns">
                                 <div>
+                                    <?php
+                                    if ($eventRegistering == true) : ?>
+                                        <div class="slide-btn setup-event-motion-conf-btn" title="Set up event registering" filename="<?= $configurationFile ?>">
+                                            <img src="resources/icons/cog.svg" />
+                                            <span>Set up event registering</span>
+                                        </div>
+                                        <?php
+                                    endif ?>
+
                                     <div class="slide-btn duplicate-motion-conf-btn" title="Duplicate file" filename="<?= $configurationFile ?>">
                                         <img src="resources/icons/duplicate.svg" />
                                         <span>Duplicate file</span>
@@ -72,15 +100,6 @@
                                 </div>
 
                                 <div>
-                                    <?php
-                                    if ($eventRegistering == true) : ?>
-                                        <div class="slide-btn setup-event-motion-conf-btn" title="Set up event registering" filename="<?= $configurationFile ?>">
-                                            <img src="resources/icons/cog.svg" />
-                                            <span>Set up event registering</span>
-                                        </div>
-                                        <?php
-                                    endif ?>
-
                                     <div class="slide-btn show-motion-conf-btn" title="Show/hide configuration" filename="<?= $configurationFile ?>">
                                         <img src="resources/icons/search.svg" />
                                         <span>Show/hide configuration</span>
@@ -96,6 +115,7 @@
                             <p class="yellowtext">Cannot set up event registering because there is no <b>camera_id</b> parameter in this file.</p><br>
                             <?php
                         endif ?>
+
                         <form class="motion-configuration-form" filename="<?= $configurationFile ?>" autocomplete="off">
                             <table class="motion-configuration-table">
                                 <tr>
@@ -168,6 +188,27 @@
                                     <?php
                                     ++$i;
                                 endforeach ?>
+
+                                <tr>
+                                    <td colspan="3">
+                                        Add an additonnal parameter:
+                                    </td>
+                                </tr>
+                                </tr>
+                                <tr>
+                                    <td class="td-fit">
+                                        <label class="onoff-switch-label">
+                                            <input class="onoff-switch-input" type="checkbox" name="option-status" option-id="<?= $i ?>" value="enabled" checked>
+                                            <span class="onoff-switch-slider"></span>
+                                        </label>
+                                    </td>
+                                    <th class="td-10">
+                                        <input type="text" name="option-name" option-id="<?= $i ?>" value="" placeholder="Param name" />
+                                    </th>
+                                    <td>
+                                        <input type="text" name="option-value" option-id="<?= $i ?>" value="" placeholder="Param value" />
+                                    </td>
+                                </tr>
                             </table>
                             <br>
                         </form>
