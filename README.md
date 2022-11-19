@@ -2,25 +2,17 @@
 
 A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize live stream from http cameras.
 
-**Mobile views**
-
 <div align="center">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=19% align="top"> 
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png" width=19% align="top">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png" width=19% align="top">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=19% align="top">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-alerts.png" width=19% align="top">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=19% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=25% align="top"> 
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png" width=25% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png" width=25% align="top">
 </div>
-
 <br>
-
-**Desktop view**
-
 <div align="center">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-desktop.png" width=100% align="top"> 
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-alerts.png" width=25% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=25% align="top">
 </div>
-
 
 <br>
 
