@@ -191,11 +191,11 @@ function installation
     # Create motionui group
     if ! grep -q "motionui" /etc/group;then
         groupadd motionui
-
-        # Add webserver and motion user to the group
-        usermod -G motionui "$WWW_USER"
-        usermod -G motionui motion
     fi
+
+    # Add webserver and motion user to the group
+    usermod -G motionui "$WWW_USER"
+    usermod -G motionui motion
 
     echo -e "\n➤ Motion-UI is using a systemd service to execute regular tasks, such as:"
     echo "  - checking for new version availability"

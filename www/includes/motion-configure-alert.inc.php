@@ -88,10 +88,7 @@
             
             <?php
             if (!file_exists(DATA_DIR . '/.muttrc')) : ?>
-                <div id="generate-muttrc-btn" class="round-btn-yellow" title="Generate muttrc config template">
-                    <img src="resources/icons/cog.svg" />
-                    <span>Generate muttrc config template</span>
-                </div>
+                <button type="button" id="generate-muttrc-btn" class="btn-large-yellow" title="Generate muttrc config template">Generate muttrc config template</button>
                 <?php
             endif; ?>
         </form>
