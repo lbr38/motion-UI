@@ -50,7 +50,7 @@ var myMotionStatusChart = new Chart(ctx, {
         labels: [],
         datasets: [{
             data: [],
-            label: "Motion service activity (48h)",
+            label: "Motion service activity (24h)",
             borderColor: '#d8524e',
             fill: false
         }]

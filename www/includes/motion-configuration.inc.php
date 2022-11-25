@@ -20,24 +20,30 @@
                  *  Keep only the filename (and not the entire path)
                  */
                 $configurationFile = basename($configurationFile);
-                $contentArray = file('/etc/motion/' . $configurationFile);
-                $contentArray = str_replace('; ', ';', $contentArray);
 
-                /**
-                 *  Check if event registering can be set up for this file.
-                 *  The file must at least contain the 'camera_id' parameter.
-                 */
-                $cameraId = preg_grep('/camera_id/i', $contentArray);
-                if (!empty($cameraId)) {
-                    $eventRegistering = true;
-                    $cameraId = array_values(preg_grep('/camera_id/i', $contentArray));
-                    $cameraId = trim(str_replace('camera_id', '', $cameraId[0]));
-                }
+                if (is_readable('/etc/motion/' . $configurationFile)) {
+                    /**
+                     *  Get file content
+                     */
+                    $contentArray = file('/etc/motion/' . $configurationFile);
+                    $contentArray = str_replace('; ', ';', $contentArray);
 
-                $cameraName = preg_grep('/camera_name/i', $contentArray);
-                if (!empty($cameraName)) {
-                    $cameraName = array_values(preg_grep('/camera_name/i', $contentArray));
-                    $cameraName = trim(str_replace('camera_name', '', $cameraName[0]));
+                    /**
+                     *  Check if event registering can be set up for this file.
+                     *  The file must at least contain the 'camera_id' parameter.
+                     */
+                    $cameraId = preg_grep('/camera_id/i', $contentArray);
+                    if (!empty($cameraId)) {
+                        $eventRegistering = true;
+                        $cameraId = array_values(preg_grep('/camera_id/i', $contentArray));
+                        $cameraId = trim(str_replace('camera_id', '', $cameraId[0]));
+                    }
+
+                    $cameraName = preg_grep('/camera_name/i', $contentArray);
+                    if (!empty($cameraName)) {
+                        $cameraName = array_values(preg_grep('/camera_name/i', $contentArray));
+                        $cameraName = trim(str_replace('camera_name', '', $cameraName[0]));
+                    }
                 } ?>
 
                 <div class="motion-conf-file-container div-generic-blue">
@@ -127,67 +133,69 @@
                                 <?php
                                 $i = 0;
 
-                                foreach ($contentArray as $line) :
-                                    /**
-                                     *  If the line is a comment then ignore it
-                                     */
-                                    if (preg_match('/^#/', $line)) {
-                                        continue;
-                                    }
+                                if (!empty($contentArray)) :
+                                    foreach ($contentArray as $line) :
+                                        /**
+                                         *  If the line is a comment then ignore it
+                                         */
+                                        if (preg_match('/^#/', $line)) {
+                                            continue;
+                                        }
 
-                                    /**
-                                     *  Parse the line to separate parameter from its value
-                                     *  Parameter is then set on [0] and its value on [1]
-                                     */
-                                    $line = explode(' ', $line, 2);
+                                        /**
+                                         *  Parse the line to separate parameter from its value
+                                         *  Parameter is then set on [0] and its value on [1]
+                                         */
+                                        $line = explode(' ', $line, 2);
 
-                                    /**
-                                     *  If line is empty then ignore it
-                                     */
-                                    if (empty($line[0]) or empty($line[1])) {
-                                        continue;
-                                    }
+                                        /**
+                                         *  If line is empty then ignore it
+                                         */
+                                        if (empty($line[0]) or empty($line[1])) {
+                                            continue;
+                                        }
 
-                                    $optionName = trim($line[0]);
-                                    $optionValue = trim($line[1]);
+                                        $optionName = trim($line[0]);
+                                        $optionValue = trim($line[1]);
 
-                                    /**
-                                     *  If parameter starts with ';' then is is disabled
-                                     *  For the printing of the parameter, the ';' is being removed
-                                     */
-                                    if (preg_match('/^;/', $optionName)) {
-                                        $status = 'disabled';
-                                        $optionName = str_replace(';', '', $optionName);
-                                    } else {
-                                        $status = 'enabled';
-                                    }
+                                        /**
+                                         *  If parameter starts with ';' then is is disabled
+                                         *  For the printing of the parameter, the ';' is being removed
+                                         */
+                                        if (preg_match('/^;/', $optionName)) {
+                                            $status = 'disabled';
+                                            $optionName = str_replace(';', '', $optionName);
+                                        } else {
+                                            $status = 'enabled';
+                                        }
 
-                                    /**
-                                     *  If the parameter contains a '#' then it is a comment in the file.
-                                     *  Ignoring it.
-                                     */
-                                    if (preg_match('/^#/', $optionName)) {
-                                        continue;
-                                    } ?>
+                                        /**
+                                         *  If the parameter contains a '#' then it is a comment in the file.
+                                         *  Ignoring it.
+                                         */
+                                        if (preg_match('/^#/', $optionName)) {
+                                            continue;
+                                        } ?>
 
-                                    <tr>
-                                        <td class="td-fit">
-                                            <label class="onoff-switch-label">
-                                                <input class="onoff-switch-input" type="checkbox" name="option-status" option-id="<?= $i ?>" value="enabled" <?php echo ($status == 'enabled') ? 'checked' : ''?>>
-                                                <span class="onoff-switch-slider"></span>
-                                            </label>
-                                        </td>
-                                        <th class="td-10">
-                                            <input type="hidden" name="option-name" option-id="<?= $i ?>" value="<?= $optionName ?>" />
-                                            <?= $optionName ?>
-                                        </th>
-                                        <td>
-                                            <input type="text" name="option-value" option-id="<?= $i ?>" value="<?= $optionValue ?>" />
-                                        </td>
-                                    </tr>
-                                    <?php
-                                    ++$i;
-                                endforeach ?>
+                                        <tr>
+                                            <td class="td-fit">
+                                                <label class="onoff-switch-label">
+                                                    <input class="onoff-switch-input" type="checkbox" name="option-status" option-id="<?= $i ?>" value="enabled" <?php echo ($status == 'enabled') ? 'checked' : ''?>>
+                                                    <span class="onoff-switch-slider"></span>
+                                                </label>
+                                            </td>
+                                            <th class="td-10">
+                                                <input type="hidden" name="option-name" option-id="<?= $i ?>" value="<?= $optionName ?>" />
+                                                <?= $optionName ?>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="option-value" option-id="<?= $i ?>" value="<?= $optionValue ?>" />
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        ++$i;
+                                    endforeach;
+                                endif; ?>
 
                                 <tr>
                                     <td colspan="3">

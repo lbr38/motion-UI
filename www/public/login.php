@@ -54,14 +54,11 @@ if (!empty($_POST['username']) and !empty($_POST['password'])) {
              *  Si un cookie 'origin' existe alors celui-ci contient une URI vers laquelle on redirige l'utilisateur
              */
             if (!empty($_COOKIE['origin'])) {
-                header('Location: ' . $_COOKIE['origin']);
-                exit();
+                header('Location: /' . $_COOKIE['origin']);
+            } else {
+                header('Location: /');
             }
 
-            /**
-             *  Sinon on redirige vers /
-             */
-            header('Location: /');
             exit();
         } catch (Exception $e) {
             $loginErrors[] = $e->getMessage();

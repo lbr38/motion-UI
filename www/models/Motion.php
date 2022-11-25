@@ -250,8 +250,9 @@ class Motion extends Model
     {
         $status = array();
 
-        $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE Date = :dateYesterday OR Date = :dateToday");
+        $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE (Date = :dateYesterday AND Time >= :timeNow) OR (Date = :dateToday)");
         $stmt->bindValue(':dateYesterday', date('Y-m-d', strtotime('-1 day', strtotime(DATE_YMD))));
+        $stmt->bindValue(':timeNow', date('H:i:s'));
         $stmt->bindValue(':dateToday', DATE_YMD);
         $result = $stmt->execute();
 

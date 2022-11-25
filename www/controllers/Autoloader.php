@@ -28,8 +28,10 @@ class Autoloader
          *  Define a cookie with the actual URI
          *  Useful to redirect to the same page after logout/login
          */
-        if (!empty($_SERVER['REQUEST_URI'])) {
-            setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
+        if (isset($_GET['live'])) {
+            setcookie('origin', '?live', array('secure' => true, 'httponly' => true));
+        } else {
+            setcookie('origin', '', array('secure' => true, 'httponly' => true));
         }
 
         \Controllers\Autoloader::loadConstant();

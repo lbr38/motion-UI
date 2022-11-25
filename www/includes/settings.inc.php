@@ -69,13 +69,10 @@
                 </label>
                 <span>Print motion configuration files</span>
             </div>
-       
+
             <br>
             <br>
-            <div id="save-settings-btn" class="round-btn" title="Save">
-                <img src="resources/icons/save.svg" />
-                <span>Save</span>
-            </div>
+            <button type="button" id="save-settings-btn" class="btn-small-green" title="Save">Save</button>
         </div>
     </div>
 </div>
