@@ -1,5 +1,5 @@
 <div id="motion-autostart-container" class="item">
-    <h3>Motion: autostart</h3>
+    <p class="center"><b>Motion: autostart</b></p>
 
     <?php
     if ($motionAutostartEnabled == "disabled") : ?>

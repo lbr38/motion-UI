@@ -1,15 +1,23 @@
 function openSlide(id)
 {
-    $(id).animate({
-        width: '100vw'
-    }).show();
+    $(id).css({
+        visibility: 'visible'
+    }).promise().done(function () {
+        $(id).find('.param-slide').animate({
+            right: '0'
+        })
+    })
 }
 
 function closeSlide(id)
 {
-    $(id).animate({
-        width: '0'
-    }).hide('100');
+    $(id).find('.param-slide').animate({
+        right: '-2000px',
+    }).promise().done(function () {
+        $(id).css({
+            visibility: 'hidden'
+        })
+    })
 }
 
 /**
@@ -110,6 +118,35 @@ function confirmBox(message, myfunction, confirmBox = 'Delete')
         });
     });
 }
+
+/**
+ *  Get specified cookie value
+ *  @param {*} name
+ */
+function getCookie(name)
+{
+    // Split cookie string and get all individual name=value pairs in an array
+    var cookieArr = document.cookie.split(";");
+
+    // Loop through the array elements
+    for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+
+        /* Removing whitespace at the beginning of the cookie name
+        and compare it with the given string */
+        if (name == cookiePair[0].trim()) {
+            // Decode the cookie value and return
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+
+    // Return null if not found
+    return null;
+}
+
+
+
+
 
 /**
  *  Event: acquit motion-UI update log and close window

@@ -14,7 +14,6 @@ class Autoloader
             $className = str_replace('\\', '/', $className);
             $className = str_replace('Models', 'models', $className);
             $className = str_replace('Controllers', 'controllers', $className);
-            $className = str_replace('Views', 'views', $className);
 
             if (file_exists(ROOT . '/' . $className . '.php')) {
                 require_once(ROOT . '/' . $className . '.php');
@@ -28,10 +27,10 @@ class Autoloader
          *  Define a cookie with the actual URI
          *  Useful to redirect to the same page after logout/login
          */
-        if (isset($_GET['live'])) {
-            setcookie('origin', '?live', array('secure' => true, 'httponly' => true));
-        } else {
-            setcookie('origin', '', array('secure' => true, 'httponly' => true));
+        if (!empty($_SERVER['REQUEST_URI'])) {
+            if ($_SERVER["REQUEST_URI"] != '/login' and $_SERVER["REQUEST_URI"] != '/logout') {
+                setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
+            }
         }
 
         \Controllers\Autoloader::loadConstant();
@@ -40,7 +39,7 @@ class Autoloader
     }
 
     /**
-     *  Chargement du minimum nécessaire pour la page login.php
+     *  Chargement du minimum nécessaire pour la page /login
      */
     public static function loadFromLogin()
     {
@@ -59,17 +58,36 @@ class Autoloader
         if (!defined('DATA_DIR')) {
             define('DATA_DIR', '/var/lib/motionui');
         }
-        define('DB', DATA_DIR . '/db/motionui.sqlite');
-        define('LOGS_DIR', DATA_DIR . "/logs");
-        define('CAMERA_DIR', DATA_DIR . '/configurations');
-        define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
-        define('DATE_YMD', date('Y-m-d'));
-        define('TIME', date('H:i'));
-        define('VERSION', trim(file_get_contents(ROOT . '/version')));
+        if (!defined('DB')) {
+            define('DB', DATA_DIR . '/db/motionui.sqlite');
+        }
+        if (!defined('LOGS_DIR')) {
+            define('LOGS_DIR', DATA_DIR . "/logs");
+        }
+        if (!defined('CAMERA_DIR')) {
+            define('CAMERA_DIR', DATA_DIR . '/configurations');
+        }
+        if (!defined('EVENTS_DIR')) {
+            define('EVENTS_DIR', ROOT . '/public/resources/events');
+        }
+        if (!defined('EVENTS_PICTURES')) {
+            define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
+        }
+        if (!defined('DATE_YMD')) {
+            define('DATE_YMD', date('Y-m-d'));
+        }
+        if (!defined('TIME')) {
+            define('TIME', date('H:i'));
+        }
+        if (!defined('VERSION')) {
+            define('VERSION', trim(file_get_contents(ROOT . '/version')));
+        }
         if (!file_exists(DATA_DIR . '/version.available')) {
             touch(DATA_DIR . '/version.available');
         }
-        define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
+        if (!defined('GIT_VERSION')) {
+            define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
+        }
         if (defined('VERSION') and defined('GIT_VERSION')) {
             if (VERSION !== GIT_VERSION) {
                 if (!defined('UPDATE_AVAILABLE')) {
@@ -83,8 +101,12 @@ class Autoloader
         } else {
             define('UPDATE_AVAILABLE', 'no');
         }
-        define('UPDATE_SUCCESS_LOG', LOGS_DIR . '/update/update.success');
-        define('UPDATE_ERROR_LOG', LOGS_DIR . '/update/update.error');
+        if (!defined('UPDATE_SUCCESS_LOG')) {
+            define('UPDATE_SUCCESS_LOG', LOGS_DIR . '/update/update.success');
+        }
+        if (!defined('UPDATE_ERROR_LOG')) {
+            define('UPDATE_ERROR_LOG', LOGS_DIR . '/update/update.error');
+        }
 
         /**
          *  Actual URI
@@ -98,10 +120,12 @@ class Autoloader
         /**
          *  Check if a motion-UI update is running
          */
-        if (file_exists(DATA_DIR . "/update-running")) {
-            define('UPDATE_RUNNING', 'yes');
-        } else {
-            define('UPDATE_RUNNING', 'no');
+        if (!defined('UPDATE_RUNNING')) {
+            if (file_exists(DATA_DIR . "/update-running")) {
+                define('UPDATE_RUNNING', 'yes');
+            } else {
+                define('UPDATE_RUNNING', 'no');
+            }
         }
 
         /**
@@ -121,6 +145,10 @@ class Autoloader
 
         if (!is_dir(CAMERA_DIR)) {
             mkdir(CAMERA_DIR, 0770, true);
+        }
+
+        if (!is_dir(EVENTS_DIR)) {
+            mkdir(EVENTS_DIR, 0770, true);
         }
 
         if (!is_dir(EVENTS_PICTURES)) {
@@ -144,7 +172,7 @@ class Autoloader
          *  If username and role session variables are empty then redirect to login page
          */
         if (empty($_SESSION['username']) or empty($_SESSION['role'])) {
-            header('Location: login.php');
+            header('Location: /logout');
             exit();
         }
 
@@ -152,7 +180,7 @@ class Autoloader
          *  If session has reached 60min timeout then redirect to logout page
          */
         if (isset($_SESSION['start_time']) && (time() - $_SESSION['start_time'] > 3600)) {
-            header('Location: logout.php');
+            header('Location: /logout');
             exit();
         }
 

@@ -1,5 +1,5 @@
 <div id="motion-alert-container" class="item">
-    <h3>Motion: alerts</h3>
+    <p class="center"><b>Motion: alerts</b></p>
 
     <?php
     if ($alertEnabled == "disabled") {

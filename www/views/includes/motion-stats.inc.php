@@ -1,7 +1,7 @@
 
 <div class="main-container">
 
-    <h1>MOTION STATS</h1>
+    <h3>MOTION STATS</h3>
 
     <div id="motion-stats-div">
         <div id="motion-stats-labels-data">

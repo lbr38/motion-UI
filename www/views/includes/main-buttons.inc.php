@@ -2,8 +2,8 @@
     <?php
     if ($printLiveBtn == 'yes') : ?>
         <div class="item">
-            <h3>Live</h3>
-            <a href="?live">
+            <p class="center"><b>Live</b></p>
+            <a href="/live">
                 <button class="btn-square-green"><img src="resources/icons/camera.svg" class="icon" /></button>
             </a>
             <span class="block center lowopacity">Visualize</span>
@@ -13,7 +13,7 @@
 
     if ($printMotionStartBtn == 'yes') : ?>
         <div id="motion-start-div" class="item">
-            <h3>Motion</h3>
+            <p class="center"><b>Motion</b></p>
             <?php
             if ($motionStatus != 'active') : ?>
                 <button id="start-motion-btn" class="btn-square-green" title="Start motion service now">
@@ -35,12 +35,12 @@
      *  Include autostart btn and settings
      */
     if ($printMotionAutostartBtn == 'yes') {
-        include_once('../includes/motion-autostart-btn.inc.php');
+        include_once(ROOT . '/views/includes/motion-autostart-btn.inc.php');
     }
     /**
      *  Include alert btn and settings
      */
     if ($printMotionAlertBtn == 'yes') {
-        include_once('../includes/motion-alert-btn.inc.php');
+        include_once(ROOT . '/views/includes/motion-alert-btn.inc.php');
     } ?>
 </div>
