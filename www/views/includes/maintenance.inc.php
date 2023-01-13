@@ -1,6 +1,6 @@
 <?php
 if (UPDATE_RUNNING == "yes") :
-    if (__ACTUAL_URI__ != "/login.php") : ?>
+    if (__ACTUAL_URI__ != '/login') : ?>
         <div id="maintenance-container">    
             <div id="maintenance">
                 <h3>UPDATE RUNNING</h3>

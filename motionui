@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
-set -u
+# set -u
+export TERM="xterm-256color"
 
 WWW_DIR=""
 WWW_USER=""
 DATA_DIR="/var/lib/motionui"
 CONFIRM=""
 PWD=$(pwd)
+ASSUME_YES="false"
 
 # Colors
 GREEN=$(tput setaf 2)
 RED=$(tput setaf 1)
 YELLOW=$(tput setaf 3)
 RESET=$(tput sgr0)
+
+# Detecting user
+if [ "$(id -u)" -ne "0" ];then
+    echo -e "\n${YELLOW}Must be executed with sudo ${RESET}\n"
+    exit
+fi
 
 function help
 {
@@ -54,16 +62,18 @@ function detectWebUser
             WWW_USER=""
         fi
 
-        if [ ! -z "$WWW_USER" ];then
-            echo -e "\n➤ Specifying webserver user (detected: $WWW_USER)"
-            echo -ne "  Leave empty to use ${YELLOW}${WWW_USER}${RESET} or specify a user: "; read -p "" PROMPT
-            if [ ! -z "$PROMPT" ];then
-                WWW_USER="$PROMPT"
+        if [ "$ASSUME_YES" == "false" ];then
+            if [ ! -z "$WWW_USER" ];then
+                echo -e "\n➤ Specifying webserver user (detected: $WWW_USER)"
+                echo -ne "  Leave empty to use ${YELLOW}${WWW_USER}${RESET} or specify a user: "; read -p "" PROMPT
+                if [ ! -z "$PROMPT" ];then
+                    WWW_USER="$PROMPT"
+                fi
+            else
+                while [ -z "$WWW_USER" ];do
+                    echo -ne "\n➤ Specifying webserver user (generally nginx or www-data): "; read -p "" WWW_USER
+                done
             fi
-        else
-            while [ -z "$WWW_USER" ];do
-                echo -ne "\n➤ Specifying webserver user (generally nginx or www-data): "; read -p "" WWW_USER
-            done
         fi
     done
 }
@@ -71,6 +81,13 @@ function detectWebUser
 # Deploy motionui systemd service
 function deployService
 {
+    if [ "$ASSUME_YES" == "false" ];then
+        echo -ne "\n  Deploy Motion-UI's service now (yes/no): "; read -p "" CONFIRM
+        if [ "$CONFIRM" != "yes" ];then
+            return
+        fi
+    fi
+
     # askPath
 
     # Exit function if services files cannot be found
@@ -152,16 +169,22 @@ function installation
     fi
 
     if [ -d "$WWW_DIR" ];then
-        echo -n "  Webdir ${YELLOW}${WWW_DIR}${RESET} already exists, its content will be deleted. Confirm (yes/no) : "; read -p "" CONFIRM
-        if [ "$CONFIRM" != "yes" ];then
-            exit
+        if [ "$ASSUME_YES" == "false" ];then
+            echo -n "  Webdir ${YELLOW}${WWW_DIR}${RESET} already exists, its content will be deleted. Confirm (yes/no) : "; read -p "" CONFIRM
+
+            if [ "$CONFIRM" != "yes" ];then
+                exit
+            fi
         fi
     fi
 
     if [ -d "$DATA_DIR" ];then
-        echo -n "  Datadir ${YELLOW}${DATA_DIR}${RESET} already exists, its content will be deleted. Confirm (yes/no) : "; read -p "" CONFIRM
-        if [ "$CONFIRM" != "yes" ];then
-            exit
+        if [ "$ASSUME_YES" == "false" ];then
+            echo -n "  Datadir ${YELLOW}${DATA_DIR}${RESET} already exists, its content will be deleted. Confirm (yes/no) : "; read -p "" CONFIRM
+
+            if [ "$CONFIRM" != "yes" ];then
+                exit
+            fi
         fi
     fi
     
@@ -201,16 +224,15 @@ function installation
     echo "  - checking for new version availability"
     echo "  - sending alerts on motion"
     echo "  - autostart and stop motion on time slots or on device presence detection"
-    echo -ne "\n  Deploy Motion-UI's service now (yes/no): "; read -p "" CONFIRM
-    if [ "$CONFIRM" == "yes" ];then
-        deployService
-    fi
+
+    deployService
 
     echo -e "\n ${GREEN}Installation success!${RESET}"
     echo -e " You can login once you have completed your webserver configuration."
     echo -e " Login     :  ${YELLOW}admin${RESET}"
     echo -e " Password  :  ${YELLOW}motionui${RESET}\n"
 }
+
 
 echo '
                  __  .__                              .__ 
@@ -219,8 +241,13 @@ echo '
  |  Y Y  (  <_> )  | |  (  <_> )   |  \ /_____/ |  |  /  |
  |__|_|  /\____/|__| |__|\____/|___|  /         |____/|__|
        \/                           \/                    
- 
+
 '
+
+if [ $# -eq 0 ];then
+    help
+    exit
+fi
 
 while [ $# -ge 1 ];do
     case "$1" in
@@ -228,6 +255,21 @@ while [ $# -ge 1 ];do
             help
             exit
            ;;
+        --root-dir)
+            WWW_DIR="$2"
+            shift
+            ;;
+        --data-dir)
+            DATA_DIR="$2"
+            shift
+            ;;
+        --web-user)
+            WWW_USER="$2"
+            shift
+            ;;
+        --yes|--assume-yes)
+            ASSUME_YES="true"
+            ;;
         --first-install|--install|-i)
             installation
             permissions
@@ -242,14 +284,8 @@ while [ $# -ge 1 ];do
             exit
         ;;
         *)
-            echo "Unknown parameter: $1"
-            help
-            exit
-        ;;
     esac
     shift
 done
-
-help
 
 exit

@@ -1,6 +1,6 @@
 <div class="main-container">
 
-    <h1>MOTION EVENTS</h1>
+    <h3>MOTION EVENTS</h3>
 
     <div id="events-captures-div">
         <?php
@@ -61,7 +61,12 @@
                             </p>
 
                             <p class="lowopacity">
-                                (<?= $totalEventsCount ?> events)
+                                <?php
+                                if ($totalEventsCount == 1) {
+                                    echo '(1 event)';
+                                } else {
+                                    echo '(' . $totalEventsCount . ' events)';
+                                } ?>
                             </p>
                         </div>
 
@@ -115,7 +120,7 @@
                                                     if (!empty($cameraName)) {
                                                         echo $cameraName;
                                                     } else {
-                                                        echo 'Camera Id ' . $cameraId;
+                                                        echo 'Camera Id #' . $cameraId;
                                                     }
                                                     echo '</b></p>';
                                                 endif; ?>
@@ -123,14 +128,18 @@
                                                 <div class="event-id">
                                                     <?php
                                                     if ($motionEventId != $lastMotionEventId) {
-                                                        echo '<span><br>Event ' . $motionEventId . ' (' . $totalFilesCount . ' files)</span>';
+                                                        if ($totalFilesCount == 1 ) {
+                                                            echo '<span><br><b>Event #' . $motionEventId . '</b> (1 file)</span>';
+                                                        } else {
+                                                            echo '<span><br><b>Event #' . $motionEventId . '</b> (' . $totalFilesCount . ' files)</span>';
+                                                        }
                                                     }
 
                                                     /**
                                                      *  Case it's an image
                                                      */
                                                     if (preg_match('#\b(.jpg|.webp|.ppm|.grey)\b#', $filepath)) : ?>
-                                                        <div class="flex flex-align-itm-center">
+                                                        <div class="flex align-item-center">
                                                             <img src="resources/icons/picture.svg" class="icon" />
                                                             <p>Image</p>
                                                             <?php
@@ -156,7 +165,7 @@
                                                      *  Case it a movie
                                                      */
                                                     if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
-                                                        <div class="flex flex-align-itm-center">
+                                                        <div class="flex align-item-center">
                                                             <img src="resources/icons/video.svg" class="icon" />
                                                             <p>Video</p>
                                                             <?php

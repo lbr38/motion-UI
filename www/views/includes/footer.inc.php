@@ -24,4 +24,4 @@
 <script src="resources/js/userspace.js"></script>
 <script src="resources/js/settings.js"></script>
 <script src="resources/js/motion.js"></script>
-<script src="resources/js/camera.js"></script>
+<script src="resources/js/live.js"></script>

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="resources/styles/reset.css"/>
     <link rel="stylesheet" href="resources/styles/normalize.css"/>
-    <link rel="stylesheet" href="resources/styles/style.css"/>
+    <link rel="stylesheet" href="resources/styles/common.css"/>
+    <link rel="stylesheet" href="resources/styles/motionui.css"/>
 
     <!-- jQuery -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

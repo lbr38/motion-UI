@@ -1,6 +1,6 @@
 <div class="main-container">
 
-    <h1>MOTION CONFIGURATION</h1>
+    <h3>MOTION CONFIGURATION</h3>
 
     <div id="motion-configuration-div">
         <?php
@@ -60,7 +60,7 @@
                                 }
 
                                 if (!empty($cameraId)) {
-                                    echo '<span class="lowopacity">Camera Id: ' . $cameraId . '</span><br>';
+                                    echo '<span class="lowopacity">Camera Id #' . $cameraId . '</span><br>';
                                 }
 
                                 if (!empty($cameraName)) {
@@ -83,7 +83,7 @@
                                     <?php
                                     if ($eventRegistering == true) : ?>
                                         <div class="slide-btn setup-event-motion-conf-btn" title="Set up event registering" filename="<?= $configurationFile ?>">
-                                            <img src="resources/icons/cog.svg" />
+                                            <img src="resources/icons/motion.svg" />
                                             <span>Set up event registering</span>
                                         </div>
                                         <?php
@@ -107,7 +107,7 @@
 
                                 <div>
                                     <div class="slide-btn show-motion-conf-btn" title="Show/hide configuration" filename="<?= $configurationFile ?>">
-                                        <img src="resources/icons/search.svg" />
+                                        <img src="resources/icons/cog.svg" />
                                         <span>Show/hide configuration</span>
                                     </div>
                                 </div>
@@ -199,7 +199,7 @@
 
                                 <tr>
                                     <td colspan="3">
-                                        Add an additonnal parameter:
+                                        <br>Add an additonnal parameter:
                                     </td>
                                 </tr>
                                 </tr>

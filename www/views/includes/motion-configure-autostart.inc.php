@@ -63,7 +63,7 @@
 
         <h2>Autostart on device presence</h2>
 
-        <div class="flex flex-align-itm-center">
+        <div class="flex align-item-center">
             <p>Enable autostart on device presence on the local network</p>
             <label class="onoff-switch-label">
                 <input class="onoff-switch-input" type="checkbox" id="enable-device-presence-btn" <?php echo ($autostartDevicePresenceEnabled == 'enabled') ? 'checked' : ''?>>
