@@ -4,25 +4,27 @@
 body {
     /* Gestion de l'affichage 'fade-in' de chaque page, afin de rendre l'affichage des pages plus agréable
     Voir @keyframes fadeInAnimation en complément ci-dessous */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     animation: fadeInAnimation ease 0.00001s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     font-family: 'Roboto', sans-serif !important;
     margin: 0px;
     padding: 0px;
-    width: 100%;
-    height: 100%;
+    /* width: 100%; */
     background-color: #112334;
     color: white;
-    overflow-x: hidden;
-    position: relative;
+    overflow-y: auto;
+    /* position: relative; */
 }
 
-body::after {
+/* body::after {
     content: '';
     display: block;
-    height: 150px; /* Set same as footer's height */
-}
+    height: 150px;
+} */
 
 @keyframes fadeInAnimation {
     0% {
@@ -85,6 +87,15 @@ h3 {
 
 .param-slide {
     width: 90%;
+}
+
+.action, .alert-success, .alert-error, .confirmAlert {
+    grid-template-columns: repeat(3, auto) !important;
+}
+
+.alert-success, .alert-error {
+    grid-template-columns: repeat(1, auto) !important;
+    justify-content: space-around !important;
 }
 
 /* Boutons carrés */
@@ -405,7 +416,7 @@ h3 {
 }
 
 #camera-container {
-    position: absolute;
+    /* position: absolute; */
     display: grid;
     grid-template-columns: 100%;
     justify-content: space-evenly;
@@ -484,7 +495,7 @@ h3 {
 
 .full-screen {
     position: absolute;
-    top: -92px;
+    top: 10px;
     width: 100%;
     z-index: 9999;
     height: 98vh;
@@ -516,11 +527,16 @@ h3 {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 100px;
-    margin-top: 100px;
+    height: 400px;
+    flex-grow: 1;
+    margin-top: 200px;
+    padding-top: 50px;
+    box-shadow:
+     0px 1px 1px 0px rgba(0, 0, 0, 0.5) inset,
+     0px 2px 2px 0px rgba(109, 109, 109, 0.2);
+    background-color:#182b3e;
+    text-align: center;
 }
 footer p { color: gray; }
 
