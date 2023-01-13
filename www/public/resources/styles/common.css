@@ -331,8 +331,8 @@ textarea {
 .action, .alert, .alert-success, .alert-error, .confirmAlert {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(1, auto) !important;
-    justify-content: space-around !important;
+    grid-template-columns: repeat(1, auto);
+    justify-content: space-around;
     align-items: center;
     align-content: center;
     min-height: 60px;
@@ -350,8 +350,8 @@ textarea {
     text-align: center;
 }
 .confirmAlert {
-    grid-template-columns: repeat(3, 33%) !important;
-    justify-content: space-between !important;
+    grid-template-columns: repeat(3, 33%);
+    justify-content: space-between;
 }
 .alert-success { background-color: #14be7e; }
 .alert-error { background-color: #ff0044; }
