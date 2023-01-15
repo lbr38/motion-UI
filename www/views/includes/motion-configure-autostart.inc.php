@@ -1,5 +1,5 @@
 <div id="autostart-div" class="param-slide-container">
-    <div class="param-slide">
+    <div class="param-slide autostart-container">
         <img id="hide-autostart-btn" src="resources/icons/error-close.svg" class="close-btn lowopacity" title="Close" />
 
         <h2 class="center">Configure autostart</h2>
@@ -63,7 +63,7 @@
 
         <h2>Autostart on device presence</h2>
 
-        <div class="flex align-item-center">
+        <div class="flex align-item-center column-gap-4">
             <p>Enable autostart on device presence on the local network</p>
             <label class="onoff-switch-label">
                 <input class="onoff-switch-input" type="checkbox" id="enable-device-presence-btn" <?php echo ($autostartDevicePresenceEnabled == 'enabled') ? 'checked' : ''?>>

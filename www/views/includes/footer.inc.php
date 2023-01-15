@@ -1,23 +1,23 @@
 <footer>
+    <p>motion-UI - release version <?= VERSION ?></p>
+    <br>
+
     <?php
     if (UPDATE_AVAILABLE == "yes") : ?>
         <div id="new-release-div">
-            <span class="center yellowtext">A new release is available: <?= GIT_VERSION ?></span>
-            <a href="?action=update" title="Update to <?= GIT_VERSION ?>">
+            <span class="center yellowtext">A new release is available: </span>
+            <a href="?action=update">
                 <div class="slide-btn-yellow" title="Update now">
                     <img src="resources/icons/update.svg" />
-                    <span>Update now</span>
+                    <span title="Update now to <?= GIT_VERSION ?>">Update now to <?= GIT_VERSION ?></span>
                 </div>
             </a>
         </div>
         <?php
     endif; ?>
 
-    <br>
-
-    <span class="block center lowopacity">
-        <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI" class="icon">motion-UI - github <img src="resources/icons/github.png" class="icon" /></a>
-    </span>
+    <br>    
+    <a target="_blank" id="github" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI"><img src="resources/images/GitHub-Mark-Light-64px.png" /></a>
 </footer>
 
 <script src="resources/js/functions.js"></script>

@@ -40,8 +40,9 @@ function changePassword(username, currentPassword, newPassword, newPasswordRetyp
 {
     $.ajax({
         type: "POST",
-        url: "controllers/userspace/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "userspace",
             action: "changePassword",
             username: username,
             currentPassword: currentPassword,

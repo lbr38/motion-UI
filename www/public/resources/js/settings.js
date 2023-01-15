@@ -42,8 +42,9 @@ function editSetting(settings_params_json)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/settings/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "settings",
             action: "edit",
             settings_params_json: settings_params_json
         },

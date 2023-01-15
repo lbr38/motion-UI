@@ -403,6 +403,37 @@ class Motion
     }
 
     /**
+     *  Delete event media file(s)
+     */
+    public function deleteFile(array $filesId)
+    {
+        if (empty($filesId)) {
+            throw new Exception('No file has been specified');
+        }
+
+        foreach ($filesId as $fileId) {
+            /**
+             *  Get file path
+             */
+            $filePath = $this->model->getEventFilePath($fileId);
+
+            /**
+             *  Check that file is writeable
+             */
+            if (!is_writeable($filePath)) {
+                throw new Exception('File <b>' . $filePath . '</b> is not writeable');
+            }
+
+            /**
+             *  Delete file
+             */
+            if (!unlink($filePath)) {
+                throw new Exception('Could not delete file <b>' . $filePath . '</b>');
+            }
+        }
+    }
+
+    /**
      *  Edit motion configuration (in /etc/motion/)
      */
     public function configure(string $filename, array $options)
