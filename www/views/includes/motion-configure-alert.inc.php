@@ -1,8 +1,7 @@
 <div id="alert-div" class="param-slide-container">
-    <div class="param-slide">
+    <div class="param-slide alert-container">
         <img id="hide-alert-btn" src="resources/icons/error-close.svg" class="close-btn lowopacity" title="Close" />
 
-        
         <h2 class="center">Configure alerts</h2>
         
         <p>Alerts are sent on event start and on video/picture save. Be sure that event registering is setted up in motion's configuration file(s).</p>

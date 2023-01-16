@@ -156,6 +156,24 @@ function eventDateSelect(dateStart, dateEnd)
 }
 
 /**
+ *  Function: get selected media Id and delete them
+ */
+function deleteMedia()
+{
+    var mediaId = [];
+
+    /**
+     *  Get all selected checkboxes and their file-id (media) attribute
+     */
+    $('#events-captures-div').find('input[class=event-media-checkbox]:checked').each(function () {
+        id = $(this).attr('file-id');
+        mediaId.push(id);
+    });
+
+    deleteMediaAjax(mediaId);
+}
+
+/**
  *  Event: Start motion capture
  */
 $(document).on('click','#start-motion-btn',function () {
@@ -237,13 +255,6 @@ $(document).on('click','#hide-alert-btn',function () {
 });
 
 /**
- *  Event: show 'how to configure alerts' div
- */
-$(document).on('click','#how-to-alert-btn',function () {
-    $("#how-to-alert-container").slideToggle('100');
-});
-
-/**
  *  Event: select stats dates
  */
 $(document).on('change','.stats-date-input',function () {
@@ -303,6 +314,72 @@ $(document).on('click','#event-print-file-close-btn',function () {
      *  Clear div
      */
     $('#event-print-file').html('');
+});
+
+/**
+ *  Event: on event media checkbox checked
+ */
+$(document).on('click','input[class=event-media-checkbox]',function () {
+    var eventId = $(this).attr('event-id');
+
+    /**
+     *  Count checked checkboxes
+     */
+    var count_checked = $('#events-captures-div').find('input[class=event-media-checkbox]:checked').length;
+
+    /**
+     *  If no checkbox is selected
+     */
+    if (count_checked == 0) {
+        /**
+         *  Hide confirm box, checkboxes and 'Select all' button
+         */
+        $('#newConfirmAlert').remove();
+        $('#events-captures-div').find('input[class=event-media-checkbox]').removeAttr('style');
+        $('#events-captures-div').find('.select-all-media-btn').hide();
+        return;
+    }
+
+    /**
+     *  Print confirm box to delete selected medias
+     */
+    confirmBox('Delete selected media(s)?', function () {
+        deleteMedia();
+    }, 'Delete');
+
+    /**
+     *  Print related 'Select all' button
+     */
+    $('#events-captures-div').find('.select-all-media-btn[event-id="' + eventId + '"]').css('display', 'initial');
+
+    /**
+     *  Print all related checkboxes with opacity 1
+     */
+    $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').css("visibility", "visible");
+    $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').css("opacity", "1");
+});
+
+/**
+ *  Event: on 'Select all' button click
+ */
+$(document).on('click',".select-all-media-btn",function () {
+    var eventId = $(this).attr('event-id');
+
+    /**
+     *  Count checked checkboxes
+     */
+    var count_checked = $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]:checked').length;
+
+    /**
+     *  Count total checkbox
+     */
+    var count_total = $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').length;
+
+    if (count_checked == count_total) {
+        $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', false);
+    } else {
+        $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', true);
+    }
 });
 
 /**
@@ -522,8 +599,9 @@ function startStopMotion(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "startStopMotion",
             status: status
         },
@@ -553,8 +631,9 @@ function enableAutostart(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "enableAutostart",
             status: status
         },
@@ -591,8 +670,9 @@ function configureAutostart(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, we
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "configureAutostart",
             mondayStart: mondayStart,
             mondayEnd: mondayEnd,
@@ -629,8 +709,9 @@ function enableDevicePresence(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "enableDevicePresence",
             status: status
         },
@@ -638,7 +719,7 @@ function enableDevicePresence(status)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('autostart-div');
+            reloadContentByClass('autostart-container');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -656,8 +737,9 @@ function addDevice(name, ip)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "addDevice",
             name: name,
             ip: ip
@@ -666,7 +748,7 @@ function addDevice(name, ip)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('autostart-div');
+            reloadContentByClass('autostart-container');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -683,8 +765,9 @@ function removeDevice(id)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "removeDevice",
             id: id
         },
@@ -692,7 +775,7 @@ function removeDevice(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('autostart-div');
+            reloadContentByClass('autostart-container');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -709,8 +792,9 @@ function enableAlert(status)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "enableAlert",
             status: status
         },
@@ -748,8 +832,9 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "configureAlert",
             mondayStart: mondayStart,
             mondayEnd: mondayEnd,
@@ -771,7 +856,7 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('alert-div');
+            reloadContentByClass('alert-container');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -787,15 +872,16 @@ function generateMuttrc()
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "generateMuttrc"
         },
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('alert-div');
+            reloadContentByClass('alert-container');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -812,8 +898,9 @@ function editMutt(realName, from, smtpPassword, smtpUrl)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "editMutt",
             realName: realName,
             from: from,
@@ -824,7 +911,7 @@ function editMutt(realName, from, smtpPassword, smtpUrl)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('alert-div');
+            reloadContentByClass('alert-container');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -842,8 +929,9 @@ function visualize(fileId, type)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "getEventFile",
             fileId: fileId
         },
@@ -881,8 +969,9 @@ function download(fileId)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "getEventFile",
             fileId: fileId
         },
@@ -918,8 +1007,9 @@ function configure(filename, options_array)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "configureMotion",
             filename: filename,
             options_array: options_array
@@ -945,8 +1035,9 @@ function duplicateConf(filename)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "duplicateConf",
             filename: filename
         },
@@ -971,8 +1062,9 @@ function deleteConf(filename)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "deleteConf",
             filename: filename
         },
@@ -998,8 +1090,9 @@ function renameConf(filename, newName)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "renameConf",
             filename: filename,
             newName: newName
@@ -1025,8 +1118,9 @@ function setUpEvent(filename)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/motion/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "motion",
             action: "setUpEvent",
             filename: filename
         },
@@ -1035,6 +1129,33 @@ function setUpEvent(filename)
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
             reloadContentByClass('motion-file-configuration[filename="'+filename+'"]');
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: delete event media file
+ * @param {*} mediaId
+ */
+function deleteMediaAjax(mediaId)
+{
+    $.ajax({
+        type: "POST",
+        url: "ajax/controller.php",
+        data: {
+            controller: "motion",
+            action: "deleteFile",
+            mediaId: mediaId
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadContentById('events-captures-div');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

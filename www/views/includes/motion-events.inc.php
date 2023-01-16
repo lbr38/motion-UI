@@ -32,6 +32,10 @@
 
         <br>
 
+        <button id="event-media-delete-btn" class="btn-medium-red hide">Delete selected</button>
+
+        <br>
+
         <div id="motion-events-captures-container">
             <?php
             /**
@@ -114,49 +118,83 @@
                                                 $totalFilesCount = $mymotion->totalFilesByEventId($eventId);
 
                                                 if ($cameraId != $lastCameraId) :
-                                                    echo '<div>';
-
-                                                    echo '<p class="event-camera-id"><b>';
-                                                    if (!empty($cameraName)) {
-                                                        echo $cameraName;
-                                                    } else {
-                                                        echo 'Camera Id #' . $cameraId;
-                                                    }
-                                                    echo '</b></p>';
+                                                    /**
+                                                     *  div closed by the "if ($cameraId != $lastCameraId)" condition
+                                                     */ ?>
+                                                    <div>
+                                                    <div>
+                                                        <p class="event-camera-id">
+                                                            <b>
+                                                                <?php
+                                                                if (!empty($cameraName)) {
+                                                                    echo $cameraName;
+                                                                } else {
+                                                                    echo 'Camera Id #' . $cameraId;
+                                                                } ?>
+                                                            </b>
+                                                        </p>
+                                                    </div>
+                                                    <?php
                                                 endif; ?>
 
                                                 <div class="event-id">
                                                     <?php
-                                                    if ($motionEventId != $lastMotionEventId) {
-                                                        if ($totalFilesCount == 1 ) {
-                                                            echo '<span><br><b>Event #' . $motionEventId . '</b> (1 file)</span>';
-                                                        } else {
-                                                            echo '<span><br><b>Event #' . $motionEventId . '</b> (' . $totalFilesCount . ' files)</span>';
-                                                        }
-                                                    }
+                                                    if ($motionEventId != $lastMotionEventId) : ?>
+                                                        <div class="flex align-item-center justify-space-between">
+                                                            <div>
+                                                                <?php
+                                                                if ($totalFilesCount == 1) {
+                                                                    echo '<span><br><b>Event #' . $motionEventId . '</b> (1 file)</span>';
+                                                                } else {
+                                                                    echo '<span><br><b>Event #' . $motionEventId . '</b> (' . $totalFilesCount . ' files)</span>';
+                                                                } ?>
+                                                            </div>
+                                                            <div>
+                                                                <span class="select-all-media-btn lowopacity pointer hide" event-id="<?= $eventId ?>" title="Select all medias">Select all</span>
+                                                            </div>
+                                                        </div>
+                                                        <?php
+                                                    endif; ?>
 
+                                                    <?php
                                                     /**
                                                      *  Case it's an image
                                                      */
                                                     if (preg_match('#\b(.jpg|.webp|.ppm|.grey)\b#', $filepath)) : ?>
-                                                        <div class="flex align-item-center">
-                                                            <img src="resources/icons/picture.svg" class="icon" />
-                                                            <p>Image</p>
-                                                            <?php
-                                                            /**
-                                                             *  If file exists and is readable
-                                                             */
-                                                            if (file_exists($filepath)) :
-                                                                if (is_readable($filepath)) : ?>
-                                                                    <img src="resources/icons/play.svg" class="icon-lowopacity play-image-btn" file-id="<?= $fileId ?>" title="Visualize image" /><img src="resources/icons/save.svg" class="icon-lowopacity save-image-btn" file-id="<?= $fileId ?>" title="Download image" />
-                                                                <?php else : ?>
-                                                                    <span class="yellowtext"> (permission denied)</span>
-                                                                    <?php
-                                                                endif ?>
-                                                            <?php else : ?>
-                                                                <span class="redtext"> (deleted)</span>
+                                                        <div class="flex align-item-center justify-space-between">
+                                                            <div class="flex align-item-center column-gap-4">
+                                                                <img src="resources/icons/picture.svg" class="icon" />
+                                                                <p>Image</p>
                                                                 <?php
-                                                            endif ?>
+                                                                /**
+                                                                 *  If file exists and is readable
+                                                                 */
+                                                                if (file_exists($filepath)) {
+                                                                    if (is_readable($filepath)) {
+                                                                        $myprocess = new \Controllers\Process('du -hs ' . $filepath . ' | cut -f1');
+                                                                        $myprocess->execute();
+                                                                        $fileSize = $myprocess->getOutput();
+
+                                                                        echo '<p class="lowopacity font-size-13">(' . $fileSize . ')</p>';
+                                                                        echo '<img src="resources/icons/play.svg" class="icon-lowopacity play-image-btn" file-id="' . $fileId . '" title="Visualize image" />';
+                                                                        echo '<img src="resources/icons/save.svg" class="icon-lowopacity save-image-btn" file-id="' . $fileId . '" title="Download image" />';
+                                                                    } else {
+                                                                        echo '<span class="yellowtext"> (not readable)</span>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<span class="redtext"> (deleted)</span>';
+                                                                } ?>
+                                                            </div>
+                                                            <div>
+                                                                <?php
+                                                                if (file_exists($filepath)) {
+                                                                    if (is_writeable($filepath)) {
+                                                                        echo '<input type="checkbox" class="event-media-checkbox" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
+                                                                    } else {
+                                                                        echo '<img src="resources/icons/warning.png" class="icon" title="File cannot be selected: not writeable">';
+                                                                    }
+                                                                } ?>
+                                                            </div>
                                                         </div>
                                                         <?php
                                                     endif;
@@ -165,24 +203,40 @@
                                                      *  Case it a movie
                                                      */
                                                     if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
-                                                        <div class="flex align-item-center">
-                                                            <img src="resources/icons/video.svg" class="icon" />
-                                                            <p>Video</p>
-                                                            <?php
-                                                            /**
-                                                             *  If file exists and is readable
-                                                             */
-                                                            if (file_exists($filepath)) :
-                                                                if (is_readable($filepath)) : ?>
-                                                                    <img src="resources/icons/play.svg" class="icon-lowopacity play-video-btn" file-id="<?= $fileId ?>" title="Play video" /><img src="resources/icons/save.svg" class="icon-lowopacity save-video-btn" file-id="<?= $fileId ?>" title="Download video" />
-                                                                <?php else : ?>
-                                                                    <span class="yellowtext"> (permission denied)</span>
-                                                                    <?php
-                                                                endif ?>
-                                                            <?php else : ?>
-                                                                <span class="redtext"> (deleted)</span>
+                                                        <div class="flex align-item-center justify-space-between">
+                                                            <div class="flex align-item-center column-gap-4">
+                                                                <img src="resources/icons/video.svg" class="icon" />
+                                                                <p>Video</p>
                                                                 <?php
-                                                            endif ?> 
+                                                                /**
+                                                                 *  If file exists and is readable
+                                                                 */
+                                                                if (file_exists($filepath)) {
+                                                                    if (is_readable($filepath)) {
+                                                                        $myprocess = new \Controllers\Process('du -hs ' . $filepath . ' | cut -f1');
+                                                                        $myprocess->execute();
+                                                                        $fileSize = $myprocess->getOutput();
+
+                                                                        echo '<p class="lowopacity font-size-13">(' . $fileSize . ')</p>';
+                                                                        echo '<img src="resources/icons/play.svg" class="icon-lowopacity play-video-btn" file-id="' . $fileId  . '" title="Play video" />';
+                                                                        echo '<img src="resources/icons/save.svg" class="icon-lowopacity save-video-btn" file-id="' . $fileId . '" title="Download video" />';
+                                                                    } else {
+                                                                        echo ' <span class="yellowtext"> (not readable)</span>';
+                                                                    }
+                                                                } else {
+                                                                    echo ' <span class="redtext"> (deleted)</span>';
+                                                                } ?>
+                                                            </div>
+                                                            <div>
+                                                                <?php
+                                                                if (file_exists($filepath)) {
+                                                                    if (is_writeable($filepath)) {
+                                                                        echo '<input type="checkbox" class="event-media-checkbox" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
+                                                                    } else {
+                                                                        echo '<img src="resources/icons/warning.png" class="icon" title="File cannot be selected: not writeable">';
+                                                                    }
+                                                                } ?>
+                                                            </div>
                                                         </div>
                                                         <?php
                                                     endif; ?>

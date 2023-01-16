@@ -80,6 +80,11 @@
 
                             <div class="motion-file-btns">
                                 <div>
+                                    <div class="slide-btn save-motion-conf-btn" title="Save file" filename="<?= $configurationFile ?>">
+                                        <img src="resources/icons/save.svg" />
+                                        <span>Save file</span>
+                                    </div>
+
                                     <?php
                                     if ($eventRegistering == true) : ?>
                                         <div class="slide-btn setup-event-motion-conf-btn" title="Set up event registering" filename="<?= $configurationFile ?>">
@@ -92,11 +97,6 @@
                                     <div class="slide-btn duplicate-motion-conf-btn" title="Duplicate file" filename="<?= $configurationFile ?>">
                                         <img src="resources/icons/duplicate.svg" />
                                         <span>Duplicate file</span>
-                                    </div>
-
-                                    <div class="slide-btn save-motion-conf-btn" title="Save file" filename="<?= $configurationFile ?>">
-                                        <img src="resources/icons/save.svg" />
-                                        <span>Save file</span>
                                     </div>
 
                                     <div class="slide-btn-red delete-motion-conf-btn" title="Delete file" filename="<?= $configurationFile ?>">
@@ -123,6 +123,9 @@
                         endif ?>
 
                         <form class="motion-configuration-form" filename="<?= $configurationFile ?>" autocomplete="off">
+
+                            <p>You can find all available parameters in the <a target="_blank" href="https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha">official Motion documentation<img src="resources/icons/external-link.svg" class="icon" /></a></p>
+
                             <table class="motion-configuration-table">
                                 <tr>
                                     <th>E / D</th>
@@ -199,7 +202,7 @@
 
                                 <tr>
                                     <td colspan="3">
-                                        <br>Add an additonnal parameter:
+                                        <br>Add an additonnal parameter:<br><br>
                                     </td>
                                 </tr>
                                 </tr>

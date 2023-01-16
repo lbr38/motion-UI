@@ -139,8 +139,9 @@ function addCamera(cameraName, cameraUrl)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/camera/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "live",
             action: "addCamera",
             cameraName: cameraName,
             cameraUrl: cameraUrl
@@ -170,8 +171,9 @@ function editCamera(cameraId, cameraName, cameraUrl, cameraRotate, cameraRefresh
 {
     $.ajax({
         type: "POST",
-        url: "controllers/camera/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "live",
             action: "editCamera",
             cameraId: cameraId,
             cameraName: cameraName,
@@ -200,8 +202,9 @@ function deleteCamera(cameraId)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/camera/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "live",
             action: "deleteCamera",
             cameraId: cameraId
         },
@@ -226,8 +229,9 @@ function reloadImage(cameraId)
 {
     $.ajax({
         type: "POST",
-        url: "controllers/camera/ajax.php",
+        url: "ajax/controller.php",
         data: {
+            controller: "live",
             action: "reloadImage",
             cameraId: cameraId
         },
