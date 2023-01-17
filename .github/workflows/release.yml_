@@ -1,0 +1,112 @@
+on:
+  push:
+    # branches: [ devel ]
+
+name: Create motion-UI release
+
+jobs:
+  build-deb:
+    name: Build deb package
+    runs-on: ubuntu-latest
+    container:
+      image: debian:latest
+      options: --user root
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # build deb
+      - name: Get motionui version
+        run: echo "VERSION=2.3.7" >> $GITHUB_ENV
+        # run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
+
+      # - name: Set deb filename
+      #   run: echo "DEB_FILENAME=motionui_${VERSION}.deb" >> $GITHUB_ENV
+
+      - name: Install dependencies packages
+        run: apt-get update && apt-get install build-essential binutils lintian debhelper dh-make devscripts -y 
+
+      - name: Create build environment
+        run: |
+          mkdir -p /tmp/motion-UI-build/DEBIAN
+          mkdir -p /tmp/motion-UI-build/var/www/motionui
+          mkdir -p /tmp/motion-UI-build/var/lib/motionui
+          mkdir -p /tmp/motion-UI-build/lib/systemd/system/
+
+      - name: Copy files to include in the build
+        run: |
+          cp -r ${GITHUB_WORKSPACE}/www/* /tmp/motion-UI-build/var/www/motionui/
+          cp -r ${GITHUB_WORKSPACE}/tools ${GITHUB_WORKSPACE}/motionui  /tmp/motion-UI-build/var/lib/motionui/
+          cp -r ${GITHUB_WORKSPACE}/tools/service/motionui.systemd.template /tmp/motion-UI-build/lib/systemd/system/motionui.service
+
+      - name: Copy control file
+        run: |
+          cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/deb/control /tmp/motion-UI-build/DEBIAN/control
+          sed -i "s/__VERSION__/${{ env.VERSION }}/g" /tmp/motion-UI-build/DEBIAN/control
+
+      - name: Copy postinst script
+        run: |
+          cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/deb/postinst /tmp/motion-UI-build/DEBIAN/postinst
+          chmod 755 /tmp/motion-UI-build/DEBIAN/postinst
+
+      - name: Build package
+        run: |
+          cd /tmp
+          dpkg-deb --build motion-UI-build
+          mv /tmp/motion-UI-build.deb /tmp/motionui_${{ env.VERSION }}.deb
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: motionui_${{ env.VERSION }}.deb
+          path: /tmp/motionui_${{ env.VERSION }}.deb
+          retention-days: 1
+
+  release:
+    name: Create Release
+    needs:
+      build-deb
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get motionui version
+        run: echo "VERSION=2.3.7" >> $GITHUB_ENV
+        # run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
+
+      # Download builded deb package artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: motionui_${{ env.VERSION }}.deb
+
+      # Create a new release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
+
+      # Upload deb package to release
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./motionui_${{ env.VERSION }}.deb
+          asset_name: motionui_${{ env.VERSION }}.deb
+          asset_content_type: application/zip
+

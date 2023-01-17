@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Deploy motion-UI systemd service
+
+# First stop motionui service if started
+if systemctl is-active --quiet motionui;then
+    systemctl stop motionui --quiet
+fi
+
+# Enable service script by creating a symlink
+ln -sf /lib/systemd/system/motionui.service /etc/systemd/system/motionui.service
+chmod 700 "/var/lib/motionui/tools/service/motionui-service"
+systemctl daemon-reload
+
+# Start motionui service
+if ! systemctl is-active --quiet motionui;then
+    systemctl start motionui --quiet
+fi

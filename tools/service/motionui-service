@@ -335,7 +335,6 @@ function autostart
 function processEvent
 {
     if [ ! -d "$EVENTS_DIR" ];then
-        # mkdir -p "$EVENTS_DIR"
         return
     fi
 

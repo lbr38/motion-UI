@@ -68,7 +68,7 @@ class Autoloader
             define('CAMERA_DIR', DATA_DIR . '/configurations');
         }
         if (!defined('EVENTS_DIR')) {
-            define('EVENTS_DIR', ROOT . '/public/resources/events');
+            define('EVENTS_DIR', DATA_DIR . '/events');
         }
         if (!defined('EVENTS_PICTURES')) {
             define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
@@ -84,6 +84,7 @@ class Autoloader
         }
         if (!file_exists(DATA_DIR . '/version.available')) {
             touch(DATA_DIR . '/version.available');
+            file_put_contents(DATA_DIR . '/version.available', VERSION);
         }
         if (!defined('GIT_VERSION')) {
             define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
