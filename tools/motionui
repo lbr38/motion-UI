@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+
+export TERM="xterm-256color"
+
+WWW_USER=""
+WWW_DIR="/var/www/motionui"
+DATA_DIR="/var/lib/motionui"
+SERVICE="$DATA_DIR/tools/service/motionui-service"
+SYSTEMD=$(cat $DATA_DIR/systemd)
+CONFIRM=""
+PWD=$(pwd)
+ASSUME_YES="false"
+
+# Colors
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+RESET=$(tput sgr0)
+
+# Detecting user
+if [ "$(id -u)" -ne "0" ];then
+    echo -e "\n${YELLOW}Must be executed with sudo ${RESET}\n"
+    exit
+fi
+
+
+# Print help
+function help
+{
+    echo -e "\n   Available parameters:"
+    echo -e "   -p | --set-permissions  ➤  Set necessary permissions on Motion-UI directories and files."
+}
+
+
+# Detect or ask for webserver user
+function detectWebUser
+{
+    while [ -z "$WWW_USER" ];do
+        # Try to detect web user
+        if grep -q "^nginx:" /etc/passwd;then
+            WWW_USER="nginx"
+        elif grep -q "^www-data:" /etc/passwd;then
+            WWW_USER="www-data"
+        elif grep -q "^apache:" /etc/passwd;then
+            WWW_USER="apache"
+        fi
+        # Si more than one web users are detected then variable is leaved empty. User will have to manualy specify which web user to use.
+        if egrep -q "^nginx:" /etc/passwd && egrep -q "^www-data:" /etc/passwd && egrep -q "^apache:" /etc/passwd;then
+            WWW_USER=""
+        fi
+
+        if [ "$ASSUME_YES" == "false" ];then
+            if [ ! -z "$WWW_USER" ];then
+                echo -e "\n➤ Specifying webserver user (detected: $WWW_USER)"
+                echo -ne "  Leave empty to use ${YELLOW}${WWW_USER}${RESET} or specify a user: "; read -p "" PROMPT
+                if [ ! -z "$PROMPT" ];then
+                    WWW_USER="$PROMPT"
+                fi
+            else
+                while [ -z "$WWW_USER" ];do
+                    echo -ne "\n➤ Specifying webserver user (generally nginx or www-data): "; read -p "" WWW_USER
+                done
+            fi
+        fi
+
+        # If assume-yes and user could not be detected, exit with 1
+        if [ "$ASSUME_YES" == "true" ];then
+            if [ -z "$WWW_USER" ];then
+                echo -e "[$YELLOW ERROR $RESET] Could not detect web user / multiple web users have been detected."
+                exit 1
+            fi
+        fi
+    done
+}
+
+
+# Set correct permissions on all directories and files used by motionui
+function permissions
+{
+    ACTUAL_USER=$(whoami)
+
+    detectWebUser
+
+    echo -ne "\n${YELLOW} Setting permissions... ${RESET}"
+
+    # Create motionui group
+    if ! grep -q "motionui" /etc/group;then
+        groupadd motionui
+    fi
+
+    # Add webserver and motion user to the group
+    usermod -G motionui "$WWW_USER"
+    usermod -G motionui motion
+
+    # Setting permissions only if sudo/root
+    if [ "$ACTUAL_USER" == "root" ];then
+        # Permissions on web directory
+        find "$WWW_DIR" -type f -exec chmod 0660 {} \;
+        find "$WWW_DIR" -type d -exec chmod 0770 {} \;
+        find "$DATA_DIR" -type f -exec chmod 0660 {} \;
+        find "$DATA_DIR" -type d -exec chmod 0770 {} \;
+
+        chmod 750 "$WWW_DIR"
+        chmod 770 "$DATA_DIR"
+
+        chown -R ${WWW_USER}:motionui "$WWW_DIR"
+        chown -R ${WWW_USER}:motionui "$DATA_DIR"
+
+        chmod 550 ${DATA_DIR}/tools/motionui
+        chmod 550 ${DATA_DIR}/tools/event
+        chmod 550 $SERVICE
+
+        find "/etc/motion" -type f -exec chmod 0660 {} \;
+        find "/etc/motion" -type d -exec chmod 0770 {} \;
+        chown -R motion:motionui /etc/motion
+    fi
+
+    echo -e "${GREEN}OK${RESET}\n"
+}
+
+
+echo '
+                 __  .__                              .__ 
+   _____   _____/  |_|__| ____   ____            __ __|__|
+  /     \ /  _ \   __\  |/  _ \ /    \   ______ |  |  \  |
+ |  Y Y  (  <_> )  | |  (  <_> )   |  \ /_____/ |  |  /  |
+ |__|_|  /\____/|__| |__|\____/|___|  /         |____/|__|
+       \/                           \/                    
+
+'
+
+if [ $# -eq 0 ];then
+    help
+    exit
+fi
+
+while [ $# -ge 1 ];do
+    case "$1" in
+        --help|-help|-h)
+            help
+            exit
+        ;;
+        --web-user)
+            WWW_USER="$2"
+            shift
+        ;;
+        --yes|--assume-yes)
+            ASSUME_YES="true"
+        ;;
+        --set-permissions|--permissions|-p)
+            permissions
+            exit
+        ;;
+        *)
+    esac
+    shift
+done
+
+exit

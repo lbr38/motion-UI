@@ -154,6 +154,29 @@ td {
 .td-50 { padding-right: 50px !important; }
 .td-100 { padding-right: 100px !important; }
 
+.icon, .icon-small, .icon-lowopacity, .icon-verylowopacity, .icon-mediumopacity, .icon-nf {
+    height: 13px;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.icon-small {
+    height: 8px;
+}
+.icon-lowopacity {
+    opacity: 0.33;
+}
+.icon-mediumopacity {
+    opacity: 0.55;
+}
+.icon-verylowopacity {
+    opacity: 0.08;
+}
+.icon-lowopacity:hover, .icon-verylowopacity:hover, .icon-mediumopacity:hover {
+    opacity: 1;
+}
 
 /**
  *  Forms, button, input, textarea

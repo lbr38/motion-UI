@@ -1,4 +1,12 @@
 <div id="top-buttons-container">
+    <div class="relative">
+        <img id="print-notification-btn" src="resources/icons/info.svg" class="pointer lowopacity" title="Show notifications" />
+        <?php
+        if (NOTIFICATION != 0) : ?>
+            <span class="notification-count"><?= NOTIFICATION ?></span>
+            <?php
+        endif ?>
+    </div>
     <div>
         <img id="print-userspace-btn" src="resources/icons/user.svg" class="pointer lowopacity" title="Show userspace" />
     </div>
@@ -9,6 +17,7 @@
 
 <?php
     include_once(ROOT . '/views/includes/settings.inc.php');
+    include_once(ROOT . '/views/includes/notification.inc.php');
     include_once(ROOT . '/views/includes/userspace.inc.php');
     include_once(ROOT . '/views/includes/motion-configure-alert.inc.php');
     include_once(ROOT . '/views/includes/motion-configure-autostart.inc.php');
@@ -19,7 +28,7 @@
     /**
      *  Display a warning if motionUI service is not running
      */
-    if ($mymotion->getMotionUIServiceStatus() != 'active') {
+    if ($mymotion->motionuiServiceRunning() != true) {
         echo '<p class="center yellowtext"><img src="resources/icons/warning.png" class="icon" /><b>motionui</b> service is not running. Please start it.</p>';
     } ?>
 </div>

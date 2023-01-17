@@ -30,15 +30,15 @@ class Motion
     /**
      *  Returns status of systemd 'motionui' service
      */
-    public function getMotionUIServiceStatus()
+    public function motionuiServiceRunning()
     {
-        $status = trim(shell_exec('systemctl is-active motionui'));
+        $statusSystemd = trim(shell_exec('systemctl is-active motionui'));
 
-        if ($status == 'active') {
-            return 'active';
+        if ($statusSystemd != 'active') {
+            return false;
         }
 
-        return 'inactive';
+        return true;
     }
 
     /**

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Delete actual sources
+if [ -d "/var/www/motionui" ];then
+    rm -rf /var/www/motionui/*
+fi

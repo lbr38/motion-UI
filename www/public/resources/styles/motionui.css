@@ -23,44 +23,22 @@ h3 {
     border-spacing: 4px 0px;
 }
 
-.icon, .icon-small, .icon-lowopacity, .icon-verylowopacity, .icon-mediumopacity, .icon-nf {
-    height: 13px;
-    margin-left: 5px;
-    margin-right: 5px;
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-.config-div {
-    width: 90%;
-    padding: 8px;
-    margin: 15px auto 15px auto;
-    display: block;
-    border-radius: 4px;
-    background-color: #182b3e;
-    -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
-    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
-}
-
-.icon-small {
-    height: 8px;
-}
-.icon-lowopacity {
-    opacity: 0.33;
-}
-.icon-verylowopacity {
-    opacity: 0.08;
-}
-.icon-lowopacity:hover, .icon-verylowopacity:hover, .icon-mediumopacity:hover {
-    opacity: 1;
-}
-
-.icon-mediumopacity {
-    opacity: 0.55;
-}
-
 .rename-motion-conf-input {
     background-color: #112334 !important;
+}
+
+.notification-count {
+    position: absolute;
+    right: -9px;
+    top: -9px;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    background-color: #ff0044;
+    padding: 1px 3px;
+    text-align: center;
+    font-size: 12px;
+    text-decoration: none;
 }
 
 .param-slide {
