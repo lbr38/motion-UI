@@ -1,6 +1,7 @@
 on:
-  push:
-    branches: [ test ]
+  pull_request:
+    push:
+      branches: [ test ]
 
 name: Create motion-UI release
 
