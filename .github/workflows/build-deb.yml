@@ -72,6 +72,9 @@ jobs:
       image: debian:10
       options: --user root
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Get motion-UI version
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
         # run: echo "VERSION=2.3.7" >> $GITHUB_ENV
@@ -97,6 +100,9 @@ jobs:
       image: debian:11
       options: --user root
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Get motion-UI version
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
         # run: echo "VERSION=2.3.7" >> $GITHUB_ENV
@@ -119,6 +125,9 @@ jobs:
       build-deb
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Get motion-UI version
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
         # run: echo "VERSION=2.3.7" >> $GITHUB_ENV
