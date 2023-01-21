@@ -75,20 +75,23 @@ jobs:
         # run: echo "VERSION=2.3.7" >> $GITHUB_ENV
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
 
+      - name: Get release changelog
+        run: echo "CHANGELOG=$(cat ${GITHUB_WORKSPACE}/.github/workflows/changelog/${{ env.VERSION }})" >> $GITHUB_ENV
+
       # Download builded deb package artifact
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: motionui_${{ env.VERSION }}.deb
 
-      - name: Get merged pull request comment
-        # id: pr-comments
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          comments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/33/comments)
-          first_comment=$(echo $comments | jq '.[0]')
-          echo "First comment: $first_comment"
+      # - name: Get merged pull request comment
+      #   # id: pr-comments
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     comments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/33/comments)
+      #     first_comment=$(echo $comments | jq '.[0]')
+      #     echo "First comment: $first_comment"
 #          comments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/comments)
 #          echo "Pull request comments: $comments"
 
@@ -102,9 +105,7 @@ jobs:
           tag_name: ${{ env.VERSION }}
           release_name: Release ${{ env.VERSION }}
           body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+            ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
 
