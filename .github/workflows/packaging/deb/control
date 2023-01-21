@@ -3,7 +3,7 @@ Version: __VERSION__
 Section: main
 Priority: optional
 Architecture: all
-Depends: motion (>=4.2), sqlite3, mutt, curl
+Depends: motion (>=4.1), sqlite3, mutt, curl
 Maintainer: lbr38 <noemail@email.com>
 Description: motion-UI - A light web responsive interface to manage motion and watch http camera stream
 Homepage: https://github.com/lbr38/motion-UI
