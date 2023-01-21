@@ -76,7 +76,7 @@ jobs:
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
 
       - name: Get release changelog
-        run: echo "CHANGELOG=\"$(cat ${GITHUB_WORKSPACE}/changelog/${{ env.VERSION }})\"" >> $GITHUB_ENV
+        run: echo "CHANGELOG=\"$(cat ${GITHUB_WORKSPACE}/changelog/2.3.7)\"" >> $GITHUB_ENV
 
       # Download builded deb package artifact
       - name: Download artifact
