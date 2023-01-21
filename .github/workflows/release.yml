@@ -89,8 +89,7 @@ jobs:
           comments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/33/comments)
           first_comment=$(echo $comments | jq '.[0]')
           echo "First comment: $first_comment"
-
-#           comments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/comments)
+#          comments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/comments)
 #          echo "Pull request comments: $comments"
 
       # Create a new release
