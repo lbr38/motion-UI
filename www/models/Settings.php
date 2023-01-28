@@ -25,23 +25,38 @@ class Settings extends Model
     /**
      *  Edit global settings
      */
-    public function edit(string $printLiveBtn, string $printMotionStartBtn, string $printMotionAutostartBtn, string $printMotionAlertBtn, string $printMotionStatsBtn, string $printMotionsCaptures, string $printMotionConfig)
+    public function edit(string $streamMainPage, string $streamLivePage, string $motionStartBtn, string $motionAutostartBtn, string $motionAlertBtn, string $motionEvents, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, string $motionStats)
     {
         $stmt = $this->db->prepare("UPDATE Settings SET 
-        Print_live_btn = :printLiveBtn,
-        Print_motion_start_btn = :printMotionStartBtn,
-        Print_motion_autostart_btn = :printMotionAutostartBtn,
-        Print_motion_alert_btn = :printMotionAlertBtn,
-        Print_motion_stats = :printMotionStatsBtn,
-        Print_motion_events = :printMotionsCaptures,
-        Print_motion_config = :printMotionConfig");
-        $stmt->bindValue(':printLiveBtn', $printLiveBtn);
-        $stmt->bindValue(':printMotionStartBtn', $printMotionStartBtn);
-        $stmt->bindValue(':printMotionAutostartBtn', $printMotionAutostartBtn);
-        $stmt->bindValue(':printMotionAlertBtn', $printMotionAlertBtn);
-        $stmt->bindValue(':printMotionStatsBtn', $printMotionStatsBtn);
-        $stmt->bindValue(':printMotionsCaptures', $printMotionsCaptures);
-        $stmt->bindValue(':printMotionConfig', $printMotionConfig);
+        Stream_on_main_page = :streamMainPage,
+        Stream_on_live_page = :streamLivePage,
+        Motion_start_btn = :motionStartBtn,
+        Motion_autostart_btn = :motionAutostartBtn,
+        Motion_alert_btn = :motionAlertBtn,
+        Motion_events = :motionEvents,
+        Motion_events_videos_thumbnail = :motionEventsVideosThumbnail,
+        Motion_events_pictures_thumbnail = :motionEventsPicturesThumbnail,
+        Motion_stats = :motionStats");
+
+        $stmt->bindValue(':streamMainPage', $streamMainPage);
+        $stmt->bindValue(':streamLivePage', $streamLivePage);
+        $stmt->bindValue(':motionStartBtn', $motionStartBtn);
+        $stmt->bindValue(':motionAutostartBtn', $motionAutostartBtn);
+        $stmt->bindValue(':motionAlertBtn', $motionAlertBtn);
+        $stmt->bindValue(':motionEvents', $motionEvents);
+        $stmt->bindValue(':motionEventsVideosThumbnail', $motionEventsVideosThumbnail);
+        $stmt->bindValue(':motionEventsPicturesThumbnail', $motionEventsPicturesThumbnail);
+        $stmt->bindValue(':motionStats', $motionStats);
+        $stmt->execute();
+    }
+
+    /**
+     *  Enable / disable motion configuration's advanced edition mode
+     */
+    public function motionAdvancedEditionMode(string $status)
+    {
+        $stmt = $this->db->prepare("UPDATE Settings SET Motion_advanced_edition_mode = :status");
+        $stmt->bindValue(':status', $status);
         $stmt->execute();
     }
 }

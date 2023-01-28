@@ -6,10 +6,10 @@ WWW_USER=""
 WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
 SERVICE="$DATA_DIR/tools/service/motionui-service"
-SYSTEMD=$(cat $DATA_DIR/systemd)
 CONFIRM=""
 PWD=$(pwd)
 ASSUME_YES="false"
+RESTART_PHP_NEEDED="false"
 
 # Colors
 GREEN=$(tput setaf 2)
@@ -77,45 +77,47 @@ function detectWebUser
 # Set correct permissions on all directories and files used by motionui
 function permissions
 {
-    ACTUAL_USER=$(whoami)
-
     detectWebUser
 
     echo -ne "\n${YELLOW} Setting permissions... ${RESET}"
 
-    # Create motionui group
-    if ! grep -q "motionui" /etc/group;then
-        groupadd motionui
-    fi
+    # Add webuser to the motion group
+    usermod -a -G motion "$WWW_USER"
+    RESTART_PHP_NEEDED="true"
 
-    # Add webserver and motion user to the group
-    usermod -G motionui "$WWW_USER"
-    usermod -G motionui motion
+    # Permissions on web directory
+    find "$WWW_DIR" -type f -exec chmod 0660 {} \;
+    find "$WWW_DIR" -type d -exec chmod 0770 {} \;
+    chown -R $WWW_USER "$WWW_DIR"
+    chgrp -R $WWW_USER "$WWW_DIR"
+    chmod 750 "$WWW_DIR"
 
-    # Setting permissions only if sudo/root
-    if [ "$ACTUAL_USER" == "root" ];then
-        # Permissions on web directory
-        find "$WWW_DIR" -type f -exec chmod 0660 {} \;
-        find "$WWW_DIR" -type d -exec chmod 0770 {} \;
-        find "$DATA_DIR" -type f -exec chmod 0660 {} \;
-        find "$DATA_DIR" -type d -exec chmod 0770 {} \;
+    # Permissions on data directory
+    find "$DATA_DIR" -type f -exec chmod 0660 {} \;
+    find "$DATA_DIR" -type d -exec chmod 0770 {} \;
+    chown -R ${WWW_USER}:motion "$DATA_DIR"
+    chmod 750 "$DATA_DIR"    
 
-        chmod 750 "$WWW_DIR"
-        chmod 770 "$DATA_DIR"
+    # Set permissions on motion captures dir
+    mkdir -p /var/lib/motion
+    chown -R motion:motion /var/lib/motion
+    find "/var/lib/motion" -type f -exec chmod 0660 {} \;
+    find "/var/lib/motion" -type d -exec chmod 0770 {} \;
 
-        chown -R ${WWW_USER}:motionui "$WWW_DIR"
-        chown -R ${WWW_USER}:motionui "$DATA_DIR"
+    chmod 550 ${DATA_DIR}/tools/motionui
+    chmod 550 ${DATA_DIR}/tools/event
+    chmod 550 "$SERVICE"
 
-        chmod 550 ${DATA_DIR}/tools/motionui
-        chmod 550 ${DATA_DIR}/tools/event
-        chmod 550 $SERVICE
-
-        find "/etc/motion" -type f -exec chmod 0660 {} \;
-        find "/etc/motion" -type d -exec chmod 0770 {} \;
-        chown -R motion:motionui /etc/motion
-    fi
+    find "/etc/motion" -type f -exec chmod 0660 {} \;
+    find "/etc/motion" -type d -exec chmod 0770 {} \;
+    chown -R motion:motion /etc/motion
+    chmod 770 /etc/motion
 
     echo -e "${GREEN}OK${RESET}\n"
+
+    if [ "$RESTART_PHP_NEEDED" == "true" ];then
+        echo -e "${YELLOW} Please restart php-fpm service.${RESET}\n"
+    fi
 }
 
 

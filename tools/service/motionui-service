@@ -4,6 +4,7 @@ trap 'kill 0' EXIT
 
 SCRIPT_PATH=$(realpath $0)
 DATA_DIR="/var/lib/motionui"
+CAPTURES_DIR="/var/lib/motion"
 DB="$DATA_DIR/db/motionui.sqlite"
 EVENTS_DIR="$DATA_DIR/events"
 DAY=$(LC_ALL="en_EN.UTF-8" date +%A)
@@ -44,9 +45,9 @@ function generalChecks
 # Check if this service needs to be restarted
 function checkRestartNeeded
 {
-    if [ -f "$DATA_DIR/service.restart" ];then
+    if [ -f "$DATA_DIR/motionui.restart" ];then
         echo "A restart of this service is required. Restarting..."
-        rm "$DATA_DIR/service.restart" -f
+        rm "$DATA_DIR/motionui.restart" -f
         exec systemctl --quiet restart motionui
     fi
 }
@@ -347,13 +348,14 @@ function processEvent
         EVENT_DATE_START=$(grep "^DATE_START=" $EVENTS_DIR/$EVENT | sed 's/DATE_START=//g')
         EVENT_TIME_START=$(grep "^TIME_START=" $EVENTS_DIR/$EVENT | sed 's/TIME_START=//g')
         EVENT_CAMERA_ID=$(grep "^CAMERA_ID=" $EVENTS_DIR/$EVENT | sed 's/CAMERA_ID=//g')
-        EVENT_CAMERA_NAME=$(grep "^CAMERA_NAME=" $EVENTS_DIR/$EVENT | sed 's/CAMERA_NAME=//g')
+        # EVENT_CAMERA_NAME=$(grep "^CAMERA_NAME=" $EVENTS_DIR/$EVENT | sed 's/CAMERA_NAME=//g')
         EVENT_FILES=$(grep "^FILE=" $EVENTS_DIR/$EVENT | sed 's|FILE=||g')
 
         # If the event have never been processed before, then add it to database
         if [ "$EVENT_STATUS" == "new" ] && [ ! -z "$EVENT_DATE_START" ] && [ ! -z "$EVENT_TIME_START" ];then        
             # Add event to database
-            /usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "INSERT INTO motion_events (Motion_id_event, Date_start, Time_start, Camera_id, Camera_name, Status) VALUES ('$EVENT_MOTION_ID', '$EVENT_DATE_START', '$EVENT_TIME_START', '$EVENT_CAMERA_ID', '$EVENT_CAMERA_NAME', 'processing')"
+            # /usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "INSERT INTO motion_events (Motion_id_event, Date_start, Time_start, Camera_id, Camera_name, Status) VALUES ('$EVENT_MOTION_ID', '$EVENT_DATE_START', '$EVENT_TIME_START', '$EVENT_CAMERA_ID', '$EVENT_CAMERA_NAME', 'processing')"
+            /usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "INSERT INTO motion_events (Motion_id_event, Date_start, Time_start, Camera_id, Status) VALUES ('$EVENT_MOTION_ID', '$EVENT_DATE_START', '$EVENT_TIME_START', '$EVENT_CAMERA_ID', 'processing')"
 
             # Then change its status to processing and leave it until DATE_END and TIME_END are added to the file
             sed -i 's/STATUS=.*/STATUS=processing/g' "$EVENTS_DIR/$EVENT"
@@ -364,7 +366,7 @@ function processEvent
             fi
         fi
 
-        # Get event autoincrement Id in database, it will be needed for next operations
+        # Get event Id in database, it will be needed for next operations
         EVENT_ID=$(/usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "SELECT Id FROM motion_events WHERE Motion_id_event='$EVENT_MOTION_ID' AND Date_start='$EVENT_DATE_START' AND Time_start='$EVENT_TIME_START'")
 
         # Process file and close event only if it has already an Id in database
@@ -374,16 +376,34 @@ function processEvent
                 for EVENT_FILE in $EVENT_FILES;do
                     # If the file has not already been added to database then add it
                     if ! echo "$EVENT_FILE" | grep -q ":processed";then
+                        # Get file size
+                        EVENT_FILE_SIZE=$(du -hs $EVENT_FILE | awk {'print $1'})
 
-                        /usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "INSERT INTO motion_events_files (File, Id_event) VALUES ('$EVENT_FILE', '$EVENT_ID')"
+                        /usr/bin/sqlite3 -noheader -batch -cmd '.timeout 5000' "$DB" "INSERT INTO motion_events_files (File, Size, Id_event) VALUES ('$EVENT_FILE', '$EVENT_FILE_SIZE', '$EVENT_ID')"
 
                         # Send alert with the file attached, if enabled
                         if [ "$ALERT_ENABLED" == "enabled" ];then
                             newEventFileAlert
                         fi
 
+                        # If the file is a movie, then create a thumbnail image for it
+                        if echo "$EVENT_FILE" | grep -q ".mp4";then
+                            # Get file directory location
+                            EVENT_FILE_DIR=$(dirname "$EVENT_FILE")
+
+                            # Create thumbnail if not already exist
+                            if [ ! -f "${EVENT_FILE}.thumbnail" ];then
+                                ffmpeg -loglevel error -ss 00:00:01.00 -i "$EVENT_FILE" -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 ${EVENT_FILE}.thumbnail.jpg
+                                chmod 660 ${EVENT_FILE}.thumbnail.jpg
+                                chown motion:motion ${EVENT_FILE}.thumbnail.jpg
+                            fi
+                        fi
+
                         # Change file status to 'processed' in the file to prevent it from been processed multiple times
                         sed -i "s|$EVENT_FILE|${EVENT_FILE}:processed|g" "$EVENTS_DIR/$EVENT"
+
+                        chgrp motion "$EVENT_FILE"
+                        chmod 660 "$EVENT_FILE"
                     fi
                 done
             fi
@@ -405,14 +425,30 @@ function processEvent
     done
 }
 
+# Check if motion needs to be restarted
+function checkMotionRestartNeeded
+{
+    if [ -f "$DATA_DIR/motion.restart" ];then
+        echo "A restart of motion service is required. Restarting motion..."
+        rm "$DATA_DIR/motion.restart" -f
+        systemctl --quiet restart motion
+    fi
+}
+
 # Check if this service needs to be restarted
 function checkRestartNeeded
 {
-    if [ -f "$DATA_DIR/service.restart" ];then
+    if [ -f "$DATA_DIR/motionui.restart" ];then
         echo "A restart of this service is required. Restarting..."
-        rm "$DATA_DIR/service.restart" -f
+        rm "$DATA_DIR/motionui.restart" -f
         exec systemctl --quiet restart motionui
     fi
+}
+
+function permissions
+{
+    chown -R motion:motion "$CAPTURES_DIR"
+    find "$CAPTURES_DIR" -type d -exec chmod 0770 {} \;
 }
 
 # Leave 10sec for the system to boot
@@ -420,12 +456,17 @@ sleep 10
 
 # Execution
 while true; do
+    # Check if a restart of motion is needed
+    checkMotionRestartNeeded
     # Check if a restart of this service is needed
     checkRestartNeeded
 
     # Check that conf files exists
     generalChecks
-    
+
+    # Regulary set permissions on captures directories (until there is a possibility to set umask on motion's generated files)
+    permissions
+
     # Execute actions on service start (COUNTER = 0) and then every hour (COUNTER = 720)
     # 3600 / 5sec (sleep 5) = 720
     if [ "$COUNTER" -eq "0" ] || [ "$COUNTER" -eq "720" ];then

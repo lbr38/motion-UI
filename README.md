@@ -27,25 +27,6 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 
 <hr>
 
-## Where to install motion-UI?
-
-You must install **motion-UI** on the same host/server that runs the **motion** service.
-
-If you want to access and watch your http cameras stream from **motion-UI**, the server must have access to those cameras as well.
-
-E.g of a home installation:
-<p align="center">
-<img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-draw-io.png">
-</p>
-
-As the server is exposed to the Internet, be sure to set up some security between each points with firewall rules / IP filtering.
-E.g:
-- Camera's http stream must only be accessible by the server on the local network.
-- Server's motion-UI must only be accessible from outside by using a VPN.
-
-<hr>
-
-
 ## Installation & requirements
 
 Please check the documentation to find all requirements and steps to install **motion-UI**: <a href="https://github.com/lbr38/motion-UI/wiki/Documentation#motion-ui-installation">here</a>

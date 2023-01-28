@@ -1,8 +1,6 @@
 name: PHP_CodeSniffer
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     push:
       branches: [ main ]

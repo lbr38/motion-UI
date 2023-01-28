@@ -70,7 +70,7 @@
                 <span class="onoff-switch-slider"></span>
             </label>
         </div>
-                
+
         <?php
         if ($autostartDevicePresenceEnabled == 'enabled') : ?>
             <br>

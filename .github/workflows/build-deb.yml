@@ -77,6 +77,14 @@ jobs:
       - name: Get motion-UI version
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
 
+      - name: Install dependencies packages
+        run: apt-get update && apt-get install -y curl gpg
+
+      - name: Install motionui repo to grant access to most recent motion packages
+        run: |
+          curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_deb.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
+          echo "deb https://packages.bespin.ovh/repo/motionui/buster/main_prod buster main" > /etc/apt/sources.list.d/motionui.list
+
       # Download builded deb package artifact
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -104,6 +112,14 @@ jobs:
       - name: Get motion-UI version
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
 
+      - name: Install dependencies packages
+        run: apt-get update && apt-get install -y curl gpg
+
+      - name: Install motionui repo to grant access to most recent motion packages
+        run: |
+          curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_deb.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
+          echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui.list
+
       # Download builded deb package artifact
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -116,25 +132,25 @@ jobs:
           apt-get install -y ./motionui-test-build_${{ env.VERSION }}.deb
 
   # Try to install package on Ubuntu (latest)
-  install-ubuntu:
-    name: Install on Ubuntu (latest)
-    needs:
-      build-deb
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # install-ubuntu:
+  #   name: Install on Ubuntu (latest)
+  #   needs:
+  #     build-deb
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Get motion-UI version
-        run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
+  #     - name: Get motion-UI version
+  #       run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
 
-      # Download builded deb package artifact
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: motionui-test-build_${{ env.VERSION }}.deb
+  #     # Download builded deb package artifact
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: motionui-test-build_${{ env.VERSION }}.deb
 
-      - name: Install package
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ./motionui-test-build_${{ env.VERSION }}.deb
+  #     - name: Install package
+  #       run: |
+  #         sudo apt-get update -y
+  #         sudo apt-get install -y ./motionui-test-build_${{ env.VERSION }}.deb

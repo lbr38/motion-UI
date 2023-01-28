@@ -104,11 +104,14 @@ class Autoloader
         if (!defined('LOGS_DIR')) {
             define('LOGS_DIR', DATA_DIR . "/logs");
         }
-        if (!defined('CAMERA_DIR')) {
-            define('CAMERA_DIR', DATA_DIR . '/configurations');
+        if (!defined('CAMERAS_DIR')) {
+            define('CAMERAS_DIR', '/etc/motion/cameras');
         }
         if (!defined('EVENTS_DIR')) {
             define('EVENTS_DIR', DATA_DIR . '/events');
+        }
+        if (!defined('CAPTURES_DIR')) {
+            define('CAPTURES_DIR', '/var/lib/motion');
         }
         if (!defined('EVENTS_PICTURES')) {
             define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
@@ -149,12 +152,6 @@ class Autoloader
         } else {
             define('UPDATE_AVAILABLE', 'false');
         }
-        if (!defined('UPDATE_SUCCESS_LOG')) {
-            define('UPDATE_SUCCESS_LOG', LOGS_DIR . '/update/update.success');
-        }
-        if (!defined('UPDATE_ERROR_LOG')) {
-            define('UPDATE_ERROR_LOG', LOGS_DIR . '/update/update.error');
-        }
 
         /**
          *  Actual URI
@@ -162,17 +159,6 @@ class Autoloader
         if (!empty($_SERVER['REQUEST_URI'])) {
             if (!defined('__ACTUAL_URI__')) {
                 define('__ACTUAL_URI__', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH));
-            }
-        }
-
-        /**
-         *  Check if a motion-UI update is running
-         */
-        if (!defined('UPDATE_RUNNING')) {
-            if (file_exists(DATA_DIR . "/update-running")) {
-                define('UPDATE_RUNNING', 'yes');
-            } else {
-                define('UPDATE_RUNNING', 'no');
             }
         }
 
@@ -187,16 +173,25 @@ class Autoloader
             mkdir(LOGS_DIR, 0770, true);
         }
 
-        if (!is_dir(LOGS_DIR . '/update')) {
-            mkdir(LOGS_DIR . '/update', 0770, true);
-        }
+        if (!is_dir(CAMERAS_DIR)) {
+            mkdir(CAMERAS_DIR, 0770, true);
 
-        if (!is_dir(CAMERA_DIR)) {
-            mkdir(CAMERA_DIR, 0770, true);
+            chgrp(CAMERAS_DIR, 'motion');
+            chmod(CAMERAS_DIR, octdec('0770'));
         }
 
         if (!is_dir(EVENTS_DIR)) {
             mkdir(EVENTS_DIR, 0770, true);
+
+            chgrp(EVENTS_DIR, 'motion');
+            chmod(EVENTS_DIR, octdec('0770'));
+        }
+
+        if (!is_dir(CAPTURES_DIR)) {
+            mkdir(CAPTURES_DIR, 0770, true);
+
+            chmod(CAPTURES_DIR, octdec('0770'));
+            chgrp(CAPTURES_DIR, 'motion');
         }
 
         if (!is_dir(EVENTS_PICTURES)) {

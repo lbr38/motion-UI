@@ -243,76 +243,16 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
 /**
  *  Configure motion
  */
-if ($_POST['action'] == "configureMotion" and !empty($_POST['filename']) and !empty($_POST['options_array'])) {
+if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !empty($_POST['options_array'])) {
     $mymotion = new \Controllers\Motion();
 
     try {
-        $mymotion->configure($_POST['filename'], $_POST['options_array']);
+        $mymotion->configure($_POST['cameraId'], $_POST['options_array']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
     response(HTTP_OK, 'Configuration saved, please restart <b>motion</b> to apply it.');
-}
-
-/**
- *  Duplicate motion configuration file
- */
-if ($_POST['action'] == "duplicateConf" and !empty($_POST['filename'])) {
-    $mymotion = new \Controllers\Motion();
-
-    try {
-        $mymotion->duplicateConf($_POST['filename']);
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Configuration file duplicated.');
-}
-
-/**
- *  Delete motion configuration file
- */
-if ($_POST['action'] == "deleteConf" and !empty($_POST['filename'])) {
-    $mymotion = new \Controllers\Motion();
-
-    try {
-        $mymotion->deleteConf($_POST['filename']);
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Configuration file deleted, please restart <b>motion</b> to apply.');
-}
-
-/**
- *  Rename motion configuration file
- */
-if ($_POST['action'] == "renameConf" and !empty($_POST['filename']) and !empty($_POST['newName'])) {
-    $mymotion = new \Controllers\Motion();
-
-    try {
-        $mymotion->renameConf($_POST['filename'], $_POST['newName']);
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Configuration file renamed to <b>' . $_POST['newName'] . '</b>');
-}
-
-/**
- *  Set up event registering in motion configuration file
- */
-if ($_POST['action'] == "setUpEvent" and !empty($_POST['filename'])) {
-    $mymotion = new \Controllers\Motion();
-
-    try {
-        $mymotion->setUpEvent($_POST['filename']);
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Event registering setted up in <b>' . $_POST['filename'] . '</b>');
 }
 
 response(HTTP_BAD_REQUEST, 'Invalid action');

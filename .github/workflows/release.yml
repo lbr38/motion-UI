@@ -136,7 +136,22 @@ jobs:
           tag_name: ${{ env.VERSION }}
           release_name: ${{ env.VERSION }}
           body: |
-            No new features or fixes, just a warning message to print about major release 3.0.0 when it will come out.
+            **Breaking changes**:
+
+            - This release is not compatible with any previous 2.* releases and brings no migration tool.
+            Installation will backup the actual motion/motion-UI configuration and make a fresh new install.
+            Motion-UI login and password will be reseted to defaults. All configuration and events will be lost and you will have to setup all of your cameras again.
+
+            **Features**:
+
+            - Easier camera setup (setup for live stream, for motion detection or both)
+            - Camera video stream can now be displayed (only static images with refresh was possible before)
+            - Display thumbnails of events captured medias
+            - Download one or more captured medias at once
+
+            **Fixes**:
+
+            - Captured video medias can now be readed directly from browser
 
           draft: false
           prerelease: false

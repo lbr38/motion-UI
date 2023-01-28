@@ -4,7 +4,7 @@
 
         <h2 class="center">Configure alerts</h2>
         
-        <p>Alerts are sent on event start and on video/picture save. Be sure that event registering is setted up in motion's configuration file(s).</p>
+        <p>Alerts are sent on event start and on video/picture save.</p>
 
         <br>
         <h2>Alerts time period</h2>

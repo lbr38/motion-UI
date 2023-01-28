@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DATA_DIR="/var/lib/motionui"
+SERVICE="$DATA_DIR/tools/service/motionui-service"
 
 # Create/recreate symlink for motionui script
 rm -f "/usr/bin/motionui"
@@ -32,3 +33,8 @@ systemctl start --quiet motionui
 
 # Set permissions
 /usr/bin/motionui --assume-yes --permissions
+
+# Set up motion captures dir
+mkdir -p /var/lib/motion
+chown motion:motion /var/lib/motion
+chmod 775 /var/lib/motion

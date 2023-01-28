@@ -5,7 +5,7 @@
 
     <body>
 
-        <article>
+        <article id="content">
             <?= $content ?>
         </article>
 

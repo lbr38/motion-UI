@@ -49,6 +49,22 @@ class Connection extends SQLite3
         $this->enableWAL();
 
         /**
+         *  Create live (cameras) table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS cameras (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Name VARCHAR(255) NOT NULL,
+        Url VARCHAR(255) NOT NULL,
+        Stream_url VARCHAR(255),
+        Output_type CHAR(5), /* image, video */
+        Refresh INTEGER,
+        Rotate INTEGER,
+        Live_enabled CHAR(5),
+        Motion_enabled CHAR(5),
+        Username VARCHAR(255),
+        Password VARCHAR(255))");
+
+        /**
          *  Create alerts table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS alerts (
@@ -126,7 +142,7 @@ class Connection extends SQLite3
         Date_end DATE,
         Time_end TIME,
         Camera_id INTEGER,
-        Camera_name VARCHAR(255),
+        /*Camera_name VARCHAR(255),*/
         Status VARCHAR(10))");
 
         /**
@@ -135,6 +151,7 @@ class Connection extends SQLite3
         $this->exec("CREATE TABLE IF NOT EXISTS motion_events_files (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         File VARCHAR(255) NOT NULL,
+        Size VARCHAR(255) NOT NULL,
         Id_event INTEGER NOT NULL)");
 
         /**
@@ -150,22 +167,25 @@ class Connection extends SQLite3
          *  Create settings table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS settings (
-        Print_live_btn CHAR(3),
-        Print_motion_start_btn CHAR(3),
-        Print_motion_autostart_btn CHAR(3),
-        Print_motion_alert_btn CHAR(3),
-        Print_motion_stats CHAR(3),
-        Print_motion_events CHAR(3),
-        Print_motion_config CHAR(3))");
+        Stream_on_main_page CHAR(5) NOT NULL,
+        Stream_on_live_page CHAR(5) NOT NULL,
+        Motion_start_btn CHAR(5) NOT NULL,
+        Motion_autostart_btn CHAR(5) NOT NULL,
+        Motion_alert_btn CHAR(5) NOT NULL,
+        Motion_events CHAR(5) NOT NULL,
+        Motion_events_videos_thumbnail CHAR(5) NOT NULL,
+        Motion_events_pictures_thumbnail CHAR(5) NOT NULL,
+        Motion_stats CHAR(5) NOT NULL,
+        Motion_advanced_edition_mode CHAR(5) NOT NULL)");
 
         /**
          *  If settings table is empty, fill it with default values
          */
-        $result = $this->query("SELECT Print_live_btn FROM settings");
+        $result = $this->query("SELECT Stream_on_main_page FROM settings");
         if ($this->isempty($result) === true) {
             $this->exec("INSERT INTO settings 
-            (Print_live_btn, Print_motion_start_btn, Print_motion_autostart_btn, Print_motion_alert_btn, Print_motion_stats, Print_motion_events, Print_motion_config)
-            VALUES ('yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes')");
+            (Stream_on_main_page, Stream_on_live_page, Motion_start_btn, Motion_autostart_btn, Motion_alert_btn, Motion_events, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_stats, Motion_advanced_edition_mode)
+            VALUES ('true', 'true', 'true', 'true', 'true', 'true', 'true', 'false', 'true', 'false')");
         }
 
         /**
@@ -223,6 +243,12 @@ class Connection extends SQLite3
                 \Controllers\Common::dbError($e);
             }
         }
+
+        /**
+         *  Create indexes on tables with large amount of data
+         */
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_index ON motion_events (Motion_id_event, Date_start, Time_start)");
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_index ON motion_events_files (Id_event)");
     }
 
     /**

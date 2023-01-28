@@ -167,6 +167,7 @@ class Motion extends Model
 
         $stmt = $this->db->prepare("SELECT motion_events.*,
         motion_events_files.Id as FileId,
+        motion_events_files.Size,
         motion_events_files.File,
         motion_events_files.Id_event
         FROM motion_events

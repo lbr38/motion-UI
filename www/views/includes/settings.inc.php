@@ -5,20 +5,11 @@
         <h2 class="center">Settings</h2>
 
         <div id="settings">
-
-            <h2>Buttons</h2>
-
-            <div class="flex">
-                <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-live-btn" <?php echo ($settings['Print_live_btn'] == 'yes') ? 'checked' : ''?>>
-                    <span class="onoff-switch-slider"></span>
-                </label>
-                <span>Live button</span>
-            </div>
+            <h4>Quick action buttons</h4>
 
             <div class="flex">
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-start-btn" <?php echo ($settings['Print_motion_start_btn'] == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-start-btn" <?php echo ($settings['Motion_start_btn'] == 'true') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
                 <span>Motion start/stop button</span>
@@ -26,7 +17,7 @@
 
             <div class="flex">
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-autostart-btn" <?php echo ($settings['Print_motion_autostart_btn'] == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-autostart-btn" <?php echo ($settings['Motion_autostart_btn'] == 'true') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
                 <span>Motion autostart button</span>
@@ -34,40 +25,64 @@
 
             <div class="flex">
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-alert-btn" <?php echo ($settings['Print_motion_alert_btn'] == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-alert-btn" <?php echo ($settings['Motion_alert_btn'] == 'true') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
                 <span>Motion alerts button</span>
             </div>
 
-            <h2>Motion events</h2>
+            <h4>Motion events</h4>
 
             <div class="flex">
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-captures-btn" <?php echo ($settings['Print_motion_events']  == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-events" <?php echo ($settings['Motion_events']  == 'true') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
-                <span>Print motion events and captures</span>
+                <span>Print motion events</span>
             </div>
 
-            <h2>Motion metrics</h2>
-
             <div class="flex">
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-stats-btn" <?php echo ($settings['Print_motion_stats'] == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-events-videos-thumbnail" <?php echo ($settings['Motion_events_videos_thumbnail']  == 'true') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
-                <span>Print charts</span>
+                <span>Print videos thumbnail</span>
             </div>
 
-            <h2>Motion configuration</h2>
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-events-pictures-thumbnail" <?php echo ($settings['Motion_events_pictures_thumbnail']  == 'true') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Print pictures thumbnail</span>
+            </div>
+
+            <h4>Motion stats</h4>
 
             <div class="flex">
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="print-motion-config-btn" <?php echo ($settings['Print_motion_config']  == 'yes') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-stats" <?php echo ($settings['Motion_stats'] == 'true') ? 'checked' : ''?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
-                <span>Print motion configuration files</span>
+                <span>Print stats charts</span>
+            </div>
+
+            <h4>Cameras live stream</h4>
+
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="stream-main-page" <?php echo ($settings['Stream_on_main_page'] == 'true') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Display stream on main page</span>
+            </div>
+
+            <div class="flex">
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input settings-param" type="checkbox" setting-name="stream-live-page" <?php echo ($settings['Stream_on_live_page'] == 'true') ? 'checked' : ''?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+                <span>Display stream on a separate page (Live page)</span>
             </div>
 
             <br>

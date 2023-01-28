@@ -187,7 +187,7 @@ input[type=text], input[type=date], input[type=time], input[type=number], input[
     margin-top: 2px;
     margin-bottom: 2px;
     padding-left: 4px;
-    display: inline-block;
+    /* display: inline-block; */
     border: none;
     border-radius: 2px;
     box-sizing: border-box;
@@ -344,6 +344,53 @@ textarea {
     transform: translateX(15px);
 }
 
+/* boutons switch-field */
+.switch-field {
+    display: flex;
+    overflow: hidden;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.switch-field input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    margin-left: 0;
+    margin-right: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+.switch-field label {
+    background-color: white;
+    color: #3b3b3b;
+    line-height: 1;
+    text-align: center;
+    padding: 3px 7px;
+    margin-right: -1px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+    cursor: pointer;
+}
+
+.switch-field input:checked + label {
+    background-color: #5473e8;
+    box-shadow: none;
+    color: white;
+}
+
+.switch-field label:first-of-type {
+    border-radius: 2px 0 0 2px;
+}
+
+.switch-field label:last-of-type {
+    border-radius: 0 2px 2px 0;
+}
 
 /**
  *  Slider div
@@ -410,17 +457,17 @@ textarea {
     justify-content: flex-end;
 }
 
-.btn-doConfirm, .btn-doCancel {
+[class*="btn-doConfirm"], .btn-doCancel {
     margin-left: 15px;
     margin-right: 15px;
     padding: 20px;
     border-radius: 4px;
     border: 1px solid black;
 }
-.btn-doConfirm {
+[class*="btn-doConfirm"] {
     background-color: #ff0044;
 }
-.btn-doConfirm:hover {
+[class*="btn-doConfirm"]:hover {
     background-color: #dc0044;
 }
 
