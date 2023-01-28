@@ -1,0 +1,70 @@
+Name:           motionui
+Version:        __VERSION__
+Release:        stable
+Summary:        motion-UI - A light web responsive interface to manage motion and watch http camera stream
+
+BuildArch:      noarch
+License:        GPL-3.0
+URL:            https://github.com/lbr38/motion-UI
+
+Requires: motion >= 4.1.0
+Requires: sqlite
+Requires: mutt
+Requires: curl
+Requires: procps
+Requires: psmisc
+
+%description
+motion-UI - A light web responsive interface to manage motion and watch http camera stream
+
+%prep
+# Delete actual sources
+if [ -d "/var/www/motionui" ];then
+    rm -rf /var/www/motionui/*
+fi
+
+%install
+install -m 0770 -d $RPM_BUILD_ROOT/var/www/motionui
+install -m 0770 -d $RPM_BUILD_ROOT/var/lib/motionui/tools
+cp -r $GITHUB_WORKSPACE/www/* $RPM_BUILD_ROOT/var/www/motionui/
+cp -r $GITHUB_WORKSPACE/tools $RPM_BUILD_ROOT/var/lib/motionui/
+
+%post
+DATA_DIR="/var/lib/motionui"
+
+# Create/recreate symlink for motionui script
+rm -f "/usr/bin/motionui"
+ln -sf /var/lib/motionui/tools/motionui /usr/bin/motionui
+
+# Quit if systemd is not installed (e.g. github runners)
+if [ ! -f "/usr/bin/systemd" ];then
+    exit
+fi
+
+# Install service as a systemd service
+# Copy files and restart service to take any changes into account
+
+# First stop motionui service if started
+if systemctl is-active --quiet motionui;then
+    systemctl stop --quiet motionui
+fi
+
+# Copy systemd service template 
+\cp "/var/lib/motionui/tools/service/motionui.systemd.template" "/lib/systemd/system/motionui.service"
+
+# Enable service script by creating a symlink
+ln -sf /lib/systemd/system/motionui.service /etc/systemd/system/motionui.service
+chmod 550 "$SERVICE"
+systemctl daemon-reload
+
+# Start motionui
+systemctl start --quiet motionui
+
+# Set permissions
+/usr/bin/motionui --assume-yes --permissions
+
+%files
+/var/www/motionui/*
+/var/lib/motionui/*
+
+%changelog

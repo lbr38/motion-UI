@@ -23,6 +23,9 @@ class Autoloader
 
     public static function load()
     {
+        $NOTIFICATION = 0;
+        $NOTIFICATION_MESSAGES = array();
+
         /**
          *  Define a cookie with the actual URI
          *  Useful to redirect to the same page after logout/login
@@ -36,6 +39,36 @@ class Autoloader
         \Controllers\Autoloader::loadConstant();
         \Controllers\Autoloader::register();
         \Controllers\Autoloader::loadSession();
+
+        /**
+         *  Notifications
+         */
+        if (VERSION == "2.3.7") {
+            $NOTIFICATION++;
+            $message  = '<p>Starting from release version <b>2.3.7</b> you will have to install/update Motion-UI using the provided deb/rpm package from my repository. <br><br></p>';
+            $message .= '<p>Further updates will still be notified here but you will have to update using the deb/rpm package provided.<br><br></p>';
+            $message .= '<p>Check how to install or update Motion-UI using my repository: <b><a href="https://github.com/lbr38/motion-UI/wiki/Documentation">documentation<img src="resources/icons/external-link.svg" class="icon"></a></b></p>';
+            $NOTIFICATION_MESSAGES[] = array('title' => 'Important', 'message' => $message);
+        }
+
+        if (UPDATE_AVAILABLE == 'true') {
+            $message  = '<span class="yellowtext">A new release is available: <b>' . GIT_VERSION . '</b></span>';
+            $message .= '<p><br>Update from the terminal on a <b>Debian system</b> (.deb package):</p>';
+            $message .= '<pre>apt update && apt install motionui</pre>';
+            $message .= '<p><br>Update from the terminal on a <b>RHEL system</b> (.rpm package):</p>';
+            $message .= '<pre>dnf/yum update motionui</pre>';
+
+            $NOTIFICATION++;
+            $NOTIFICATION_MESSAGES[] = array('title' => 'Update available', 'message' =>  $message);
+        }
+
+        if (!defined('NOTIFICATION')) {
+            define('NOTIFICATION', $NOTIFICATION);
+        }
+
+        if (!defined('NOTIFICATION_MESSAGES')) {
+            define('NOTIFICATION_MESSAGES', $NOTIFICATION_MESSAGES);
+        }
     }
 
     /**
@@ -68,7 +101,7 @@ class Autoloader
             define('CAMERA_DIR', DATA_DIR . '/configurations');
         }
         if (!defined('EVENTS_DIR')) {
-            define('EVENTS_DIR', ROOT . '/public/resources/events');
+            define('EVENTS_DIR', DATA_DIR . '/events');
         }
         if (!defined('EVENTS_PICTURES')) {
             define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
@@ -84,6 +117,7 @@ class Autoloader
         }
         if (!file_exists(DATA_DIR . '/version.available')) {
             touch(DATA_DIR . '/version.available');
+            file_put_contents(DATA_DIR . '/version.available', VERSION);
         }
         if (!defined('GIT_VERSION')) {
             define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
@@ -98,15 +132,15 @@ class Autoloader
         if (defined('VERSION') and defined('GIT_VERSION')) {
             if (VERSION !== GIT_VERSION) {
                 if (!defined('UPDATE_AVAILABLE')) {
-                    define('UPDATE_AVAILABLE', 'yes');
+                    define('UPDATE_AVAILABLE', 'true');
                 }
             } else {
                 if (!defined('UPDATE_AVAILABLE')) {
-                    define('UPDATE_AVAILABLE', 'no');
+                    define('UPDATE_AVAILABLE', 'false');
                 }
             }
         } else {
-            define('UPDATE_AVAILABLE', 'no');
+            define('UPDATE_AVAILABLE', 'false');
         }
         if (!defined('UPDATE_SUCCESS_LOG')) {
             define('UPDATE_SUCCESS_LOG', LOGS_DIR . '/update/update.success');

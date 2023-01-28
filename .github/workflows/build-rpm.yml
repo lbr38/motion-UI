@@ -1,0 +1,81 @@
+name: Build and test rpm package for motion-UI
+
+# Lancement à chaque push sur devel et à chaque pull request sur main
+on:
+  push:
+    branches: [ devel ]
+  pull_request:
+    push:
+      branches: [ main ]
+
+jobs:
+  build-rpm:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+      options: --user root
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get motion-UI version
+        run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
+
+      - name: Install dependencies packages
+        run: yum install rpmdevtools rpmlint -y
+
+      - name: Create build environment
+        run: |
+          mkdir -p $HOME/rpmbuild/BUILD
+          mkdir -p $HOME/rpmbuild/BUILDROOT
+          mkdir -p $HOME/rpmbuild/RPMS
+          mkdir -p $HOME/rpmbuild/SOURCES
+          mkdir -p $HOME/rpmbuild/SPECS
+
+      - name: Copy spec file
+        run: |
+          cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/rpm/spec $HOME/rpmbuild/SPECS/motionui.spec
+          sed -i "s/__VERSION__/${{ env.VERSION }}/g" $HOME/rpmbuild/SPECS/motionui.spec
+
+      - name: Build package
+        run: |
+          cd $HOME/rpmbuild/SPECS
+          rpmbuild --target noarch -bb --quiet motionui.spec
+          mv $HOME/rpmbuild/RPMS/noarch/motionui-${{ env.VERSION }}-stable.noarch.rpm /tmp/motionui-test-build-${{ env.VERSION }}.noarch.rpm
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: motionui-test-build-${{ env.VERSION }}.noarch.rpm
+          path: /tmp/motionui-test-build-${{ env.VERSION }}.noarch.rpm
+          retention-days: 1
+
+  # Try to install package on Fedora 37
+  install-fedora:
+    name: Install on Fedora 37
+    needs:
+      build-rpm
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:37
+      options: --user root
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get motion-UI version
+        run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
+
+      # Download builded deb package artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: motionui-test-build-${{ env.VERSION }}.noarch.rpm
+
+      - name: Install package
+        run: |
+          dnf update -y
+          dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+          yum clean all
+          yum --nogpgcheck localinstall -y ./motionui-test-build-${{ env.VERSION }}.noarch.rpm
+  

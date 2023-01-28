@@ -2,9 +2,6 @@
 set -u
 trap 'kill 0' EXIT
 
-# Leave 30sec for the system to boot
-sleep 30
-
 SCRIPT_PATH=$(realpath $0)
 DATA_DIR="/var/lib/motionui"
 DB="$DATA_DIR/db/motionui.sqlite"
@@ -32,16 +29,16 @@ function checkVersion
 function generalChecks
 {
     # Check that database exists
-    if [ ! -f "$DB" ];then
+    while [ ! -f "$DB" ];do
         echo "Error: Database '$DB' not found."
-        exit 1
-    fi
+        sleep 5
+    done
 
     # Check that sqlite3 is present
-    if [ ! -f "/usr/bin/sqlite3" ];then
+    while [ ! -f "/usr/bin/sqlite3" ];do
         echo "Error: /usr/bin/sqlite3 not found."
-        exit 1
-    fi
+        sleep 5
+    done
 }
 
 # Check if this service needs to be restarted
@@ -335,7 +332,6 @@ function autostart
 function processEvent
 {
     if [ ! -d "$EVENTS_DIR" ];then
-        # mkdir -p "$EVENTS_DIR"
         return
     fi
 
@@ -419,10 +415,16 @@ function checkRestartNeeded
     fi
 }
 
+# Leave 10sec for the system to boot
+sleep 10
+
 # Execution
 while true; do
     # Check if a restart of this service is needed
     checkRestartNeeded
+
+    # Check that conf files exists
+    generalChecks
     
     # Execute actions on service start (COUNTER = 0) and then every hour (COUNTER = 720)
     # 3600 / 5sec (sleep 5) = 720
@@ -435,13 +437,7 @@ while true; do
 
         # Reset counter
         COUNTER="0"
-    fi
-
-    # Check if a restart of this service is needed
-    checkRestartNeeded
-
-    # Check that conf files exists
-    generalChecks
+    fi   
 
     # Start/stop motion if asked
     startStopMotion
@@ -457,7 +453,7 @@ while true; do
         autostart
     fi
 
-    sleep 5
+    sleep 3
 
     (( COUNTER++ ))
 done
