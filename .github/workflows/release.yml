@@ -136,13 +136,7 @@ jobs:
           tag_name: ${{ env.VERSION }}
           release_name: ${{ env.VERSION }}
           body: |
-            **Features**:
-
-            - Now building and providing Motion-UI as a deb/rpm package
-
-            **Fixes**:
-
-            - Minor UI fixes
+            No new features or fixes, just a warning message to print about major release 3.0.0 when it will come out.
 
           draft: false
           prerelease: false
