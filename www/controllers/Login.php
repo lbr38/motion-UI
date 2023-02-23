@@ -209,41 +209,6 @@ class Login
     }
 
     /**
-     *  Vérification auprès du serveur LDAP que le couple username / password renseigné est valide
-     */
-    // public function connLdap(string $username, string $password)
-    // {
-    //     /**
-    //      *  Si aucun serveur ldap n'est configuré alors on quitte
-    //      */
-    //     if (!defined('LDAP_SERVER')) {
-    //         return false;
-    //     }
-
-    //     // Eléments d'authentification LDAP
-    //     $ldaprdn  = 'uname';     // DN ou RDN LDAP
-    //     $ldappass = 'password';  // Mot de passe associé
-
-    //     // Connexion au serveur LDAP
-    //     $ldapconn = ldap_connect("ldap://ldap.example.com")
-    //         or die("Cannot connect to LDAP server.");
-
-    //     if ($ldapconn) {
-    //         // Connexion au serveur LDAP
-    //         $ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
-
-    //         // Vérification de l'authentification
-    //         if ($ldapbind) {
-    //             echo "Connexion LDAP réussie...";
-    //         } else {
-    //             echo "Connexion LDAP échouée...";
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
-    /**
      *  Edit user personnal informations
      */
     public function edit(string $username, string $firstName = null, string $lastName = null, string $email = null)

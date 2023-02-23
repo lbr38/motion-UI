@@ -16,15 +16,15 @@ class Motion
     /**
      *  Returns motion service status
      */
-    public function getStatus()
+    public function motionServiceRunning()
     {
         $status = trim(shell_exec('systemctl is-active motion'));
 
         if ($status == 'active') {
-            return 'active';
+            return true;
         }
 
-        return 'inactive';
+        return false;
     }
 
     /**
@@ -32,9 +32,9 @@ class Motion
      */
     public function motionuiServiceRunning()
     {
-        $statusSystemd = trim(shell_exec('systemctl is-active motionui'));
+        $status = trim(shell_exec('systemctl is-active motionui'));
 
-        if ($statusSystemd != 'active') {
+        if ($status != 'active') {
             return false;
         }
 
@@ -173,43 +173,7 @@ class Motion
             throw new Exception('The specified file is invalid.');
         }
 
-        /**
-         *  Get path to the file from its Id
-         */
-        $filePath = $this->model->getEventFilePath($fileId);
-
-        if (empty($filePath)) {
-            throw new Exception('Cannot find the specified file.');
-        }
-
-        /**
-         *  Generate symlin name from filename
-         */
-        $symlinkName = basename($filePath);
-
-        /**
-         *  Generate symlink path
-         */
-        $symlinkPath = EVENTS_PICTURES . '/' . $symlinkName;
-
-        /**
-         *  Create a symlink to the real file, if not already exist
-         */
-        if (!file_exists($symlinkPath)) {
-            symlink($filePath, $symlinkPath);
-        }
-
-        /**
-         *  Finaly, check if symlink content is readable
-         */
-        if (!is_readable($symlinkPath)) {
-            throw new Exception('Cannot read file - permission denied.');
-        }
-
-        /**
-         *  Return symlink name, it will be used to visualize or download the file
-         */
-        return $symlinkName;
+        return $this->model->getEventFilePath($fileId);
     }
 
     /**
@@ -366,7 +330,7 @@ class Motion
             throw new Exception('Error while setting permissions on ' . DATA_DIR . '/.muttrc');
         }
 
-        if (!chgrp(DATA_DIR . '/.muttrc', 'motionui')) {
+        if (!chgrp(DATA_DIR . '/.muttrc', 'motion')) {
             throw new Exception('Error while setting group owner on ' . DATA_DIR . '/.muttrc');
         }
 
@@ -434,22 +398,23 @@ class Motion
     }
 
     /**
-     *  Edit motion configuration (in /etc/motion/)
+     *  Edit motion configuration file (in /etc/motion/cameras/)
      */
-    public function configure(string $filename, array $options)
+    public function configure(string $cameraId, array $options)
     {
-        $filename = \Controllers\Common::validateData($filename);
+        $filename = CAMERAS_DIR . '/camera-' . $cameraId . '.conf';
+
+        if (!file_exists($filename)) {
+            throw new Exception('Camera configuration file does not exist: ' . $filename);
+        }
+
         $content = '';
 
         foreach ($options as $option) {
-            $optionStatus = \Controllers\Common::validateData($option['status']);
-            $optionName = \Controllers\Common::validateData($option['name']);
-            $optionValue = $option['value'];
-
             /**
              *  Comment the parameter with a semicolon in the final file if status sent is not 'enabled'
              */
-            if ($optionStatus == 'enabled') {
+            if ($option['status'] == 'enabled') {
                 $optionStatus = '';
             } else {
                 $optionStatus = ';';
@@ -458,13 +423,16 @@ class Motion
             /**
              *  Check that option name is valid and does not contains invalid caracters
              */
-            if (\Controllers\Common::isAlphanumDash($optionName) === false) {
-                throw new Exception("<b>$optionName</b> parameter value contains invalid caracter(s)");
+            if (\Controllers\Common::isAlphanumDash($option['name']) === false) {
+                throw new Exception('<b>' . $option['name'] . '</b> parameter name contains invalid caracter(s)');
             }
 
-            if (\Controllers\Common::isAlphanumDash($optionValue, array('.', ' ', ',', ':', '/', '\\', '%', '(', ')', '=', '\'', '[', ']', '@', '$')) === false) {
-                throw new Exception("<b>$optionName</b> parameter value contains invalid caracter(s)");
+            if (\Controllers\Common::isAlphanumDash($option['value'], array('&', '?', '.', ' ', ',', ':', '/', '%', '(', ')', '=', '\'', '[', ']', '@')) === false) {
+                throw new Exception('<b>' . $option['name'] . '</b> parameter value contains invalid caracter(s)');
             }
+
+            $optionName = \Controllers\Common::validateData($option['name']);
+            $optionValue = $option['value'];
 
             /**
              *  Si il n'y a pas eu d'erreurs jusque là alors on forge la ligne du paramètre avec son nom et sa valeur, séparés par un égal '='
@@ -476,187 +444,19 @@ class Motion
         /**
          *  Write to file
          */
-        if (file_exists('/etc/motion/' . $filename)) {
-            file_put_contents('/etc/motion/' . $filename, $content);
+        if (file_exists($filename)) {
+            file_put_contents($filename, trim($content));
         }
+
         unset($content);
-    }
-
-    /**
-     *  Duplicate motion configuration file
-     */
-    public function duplicateConf(string $filename)
-    {
-        /**
-         *  Check that specified source file exist
-         */
-        if (!file_exists('/etc/motion/' . $filename)) {
-            throw new Exception('Specified file does not exist.');
-        }
 
         /**
-         *  Check that file is readable
+         *  Restart motion service if running
          */
-        if (!is_readable('/etc/motion/' . $filename)) {
-            throw new Exception('Specified file is not readable.');
-        }
-
-        /**
-         *  Generate a new file name
-         */
-        $newFileName = \Controllers\Common::generateRandom() . '-' . $filename;
-
-        /**
-         *  Regenerate name if already exist
-         */
-        while (file_exists('/etc/motion/' . $newFileName)) {
-            $newFileName = \Controllers\Common::generateRandom() . '-' . $filename;
-        }
-
-        /**
-         *  Copy source file to new file
-         */
-        if (!copy('/etc/motion/' . $filename, '/etc/motion/' . $newFileName)) {
-            throw new Exception('Error while trying to duplicate ' . $filename);
-        }
-    }
-
-    /**
-     *  Delete motion configuration file
-     */
-    public function deleteConf(string $filename)
-    {
-        /**
-         *  Check that specified file exist
-         */
-        if (!file_exists('/etc/motion/' . $filename)) {
-            throw new Exception('Specified file does not exist.');
-        }
-
-        /**
-         *  Check that file is writable
-         */
-        if (!is_writable('/etc/motion/' . $filename)) {
-            throw new Exception('Specified file is not writable.');
-        }
-
-        /**
-         *  Delete file
-         */
-        if (!unlink('/etc/motion/' . $filename)) {
-            throw new Exception('Error while trying to delete ' . $filename);
-        }
-    }
-
-    /**
-     *  Rename motion configuration file
-     */
-    public function renameConf(string $filename, string $newName)
-    {
-        /**
-         *  Check that the new name is valid and does not contains invalid caracters
-         */
-        if (\Controllers\Common::isAlphanumDash($newName, array('.')) === false) {
-            throw new Exception("Specified new name <b>$newName</b> is not valid.");
-        }
-
-        /**
-         *  Check that a file does not already exist with the same name
-         */
-        if (file_exists('/etc/motion/' . $newName)) {
-            throw new Exception('A file with the same name <b>' . $newName . '</b> already exists.');
-        }
-
-        /**
-         *  Check that a file ends with .conf
-         */
-        if (!preg_match('/.conf$/', $newName)) {
-            throw new Exception('File must end with .conf');
-        }
-
-        /**
-         *  Check that the file is writable
-         */
-        if (!is_writable('/etc/motion/' . $filename)) {
-            throw new Exception('Specified file is not writable.');
-        }
-
-        /**
-         *  Rename file
-         */
-        if (!rename('/etc/motion/' . $filename, '/etc/motion/' . $newName)) {
-            throw new Exception('Error while trying to rename ' . $filename);
-        }
-    }
-
-    /**
-     *  Set up event registering in specified configuration file
-     */
-    public function setUpEvent(string $filename)
-    {
-        $filename = Common::validateData($filename);
-
-        if (!file_exists('/etc/motion/' . $filename)) {
-            throw new Exception('Specified configuratin file does not exist <b>' . $filename . '</b>');
-        }
-
-        if (!is_writable('/etc/motion/' . $filename)) {
-            throw new Exception('Configuration file <b>' . $filename . '</b> is not writable');
-        }
-
-        $content = file_get_contents('/etc/motion/' . $filename);
-
-        /**
-         *  Check if 'on_event_start' param is present in the file
-         *  If so, remove it
-         *  Then just add the parameter with its new value
-         *
-         *  Regex:
-         *  ;?    => matches ';' if there are
-         *  \s*?  => matches one or more white spaces if there are
-         */
-        if (preg_match('/;?\s*?on_event_start.*/i', $content)) {
-            $content = preg_replace('/;?\s*?on_event_start.*/i', PHP_EOL, $content);
-        }
-        /**
-         *  Also check if 'camera_name' param is present and uncomment it if it is commented
-         */
-        if (preg_match('/;?\s*?camera_name.*/i', $content)) {
-            $content = preg_replace('/;?\s*?camera_name/i', 'camera_name', $content);
-
-            /**
-             *  --cam-name is added if 'camera_name' param is present
-             */
-            $content .= PHP_EOL . 'on_event_start /var/lib/motionui/tools/event --cam-id %t --cam-name %$ --register-event %v' . PHP_EOL;
-        } else {
-            $content .= PHP_EOL . 'on_event_start /var/lib/motionui/tools/event --cam-id %t --register-event %v' . PHP_EOL;
-        }
-
-        /**
-         *  Check if 'on_event_end' param is present in the file
-         *  If so, remove it
-         *  Then just add the parameter with its new value
-         */
-        if (preg_match('/;?\s*?on_event_end.*/i', $content)) {
-            $content = preg_replace('/;?\s*?on_event_end.*/i', PHP_EOL, $content);
-        }
-        $content .= PHP_EOL . 'on_event_end /var/lib/motionui/tools/event --cam-id %t --end-event %v' . PHP_EOL;
-
-        /**
-         *  Check if 'on_movie_end' param is present in the file
-         *  If so, remove it
-         *  Then just add the parameter with its new value
-         */
-        if (preg_match('/;?\s*?on_movie_end.*/i', $content)) {
-            $content = preg_replace('/;?\s*?on_movie_end(.*)/i', PHP_EOL, $content);
-        }
-        $content .= PHP_EOL . 'on_movie_end /var/lib/motionui/tools/event --cam-id %t --event %v --file %f' . PHP_EOL;
-
-        /**
-         *  Write content to the file
-         */
-        if (!file_put_contents('/etc/motion/' . $filename, $content)) {
-            throw new Exception('Error while writing to <b>/etc/motion/' . $filename . '</b>');
+        if ($this->motionServiceRunning()) {
+            if (!file_exists(DATA_DIR . '/motion.restart')) {
+                touch(DATA_DIR . '/motion.restart');
+            }
         }
     }
 }

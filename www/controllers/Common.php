@@ -106,7 +106,7 @@ class Common
         /**
          *  array contenant quelques exceptions de caractères valides
          */
-        $validCaracters = array('-', '_', 'é', 'è', 'ê', 'à', 'ç', 'ï');
+        $validCaracters = array('-', '_');
 
         /**
          *  Si on a passé en argument des caractères supplémentaires à autoriser alors on les ajoute à l'array $validCaracters

@@ -20,7 +20,7 @@ class Controller
         /**
          *  If target URI is login or logout then load minimal necessary
          */
-        if ($targetUri == 'login' or $targetUri == 'logout') {
+        if ($targetUri == 'login' or $targetUri == 'logout' or $targetUri == 'stream') {
             Autoloader::loadFromLogin();
         } else {
             Autoloader::load();
@@ -46,6 +46,21 @@ class Controller
              *  Render 'live' page
              */
             self::renderLive();
+        } elseif ($targetUri == 'stream') {
+            /**
+             *  Render camera stream
+             */
+            self::renderStream();
+        } elseif ($targetUri == 'image') {
+            /**
+             *  Render camera image
+             */
+            self::renderImage();
+        } elseif ($targetUri == 'media') {
+            /**
+             *  Render media file
+             */
+            self::renderMedia();
         } elseif ($targetUri == 'login') {
             /**
              *  Render login page
@@ -71,18 +86,12 @@ class Controller
     {
         $mysettings = new \Controllers\Settings();
         $mymotion = new \Controllers\Motion();
+        $mycamera = new \Controllers\Camera();
 
         /**
          *  Get global settings
          */
         $settings = $mysettings->get();
-        $printLiveBtn = $settings['Print_live_btn'];
-        $printMotionStartBtn = $settings['Print_motion_start_btn'];
-        $printMotionAutostartBtn = $settings['Print_motion_autostart_btn'];
-        $printMotionAlertBtn = $settings['Print_motion_alert_btn'];
-        $printMotionStats = $settings['Print_motion_stats'];
-        $printMotionEvents = $settings['Print_motion_events'];
-        $printMotionConfig = $settings['Print_motion_config'];
 
         /**
          *  Get motion alert status (enabled or disabled)
@@ -93,11 +102,19 @@ class Controller
          *  Get autostart and alert settings
          */
         $alertConfiguration = $mymotion->getAlertConfiguration();
-        $motionStatus = $mymotion->getStatus();
+        $motionActive = $mymotion->motionServiceRunning();
         $motionAutostartEnabled = $mymotion->getAutostartStatus();
         $autostartConfiguration = $mymotion->getAutostartConfiguration();
         $autostartDevicePresenceEnabled = $mymotion->getAutostartOnDevicePresenceStatus();
         $autostartKnownDevices = $mymotion->getAutostartDevices();
+
+        /**
+         *  Get total cameras and cameras Ids
+         */
+        $cameraTotal = $mycamera->getTotal();
+        if ($cameraTotal > 0) {
+            $cameraIds = $mycamera->getCamerasIds();
+        }
 
         ob_start();
         include_once(ROOT . '/views/main.template.php');
@@ -111,18 +128,43 @@ class Controller
      */
     private static function renderLive()
     {
+        $mymotion = new \Controllers\Motion();
         $mycamera = new \Controllers\Camera();
 
         /**
          *  Get all cameras Id
          */
-        $camerasTotal = $mycamera->getTotal();
+        $cameraTotal = $mycamera->getTotal();
 
         ob_start();
         include_once(ROOT . '/views/live.template.php');
         $content = ob_get_clean();
 
         include_once(ROOT . '/views/layout.html.php');
+    }
+
+    /**
+     *  Render stream
+     */
+    private static function renderStream()
+    {
+        include_once(ROOT . '/views/stream.php');
+    }
+
+    /**
+     *  Render stream
+     */
+    private static function renderImage()
+    {
+        include_once(ROOT . '/views/image.php');
+    }
+
+    /**
+     *  Render media file
+     */
+    private static function renderMedia()
+    {
+        include_once(ROOT . '/views/media.php');
     }
 
     /**

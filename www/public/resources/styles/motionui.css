@@ -46,7 +46,7 @@ h3 {
 }
 
 .action, .alert-success, .alert-error, .confirmAlert {
-    grid-template-columns: repeat(3, auto) !important;
+    grid-template-columns: repeat(3, auto);
 }
 
 .alert-success, .alert-error {
@@ -115,7 +115,7 @@ h3 {
     background-color: #dc0044;
 }
 
-#top-buttons-container {
+.top-buttons {
     margin-right: 10px;
     height: 50px;
     display: flex;
@@ -124,11 +124,11 @@ h3 {
     column-gap: 5px;
 }
 
-#top-buttons-container div {
+.top-buttons div {
     margin: 0 8px 0 8px;
 }
 
-#top-buttons-container img {
+.top-buttons img {
     height: 30px;
 }
 
@@ -193,7 +193,7 @@ h3 {
     background-color: #eb984e;
 }
 
-#buttons-container {
+.main-buttons-container {
     display: grid;
     grid-template-columns: repeat(1, 100%);
     justify-content: space-evenly;
@@ -271,7 +271,7 @@ h3 {
 .event-camera {
     width: 100%;
     padding-left: 10px;
-    max-height: 200px;
+    max-height: 500px;
     overflow-y: auto;
 }
 
@@ -280,11 +280,15 @@ h3 {
     width: fit-content;
     border-radius: 60px;
     padding: 1px 6px;
-    /* margin-bottom: 6px; */
+}
+
+.event-row {
+    margin: 2px 0 0px 4px;
 }
 
 .event-id {
-    margin: 2px 0 0px 4px;
+    display: block;
+    margin-bottom: 15px;
 }
 
 .event-running img {
@@ -305,14 +309,14 @@ h3 {
     column-gap: 10px;
 }
 
-.motion-file-name {
+.camera-name {
     width: 200px;
     font-size: 18px;
     padding-right: 10px;
     border-right: 1px solid #24405c66;
 }
 
-.motion-file-name input[type=text] {
+.camera-name input[type=text] {
     font-size: 18px !important;
     background-color: #182b3e !important;
 }
@@ -371,13 +375,13 @@ h3 {
     display: none;
 }
 
-#camera-container {
-    /* position: absolute; */
+#camera-grid-container {
     display: grid;
     grid-template-columns: 100%;
     justify-content: space-evenly;
-    margin: 50px 15px 50px 15px;
+    margin: 0px 15px 50px 15px;
     column-gap: 20px;
+    row-gap: 20px;
 }
 
 [class^="grid-icon"] {
@@ -413,35 +417,48 @@ h3 {
 }
 
 .camera-container {
-    margin-bottom: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border-radius: 4px;
     background-color: #182b3e;
     -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 
+.camera-output {
+    min-height: 200px;
+    height: fit-content;
+    margin: auto;
+}
+
 .camera-btn-div {
     width: auto;
+    height: 65px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 15px 0 15px;
 }
 
-.camera-image img {
-    display: none;
+.camera-image > img {
     max-width: 100%;
-    max-height: 100%;
+    /* max-height: 100%; */
     margin-left: auto;
     margin-right: auto;
     border-radius: 4px;
 }
+.camera-loading, .camera-image, .camera-unavailable {
+    width: 100%;
+    min-height: 200px;
+}
 
 .camera-unavailable, .camera-loading {
-    min-height: 345px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: #182b3e;
 }
 
 .camera-loading img {
@@ -475,7 +492,11 @@ h3 {
     margin: auto;
 }
 
-#new-camera-form {
+#new-camera-form, #camera-global-settings-form {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    row-gap: 10px;
     padding: 15px;
 }
 
@@ -534,14 +555,37 @@ footer #github img { width: 25px; }
     width: fit-content;
 }
 
+.event-media-row {
+    min-height: 50px;
+    background-color: #182b3e;
+    border-radius: 4px;
+    border: 1px solid #213446;
+    margin-bottom: 4px;
+}
+
+.event-media {
+    position: relative;
+}
+
+.event-media span {
+    position: absolute;
+    bottom: 6px;
+    right: 3px;
+}
+
+.event-media img:not(.icon) {
+    height: 90px;
+}
+
 .event-container:hover .event-media-checkbox {
     visibility: visible;
 }
 
 .event-media-checkbox {
     margin-left: 10px;
+    margin-right: 20px;
     opacity: 0.5;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 .event-media-checkbox:hover {
@@ -636,6 +680,30 @@ pre {
     text-align: center;
 }
 
+.rotation-wrapper-outer {
+    display: table;
+}
+
+.rotation-wrapper-inner {
+    padding: 50% 0;
+    height: 0;
+}
+
+.rotate-90 {
+    display: block;
+    transform-origin: top left;
+    /* Note: for a CLOCKWISE rotation, use the commented-out
+        transform instead of this one. */
+    transform: rotate(-90deg) translate(-100%);
+    /* transform: rotate(90deg) translate(0, -100%); */
+    margin-top: -50%;
+
+    /* Not vital, but possibly a good idea if the element you're rotating contains
+        text and you want a single long vertical line of text and the pre-rotation
+        width of your element is small enough that the text wraps: */
+    white-space: nowrap;
+}
+
 /* Desktop configuration */
 @media (min-width:1025px) {
     h3 {
@@ -651,7 +719,7 @@ pre {
         grid-template-columns: repeat(3, 33%);
     }
 
-    #buttons-container {
+    .main-buttons-container {
         grid-template-columns: repeat(4, 25%);
     }
 
@@ -661,7 +729,7 @@ pre {
     }
 
     #motion-events-captures-container {
-        grid-template-columns: repeat(3, 30%);
+        grid-template-columns: repeat(2, 45%);
         justify-content: space-between;
     }
 
@@ -671,6 +739,10 @@ pre {
 
     .event-date-container {
         width: 100%;
+    }
+
+    .event-media-checkbox {
+        visibility: hidden;
     }
 
     .motion-file-btns {
@@ -690,11 +762,11 @@ pre {
         align-items: center;
     }
 
-    #camera-container {
+    #camera-grid-container {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    #top-buttons-container img {
+    .top-buttons img {
         height: 20px;
     }
 }

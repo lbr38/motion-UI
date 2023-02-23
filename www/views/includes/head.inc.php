@@ -13,19 +13,14 @@
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script type="text/javascript" src="resources/js/pre/camera.js"></script>
+
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
     <!-- Favicon -->
     <link rel="icon" href="resources/favicon.ico" />
+
+    
 </head>
-
-<?php
-if (!empty($_GET['action']) and $_GET['action'] == "update") {
-    $myupdate = new \Controllers\Update();
-    $updateStatus = $myupdate->update();
-}
-
-include('maintenance.inc.php');
-include('update.inc.php'); ?>

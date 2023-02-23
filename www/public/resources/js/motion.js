@@ -1,161 +1,4 @@
 /**
- *  Create empty motion status and events charts
- */
-var ctx = document.getElementById('motion-event-chart').getContext('2d');
-var myEventChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [],
-        datasets: [
-        {
-            data: [],
-            label: "Total events per day",
-            borderColor: '#3e95cd',
-            fill: false
-        },
-        {
-            data: [],
-            label: "Total files recorded per day",
-            borderColor: '#ea974d',
-            fill: false
-        }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        tension: 0.2,
-        scales: {
-            x: {
-                display: true,
-            },
-            y: {
-                beginAtZero: true,
-                display: true,
-                ticks: {
-                    stepSize: 1
-                }
-            }
-        },
-    }
-});
-var yLabels = {
-    0 : 'inactive',
-    1 : 'active'
-}
-var ctx = document.getElementById('motion-status-chart').getContext('2d');
-var myMotionStatusChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [],
-        datasets: [{
-            data: [],
-            label: "Motion service activity (24h)",
-            borderColor: '#d8524e',
-            fill: false
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        tension: 0.2,
-        scales: {
-            x: {
-                display: true,
-            },
-            y: {
-                beginAtZero: true,
-                display: true,
-                ticks: {
-                    stepSize: 1,
-                    callback: function (value, index, values) {
-                        return yLabels[value];
-                    }
-                }
-            }
-        },
-    }
-});
-
-/**
- *  Inject charts labels and data
- */
-loadAllStatsCharts();
-
-/**
- *  Load and generate stats charts
- */
-function loadAllStatsCharts()
-{
-    /**
-     *  Get labels and data
-     */
-    var eventLabels = $('#motion-event-chart-labels-data').attr('labels').split(", ");
-    var eventData = $('#motion-event-chart-labels-data').attr('event-data').split(", ");
-    var filesData = $('#motion-event-chart-labels-data').attr('files-data').split(", ");
-
-    var statusLabels = $('#motion-status-chart-labels-data').attr('labels').split(", ");
-    var statusData = $('#motion-status-chart-labels-data').attr('status-data').split(", ");
-
-    /**
-     *  Inject/update labels and data into the charts
-     */
-    myEventChart.data.labels = eventLabels;
-    myEventChart.data.datasets[0].data = eventData;
-    myEventChart.data.datasets[1].data = filesData;
-    myEventChart.update();
-
-    myMotionStatusChart.data.labels = statusLabels;
-    myMotionStatusChart.data.datasets[0].data = statusData;
-    myMotionStatusChart.update();
-}
-
-/**
- * Function: print stats between selected dates
- * @param {*} dateStart
- * @param {*} dateEnd
- */
-function statsDateSelect(dateStart, dateEnd)
-{
-    /**
-     *  Add specified dates into cookies
-     */
-    document.cookie = "statsDateStart="+dateStart+";max-age=900;";
-    document.cookie = "statsDateEnd="+dateEnd+";max-age=900;";
-
-    /**
-     *  Then reload stats div
-     */
-    reloadContentById('motion-stats-labels-data');
-
-    /**
-     *  Wait for the div reload, then reload charts
-     */
-    setTimeout(function () {
-        loadAllStatsCharts();
-    }, 500);
-}
-
-/**
- * Function: print events between selected dates
- * @param {*} dateStart
- * @param {*} dateEnd
- */
-function eventDateSelect(dateStart, dateEnd)
-{
-    /**
-     *  Add specified dates into cookies
-     */
-    document.cookie = "eventDateStart="+dateStart+";max-age=900;";
-    document.cookie = "eventDateEnd="+dateEnd+";max-age=900;";
-
-    /**
-     *  Then reload events div
-     */
-    reloadContentById('events-captures-div');
-}
-
-/**
  *  Function: get selected media Id and delete them
  */
 function deleteMedia()
@@ -171,6 +14,45 @@ function deleteMedia()
     });
 
     deleteMediaAjax(mediaId);
+}
+
+/**
+ *  Function: get selected media Id and download them
+ */
+function downloadMedia()
+{
+    filesForDownload = [];
+
+    /**
+     *  Get all selected checkboxes and their file-id (media) attribute
+     */
+    $('#events-captures-div').find('input[class=event-media-checkbox]:checked').each(function () {
+        filesForDownload.push({ fileId: $(this).attr('file-id'), filename: $(this).attr('file-name') });
+    });
+
+    /**
+     *  Append a temporary <a> element to download files
+     */
+    var temporaryDownloadLink = document.createElement("a");
+    temporaryDownloadLink.style.display = 'none';
+
+    document.body.appendChild(temporaryDownloadLink);
+
+    for (var n = 0; n < filesForDownload.length; n++) {
+        var download = filesForDownload[n];
+        temporaryDownloadLink.setAttribute('href', '/media?id=' + download.fileId);
+        temporaryDownloadLink.setAttribute('download', download.filename);
+
+        /**
+         *  Click on the <a> element to start download
+         */
+        temporaryDownloadLink.click();
+    }
+
+    /**
+     *  Remove temporary <a> element
+     */
+    document.body.removeChild(temporaryDownloadLink);
 }
 
 /**
@@ -277,10 +159,11 @@ $(document).on('change','.event-date-input',function () {
 /**
  *  Event: vizualize event image
  */
-$(document).on('click','.play-image-btn',function () {
+$(document).on('click','.play-picture-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    visualize(fileId, 'image');
+    $('#event-print-file').html('<img src="/media?id='+fileId+'" />');
+    $('#event-print-file-div').show();
 });
 
 /**
@@ -289,16 +172,8 @@ $(document).on('click','.play-image-btn',function () {
 $(document).on('click','.play-video-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    visualize(fileId, 'video');
-});
-
-/**
- *  Event: download event image or video
- */
-$(document).on('click','.save-image-btn, .save-video-btn',function () {
-    var fileId = $(this).attr('file-id');
-
-    download(fileId);
+    $('#event-print-file').html('<video controls><source src="/media?id='+fileId+'"><p>You browser does not support embedded videos.</p></video>');
+    $('#event-print-file-div').show();
 });
 
 /**
@@ -343,9 +218,15 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
     /**
      *  Print confirm box to delete selected medias
      */
-    confirmBox('Delete selected media(s)?', function () {
-        deleteMedia();
-    }, 'Delete');
+    confirmBox(
+        '',
+        function () {
+            deleteMedia(); },
+        'Delete',
+        function () {
+            downloadMedia(); },
+        'Download'
+    );
 
     /**
      *  Print related 'Select all' button
@@ -383,25 +264,17 @@ $(document).on('click',".select-all-media-btn",function () {
 });
 
 /**
- *  Event: duplicate motion configuration file
- */
-$(document).on('click','.duplicate-motion-conf-btn',function () {
-    var filename = $(this).attr('filename');
-
-    duplicateConf(filename);
-});
-
-/**
  *  Event: save motion configuration file
  */
-$(document).on('click','.save-motion-conf-btn',function () {
+$(document).on('submit','.camera-motion-settings-form',function () {
+    event.preventDefault();
+
     var options_array = [];
 
     /**
      *  Get the name of the configuration file
      */
-    var filename = $(this).attr('filename');
-    var form = '.motion-configuration-form[filename="'+filename+'"]';
+    var cameraId = $(this).attr('camera-id');
 
     /**
      *  Get all the parameters and their value in the form
@@ -410,7 +283,7 @@ $(document).on('click','.save-motion-conf-btn',function () {
     /**
      *  First count all input that has name=option-name in the form
      */
-    var countTotal = $(form).find('input[name=option-name]').length
+    var countTotal = $(this).find('input[name=option-name]').length
 
     /**
      *  Every configuration param and its value have an Id
@@ -421,7 +294,7 @@ $(document).on('click','.save-motion-conf-btn',function () {
             /**
              *  Get parameter status (slider checked or not)
              */
-            if ($(form).find('input[name=option-status][option-id=' + i + ']').is(':checked')) {
+            if ($(this).find('input[name=option-status][option-id=' + i + ']').is(':checked')) {
                 var option_status = 'enabled';
             } else {
                 var option_status = '';
@@ -429,8 +302,8 @@ $(document).on('click','.save-motion-conf-btn',function () {
             /**
              *  Get parameter name and its value
              */
-            var option_name = $(form).find('input[name=option-name][option-id=' + i + ']').val();
-            var option_value = $(form).find('input[name=option-value][option-id=' + i + ']').val()
+            var option_name = $(this).find('input[name=option-name][option-id=' + i + ']').val();
+            var option_value = $(this).find('input[name=option-value][option-id=' + i + ']').val()
 
             /**
              *  Push all to options_array
@@ -445,52 +318,9 @@ $(document).on('click','.save-motion-conf-btn',function () {
         }
     }
 
-    configure(filename, options_array);
-});
+    configure(cameraId, options_array);
 
-/**
- *  Event: set up event in a motion configuration file
- */
-$(document).on('click','.setup-event-motion-conf-btn',function () {
-    var filename = $(this).attr('filename');
-
-    confirmBox('This will overwrite <b>on_event_start</b>, <b>on_event_end</b> and <b>on_movie_end</b> parameters in this file. Are you sure?', function () {
-        setUpEvent(filename);
-    }, 'Confirm');
-});
-
-/**
- *  Event: delete motion configuration file
- */
-$(document).on('click','.delete-motion-conf-btn',function () {
-    var filename = $(this).attr('filename');
-
-    confirmBox('Are you sure you want to delete ' + filename + '?', function () {
-        deleteConf(filename)
-    });
-});
-
-/**
- *  Event: rename motion configuration file
- */
-$(document).on('keypress','.rename-motion-conf-input',function () {
-    var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode == '13') {
-        var filename = $(this).attr('filename');
-        var newName = $(this).val();
-
-        renameConf(filename, newName);
-    }
-    event.stopPropagation();
-});
-
-/**
- *  Event: Show/hide motion configuration file
- */
-$(document).on('click','.show-motion-conf-btn',function () {
-    var filename = $(this).attr('filename');
-
-    $(".motion-file-configuration[filename='" + filename + "']").slideToggle('100');
+    return false;
 });
 
 /**
@@ -921,89 +751,11 @@ function editMutt(realName, from, smtpPassword, smtpUrl)
 }
 
 /**
- * Ajax: visualize event file
- * @param {*} fileId
- * @param {*} type
- */
-function visualize(fileId, type)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "getEventFile",
-            fileId: fileId
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            /**
-             *  Inject image or video
-             */
-            if (type == 'image') {
-                $('#event-print-file').html('<img src="resources/events-pictures/'+jsonValue.message+'" />');
-            }
-            if (type == 'video') {
-                $('#event-print-file').html('<video controls><source src="resources/events-pictures/'+jsonValue.message+'"><p>You browser does not support embedded videos.</p></video>');
-            }
-
-            /**
-             *  Show div and scroll to top
-             */
-            $('#event-print-file-div').show();
-            scroll(0,0);
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: download event file
- * @param {*} fileId
- */
-function download(fileId)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "getEventFile",
-            fileId: fileId
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-
-            /**
-             *  Append a new <a> tag with 'download' attribute that points to the file
-             *  The 'download' attribute will force download the file and not redirect to it in a new tab
-             *  Click on the generate <a> then remove it from the DOM
-             */
-            var a = $("<a />");
-            a.attr("download", '');
-            a.attr("href", 'resources/events-pictures/'+jsonValue.message);
-            $("body").append(a);
-            a[0].click();
-            $("body").remove(a);
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
  * Ajax: configure motion config file
- * @param {*} filename
+ * @param {*} cameraId
  * @param {*} options_array
  */
-function configure(filename, options_array)
+function configure(cameraId, options_array)
 {
     $.ajax({
         type: "POST",
@@ -1011,124 +763,14 @@ function configure(filename, options_array)
         data: {
             controller: "motion",
             action: "configureMotion",
-            filename: filename,
+            cameraId: cameraId,
             options_array: options_array
         },
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentByClass('motion-configuration-form[filename="'+filename+'"]');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: duplicate motion config file
- * @param {*} filename
- */
-function duplicateConf(filename)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "duplicateConf",
-            filename: filename
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContentById('motion-configuration-div');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: delete motion config file
- * @param {*} filename
- */
-function deleteConf(filename)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "deleteConf",
-            filename: filename
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContentById('motion-configuration-div');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: rename motion config file
- * @param {*} filename
- * @param {*} newName
- */
-function renameConf(filename, newName)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "renameConf",
-            filename: filename,
-            newName: newName
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContentById('motion-configuration-div');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: set up event registering in config file
- * @param {*} filename
- */
-function setUpEvent(filename)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "setUpEvent",
-            filename: filename
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContentByClass('motion-file-configuration[filename="'+filename+'"]');
+            reloadEditForm(id);
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

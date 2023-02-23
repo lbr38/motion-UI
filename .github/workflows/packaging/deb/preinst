@@ -1,5 +1,49 @@
 #!/bin/bash
 
+YELLOW="\033[1;33m"
+RESET="\033[0m"
+
+# 3.0.0 release: backup everything before deletion
+BACKUP_DIR="backup-motionui-before-3.0.0"
+
+# First stop motionui service if started
+if systemctl is-active --quiet motionui;then
+    systemctl stop --quiet motionui
+fi
+
+cd /tmp
+
+if [ -d "/var/www/motionui" ];then
+    mkdir -p "$BACKUP_DIR/var/www/motionui"
+    cp -r /var/www/motionui/* "$BACKUP_DIR/var/www/motionui"/
+fi
+if [ -d "/var/lib/motionui" ];then
+    mkdir -p "$BACKUP_DIR/var/lib/motionui"
+    cp -r /var/lib/motionui/* "$BACKUP_DIR/var/lib/motionui"/
+fi
+if [ -d "/etc/motion" ];then
+    mkdir -p "$BACKUP_DIR/etc/motion"
+    cp -r /etc/motion/* "$BACKUP_DIR/etc/motion"/
+fi
+
+# 3.0.0 release: create a tar backup
+if [ -d "$BACKUP_DIR" ];then
+    tar czf "/tmp/${BACKUP_DIR}.tar.gz" "$BACKUP_DIR"
+fi
+
+# 3.0.0 release: delete existing configuration
+if [ -d "/var/lib/motionui" ];then
+    rm -rf /var/lib/motionui/*
+fi
+if [ -d "/etc/motion" ];then
+    rm -rf /etc/motion/*
+fi
+
+# Print a message if a backup have been created
+if [ -f "/tmp/${BACKUP_DIR}.tar.gz" ];then
+    echo -e "\n\n${YELLOW}A backup of your actual motion & motion-UI configuration have been created in /tmp/${BACKUP_DIR}.tar.gz${RESET}\n\n"
+fi
+
 # Delete actual sources
 if [ -d "/var/www/motionui" ];then
     rm -rf /var/www/motionui/*

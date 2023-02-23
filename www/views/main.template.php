@@ -1,63 +1,45 @@
-<div id="top-buttons-container">
-    <div class="relative">
-        <img id="print-notification-btn" src="resources/icons/info.svg" class="pointer lowopacity" title="Show notifications" />
-        <?php
-        if (NOTIFICATION != 0) : ?>
-            <span class="notification-count"><?= NOTIFICATION ?></span>
-            <?php
-        endif ?>
-    </div>
-    <div>
-        <img id="print-userspace-btn" src="resources/icons/user.svg" class="pointer lowopacity" title="Show userspace" />
-    </div>
-    <div>
-        <img id="print-settings-btn" src="resources/icons/cog.svg" class="pointer lowopacity" title="Show settings" />
-    </div>
-</div>
-
-<?php
-    include_once(ROOT . '/views/includes/settings.inc.php');
-    include_once(ROOT . '/views/includes/notification.inc.php');
-    include_once(ROOT . '/views/includes/userspace.inc.php');
-    include_once(ROOT . '/views/includes/motion-configure-alert.inc.php');
-    include_once(ROOT . '/views/includes/motion-configure-autostart.inc.php');
-?>
-
-<div id="motionui-status">
-    <?php
-    /**
-     *  Display a warning if motionUI service is not running
-     */
-    if ($mymotion->motionuiServiceRunning() != true) {
-        echo '<p class="center yellowtext"><img src="resources/icons/warning.png" class="icon" /><b>motionui</b> service is not running. Please start it.</p>';
-    } ?>
-</div>
-
 <?php
 /**
- *  Include main buttons
+ *  Top buttons
+ */
+include_once(ROOT . '/views/includes/top-buttons.inc.php');
+
+/**
+ *  Motionui service status
+ */
+include_once(ROOT . '/views/includes/motionui-service-status.inc.php');
+
+/**
+ *  Getting started
+ */
+include_once(ROOT . '/views/includes/getting-started.inc.php');
+
+/**
+ *  Main buttons
  */
 include_once(ROOT . '/views/includes/main-buttons.inc.php');
 
 /**
- *  Include motion events div
+ *  Slide divs
  */
-if ($printMotionEvents == 'yes') {
-    include_once(ROOT . '/views/includes/motion-events.inc.php');
-}
+include_once(ROOT . '/views/includes/settings.inc.php');
+include_once(ROOT . '/views/includes/notification.inc.php');
+include_once(ROOT . '/views/includes/userspace.inc.php');
+include_once(ROOT . '/views/includes/camera/new.inc.php');
+include_once(ROOT . '/views/includes/motion/configure-autostart.inc.php');
+include_once(ROOT . '/views/includes/motion/configure-alert.inc.php');
 
 /**
- *  Include motion stats div
+ *  Motion events
  */
-if ($printMotionStats == 'yes') {
-    include_once(ROOT . '/views/includes/motion-stats.inc.php');
-}
+include_once(ROOT . '/views/includes/motion/events.inc.php');
 
 /**
- *  Include motion configuration div
+ *  Motion stats
  */
-if ($printMotionConfig == 'yes') {
-    include_once(ROOT . '/views/includes/motion-configuration.inc.php');
-}
+include_once(ROOT . '/views/includes/motion/stats.inc.php');
 
-include_once(ROOT . '/views/includes/print-event.inc.php');
+/**
+ *  Cameras
+ */
+include_once(ROOT . '/views/includes/camera/cameras-container.inc.php');

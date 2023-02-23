@@ -11,7 +11,7 @@ EVENT_ID=""
 REGISTER_EVENT_ID=""
 EVENT_FILE=""
 CAMERA_ID=""
-CAMERA_NAME=""
+# CAMERA_NAME=""
 
 function addEvent
 {
@@ -25,7 +25,7 @@ function addEvent
     EVENT_CONTENT+="DATE_START=$DATE_NOW\n"
     EVENT_CONTENT+="TIME_START=$TIME_NOW\n"
     EVENT_CONTENT+="CAMERA_ID=$CAMERA_ID\n"
-    EVENT_CONTENT+="CAMERA_NAME=$CAMERA_NAME"
+    # EVENT_CONTENT+="CAMERA_NAME=$CAMERA_NAME"
 
     echo -e "$EVENT_CONTENT" > "$EVENTS_DIR/${CAMERA_ID}-event-${REGISTER_EVENT_ID}"
     chmod 660 "$EVENTS_DIR/${CAMERA_ID}-event-${REGISTER_EVENT_ID}"
@@ -80,10 +80,10 @@ while [ $# -ge 1 ];do
             CAMERA_ID="$2"
             shift
         ;;
-        -cn|--cam-name)
-            CAMERA_NAME="$2"
-            shift
-        ;;
+        # -cn|--cam-name)
+        #     CAMERA_NAME="$2"
+        #     shift
+        # ;;
         -re|--register-event)
             REGISTER_EVENT_ID="$2"
             addEvent

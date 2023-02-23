@@ -26,38 +26,54 @@ class Settings
      */
     public function edit($settings)
     {
-        $printLiveBtn = 'no';
-        $printMotionStartBtn = 'no';
-        $printMotionAutostartBtn = 'no';
-        $printMotionAlertBtn = 'no';
-        $printMotionStatsBtn = 'no';
-        $printMotionsCaptures = 'no';
-        $printMotionConfig = 'no';
+        $streamMainPage = 'false';
+        $streamLivePage = 'false';
+        $motionStartBtn = 'false';
+        $motionAutostartBtn = 'false';
+        $motionAlertBtn = 'false';
+        $motionStats = 'false';
+        $motionEvents = 'false';
+        $motionEventsVideosThumbnail = 'false';
+        $motionEventsPicturesThumbnail = 'false';
 
         $settings = json_decode($settings, true);
 
-        if (!empty($settings['print-live-btn']) and $settings['print-live-btn'] == 'yes') {
-            $printLiveBtn = 'yes';
+        if (!empty($settings['stream-main-page']) and $settings['stream-main-page'] == 'true') {
+            $streamMainPage = 'true';
         }
-        if (!empty($settings['print-motion-start-btn']) and $settings['print-motion-start-btn'] == 'yes') {
-            $printMotionStartBtn = 'yes';
+        if (!empty($settings['stream-live-page']) and $settings['stream-live-page'] == 'true') {
+            $streamLivePage = 'true';
         }
-        if (!empty($settings['print-motion-autostart-btn']) and $settings['print-motion-autostart-btn'] == 'yes') {
-            $printMotionAutostartBtn = 'yes';
+        if (!empty($settings['motion-start-btn']) and $settings['motion-start-btn'] == 'true') {
+            $motionStartBtn = 'true';
         }
-        if (!empty($settings['print-motion-alert-btn']) and $settings['print-motion-alert-btn'] == 'yes') {
-            $printMotionAlertBtn = 'yes';
+        if (!empty($settings['motion-autostart-btn']) and $settings['motion-autostart-btn'] == 'true') {
+            $motionAutostartBtn = 'true';
         }
-        if (!empty($settings['print-motion-stats-btn']) and $settings['print-motion-stats-btn'] == 'yes') {
-            $printMotionStatsBtn = 'yes';
+        if (!empty($settings['motion-alert-btn']) and $settings['motion-alert-btn'] == 'true') {
+            $motionAlertBtn = 'true';
         }
-        if (!empty($settings['print-motion-captures-btn']) and $settings['print-motion-captures-btn'] == 'yes') {
-            $printMotionsCaptures = 'yes';
+        if (!empty($settings['motion-stats']) and $settings['motion-stats'] == 'true') {
+            $motionStats = 'true';
         }
-        if (!empty($settings['print-motion-config-btn']) and $settings['print-motion-config-btn'] == 'yes') {
-            $printMotionConfig = 'yes';
+        if (!empty($settings['motion-events']) and $settings['motion-events'] == 'true') {
+            $motionEvents = 'true';
+        }
+        if (!empty($settings['motion-events-videos-thumbnail']) and $settings['motion-events-videos-thumbnail'] == 'true') {
+            $motionEventsVideosThumbnail = 'true';
+        }
+        if (!empty($settings['motion-events-pictures-thumbnail']) and $settings['motion-events-pictures-thumbnail'] == 'true') {
+            $motionEventsPicturesThumbnail = 'true';
         }
 
-        $this->model->edit($printLiveBtn, $printMotionStartBtn, $printMotionAutostartBtn, $printMotionAlertBtn, $printMotionStatsBtn, $printMotionsCaptures, $printMotionConfig);
+        $this->model->edit($streamMainPage, $streamLivePage, $motionStartBtn, $motionAutostartBtn, $motionAlertBtn, $motionEvents, $motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionStats);
+    }
+
+    /**
+     *  Enable / disable motion configuration's advanced edition mode
+     */
+    public function motionAdvancedEditionMode(string $status)
+    {
+        $this->model->motionAdvancedEditionMode($status);
     }
 }

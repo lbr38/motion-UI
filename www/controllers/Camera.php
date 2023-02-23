@@ -6,44 +6,32 @@ use Exception;
 
 class Camera
 {
+    private $model;
     private $id;
     private $name;
     private $url;
     private $rotate;
     private $refresh;
-    private $curlHandle;
 
     public function __construct()
     {
-        /**
-         *  Initialize shared curl handle
-         */
-        $this->curlHandle = curl_init();
+        $this->model = new \Models\Camera();
     }
 
-    public function getId()
+    /**
+     *  Get camera Id by its name
+     */
+    public function getIdByName(string $name)
     {
-        return $this->id;
+        return $this->model->getIdByName($name);
     }
 
-    public function getName()
+    /**
+     *  Get camera name by its Id
+     */
+    public function getNameById(string $id)
     {
-        return $this->name;
-    }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function getRotate()
-    {
-        return $this->rotate;
-    }
-
-    public function getRefresh()
-    {
-        return $this->refresh;
+        return $this->model->getNameById($id);
     }
 
     /**
@@ -51,46 +39,7 @@ class Camera
      */
     public function getConfiguration(string $id)
     {
-        if (!file_exists(CAMERA_DIR . '/camera' . $id . '.conf')) {
-            throw new Exception('The specified camera id does not exist');
-        }
-
-        $this->id = $id;
-
-        /**
-         *  Récupération de la configuration de la caméra
-         */
-        $configuration = file_get_contents(CAMERA_DIR . '/camera' . $id . '.conf');
-
-        preg_match('/name=.*/', $configuration, $matche_name);
-        preg_match('/url=.*/', $configuration, $matche_url);
-        preg_match('/refresh=.*/', $configuration, $matche_refresh);
-        preg_match('/rotate=.*/', $configuration, $matche_rotate);
-
-        if (!empty($matche_name[0])) {
-            $this->name = str_replace('name=', '', $matche_name[0]);
-        } else {
-            \Controllers\Common::printAlert("Camera $id name can't be found", 'error');
-            $this->name = '';
-        }
-        if (!empty($matche_url[0])) {
-            $this->url = str_replace('url=', '', $matche_url[0]);
-        } else {
-            \Controllers\Common::printAlert("Camera $id url can't be found", 'error');
-            $this->url = '';
-        }
-        if (!empty($matche_refresh[0])) {
-            $this->refresh = str_replace('refresh=', '', $matche_refresh[0]);
-        } else {
-            \Controllers\Common::printAlert("Camera $id refresh can't be found", 'error');
-            $this->refresh = '';
-        }
-        if (!empty($matche_rotate[0])) {
-            $this->rotate = str_replace('rotate=', '', $matche_rotate[0]);
-        } else {
-            \Controllers\Common::printAlert("Camera $id rotate can't be found", 'error');
-            $this->rotate = '';
-        }
+        return $this->model->getConfiguration($id);
     }
 
     /**
@@ -101,55 +50,100 @@ class Camera
         /**
          *  Get total camera config files
          */
-        return count(glob(CAMERA_DIR . "/*.conf"));
+        return count($this->getCamerasIds());
     }
 
     /**
-     *  Returns an array with all camera Id
+     *  Returns all camera Id
      */
     public function getCamerasIds()
     {
-        $cameraFiles = glob(CAMERA_DIR . "/*.conf");
-
-        if (!empty($cameraFiles)) {
-            $cameraIds = array();
-
-            foreach ($cameraFiles as $cameraFile) {
-                $cameraFile = basename($cameraFile);
-
-                $cameraId = str_replace('camera', '', $cameraFile);
-                $cameraId = str_replace('.conf', '', $cameraId);
-
-                $cameraIds[] = $cameraId;
-            }
-        }
-
-        return $cameraIds;
+        return $this->model->getCamerasIds();
     }
 
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url)
+    public function add(string $name, string $url, string $streamUrl, string $outputType, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
     {
-        $cameraId = 1;
+        $mymotion = new Motion();
 
         /**
-         *  Incrément le nouvel id de camera si celui-ci est déjà utilisé
+         *  Only allow certain caracters in URL
          */
-        while (file_exists(CAMERA_DIR . '/camera' . $cameraId . '.conf')) {
-            $cameraId++;
+        if (!Common::isAlphanumDash($url, array('&', '=', ':', '/', '.', '?', '&', '='))) {
+            throw new Exception('URL contains invalid caracters');
+        }
+        if (!Common::isAlphanumDash($streamUrl, array('&', '=', ':', '/', '.', '?', '&', '='))) {
+            throw new Exception('URL contains invalid caracters');
         }
 
-        $configuration = 'name=' . $name . PHP_EOL;
-        $configuration .= 'url=' . $url . PHP_EOL;
-        $configuration .= 'rotate=0' . PHP_EOL;
-        $configuration .= 'refresh=5' . PHP_EOL;
+        $name = Common::validateData($name);
+        $url = Common::validateData($url);
+        $streamUrl = Common::validateData($streamUrl);
+        $outputType = Common::validateData($outputType);
+        $refresh = Common::validateData($refresh);
+        $liveEnable = Common::validateData($liveEnable);
+        $motionEnable = Common::validateData($motionEnable);
+        $username = Common::validateData($username);
+        $password = Common::validateData($password);
 
         /**
-         *  Ecriture de la nouvelle configuration
+         *  Check that URL starts with http(s):// or rtsp://
          */
-        file_put_contents(CAMERA_DIR . '/camera' . $cameraId . '.conf', $configuration, FILE_APPEND);
+        if (!preg_match('#(^https?://|^rtsp://)#', $url)) {
+            throw new Exception('URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
+        }
+
+        if ($outputType == 'image' and $motionEnable == 'true' and empty($streamUrl)) {
+            throw new Exception('Motion detection requires a stream URL');
+        }
+
+        /**
+         *  If an additional stream URL is provided, check that it starts with http(s):// or rtsp://
+         */
+        if (!empty($streamUrl and !preg_match('#(^https?://)#', $streamUrl))) {
+            throw new Exception('Stream URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
+        }
+
+        if ($outputType != 'image' and $outputType != 'video') {
+            throw new Exception('Invalid output type');
+        }
+
+        if ($outputType == 'image') {
+            if (!is_numeric($refresh)) {
+                throw new Exception('Invalid value for refresh parameter');
+            }
+        }
+
+        /**
+         *  Add camera in database
+         */
+        $this->model->add($name, $url, $streamUrl, $outputType, $refresh, $liveEnable, $motionEnable, $username, $password);
+
+        /**
+         *  Get inserted camera Id from database
+         */
+        $id = $this->getIdByName($name);
+
+        if (empty($id)) {
+            throw new Exception('Could not retrieve camera Id');
+        }
+
+        /**
+         *  Motion configuration
+         *  Generate a new motion configuration file for this camera
+         */
+        $this->generateMotionConfiguration($id);
+
+        /**
+         *  Restart motion service if running
+         */
+        if ($mymotion->motionServiceRunning()) {
+            if (!file_exists(DATA_DIR . '/motion.restart')) {
+                touch(DATA_DIR . '/motion.restart');
+            }
+        }
     }
 
     /**
@@ -157,95 +151,305 @@ class Camera
      */
     public function delete(string $id)
     {
-        if (!file_exists(CAMERA_DIR . '/camera' . $id . '.conf')) {
-            throw new Exception('The specified camera id does not exist');
+        $mymotion = new Motion();
+
+        /**
+         *  Check if camera Id exist
+         */
+        if (!$this->existId($id)) {
+            throw new Exception('Camera does not exist');
         }
 
         /**
-         *  Delete the configuration file
+         *  Delete camera in database
          */
-        unlink(CAMERA_DIR . '/camera' . $id . '.conf');
+        $this->model->delete($id);
+
+        /**
+         *  Delete camera config file
+         */
+        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+            if (!unlink(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+                throw new Exception('Could not delete camera config file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf');
+            }
+        }
+
+        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled')) {
+            if (!unlink(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled')) {
+                throw new Exception('Could not delete camera config file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf.disabled');
+            }
+        }
+
+        /**
+         *  Restart motion service if running
+         */
+        if ($mymotion->motionServiceRunning()) {
+            if (!file_exists(DATA_DIR . '/motion.restart')) {
+                touch(DATA_DIR . '/motion.restart');
+            }
+        }
     }
 
     /**
-     *  Edit camera configuration
+     *  Edit camera global settings
      */
-    public function edit(string $id, string $name, string $url, string $rotate, string $refresh)
+    public function edit(string $id, string $name, string $url, string $streamUrl, string $refresh, string $rotate, string $liveEnable, string $motionEnable, string $username, string $password)
     {
-        if (!file_exists(CAMERA_DIR . '/camera' . $id . '.conf')) {
-            throw new Exception('The specified camera id does not exist');
+        $mymotion = new Motion();
+
+        /**
+         *  Only allow certain caracters in URL
+         */
+        if (!Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '='))) {
+            throw new Exception('URL contains invalid caracters');
+        }
+        if (!Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '='))) {
+            throw new Exception('URL contains invalid caracters');
         }
 
-        $configuration = 'name=' . $name . PHP_EOL;
-        $configuration .= 'url=' . $url . PHP_EOL;
-        $configuration .= 'rotate=' . $rotate . PHP_EOL;
-        $configuration .= 'refresh=' . $refresh . PHP_EOL;
+        $name = Common::validateData($name);
+        $url = Common::validateData($url);
+        $streamUrl = Common::validateData($streamUrl);
+        $refresh = Common::validateData($refresh);
+        $rotate = Common::validateData($rotate);
+        $liveEnable = Common::validateData($liveEnable);
+        $motionEnable = Common::validateData($motionEnable);
+        $username = Common::validateData($username);
+        $password = Common::validateData($password);
+
+        /**
+         *  Check if camera Id exist
+         */
+        if (!$this->existId($id)) {
+            throw new Exception('Camera does not exist');
+        }
+
+        /**
+         *  Get actual configuration for this camera
+         */
+        $actualConfiguration = $this->getConfiguration($id);
+
+        /**
+         *  Check that URL starts with http(s):// or rtsp://
+         */
+        if (!preg_match('#(^https?://|^rtsp://)#', $url)) {
+            throw new Exception('URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
+        }
+
+        if ($actualConfiguration['Output_type'] == 'image' and $motionEnable == 'true' and empty($streamUrl)) {
+            throw new Exception('Motion detection requires a stream URL');
+        }
+
+        /**
+         *  If an additional stream URL is provided, check that it starts with http(s):// or rtsp://
+         */
+        if (!empty($streamUrl and !preg_match('#(^https?://)#', $streamUrl))) {
+            throw new Exception('Stream URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
+        }
+
+        if (!empty($refresh) and !is_numeric($refresh)) {
+            throw new Exception('Invalid value for refresh parameter');
+        }
+
+        if (!is_numeric($rotate)) {
+            throw new Exception('Invalid value for rotate parameter');
+        }
+
+        if ($actualConfiguration['Motion_enabled'] == 'false') {
+            $configFilePath = CAMERAS_DIR . '/camera-' . $id . '.conf.disabled';
+        }
+        if ($actualConfiguration['Motion_enabled'] == 'true') {
+            $configFilePath = CAMERAS_DIR . '/camera-' . $id . '.conf';
+        }
+
+        /**
+         *  Check if config file exist
+         */
+        if ($actualConfiguration['Motion_enabled'] == 'true') {
+            if (!file_exists($configFilePath)) {
+                throw new Exception('Cannot found camera configuration file');
+            }
+            if (!is_readable($configFilePath)) {
+                throw new Exception('Camera configuration file is not readable');
+            }
+            if (!is_writeable($configFilePath)) {
+                throw new Exception('Camera configuration file is not writeable');
+            }
+        }
+
+        /**
+         *  Edit global settings in database
+         */
+        $this->model->edit($id, $name, $url, $streamUrl, $refresh, $rotate, $liveEnable, $motionEnable, $username, $password);
+
+        /**
+         *  Edit global settings in config file
+         */
+        $configuration = file_get_contents($configFilePath);
+        $configuration = preg_replace('/camera_name.*/i', 'camera_name ' . $name, $configuration);
+
+        if ($actualConfiguration['Output_type'] == 'image') {
+            if (!empty($streamUrl)) {
+                $configuration = preg_replace('/netcam_url.*/i', 'netcam_url ' . $streamUrl, $configuration);
+                $configuration = preg_replace('/netcam_high_url.*/i', 'netcam_high_url ' . $streamUrl, $configuration);
+            }
+        }
+        if ($actualConfiguration['Output_type'] == 'video') {
+            $configuration = preg_replace('/netcam_url.*/i', 'netcam_url ' . $url, $configuration);
+            $configuration = preg_replace('/netcam_high_url.*/i', 'netcam_high_url ' . $url, $configuration);
+        }
+
+        /**
+         *  Set rotation
+         */
+        $configuration = preg_replace('/rotate.*/i', 'rotate ' . $rotate, $configuration);
+
+        /**
+         *  If an username and password is specified
+         */
+        if (!empty($username) and !empty($password)) {
+            $configuration = preg_replace('/.*netcam_userpass.*/i', 'netcam_userpass ' . $username . ':' . $password, $configuration);
+        } else {
+            $configuration = preg_replace('/.*netcam_userpass.*/i', ';netcam_userpass ', $configuration);
+        }
 
         /**
          *  Write new configuration
          */
-        file_put_contents(CAMERA_DIR . '/camera' . $id . '.conf', $configuration);
+        file_put_contents($configFilePath, $configuration);
+
+        /**
+         *  Rename config file if motion detection is enabled or disabled
+         */
+        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled') and $motionEnable == 'true') {
+            rename(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled', CAMERAS_DIR . '/camera-' . $id . '.conf');
+        }
+        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf') and $motionEnable == 'false') {
+            rename(CAMERAS_DIR . '/camera-' . $id . '.conf', CAMERAS_DIR . '/camera-' . $id . '.conf.disabled');
+        }
+
+        /**
+         *  Restart motion service if running
+         */
+        if ($mymotion->motionServiceRunning()) {
+            if (!file_exists(DATA_DIR . '/motion.restart')) {
+                touch(DATA_DIR . '/motion.restart');
+            }
+        }
     }
 
     /**
-     *  Download image from distant http camera
+     *  Check if camera Id exist
      */
-    public function downloadImage(string $id, string $url)
+    public function existId(string $id)
     {
-        /**
-         *  Create target dir if not exist
-         */
-        if (!is_dir(ROOT . '/public/resources/.live/camera' . $id)) {
-            mkdir(ROOT . '/public/resources/.live/camera' . $id, 0770, true);
-        }
-
-        $curlError = 0;
-        $localFile = fopen(ROOT . '/public/resources/.live/camera' . $id . '/image.jpg', "w");
-
-        curl_setopt($this->curlHandle, CURLOPT_URL, $url);            // set remote file url
-        curl_setopt($this->curlHandle, CURLOPT_FILE, $localFile);     // set output file
-        curl_setopt($this->curlHandle, CURLOPT_TIMEOUT, 2);           // set timeout
-        curl_setopt($this->curlHandle, CURLOPT_CONNECTTIMEOUT, 1);
-        curl_setopt($this->curlHandle, CURLOPT_FOLLOWLOCATION, true); // follow redirect
-        curl_setopt($this->curlHandle, CURLOPT_ENCODING, '');         // use compression if any
-        curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, false);
-
-        curl_exec($this->curlHandle);
-
-        /**
-         *  If curl has failed (meaning a curl param might be invalid)
-         */
-        if (curl_errno($this->curlHandle)) {
-            return false;
-        }
-
-        /**
-         *  Check that the http return code is 200 (the file has been downloaded)
-         */
-        $status = curl_getinfo($this->curlHandle);
-
-        if ($status["http_code"] != 200) {
-            return false;
-        }
-
-        return true;
+        return $this->model->existId($id);
     }
 
     /**
-     *  Reload image from http camera
+     *  Generate motion configuration file
      */
-    public function reloadImage(string $id)
+    public function generateMotionConfiguration(string $id)
     {
-        $this->getConfiguration($id);
+        /**
+         *  Generate motion.conf
+         */
+        $this->generationMotionMainConfiguration();
 
         /**
-         *  Try to download a new image
+         *  Quit if a config file already exist
          */
-        if ($this->downloadImage($this->id, $this->url) === false) {
-            /**
-             *  Throw exception that will make ajax print an 'unavailable div' for this camera
-             */
-            throw new Exception('Unavailable');
+        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+            return;
+        }
+
+        /**
+         *  Check if camera Id exist
+         */
+        if (!$this->existId($id)) {
+            throw new Exception('Camera does not exist');
+        }
+
+        /**
+         *  Get camera configuration
+         */
+        $camera = $this->getConfiguration($id);
+
+        /**
+         *  Create camera's motion conf file from template
+         */
+
+        /**
+         *  Create cameras dir if not exist
+         */
+        if (!is_dir(CAMERAS_DIR)) {
+            throw new Exception('Cameras config dir does not exist: ' . CAMERAS_DIR);
+        }
+
+        /**
+         *  First, delete file if already exist
+         */
+        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+            unlink(CAMERAS_DIR . '/camera-' . $id . '.conf');
+        }
+
+        /**
+         *  Copy template
+         */
+        if (!copy(ROOT . '/templates/motion-camera.template.conf', CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+            throw new Exception('Could not create camera config motion');
+        }
+
+        /**
+         *  Set permissions
+         */
+        chmod(CAMERAS_DIR . '/camera-' . $id . '.conf', octdec("0660"));
+        chgrp(CAMERAS_DIR . '/camera-' . $id . '.conf', 'motion');
+
+        /**
+         *  Replace values
+         */
+        $configuration = file_get_contents(CAMERAS_DIR . '/camera-' . $id . '.conf');
+        $configuration = str_replace('__CAMERA_ID__', $id, $configuration);
+        $configuration = str_replace('__CAMERA_NAME__', $camera['Name'], $configuration);
+
+        if ($camera['Output_type'] == 'image' and !empty($camera['Stream_url'])) {
+            $configuration = str_replace('__URL__', $camera['Stream_url'], $configuration);
+        } else {
+            $configuration = str_replace('__URL__', $camera['Url'], $configuration);
+        }
+
+        if (!empty($camera['Username']) and !empty($camera['Password'])) {
+            $configuration = preg_replace('/.*netcam_userpass.*/i', 'netcam_userpass ' . $camera['Username'] . ':' . $camera['Password'], $configuration);
+        }
+
+        /**
+         *  Write to file
+         */
+        if (!file_put_contents(CAMERAS_DIR . '/camera-' . $id . '.conf', $configuration)) {
+            throw new Exception('Could not write to configuration file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf', $configuration);
+        }
+
+        if ($camera['Motion_enabled'] == 'false') {
+            rename(CAMERAS_DIR . '/camera-' . $id . '.conf', CAMERAS_DIR . '/camera-' . $id . '.conf.disabled');
+        }
+    }
+
+    /**
+     *  Generate motion main configuration file
+     */
+    public function generationMotionMainConfiguration()
+    {
+        /**
+         *  Copy motion.conf template if not exist
+         */
+        if (!file_exists('/etc/motion/motion.conf')) {
+            if (!copy(ROOT . '/templates/motion.template.conf', '/etc/motion/motion.conf')) {
+                throw new Exception('Could not setup motion main config file: /etc/motion/motion.conf');
+            }
+
+            chmod('/etc/motion/motion.conf', octdec("0660"));
+            chgrp('/etc/motion/motion.conf', 'motion');
         }
     }
 }

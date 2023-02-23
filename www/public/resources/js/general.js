@@ -75,31 +75,41 @@ function printAlert(message, type = null, timeout = 2500)
 /**
  * Print a confirm alert box before executing specified function
  * @param {*} message
- * @param {*} myfunction
- * @param {*} confirmBox
+ * @param {*} myfunction1
+ * @param {*} confirmBox1
  */
-function confirmBox(message, myfunction, confirmBox = 'Delete')
+function confirmBox(message, myfunction1, confirmBox1 = 'Delete', myfunction2 = null, confirmBox2 = null)
 {
     /**
-     *  D'abord on supprime toute alerte déjà active et qui ne serait pas fermée
+     *  First, delete all active confirm box if any
      */
-     $("#newConfirmAlert").remove();
+    $("#newConfirmAlert").remove();
 
-    var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm">' + confirmBox + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
+    /**
+     *  Case there is three choices
+     */
+    if (myfunction2 != null && confirmBox2 != null) {
+        var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm1">' + confirmBox1 + '</span><span class="pointer btn-doConfirm2">' + confirmBox2 + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
+    /**
+     *  Case there is two choices
+     */
+    } else {
+        var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm1">' + confirmBox1 + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
+    }
 
     $('footer').append($content);
 
     /**
-     *  Si on clique sur le bouton 'Delete'
+     *  If choice one is clicked
      */
-    $('.btn-doConfirm').click(function () {
+    $('.btn-doConfirm1').click(function () {
         /**
-         *  Exécution de la fonction passée en paramètre
+         *  Execute function 1
          */
-        myfunction();
+        myfunction1();
 
         /**
-         *  Puis suppression de l'alerte
+         *  Then remove alert
          */
         $("#newConfirmAlert").slideToggle(0, function () {
             $("#newConfirmAlert").remove();
@@ -107,11 +117,28 @@ function confirmBox(message, myfunction, confirmBox = 'Delete')
     });
 
     /**
-     *  Si on clique sur le bouton 'Annuler'
+     *  If choice two is clicked
+     */
+    $('.btn-doConfirm2').click(function () {
+        /**
+         *  Execute function 2
+         */
+        myfunction2();
+
+        /**
+         *  Then remove alert
+         */
+        $("#newConfirmAlert").slideToggle(0, function () {
+            $("#newConfirmAlert").remove();
+        });
+    });
+
+    /**
+     *  If 'cancel' choice is clicked
      */
     $('.btn-doCancel').click(function () {
         /**
-         *  Suppression de l'alerte
+         *  Remove alert
          */
         $("#newConfirmAlert").slideToggle(0, function () {
             $("#newConfirmAlert").remove();
@@ -145,40 +172,16 @@ function getCookie(name)
 }
 
 /**
- *  Event: acquit motion-UI update log and close window
+ *  Event: hide slided window on escape button press
  */
-$(document).on('click','#update-continue-btn',function () {
-    /**
-     *  Acquit and close window
-     */
-    continueUpdate();
-
-    /**
-     *  Reload current page
-     */
-    setTimeout(function () {
-        window.location = window.location.href.split("?")[0];
-    }, 500);
+$(document).keyup(function (e) {
+    if (e.key === "Escape") {
+        $('.param-slide-container').find('.param-slide').animate({
+            right: '-2000px',
+        }).promise().done(function () {
+            $('.param-slide-container').css({
+                visibility: 'hidden'
+            })
+        })
+    }
 });
-
-/**
- * Ajax: acquit motion-UI update log and close window
- */
-function continueUpdate()
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "general",
-            action: "continueUpdate"
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-        },
-        error : function (jqXHR, textStatus, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-        },
-    });
-}
