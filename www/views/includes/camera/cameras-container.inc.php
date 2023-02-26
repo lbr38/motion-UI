@@ -7,8 +7,8 @@
         endif;
 
         if ((__ACTUAL_URI__ == '/live') or ((__ACTUAL_URI__ == '/') and $settings['Stream_on_main_page'] == 'true')) : ?>
-            <div class="top-buttons">
-                <div id="live-grid-layout-btns">
+            <div id="live-grid-layout-btns">
+                <div>
                     <div class="grid-icon-2 live-layout-btn pointer lowopacity" columns="2" title="Change grid layout to 2 items per row">
                         <div></div><div></div>
                         <div></div><div></div>

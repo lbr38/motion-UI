@@ -8,7 +8,7 @@ if (!defined('DATA_DIR')) {
     define('DATA_DIR', '/var/lib/motionui');
 }
 require_once(ROOT . '/controllers/Autoloader.php');
-\Controllers\Autoloader::loadFromLogin();
+\Controllers\Autoloader::loadMinimal();
 include_once(ROOT . '/views/includes/head.inc.php');
 
 $loginErrors = array();

@@ -30,6 +30,13 @@ $password = $configuration['Password'];
 $headers = get_headers($url, true);
 
 /**
+ *  Quit if headers could not be retrieved
+ */
+if ($headers == false) {
+    return;
+}
+
+/**
  * Convert headers keys to lowercase
  */
 $headers = array_change_key_case($headers);

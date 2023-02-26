@@ -7,3 +7,4 @@ set smtp_url = "smtps://SENDER@MAIL.COM@smtp.gmail.com:465/"
 set smtp_pass = 
 set copy = no
 set charset = "utf-8"
+set content_type = "text/html"

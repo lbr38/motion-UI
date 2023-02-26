@@ -21,7 +21,7 @@ class Controller
          *  If target URI is login or logout then load minimal necessary
          */
         if ($targetUri == 'login' or $targetUri == 'logout' or $targetUri == 'stream') {
-            Autoloader::loadFromLogin();
+            Autoloader::loadMinimal();
         } else {
             Autoloader::load();
         }

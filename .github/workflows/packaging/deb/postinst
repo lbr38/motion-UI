@@ -3,6 +3,9 @@
 DATA_DIR="/var/lib/motionui"
 SERVICE="$DATA_DIR/tools/service/motionui-service"
 
+# Execute SQL queries to update database
+/usr/bin/motionui --assume-yes --update-database
+
 # Create/recreate symlink for motionui script
 rm -f "/usr/bin/motionui"
 ln -sf /var/lib/motionui/tools/motionui /usr/bin/motionui
@@ -14,11 +17,6 @@ fi
 
 # Install service as a systemd service
 # Copy files and restart service to take any changes into account
-
-# First stop motionui service if started
-if systemctl is-active --quiet motionui;then
-    systemctl stop --quiet motionui
-fi
 
 # Copy systemd service template 
 \cp "/var/lib/motionui/tools/service/motionui.systemd.template" "/lib/systemd/system/motionui.service"

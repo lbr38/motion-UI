@@ -43,21 +43,6 @@ class Autoloader
         /**
          *  Notifications
          */
-        if (VERSION == "2.3.7") {
-            $NOTIFICATION++;
-            $message  = '<p>Starting from release version <b>2.3.7</b> you will have to install/update Motion-UI using the provided deb/rpm package from my repository. <br><br></p>';
-            $message .= '<p>Further updates will still be notified here but you will have to update using the deb/rpm package provided.<br><br></p>';
-            $message .= '<p>Check how to install or update Motion-UI using my repository: <b><a href="https://github.com/lbr38/motion-UI/wiki/Documentation">documentation<img src="resources/icons/external-link.svg" class="icon"></a></b></p>';
-            $NOTIFICATION_MESSAGES[] = array('title' => 'Important', 'message' => $message);
-        }
-        if (GIT_VERSION == "3.0.0") {
-            $NOTIFICATION++;
-            $message  = '<p class="yellowtext">Breaking changes release:<br><br></p>';
-            $message .= '<p><b>3.0.0</b> is a major release version. <b>It is not compatible with any previous motion-UI version</b> and brings no migration tool.<br> Installation will <b>backup your actual configuration</b> then make a <b>fresh new install of motion and motion-UI.</b><br><br></p>';
-            $message .= '<p class="yellowtext">All your configuration and events will be lost and you will have to setup all of your cameras again.<br><br></p>';
-            $message .= '<p>You can read release changelog here: <b><a href="https://github.com/lbr38/motion-UI/releases/tag/3.0.0">changelog<b><img src="resources/icons/external-link.svg" class="icon"></p>';
-            $NOTIFICATION_MESSAGES[] = array('title' => 'Important', 'message' => $message);
-        }
         if (UPDATE_AVAILABLE == 'true') {
             $message  = '<span class="yellowtext">A new release is available: <b>' . GIT_VERSION . '</b></span>';
             $message .= '<p><br>Update from the terminal on a <b>Debian system</b>:</p>';
@@ -81,7 +66,7 @@ class Autoloader
     /**
      *  Chargement du minimum nécessaire pour la page /login
      */
-    public static function loadFromLogin()
+    public static function loadMinimal()
     {
         \Controllers\Autoloader::loadConstant();
         \Controllers\Autoloader::register();
@@ -112,9 +97,6 @@ class Autoloader
         }
         if (!defined('CAPTURES_DIR')) {
             define('CAPTURES_DIR', '/var/lib/motion');
-        }
-        if (!defined('EVENTS_PICTURES')) {
-            define('EVENTS_PICTURES', ROOT . '/public/resources/events-pictures');
         }
         if (!defined('DATE_YMD')) {
             define('DATE_YMD', date('Y-m-d'));
@@ -192,10 +174,6 @@ class Autoloader
 
             chmod(CAPTURES_DIR, octdec('0770'));
             chgrp(CAPTURES_DIR, 'motion');
-        }
-
-        if (!is_dir(EVENTS_PICTURES)) {
-            mkdir(EVENTS_PICTURES, 0770, true);
         }
     }
 
