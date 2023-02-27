@@ -86,6 +86,9 @@ pre {
 .redtext { color: #ff0044; }
 .yellowtext { color: #ffb536; }
 .graytext { color : gray; }
+.bkg-green { background-color: #14be7e !important; color: white !important; }
+.bkg-yellow { background-color: #ffb536 !important; color: white !important; }
+.bkg-red { background-color: #ff0044 !important; color: white !important; }
 .center { text-align: center; }
 .baseline { vertical-align: baseline; }
 .font-size-12{font-size: 12px}.font-size-13{font-size: 13px}.font-size-14{font-size: 14px}
@@ -277,6 +280,56 @@ input::placeholder {
     background-color: #dc0044;
 }
 
+/**
+ *  Round btns
+ */
+[class^="round-btn"] {
+    max-width: 300px !important;
+}
+
+/**
+ *  Slide btns
+ */
+[class^="slide-btn"], [class^="round-btn"] {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    text-decoration: none;
+    width: auto;
+    max-width: 28px;
+    height: 28px;
+    -webkit-transition: max-width 0.7s;
+    transition: max-width 0.7s;
+    margin: 0 3px 0 3px;
+    color: white;
+    background-color: #15bf7f;
+    border-radius: 60px;
+    cursor: pointer;
+}
+[class^="slide-btn"] img, [class^="round-btn"] img {
+    width: 16px;
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+}
+[class^="slide-btn"] span, [class^="round-btn"] span {
+    white-space: nowrap;
+    padding-right: 12px;
+    padding-left: 8px;
+}
+.slide-btn-red, .round-btn-red {
+    background-color: #ff0044;
+}
+.slide-btn-red:hover, .round-btn-red:hover {
+    background-color: #dc0044;
+}
+.slide-btn-yellow, .round-btn-yellow {
+    background-color: #eb984e;
+}
+.slide-btn-yellow:hover, .round-btn-yellow:hover {
+    background-color: #eb984e;
+}
+
 textarea {
     width: 100%;
     text-indent: 5px;
@@ -287,6 +340,42 @@ textarea {
     border: none;
 }
 
+.round-item {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 60px;
+}
+
+.label-black, .label-white, .label-green, .label-blue, .label-red, .label-yellow {
+    font-size: 13px;
+    vertical-align: middle;
+    display: inline-block;
+    padding: 4px 6px 4px 6px;
+    border-radius: 2px;
+    color: white;
+}
+
+.label-black {
+    background-color: rgb(46, 54, 58);
+    box-shadow: rgb(12 18 20 / 67%) 0px 0px 0px 1px;
+}
+.label-white {
+    background-color: white;
+    color: #000000d9;
+}
+.label-green {
+    background-color: #15bf7f;
+}
+.label-blue {
+    background-color: #5473e8;
+}
+.label-red {
+    background-color: #ff0044;
+}
+.label-yellow {
+    background-color: #ffb536;
+}
 
 /**
  *  On/off slider switch
@@ -408,7 +497,7 @@ textarea {
 
 .param-slide {
     position: absolute;
-    right: -2000px;
+    right: -1000px;
     height: 100%;
     width: 29.5%;
     padding: 20px;
@@ -489,3 +578,12 @@ textarea {
     margin-top: 0;
 }
 
+/* Desktop configuration */
+@media (min-width:1025px) {
+    /**
+     *  Slide btns
+     */
+    [class^="slide-btn"]:hover {
+        max-width: 300px;
+    }
+}

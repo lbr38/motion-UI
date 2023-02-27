@@ -8,15 +8,40 @@
             <h2>Global settings</h2>
 
             <form id="camera-global-settings-form" camera-id="<?= $camera['Id'] ?>" output-type="<?= $camera['Output_type'] ?>" autocomplete="off">
-
-                <span>Output type</span>
-                <span><?= $camera['Output_type'] ?></span>
-
                 <span>Name</span>
                 <input type="text" name="edit-camera-name" value="<?= $camera['Name'] ?>" />
 
                 <span>URL</span>
                 <input type="text" name="edit-camera-url" value="<?= $camera['Url'] ?>" />
+
+                <span>Output type</span>
+                <span><i class="label-blue"><?= $camera['Output_type'] ?></i></span>
+
+                <span>Output resolution</span>
+                <select name="edit-output-resolution">
+                    <!-- 4/3 -->
+                    <option disabled>4/3 resolutions:</option>
+                    <option value="640x480" <?php echo ($camera['Output_resolution'] == '640x480') ? 'selected' : ''; ?>>640x480</option>
+                    <option value="800x600" <?php echo ($camera['Output_resolution'] == '800x600') ? 'selected' : ''; ?>>800x600</option>
+                    <option value="960x720" <?php echo ($camera['Output_resolution'] == '960x720') ? 'selected' : ''; ?>>960x720</option>
+                    <option value="1024x768" <?php echo ($camera['Output_resolution'] == '1024x768') ? 'selected' : ''; ?>>1024x768</option>
+                    <option value="1152x864" <?php echo ($camera['Output_resolution'] == '1152x864') ? 'selected' : ''; ?>>1152x864</option>
+                    <option value="1280x960" <?php echo ($camera['Output_resolution'] == '1280x960') ? 'selected' : ''; ?>>1280x960</option>
+                    <option value="1400x1050" <?php echo ($camera['Output_resolution'] == '1400x1050') ? 'selected' : ''; ?>>1400x1050</option>
+                    <option value="1440x1080" <?php echo ($camera['Output_resolution'] == '1440x1080') ? 'selected' : ''; ?>>1440x1080</option>
+                    <option value="1600x1200" <?php echo ($camera['Output_resolution'] == '1600x1200') ? 'selected' : ''; ?>>1600x1200</option>
+                    <option value="1856x1392" <?php echo ($camera['Output_resolution'] == '1856x1392') ? 'selected' : ''; ?>>1856x1392</option>
+                    <option value="1920x1440" <?php echo ($camera['Output_resolution'] == '1920x1440') ? 'selected' : ''; ?>>1920x1440</option>
+                    <option value="2048x1536" <?php echo ($camera['Output_resolution'] == '2048x1536') ? 'selected' : ''; ?>>2048x1536</option>
+                    <!-- 16/9 -->
+                    <option disabled>16/9 resolutions:</option>
+                    <option value="1280x720" <?php echo ($camera['Output_resolution'] == '1280x720') ? 'selected' : ''; ?>>1280x720 (720p)</option>
+                    <option value="1920x1080" <?php echo ($camera['Output_resolution'] == '1920x1080') ? 'selected' : ''; ?>>1920x1080 (1080p)</option>
+                    <option value="2560x1440" <?php echo ($camera['Output_resolution'] == '2560x1440') ? 'selected' : ''; ?>>2560x1440 (1440p)</option>
+                    <option value="3840x2160" <?php echo ($camera['Output_resolution'] == '3840x2160') ? 'selected' : ''; ?>>3840x2160 (2160p)</option>
+                    <option value="5120x2880" <?php echo ($camera['Output_resolution'] == '5120x2880') ? 'selected' : ''; ?>>5120x2880 (2880p)</option>
+                    <option value="7680x4320" <?php echo ($camera['Output_resolution'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
+                </select>
 
                 <?php
                 if ($camera['Output_type'] == 'image') : ?>
@@ -280,12 +305,13 @@
                             </table>
                             <br>
                             <button type="submit" class="btn-small-green">Save</button>
-                            <br><br>
                         </form>
                     </div>
                     <?php
                 endif;
             endif ?>
         </div>
+        <br>
+        <br>
     </div>
 </div>

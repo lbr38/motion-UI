@@ -120,6 +120,29 @@ function permissions
     fi
 }
 
+# Update database
+function updateDatabase
+{
+    if [ ! -f "$DATA_DIR/db/motionui.sqlite" ];then
+        echo -e "\n${YELLOW} Database not initialized yet. ${RESET}\n"
+        exit 1
+    fi
+
+    detectWebUser
+
+    echo -ne "\n${YELLOW} Updating database... ${RESET}"
+
+    # Update database
+    sudo -u "$WWW_USER" php "$WWW_DIR/tools/update-database.php"
+
+    if [ $? -ne 0 ];then
+        echo -e "${YELLOW}ERROR${RESET}\n"
+        exit 1
+    fi
+
+    echo -e "${GREEN}OK${RESET}\n"
+}
+
 
 echo '
                  __  .__                              .__ 
@@ -151,6 +174,10 @@ while [ $# -ge 1 ];do
         ;;
         --set-permissions|--permissions|-p)
             permissions
+            exit
+        ;;
+        --update-database)
+            updateDatabase
             exit
         ;;
         *)

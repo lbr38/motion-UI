@@ -57,6 +57,7 @@ class Connection extends SQLite3
         Url VARCHAR(255) NOT NULL,
         Stream_url VARCHAR(255),
         Output_type CHAR(5), /* image, video */
+        Output_resolution VARCHAR(255),
         Refresh INTEGER,
         Rotate INTEGER,
         Live_enabled CHAR(5),
@@ -267,6 +268,28 @@ class Connection extends SQLite3
 
         if ($count == 0) {
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *  Return true if column name exists in the specified table
+     */
+    public function columnExist(string $tableName, string $columnName)
+    {
+        $columns = array();
+
+        $result = $this->query("PRAGMA table_info($tableName)");
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $columns[] = $row;
+        }
+
+        foreach ($columns as $column) {
+            if ($column['name'] == $columnName) {
+                return true;
+            }
         }
 
         return false;

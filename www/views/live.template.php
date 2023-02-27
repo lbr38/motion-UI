@@ -2,7 +2,7 @@
 /**
  *  Top buttons
  */
-include_once(ROOT . '/views/includes/top-buttons.inc.php');
+include_once(ROOT . '/views/includes/bottom-buttons.inc.php');
 
 /**
  *  Motionui service status

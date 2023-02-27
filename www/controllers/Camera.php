@@ -64,7 +64,7 @@ class Camera
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
     {
         $mymotion = new Motion();
 
@@ -82,6 +82,7 @@ class Camera
         $url = Common::validateData($url);
         $streamUrl = Common::validateData($streamUrl);
         $outputType = Common::validateData($outputType);
+        $outputResolution = Common::validateData($outputResolution);
         $refresh = Common::validateData($refresh);
         $liveEnable = Common::validateData($liveEnable);
         $motionEnable = Common::validateData($motionEnable);
@@ -95,6 +96,20 @@ class Camera
             throw new Exception('URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
         }
 
+        /**
+         *  Check that output type is valid
+         */
+        if ($outputType != 'image' and $outputType != 'video') {
+            throw new Exception('Specified output type is invalid');
+        }
+
+        /**
+         *  Check that resolution is valid
+         */
+        if (!preg_match('#^([0-9]+)x([0-9]+)$#', $outputResolution)) {
+            throw new Exception('Specified resolution is invalid');
+        }
+
         if ($outputType == 'image' and $motionEnable == 'true' and empty($streamUrl)) {
             throw new Exception('Motion detection requires a stream URL');
         }
@@ -106,20 +121,16 @@ class Camera
             throw new Exception('Stream URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
         }
 
-        if ($outputType != 'image' and $outputType != 'video') {
-            throw new Exception('Invalid output type');
-        }
-
         if ($outputType == 'image') {
             if (!is_numeric($refresh)) {
-                throw new Exception('Invalid value for refresh parameter');
+                throw new Exception('Specified refresh rate is invalid');
             }
         }
 
         /**
          *  Add camera in database
          */
-        $this->model->add($name, $url, $streamUrl, $outputType, $refresh, $liveEnable, $motionEnable, $username, $password);
+        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $refresh, $liveEnable, $motionEnable, $username, $password);
 
         /**
          *  Get inserted camera Id from database
@@ -193,29 +204,9 @@ class Camera
     /**
      *  Edit camera global settings
      */
-    public function edit(string $id, string $name, string $url, string $streamUrl, string $refresh, string $rotate, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function edit(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $refresh, string $rotate, string $liveEnable, string $motionEnable, string $username, string $password)
     {
         $mymotion = new Motion();
-
-        /**
-         *  Only allow certain caracters in URL
-         */
-        if (!Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '='))) {
-            throw new Exception('URL contains invalid caracters');
-        }
-        if (!Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '='))) {
-            throw new Exception('URL contains invalid caracters');
-        }
-
-        $name = Common::validateData($name);
-        $url = Common::validateData($url);
-        $streamUrl = Common::validateData($streamUrl);
-        $refresh = Common::validateData($refresh);
-        $rotate = Common::validateData($rotate);
-        $liveEnable = Common::validateData($liveEnable);
-        $motionEnable = Common::validateData($motionEnable);
-        $username = Common::validateData($username);
-        $password = Common::validateData($password);
 
         /**
          *  Check if camera Id exist
@@ -230,6 +221,27 @@ class Camera
         $actualConfiguration = $this->getConfiguration($id);
 
         /**
+         *  Only allow certain caracters in URL
+         */
+        if (!Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '='))) {
+            throw new Exception('URL contains invalid caracters');
+        }
+        if (!Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '='))) {
+            throw new Exception('URL contains invalid caracters');
+        }
+
+        $name = Common::validateData($name);
+        $url = Common::validateData($url);
+        $streamUrl = Common::validateData($streamUrl);
+        $outputResolution = Common::validateData($outputResolution);
+        $refresh = Common::validateData($refresh);
+        $rotate = Common::validateData($rotate);
+        $liveEnable = Common::validateData($liveEnable);
+        $motionEnable = Common::validateData($motionEnable);
+        $username = Common::validateData($username);
+        $password = Common::validateData($password);
+
+        /**
          *  Check that URL starts with http(s):// or rtsp://
          */
         if (!preg_match('#(^https?://|^rtsp://)#', $url)) {
@@ -241,6 +253,13 @@ class Camera
         }
 
         /**
+         *  Check that resolution is valid
+         */
+        if (!preg_match('#^([0-9]+)x([0-9]+)$#', $outputResolution)) {
+            throw new Exception('Specified resolution is invalid');
+        }
+
+        /**
          *  If an additional stream URL is provided, check that it starts with http(s):// or rtsp://
          */
         if (!empty($streamUrl and !preg_match('#(^https?://)#', $streamUrl))) {
@@ -248,11 +267,11 @@ class Camera
         }
 
         if (!empty($refresh) and !is_numeric($refresh)) {
-            throw new Exception('Invalid value for refresh parameter');
+            throw new Exception('Specified refresh rate is invalid');
         }
 
         if (!is_numeric($rotate)) {
-            throw new Exception('Invalid value for rotate parameter');
+            throw new Exception('Specified rotation is invalid');
         }
 
         if ($actualConfiguration['Motion_enabled'] == 'false') {
@@ -280,7 +299,7 @@ class Camera
         /**
          *  Edit global settings in database
          */
-        $this->model->edit($id, $name, $url, $streamUrl, $refresh, $rotate, $liveEnable, $motionEnable, $username, $password);
+        $this->model->edit($id, $name, $url, $streamUrl, $outputResolution, $refresh, $rotate, $liveEnable, $motionEnable, $username, $password);
 
         /**
          *  Edit global settings in config file
@@ -298,6 +317,13 @@ class Camera
             $configuration = preg_replace('/netcam_url.*/i', 'netcam_url ' . $url, $configuration);
             $configuration = preg_replace('/netcam_high_url.*/i', 'netcam_high_url ' . $url, $configuration);
         }
+
+        /**
+         *  Set width and height using resolution value
+         */
+        $resolution = explode('x', $outputResolution);
+        $configuration = preg_replace('/width.*/i', 'width ' . $resolution[0], $configuration);
+        $configuration = preg_replace('/height.*/i', 'height ' . $resolution[1], $configuration);
 
         /**
          *  Set rotation
@@ -352,7 +378,7 @@ class Camera
     public function generateMotionConfiguration(string $id)
     {
         /**
-         *  Generate motion.conf
+         *  Generate motion.conf is not exist
          */
         $this->generationMotionMainConfiguration();
 
@@ -418,6 +444,13 @@ class Camera
         } else {
             $configuration = str_replace('__URL__', $camera['Url'], $configuration);
         }
+
+        /**
+         *  Set width and height using resolution value
+         */
+        $resolution = explode('x', $camera['Output_resolution']);
+        $configuration = str_replace('__WIDTH__', $resolution[0], $configuration);
+        $configuration = str_replace('__HEIGHT__', $resolution[1], $configuration);
 
         if (!empty($camera['Username']) and !empty($camera['Password'])) {
             $configuration = preg_replace('/.*netcam_userpass.*/i', 'netcam_userpass ' . $camera['Username'] . ':' . $camera['Password'], $configuration);

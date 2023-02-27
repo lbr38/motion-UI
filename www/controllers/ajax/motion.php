@@ -252,7 +252,7 @@ if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !em
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Configuration saved, please restart <b>motion</b> to apply it.');
+    response(HTTP_OK, 'Configuration saved.');
 }
 
 response(HTTP_BAD_REQUEST, 'Invalid action');

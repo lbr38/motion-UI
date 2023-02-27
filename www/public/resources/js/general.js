@@ -12,7 +12,7 @@ function openSlide(id)
 function closeSlide(id)
 {
     $(id).find('.param-slide').animate({
-        right: '-2000px',
+        right: '-1000px',
     }).promise().done(function () {
         $(id).css({
             visibility: 'hidden'
@@ -185,3 +185,10 @@ $(document).keyup(function (e) {
         })
     }
 });
+
+/**
+ *  Reload CPU load every 5 seconds
+ */
+setInterval(function () {
+    reloadContentById('currentload');
+}, 5000);

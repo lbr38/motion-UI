@@ -142,6 +142,7 @@ $(document).on('submit','#new-camera-form',function () {
     var name = $(this).find('input[type=text][name=camera-name]').val();
     var url = $(this).find('input[type=text][name=camera-url]').val();
     var outputType = $(this).find('input[type=radio][name=output-type]:checked').val();
+    var outputResolution = $(this).find('select[name=output-resolution]').val();
     var refresh = $(this).find('input[type=number][name=camera-refresh]').val();
     var username = $(this).find('input[type=text][name=camera-username]').val();
     var password = $(this).find('input[type=password][name=camera-password]').val();
@@ -149,7 +150,7 @@ $(document).on('submit','#new-camera-form',function () {
     var motionEnable = $(this).find('input[type=checkbox][name=camera-motion-enable]').is(':checked');
     var streamUrl = $(this).find('input[type=text][name=camera-stream-url]').val();
 
-    add(name, url, streamUrl, outputType, refresh, liveEnable, motionEnable, username, password);
+    add(name, url, streamUrl, outputType, outputResolution, refresh, liveEnable, motionEnable, username, password);
 
     return false;
 });
@@ -163,9 +164,10 @@ $(document).on('submit','#camera-global-settings-form',function () {
     var refresh = '';
 
     var id = $(this).attr('camera-id');
-    var outputType = $(this).attr('output-type');
     var name = $(this).find('input[type=text][name=edit-camera-name]').val();
     var url = $(this).find('input[type=text][name=edit-camera-url]').val();
+    var outputType = $(this).attr('output-type');
+    var outputResolution = $(this).find('select[name=edit-output-resolution]').val();
     var streamUrl = $(this).find('input[type=text][name=edit-camera-stream-url]').val();
     var rotate = $(this).find('select[name=edit-camera-rotate]').val();
     var username = $(this).find('input[type=text][name=edit-camera-username]').val();
@@ -177,7 +179,7 @@ $(document).on('submit','#camera-global-settings-form',function () {
         var refresh = $(this).find('input[type=number][name=edit-camera-refresh]').val();
     }
 
-    edit(id, name, url, streamUrl, refresh, rotate, liveEnable, motionEnable, username, password);
+    edit(id, name, url, streamUrl, outputResolution, refresh, rotate, liveEnable, motionEnable, username, password);
 
     return false;
 });
@@ -259,11 +261,12 @@ $(document).on('click','.close-full-screen-camera-btn',function () {
  * @param {*} name
  * @param {*} url
  * @param {*} outputType
+ * @param {*} outputResolution
  * @param {*} refresh
  * @param {*} username
  * @param {*} password
  */
-function add(name, url, streamUrl, outputType, refresh, liveEnable, motionEnable, username, password)
+function add(name, url, streamUrl, outputType, outputResolution, refresh, liveEnable, motionEnable, username, password)
 {
     $.ajax({
         type: "POST",
@@ -275,6 +278,7 @@ function add(name, url, streamUrl, outputType, refresh, liveEnable, motionEnable
             url: url,
             streamUrl: streamUrl,
             outputType: outputType,
+            outputResolution: outputResolution,
             refresh: refresh,
             liveEnable: liveEnable,
             motionEnable: motionEnable,
@@ -285,7 +289,7 @@ function add(name, url, streamUrl, outputType, refresh, liveEnable, motionEnable
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('top-buttons-section');
+            reloadContentById('bottom-buttons-section');
             reloadContentById('motionui-service-section');
             reloadContentById('getting-started-section');
             reloadContentById('main-buttons-section');
@@ -357,12 +361,16 @@ function reloadEditForm(id)
  * @param {*} id
  * @param {*} name
  * @param {*} url
+ * @param {*} streamUrl
+ * @param {*} outputResolution
  * @param {*} refresh
  * @param {*} rotate
+ * @param {*} liveEnable
+ * @param {*} motionEnable
  * @param {*} username
  * @param {*} password
  */
-function edit(id, name, url, streamUrl, refresh, rotate, liveEnable, motionEnable, username, password)
+function edit(id, name, url, streamUrl, outputResolution, refresh, rotate, liveEnable, motionEnable, username, password)
 {
     $.ajax({
         type: "POST",
@@ -374,6 +382,7 @@ function edit(id, name, url, streamUrl, refresh, rotate, liveEnable, motionEnabl
             name: name,
             url: url,
             streamUrl: streamUrl,
+            outputResolution: outputResolution,
             refresh: refresh,
             rotate: rotate,
             liveEnable: liveEnable,
@@ -386,7 +395,7 @@ function edit(id, name, url, streamUrl, refresh, rotate, liveEnable, motionEnabl
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
             reloadEditForm(id);
-            reloadContentById('top-buttons-section');
+            reloadContentById('bottom-buttons-section');
             reloadContentById('motionui-service-section');
             reloadContentById('getting-started-section');
             reloadContentById('main-buttons-section');
@@ -418,7 +427,7 @@ function deleteCamera(cameraId)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('top-buttons-section');
+            reloadContentById('bottom-buttons-section');
             reloadContentById('motionui-service-section');
             reloadContentById('getting-started-section');
             reloadContentById('main-buttons-section');
