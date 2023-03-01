@@ -1,0 +1,19 @@
+---
+version: "3"
+services:
+  motionui:
+    container_name: motionui
+    image: motionui-image
+    privileged: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        fqdn: motionui.example.com
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/lib/docker/volumes/motionui-data:/var/lib/motionui
+      - /var/lib/docker/volumes/motionui-captures:/var/lib/motion

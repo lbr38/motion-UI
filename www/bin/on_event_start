@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/curl -v -d "{\"id\":\"$1\",\"id_short\":\"$2\",\"cameraId\":\"$3\"}" -X POST http://127.0.0.1:8080/api/v1/event/new

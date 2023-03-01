@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/bin/curl -v -d "{\"id\":\"$1\",\"file\":\"$2\",\"width\":\"$3\",\"height\":\"$4\",\"fps\":\"$5\",\"changed_pixels\":\"$6\"}" -X POST http://127.0.0.1:8080/api/v1/event/file
+chown motion:www-data $2
+chmod 660 $2

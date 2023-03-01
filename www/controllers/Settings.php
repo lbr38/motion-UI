@@ -35,6 +35,7 @@ class Settings
         $motionEvents = 'false';
         $motionEventsVideosThumbnail = 'false';
         $motionEventsPicturesThumbnail = 'false';
+        $motionEventsRetention = '30';
 
         $settings = json_decode($settings, true);
 
@@ -65,8 +66,11 @@ class Settings
         if (!empty($settings['motion-events-pictures-thumbnail']) and $settings['motion-events-pictures-thumbnail'] == 'true') {
             $motionEventsPicturesThumbnail = 'true';
         }
+        if (!empty($settings['motion-events-retention']) and is_numeric($settings['motion-events-retention']) and $settings['motion-events-retention'] > 0) {
+            $motionEventsRetention = $settings['motion-events-retention'];
+        }
 
-        $this->model->edit($streamMainPage, $streamLivePage, $motionStartBtn, $motionAutostartBtn, $motionAlertBtn, $motionEvents, $motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionStats);
+        $this->model->edit($streamMainPage, $streamLivePage, $motionStartBtn, $motionAutostartBtn, $motionAlertBtn, $motionEvents, $motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionEventsRetention, $motionStats);
     }
 
     /**

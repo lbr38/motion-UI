@@ -1,6 +1,19 @@
 <?php
 
 $mycamera = new \Controllers\Camera();
+$contextArray = array();
+
+/**
+ *  Set default socket timeout to 2 seconds
+ *  Will apply to readfile
+ */
+stream_context_set_default(
+    array(
+        'http' => array(
+            'timeout' => 2
+        )
+    )
+);
 
 /**
  *  Check that specified camera Id is valid
@@ -23,15 +36,6 @@ $configuration = $mycamera->getConfiguration($_GET['id']);
 $url = $configuration['Url'];
 $username = $configuration['Username'];
 $password = $configuration['Password'];
-
-/**
- *  Default context: set timeout
- */
-$contextArray = [
-    'http'=> [
-        'timeout' => '1'
-    ]
-];
 
 /**
  *  Use username and password if not empty

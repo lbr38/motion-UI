@@ -9,6 +9,12 @@ class Connection extends SQLite3
     public function __construct()
     {
         try {
+            if (!is_dir(DB_DIR)) {
+                if (!mkdir(DB_DIR, 0777, true)) {
+                    throw new Exception('Unable to create database directory');
+                }
+            }
+
             /**
              *  Open database
              */
@@ -22,7 +28,7 @@ class Connection extends SQLite3
          *  Add a 5sec timeout to database opening
          */
         try {
-            $this->busyTimeout(5000);
+            $this->busyTimeout(10000);
         } catch (\Exception $e) {
             die('Error while trying to configure database timeout: ' . $e->getMessage());
         }
@@ -138,12 +144,12 @@ class Connection extends SQLite3
         $this->exec("CREATE TABLE IF NOT EXISTS motion_events (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         Motion_id_event INTEGER NOT NULL,
+        Motion_id_event_short INTEGER NOT NULL,
         Date_start DATE NOT NULL,
         Time_start TIME NOT NULL,
         Date_end DATE,
         Time_end TIME,
         Camera_id INTEGER,
-        /*Camera_name VARCHAR(255),*/
         Status VARCHAR(10))");
 
         /**
@@ -152,8 +158,12 @@ class Connection extends SQLite3
         $this->exec("CREATE TABLE IF NOT EXISTS motion_events_files (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         File VARCHAR(255) NOT NULL,
-        Size VARCHAR(255) NOT NULL,
-        Id_event INTEGER NOT NULL)");
+        Size VARCHAR(255),
+        Width INTEGER,
+        Height INTEGER,
+        Fps INTEGER,
+        Changed_pixels INTEGER,
+        Motion_id_event INTEGER NOT NULL)");
 
         /**
          *  Create motion_status table
@@ -176,6 +186,7 @@ class Connection extends SQLite3
         Motion_events CHAR(5) NOT NULL,
         Motion_events_videos_thumbnail CHAR(5) NOT NULL,
         Motion_events_pictures_thumbnail CHAR(5) NOT NULL,
+        Motion_events_retention INTEGER NOT NULL,
         Motion_stats CHAR(5) NOT NULL,
         Motion_advanced_edition_mode CHAR(5) NOT NULL)");
 
@@ -185,8 +196,8 @@ class Connection extends SQLite3
         $result = $this->query("SELECT Stream_on_main_page FROM settings");
         if ($this->isempty($result) === true) {
             $this->exec("INSERT INTO settings 
-            (Stream_on_main_page, Stream_on_live_page, Motion_start_btn, Motion_autostart_btn, Motion_alert_btn, Motion_events, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_stats, Motion_advanced_edition_mode)
-            VALUES ('true', 'true', 'true', 'true', 'true', 'true', 'true', 'false', 'true', 'false')");
+            (Stream_on_main_page, Stream_on_live_page, Motion_start_btn, Motion_autostart_btn, Motion_alert_btn, Motion_events, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_events_retention, Motion_stats, Motion_advanced_edition_mode)
+            VALUES ('true', 'true', 'true', 'true', 'true', 'true', 'true', 'true', '30', 'true', 'false')");
         }
 
         /**
@@ -246,10 +257,39 @@ class Connection extends SQLite3
         }
 
         /**
+         *  Generate layout_container_state table if not exists
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS layout_container_state (
+        Container VARCHAR(255) NOT NULL,
+        Id INTEGER NOT NULL)");
+
+        /**
+         *  Generate logs table if not exists
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS logs (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Date DATE NOT NULL,
+        Time TIME NOT NULL,
+        Type CHAR(5) NOT NULL, /* info, error */
+        Component VARCHAR(255),
+        Message VARCHAR(255) NOT NULL,
+        Status CHAR(9) NOT NULL)"); /* new, acquitted */
+
+         /**
+         *  Generate notifications table if not exists
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS notifications (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Id_notification CHAR(5) NOT NULL,
+        Title VARCHAR(255) NOT NULL,
+        Message VARCHAR(255) NOT NULL,
+        Status CHAR(9) NOT NULL)"); /* new, acquitted */
+
+        /**
          *  Create indexes on tables with large amount of data
          */
-        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_index ON motion_events (Motion_id_event, Date_start, Time_start)");
-        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_index ON motion_events_files (Id_event)");
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_index ON motion_events (Motion_id_event, Motion_id_event_short, Date_start, Time_start, Date_end, Time_end, Camera_id, Status)");
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_index ON motion_events_files (File, Size, Width, Height, Fps, Changed_pixels, Motion_id_event)");
     }
 
     /**

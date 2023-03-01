@@ -1,13 +1,15 @@
-hideLoading();
-reloadImage();
+$(document).ready(function () {
+    hideLoading();
+    reloadImage();
 
-/**
- *  Setting live grid layout
- */
-var gridLayout = getCookie('liveGridLayout');
-if (gridLayout != null) {
-    $('#camera-grid-container').css('grid-template-columns', 'repeat('+gridLayout+', 1fr)');
-}
+    /**
+     *  Setting live grid layout
+     */
+    var gridLayout = getCookie('liveGridLayout');
+    if (gridLayout != null) {
+        $('#camera-grid-container').css('grid-template-columns', 'repeat('+gridLayout+', 1fr)');
+    }
+});
 
 /**
  *  Hide loading div
@@ -21,7 +23,7 @@ function hideLoading()
     setTimeout(function () {
         $('.camera-container').find('.camera-loading').hide();
         $('.camera-container').find('.camera-image').show();
-    }, 1000);
+    }, 500);
 }
 
 /**
@@ -76,20 +78,6 @@ $(document).on('click','.live-layout-btn',function () {
     $('#camera-grid-container').css('grid-template-columns', 'repeat(' + gridLayout + ', 1fr)');
 
     document.cookie = "liveGridLayout=" + gridLayout + "; Secure";
-});
-
-/**
- *  Event: print new camera div
- */
-$(document).on('click','#print-new-camera-btn',function () {
-    openSlide('#new-camera-div');
-});
-
-/**
- *  Event: hide new camera div
- */
-$(document).on('click','#hide-new-camera-btn',function () {
-    closeSlide('#new-camera-div');
 });
 
 /**
@@ -213,7 +201,7 @@ $(document).on('click','.configure-camera-btn',function () {
 $(document).on('click','.hide-camera-configuration-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
-    closeSlide('.camera-configuration-div[camera-id='+cameraId+']');
+    closePanel('.camera-configuration-div[camera-id='+cameraId+']');
 });
 
 /**
@@ -289,11 +277,9 @@ function add(name, url, streamUrl, outputType, outputResolution, refresh, liveEn
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('bottom-buttons-section');
-            reloadContentById('motionui-service-section');
-            reloadContentById('getting-started-section');
-            reloadContentById('main-buttons-section');
-            reloadContentById('cameras-section');
+            reloadContainer('getting-started');
+            reloadContainer('buttons/main');
+            reloadContainer('cameras/list');
             hideLoading();
         },
         error: function (jqXHR, ajaxOptions, thrownError) {
@@ -321,7 +307,7 @@ function getEditForm(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             $('#camera-edit-form-container').html(jsonValue.message);
-            openSlide('.camera-configuration-div[camera-id=' + id + ']');
+            openPanel('edit-camera');
         },
         error: function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -347,7 +333,7 @@ function reloadEditForm(id)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            $('#camera-settings-container[camera-id=' + id + ']').html($(jsonValue.message).find('#camera-settings-container[camera-id=' + id + ']'));
+            $('#camera-edit-form-container').html(jsonValue.message);
         },
         error: function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -395,11 +381,9 @@ function edit(id, name, url, streamUrl, outputResolution, refresh, rotate, liveE
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
             reloadEditForm(id);
-            reloadContentById('bottom-buttons-section');
-            reloadContentById('motionui-service-section');
-            reloadContentById('getting-started-section');
-            reloadContentById('main-buttons-section');
-            reloadContentById('cameras-section');
+            reloadContainer('getting-started');
+            reloadContainer('buttons/main');
+            reloadContainer('cameras/list');
             hideLoading();
         },
         error: function (jqXHR, ajaxOptions, thrownError) {
@@ -427,11 +411,9 @@ function deleteCamera(cameraId)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('bottom-buttons-section');
-            reloadContentById('motionui-service-section');
-            reloadContentById('getting-started-section');
-            reloadContentById('main-buttons-section');
-            reloadContentById('cameras-section');
+            reloadContainer('getting-started');
+            reloadContainer('buttons/main');
+            reloadContainer('cameras/list');
             hideLoading();
         },
         error: function (jqXHR, ajaxOptions, thrownError) {

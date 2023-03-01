@@ -1,4 +1,13 @@
 /**
+ * Set video preview thumbnail as unavailable
+ * @param {*} fileId
+ */
+function setVideoThumbnailUnavailable(fileId)
+{
+    $('.media-thumbnail[file-id=' + fileId + ']').replaceWith('<div class="thumbnail-unavailable play-video-btn pointer" file-id="' + fileId + '"><p>Preview<br>unavailable</p></div>');
+}
+
+/**
  *  Function: get selected media Id and delete them
  */
 function deleteMedia()
@@ -13,7 +22,9 @@ function deleteMedia()
         mediaId.push(id);
     });
 
-    deleteMediaAjax(mediaId);
+    confirmBox('Are you sure you want to delete the selected media(s)?', function () {
+        deleteMediaAjax(mediaId);
+    });
 }
 
 /**
@@ -84,20 +95,6 @@ $(document).on('click','#disable-autostart-btn',function () {
 });
 
 /**
- *  Event: show autostart div
- */
-$(document).on('click','#configure-autostart-btn',function () {
-    openSlide("#autostart-div");
-});
-
-/**
- *  Event: hide autostart div
- */
-$(document).on('click','#hide-autostart-btn',function () {
-    closeSlide("#autostart-div");
-});
-
-/**
  *  Event: enable / disable autostart on device presence
  */
 $(document).on('click','#enable-device-presence-btn',function () {
@@ -120,20 +117,6 @@ $(document).on('click','#enable-alert-btn',function () {
  */
 $(document).on('click','#disable-alert-btn',function () {
     enableAlert('disabled');
-});
-
-/**
- *  Event: show alerts div
- */
-$(document).on('click','#configure-alerts-btn',function () {
-    openSlide('#alert-div');
-});
-
-/**
- *  Event: hide alerts div
- */
-$(document).on('click','#hide-alert-btn',function () {
-    closeSlide('#alert-div');
 });
 
 /**
@@ -399,29 +382,6 @@ $(document).on('submit','#alert-conf-form',function () {
 });
 
 /**
- *  Event: Generate muttrc template file
- */
-$(document).on('click','#generate-muttrc-btn',function () {
-    generateMuttrc();
-});
-
-/**
- *  Event: Edit muttrc configuration
- */
-$(document).on('submit','#mutt-config-form',function () {
-    event.preventDefault();
-
-    var realName = $(this).find('input[type=text][name=realname]').val();
-    var from = $(this).find('input[type=email][name=from]').val();
-    var smtpPassword = $(this).find('input[type=password][name=smtp-password]').val();
-    var smtpUrl = $(this).find('input[type=text][name=smtp-url]').val();
-
-    editMutt(realName, from, smtpPassword, smtpUrl);
-
-    return false;
-});
-
-/**
  * Ajax: start or stop motion capture
  * @param {*} status
  */
@@ -438,13 +398,12 @@ function startStopMotion(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert('Request taken into account, please wait until refresh in 5sec', 'success');
-            /**
-             *  Reload div after 5sec
-             */
-            setTimeout(function () {
-                reloadContentById('motion-start-div');
-            }, 5000);
+            if (status == 'start') {
+                printAlert('Starting motion service...', 'success');
+            }
+            if (status == 'stop') {
+                printAlert('Stopping motion service...', 'success');
+            }
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -470,7 +429,7 @@ function enableAutostart(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContentById('motion-autostart-container');
+            reloadContainer('buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -549,7 +508,7 @@ function enableDevicePresence(status)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentByClass('autostart-container');
+            reloadPanel('autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -578,7 +537,7 @@ function addDevice(name, ip)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentByClass('autostart-container');
+            reloadPanel('autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -605,7 +564,7 @@ function removeDevice(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentByClass('autostart-container');
+            reloadPanel('autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -631,7 +590,7 @@ function enableAlert(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContentById('motion-alert-container');
+            reloadContainer('buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -686,62 +645,7 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentByClass('alert-container');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- *  Ajax: Generate muttrc template file
- */
-function generateMuttrc()
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "generateMuttrc"
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContentByClass('alert-container');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- *  Ajax: Edit muttrc configuration file
- *  @param {*} content
- */
-function editMutt(realName, from, smtpPassword, smtpUrl)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "editMutt",
-            realName: realName,
-            from: from,
-            smtpUrl: smtpUrl,
-            smtpPassword: smtpPassword
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContentByClass('alert-container');
+            reloadPanel('alert');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -797,7 +701,7 @@ function deleteMediaAjax(mediaId)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadContentById('events-captures-div');
+            reloadContainer('motion/events/list');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

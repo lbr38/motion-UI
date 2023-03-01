@@ -1,11 +1,11 @@
 /**
- *  v1.0
+ *  v1.1
  */
 
 /**
  *  Text
  */
-a {
+ a {
     text-decoration: none;
     /* using text-shadow to generate bold on link */
     text-shadow: -.25px -.25px 0 transparent,
@@ -24,7 +24,8 @@ p, label, a, i, span {
 }
 
 span {
-    line-height: inherit !important;
+    /* line-height: inherit !important; */
+    line-height: initial !important;
 }
 
 b, strong {
@@ -66,6 +67,7 @@ hr {
 }
 
 pre {
+    font-family: monospace, monospace;
     font-size: 12px;
 }
 
@@ -79,7 +81,9 @@ pre {
 .float-left { float: left; }
 .float-right { float: right; }
 .align-top { vertical-align: top; }
+.margin-auto { margin: auto; }
 .text-center { text-align: center; }
+.text-right { text-align: right; }
 .relative { position: relative; }
 .pointer { cursor: pointer; }
 .greentext { color: #14be7e; }
@@ -89,10 +93,11 @@ pre {
 .bkg-green { background-color: #14be7e !important; color: white !important; }
 .bkg-yellow { background-color: #ffb536 !important; color: white !important; }
 .bkg-red { background-color: #ff0044 !important; color: white !important; }
+.no-bkg {background: none !important}
 .center { text-align: center; }
 .baseline { vertical-align: baseline; }
-.font-size-12{font-size: 12px}.font-size-13{font-size: 13px}.font-size-14{font-size: 14px}
-.lowopacity { opacity: 0.33; }
+.font-size-11{font-size: 11px}.font-size-12{font-size: 12px}.font-size-13{font-size: 13px}.font-size-14{font-size: 14px}
+.lowopacity, .lowopacity-cst { opacity: 0.33; } /* lowopacity-cst is used for constant lowopacity even on hover */
 .mediumopacity { opacity: 0.55 }
 .verylowopacity { opacity: 0.08; }
 .lowopacity:hover, .mediumopacity:hover, .verylowopacity:hover { opacity: 1 }
@@ -108,16 +113,18 @@ pre {
 .flex-div-15 { flex: 0 0 14%; }.flex-div-20 { flex: 0 0 19%; }.flex-div-25 { flex: 0 0 24%; }.flex-div-30 { flex: 0 0 29%; }
 .flex-div-33 { flex: 0 0 32%; }.flex-div-40 { flex: 0 0 39%; }.flex-div-50 { flex: 0 0 47%; }.flex-div-60 { flex: 0 0 59%; }
 .flex-div-65 { flex: 0 0 64%; }.flex-div-68 { flex: 0 0 67%; }.flex-div-80 { flex: 0 0 79%; }.flex-div-100 { flex: 0 0 98%; }
-.align-content-center {
-    align-content: center;
-}
-.align-item-center {
-    align-items: center;
-}
-.justify-space-between {
-    justify-content: space-between;
-}
-.column-gap-1 {column-gap: 1px;}.column-gap-2 {column-gap: 2px;}.column-gap-4 {column-gap: 4px;}
+.flex-grow { flex-grow: 1; }
+.flex-direction-column {flex-direction: column}
+.grid {display: grid}
+.grid-2 {grid-template-columns: auto auto}
+.justify-center {justify-content: center}
+.justify-space-between {justify-content: space-between}
+.align-content-center {align-content: center}
+.align-item-center {align-items: center}
+.align-self-center {align-self: center}
+.column-gap-1{column-gap: 1px}.column-gap-2 {column-gap: 2px}.column-gap-4 {column-gap: 4px}.column-gap-5{column-gap: 5px}.column-gap-6{column-gap: 6px}.column-gap-7{column-gap: 7px}.column-gap-8{column-gap: 8px}.column-gap-9{column-gap: 9px}.column-gap-10{column-gap: 10px}
+.column-gap-20{column-gap: 20px}
+.row-gap-1 {row-gap: 1px;}.row-gap-2 {row-gap: 2px;}.row-gap-4 {row-gap: 4px;}.row-gap-5 {row-gap: 5px;}.row-gap-6 {row-gap: 6px;}.row-gap-7 {row-gap: 7px;}
 
 /**
  *   Tables
@@ -136,6 +143,8 @@ th {
     vertical-align: middle;
 }
 td {
+    height: 36px;
+    vertical-align: middle;
     color: white;
 }
 .td-fit {
@@ -157,14 +166,48 @@ td {
 .td-50 { padding-right: 50px !important; }
 .td-100 { padding-right: 100px !important; }
 
-.icon, .icon-small, .icon-lowopacity, .icon-verylowopacity, .icon-mediumopacity, .icon-nf {
-    height: 13px;
+/**
+ *  Generic tables
+ */
+
+/* Concerne toutes les classes commencant par table-generic- */
+[class^="table-generic"] {
+    border-collapse: separate !important;
+    border-spacing: 0 4px;
+    table-layout: auto !important;
+    /* white-space: nowrap; */
+    word-break: break-word;
+}
+[class^="table-generic"] tr td {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+[class^="table-generic"] tr td:first-child {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+[class^="table-generic"] tr td:last-child {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+[class^="table-generic"] thead tr {
+    background: none !important;
+    font-weight: bold;
+}
+.table-generic-blue tr { background-color: #1d3349; }
+.table-generic-red tr  { background-color: #ff0044; }
+
+/**
+ *  Icons
+ */
+.icon, .icon-small, .icon-lowopacity, .icon-verylowopacity, .icon-mediumopacity, .icon-nf, .icon-np {
+    /* height: 13px; */
+    height: 15px;
     margin-left: 5px;
     margin-right: 5px;
     vertical-align: middle;
     cursor: pointer;
 }
-
 .icon-small {
     height: 8px;
 }
@@ -179,6 +222,10 @@ td {
 }
 .icon-lowopacity:hover, .icon-verylowopacity:hover, .icon-mediumopacity:hover {
     opacity: 1;
+}
+/* icon with no pointer */
+.icon-np {
+    cursor: default;
 }
 
 /**
@@ -484,7 +531,7 @@ textarea {
 /**
  *  Slider div
  */
-.param-slide-container {
+.slide-panel-container {
     width: 100vw;
     height: 100%;
     background-color: #3b3b3b2b;
@@ -495,18 +542,28 @@ textarea {
     visibility: hidden;
 }
 
-.param-slide {
+.slide-panel {
+    box-sizing: border-box;
     position: absolute;
     right: -1000px;
     height: 100%;
-    width: 29.5%;
+    width: 100%;
     padding: 20px;
     background-color: #182b3e;
     border-left: 1px solid rgb(60, 70, 75);
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
-    overflow: scroll;
+    overflow: auto;
 }
 
+.slide-panel h5 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.slide-panel-close-btn {
+    width: 18px;
+    cursor: pointer;
+}
 
 /**
  *  Alert div
@@ -538,12 +595,14 @@ textarea {
 }
 .alert-success { background-color: #14be7e; }
 .alert-error { background-color: #ff0044; }
-.alert span, .alert-success span, .alert-error span, .confirmAlert span {
+.alert span, .alert-success span, .alert-error span, .confirmAlert span,
+.alert a, .alert-success a, .alert-error a, .confirmAlert a {
     font-size: 16px;
 }
 .confirmAlert-buttons-container {
     display: flex;
     justify-content: flex-end;
+    width: 100%;
 }
 
 [class*="btn-doConfirm"], .btn-doCancel {
@@ -585,5 +644,9 @@ textarea {
      */
     [class^="slide-btn"]:hover {
         max-width: 300px;
+    }
+
+    .slide-panel {
+        width: 29.5%;
     }
 }

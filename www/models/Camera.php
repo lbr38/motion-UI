@@ -43,6 +43,26 @@ class Camera extends Model
     }
 
     /**
+     *  Get camera name by motion event Id
+     */
+    public function getNameByEventId(string $motionEventId)
+    {
+        $name = '';
+
+        $stmt = $this->db->prepare("SELECT Name FROM cameras
+        LEFT JOIN motion_events ON motion_events.Camera_id = cameras.Id
+        WHERE motion_events.Motion_id_event = :motionEventId");
+        $stmt->bindValue(':motionEventId', $motionEventId);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $name = $row['Name'];
+        }
+
+        return $name;
+    }
+
+    /**
      *  Returns all camera Id
      */
     public function getCamerasIds()

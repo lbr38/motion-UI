@@ -1,0 +1,22 @@
+---
+# For my dev environment only
+version: "3"
+services:
+  motionui:
+    container_name: motionui-dev
+    image: motionui-image
+    privileged: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        fqdn: motionui-dev.localhost
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/lib/docker/volumes/motionui-dev-data:/var/lib/motionui
+      - /var/lib/docker/volumes/motionui-captures:/var/lib/motion
+      - /var/lib/docker/volumes/motionui-dev-logs:/var/log/nginx
+      - /var/lib/docker/volumes/motionui-dev-www:/var/www/motionui

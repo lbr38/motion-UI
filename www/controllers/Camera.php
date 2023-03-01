@@ -35,6 +35,14 @@ class Camera
     }
 
     /**
+     *  Get camera name by motion event Id
+     */
+    public function getNameByEventId(string $motionEventId)
+    {
+        return $this->model->getNameByEventId($motionEventId);
+    }
+
+    /**
      *  Get camera's configuration
      */
     public function getConfiguration(string $id)
@@ -66,7 +74,7 @@ class Camera
      */
     public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
     {
-        $mymotion = new Motion();
+        $mymotionService = new \Controllers\Motion\Service();
 
         /**
          *  Only allow certain caracters in URL
@@ -150,7 +158,7 @@ class Camera
         /**
          *  Restart motion service if running
          */
-        if ($mymotion->motionServiceRunning()) {
+        if ($mymotionService->isRunning()) {
             if (!file_exists(DATA_DIR . '/motion.restart')) {
                 touch(DATA_DIR . '/motion.restart');
             }
@@ -162,7 +170,7 @@ class Camera
      */
     public function delete(string $id)
     {
-        $mymotion = new Motion();
+        $mymotionService = new \Controllers\Motion\Service();
 
         /**
          *  Check if camera Id exist
@@ -194,7 +202,7 @@ class Camera
         /**
          *  Restart motion service if running
          */
-        if ($mymotion->motionServiceRunning()) {
+        if ($mymotionService->isRunning()) {
             if (!file_exists(DATA_DIR . '/motion.restart')) {
                 touch(DATA_DIR . '/motion.restart');
             }
@@ -206,7 +214,7 @@ class Camera
      */
     public function edit(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $refresh, string $rotate, string $liveEnable, string $motionEnable, string $username, string $password)
     {
-        $mymotion = new Motion();
+        $mymotionService = new \Controllers\Motion\Service();
 
         /**
          *  Check if camera Id exist
@@ -357,7 +365,7 @@ class Camera
         /**
          *  Restart motion service if running
          */
-        if ($mymotion->motionServiceRunning()) {
+        if ($mymotionService->isRunning()) {
             if (!file_exists(DATA_DIR . '/motion.restart')) {
                 touch(DATA_DIR . '/motion.restart');
             }
@@ -422,7 +430,7 @@ class Camera
         /**
          *  Copy template
          */
-        if (!copy(ROOT . '/templates/motion-camera.template.conf', CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+        if (!copy(ROOT . '/templates/motion/motion-camera.conf', CAMERAS_DIR . '/camera-' . $id . '.conf')) {
             throw new Exception('Could not create camera config motion');
         }
 
@@ -477,7 +485,7 @@ class Camera
          *  Copy motion.conf template if not exist
          */
         if (!file_exists('/etc/motion/motion.conf')) {
-            if (!copy(ROOT . '/templates/motion.template.conf', '/etc/motion/motion.conf')) {
+            if (!copy(ROOT . '/templates/motion/motion.conf', '/etc/motion/motion.conf')) {
                 throw new Exception('Could not setup motion main config file: /etc/motion/motion.conf');
             }
 

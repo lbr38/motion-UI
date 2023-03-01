@@ -1,13 +1,35 @@
 /**
- *  Event: print notification div
+ *  Event: mark notification as read
  */
-$(document).on('click','#print-notification-btn',function () {
-    openSlide('#notification-div');
+$(document).on('click','.acquit-notification-btn',function () {
+    var id = $(this).attr('notification-id');
+
+    acquitNotification(id);
 });
 
 /**
- *  Event: hide notification div
+ * Ajax: Mark notification as read
+ * @param {string} id
  */
-$(document).on('click','#hide-notification-btn',function () {
-    closeSlide('#notification-div');
-});
+function acquitNotification(id)
+{
+    $.ajax({
+        type: "POST",
+        url: "ajax/controller.php",
+        data: {
+            controller: "notification",
+            action: "acquit",
+            id: id
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+            reloadPanel('notification');
+        },
+        error : function (jqXHR, textStatus, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
