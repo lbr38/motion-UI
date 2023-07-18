@@ -2,16 +2,16 @@
 
 namespace Controllers;
 
-require ROOT . '/libs/PHPMailer/Exception.php';
-require ROOT . '/libs/PHPMailer/PHPMailer.php';
-require ROOT . '/libs/PHPMailer/SMTP.php';
+require_once(ROOT . '/libs/PHPMailer/Exception.php');
+require_once(ROOT . '/libs/PHPMailer/PHPMailer.php');
+require_once(ROOT . '/libs/PHPMailer/SMTP.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
-    public function __construct(string|array $to, string $subject, string $content, string $link = null, string $linkName = 'Click here', string $attachmentFilePath = null)
+    public function __construct(string $to, string $subject, string $content, string $link = null, string $linkName = 'Click here', string $attachmentFilePath = null)
     {
         if (empty($to)) {
             throw new \Exception('Error: mail recipient cannot be empty');
@@ -23,13 +23,16 @@ class Mail
             throw new \Exception('Error: mail message cannot be empty');
         }
 
-        if (is_array($to)) {
-            $to = implode(',', $to);
+        /**
+         *  if there is a , in the $to string, it means there are multiple recipients
+         */
+        if (strpos($to, ',') !== false) {
+            $to = explode(',', $to);
         }
 
         /**
          *  HTML message template
-         *  Powered by stripo.email
+         *  Powered by MJML
          */
         ob_start();
         include(ROOT . '/templates/mail/mail.template.html.php');
@@ -42,9 +45,17 @@ class Mail
 
         try {
             // Recipients
-            $mail->setFrom('noreply@' . WWW_HOSTNAME, 'Motion-UI');
-            $mail->addAddress($to);
-            $mail->addReplyTo('noreply@' . WWW_HOSTNAME, 'Motion-UI');
+            $mail->setFrom('noreply@' . WWW_HOSTNAME, PROJECT_NAME);
+
+            if (is_array($to)) {
+                foreach ($to as $recipient) {
+                    $mail->addAddress($recipient);
+                }
+            } else {
+                $mail->addAddress($to);
+            }
+
+            $mail->addReplyTo('noreply@' . WWW_HOSTNAME, PROJECT_NAME);
 
             // Attachments
             if (!empty($attachmentFilePath)) {
@@ -58,7 +69,7 @@ class Mail
 
             $mail->send();
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            throw new Exception('Error: mail could not be sent. Mailer Error: ' . $mail->ErrorInfo);
         }
     }
 }

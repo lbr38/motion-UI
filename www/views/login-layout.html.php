@@ -72,11 +72,11 @@ if (!empty($_POST['username']) and !empty($_POST['password'])) {
 <head>
     <meta charset="utf-8">
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="resources/styles/common.css">
-    <link rel="stylesheet" type="text/css" href="resources/styles/motionui.css">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/common.css">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/motionui.css">
 
     <!-- Favicon -->
-    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="icon" href="/assets/favicon.ico" />
     <title>Login</title>
 </head>
 

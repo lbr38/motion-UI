@@ -9,8 +9,9 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        env: prod
         fqdn: motionui.example.com
-    restart: unless-stopped
+    restart: always
     ports:
       - "8080:8080"
     volumes:

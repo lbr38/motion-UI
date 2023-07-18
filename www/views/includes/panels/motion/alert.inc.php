@@ -59,6 +59,12 @@
     <button type="submit" class="btn-small-green">Save</button>
 </form>
 
+<?php
+if (!empty($alertConfiguration['Recipient'])) {
+    echo '<br>';
+    echo '<span id="send-test-email-btn" mail-recipient="' . $alertConfiguration['Recipient'] . '" class="btn-medium-yellow">Send test email</span>';
+} ?>
+
 <br>
 <br>
 

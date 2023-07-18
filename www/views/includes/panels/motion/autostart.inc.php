@@ -90,7 +90,7 @@ if ($autostartDevicePresenceEnabled == 'enabled') : ?>
                         <?= $deviceIp ?>
                     </td>
                     <td>
-                        <img src="assets/icons/delete.svg" class="icon-lowopacity remove-device-btn" device-id="<?= $deviceId ?>" title="Remove device <?= $deviceName ?>" />
+                        <img src="/assets/icons/delete.svg" class="icon-lowopacity remove-device-btn" device-id="<?= $deviceId ?>" title="Remove device <?= $deviceName ?>" />
                     </td>
                 </tr>
                 <?php

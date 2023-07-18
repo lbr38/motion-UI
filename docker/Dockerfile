@@ -2,7 +2,6 @@
 
 # Base image
 FROM debian:11
-# FROM jrei/systemd-debian:11
 
 # Metadata
 LABEL version="1.0" maintainer="lbr38 <motionui@protonmail.com>"
@@ -12,6 +11,7 @@ ENV container docker
 ARG WWW_DIR="/var/www/motionui"
 ARG DATA_DIR="/var/lib/motionui"
 ARG DEBIAN_FRONTEND=noninteractive
+ARG env
 ARG fqdn
 
 # Install dependencies, postfix
@@ -22,9 +22,10 @@ RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transpor
 RUN curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh.gpg
 RUN echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui_bullseye_main.list
 
-# Add PHP 8.1 repository
-RUN curl -fsSL  https://packages.sury.org/php/apt.gpg| gpg --dearmor -o /etc/apt/trusted.gpg.d/sury-keyring.gpg
-RUN echo "deb https://packages.sury.org/php/ bullseye main" | tee /etc/apt/sources.list.d/sury-php.list
+# Add nginx and PHP 8.1 repositories
+RUN curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh.gpg
+RUN echo "deb https://packages.bespin.ovh/repo/motionui-nginx/bullseye/nginx_prod bullseye nginx" > /etc/apt/sources.list.d/nginx.list
+RUN echo "deb https://packages.bespin.ovh/repo/motionui-php/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update -y
 
 # Install nginx and PHP 8.1
@@ -36,11 +37,14 @@ RUN apt-get install motion -y
 # Clone project in the container
 RUN git clone https://github.com/lbr38/motion-ui.git /tmp/motionui
 # For tests only
-RUN cd /tmp/motionui && git checkout devel
+RUN if [ "$env" = "devel" ]; then \
+       cd /tmp/motionui && git checkout devel; \
+    fi
 
 # SERVICES CONFIG
 
 # Configure Nginx
+RUN mkdir -p /etc/nginx/sites-enabled
 RUN cp /tmp/motionui/docker/config/nginx/nginx.conf /etc/nginx/nginx.conf
 RUN cp /tmp/motionui/docker/config/nginx/motionui.conf /etc/nginx/sites-enabled/motionui.conf
 RUN rm -rf /etc/nginx/sites-enabled/default /var/www/html
@@ -75,10 +79,12 @@ RUN mkdir -p /var/log/motion /var/run/motion
 RUN touch /var/run/motion/motion.pid
 RUN chown -R motion:motion /var/log/motion /var/run/motion
 RUN chmod 775 /var/log/motion /var/run/motion
+
 # Copy motion main config file
 RUN rm /etc/motion/* -fr
 RUN cp /tmp/motionui/www/templates/motion/motion.conf /etc/motion/motion.conf
 RUN chown -R www-data:motion /etc/motion
+
 # Copy motion event bin files
 RUN mkdir -p /usr/lib/motion
 RUN cp /tmp/motionui/www/bin/on_event* /usr/lib/motion/

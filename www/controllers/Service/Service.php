@@ -35,7 +35,7 @@ class Service
      */
     private function getSettings()
     {
-        echo 'Getting settings...' . PHP_EOL;
+        echo $this->getDate() . ' Getting settings...' . PHP_EOL;
 
         $mysettings = new \Controllers\Settings();
         $mymotionAlert = new \Controllers\Motion\Alert();
@@ -110,7 +110,7 @@ class Service
      */
     private function getNotifications()
     {
-        echo 'Getting notifications...' . PHP_EOL;
+        echo $this->getDate() . ' Getting notifications...' . PHP_EOL;
 
         try {
             $mynotification = new \Controllers\Notification();
@@ -121,11 +121,19 @@ class Service
     }
 
     /**
+     *  Get current date and time
+     */
+    private function getDate()
+    {
+        return '[' . date('D M j H:i:s') . ']';
+    }
+
+    /**
      *  Check if a new version is available on Github
      */
     private function checkVersion()
     {
-        echo 'Checking for a new version on github...' . PHP_EOL;
+        echo $this->getDate() . ' Checking for a new version on github...' . PHP_EOL;
 
         try {
             $outputFile = fopen(DATA_DIR . '/version.available', "w");
@@ -178,7 +186,7 @@ class Service
     private function checkRestartNeeded(string $service)
     {
         if (file_exists(DATA_DIR . '/' . $service . '.restart')) {
-            echo 'A restart of ' . $service . ' service is required. Restarting...' . PHP_EOL;
+            echo $this->getDate() . ' A restart of ' . $service . ' service is required. Restarting...' . PHP_EOL;
             unlink(DATA_DIR . '/' . $service . '.restart');
 
             $myprocess = new \Controllers\Process('/usr/sbin/service ' . $service . ' restart');
@@ -186,7 +194,7 @@ class Service
             $myprocess->close();
 
             if ($myprocess->getExitCode() != 0) {
-                echo 'Error restarting ' . $service . ' service';
+                echo $this->getDate() . ' Error restarting ' . $service . ' service';
             }
         }
     }
@@ -198,7 +206,7 @@ class Service
     {
         // Start motion if following file is present
         if (file_exists(DATA_DIR . '/start-motion.request')) {
-            echo 'A start of motion service is required. Starting...' . PHP_EOL;
+            echo $this->getDate() . ' A start of motion service is required. Starting...' . PHP_EOL;
             unlink(DATA_DIR . '/start-motion.request');
 
             if ($this->motionServiceController->start()) {
@@ -213,7 +221,7 @@ class Service
 
         // Stop motion if following file is present
         if (file_exists(DATA_DIR . '/stop-motion.request')) {
-            echo 'A stop of motion service is required. Stopping...' . PHP_EOL;
+            echo $this->getDate() . ' A stop of motion service is required. Stopping...' . PHP_EOL;
             unlink(DATA_DIR . '/stop-motion.request');
 
             if ($this->motionServiceController->stop()) {
@@ -350,7 +358,7 @@ class Service
             /**
              *  Else, run the service with the specified parameter
              */
-            echo "Running service with parameter '" . $parameter . "'..." . PHP_EOL;
+            echo $this->getDate() . " Running service with parameter '" . $parameter . "'..." . PHP_EOL;
 
             $myprocess = new \Controllers\Process("php " . ROOT . "/tools/service.php '" . $parameter . "' >/dev/null 2>/dev/null &");
             $myprocess->execute();

@@ -4,8 +4,17 @@ WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
 
 /bin/bash $WWW_DIR/bin/motionui -p &
-
 chown -R www-data:motionui $DATA_DIR
+
+# Docker run options
+# when
+# -e FQDN=server.example.com
+# are set, the following settings are changed:
+if [ ! -z "$FQDN" ];then
+    # Postfix/mail configuration
+    postconf -e "myhostname = $FQDN"
+    echo $FQDN > /etc/mailname
+fi
 
 # Start services
 /usr/sbin/service php8.1-fpm start
@@ -17,8 +26,6 @@ chown -R www-data:motionui $DATA_DIR
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/update-database.php" www-data
 
 # # Start motionui service
-php $WWW_DIR/tools/service.php
+/bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data
 
 /bin/bash
-
-tail -f /dev/null

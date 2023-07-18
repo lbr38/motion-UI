@@ -1,5 +1,18 @@
 <?php
 
+/**
+ *  Send a test email
+ */
+if ($_POST['action'] == "sendTestEmail" and !empty($_POST['mailRecipient'])) {
+    try {
+        $mymail = new \Controllers\Mail($_POST['mailRecipient'], 'Test email', 'This is a test email sent by motion-UI.');
+    } catch (Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
+    }
+
+    response(HTTP_OK, 'Email sent');
+}
+
 /*
  *  Enable / disable alerts
  */
