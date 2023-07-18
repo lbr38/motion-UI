@@ -27,19 +27,25 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 
 <hr>
 
-## Installation & requirements
 
-Please check the documentation to find all requirements and steps to install **motion-UI**: <a href="https://github.com/lbr38/motion-UI/wiki/Documentation#motion-ui-installation">here</a>
+## Requirements
 
+### Hardware
 
-**Default login and password**
+- CPU and RAM can be very sollicitated when motion service is running depending on the number of cameras and the resolution of the stream.
+- Disk space depends on the number of cameras and the number of days you want to keep images and videos.
 
-- Login: **admin**
-- Password: **motionui**
+### Software and configuration
 
+- **docker** (service must be up and running)
+- **docker-compose**
+- **A fully qualified domain name** (FQDN) and a valid SSL certificate for this FQDN if you want to access the web interface through a secure connection (https)
+- A least a **SPF record** configured for your FQDN, to be able to send email alerts from motion-UI
 
-## Documentation
+## Installation and usage
 
-Official documentation is available <a href="https://github.com/lbr38/motion-UI/wiki/Documentation">here</a>.
+**Important: .deb and .rpm packages are not longer maintained. Please use the docker image instead.**
 
-It should help you starting using **motion-UI**.
+Official documentation is available <a href="https://github.com/lbr38/motion-UI/wiki">here</a>.
+
+It should help you **installing** and starting using motion-UI.

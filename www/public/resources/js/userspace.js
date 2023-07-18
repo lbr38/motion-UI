@@ -1,18 +1,4 @@
 /**
- *  Event: print userspace div
- */
-$(document).on('click','#print-userspace-btn',function () {
-    openSlide('#userspace-div');
-});
-
-/**
- *  Event: hide userspace div
- */
-$(document).on('click','#hide-userspace-btn',function () {
-    closeSlide('#userspace-div');
-});
-
-/**
  *  Event: change password
  */
 $(document).on('submit','#new-password-form',function () {

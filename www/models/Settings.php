@@ -25,7 +25,7 @@ class Settings extends Model
     /**
      *  Edit global settings
      */
-    public function edit(string $streamMainPage, string $streamLivePage, string $motionStartBtn, string $motionAutostartBtn, string $motionAlertBtn, string $motionEvents, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, string $motionStats)
+    public function edit(string $streamMainPage, string $streamLivePage, string $motionStartBtn, string $motionAutostartBtn, string $motionAlertBtn, string $motionEvents, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, int $motionEventsRetention, string $motionStats)
     {
         $stmt = $this->db->prepare("UPDATE Settings SET 
         Stream_on_main_page = :streamMainPage,
@@ -36,6 +36,7 @@ class Settings extends Model
         Motion_events = :motionEvents,
         Motion_events_videos_thumbnail = :motionEventsVideosThumbnail,
         Motion_events_pictures_thumbnail = :motionEventsPicturesThumbnail,
+        Motion_events_retention = :motionEventsRetention,
         Motion_stats = :motionStats");
 
         $stmt->bindValue(':streamMainPage', $streamMainPage);
@@ -46,6 +47,7 @@ class Settings extends Model
         $stmt->bindValue(':motionEvents', $motionEvents);
         $stmt->bindValue(':motionEventsVideosThumbnail', $motionEventsVideosThumbnail);
         $stmt->bindValue(':motionEventsPicturesThumbnail', $motionEventsPicturesThumbnail);
+        $stmt->bindValue(':motionEventsRetention', $motionEventsRetention);
         $stmt->bindValue(':motionStats', $motionStats);
         $stmt->execute();
     }

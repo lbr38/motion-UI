@@ -1,6 +1,6 @@
 <?php
 
-$mymotion = new \Controllers\Motion();
+$mymotionEvent = new \Controllers\Motion\Event();
 
 /**
  *  Check that specified media Id is valid
@@ -12,7 +12,7 @@ if (!is_numeric($_GET['id'])) {
     return;
 }
 
-$filePath = $mymotion->getEventFile($_GET['id']);
+$filePath = $mymotionEvent->getFilePath($_GET['id']);
 
 /**
  *  If file is not found

@@ -1,29 +1,20 @@
 /**
- *  Event: print settings div
- */
-$(document).on('click','#print-settings-btn',function () {
-    openSlide('#settings-div');
-});
-
-/**
- *  Event: hide settings div
- */
-$(document).on('click','#hide-settings-btn',function () {
-    closeSlide('#settings-div');
-});
-
-/**
  *  Event: save settings
  */
 $(document).on('click','#save-settings-btn',function () {
     var settings_params = {};
 
-    $('#settings-div').find('.settings-param').each(function () {
+    $('.slide-panel-container[slide-panel=settings]').find('.settings-param').each(function () {
         var name = $(this).attr('setting-name');
-        if ($(this).is(":checked")) {
-            var value = 'true';
+
+        if ($(this).is(":checkbox")) {
+            if ($(this).is(":checked")) {
+                var value = 'true';
+            } else {
+                var value = 'false';
+            }
         } else {
-            var value = 'false';
+            var value = $(this).val();
         }
 
         settings_params[name] = value;
@@ -78,7 +69,7 @@ function editSetting(settings_params_json)
             /**
              *  Close settings div and reload page
              */
-            closeSlide('#settings-div');
+            closePanel('settings');
 
             setTimeout(function () {
                 location.reload();

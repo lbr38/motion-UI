@@ -4,10 +4,10 @@
  *  Enable / disable alerts
  */
 if ($_POST['action'] == "enableAlert" and !empty($_POST['status'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionAlert = new \Controllers\Motion\Alert();
 
     try {
-        $mymotion->enableAlert($_POST['status']);
+        $mymotionAlert->enable($_POST['status']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -34,10 +34,10 @@ if ($_POST['action'] == "configureAlert"
     and isset($_POST['sundayStart'])
     and isset($_POST['sundayEnd'])
     and isset($_POST['mailRecipient'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionAlert = new \Controllers\Motion\Alert();
 
     try {
-        $mymotion->configureAlert(
+        $mymotionAlert->configure(
             $_POST['mondayStart'],
             $_POST['mondayEnd'],
             $_POST['tuesdayStart'],
@@ -62,43 +62,13 @@ if ($_POST['action'] == "configureAlert"
 }
 
 /*
- *  Generate muttrc template file
- */
-if ($_POST['action'] == "generateMuttrc") {
-    $mymotion = new \Controllers\Motion();
-
-    try {
-        $mymotion->generateMuttrc();
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Muttrc template file has been generated');
-}
-
-/*
- *  Edit muttrc configuration file
- */
-if ($_POST['action'] == "editMutt" and !empty($_POST['realName']) and !empty($_POST['from']) and !empty($_POST['smtpUrl']) and !empty($_POST['smtpPassword'])) {
-    $mymotion = new \Controllers\Motion();
-
-    try {
-        $mymotion->editMutt($_POST['realName'], $_POST['from'], $_POST['smtpUrl'], $_POST['smtpPassword']);
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Mutt configuration has been saved');
-}
-
-/*
  *  Enable / disable autostart
  */
 if ($_POST['action'] == "enableAutostart" and !empty($_POST['status'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionAutostart = new \Controllers\Motion\Autostart();
 
     try {
-        $mymotion->enableAutostart($_POST['status']);
+        $mymotionAutostart->enable($_POST['status']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -110,7 +80,7 @@ if ($_POST['action'] == "enableAutostart" and !empty($_POST['status'])) {
  *  Start / stop motion capture
  */
 if ($_POST['action'] == "startStopMotion" and !empty($_POST['status'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotion = new \Controllers\Motion\Motion();
 
     try {
         $mymotion->startStop($_POST['status']);
@@ -139,10 +109,10 @@ if ($_POST['action'] == "configureAutostart"
     and isset($_POST['saturdayEnd'])
     and isset($_POST['sundayStart'])
     and isset($_POST['sundayEnd'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionAutostart = new \Controllers\Motion\Autostart();
 
     try {
-        $mymotion->configureAutostart(
+        $mymotionAutostart->configure(
             $_POST['mondayStart'],
             $_POST['mondayEnd'],
             $_POST['tuesdayStart'],
@@ -169,10 +139,10 @@ if ($_POST['action'] == "configureAutostart"
  *  Add a new device
  */
 if ($_POST['action'] == "addDevice" and !empty($_POST['name']) and !empty($_POST['ip'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionDevice = new \Controllers\Motion\Device();
 
     try {
-        $mymotion->addDevice($_POST['name'], $_POST['ip']);
+        $mymotionDevice->add($_POST['name'], $_POST['ip']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -184,10 +154,10 @@ if ($_POST['action'] == "addDevice" and !empty($_POST['name']) and !empty($_POST
  *  Remove a known device
  */
 if ($_POST['action'] == "removeDevice" and !empty($_POST['id'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionDevice = new \Controllers\Motion\Device();
 
     try {
-        $mymotion->removeDevice($_POST['id']);
+        $mymotionDevice->remove($_POST['id']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -199,10 +169,10 @@ if ($_POST['action'] == "removeDevice" and !empty($_POST['id'])) {
  *  Enable / disable autostart on device presence
  */
 if ($_POST['action'] == "enableDevicePresence" and !empty($_POST['status'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionAutostart = new \Controllers\Motion\Autostart();
 
     try {
-        $mymotion->enableDevicePresence($_POST['status']);
+        $mymotionAutostart->enableDevicePresence($_POST['status']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -211,13 +181,13 @@ if ($_POST['action'] == "enableDevicePresence" and !empty($_POST['status'])) {
 }
 
 /**
- *  Get event image or video link to visualize
+ *  Get event image or video path to visualize
  */
-if ($_POST['action'] == "getEventFile" and !empty($_POST['fileId'])) {
-    $mymotion = new \Controllers\Motion();
+if ($_POST['action'] == "getFilePath" and !empty($_POST['fileId'])) {
+    $mymotion = new \Controllers\Motion\Motion();
 
     try {
-        $symlinkName = $mymotion->getEventFile($_POST['fileId']);
+        $symlinkName = $mymotion->getFilePath($_POST['fileId']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -229,10 +199,10 @@ if ($_POST['action'] == "getEventFile" and !empty($_POST['fileId'])) {
  *  Delete event media file
  */
 if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotionEvent = new \Controllers\Motion\Event();
 
     try {
-        $mymotion->deleteFile($_POST['mediaId']);
+        $mymotionEvent->deleteFile($_POST['mediaId']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -244,7 +214,7 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
  *  Configure motion
  */
 if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !empty($_POST['options_array'])) {
-    $mymotion = new \Controllers\Motion();
+    $mymotion = new \Controllers\Motion\Motion();
 
     try {
         $mymotion->configure($_POST['cameraId'], $_POST['options_array']);

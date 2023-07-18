@@ -1,6 +1,19 @@
 <?php
 
 $mycamera = new \Controllers\Camera();
+$contextArray = array();
+
+/**
+ *  Set default socket timeout to 2 seconds
+ *  Will apply to get_headers, readfile...
+ */
+stream_context_set_default(
+    array(
+        'http' => array(
+            'timeout' => 2
+        )
+    )
+);
 
 /**
  *  Check that specified camera Id is valid
@@ -45,15 +58,6 @@ $headers = array_change_key_case($headers);
  *  Set content type
  */
 header('Content-Type: ' . $headers['content-type']);
-
-/**
- *  Default context: set timeout
- */
-$contextArray = [
-    'http'=> [
-        'timeout' => '1'
-    ]
-];
 
 /**
  *  Use username and password if not empty

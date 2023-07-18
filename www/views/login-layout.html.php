@@ -8,7 +8,7 @@ if (!defined('DATA_DIR')) {
     define('DATA_DIR', '/var/lib/motionui');
 }
 require_once(ROOT . '/controllers/Autoloader.php');
-\Controllers\Autoloader::loadMinimal();
+new \Controllers\Autoloader('minimal');
 include_once(ROOT . '/views/includes/head.inc.php');
 
 $loginErrors = array();
@@ -76,7 +76,7 @@ if (!empty($_POST['username']) and !empty($_POST['password'])) {
     <link rel="stylesheet" type="text/css" href="resources/styles/motionui.css">
 
     <!-- Favicon -->
-    <link rel="icon" href="resources/favicon.ico" />
+    <link rel="icon" href="assets/favicon.ico" />
     <title>Login</title>
 </head>
 
