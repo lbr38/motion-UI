@@ -5,7 +5,7 @@
             <div class="item">
                 <p class="center"><b>Live</b></p>
                 <a href="/live">
-                    <button class="btn-square-green"><img src="assets/icons/camera.svg" class="icon" /></button>
+                    <button class="btn-square-green"><img src="/assets/icons/camera.svg" class="icon" /></button>
                 </a>
                 <span class="block center lowopacity-cst">Visualize</span>
             </div>
@@ -18,13 +18,13 @@
                 <?php
                 if ($motionActive === false) : ?>
                     <button id="start-motion-btn" class="btn-square-green" title="Start motion service now">
-                        <img src="assets/icons/power.svg" class="icon" />
+                        <img src="/assets/icons/power.svg" class="icon" />
                     </button>
                     <span class="block center lowopacity-cst">Start capture</span>
                     <?php
                 endif;
                 if ($motionActive === true) : ?>
-                    <button id="stop-motion-btn" class="btn-square-red" title="Stop motion service"><img src="assets/icons/power.svg" class="icon" /></button>
+                    <button id="stop-motion-btn" class="btn-square-red" title="Stop motion service"><img src="/assets/icons/power.svg" class="icon" /></button>
                     <span class="block center lowopacity-cst">Stop capture</span>
                     <?php
                 endif ?>
@@ -42,14 +42,14 @@
                 <?php
                 if ($motionAutostartEnabled == "disabled") : ?>
                     <button id="enable-autostart-btn" class="btn-square-green" title="Enable motion service autostart">
-                        <img src="assets/icons/time.svg" class="icon" />
+                        <img src="/assets/icons/time.svg" class="icon" />
                     </button>
                     <span class="block center lowopacity-cst">Enable and configure autostart</span>
                     <?php
                 endif;
                 if ($motionAutostartEnabled == "enabled") : ?>
                     <button id="disable-autostart-btn" class="btn-square-red" title="Disable motion service autostart">
-                        <img src="assets/icons/time.svg" class="icon" />
+                        <img src="/assets/icons/time.svg" class="icon" />
                     </button>
                     <span class="block center lowopacity-cst">Disable autostart</span>
                     <?php
@@ -61,7 +61,7 @@
                     <?php
                     if ($motionAutostartEnabled == "enabled") : ?>
                         <div class="slide-btn slide-panel-btn" slide-panel="autostart" title="Configure autostart">
-                            <img src="assets/icons/cog.svg" />
+                            <img src="/assets/icons/cog.svg" />
                             <span>Configure autostart</span>
                         </div>
                         <?php
@@ -80,12 +80,12 @@
 
                 <?php
                 if (ALERT_ENABLED == "disabled") : ?>
-                    <button type="button" id="enable-alert-btn" class="btn-square-green" title="Enable motion alerts"><img src="assets/icons/alarm.svg" class="icon"></button>
+                    <button type="button" id="enable-alert-btn" class="btn-square-green" title="Enable motion alerts"><img src="/assets/icons/alarm.svg" class="icon"></button>
                     <span class="block center lowopacity-cst">Enable and configure alerts</span>
                     <?php
                 endif;
                 if (ALERT_ENABLED == "enabled") : ?>
-                    <button type="button" id="disable-alert-btn" class="btn-square-red" title="Disable motion alerts"><img src="assets/icons/alarm.svg" class="icon"></button>
+                    <button type="button" id="disable-alert-btn" class="btn-square-red" title="Disable motion alerts"><img src="/assets/icons/alarm.svg" class="icon"></button>
                     <span class="block center lowopacity-cst">Disable alerts</span>
                     <?php
                 endif ?>
@@ -96,7 +96,7 @@
                     <?php
                     if (ALERT_ENABLED == "enabled") : ?>
                         <div class="slide-btn slide-panel-btn" slide-panel="alert" title="Configure alerts">
-                            <img src="assets/icons/cog.svg" />
+                            <img src="/assets/icons/cog.svg" />
                             <span>Configure alerts</span>
                         </div>
                         <?php

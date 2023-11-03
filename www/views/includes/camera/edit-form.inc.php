@@ -151,7 +151,7 @@ if ($camera['Motion_enabled'] == 'true') :
                     <br>
                     <p class="yellowtext">Be careful when manually editing motion parameters as it could break motion / motion-UI.</p>
                     <br>
-                    <p>All available parameters can be found in the <a target="_blank" href="https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha">official Motion documentation<img src="assets/icons/external-link.svg" class="icon" /></a></p>
+                    <p>All available parameters can be found in the <a target="_blank" href="https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha">official Motion documentation<img src="/assets/icons/external-link.svg" class="icon" /></a></p>
                 </div>
 
                 <p class="yellowtext"><br>Note: setting <b>picture_output</b> param to <b>on</b> is not recommended as it could save a large amount of pictures and slow down motion-UI interface when printing events medias.</p>

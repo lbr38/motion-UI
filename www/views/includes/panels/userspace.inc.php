@@ -18,7 +18,7 @@
 <br><br>
 
 <a href="/logout">
-    <div class="round-btn-red" title="Logout">
+    <div class="btn-small-red" title="Logout">
         <span>Logout</span>
     </div>
 </a>

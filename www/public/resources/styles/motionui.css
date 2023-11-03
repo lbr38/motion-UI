@@ -246,7 +246,7 @@ h3 {
     background: #15bf7f;
     width: fit-content;
     border-radius: 60px;
-    padding: 1px 6px;
+    padding: 2px 8px;
 }
 
 .event-row {
@@ -466,6 +466,7 @@ h3 {
     grid-template-columns: 30% 70%;
     align-items: center;
     row-gap: 10px;
+    column-gap: 5px;
     padding: 15px;
 }
 

@@ -10,13 +10,14 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        env: devel
         fqdn: motionui-dev.localhost
-    restart: unless-stopped
+    restart: always
     ports:
-      - "8080:8080"
+      - "8888:8080"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/lib/docker/volumes/motionui-dev-data:/var/lib/motionui
-      - /var/lib/docker/volumes/motionui-captures:/var/lib/motion
+      - /var/lib/docker/volumes/motionui-dev-captures:/var/lib/motion
       - /var/lib/docker/volumes/motionui-dev-logs:/var/log/nginx
       - /var/lib/docker/volumes/motionui-dev-www:/var/www/motionui

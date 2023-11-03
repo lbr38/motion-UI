@@ -200,6 +200,29 @@ class Event
     }
 
     /**
+     *  Get events for the specified date
+     */
+    public function getByDate(string $date)
+    {
+        return $this->model->getByDate($date);
+    }
+
+    /**
+     *  Get events details for the specified date, with offset
+     */
+    public function getByDateOffset(string $date, int $offset)
+    {
+        /**
+         *  Offset cannot be negative
+         */
+        if ($offset < 0) {
+            $offset = 0;
+        }
+
+        return $this->model->getByDateOffset($date, $offset);
+    }
+
+    /**
      *  Get total event count for the specified date
      */
     public function getTotalByDate(string $date)
@@ -232,27 +255,19 @@ class Event
     }
 
     /**
-     *  Return events time by date
+     *  Get files recorded for the specified motion event Id
      */
-    public function getTimeByDate(string $date)
+    public function getFilesByMotionEventId(string $motionEventId)
     {
-        return $this->model->getTimeByDate($date);
-    }
-
-    /**
-     *  Return all events details by date and time
-     */
-    public function getDetailsByDate(string $date, string $time)
-    {
-        return $this->model->getDetailsByDate($date, $time);
+        return $this->model->getFilesByMotionEventId($motionEventId);
     }
 
     /**
      *  Return total files count from an event
      */
-    public function getTotalFilesById(string $motionEventId)
+    public function getTotalFilesByMotionEventId(string $motionEventId)
     {
-        return count($this->model->getFilesById($motionEventId));
+        return count($this->model->getFilesByMotionEventId($motionEventId));
     }
 
     /**

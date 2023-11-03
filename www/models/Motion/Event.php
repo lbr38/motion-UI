@@ -7,7 +7,7 @@ use Exception;
 class Event extends \Models\Model
 {
     /**
-     *  Get event for the specified date
+     *  Get events for the specified date
      */
     public function getByDate(string $date)
     {
@@ -15,6 +15,30 @@ class Event extends \Models\Model
 
         $stmt = $this->db->prepare("SELECT * FROM motion_events WHERE Date_start = :date");
         $stmt->bindValue(':date', $date);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $events[] = $row;
+        }
+
+        return $events;
+    }
+
+    /**
+     *  Get events details for the specified date, with offset
+     */
+    public function getByDateOffset(string $date, int $offset)
+    {
+        $events = array();
+
+        $stmt = $this->db->prepare("SELECT *
+        FROM motion_events
+        WHERE Date_start = :date
+        ORDER BY Camera_id DESC, Motion_id_event DESC
+        LIMIT 5
+        OFFSET :offset");
+        $stmt->bindValue(':date', $date);
+        $stmt->bindValue(':offset', $offset);
         $result = $stmt->execute();
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -37,58 +61,6 @@ class Event extends \Models\Model
         ORDER BY Date_start DESC");
         $stmt->bindValue(':dateStart', $dateStart);
         $stmt->bindValue(':dateEnd', $dateEnd);
-        $result = $stmt->execute();
-
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $events[] = $row;
-        }
-
-        return $events;
-    }
-
-    /**
-     *  Return events time by date
-     */
-    public function getTimeByDate(string $date)
-    {
-        $events = array();
-
-        $stmt = $this->db->prepare("SELECT DISTINCT Time_start, Status
-        FROM motion_events
-        WHERE Date_start = :date
-        ORDER BY Time_start DESC");
-        $stmt->bindValue(':date', $date);
-        $result = $stmt->execute();
-
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $events[] = $row;
-        }
-
-        return $events;
-    }
-
-    /**
-     *  Return all events details by date and time
-     */
-    public function getDetailsByDate(string $date, string $time)
-    {
-        $events = array();
-
-        $stmt = $this->db->prepare("SELECT motion_events.*,
-        motion_events_files.Id as FileId,
-        motion_events_files.Size,
-        motion_events_files.File,
-        motion_events_files.Width,
-        motion_events_files.Height,
-        motion_events_files.Fps,
-        motion_events_files.Changed_pixels
-        FROM motion_events
-        LEFT JOIN motion_events_files
-        ON motion_events.Motion_id_event = motion_events_files.Motion_id_event
-        WHERE Date_start = :date
-        AND Time_start = :time");
-        $stmt->bindValue(':date', $date);
-        $stmt->bindValue(':time', $time);
         $result = $stmt->execute();
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -144,7 +116,7 @@ class Event extends \Models\Model
     /**
      *  Get files recorded for the specified motion event Id
      */
-    public function getFilesById(string $motionEventId)
+    public function getFilesByMotionEventId(string $motionEventId)
     {
         $files = array();
 

@@ -3,10 +3,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Pour indiquer aux navigateurs mobiles qu'ils doivent ajuster la largeur de la fenêtre à la largeur de l'écran de l'appareil, et mettre l'échelle du document à 100% de sa taille prévue -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="resources/styles/reset.css"/>
-    <link rel="stylesheet" href="resources/styles/normalize.css"/>
-    <link rel="stylesheet" href="resources/styles/common.css"/>
-    <link rel="stylesheet" href="resources/styles/motionui.css"/>
+    <link rel="stylesheet" href="/resources/styles/reset.css"/>
+    <link rel="stylesheet" href="/resources/styles/normalize.css"/>
+    <link rel="stylesheet" href="/resources/styles/common.css"/>
+    <link rel="stylesheet" href="/resources/styles/motionui.css"/>
 
     <!-- jQuery -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -19,7 +19,7 @@
      */
     if (is_dir(ROOT . '/public/resources/js/pre')) {
         foreach (glob(ROOT . '/public/resources/js/pre/*.js') as $file) {
-            echo '<script type="text/javascript" src="resources/js/pre/' . basename($file) . '"></script>';
+            echo '<script type="text/javascript" src="/resources/js/pre/' . basename($file) . '"></script>';
         }
     } ?>
 
@@ -28,7 +28,7 @@
     <meta http-equiv="Expires" content="0" />
 
     <!-- Favicon -->
-    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="icon" href="/assets/favicon.ico" />
 
     
 </head>

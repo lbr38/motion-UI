@@ -120,6 +120,14 @@ $(document).on('click','#disable-alert-btn',function () {
 });
 
 /**
+ *  Event: send a test email
+ */
+$(document).on('click','#send-test-email-btn',function () {
+    var mailRecipient = $(this).attr('mail-recipient');
+    sendTestEmail(mailRecipient);
+});
+
+/**
  *  Event: select stats dates
  */
 $(document).on('change','.stats-date-input',function () {
@@ -140,12 +148,78 @@ $(document).on('change','.event-date-input',function () {
 });
 
 /**
+ *  Event: print previous 5 events
+ */
+$(document).on('click','.event-next-btn',function () {
+    /**
+     *  Retrieve event date
+     */
+    var eventDate = $(this).attr('event-date');
+
+    /**
+     *  Retrieve event offset value (used for pagination), it is stored in the parent container
+     */
+    var offset = $('.event-date-container[event-date="' + eventDate + '"]').attr('offset');
+
+    // Increment + 5
+    offset = parseInt(offset) + 5;
+
+    /**
+     *  Set cookie for PHP to load the right events
+     */
+    setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
+
+    /**
+     *  Reload the event container matching the date
+     */
+    $('.event-date-container[event-date="' + eventDate + '"]').load(location.href + ' .event-date-container[event-date="' + eventDate + '"] > *');
+
+    /**
+     *  Set the new offset value in the parent container
+     */
+    $('.event-date-container[event-date="' + eventDate + '"]').attr('offset', offset);
+});
+
+/**
+ *  Event: print next 5 events
+ */
+$(document).on('click','.event-previous-btn',function () {
+    /**
+     *  Retrieve event date
+     */
+    var eventDate = $(this).attr('event-date');
+
+    /**
+     *  Retrieve event offset value (used for pagination), it is stored in the parent container
+     */
+    var offset = $('.event-date-container[event-date="' + eventDate + '"]').attr('offset');
+
+    // Decrement - 5
+    offset = parseInt(offset) - 5;
+
+    /**
+     *  Set cookie for PHP to load the right events
+     */
+    setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
+
+    /**
+     *  Reload the event container matching the date
+     */
+    $('.event-date-container[event-date="' + eventDate + '"]').load(location.href + ' .event-date-container[event-date="' + eventDate + '"] > *');
+
+    /**
+     *  Set the new offset value in the parent container
+     */
+    $('.event-date-container[event-date="' + eventDate + '"]').attr('offset', offset);
+});
+
+/**
  *  Event: vizualize event image
  */
 $(document).on('click','.play-picture-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    $('#event-print-file').html('<img src="/media?id='+fileId+'" />');
+    $('#event-print-file').html('<img src="/media?id=' + fileId + '" />');
     $('#event-print-file-div').show();
 });
 
@@ -155,7 +229,7 @@ $(document).on('click','.play-picture-btn',function () {
 $(document).on('click','.play-video-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    $('#event-print-file').html('<video controls><source src="/media?id='+fileId+'"><p>You browser does not support embedded videos.</p></video>');
+    $('#event-print-file').html('<video controls><source src="/media?id=' + fileId + '"><p>You browser does not support embedded videos.</p></video>');
     $('#event-print-file-div').show();
 });
 
@@ -593,6 +667,31 @@ function enableAlert(status)
             reloadContainer('buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Ajax: send a test email
+ */
+function sendTestEmail(mailRecipient)
+{
+    $.ajax({
+        type: "POST",
+        url: "/ajax/controller.php",
+        data: {
+            controller: "motion",
+            action: "sendTestEmail",
+            mailRecipient: mailRecipient
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+        },
+        error: function (jqXHR, textStatus, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'error');
         },
