@@ -301,7 +301,7 @@
                                                                     <?php
                                                                 endif ?>
 
-                                                                <div class="lowopacity-cst">
+                                                                <div class="lowopacity-cst event-media-metadata">
                                                                     <p class="font-size-11">Width: <?= $imageWidth ?>px</p>
                                                                     <p class="font-size-11">Height: <?= $imageHeight ?>px</p>
                                                                     <p class="font-size-11">FPS: <?= $imageFps ?></p>
