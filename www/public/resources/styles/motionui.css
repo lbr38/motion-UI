@@ -535,7 +535,7 @@ footer #github img { width: 25px; }
 .event-media-row {
     min-height: 50px;
     background-color: #182b3e;
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid #213446;
     margin-bottom: 4px;
 }
@@ -552,6 +552,10 @@ footer #github img { width: 25px; }
 
 .event-media img:not(.icon) {
     height: 90px;
+}
+
+.event-media-metadata {
+    min-width: 90px;
 }
 
 .event-container:hover .event-media-checkbox {
