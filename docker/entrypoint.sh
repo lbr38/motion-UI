@@ -14,6 +14,9 @@ if [ ! -z "$FQDN" ];then
     # Postfix/mail configuration
     postconf -e "myhostname = $FQDN"
     echo $FQDN > /etc/mailname
+
+    # motion-UI configuration
+    echo $FQDN > "$WWW_DIR/.fqdn"
 fi
 
 # Start services
