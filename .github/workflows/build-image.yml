@@ -39,6 +39,6 @@ jobs:
         with:
           file: ./docker/Dockerfile
           push: true
-          tags: lbr38/motion:latest, lbr38/motion:${{ env.VERSION }}
+          tags: lbr38/motionui:latest, lbr38/motionui:${{ env.VERSION }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
       

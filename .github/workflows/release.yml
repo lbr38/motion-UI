@@ -1,110 +1,13 @@
-on:
-  push:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
 
 name: Create motion-UI release
 
 jobs:
-  # build-deb:
-  #   name: Build deb package
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: debian:latest
-  #     options: --user root
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-
-  #     - name: Get motionui version
-  #       run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
-
-  #     - name: Install dependencies packages
-  #       run: apt-get update && apt-get install build-essential binutils lintian debhelper dh-make devscripts -y 
-
-  #     - name: Create build environment
-  #       run: |
-  #         mkdir -p /tmp/motion-UI-build/DEBIAN
-  #         mkdir -p /tmp/motion-UI-build/var/www/motionui
-  #         mkdir -p /tmp/motion-UI-build/var/lib/motionui
-  #         mkdir -p /tmp/motion-UI-build/lib/systemd/system/
-
-  #     - name: Copy files to include in the build
-  #       run: |
-  #         cp -r ${GITHUB_WORKSPACE}/www/* /tmp/motion-UI-build/var/www/motionui/
-  #         cp -r ${GITHUB_WORKSPACE}/tools /tmp/motion-UI-build/var/lib/motionui/tools
-  #         cp -r ${GITHUB_WORKSPACE}/tools/service/motionui.systemd.template /tmp/motion-UI-build/lib/systemd/system/motionui.service
-
-  #     - name: Copy control file
-  #       run: |
-  #         cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/deb/control /tmp/motion-UI-build/DEBIAN/control
-  #         sed -i "s/__VERSION__/${{ env.VERSION }}/g" /tmp/motion-UI-build/DEBIAN/control
-
-  #     - name: Copy preinst and postinst script
-  #       run: |
-  #         cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/deb/preinst /tmp/motion-UI-build/DEBIAN/preinst
-  #         cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/deb/postinst /tmp/motion-UI-build/DEBIAN/postinst
-  #         chmod 755 /tmp/motion-UI-build/DEBIAN/preinst /tmp/motion-UI-build/DEBIAN/postinst
-
-  #     - name: Build package
-  #       run: |
-  #         cd /tmp
-  #         dpkg-deb --build motion-UI-build
-  #         mv /tmp/motion-UI-build.deb /tmp/motionui_${{ env.VERSION }}.deb
-
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: motionui_${{ env.VERSION }}.deb
-  #         path: /tmp/motionui_${{ env.VERSION }}.deb
-  #         retention-days: 3
-
-  # build-rpm:
-  #   name: Build rpm package
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: fedora:latest
-  #     options: --user root
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Get motion-UI version
-  #       run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
-
-  #     - name: Install dependencies packages
-  #       run: yum install rpmdevtools rpmlint -y
-
-  #     - name: Create build environment
-  #       run: |
-  #         mkdir -p $HOME/rpmbuild/BUILD
-  #         mkdir -p $HOME/rpmbuild/BUILDROOT
-  #         mkdir -p $HOME/rpmbuild/RPMS
-  #         mkdir -p $HOME/rpmbuild/SOURCES
-  #         mkdir -p $HOME/rpmbuild/SPECS
-
-  #     - name: Copy spec file
-  #       run: |
-  #         cp ${GITHUB_WORKSPACE}/.github/workflows/packaging/rpm/spec $HOME/rpmbuild/SPECS/motionui.spec
-  #         sed -i "s/__VERSION__/${{ env.VERSION }}/g" $HOME/rpmbuild/SPECS/motionui.spec
-
-  #     - name: Build package
-  #       run: |
-  #         cd $HOME/rpmbuild/SPECS
-  #         rpmbuild --target noarch -bb --quiet motionui.spec
-  #         mv $HOME/rpmbuild/RPMS/noarch/motionui-${{ env.VERSION }}-stable.noarch.rpm /tmp/motionui-${{ env.VERSION }}.noarch.rpm
-
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: motionui-${{ env.VERSION }}.noarch.rpm
-  #         path: /tmp/motionui-${{ env.VERSION }}.noarch.rpm
-  #         retention-days: 3
-
   release:
     name: Create Release
-    # needs:
-    #   - build-deb
-    #   - build-rpm
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -112,20 +15,6 @@ jobs:
 
       - name: Get motionui version
         run: echo "VERSION=$(cat ${GITHUB_WORKSPACE}/www/version)" >> $GITHUB_ENV
-
-      # Download builded deb package artifact
-      # - name: Download deb artifact
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: motionui_${{ env.VERSION }}.deb
-      #     path: ~/assets
-      
-      # Download builded rpm package artifact
-      # - name: Download rpm artifact
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: motionui-${{ env.VERSION }}.noarch.rpm
-      #     path: ~/assets
 
       # Create a new release
       - name: Create Release
@@ -149,13 +38,3 @@ jobs:
 
           draft: false
           prerelease: false
-
-      # Upload packages to release
-      # - name: Upload packages
-      #   id: upload-release-assets
-      #   uses: dwenegar/upload-release-assets@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     release_id: ${{ steps.create_release.outputs.id }}
-      #     assets_path: ~/assets
