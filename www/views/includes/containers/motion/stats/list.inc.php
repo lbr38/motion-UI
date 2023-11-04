@@ -122,8 +122,10 @@
 
             <div>
                 <p class="lowopacity-cst">Period:</p>
-                <input type="date" name="dateStart" class="input-medium stats-date-input" value="<?= $statsDateStart ?>" />
-                <input type="date" name="dateEnd" class="input-medium stats-date-input" value="<?= $statsDateEnd ?>" />
+                <div class="flex column-gap-10">
+                    <input type="date" name="dateStart" class="input-medium stats-date-input" value="<?= $statsDateStart ?>" />
+                    <input type="date" name="dateEnd" class="input-medium stats-date-input" value="<?= $statsDateEnd ?>" />
+                </div>
             </div>
 
             <div id="motion-stats-container">

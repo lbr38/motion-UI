@@ -533,11 +533,20 @@ footer #github img { width: 25px; }
 }
 
 .event-media-row {
-    min-height: 50px;
+    display: grid;
+    grid-template-columns: 90% 10%;
+    align-items: center;
+    height: 80px;
     background-color: #182b3e;
     border-radius: 8px;
     border: 1px solid #213446;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+}
+
+.event-media-row > div:first-child {
+    display: grid;
+    grid-template-columns: 150px minmax(auto, 50%);
+    align-items: center;
 }
 
 .event-media {
@@ -547,11 +556,11 @@ footer #github img { width: 25px; }
 .event-media span {
     position: absolute;
     bottom: 6px;
-    right: 3px;
+    left: 3px;
 }
 
 .event-media img:not(.icon) {
-    height: 90px;
+    height: 80px;
 }
 
 .event-media-metadata {
@@ -563,8 +572,6 @@ footer #github img { width: 25px; }
 }
 
 .event-media-checkbox {
-    margin-left: 10px;
-    margin-right: 20px;
     opacity: 0.5;
 }
 

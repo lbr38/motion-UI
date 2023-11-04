@@ -70,7 +70,7 @@
         max-width: 100%;
       }
 
-      .mj-column-px-500 {
+      .mj-column-px {
         width: 500px !important;
         max-width: 500px;
       }
@@ -82,13 +82,18 @@
       max-width: 100%;
     }
 
-    .moz-text-html .mj-column-px-500 {
+    .moz-text-html .mj-column-px {
       width: 500px !important;
       max-width: 500px;
     }
   </style>
   <style type="text/css">
     @media only screen and (max-width:480px) {
+      .mj-column-px {
+        width: 300px !important;
+        max-width: 300px;
+      }
+
       table.mj-full-width-mobile {
         width: 100% !important;
       }
@@ -117,8 +122,8 @@
                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                           <tbody>
                             <tr>
-                              <td style="width:150px;">
-                                <img height="auto" src="<?= PROJECT_LOGO ?>" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="150" />
+                              <td style="width:30px;">
+                                <img width="30" height="auto" src="<?= PROJECT_LOGO ?>" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" />
                               </td>
                             </tr>
                           </tbody>
@@ -141,7 +146,7 @@
           <tr>
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
               <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:500px;" ><![endif]-->
-              <div class="mj-column-px-500 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+              <div class="mj-column-px mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
                   <tbody>
                     <tr>
