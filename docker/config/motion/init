@@ -20,7 +20,8 @@ test -f $DAEMON || exit 0
 case "$1" in
   start)
     echo "Starting motion detection : $NAME"
-    start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid motion --umask 002
+    # start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid motion --umask 002
+    start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
     ;;
 
   stop)
@@ -46,7 +47,8 @@ case "$1" in
   restart-motion)
     echo "Restarting $NAME"
     start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
-    start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid motion --umask 002
+    # start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid motion --umask 002
+    start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
     ;;
 
   restart)
