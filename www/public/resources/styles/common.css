@@ -131,6 +131,8 @@ pre {
 .column-gap-1{column-gap: 1px}.column-gap-2 {column-gap: 2px}.column-gap-4 {column-gap: 4px}.column-gap-5{column-gap: 5px}.column-gap-6{column-gap: 6px}.column-gap-7{column-gap: 7px}.column-gap-8{column-gap: 8px}.column-gap-9{column-gap: 9px}.column-gap-10{column-gap: 10px}
 .column-gap-20{column-gap: 20px}
 .row-gap-1 {row-gap: 1px;}.row-gap-2 {row-gap: 2px;}.row-gap-4 {row-gap: 4px;}.row-gap-5 {row-gap: 5px;}.row-gap-6 {row-gap: 6px;}.row-gap-7 {row-gap: 7px;}
+.padding-left-15 {padding-left: 15px}
+.padding-right-15 {padding-right: 15px}
 
 /**
  *   Tables
@@ -242,13 +244,12 @@ td {
  */
 input[type=text], input[type=date], input[type=time], input[type=number], input[type=email], input[type=password], input[type=color], input[type=file], select {
     width: 100%;
-    height: 30px;
+    height: 40px;
     margin-top: 2px;
     margin-bottom: 2px;
-    padding-left: 4px;
-    /* display: inline-block; */
+    padding-left: 10px;
     border: none;
-    border-radius: 2px;
+    border-radius: 20px;
     box-sizing: border-box;
     font-size: 14px;
     color: white;
@@ -418,10 +419,10 @@ textarea {
 }
 
 .label-black, .label-white, .label-green, .label-blue, .label-red, .label-yellow {
-    font-size: 13px;
+    font-size: 14px;
     vertical-align: middle;
     display: inline-block;
-    padding: 4px 6px 4px 6px;
+    padding: 6px 8px 6px 8px;
     border-radius: 16px;
     color: white;
     box-shadow: rgb(12 18 20 / 67%) 0px 0px 0px 1px;
@@ -527,7 +528,7 @@ textarea {
     color: #3b3b3b;
     line-height: 1;
     text-align: center;
-    padding: 3px 7px;
+    padding: 6px 8px;
     margin-right: -1px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
@@ -615,7 +616,6 @@ textarea {
 }
 .confirmAlert {
     grid-template-columns: repeat(3, 33%);
-    justify-content: space-between;
 }
 .alert-success { background-color: #14be7e; }
 .alert-error { background-color: #ff0044; }

@@ -6,6 +6,10 @@ DATA_DIR="/var/lib/motionui"
 /bin/bash $WWW_DIR/bin/motionui -p &
 chown -R www-data:motionui $DATA_DIR
 
+if [ -f /run/motion/motion.pid ]; then
+    rm -f /run/motion/motion.pid
+fi
+
 # Docker run options
 # when
 # -e FQDN=server.example.com
