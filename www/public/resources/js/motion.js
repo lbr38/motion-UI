@@ -170,6 +170,11 @@ $(document).on('click','.event-next-btn',function () {
     setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
 
     /**
+     *  Print loading animation
+     */
+    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="div-generic-blue"><div class="flex justify-center"><img src="/assets/icons/loading.gif" class="icon"/><span>Loading</span></div></div>');
+
+    /**
      *  Reload the event container matching the date
      */
     $('.event-date-container[event-date="' + eventDate + '"]').load(location.href + ' .event-date-container[event-date="' + eventDate + '"] > *');
@@ -194,13 +199,27 @@ $(document).on('click','.event-previous-btn',function () {
      */
     var offset = $('.event-date-container[event-date="' + eventDate + '"]').attr('offset');
 
-    // Decrement - 5
+    /**
+     * Decrement - 5
+     */
     offset = parseInt(offset) - 5;
+
+    /**
+     *  Offset cannot be negative
+     */
+    if (offset < 0) {
+        offset = 0;
+    }
 
     /**
      *  Set cookie for PHP to load the right events
      */
     setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
+
+    /**
+     *  Print loading animation
+     */
+    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="div-generic-blue"><div class="flex justify-center"><img src="/assets/icons/loading.gif" class="icon"/><span>Loading</span></div></div>');
 
     /**
      *  Reload the event container matching the date

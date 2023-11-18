@@ -26,6 +26,5 @@ if (!empty($argv[1]) && $argv[1] == 'autostart') {
  *  Run main service
  */
 $myservice->run();
-// $mymotionAutostart->autostart();
 
 exit;

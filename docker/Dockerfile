@@ -1,7 +1,7 @@
 # Dockerfile for motion-UI
 
 # Base image
-FROM debian:11
+FROM debian:12-slim
 
 # Metadata
 LABEL version="1.0" maintainer="lbr38 <motionui@protonmail.com>"
@@ -20,12 +20,11 @@ RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transpor
 
 # Add motion 4.5.x repository
 RUN curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh.gpg
-RUN echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui_bullseye_main.list
+RUN echo "deb https://packages.bespin.ovh/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
 
 # Add nginx and PHP 8.1 repositories
-RUN curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh.gpg
-RUN echo "deb https://packages.bespin.ovh/repo/motionui-nginx/bullseye/nginx_prod bullseye nginx" > /etc/apt/sources.list.d/nginx.list
-RUN echo "deb https://packages.bespin.ovh/repo/motionui-php/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.bespin.ovh/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
+RUN echo "deb https://packages.bespin.ovh/repo/motionui-php/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update -y
 
 # Install nginx and PHP 8.1

@@ -127,8 +127,7 @@ class Autostart
              */
             if ($this->getStatus() != 'enabled') {
                 echo 'Autostart is disabled' . PHP_EOL;
-                sleep(5);
-                continue;
+                exit;
             }
 
             /**
