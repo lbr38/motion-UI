@@ -109,315 +109,317 @@
                                 <?php
                             endif ?>
 
-                            <?php
-                            /**
-                             *  Print events from the current date
-                             */
-                            if (!empty($events)) :
-                                foreach ($events as $event) :
-                                    /**
-                                     *  Retrieve all files from current event
-                                     */
-                                    $eventFiles = $mymotionEvent->getFilesByMotionEventId($event['Motion_id_event']);
-                                    $eventId = $event['Id'];
-                                    $eventTime = $event['Time_start'];
-                                    $eventStatus = $event['Status'];
-                                    $cameraId = $event['Camera_id'];
-                                    $motionEventId = $event['Motion_id_event'];
-                                    $motionEventIdShort = $event['Motion_id_event_short'];
-                                    $lastCameraId = '';
-                                    $lastMotionEventId = '';
-
-                                    /**
-                                     *  Get current event files by motion event id
-                                     */
-                                    $eventFiles = $mymotionEvent->getFilesByMotionEventId($motionEventId); ?>
-
-                                    <div class="div-generic-blue event-container">
-                                        <div class="event-time">
-                                            <?= $eventTime ?>
-                                        </div>
-
-                                        <div class="event-camera">
-                                            <?php
-                                            foreach ($eventFiles as $eventDetails) :
-                                                $fileId = $eventDetails['Id'];
-                                                $filepath = $eventDetails['File'];
-                                                $filesize = $eventDetails['Size'];
-                                                $imageWidth = $eventDetails['Width'];
-                                                $imageHeight = $eventDetails['Height'];
-                                                $imageFps = $eventDetails['Fps'];
-                                                $imageChangedPixels = $eventDetails['Changed_pixels'];
-                                                $totalFilesCount = $mymotionEvent->getTotalFilesByMotionEventId($motionEventId);
-
-                                                /**
-                                                 *  Get camera name
-                                                 */
-                                                $cameraName = $mycamera->getNameById($cameraId);
-
-                                                if ($cameraId != $lastCameraId) :
-                                                    /**
-                                                     *  div closed by the "if ($cameraId != $lastCameraId)" condition
-                                                     */ ?>
-                                                    <div>
-                                                    <div>
-                                                        <p class="event-camera-id">
-                                                            <b>
-                                                                <?php
-                                                                if (!empty($cameraName)) {
-                                                                    echo $cameraName;
-                                                                } else {
-                                                                    echo 'Camera Id #' . $cameraId;
-                                                                } ?>
-                                                            </b>
-                                                        </p>
-                                                    </div>
-                                                    <?php
-                                                endif; ?>
-
-                                                <div class="event-row">
-                                                    <?php
-                                                    if ($motionEventId != $lastMotionEventId) : ?>
-                                                        <div class="flex align-item-center justify-space-between">
-                                                            <div>
-                                                                <p class="event-id">
-                                                                    <br>
-                                                                    <?php
-                                                                    if ($totalFilesCount == 1) {
-                                                                        echo '<span><b>Event #' . $motionEventIdShort . '</b> (1 file)</span>';
-                                                                    } else {
-                                                                        echo '<span><b>Event #' . $motionEventIdShort . '</b> (' . $totalFilesCount . ' files)</span>';
-                                                                    } ?>
-                                                                    <br>
-                                                                    <span class="lowopacity-cst font-size-11" title="Full event id">#<?= $motionEventId ?>
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <span class="select-all-media-btn lowopacity padding-right-15 pointer hide" event-id="<?= $eventId ?>" title="Select all medias">Select all</span>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    endif; ?>
-
-                                                    <?php
-                                                    /**
-                                                     *  Case it's a picture
-                                                     */
-                                                    if (preg_match('#\b(.jpg|.webp|.ppm|.grey)\b#', $filepath)) : ?>
-                                                        <div class="event-media-row">
-                                                            <div>
-                                                                <?php
-                                                                /**
-                                                                 *  Case it's a picture and the thumbnail option is enabled
-                                                                 */
-                                                                if (MOTION_EVENTS_PICTURES_THUMBNAIL) :
-                                                                    if (file_exists($filepath) and is_readable($filepath)) : ?>
-                                                                        <div class="event-media">
-                                                                            <img src="/media?id=<?= $fileId ?>" class="play-picture-btn pointer" file-id="<?= $fileId ?>" title="Visualize picture" />
-                                                                            <span class="font-size-13">
-                                                                                <img src="/assets/icons/picture.svg" class="icon" /> (<?= $filesize ?>)
-                                                                            </span>
-                                                                        </div>
-                                                                        <?php
-                                                                    else : ?>
-                                                                        <div class="flex flex-direction-column align-item-center">
-                                                                            <div class="flex align-item-center">
-                                                                                <img src="/assets/icons/picture.svg" class="icon" />
-                                                                                <p>Picture</p>
-                                                                            </div>
-                                                                            <?php
-                                                                            /**
-                                                                             *  Print file size
-                                                                             */
-                                                                            if (!file_exists($filepath)) {
-                                                                                echo '<span class="redtext"> (deleted)</span>';
-                                                                            } elseif (!is_readable($filepath)) {
-                                                                                echo '<span class="yellowtext"> (not readable)</span>';
-                                                                            } ?>
-                                                                        </div>
-                                                                        <?php
-                                                                    endif;
-                                                                endif;
-
-                                                                /**
-                                                                 *  Case it's a picture and the thumbnail option is disabled
-                                                                 */
-                                                                if (!MOTION_EVENTS_PICTURES_THUMBNAIL) : ?>
-                                                                    <div class="flex align-item-center justify-space-between padding-left-15 padding-right-15">
-                                                                        <div>
-                                                                            <div class="flex align-item-center">
-                                                                                <img src="/assets/icons/picture.svg" class="icon" />
-                                                                                <p>Picture</p>
-                                                                            </div>
-                                                                            <?php
-                                                                            /**
-                                                                             *  Print file size
-                                                                             */
-                                                                            if (file_exists($filepath) && is_readable($filepath)) : ?>
-                                                                                <p class="lowopacity-cst font-size-13">(<?= $filesize ?>)</p>
-                                                                                <?php
-                                                                            else :
-                                                                                if (!file_exists($filepath)) {
-                                                                                    echo '<span class="redtext"> (deleted)</span>';
-                                                                                } elseif (!is_readable($filepath)) {
-                                                                                    echo '<span class="yellowtext"> (not readable)</span>';
-                                                                                }
-                                                                            endif ?>
-                                                                        </div>
-                                                                        <?php
-                                                                        if (is_readable($filepath)) : ?>
-                                                                            <span class="round-btn-green play-picture-btn" file-id="<?= $fileId ?>" title="Visualize picture">
-                                                                                <img src="/assets/icons/play.svg" />
-                                                                            </span>
-                                                                            <?php
-                                                                        endif
-                                                                        ?>
-                                                                    </div>
-                                                                    <?php
-                                                                endif ?>
-
-                                                                <div class="lowopacity-cst event-media-metadata">
-                                                                    <p class="font-size-11">Width: <?= $imageWidth ?>px</p>
-                                                                    <p class="font-size-11">Height: <?= $imageHeight ?>px</p>
-                                                                    <p class="font-size-11">FPS: <?= $imageFps ?></p>
-                                                                    <p class="font-size-11">Changed pixels: <?= $imageChangedPixels ?></p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <?php
-                                                                if (file_exists($filepath)) {
-                                                                    if (is_writeable($filepath)) {
-                                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
-                                                                    } else {
-                                                                        echo '<img src="/assets/icons/warning.png" class="icon" title="File cannot be selected: not writeable">';
-                                                                    }
-                                                                } ?>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    endif;
-
-                                                    /**
-                                                     *  Case it a movie
-                                                     */
-                                                    if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
-                                                        <div class="event-media-row">
-                                                            <div>
-                                                                <?php
-                                                                /**
-                                                                 *  Case it's a movie and the thumbnail option is enabled
-                                                                 */
-                                                                if (MOTION_EVENTS_VIDEOS_THUMBNAIL) :
-                                                                    if (file_exists($filepath) and is_readable($filepath) and file_exists($filepath . '.thumbnail.jpg') and is_readable($filepath . '.thumbnail.jpg')) : ?>
-                                                                        <div class="event-media">
-                                                                            <img src="/media?thumbnail&id=<?= $fileId ?>" class="play-video-btn media-thumbnail pointer" file-id="<?= $fileId ?>" title="Play video" onerror="setVideoThumbnailUnavailable(<?= $fileId ?>)" />
-                                                                            <span class="font-size-13">
-                                                                                <img src="/assets/icons/video.svg" class="icon" /> (<?= $filesize ?>)
-                                                                            </span>
-                                                                        </div>
-                                                                        <?php
-                                                                    else : ?>
-                                                                        <div class="flex flex-direction-column align-item-center">
-                                                                            <div class="flex align-item-center">
-                                                                                <img src="/assets/icons/video.svg" class="icon" />
-                                                                                <p>Video</p>
-                                                                            </div>
-                                                                            <?php
-                                                                            if (!file_exists($filepath)) {
-                                                                                echo '<span class="redtext"> (deleted)</span>';
-                                                                            } elseif (!is_readable($filepath)) {
-                                                                                echo '<span class="yellowtext"> (not readable)</span>';
-                                                                            } elseif (!file_exists($filepath . '.thumbnail.jpg')) {
-                                                                                echo '<span class="yellowtext"> (thumbnail not available)</span>';
-                                                                            } elseif (!is_readable($filepath . '.thumbnail.jpg')) {
-                                                                                echo '<span class="yellowtext"> (thumbnail not readable)</span>';
-                                                                            } ?>
-                                                                        </div>
-                                                                        <?php
-                                                                    endif;
-                                                                endif;
-
-                                                                /**
-                                                                 *  Case it's a movie and the thumbnail option is disabled
-                                                                 */
-                                                                if (!MOTION_EVENTS_VIDEOS_THUMBNAIL) :?>
-                                                                    <div class="flex align-item-center justify-space-between padding-left-15 padding-right-15">
-                                                                        <div>
-                                                                            <div class="flex align-item-center">
-                                                                                <img src="/assets/icons/video.svg" class="icon" />
-                                                                                <p>Video</p>
-                                                                            </div>
-                                                                            <?php
-                                                                            /**
-                                                                             *  Print file size
-                                                                             */
-                                                                            if (file_exists($filepath) && is_readable($filepath)) : ?>
-                                                                                <p class="lowopacity-cst font-size-13">(<?= $filesize ?>)</p>
-                                                                                <?php
-                                                                            else :
-                                                                                if (!file_exists($filepath)) {
-                                                                                    echo '<span class="redtext"> (deleted)</span>';
-                                                                                } elseif (!is_readable($filepath)) {
-                                                                                    echo '<span class="yellowtext"> (not readable)</span>';
-                                                                                }
-                                                                            endif ?>
-                                                                        </div>
-                                                                        <?php
-                                                                        if (is_readable($filepath)) : ?>
-                                                                            <span class="round-btn-green play-video-btn" file-id="<?= $fileId ?>" title="Play video">
-                                                                                <img src="/assets/icons/play.svg" />
-                                                                            </span>
-                                                                            <?php
-                                                                        endif ?>
-                                                                    </div>
-                                                                    <?php
-                                                                endif ?>
-
-                                                                <div class="lowopacity-cst event-media-metadata">
-                                                                    <p class="font-size-11">Width: <?= $imageWidth ?>px</p>
-                                                                    <p class="font-size-11">Height: <?= $imageHeight ?>px</p>
-                                                                    <p class="font-size-11">FPS: <?= $imageFps ?></p>
-                                                                    <p class="font-size-11">Changed pixels: <?= $imageChangedPixels ?></p>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div>
-                                                                <?php
-                                                                if (file_exists($filepath)) {
-                                                                    if (is_writeable($filepath)) {
-                                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
-                                                                    } else {
-                                                                        echo '<img src="/assets/icons/warning.png" class="icon" title="File cannot be selected: not writeable">';
-                                                                    }
-                                                                } ?>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                    endif; ?>
-                                                </div>
-
-                                                <?php
-                                                if ($cameraId != $lastCameraId) {
-                                                    echo '</div>';
-                                                }
-
-                                                $lastCameraId = $cameraId;
-                                                $lastMotionEventId = $motionEventId;
-                                            endforeach; ?>
-                                        </div>
-                                            
-                                        <?php
+                            <div class="events-container">
+                                <?php
+                                /**
+                                 *  Print events from the current date
+                                 */
+                                if (!empty($events)) :
+                                    foreach ($events as $event) :
                                         /**
-                                         *  If the event is still being processed by motion then print a loading icon
+                                         *  Retrieve all files from current event
                                          */
-                                        if ($eventStatus != 'done') {
-                                            echo '<div class="event-running"><img src="/assets/icons/loading.gif" class="icon" title="Processing event" /></div>';
-                                        } ?>
-                                    </div>
-                                    <?php
-                                endforeach;
-                            endif ?>
+                                        $eventFiles = $mymotionEvent->getFilesByMotionEventId($event['Motion_id_event']);
+                                        $eventId = $event['Id'];
+                                        $eventTime = $event['Time_start'];
+                                        $eventStatus = $event['Status'];
+                                        $cameraId = $event['Camera_id'];
+                                        $motionEventId = $event['Motion_id_event'];
+                                        $motionEventIdShort = $event['Motion_id_event_short'];
+                                        $lastCameraId = '';
+                                        $lastMotionEventId = '';
+
+                                        /**
+                                         *  Get current event files by motion event id
+                                         */
+                                        $eventFiles = $mymotionEvent->getFilesByMotionEventId($motionEventId); ?>
+
+                                        <div class="div-generic-blue event-container">
+                                            <div class="event-time">
+                                                <?= $eventTime ?>
+                                            </div>
+
+                                            <div class="event-camera">
+                                                <?php
+                                                foreach ($eventFiles as $eventDetails) :
+                                                    $fileId = $eventDetails['Id'];
+                                                    $filepath = $eventDetails['File'];
+                                                    $filesize = $eventDetails['Size'];
+                                                    $imageWidth = $eventDetails['Width'];
+                                                    $imageHeight = $eventDetails['Height'];
+                                                    $imageFps = $eventDetails['Fps'];
+                                                    $imageChangedPixels = $eventDetails['Changed_pixels'];
+                                                    $totalFilesCount = $mymotionEvent->getTotalFilesByMotionEventId($motionEventId);
+
+                                                    /**
+                                                     *  Get camera name
+                                                     */
+                                                    $cameraName = $mycamera->getNameById($cameraId);
+
+                                                    if ($cameraId != $lastCameraId) :
+                                                        /**
+                                                         *  div closed by the "if ($cameraId != $lastCameraId)" condition
+                                                         */ ?>
+                                                        <div>
+                                                        <div>
+                                                            <p class="event-camera-id">
+                                                                <b>
+                                                                    <?php
+                                                                    if (!empty($cameraName)) {
+                                                                        echo $cameraName;
+                                                                    } else {
+                                                                        echo 'Camera Id #' . $cameraId;
+                                                                    } ?>
+                                                                </b>
+                                                            </p>
+                                                        </div>
+                                                        <?php
+                                                    endif; ?>
+
+                                                    <div class="event-row">
+                                                        <?php
+                                                        if ($motionEventId != $lastMotionEventId) : ?>
+                                                            <div class="flex align-item-center justify-space-between">
+                                                                <div>
+                                                                    <p class="event-id">
+                                                                        <br>
+                                                                        <?php
+                                                                        if ($totalFilesCount == 1) {
+                                                                            echo '<span><b>Event #' . $motionEventIdShort . '</b> (1 file)</span>';
+                                                                        } else {
+                                                                            echo '<span><b>Event #' . $motionEventIdShort . '</b> (' . $totalFilesCount . ' files)</span>';
+                                                                        } ?>
+                                                                        <br>
+                                                                        <span class="lowopacity-cst font-size-11" title="Full event id">#<?= $motionEventId ?>
+                                                                    </p>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="select-all-media-btn lowopacity padding-right-15 pointer hide" event-id="<?= $eventId ?>" title="Select all medias">Select all</span>
+                                                                </div>
+                                                            </div>
+                                                            <?php
+                                                        endif; ?>
+
+                                                        <?php
+                                                        /**
+                                                         *  Case it's a picture
+                                                         */
+                                                        if (preg_match('#\b(.jpg|.webp|.ppm|.grey)\b#', $filepath)) : ?>
+                                                            <div class="event-media-row">
+                                                                <div>
+                                                                    <?php
+                                                                    /**
+                                                                     *  Case it's a picture and the thumbnail option is enabled
+                                                                     */
+                                                                    if (MOTION_EVENTS_PICTURES_THUMBNAIL) :
+                                                                        if (file_exists($filepath) and is_readable($filepath)) : ?>
+                                                                            <div class="event-media">
+                                                                                <img src="/media?id=<?= $fileId ?>" class="play-picture-btn pointer" file-id="<?= $fileId ?>" title="Visualize picture" />
+                                                                                <span class="font-size-13">
+                                                                                    <img src="/assets/icons/picture.svg" class="icon" /> (<?= $filesize ?>)
+                                                                                </span>
+                                                                            </div>
+                                                                            <?php
+                                                                        else : ?>
+                                                                            <div class="flex flex-direction-column align-item-center">
+                                                                                <div class="flex align-item-center">
+                                                                                    <img src="/assets/icons/picture.svg" class="icon" />
+                                                                                    <p>Picture</p>
+                                                                                </div>
+                                                                                <?php
+                                                                                /**
+                                                                                 *  Print file size
+                                                                                 */
+                                                                                if (!file_exists($filepath)) {
+                                                                                    echo '<span class="redtext"> (deleted)</span>';
+                                                                                } elseif (!is_readable($filepath)) {
+                                                                                    echo '<span class="yellowtext"> (not readable)</span>';
+                                                                                } ?>
+                                                                            </div>
+                                                                            <?php
+                                                                        endif;
+                                                                    endif;
+
+                                                                    /**
+                                                                     *  Case it's a picture and the thumbnail option is disabled
+                                                                     */
+                                                                    if (!MOTION_EVENTS_PICTURES_THUMBNAIL) : ?>
+                                                                        <div class="flex align-item-center justify-space-between padding-left-15 padding-right-15">
+                                                                            <div>
+                                                                                <div class="flex align-item-center">
+                                                                                    <img src="/assets/icons/picture.svg" class="icon" />
+                                                                                    <p>Picture</p>
+                                                                                </div>
+                                                                                <?php
+                                                                                /**
+                                                                                 *  Print file size
+                                                                                 */
+                                                                                if (file_exists($filepath) && is_readable($filepath)) : ?>
+                                                                                    <p class="lowopacity-cst font-size-13">(<?= $filesize ?>)</p>
+                                                                                    <?php
+                                                                                else :
+                                                                                    if (!file_exists($filepath)) {
+                                                                                        echo '<span class="redtext"> (deleted)</span>';
+                                                                                    } elseif (!is_readable($filepath)) {
+                                                                                        echo '<span class="yellowtext"> (not readable)</span>';
+                                                                                    }
+                                                                                endif ?>
+                                                                            </div>
+                                                                            <?php
+                                                                            if (is_readable($filepath)) : ?>
+                                                                                <span class="round-btn-green play-picture-btn" file-id="<?= $fileId ?>" title="Visualize picture">
+                                                                                    <img src="/assets/icons/play.svg" />
+                                                                                </span>
+                                                                                <?php
+                                                                            endif
+                                                                            ?>
+                                                                        </div>
+                                                                        <?php
+                                                                    endif ?>
+
+                                                                    <div class="lowopacity-cst event-media-metadata">
+                                                                        <p class="font-size-11">Width: <?= $imageWidth ?>px</p>
+                                                                        <p class="font-size-11">Height: <?= $imageHeight ?>px</p>
+                                                                        <p class="font-size-11">FPS: <?= $imageFps ?></p>
+                                                                        <p class="font-size-11">Changed pixels: <?= $imageChangedPixels ?></p>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div>
+                                                                    <?php
+                                                                    if (file_exists($filepath)) {
+                                                                        if (is_writeable($filepath)) {
+                                                                            echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
+                                                                        } else {
+                                                                            echo '<img src="/assets/icons/warning.png" class="icon" title="File cannot be selected: not writeable">';
+                                                                        }
+                                                                    } ?>
+                                                                </div>
+                                                            </div>
+                                                            <?php
+                                                        endif;
+
+                                                        /**
+                                                         *  Case it a movie
+                                                         */
+                                                        if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
+                                                            <div class="event-media-row">
+                                                                <div>
+                                                                    <?php
+                                                                    /**
+                                                                     *  Case it's a movie and the thumbnail option is enabled
+                                                                     */
+                                                                    if (MOTION_EVENTS_VIDEOS_THUMBNAIL) :
+                                                                        if (file_exists($filepath) and is_readable($filepath) and file_exists($filepath . '.thumbnail.jpg') and is_readable($filepath . '.thumbnail.jpg')) : ?>
+                                                                            <div class="event-media">
+                                                                                <img src="/media?thumbnail&id=<?= $fileId ?>" class="play-video-btn media-thumbnail pointer" file-id="<?= $fileId ?>" title="Play video" onerror="setVideoThumbnailUnavailable(<?= $fileId ?>)" />
+                                                                                <span class="font-size-13">
+                                                                                    <img src="/assets/icons/video.svg" class="icon" /> (<?= $filesize ?>)
+                                                                                </span>
+                                                                            </div>
+                                                                            <?php
+                                                                        else : ?>
+                                                                            <div class="flex flex-direction-column align-item-center">
+                                                                                <div class="flex align-item-center">
+                                                                                    <img src="/assets/icons/video.svg" class="icon" />
+                                                                                    <p>Video</p>
+                                                                                </div>
+                                                                                <?php
+                                                                                if (!file_exists($filepath)) {
+                                                                                    echo '<span class="redtext"> (deleted)</span>';
+                                                                                } elseif (!is_readable($filepath)) {
+                                                                                    echo '<span class="yellowtext"> (not readable)</span>';
+                                                                                } elseif (!file_exists($filepath . '.thumbnail.jpg')) {
+                                                                                    echo '<span class="yellowtext"> (thumbnail not available)</span>';
+                                                                                } elseif (!is_readable($filepath . '.thumbnail.jpg')) {
+                                                                                    echo '<span class="yellowtext"> (thumbnail not readable)</span>';
+                                                                                } ?>
+                                                                            </div>
+                                                                            <?php
+                                                                        endif;
+                                                                    endif;
+
+                                                                    /**
+                                                                     *  Case it's a movie and the thumbnail option is disabled
+                                                                     */
+                                                                    if (!MOTION_EVENTS_VIDEOS_THUMBNAIL) :?>
+                                                                        <div class="flex align-item-center justify-space-between padding-left-15 padding-right-15">
+                                                                            <div>
+                                                                                <div class="flex align-item-center">
+                                                                                    <img src="/assets/icons/video.svg" class="icon" />
+                                                                                    <p>Video</p>
+                                                                                </div>
+                                                                                <?php
+                                                                                /**
+                                                                                 *  Print file size
+                                                                                 */
+                                                                                if (file_exists($filepath) && is_readable($filepath)) : ?>
+                                                                                    <p class="lowopacity-cst font-size-13">(<?= $filesize ?>)</p>
+                                                                                    <?php
+                                                                                else :
+                                                                                    if (!file_exists($filepath)) {
+                                                                                        echo '<span class="redtext"> (deleted)</span>';
+                                                                                    } elseif (!is_readable($filepath)) {
+                                                                                        echo '<span class="yellowtext"> (not readable)</span>';
+                                                                                    }
+                                                                                endif ?>
+                                                                            </div>
+                                                                            <?php
+                                                                            if (is_readable($filepath)) : ?>
+                                                                                <span class="round-btn-green play-video-btn" file-id="<?= $fileId ?>" title="Play video">
+                                                                                    <img src="/assets/icons/play.svg" />
+                                                                                </span>
+                                                                                <?php
+                                                                            endif ?>
+                                                                        </div>
+                                                                        <?php
+                                                                    endif ?>
+
+                                                                    <div class="lowopacity-cst event-media-metadata">
+                                                                        <p class="font-size-11">Width: <?= $imageWidth ?>px</p>
+                                                                        <p class="font-size-11">Height: <?= $imageHeight ?>px</p>
+                                                                        <p class="font-size-11">FPS: <?= $imageFps ?></p>
+                                                                        <p class="font-size-11">Changed pixels: <?= $imageChangedPixels ?></p>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div>
+                                                                    <?php
+                                                                    if (file_exists($filepath)) {
+                                                                        if (is_writeable($filepath)) {
+                                                                            echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
+                                                                        } else {
+                                                                            echo '<img src="/assets/icons/warning.png" class="icon" title="File cannot be selected: not writeable">';
+                                                                        }
+                                                                    } ?>
+                                                                </div>
+                                                            </div>
+                                                            <?php
+                                                        endif; ?>
+                                                    </div>
+
+                                                    <?php
+                                                    if ($cameraId != $lastCameraId) {
+                                                        echo '</div>';
+                                                    }
+
+                                                    $lastCameraId = $cameraId;
+                                                    $lastMotionEventId = $motionEventId;
+                                                endforeach; ?>
+                                            </div>
+                                                
+                                            <?php
+                                            /**
+                                             *  If the event is still being processed by motion then print a loading icon
+                                             */
+                                            if ($eventStatus != 'done') {
+                                                echo '<div class="event-running"><img src="/assets/icons/loading.gif" class="icon" title="Processing event" /></div>';
+                                            } ?>
+                                        </div>
+                                        <?php
+                                    endforeach;
+                                endif ?>
+                            </div>
                         </div>
                         <?php
                     endforeach;

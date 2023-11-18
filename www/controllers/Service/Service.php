@@ -294,7 +294,9 @@ class Service
             /**
              *  Execute autostart
              */
-            $this->runService('autostart');
+            if ($this->autostart == 'enabled') {
+                $this->runService('autostart');
+            }
 
             /**
              *  Clean events
