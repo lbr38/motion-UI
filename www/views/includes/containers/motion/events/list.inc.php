@@ -94,16 +94,25 @@
 
                             <?php
                             if ($totalEventsCount > 5) : ?>
-                                <div class="flex column-gap-10 justify-end">
+                                <div class="event-previous-next-btns">
                                     <?php
-                                    if ($offset > 0) {
-                                        echo '<span class="round-btn-green event-previous-btn" event-date="' . $eventDate . '" title="Previous events"><img src="/assets/icons/previous.svg"></span>';
-                                    }
-                                    if ($offset >= 0) {
-                                        if ($totalEventsCount > $offset + 5) {
-                                            echo '<span class="round-btn-green event-next-btn" event-date="' . $eventDate . '" title="Next events"><img src="/assets/icons/next.svg"></span>';
-                                        }
-                                    } ?>
+                                    if ($offset > 0) : ?>
+                                        <div class="slide-btn event-previous-btn" event-date="<?= $eventDate ?>" title="Previous events">
+                                            <img src="/assets/icons/previous.svg" />
+                                            <span>Previous events</span>
+                                        </div>
+                                        <?php
+                                    endif;
+
+                                    if ($offset >= 0) :
+                                        if ($totalEventsCount > $offset + 5) : ?>
+                                            <div class="slide-btn event-next-btn" event-date="<?= $eventDate ?>" title="Next events">
+                                                <img src="/assets/icons/next.svg" />
+                                                <span>Next events</span>
+                                            </div>
+                                            <?php
+                                        endif;
+                                    endif ?>
                                 </div>
                                 <br>
                                 <?php
@@ -211,33 +220,25 @@
                                                                     /**
                                                                      *  Case it's a picture and the thumbnail option is enabled
                                                                      */
-                                                                    if (MOTION_EVENTS_PICTURES_THUMBNAIL) :
-                                                                        if (file_exists($filepath) and is_readable($filepath)) : ?>
-                                                                            <div class="event-media">
+                                                                    if (MOTION_EVENTS_PICTURES_THUMBNAIL) : ?>
+                                                                        <div class="event-media">
+                                                                            <?php
+                                                                            if (file_exists($filepath) and is_readable($filepath)) : ?>
                                                                                 <img src="/media?id=<?= $fileId ?>" class="play-picture-btn pointer" file-id="<?= $fileId ?>" title="Visualize picture" />
-                                                                                <span class="font-size-13">
-                                                                                    <img src="/assets/icons/picture.svg" class="icon" /> (<?= $filesize ?>)
-                                                                                </span>
-                                                                            </div>
-                                                                            <?php
-                                                                        else : ?>
-                                                                            <div class="flex flex-direction-column align-item-center">
-                                                                                <div class="flex align-item-center">
-                                                                                    <img src="/assets/icons/picture.svg" class="icon" />
-                                                                                    <p>Picture</p>
-                                                                                </div>
                                                                                 <?php
-                                                                                /**
-                                                                                 *  Print file size
-                                                                                 */
+                                                                            else :
                                                                                 if (!file_exists($filepath)) {
-                                                                                    echo '<span class="redtext"> (deleted)</span>';
+                                                                                    echo '<div class="file-unavailable"><p class="redtext">File<br>deleted</p></div>';
                                                                                 } elseif (!is_readable($filepath)) {
-                                                                                    echo '<span class="yellowtext"> (not readable)</span>';
-                                                                                } ?>
-                                                                            </div>
-                                                                            <?php
-                                                                        endif;
+                                                                                    echo '<div class="file-unavailable pointer"><p class="yellowtext">File not<br>readable</p></div>';
+                                                                                }
+                                                                            endif ?>
+
+                                                                            <span class="font-size-13">
+                                                                                <img src="/assets/icons/picture.svg" class="icon" /> (<?= $filesize ?>)
+                                                                            </span>
+                                                                        </div>
+                                                                        <?php
                                                                     endif;
 
                                                                     /**
@@ -309,34 +310,27 @@
                                                                     /**
                                                                      *  Case it's a movie and the thumbnail option is enabled
                                                                      */
-                                                                    if (MOTION_EVENTS_VIDEOS_THUMBNAIL) :
-                                                                        if (file_exists($filepath) and is_readable($filepath) and file_exists($filepath . '.thumbnail.jpg') and is_readable($filepath . '.thumbnail.jpg')) : ?>
-                                                                            <div class="event-media">
+                                                                    if (MOTION_EVENTS_VIDEOS_THUMBNAIL) : ?>
+                                                                        <div class="event-media">
+                                                                            <?php
+                                                                            if (file_exists($filepath) and is_readable($filepath) and file_exists($filepath . '.thumbnail.jpg') and is_readable($filepath . '.thumbnail.jpg')) : ?>
                                                                                 <img src="/media?thumbnail&id=<?= $fileId ?>" class="play-video-btn media-thumbnail pointer" file-id="<?= $fileId ?>" title="Play video" onerror="setVideoThumbnailUnavailable(<?= $fileId ?>)" />
-                                                                                <span class="font-size-13">
-                                                                                    <img src="/assets/icons/video.svg" class="icon" /> (<?= $filesize ?>)
-                                                                                </span>
-                                                                            </div>
-                                                                            <?php
-                                                                        else : ?>
-                                                                            <div class="flex flex-direction-column align-item-center">
-                                                                                <div class="flex align-item-center">
-                                                                                    <img src="/assets/icons/video.svg" class="icon" />
-                                                                                    <p>Video</p>
-                                                                                </div>
                                                                                 <?php
+                                                                            else :
                                                                                 if (!file_exists($filepath)) {
-                                                                                    echo '<span class="redtext"> (deleted)</span>';
+                                                                                    echo '<div class="file-unavailable"><p class="redtext">File<br>deleted</p></div>';
                                                                                 } elseif (!is_readable($filepath)) {
-                                                                                    echo '<span class="yellowtext"> (not readable)</span>';
-                                                                                } elseif (!file_exists($filepath . '.thumbnail.jpg')) {
-                                                                                    echo '<span class="yellowtext"> (thumbnail not available)</span>';
-                                                                                } elseif (!is_readable($filepath . '.thumbnail.jpg')) {
-                                                                                    echo '<span class="yellowtext"> (thumbnail not readable)</span>';
-                                                                                } ?>
-                                                                            </div>
-                                                                            <?php
-                                                                        endif;
+                                                                                    echo '<div class="file-unavailable pointer"><p class="yellowtext">File not<br>readable</p></div>';
+                                                                                } elseif (!file_exists($filepath . '.thumbnail.jpg') or !is_readable($filepath . '.thumbnail.jpg')) {
+                                                                                    echo '<div class="file-unavailable play-video-btn pointer" file-id="' . $fileId . '"><p>Preview<br>unavailable</p></div>';
+                                                                                }
+                                                                            endif ?>
+
+                                                                            <span class="font-size-13">
+                                                                                <img src="/assets/icons/video.svg" class="icon" /> (<?= $filesize ?>)
+                                                                            </span>
+                                                                        </div>
+                                                                        <?php
                                                                     endif;
 
                                                                     /**

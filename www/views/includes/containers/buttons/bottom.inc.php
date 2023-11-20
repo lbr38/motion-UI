@@ -17,7 +17,7 @@
         </div>
 
         <div class="relative">
-            <img src="/assets/icons/info.svg" class="pointer lowopacity slide-panel-btn" slide-panel="notification" title="Show notifications" />
+            <img src="/assets/icons/alarm.svg" class="pointer lowopacity slide-panel-btn" slide-panel="notification" title="Show notifications" />
             <?php
             if (NOTIFICATION != 0) : ?>
                 <span class="notification-count"><?= NOTIFICATION ?></span>

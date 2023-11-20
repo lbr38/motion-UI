@@ -4,7 +4,7 @@
  */
 function setVideoThumbnailUnavailable(fileId)
 {
-    $('.media-thumbnail[file-id=' + fileId + ']').replaceWith('<div class="thumbnail-unavailable play-video-btn pointer" file-id="' + fileId + '"><p>Preview<br>unavailable</p></div>');
+    $('.media-thumbnail[file-id=' + fileId + ']').replaceWith('<div class="file-unavailable play-video-btn pointer" file-id="' + fileId + '"><p>Preview<br>unavailable</p></div>');
 }
 
 /**
@@ -172,7 +172,7 @@ $(document).on('click','.event-next-btn',function () {
     /**
      *  Print loading animation
      */
-    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="div-generic-blue"><div class="flex justify-center"><img src="/assets/icons/loading.gif" class="icon"/><span>Loading</span></div></div>');
+    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="event-loading min-height-200 flex justify-center"><img src="/assets/icons/loading.gif" /></div>');
 
     /**
      *  Reload the event container matching the date
@@ -219,7 +219,7 @@ $(document).on('click','.event-previous-btn',function () {
     /**
      *  Print loading animation
      */
-    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="div-generic-blue"><div class="flex justify-center"><img src="/assets/icons/loading.gif" class="icon"/><span>Loading</span></div></div>');
+    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="event-loading min-height-200 flex justify-center"><img src="/assets/icons/loading.gif" /></div>');
 
     /**
      *  Reload the event container matching the date
