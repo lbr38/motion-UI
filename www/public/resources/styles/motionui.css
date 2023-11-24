@@ -82,12 +82,9 @@ h3 {
 }
 
 .btn-square-green {
-    /* -webkit-box-shadow: 0px 0px 10px 0.5px rgb(0 0 0 / 40%); */
-    /* box-shadow: 0px 0px 10px 0.5px rgb(0 0 0 / 40%); */
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 .btn-square-red {
-    -webkit-box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
     box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
 }
 .btn-square-blue {
@@ -228,6 +225,12 @@ h3 {
     font-size: 18px;
 }
 
+.event-previous-next-btns {
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+}
+
 .event-time {
     font-size: 16px;
     padding: 10px 10px 10px 0;
@@ -255,7 +258,7 @@ h3 {
     margin-bottom: 15px;
 }
 
-.event-running img {
+.event-running img, .event-loading img {
     height: 20px;
 }
 
@@ -542,6 +545,7 @@ footer #github img { width: 25px; }
 .event-media-row > div:first-child {
     display: grid;
     grid-template-columns: 150px minmax(auto, 50%);
+    column-gap: 5px;
     align-items: center;
 }
 
@@ -575,13 +579,13 @@ footer #github img { width: 25px; }
     opacity: 1;
 }
 
-.thumbnail-unavailable {
+.file-unavailable {
     background: #181818de;
     padding: 15px 20px 25px 20px;
     border-radius: 4px;
 }
 
-.thumbnail-unavailable p {
+.file-unavailable p {
     text-align: center;
 }
 
@@ -713,6 +717,10 @@ pre {
     .event-container {
         display: flex;
         flex-direction: row;
+    }
+
+    .event-previous-next-btns {
+        justify-content: flex-end;
     }
 
     .event-time {

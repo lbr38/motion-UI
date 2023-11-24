@@ -43,7 +43,16 @@
                     /**
                      *  Get camera configuration
                      */
-                    $camera = $mycamera->getConfiguration($cameraId); ?>
+                    $camera = $mycamera->getConfiguration($cameraId);
+
+                    /**
+                     *  If camera stream is disabled and we are on live page, skip this camera
+                     */
+                    if (__ACTUAL_URI__ == '/live' or (__ACTUAL_URI__ == '/ajax/controller.php')) {
+                        if ($camera['Live_enabled'] == 'false') {
+                            continue;
+                        }
+                    } ?>
 
                     <div class="camera-container" camera-id="<?= $camera['Id'] ?>">
                         <?php
@@ -53,8 +62,14 @@
                         if (((__ACTUAL_URI__ == '/live') or ((__ACTUAL_URI__ == '/') and STREAM_ON_MAIN_PAGE === true) or (__ACTUAL_URI__ == '/ajax/controller.php')) and preg_match('#(^http?://|^https://)#', $camera['Url'])) : ?>
                             <div class="camera-output">
                                 <?php
-                                if ($camera['Live_enabled'] == 'false') :
-                                    echo '<p>Live stream disabled</p>';
+                                if ($camera['Live_enabled'] == 'false') : ?>
+                                    <div class="flex align-item-center">
+                                        <div>
+                                            <button class="btn-square-none"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
+                                            <span class="block center lowopacity-cst">Live stream is disabled</span>
+                                        </div>
+                                    </div>
+                                    <?php
                                 endif;
 
                                 if ($camera['Live_enabled'] == 'true') : ?>
