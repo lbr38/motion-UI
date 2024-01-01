@@ -37,9 +37,16 @@ class Autoloader
              *  Useful to redirect to the same page after logout/login
              */
             if (!empty($_SERVER['REQUEST_URI'])) {
-                if ($_SERVER["REQUEST_URI"] != '/login' and $_SERVER["REQUEST_URI"] != '/logout') {
-                    setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
+                $origin = $_SERVER['REQUEST_URI'];
+
+                /**
+                 *  If the URI is '/login', '/logout' or '/media' then redirect to '/'
+                 */
+                if (in_array($_SERVER['REQUEST_URI'], array('/login', '/logout', '/media'))) {
+                    $origin = '/';
                 }
+
+                setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
             }
 
             \Controllers\App\Config\Properties::get();

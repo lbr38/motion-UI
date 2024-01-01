@@ -138,7 +138,29 @@ $(document).on('submit','#new-camera-form',function () {
     var motionEnable = $(this).find('input[type=checkbox][name=camera-motion-enable]').is(':checked');
     var streamUrl = $(this).find('input[type=text][name=camera-stream-url]').val();
 
-    add(name, url, streamUrl, outputType, outputResolution, refresh, liveEnable, motionEnable, username, password);
+    ajaxRequest(
+        // Controller:
+        'camera',
+        // Action:
+        'add',
+        // Data:
+        {
+            name: name,
+            url: url,
+            streamUrl: streamUrl,
+            outputType: outputType,
+            outputResolution: outputResolution,
+            refresh: refresh,
+            liveEnable: liveEnable,
+            motionEnable: motionEnable,
+            username: username,
+            password: password
+        },
+        // Reload containers:
+        [ 'getting-started', 'buttons/main', 'cameras/list' ],
+        // Execute functions :
+        [ hideLoading() ]
+    );
 
     return false;
 });
@@ -167,7 +189,30 @@ $(document).on('submit','#camera-global-settings-form',function () {
         var refresh = $(this).find('input[type=number][name=edit-camera-refresh]').val();
     }
 
-    edit(id, name, url, streamUrl, outputResolution, refresh, rotate, liveEnable, motionEnable, username, password);
+    ajaxRequest(
+        // Controller:
+        'camera',
+        // Action:
+        'edit',
+        // Data:
+        {
+            id: id,
+            name: name,
+            url: url,
+            streamUrl: streamUrl,
+            outputResolution: outputResolution,
+            refresh: refresh,
+            rotate: rotate,
+            liveEnable: liveEnable,
+            motionEnable: motionEnable,
+            username: username,
+            password: password
+        },
+        // Reload containers:
+        [ 'getting-started', 'buttons/main', 'cameras/list' ],
+        // Execute functions :
+        [ hideLoading(), reloadEditForm(id) ]
+    );
 
     return false;
 });
@@ -179,7 +224,20 @@ $(document).on('click','.delete-camera-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
     confirmBox('Are you sure you want to delete this camera?', function () {
-        deleteCamera(cameraId);
+        ajaxRequest(
+            // Controller:
+            'camera',
+            // Action:
+            'delete',
+            // Data:
+            {
+                cameraId: cameraId,
+            },
+            // Reload containers:
+            [ 'getting-started', 'buttons/main', 'cameras/list' ],
+            // Execute functions :
+            [ hideLoading() ]
+        );
     });
 });
 
@@ -245,51 +303,6 @@ $(document).on('click','.close-full-screen-camera-btn',function () {
 });
 
 /**
- * Ajax : add a new camera
- * @param {*} name
- * @param {*} url
- * @param {*} outputType
- * @param {*} outputResolution
- * @param {*} refresh
- * @param {*} username
- * @param {*} password
- */
-function add(name, url, streamUrl, outputType, outputResolution, refresh, liveEnable, motionEnable, username, password)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "camera",
-            action: "add",
-            name: name,
-            url: url,
-            streamUrl: streamUrl,
-            outputType: outputType,
-            outputResolution: outputResolution,
-            refresh: refresh,
-            liveEnable: liveEnable,
-            motionEnable: motionEnable,
-            username: username,
-            password: password
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContainer('getting-started');
-            reloadContainer('buttons/main');
-            reloadContainer('cameras/list');
-            hideLoading();
-        },
-        error: function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
  * Ajax: get camera configuration form
  * @param {*} id
  */
@@ -334,87 +347,6 @@ function reloadEditForm(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             $('#camera-edit-form-container').html(jsonValue.message);
-        },
-        error: function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax : edit camera configuration
- * @param {*} id
- * @param {*} name
- * @param {*} url
- * @param {*} streamUrl
- * @param {*} outputResolution
- * @param {*} refresh
- * @param {*} rotate
- * @param {*} liveEnable
- * @param {*} motionEnable
- * @param {*} username
- * @param {*} password
- */
-function edit(id, name, url, streamUrl, outputResolution, refresh, rotate, liveEnable, motionEnable, username, password)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "camera",
-            action: "edit",
-            id: id,
-            name: name,
-            url: url,
-            streamUrl: streamUrl,
-            outputResolution: outputResolution,
-            refresh: refresh,
-            rotate: rotate,
-            liveEnable: liveEnable,
-            motionEnable: motionEnable,
-            username: username,
-            password: password
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadEditForm(id);
-            reloadContainer('getting-started');
-            reloadContainer('buttons/main');
-            reloadContainer('cameras/list');
-            hideLoading();
-        },
-        error: function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax : delete camera
- * @param {*} cameraId
- */
-function deleteCamera(cameraId)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "camera",
-            action: "delete",
-            cameraId: cameraId
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContainer('getting-started');
-            reloadContainer('buttons/main');
-            reloadContainer('cameras/list');
-            hideLoading();
         },
         error: function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

@@ -97,18 +97,18 @@
                                 <div class="event-previous-next-btns">
                                     <?php
                                     if ($offset > 0) : ?>
-                                        <div class="slide-btn event-previous-btn" event-date="<?= $eventDate ?>" title="Previous events">
+                                        <div class="slide-btn event-previous-btn" event-date="<?= $eventDate ?>" title="Newer events">
                                             <img src="/assets/icons/previous.svg" />
-                                            <span>Previous events</span>
+                                            <span>Previous</span>
                                         </div>
                                         <?php
                                     endif;
 
                                     if ($offset >= 0) :
                                         if ($totalEventsCount > $offset + 5) : ?>
-                                            <div class="slide-btn event-next-btn" event-date="<?= $eventDate ?>" title="Next events">
+                                            <div class="slide-btn event-next-btn" event-date="<?= $eventDate ?>" title="Older events">
                                                 <img src="/assets/icons/next.svg" />
-                                                <span>Next events</span>
+                                                <span>Next</span>
                                             </div>
                                             <?php
                                         endif;

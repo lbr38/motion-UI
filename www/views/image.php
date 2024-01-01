@@ -1,19 +1,6 @@
 <?php
 
 $mycamera = new \Controllers\Camera();
-$contextArray = array();
-
-/**
- *  Set default socket timeout to 2 seconds
- *  Will apply to readfile
- */
-stream_context_set_default(
-    array(
-        'http' => array(
-            'timeout' => 2
-        )
-    )
-);
 
 /**
  *  Check that specified camera Id is valid
@@ -32,20 +19,42 @@ if (!$mycamera->existId($_GET['id'])) {
  *  Get camera configuration
  */
 $configuration = $mycamera->getConfiguration($_GET['id']);
-
 $url = $configuration['Url'];
 $username = $configuration['Username'];
 $password = $configuration['Password'];
 
 /**
- *  Use username and password if not empty
+ *  Define context options
+ */
+$context = [
+    'http' => [
+        'timeout' => 2,
+        'method' => 'GET'
+    ]
+];
+
+/**
+ *  Append username and password if not empty
+ *  Convert to base64
  */
 if (!empty($username) and !empty($password)) {
-    $contextArray['http']['header'] = 'Authorization: Basic ' . base64_encode($username . ':' . $password);
+    $context['http']['header'] = 'Authorization: Basic ' . base64_encode($username . ':' . $password);
 }
 
-$context = stream_context_create($contextArray);
+/**
+ *  Set default socket timeout to 2 seconds
+ *  Will apply to readfile
+ */
+stream_context_set_default($context);
+
+/**
+ *  Clear memory
+ */
+unset($mycamera, $context, $configuration, $username, $password);
 
 ob_end_flush();
 
-readfile($url, false, $context);
+/**
+ *  Read distant file (stream)
+ */
+readfile($url, false);

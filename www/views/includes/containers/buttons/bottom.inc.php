@@ -30,7 +30,7 @@
         </div>
 
         <?php
-        if (__ACTUAL_URI__ == '/') : ?>
+        if (__ACTUAL_URI__[1] == '') : ?>
             <div>
                 <img src="/assets/icons/cog.svg" class="pointer lowopacity slide-panel-btn" slide-panel="settings" title="Show settings" />
             </div>
@@ -42,7 +42,7 @@
         </div>
 
         <?php
-        if (__ACTUAL_URI__ == '/live') : ?>
+        if (__ACTUAL_URI__[1] == 'live') : ?>
             <div>
                 <a href="/"><img src="/assets/icons/back.svg" class="pointer lowopacity" title="Go back" /></a>
             </div>

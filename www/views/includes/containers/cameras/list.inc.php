@@ -1,12 +1,12 @@
 <section class="main-container reloadable-container" container="cameras/list">
     <?php
     if ($cameraTotal > 0) :
-        if (__ACTUAL_URI__ != '/live') : ?>
+        if (__ACTUAL_URI__[1] == '') : ?>
             <h3>CAMERAS</h3>
             <?php
         endif;
 
-        if ((__ACTUAL_URI__ == '/live') or ((__ACTUAL_URI__ == '/') and STREAM_ON_MAIN_PAGE === true)) : ?>
+        if ((__ACTUAL_URI__[1] == 'live') or ((__ACTUAL_URI__[1] == '') and STREAM_ON_MAIN_PAGE === true)) : ?>
             <div id="live-grid-layout-btns">
                 <div>
                     <div class="grid-icon-2 live-layout-btn pointer lowopacity" columns="2" title="Change grid layout to 2 items per row">
@@ -48,7 +48,7 @@
                     /**
                      *  If camera stream is disabled and we are on live page, skip this camera
                      */
-                    if (__ACTUAL_URI__ == '/live' or (__ACTUAL_URI__ == '/ajax/controller.php')) {
+                    if (__ACTUAL_URI__[1] == 'live' or (__ACTUAL_URI__[1] == 'ajax')) {
                         if ($camera['Live_enabled'] == 'false') {
                             continue;
                         }
@@ -59,7 +59,7 @@
                         /**
                          *  Display camera only if allowed on this page and if URL starts with http(s)://
                          */
-                        if (((__ACTUAL_URI__ == '/live') or ((__ACTUAL_URI__ == '/') and STREAM_ON_MAIN_PAGE === true) or (__ACTUAL_URI__ == '/ajax/controller.php')) and preg_match('#(^http?://|^https://)#', $camera['Url'])) : ?>
+                        if (((__ACTUAL_URI__[1] == 'live') or ((__ACTUAL_URI__[1] == '') and STREAM_ON_MAIN_PAGE === true) or (__ACTUAL_URI__[1] == 'ajax')) and preg_match('#(^http?://|^https://)#', $camera['Url'])) : ?>
                             <div class="camera-output">
                                 <?php
                                 if ($camera['Live_enabled'] == 'false') : ?>

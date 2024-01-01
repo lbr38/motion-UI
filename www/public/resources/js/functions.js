@@ -61,69 +61,64 @@ function confirmBox(message, myfunction1, confirmBox1 = 'Delete', myfunction2 = 
     $("#newConfirmAlert").remove();
 
     /**
-     *  Wait 50ms before creating new confirm box
+     *  Case there is three choices
      */
-    setTimeout(function () {
-        /**
-         *  Case there is three choices
-         */
-        if (myfunction2 != null && confirmBox2 != null) {
-            var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm1">' + confirmBox1 + '</span><span class="pointer btn-doConfirm2">' + confirmBox2 + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
-        /**
-         *  Case there is two choices
-         */
-        } else {
-            var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm1">' + confirmBox1 + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
-        }
+    if (myfunction2 != null && confirmBox2 != null) {
+        var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm1">' + confirmBox1 + '</span><span class="pointer btn-doConfirm2">' + confirmBox2 + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
+    /**
+     *  Case there is two choices
+     */
+    } else {
+        var $content = '<div id="newConfirmAlert" class="confirmAlert"><span></span><span>' + message + '</span><div class="confirmAlert-buttons-container"><span class="pointer btn-doConfirm1">' + confirmBox1 + '</span><span class="pointer btn-doCancel">Cancel</span></div></div>';
+    }
 
-        $('footer').append($content);
+    $('footer').append($content);
+
+    /**
+     *  If choice one is clicked
+     */
+    $('.btn-doConfirm1').click(function () {
+        /**
+         *  Execute function 1
+         */
+        myfunction1();
 
         /**
-         *  If choice one is clicked
+         *  Then remove alert
          */
-        $('.btn-doConfirm1').click(function () {
-            /**
-             *  Execute function 1
-             */
-            myfunction1();
-
-            /**
-             *  Then remove alert
-             */
-            $("#newConfirmAlert").slideToggle(0, function () {
-                $("#newConfirmAlert").remove();
-            });
+        $("#newConfirmAlert").slideToggle(0, function () {
+            $("#newConfirmAlert").remove();
         });
+    });
+
+    /**
+     *  If choice two is clicked
+     */
+    $('.btn-doConfirm2').click(function () {
+        /**
+         *  Execute function 2
+         */
+        myfunction2();
 
         /**
-         *  If choice two is clicked
+         *  Then remove alert
          */
-        $('.btn-doConfirm2').click(function () {
-            /**
-             *  Execute function 2
-             */
-            myfunction2();
-
-            /**
-             *  Then remove alert
-             */
-            $("#newConfirmAlert").slideToggle(0, function () {
-                $("#newConfirmAlert").remove();
-            });
+        $("#newConfirmAlert").slideToggle(0, function () {
+            $("#newConfirmAlert").remove();
         });
+    });
 
+    /**
+     *  If 'cancel' choice is clicked
+     */
+    $('.btn-doCancel').click(function () {
         /**
-         *  If 'cancel' choice is clicked
+         *  Remove alert
          */
-        $('.btn-doCancel').click(function () {
-            /**
-             *  Remove alert
-             */
-            $("#newConfirmAlert").slideToggle(0, function () {
-                $("#newConfirmAlert").remove();
-            });
+        $("#newConfirmAlert").slideToggle(0, function () {
+            $("#newConfirmAlert").remove();
         });
-    }, 50);
+    });
 }
 
 
@@ -201,7 +196,8 @@ function reloadContainer(container)
         data: {
             controller: "general",
             action: "getContainer",
-            container: container
+            container: container,
+            sourceUri: window.location.pathname,
         },
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
@@ -268,6 +264,80 @@ function getContainerState()
             });
         },
         error : function (jqXHR, textStatus, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
+}
+
+/**
+ * Execute an ajax request
+ * @param {*} controller
+ * @param {*} action
+ * @param {*} additionnalData
+ * @param {*} reloadContainers
+ */
+function ajaxRequest(controller, action, additionnalData = null, reloadContainers = null, execOnSuccess = null, execOnError = null)
+{
+    /**
+     *  Default data
+     */
+    var data = {
+        sourceUrl: window.location.href,
+        sourceUri: window.location.pathname,
+        controller: controller,
+        action: action,
+    };
+
+    /**
+     *  If additionnal data is specified, merge it with default data
+     */
+    if (additionnalData != null) {
+        data = $.extend(data, additionnalData);
+    }
+
+    /**
+     *  For debug only
+     */
+    // console.log(data);
+
+    /**
+     *  Ajax request
+     */
+    $.ajax({
+        type: "POST",
+        url: "/ajax/controller.php",
+        data: data,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            /**
+             *  Retrieve and print success message
+             */
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'success');
+
+            /**
+             *  Reload containers if specified
+             */
+            if (reloadContainers != null) {
+                for (let i = 0; i < reloadContainers.length; i++) {
+                    reloadContainer(reloadContainers[i]);
+                }
+            }
+
+            /**
+             *  Execute function(s) if specified
+             */
+            if (execOnSuccess != null) {
+                for (let i = 0; i < execOnSuccess.length; i++) {
+                    eval(execOnSuccess[i]);
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, thrownError) {
+            /**
+             *  Retrieve and print error message
+             */
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'error');
         },

@@ -7,7 +7,7 @@ $(document).ready(function () {
      *  Reload CPU load every 5 seconds
      */
     setInterval(function () {
-        reloadContentById('currentload');
+        reloadContainer('buttons/bottom');
     }, 5000);
 });
 

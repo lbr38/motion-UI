@@ -3,6 +3,10 @@
 <form id="autostart-conf-form" autocomplete="off">
     <br>
     <h4>Autostart time period</h4>
+
+    <p class="lowopacity-cst">For each day, define the time period in which <code>motion</code> will be running. Outside of this time period, <code>motion</code> will be stopped.</p>
+    <br>
+
     <br>
     <table class="config-table">
         <tr>
@@ -45,11 +49,18 @@
             <td><input type="time" name="sunday-start" value="<?= $autostartConfiguration['Sunday_start'] ?>" /></td>
             <td><input type="time" name="sunday-end" value="<?= $autostartConfiguration['Sunday_end'] ?>" /></td>
         </tr>
-        <?php
-        if ($autostartDevicePresenceEnabled == 'enabled') {
-            echo '<tr><td colspan="100%"><p class="yellowtext">Autostart and stop on device presence is enabled. It will overwrite this configuration.</p></td></tr>';
-        } ?>
-    </table>
+     </table>
+
+    <br>
+    <p class="lowopacity-cst">Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> if you wish not to run motion on a specific day.</p>
+    <br>
+    <p class="lowopacity-cst">Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> if you wish to run motion <b>24hours a day</b>.</p>
+
+    <?php
+    if ($autostartDevicePresenceEnabled == 'enabled') {
+        echo '<br><p class="yellowtext">Autostart and stop on device presence is enabled. It will overwrite this configuration.</p>';
+    } ?>
+
     <br>
     <button type="submit" class="btn-small-green">Save</button>
 </form>

@@ -1,4 +1,4 @@
-<footer>
+<footer class="margin-bottom-40">
     <div>
         <h5>HELP</h5>
         <div>
@@ -23,6 +23,7 @@
         <p class="lowopacity-cst">motion-UI - release version <?= VERSION ?></p>
         <br>
         <p class="lowopacity-cst">motion-UI is a free and open source software, licensed under the <a target="_blank" rel="noopener noreferrer" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> license.</p>
+        <br><br><br>
     </div>
 </footer>
 
