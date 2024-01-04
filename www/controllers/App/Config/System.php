@@ -51,11 +51,21 @@ class System
         /**
          *  URI
          */
-        if (!empty($_SERVER['REQUEST_URI'])) {
-            if (!defined('__ACTUAL_URI__')) {
-                define('__ACTUAL_URI__', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH));
+        if (!defined('__ACTUAL_URI__')) {
+            /**
+             *  If sourceUri is set (POST request from ajax) then we use it
+             */
+            if (!empty($_POST['sourceUri'])) {
+                define('__ACTUAL_URI__', explode('/', $_POST['sourceUri']));
+            } else {
+                if (!empty($_SERVER["REQUEST_URI"])) {
+                    define('__ACTUAL_URI__', explode('/', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)));
+                } else {
+                    define('__ACTUAL_URI__', '');
+                }
             }
         }
+
         /**
          *  Paramètres
          */

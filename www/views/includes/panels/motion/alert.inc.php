@@ -5,6 +5,9 @@
 <br>
 <h4>Alerts time period</h4>
 
+<p class="lowopacity-cst">For each day, define the time period in which alerts will be sent. Outside of this time period, no alert will be sent.</p>
+<br>
+
 <p class="lowopacity-cst">Actual timezone: <?= date_default_timezone_get() ?></p>
 <br>
 
@@ -52,10 +55,16 @@
         </tr>
         <tr title="Specify mail alert recipient(s), separated by a comma.">
             <th class="td-10">Mail recipient</th>
-            <td colspan="2"><input type="email" name="mail-recipient" value="<?= $alertConfiguration['Recipient'] ?>" required />
+            <td colspan="2"><input type="email" name="mail-recipient" value="<?= $alertConfiguration['Recipient'] ?>" multiple required />
         </tr>
     </table>
+
     <br>
+    <p class="lowopacity-cst">Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> if you wish not to receive any alert on one specific day of the week.</p>
+    <br>
+    <p class="lowopacity-cst">Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> if you wish to receive alerts <b>24hours a day</b>.</p>
+    <br>
+
     <button type="submit" class="btn-small-green">Save</button>
 </form>
 

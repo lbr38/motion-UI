@@ -22,9 +22,14 @@ function deleteMedia()
         mediaId.push(id);
     });
 
-    confirmBox('Are you sure you want to delete the selected media(s)?', function () {
-        deleteMediaAjax(mediaId);
-    });
+    /**
+     *  Wait for previous confirm box to be removed
+     */
+    setTimeout(function () {
+        confirmBox('Are you sure you want to delete the selected media(s)?', function () {
+            deleteMediaAjax(mediaId);
+        });
+    }, 10);
 }
 
 /**
@@ -492,10 +497,10 @@ function startStopMotion(status)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             if (status == 'start') {
-                printAlert('Starting motion service...', 'success');
+                printAlert('Starting motion service, please wait...', 'success');
             }
             if (status == 'stop') {
-                printAlert('Stopping motion service...', 'success');
+                printAlert('Stopping motion service, please wait...', 'success');
             }
         },
         error : function (jqXHR, ajaxOptions, thrownError) {

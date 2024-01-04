@@ -33,13 +33,16 @@ h3 {
     position: absolute;
     right: -9px;
     top: -9px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px !important;
     border: none;
-    border-radius: 2px;
+    border-radius: 50%;
     color: white;
     background-color: #ff0044;
-    padding: 1px 3px;
     text-align: center;
-    font-size: 12px;
+    font-size: 9px;
+    font-family: monospace;
     text-decoration: none;
 }
 
@@ -725,7 +728,6 @@ pre {
 
     .event-time {
         font-size: 22px;
-        border-right: 1px solid #24405c66;
     }
 
     .event-camera {

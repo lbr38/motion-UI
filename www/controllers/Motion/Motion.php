@@ -60,8 +60,27 @@ class Motion
                 throw new Exception('<b>' . $option['name'] . '</b> parameter name contains invalid caracter(s)');
             }
 
-            if (\Controllers\Common::isAlphanumDash($option['value'], array('.', ' ', ',', ':', '/', '%Y', '%m', '%d', '%H', '%M', '%S', '%q', '%v', '%t', '%w', '%h', '%D', '%f', '%{eventid}', '%{fps}', '(', ')', '=', '\'', '[', ']', '@')) === false) {
-                throw new Exception('<b>' . $option['name'] . '</b> parameter value contains invalid caracter(s)');
+            /**
+             *  Case the option is 'netcam_url' or 'netcam_high_url'
+             */
+            if ($option['name'] == 'netcam_url' or $option['name'] == 'netcam_high_url') {
+                /**
+                 *  Check that URL starts with http:// or https://
+                 */
+                if (!preg_match('#(^https?://)#', $option['value'])) {
+                    throw new Exception('<b>' . $option['name'] . '</b> parameter value must start with http:// or https://');
+                }
+
+                if (\Controllers\Common::isAlphanumDash($option['value'], array('.', '/', ':', '=', '?', '&', '@')) === false) {
+                    throw new Exception('<b>' . $option['name'] . '</b> parameter value contains invalid caracter(s)');
+                }
+            /**
+             *  All other options
+             */
+            } else {
+                if (\Controllers\Common::isAlphanumDash($option['value'], array('.', ' ', ',', ':', '/', '%Y', '%m', '%d', '%H', '%M', '%S', '%q', '%v', '%t', '%w', '%h', '%D', '%f', '%{eventid}', '%{fps}', '(', ')', '=', '\'', '[', ']', '@')) === false) {
+                    throw new Exception('<b>' . $option['name'] . '</b> parameter value contains invalid caracter(s)');
+                }
             }
 
             $optionName = \Controllers\Common::validateData($option['name']);

@@ -216,16 +216,28 @@ class Autostart
                 $autostartTodayStart = $timeSlots[$day . '_start'];
                 $autostartTodayEnd = $timeSlots[$day . '_end'];
 
+                /**
+                 *  If autostart time slot end is 00:00, then set it to 23:59:59 to be able to compare it with actual time
+                 */
                 if ($autostartTodayEnd == '00:00') {
                     $autostartTodayEnd = '23:59:59';
                 }
 
                 /**
-                 *  If no autostart is configured for the actual day, then quit
+                 *  If no autostart is configured for the actual day, then stop motion and quit
+                 *  (no autostart configured means motion should not be started)
                  */
                 if (empty($autostartTodayStart) || empty($autostartTodayEnd)) {
                     echo 'No autostart configured for today' . PHP_EOL;
-                    ;
+
+                    if ($this->motionService->isRunning()) {
+                        echo 'Stopping motion' . PHP_EOL;
+                        if (!$this->motionService->stop()) {
+                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
+                        }
+                    }
+
+                    sleep(5);
                     continue;
                 }
 
