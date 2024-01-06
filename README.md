@@ -26,6 +26,10 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 - Edit **motion** configuration files.
 - Visualize http cameras stream.
 
+## 📱 Android app (new!)
+
+An Android app ``beta`` is available.
+
 <hr>
 
 

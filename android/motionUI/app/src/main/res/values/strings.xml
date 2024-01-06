@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">motionUI</string>
+    <color name="motionUIBlue">#112334</color>
+    <color name="motionUIGreen">#15bf7f</color>
+</resources>
