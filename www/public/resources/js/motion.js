@@ -153,7 +153,7 @@ $(document).on('change','.event-date-input',function () {
 });
 
 /**
- *  Event: print previous 5 events
+ *  Event: print next 5 events
  */
 $(document).on('click','.event-next-btn',function () {
     /**
@@ -175,9 +175,9 @@ $(document).on('click','.event-next-btn',function () {
     setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
 
     /**
-     *  Print loading animation
+     *  Print loading veil
      */
-    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="event-loading min-height-200 flex justify-center"><img src="/assets/icons/loading.gif" /></div>');
+    printLoadingVeilByParentClass('event-date-container[event-date="' + eventDate + '"]');
 
     /**
      *  Reload the event container matching the date
@@ -191,7 +191,7 @@ $(document).on('click','.event-next-btn',function () {
 });
 
 /**
- *  Event: print next 5 events
+ *  Event: print previous 5 events
  */
 $(document).on('click','.event-previous-btn',function () {
     /**
@@ -222,9 +222,9 @@ $(document).on('click','.event-previous-btn',function () {
     setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
 
     /**
-     *  Print loading animation
+     *  Print loading veil
      */
-    $('.event-date-container[event-date="' + eventDate + '"]').find('.events-container').html('<div class="event-loading min-height-200 flex justify-center"><img src="/assets/icons/loading.gif" /></div>');
+    printLoadingVeilByParentClass('event-date-container[event-date="' + eventDate + '"]');
 
     /**
      *  Reload the event container matching the date
@@ -362,9 +362,9 @@ $(document).on('submit','.camera-motion-settings-form',function () {
      */
 
     /**
-     *  First count all input that has name=option-name in the form
+     *  First count all span that has name=option-name in the form
      */
-    var countTotal = $(this).find('input[name=option-name]').length
+    var countTotal = $(this).find('span[name=option-name]').length
 
     /**
      *  Every configuration param and its value have an Id
@@ -380,10 +380,11 @@ $(document).on('submit','.camera-motion-settings-form',function () {
             } else {
                 var option_status = '';
             }
+
             /**
              *  Get parameter name and its value
              */
-            var option_name = $(this).find('input[name=option-name][option-id=' + i + ']').val();
+            var option_name = $(this).find('span[name=option-name][option-id=' + i + ']').attr('value');
             var option_value = $(this).find('input[name=option-value][option-id=' + i + ']').val()
 
             /**
@@ -398,6 +399,25 @@ $(document).on('submit','.camera-motion-settings-form',function () {
             );
         }
     }
+
+    /**
+     *  Add additional parameter if any
+     */
+    if ($(this).find('input[name=additional-option-status]').is(':checked')) {
+        var option_status = 'enabled';
+    } else {
+        var option_status = '';
+    }
+    var option_name = $(this).find('input[name=additional-option-name]').val();
+    var option_value = $(this).find('input[name=additional-option-value]').val();
+
+    options_array.push(
+        {
+            status: option_status,
+            name: option_name,
+            value: option_value
+        }
+    );
 
     configure(cameraId, options_array);
 
@@ -797,7 +817,7 @@ function configure(cameraId, options_array)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadEditForm(id);
+            reloadEditForm(cameraId);
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

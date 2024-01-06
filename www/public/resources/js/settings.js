@@ -29,23 +29,18 @@ $(document).on('click','#save-settings-btn',function () {
  *  Event: enable / disable motion configuration's advanced edition mode
  */
 $(document).on('click','#motion-advanced-edition-mode',function () {
+    var cameraId = $(this).attr('camera-id');
+
     if ($(this).is(':checked')) {
         advancedEditionMode(true);
-
-        /**
-         *  Print all advanced parameters fields
-         */
-        $('.advanced-param').css('display', 'table-row');
-        $('#advanced-edition-mode-warning').show();
     } else {
         advancedEditionMode(false);
-
-        /**
-         * Hide all advanced parameters fields
-         */
-        $('.advanced-param').hide();
-        $('#advanced-edition-mode-warning').hide();
     }
+
+    /**
+     *  Reload edit form
+     */
+    reloadEditForm(cameraId);
 });
 
 /**

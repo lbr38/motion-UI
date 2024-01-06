@@ -67,13 +67,13 @@ class Common
     /**
      *  Vérifie que la chaine passée ne contient que des chiffres ou des lettres
      */
-    public static function isAlphanum(string $data, array $additionnalValidCaracters = [])
+    public static function isAlphanum(string $data, array $additionalValidCaracters = [])
     {
         /**
          *  Si on a passé en argument des caractères supplémentaires à autoriser alors on les ignore dans le test en les remplacant temporairement par du vide
          */
-        if (!empty($additionnalValidCaracters)) {
-            if (!ctype_alnum(str_replace($additionnalValidCaracters, '', $data))) {
+        if (!empty($additionalValidCaracters)) {
+            if (!ctype_alnum(str_replace($additionalValidCaracters, '', $data))) {
                 return false;
             }
 
@@ -94,7 +94,7 @@ class Common
      *  Vérifie que la chaine passée ne contient que des chiffres ou des lettres, un underscore ou un tiret
      *  Retire temporairement les tirets et underscore de la chaine passée afin qu'elle soit ensuite testée par la fonction PHP ctype_alnum
      */
-    public static function isAlphanumDash(string $data, array $additionnalValidCaracters = [])
+    public static function isAlphanumDash(string $data, array $additionalValidCaracters = [])
     {
         /**
          *  Si une chaine vide a été transmise alors c'est valide
@@ -111,8 +111,8 @@ class Common
         /**
          *  Si on a passé en argument des caractères supplémentaires à autoriser alors on les ajoute à l'array $validCaracters
          */
-        if (!empty($additionnalValidCaracters)) {
-            $validCaracters = array_merge($validCaracters, $additionnalValidCaracters);
+        if (!empty($additionalValidCaracters)) {
+            $validCaracters = array_merge($validCaracters, $additionalValidCaracters);
         }
 
         if (!ctype_alnum(str_replace($validCaracters, '', $data))) {

@@ -45,6 +45,33 @@ $(document).on('click','.acquit-log-btn',function () {
 });
 
 /**
+ *  Reload opened or closed elements that where opened/closed before reloading
+ */
+function reloadOpenedClosedElements()
+{
+    /**
+     *  Retrieve sessionStorage with key finishing by /opened (<element>/opened)
+     */
+    var openedElements = Object.keys(sessionStorage).filter(function (key) {
+        return key.endsWith('/opened');
+    });
+
+    /**
+     *  If there are /opened elements set to true, open them
+     */
+    openedElements.forEach(function (element) {
+        if (sessionStorage.getItem(element) == 'true') {
+            var element = element.replace('/opened', '');
+            $(element).show();
+        }
+        if (sessionStorage.getItem(element) == 'false') {
+            var element = element.replace('/opened', '');
+            $(element).hide();
+        }
+    });
+}
+
+/**
  * Ajax: Mark log as read
  * @param {string} id
  */

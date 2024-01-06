@@ -460,6 +460,9 @@ class Camera
         $configuration = str_replace('__WIDTH__', $resolution[0], $configuration);
         $configuration = str_replace('__HEIGHT__', $resolution[1], $configuration);
 
+        /**
+         *  Set username and password for HTTP authentication if specified
+         */
         if (!empty($camera['Username']) and !empty($camera['Password'])) {
             $configuration = preg_replace('/.*netcam_userpass.*/i', 'netcam_userpass ' . $camera['Username'] . ':' . $camera['Password'], $configuration);
         }

@@ -245,13 +245,6 @@ h3 {
     overflow-y: auto;
 }
 
-.event-camera-id {
-    background: #15bf7f;
-    width: fit-content;
-    border-radius: 60px;
-    padding: 2px 8px;
-}
-
 .event-row {
     margin: 2px 0 0px 4px;
 }
@@ -311,15 +304,6 @@ h3 {
     flex-direction: column;
     align-items: flex-end;
     row-gap: 5px;
-}
-
-.motion-configuration-table {
-    margin-top: 30px;
-}
-
-.motion-configuration-table tr th {
-    overflow-wrap: anywhere;
-    word-wrap: break-all;
 }
 
 #autostart-btn-div, #alert-btn-div {
@@ -461,15 +445,6 @@ h3 {
     max-width: 100vw;
     display: block !important;
     margin: auto;
-}
-
-#new-camera-form, #camera-global-settings-form {
-    display: grid;
-    grid-template-columns: 30% 70%;
-    align-items: center;
-    row-gap: 10px;
-    column-gap: 5px;
-    padding: 15px;
 }
 
 .hide {

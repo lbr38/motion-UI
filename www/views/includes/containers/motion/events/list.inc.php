@@ -143,7 +143,7 @@
                                          */
                                         $eventFiles = $mymotionEvent->getFilesByMotionEventId($motionEventId); ?>
 
-                                        <div class="div-generic-blue event-container">
+                                        <div class="div-generic-blue event-container veil-on-reload">
                                             <div class="event-time">
                                                 <?= $eventTime ?>
                                             </div>
@@ -171,7 +171,7 @@
                                                          */ ?>
                                                         <div>
                                                         <div>
-                                                            <p class="event-camera-id">
+                                                            <p class="label-green">
                                                                 <b>
                                                                     <?php
                                                                     if (!empty($cameraName)) {
@@ -407,7 +407,7 @@
                                              *  If the event is still being processed by motion then print a loading icon
                                              */
                                             if ($eventStatus != 'done') {
-                                                echo '<div class="event-running"><img src="/assets/icons/loading.gif" class="icon" title="Processing event" /></div>';
+                                                echo '<div class="event-running"><img src="/assets/images/loading.gif" class="icon" title="Processing event" /></div>';
                                             } ?>
                                         </div>
                                         <?php

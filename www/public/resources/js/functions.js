@@ -121,6 +121,23 @@ function confirmBox(message, myfunction1, confirmBox1 = 'Delete', myfunction2 = 
     });
 }
 
+/**
+ *  Print a veil on specified element by class name, element must be relative
+ *  @param {*} name
+ */
+function printLoadingVeilByClass(name)
+{
+    $('.' + name).append('<div class="loading-veil"><img src="/assets/images/loading.gif" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+}
+
+/**
+ *  Find all child elements with class .veil-on-reload and print a veil on them, each element must be relative
+ *  @param {*} name
+ */
+function printLoadingVeilByParentClass(name)
+{
+    $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/images/loading.gif" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+}
 
 /**
  *  Reload content of an element, by its Id
@@ -179,9 +196,44 @@ function setCookie(cname, cvalue, exdays)
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;Secure";
 }
 
-function reloadPanel(panel)
+/**
+ * Reload panel and execute function if needed
+ * @param {*} panel
+ * @param {*} myfunction
+ */
+function reloadPanel(panel, myfunction = null)
 {
-    $(".slide-panel-reloadable-div[slide-panel='" + panel + "']").load(location.href + " .slide-panel-reloadable-div[slide-panel='" + panel + "'] > *");
+    /**
+     *  Print a loading icon on the bottom of the page
+     */
+    // printLoading();
+
+    /**
+     *  Check if panel has children with class .veil-on-reload
+     *  If so print a veil on them
+     */
+    if ($('.slide-panel-reloadable-div[slide-panel="' + panel + '"]').find('.veil-on-reload').length) {
+        printLoadingVeilByClass('veil-on-reload');
+    }
+
+    $('.slide-panel-reloadable-div[slide-panel="' + panel + '"]').load(' .slide-panel-reloadable-div[slide-panel="' + panel + '"] > *', function () {
+        /**
+         *  If myfunction is not null, execute it after reloading
+         */
+        if (myfunction != null) {
+            myfunction();
+        }
+
+        /**
+         *  Reload opened or closed elements that where opened/closed before reloading
+         */
+        reloadOpenedClosedElements();
+    });
+
+    /**
+     *  Hide loading icon
+     */
+    // hideLoading();
 }
 
 /**
@@ -190,14 +242,28 @@ function reloadPanel(panel)
  */
 function reloadContainer(container)
 {
+    /**
+     *  Print a loading icon on the bottom of the page
+     */
+    // printLoading();
+
+    /**
+     *  Check if container has children with class .veil-on-reload
+     *  If so print a veil on them
+     */
+    if ($('.reloadable-container[container="' + container + '"]').find('.veil-on-reload').length) {
+        printLoadingVeilByClass('veil-on-reload');
+    }
+
     $.ajax({
         type: "POST",
-        url: "ajax/controller.php",
+        url: "/ajax/controller.php",
         data: {
+            sourceUrl: window.location.href,
+            sourceUri: window.location.pathname,
             controller: "general",
             action: "getContainer",
-            container: container,
-            sourceUri: window.location.pathname,
+            container: container
         },
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
@@ -206,12 +272,22 @@ function reloadContainer(container)
              *  Replace container with itself, with new content
              */
             $('.reloadable-container[container="' + container + '"]').replaceWith(jsonValue.message);
+
+            /**
+             *  Reload opened or closed elements that were opened/closed before reloading
+             */
+            reloadOpenedClosedElements();
         },
-        error : function (jqXHR, textStatus, thrownError) {
+        error: function (jqXHR, textStatus, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'error');
         },
     });
+
+    /**
+     *  Hide loading icon
+     */
+    // hideLoading();
 }
 
 /**
@@ -274,10 +350,10 @@ function getContainerState()
  * Execute an ajax request
  * @param {*} controller
  * @param {*} action
- * @param {*} additionnalData
+ * @param {*} additionalData
  * @param {*} reloadContainers
  */
-function ajaxRequest(controller, action, additionnalData = null, reloadContainers = null, execOnSuccess = null, execOnError = null)
+function ajaxRequest(controller, action, additionalData = null, reloadContainers = null, execOnSuccess = null, execOnError = null)
 {
     /**
      *  Default data
@@ -290,10 +366,10 @@ function ajaxRequest(controller, action, additionnalData = null, reloadContainer
     };
 
     /**
-     *  If additionnal data is specified, merge it with default data
+     *  If additional data is specified, merge it with default data
      */
-    if (additionnalData != null) {
-        data = $.extend(data, additionnalData);
+    if (additionalData != null) {
+        data = $.extend(data, additionalData);
     }
 
     /**

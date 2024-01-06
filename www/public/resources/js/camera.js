@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    hideLoading();
+    hideCameraLoading();
     reloadImage();
 
     /**
@@ -14,7 +14,7 @@ $(document).ready(function () {
 /**
  *  Hide loading div
  */
-function hideLoading()
+function hideCameraLoading()
 {
     if (!$('.camera-container').find('.camera-loading')) {
         return;
@@ -159,7 +159,7 @@ $(document).on('submit','#new-camera-form',function () {
         // Reload containers:
         [ 'getting-started', 'buttons/main', 'cameras/list' ],
         // Execute functions :
-        [ hideLoading() ]
+        [ hideCameraLoading() ]
     );
 
     return false;
@@ -211,7 +211,7 @@ $(document).on('submit','#camera-global-settings-form',function () {
         // Reload containers:
         [ 'getting-started', 'buttons/main', 'cameras/list' ],
         // Execute functions :
-        [ hideLoading(), reloadEditForm(id) ]
+        [ hideCameraLoading(), reloadEditForm(id) ]
     );
 
     return false;
@@ -236,7 +236,7 @@ $(document).on('click','.delete-camera-btn',function () {
             // Reload containers:
             [ 'getting-started', 'buttons/main', 'cameras/list' ],
             // Execute functions :
-            [ hideLoading() ]
+            [ hideCameraLoading() ]
         );
     });
 });
@@ -335,22 +335,24 @@ function getEditForm(id)
  */
 function reloadEditForm(id)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "camera",
-            action: "getEditForm",
-            id: id
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            $('#camera-edit-form-container').html(jsonValue.message);
-        },
-        error: function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
+    setTimeout(function () {
+        $.ajax({
+            type: "POST",
+            url: "ajax/controller.php",
+            data: {
+                controller: "camera",
+                action: "getEditForm",
+                id: id
+            },
+            dataType: "json",
+            success: function (data, textStatus, jqXHR) {
+                jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                $('#camera-edit-form-container').html(jsonValue.message);
+            },
+            error: function (jqXHR, ajaxOptions, thrownError) {
+                jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                printAlert(jsonValue.message, 'error');
+            },
+        });
+    }, 50);
 }
