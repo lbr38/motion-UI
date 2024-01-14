@@ -59,7 +59,7 @@
                         /**
                          *  Display camera only if allowed on this page and if URL starts with http(s)://
                          */
-                        if (((__ACTUAL_URI__[1] == 'live') or ((__ACTUAL_URI__[1] == '') and STREAM_ON_MAIN_PAGE === true) or (__ACTUAL_URI__[1] == 'ajax')) and preg_match('#(^http?://|^https://)#', $camera['Url'])) : ?>
+                        if (((__ACTUAL_URI__[1] == 'live') or ((__ACTUAL_URI__[1] == '') and STREAM_ON_MAIN_PAGE === true) or (__ACTUAL_URI__[1] == 'ajax'))) : ?>
                             <div class="camera-output">
                                 <?php
                                 if ($camera['Live_enabled'] == 'false') : ?>
@@ -75,7 +75,7 @@
                                 if ($camera['Live_enabled'] == 'true') : ?>
                                     <!-- Loading image -->
                                     <div class="camera-loading">
-                                        <button class="btn-square-none"><img src="/assets/icons/loading.gif" class="icon" title="Loading image" /></button>
+                                        <button class="btn-square-none"><img src="/assets/images/loading.gif" class="icon" title="Loading image" /></button>
                                         <span class="block center lowopacity-cst">Loading image</span>
                                     </div>
 
@@ -114,7 +114,7 @@
 
                         <div class="camera-btn-div">
                             <div>
-                                <p><b><?= $camera['Name'] ?></b></p>
+                                <p class="label-green"><b><?= $camera['Name'] ?></b></p>
                             </div>
                             <div>
                                 <div>

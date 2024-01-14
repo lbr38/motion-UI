@@ -57,4 +57,12 @@ ob_end_flush();
 /**
  *  Read distant file (stream)
  */
+
+// If URL stars with /dev/videoX, use passthru
+if (preg_match('#^/dev/video[0-9]+$#', $url)) {
+    passthru('/usr/bin/ffmpeg -f video4linux2 -i /dev/video0 -s 1920x1080 pipe:.jpg 2>/dev/null');
+    return;
+}
+
+// Else just read from URL
 readfile($url, false);
