@@ -33,6 +33,6 @@
  */
 if (is_dir(ROOT . '/public/resources/js')) {
     foreach (glob(ROOT . '/public/resources/js/*.js') as $file) {
-        echo '<script type="text/javascript" src="/resources/js/' . basename($file) . '"></script>';
+        echo '<script type="text/javascript" src="/resources/js/' . basename($file) . '?' . VERSION . '"></script>';
     }
 } ?>
