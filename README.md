@@ -28,7 +28,7 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 
 ## 📱 Android app (new!)
 
-An Android app ``beta`` is available.
+An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0">here</a> (in the assets section).
 
 <hr>
 
