@@ -2,7 +2,7 @@
     <?php
     if ($cameraTotal == 0) : ?>
         <h4 class="center">GETTING STARTED</h4>
-        <p class="center">Use the <img src="/assets/icons/plus.svg" class="icon" /> button in the bottom right corner to add a camera</p> 
+        <p class="center">Go to the <img src="/assets/icons/photo-camera.svg" class="icon" /> tab to add a camera</p>
         <?php
     endif ?>
 </section>

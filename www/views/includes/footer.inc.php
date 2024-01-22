@@ -1,23 +1,23 @@
-<footer class="margin-bottom-40">
+<footer class="margin-bottom-40">    
     <div>
         <h5>HELP</h5>
-        <div>
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI/wiki">
-                <p class="lowopacity">Documentation<img src="/assets/icons/external-link.svg" class="icon" /></p>
-            </a>
-            <br>
-            <a href="mailto:motionui@protonmail.com">
-                <p class="lowopacity">Contact</p>
-            </a>
-        </div>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI/wiki">
+            <span class="lowopacity">Documentation<img src="/assets/icons/external-link.svg" class="icon" /></span>
+        </a>
+        
+        <br><br>
+        
+        <a href="mailto:motionui@protonmail.com">
+             <span class="lowopacity">Contact</span>
+        </a>
     </div>
 
     <div>
         <h5>GITHUB</h5>
-        <div class="lowopacity">
+        <span class="lowopacity">
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI" id="github"><img src="/assets/images/github.png" /></a>
-        </div>
-    </div>    
+        </span>
+    </div>
 
     <div class="text-center margin-auto">
         <p class="lowopacity-cst">motion-UI - release version <?= VERSION ?></p>

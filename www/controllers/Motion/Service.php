@@ -62,7 +62,7 @@ class Service
             return false;
         }
 
-        $this->layoutContainerStateController->update('buttons/main');
+        $this->layoutContainerStateController->update('motion/buttons/main');
 
         return true;
     }
@@ -81,7 +81,7 @@ class Service
             return false;
         }
 
-        $this->layoutContainerStateController->update('buttons/main');
+        $this->layoutContainerStateController->update('motion/buttons/main');
 
         return true;
     }

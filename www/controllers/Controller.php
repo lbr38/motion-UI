@@ -34,7 +34,7 @@ class Controller
         }
 
         if ($targetUri == '') {
-            $targetUri = 'main';
+            $targetUri = 'live';
         }
 
         /**

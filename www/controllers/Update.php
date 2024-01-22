@@ -7,6 +7,7 @@ use Exception;
 class Update
 {
     private $model;
+    private $sqlQueriesDir = ROOT . '/update/database';
 
     public function __construct()
     {
@@ -18,8 +19,6 @@ class Update
      */
     public function updateDB(string $targetVersion = null)
     {
-        $this->sqlQueriesDir = ROOT . '/update/database';
-
         if (!is_dir($this->sqlQueriesDir)) {
             return;
         }
@@ -34,7 +33,17 @@ class Update
              *  Execute file if exist
              */
             if (file_exists($updateFile)) {
-                $this->model->updateDB($updateFile);
+                /**
+                 *  Execute file if it has not been done yet
+                 */
+                if (!file_exists(DB_UPDATE_DONE_DIR . '/' . $targetVersion . '.done')) {
+                    $this->model->updateDB($updateFile);
+
+                    /**
+                     *  Create a file to indicate that the update has been done
+                     */
+                    touch(DB_UPDATE_DONE_DIR . '/' . $targetVersion . '.done');
+                }
             }
 
             return;
@@ -54,7 +63,24 @@ class Update
          */
         if (!empty($updateFiles)) {
             foreach ($updateFiles as $updateFile) {
-                $this->model->updateDB($updateFile);
+                if (file_exists($updateFile)) {
+                    /**
+                     *  Get target version from filename
+                     */
+                    $targetVersion = basename($updateFile, '.php');
+
+                    /**
+                     *  Execute file if it has not been done yet
+                     */
+                    if (!file_exists(DB_UPDATE_DONE_DIR . '/' . $targetVersion . '.done')) {
+                        $this->model->updateDB($updateFile);
+
+                        /**
+                         *  Create a file to indicate that the update has been done
+                         */
+                        touch(DB_UPDATE_DONE_DIR . '/' . $targetVersion . '.done');
+                    }
+                }
             }
         }
     }

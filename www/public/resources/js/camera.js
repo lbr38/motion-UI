@@ -23,7 +23,7 @@ function hideCameraLoading()
     setTimeout(function () {
         $('.camera-container').find('.camera-loading').hide();
         $('.camera-container').find('.camera-image').show();
-    }, 500);
+    }, 1000);
 }
 
 /**
@@ -108,8 +108,11 @@ $(document).on('click','input[type=checkbox][name=camera-motion-enable]',functio
         $('#new-camera-form').find('.camera-stream-url').hide();
     }
 });
-$(document).on('click','input[type=checkbox][name=edit-camera-motion-enable]',function () {
 
+/**
+ *  Event: enable / disable motion detection
+ */
+$(document).on('click','input[type=checkbox][name=edit-camera-motion-enable]',function () {
     var id = $(this).attr('camera-id');
     var form = $('#camera-global-settings-form[camera-id="' + id + '"]');
     var outputType = form.attr('output-type');
@@ -131,6 +134,8 @@ $(document).on('submit','#new-camera-form',function () {
     var url = $(this).find('input[type=text][name=camera-url]').val();
     var outputType = $(this).find('input[type=radio][name=output-type]:checked').val();
     var outputResolution = $(this).find('select[name=output-resolution]').val();
+    var textLeft = $(this).find('input[type=text][name=camera-text-left]').val();
+    var textRight = $(this).find('input[type=text][name=camera-text-right]').val();
     var refresh = $(this).find('input[type=number][name=camera-refresh]').val();
     var username = $(this).find('input[type=text][name=camera-username]').val();
     var password = $(this).find('input[type=password][name=camera-password]').val();
@@ -150,6 +155,8 @@ $(document).on('submit','#new-camera-form',function () {
             streamUrl: streamUrl,
             outputType: outputType,
             outputResolution: outputResolution,
+            textLeft: textLeft,
+            textRight: textRight,
             refresh: refresh,
             liveEnable: liveEnable,
             motionEnable: motionEnable,
@@ -157,7 +164,7 @@ $(document).on('submit','#new-camera-form',function () {
             password: password
         },
         // Reload containers:
-        [ 'getting-started', 'buttons/main', 'cameras/list' ],
+        [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
         // Execute functions :
         [ hideCameraLoading() ]
     );
@@ -180,6 +187,8 @@ $(document).on('submit','#camera-global-settings-form',function () {
     var outputResolution = $(this).find('select[name=edit-output-resolution]').val();
     var streamUrl = $(this).find('input[type=text][name=edit-camera-stream-url]').val();
     var rotate = $(this).find('select[name=edit-camera-rotate]').val();
+    var textLeft = $(this).find('input[type=text][name=edit-camera-text-left]').val();
+    var textRight = $(this).find('input[type=text][name=edit-camera-text-right]').val();
     var username = $(this).find('input[type=text][name=edit-camera-username]').val();
     var password = $(this).find('input[type=password][name=edit-camera-password]').val();
     var liveEnable = $(this).find('input[type=checkbox][name=edit-camera-live-enable]').is(':checked');
@@ -203,13 +212,15 @@ $(document).on('submit','#camera-global-settings-form',function () {
             outputResolution: outputResolution,
             refresh: refresh,
             rotate: rotate,
+            textLeft: textLeft,
+            textRight: textRight,
             liveEnable: liveEnable,
             motionEnable: motionEnable,
             username: username,
             password: password
         },
         // Reload containers:
-        [ 'getting-started', 'buttons/main', 'cameras/list' ],
+        [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
         // Execute functions :
         [ hideCameraLoading(), reloadEditForm(id) ]
     );
@@ -234,7 +245,7 @@ $(document).on('click','.delete-camera-btn',function () {
                 cameraId: cameraId,
             },
             // Reload containers:
-            [ 'getting-started', 'buttons/main', 'cameras/list' ],
+            [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
             // Execute functions :
             [ hideCameraLoading() ]
         );
@@ -260,6 +271,24 @@ $(document).on('click','.hide-camera-configuration-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
     closePanel('.camera-configuration-div[camera-id='+cameraId+']');
+});
+
+/**
+ *  Event: enable / disable motion configuration's advanced edition mode
+ */
+$(document).on('click','#motion-advanced-edition-mode',function () {
+    var cameraId = $(this).attr('camera-id');
+
+    if ($(this).is(':checked')) {
+        advancedEditionMode(true);
+    } else {
+        advancedEditionMode(false);
+    }
+
+    /**
+     *  Reload edit form
+     */
+    reloadEditForm(cameraId);
 });
 
 /**
@@ -355,4 +384,28 @@ function reloadEditForm(id)
             },
         });
     }, 50);
+}
+
+/**
+ *  Ajax: enable / disable motion configuration's advanced edition mode
+ */
+function advancedEditionMode(status)
+{
+    $.ajax({
+        type: "POST",
+        url: "ajax/controller.php",
+        data: {
+            controller: "settings",
+            action: "advancedEditionMode",
+            status: status
+        },
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+        },
+        error : function (jqXHR, ajaxOptions, thrownError) {
+            jsonValue = jQuery.parseJSON(jqXHR.responseText);
+            printAlert(jsonValue.message, 'error');
+        },
+    });
 }

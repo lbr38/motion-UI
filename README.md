@@ -3,15 +3,15 @@
 A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize live stream from http cameras.
 
 <div align="center">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/0ce02da3-c23d-444a-9435-7b7c0ea66b13" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/94f914a0-62f4-4ebd-947e-ce7aed78a49b" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/7c188133-d267-46a3-b12c-8c7401d12c15" width=25% align="top">
+    <img src="https://github.com/lbr38/motion-UI/assets/54670129/fb0f78f3-10f6-45ef-8e9a-2ce119795493" width=25% align="top">
+    <img src="https://github.com/lbr38/motion-UI/assets/54670129/3fadc296-4e51-48d1-9454-f956e43f3ec7" width=25% align="top">
+    <img src="https://github.com/lbr38/motion-UI/assets/54670129/fcd1f4d6-b80d-43e3-8cf0-f09abe9f0e37" width=25% align="top">
 </div>
 <br>
 <div align="center">
     <img src="https://github.com/lbr38/motion-UI/assets/54670129/b01953b0-5c60-4ede-ab25-e09d0f575d39" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/d238e11d-ac03-4bc0-9112-a7d1c10c960d" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/98f945c9-d03e-4ab3-8041-ea5ac50d3fdb" width=25% align="top">
+    <img src="https://github.com/lbr38/motion-UI/assets/54670129/6c1e40d7-950f-4593-9243-5ec4be81e1ea" width=25% align="top">
+    <img src="https://github.com/lbr38/motion-UI/assets/54670129/28a7d13e-4001-4bd0-822d-2e9b83374cc8" width=25% align="top">
     
 </div>
 

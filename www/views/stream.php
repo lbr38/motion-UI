@@ -25,10 +25,11 @@ $password = $configuration['Password'];
 
 /**
  *  Define context options
+ *  Set default socket timeout to 3 seconds
  */
 $context = [
     'http' => [
-        'timeout' => 2,
+        'timeout' => 3,
         'method' => 'GET'
     ]
 ];
@@ -42,8 +43,7 @@ if (!empty($username) and !empty($password)) {
 }
 
 /**
- *  Set default socket timeout to 2 seconds
- *  Will apply to get_headers and readfile
+ *  Set context (will apply to get_headers and readfile)
  */
 stream_context_set_default($context);
 

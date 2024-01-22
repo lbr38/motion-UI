@@ -4,9 +4,10 @@ $(document).ready(function () {
     }, 2000);
 
     /**
-     *  Reload CPU load every 5 seconds
+     *  Reload top and bottoms buttons to reload CPU load and unseen events total count
      */
     setInterval(function () {
+        reloadContainer('buttons/top');
         reloadContainer('buttons/bottom');
     }, 5000);
 });

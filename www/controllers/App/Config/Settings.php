@@ -25,54 +25,11 @@ class Settings
             }
         }
 
-        /**
-         *  General display settings
-         */
-        if (!defined('STREAM_ON_MAIN_PAGE')) {
-            if (!empty($settings['Stream_on_main_page']) and $settings['Stream_on_main_page'] == 'true') {
-                define('STREAM_ON_MAIN_PAGE', true);
+        if (!defined('HOME_PAGE')) {
+            if (file_exists(DATA_DIR . '/.homepage')) {
+                define('HOME_PAGE', trim(file_get_contents(DATA_DIR . '/.homepage')));
             } else {
-                define('STREAM_ON_MAIN_PAGE', false);
-            }
-        }
-
-        if (!defined('STREAM_ON_LIVE_PAGE')) {
-            if (!empty($settings['Stream_on_live_page']) and $settings['Stream_on_live_page'] == 'true') {
-                define('STREAM_ON_LIVE_PAGE', true);
-            } else {
-                define('STREAM_ON_LIVE_PAGE', false);
-            }
-        }
-
-        if (!defined('MOTION_START_BTN')) {
-            if (!empty($settings['Motion_start_btn']) and $settings['Motion_start_btn'] == 'true') {
-                define('MOTION_START_BTN', true);
-            } else {
-                define('MOTION_START_BTN', false);
-            }
-        }
-
-        if (!defined('MOTION_AUTOSTART_BTN')) {
-            if (!empty($settings['Motion_autostart_btn']) and $settings['Motion_autostart_btn'] == 'true') {
-                define('MOTION_AUTOSTART_BTN', true);
-            } else {
-                define('MOTION_AUTOSTART_BTN', false);
-            }
-        }
-
-        if (!defined('MOTION_ALERT_BTN')) {
-            if (!empty($settings['Motion_alert_btn']) and $settings['Motion_alert_btn'] == 'true') {
-                define('MOTION_ALERT_BTN', true);
-            } else {
-                define('MOTION_ALERT_BTN', false);
-            }
-        }
-
-        if (!defined('MOTION_EVENTS')) {
-            if (!empty($settings['Motion_events']) and $settings['Motion_events'] == 'true') {
-                define('MOTION_EVENTS', true);
-            } else {
-                define('MOTION_EVENTS', false);
+                define('HOME_PAGE', '');
             }
         }
 
@@ -89,14 +46,6 @@ class Settings
                 define('MOTION_EVENTS_PICTURES_THUMBNAIL', true);
             } else {
                 define('MOTION_EVENTS_PICTURES_THUMBNAIL', false);
-            }
-        }
-
-        if (!defined('MOTION_STATS')) {
-            if (!empty($settings['Motion_stats']) and $settings['Motion_stats'] == 'true') {
-                define('MOTION_STATS', true);
-            } else {
-                define('MOTION_STATS', false);
             }
         }
 

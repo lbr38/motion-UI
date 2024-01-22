@@ -11,8 +11,8 @@ body {
     font-size: 13px;
 }
 
-#content {
-    padding: 30px 20px 0px 20px;
+article {
+    min-height: 100vh;
 }
 
 h3 {
@@ -29,7 +29,7 @@ h3 {
     background-color: #112334 !important;
 }
 
-.notification-count {
+.notification-count, .unseen-events-count {
     position: absolute;
     right: -9px;
     top: -9px;
@@ -44,6 +44,11 @@ h3 {
     font-size: 9px;
     font-family: monospace;
     text-decoration: none;
+    z-index: 5;
+}
+
+.unseen-events-count {
+    top: 1px;
 }
 
 .param-slide {
@@ -61,8 +66,8 @@ h3 {
 
 /* Boutons carrés */
 [class^="btn-square"] {
-    width: 150px;
-    height: 150px;
+    width: 125px;
+    height: 125px;
     border: none;
     border-radius: 50%;
     margin-left: auto;
@@ -117,28 +122,38 @@ h3 {
     background-color: #dc0044;
 }
 
-.bottom-buttons {
+.bottom-buttons, .top-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    column-gap: 40px;
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 90;
-    padding: 12px 0 12px 0;
+    z-index: 99;
     width: 100%;
+    height: 50px;
     background-color: #112334;
-    border-top: 1px solid rgb(60, 70, 75);
+    box-shadow: 0px -2px 10px 1px rgba(0, 0, 0, 0.394);
 }
 
-.bottom-buttons div:first-child {
-    display: flex;
+.top-buttons {
+    position: inherit;
+    box-shadow: none;
     justify-content: space-between;
+    z-index: 20;
+}
+
+.bottom-buttons > div {
+    display: flex;
     align-items: center;
+    height: 95%;
+}
+.bottom-buttons div.current-tab {
+    border-bottom: 1px solid #5473e8;
 }
 
-.bottom-buttons div {
-    margin: 0 8px 0 8px;
-}
-
-.bottom-buttons img {
+.bottom-buttons img, .top-buttons img {
     height: 30px;
 }
 
@@ -173,12 +188,12 @@ h3 {
 }
 
 .main-container {
-    width: 100%;
+    width: auto;
     display: grid;
     grid-template-columns: repeat(1, 100%);
     align-items: start;
-    row-gap: 40px;
-    margin: 0px auto 0px auto;
+    /* row-gap: 40px; */
+    margin: 0px 40px 0px 40px;
 }
 
 #motion-stats-container {
@@ -195,7 +210,7 @@ h3 {
 }
 
 #motion-events-captures-container {
-    max-height: 600px;
+    /* max-height: 900px; */
     display: grid;
     grid-template-columns: repeat(1, 100%);
     justify-content: center;
@@ -241,7 +256,7 @@ h3 {
 
 .event-camera {
     width: 100%;
-    max-height: 500px;
+    max-height: 800px;
     overflow-y: auto;
 }
 
@@ -371,6 +386,24 @@ h3 {
     margin: 0 !important;
 }
 
+.add-camera-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    border-radius: 8px;
+}
+
+.add-camera-container:hover {
+    border: 1px solid #213446;
+}
+
+.add-camera-container img {
+    width: 50px;
+    height: 50px;
+}
+
 .camera-container {
     height: 100%;
     display: flex;
@@ -403,23 +436,32 @@ h3 {
     margin-right: auto;
     border-radius: 4px;
 }
+.camera-image-text-left, .camera-image-text-right {
+    position: absolute;
+    font-family: monospace;
+}
+.camera-image-text-left {
+    left: 5px;
+    bottom: 5px;
+}
+.camera-image-text-right {
+    right: 5px;
+    bottom: 5px;
+}
 .camera-loading, .camera-image, .camera-unavailable {
     width: 100%;
     min-height: 200px;
 }
-
 .camera-unavailable, .camera-loading {
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: #182b3e;
 }
-
 .camera-loading img {
     width: 30%;
     height: 30%;
 }
-
 .full-screen {
     position: fixed;
     top: 0;
@@ -433,13 +475,11 @@ h3 {
     -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
-
 .close-full-screen-camera-btn {
     display: none;
     width: fit-content;
     margin: auto;
 }
-
 .full-screen img {
     max-height: 90vh;
     max-width: 100vw;
@@ -459,17 +499,13 @@ footer {
     width: auto;
     height: 300px;
     flex-grow: 1;
-    margin-top: 200px;
+    margin-top: 100px;
     padding: 30px 15px 50px 15px;
     box-shadow:
      0px 1px 1px 0px rgba(0, 0, 0, 0.5) inset,
      0px 2px 2px 0px rgba(109, 109, 109, 0.2);
     background-color:#182b3e;
 }
-
-/* footer div {
-    width: max-content;
-} */
 
 footer #github img { width: 25px; }
 
@@ -606,6 +642,7 @@ pre {
     height: 90vh;
     position: relative;
 }
+
 #loginDiv {
     width: 250px;
     margin: 0;
@@ -615,6 +652,9 @@ pre {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
+}
+#loginDiv img {
+    max-width: 80px;
 }
 #loginDiv h3 {
     margin-left: auto;
@@ -651,14 +691,33 @@ pre {
     white-space: nowrap;
 }
 
+/**
+ *  Full page loading veil
+ */
+.body-veil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #112334;
+    border-radius: 8px;
+    z-index: 90;
+}
+
+.body-veil img {
+    width: 200px;
+    height: 200px;
+    opacity: 0.1;
+}
+
 /* Desktop configuration */
 @media (min-width:1025px) {
-    #content {
-        padding: 30px 40px 0px 40px;
-    }
-
     h3 {
-        margin: 70px 0 30px 0;
+        margin-left: 0px;
     }
 
     .param-slide {
@@ -671,7 +730,12 @@ pre {
     }
 
     .main-buttons-container {
-        grid-template-columns: repeat(4, 25%);
+        grid-template-columns: repeat(3, 30%);
+    }
+
+    [class^="btn-square"] {
+        width: 170px;
+        height: 170px;
     }
 
     .main-container {
@@ -729,7 +793,6 @@ pre {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        height: 50px;
     }
 
     #live-grid-layout-btns > div:first-child {
@@ -744,14 +807,9 @@ pre {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .bottom-buttons div:first-child {
-        justify-content: flex-end;
+    .bottom-buttons {
+        justify-content: center;
         align-items: center;
-        column-gap: 5px;
-        margin-right: 15px;
-    }
-
-    .bottom-buttons img {
-        height: 20px;
+        column-gap: 80px;
     }
 }

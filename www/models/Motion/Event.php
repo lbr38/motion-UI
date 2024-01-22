@@ -194,13 +194,13 @@ class Event extends \Models\Model
      */
     public function new(string $motionEventId, int $motionEventIdShort, string $dateStart, string $timeStart, int $cameraId)
     {
-        $stmt = $this->db->prepare("INSERT INTO motion_events (Motion_id_event, Motion_id_event_short, Date_start, Time_start, Camera_id, Status) VALUES (:id, :idShort, :dateStart, :timeStart, :cameraId, 'processing')");
+        $stmt = $this->db->prepare("INSERT INTO motion_events (Motion_id_event, Motion_id_event_short, Date_start, Time_start, Camera_id, Status, Seen) VALUES (:id, :idShort, :dateStart, :timeStart, :cameraId, 'processing', 'false')");
         $stmt->bindValue(':id', $motionEventId);
         $stmt->bindValue(':idShort', $motionEventIdShort);
         $stmt->bindValue(':dateStart', $dateStart);
         $stmt->bindValue(':timeStart', $timeStart);
         $stmt->bindValue(':cameraId', $cameraId);
-        $result = $stmt->execute();
+        $stmt->execute();
     }
 
     /**
@@ -212,7 +212,34 @@ class Event extends \Models\Model
         $stmt->bindValue(':id', $motionEventId);
         $stmt->bindValue(':dateEnd', date('Y-m-d'));
         $stmt->bindValue(':timeEnd', date('H:i:s'));
+        $stmt->execute();
+    }
+
+    /**
+     *  Mark an event as seen
+     */
+    public function seen(int $id)
+    {
+        $stmt = $this->db->prepare("UPDATE motion_events SET Seen = 'true' WHERE Id = :id");
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+    }
+
+    /**
+     *  Return total unseen events count
+     */
+    public function getUnseenCount()
+    {
+        $count = 0;
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) as Count FROM motion_events WHERE Seen = 'false'");
         $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $count = $row['Count'];
+        }
+
+        return $count;
     }
 
     /**
@@ -228,6 +255,6 @@ class Event extends \Models\Model
         $stmt->bindValue(':fps', $fps);
         $stmt->bindValue(':changed_pixels', $changed_pixels);
         $stmt->bindValue(':id', $motionEventId);
-        $result = $stmt->execute();
+        $stmt->execute();
     }
 }

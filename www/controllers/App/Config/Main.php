@@ -29,6 +29,9 @@ class Main
         if (!defined('CAPTURES_DIR')) {
             define('CAPTURES_DIR', '/var/lib/motion');
         }
+        if (!defined('DB_UPDATE_DONE_DIR')) {
+            define('DB_UPDATE_DONE_DIR', DATA_DIR . '/update');
+        }
         if (!defined('DATE_YMD')) {
             define('DATE_YMD', date('Y-m-d'));
         }

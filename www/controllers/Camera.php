@@ -72,7 +72,7 @@ class Camera
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $textLeft, string $textRight, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
     {
         $mymotionService = new \Controllers\Motion\Service();
 
@@ -91,6 +91,8 @@ class Camera
         $streamUrl = Common::validateData($streamUrl);
         $outputType = Common::validateData($outputType);
         $outputResolution = Common::validateData($outputResolution);
+        $textLeft = Common::validateData($textLeft);
+        $textRight = Common::validateData($textRight);
         $refresh = Common::validateData($refresh);
         $liveEnable = Common::validateData($liveEnable);
         $motionEnable = Common::validateData($motionEnable);
@@ -138,7 +140,7 @@ class Camera
         /**
          *  Add camera in database
          */
-        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $refresh, $liveEnable, $motionEnable, $username, $password);
+        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $textLeft, $textRight, $refresh, $liveEnable, $motionEnable, $username, $password);
 
         /**
          *  Get inserted camera Id from database
@@ -212,7 +214,7 @@ class Camera
     /**
      *  Edit camera global settings
      */
-    public function edit(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $refresh, string $rotate, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function edit(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $refresh, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $username, string $password)
     {
         $mymotionService = new \Controllers\Motion\Service();
 
@@ -244,6 +246,8 @@ class Camera
         $outputResolution = Common::validateData($outputResolution);
         $refresh = Common::validateData($refresh);
         $rotate = Common::validateData($rotate);
+        $textLeft = Common::validateData($textLeft);
+        $textRight = Common::validateData($textRight);
         $liveEnable = Common::validateData($liveEnable);
         $motionEnable = Common::validateData($motionEnable);
         $username = Common::validateData($username);
@@ -307,10 +311,10 @@ class Camera
         /**
          *  Edit global settings in database
          */
-        $this->model->edit($id, $name, $url, $streamUrl, $outputResolution, $refresh, $rotate, $liveEnable, $motionEnable, $username, $password);
+        $this->model->edit($id, $name, $url, $streamUrl, $outputResolution, $refresh, $rotate, $textLeft, $textRight, $liveEnable, $motionEnable, $username, $password);
 
         /**
-         *  Edit global settings in config file
+         *  Edit global settings in motion config file
          */
         $configuration = file_get_contents($configFilePath);
         $configuration = preg_replace('/camera_name.*/i', 'camera_name ' . $name, $configuration);
@@ -339,6 +343,20 @@ class Camera
         $configuration = preg_replace('/rotate.*/i', 'rotate ' . $rotate, $configuration);
 
         /**
+         *  Set text_left and text_right
+         */
+        if (!empty($textLeft)) {
+            $configuration = preg_replace('/.*text_left.*/i', 'text_left ' . $textLeft, $configuration);
+        } else {
+            $configuration = preg_replace('/text_left.*/i', ';text_left ', $configuration);
+        }
+        if (!empty($textRight)) {
+            $configuration = preg_replace('/.*text_right.*/i', 'text_right ' . $textRight, $configuration);
+        } else {
+            $configuration = preg_replace('/text_right.*/i', ';text_right ', $configuration);
+        }
+
+        /**
          *  If an username and password is specified
          */
         if (!empty($username) and !empty($password)) {
@@ -350,16 +368,22 @@ class Camera
         /**
          *  Write new configuration
          */
-        file_put_contents($configFilePath, $configuration);
+        if (!file_put_contents($configFilePath, $configuration)) {
+            throw new Exception('Could not write to configuration file: ' . $configFilePath);
+        }
 
         /**
          *  Rename config file if motion detection is enabled or disabled
          */
         if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled') and $motionEnable == 'true') {
-            rename(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled', CAMERAS_DIR . '/camera-' . $id . '.conf');
+            if (!rename(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled', CAMERAS_DIR . '/camera-' . $id . '.conf')) {
+                throw new Exception('Could not enable motion detection for this camera');
+            }
         }
         if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf') and $motionEnable == 'false') {
-            rename(CAMERAS_DIR . '/camera-' . $id . '.conf', CAMERAS_DIR . '/camera-' . $id . '.conf.disabled');
+            if (!rename(CAMERAS_DIR . '/camera-' . $id . '.conf', CAMERAS_DIR . '/camera-' . $id . '.conf.disabled')) {
+                throw new Exception('Could not disable motion detection for this camera');
+            }
         }
 
         /**
@@ -437,8 +461,12 @@ class Camera
         /**
          *  Set permissions
          */
-        chmod(CAMERAS_DIR . '/camera-' . $id . '.conf', octdec("0660"));
-        chgrp(CAMERAS_DIR . '/camera-' . $id . '.conf', 'motion');
+        if (!chmod(CAMERAS_DIR . '/camera-' . $id . '.conf', octdec("0660"))) {
+            throw new Exception('Could not set permissions on configuration file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf');
+        }
+        if (!chgrp(CAMERAS_DIR . '/camera-' . $id . '.conf', 'motion')) {
+            throw new Exception('Could not set group on configuration file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf');
+        }
 
         /**
          *  Replace values
@@ -459,6 +487,20 @@ class Camera
         $resolution = explode('x', $camera['Output_resolution']);
         $configuration = str_replace('__WIDTH__', $resolution[0], $configuration);
         $configuration = str_replace('__HEIGHT__', $resolution[1], $configuration);
+
+        /**
+         *  Set text_left and text_right
+         */
+        if (!empty($camera['Text_left'])) {
+            $configuration = preg_replace('/.*text_left.*/i', 'text_left ' . $camera['Text_left'], $configuration);
+        } else {
+            $configuration = preg_replace('/text_left.*/i', ';text_left ', $configuration);
+        }
+        if (!empty($camera['Text_right'])) {
+            $configuration = preg_replace('/.*text_right.*/i', 'text_right ' . $camera['Text_right'], $configuration);
+        } else {
+            $configuration = preg_replace('/text_right.*/i', ';text_right ', $configuration);
+        }
 
         /**
          *  Set username and password for HTTP authentication if specified
