@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    hideCameraLoading();
+    loadCameras();
     reloadImage();
 
     /**
@@ -12,18 +12,44 @@ $(document).ready(function () {
 });
 
 /**
- *  Hide loading div
+ *  Load cameras image and hide loading div
  */
-function hideCameraLoading()
+function loadCameras()
 {
-    if (!$('.camera-container').find('.camera-loading')) {
-        return;
-    }
-
+    /**
+     *  Just wait a little bit to be sure that all camera divs are loaded
+     */
     setTimeout(function () {
-        $('.camera-container').find('.camera-loading').hide();
-        $('.camera-container').find('.camera-image').show();
-    }, 1000);
+        $('.camera-container').each(function () {
+            /**
+             *  Retrieve camera loading div and camera image div
+             */
+            const cameraLoadingDiv = $(this).find('div.camera-loading');
+            const cameraImageDiv = $(this).find('div.camera-image');
+
+            /**
+             *  Retrieve camera 'img' tag and its 'data-src' attribute
+             */
+            const cameraImageImg = cameraImageDiv.find('img');
+            const cameraImageSrc = cameraImageImg.attr('data-src');
+
+            /**
+             *  Find 'img' tag inside camera image div and set its 'src' attribute to the 'data-src' attribute
+             */
+            cameraImageDiv.find('img').on('load', function () {
+                /**
+                 *  Print log message
+                 */
+                console.log('Camera image loaded');
+
+                /**
+                 *  Once the image is loaded, hide the loading div and show the image div
+                 */
+                cameraLoadingDiv.hide();
+                cameraImageDiv.show();
+            }).attr('src', cameraImageSrc);
+        });
+    }, 500);
 }
 
 /**
@@ -36,6 +62,7 @@ function reloadImage()
     }
 
     setInterval(function () {
+        console.log('Reloading cameras image');
         /**
          *  Get current Unix timestamp
          */
@@ -166,7 +193,7 @@ $(document).on('submit','#new-camera-form',function () {
         // Reload containers:
         [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
         // Execute functions :
-        [ hideCameraLoading() ]
+        [ loadCameras() ]
     );
 
     return false;
@@ -222,7 +249,7 @@ $(document).on('submit','#camera-global-settings-form',function () {
         // Reload containers:
         [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
         // Execute functions :
-        [ hideCameraLoading(), reloadEditForm(id) ]
+        [ loadCameras(), reloadEditForm(id) ]
     );
 
     return false;
@@ -247,7 +274,7 @@ $(document).on('click','.delete-camera-btn',function () {
             // Reload containers:
             [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
             // Execute functions :
-            [ hideCameraLoading() ]
+            [ loadCameras() ]
         );
     });
 });

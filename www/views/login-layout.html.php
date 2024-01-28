@@ -92,10 +92,8 @@
         <div id="loginDiv-container">
 
             <div id="loginDiv">
-                <img src="/assets/icons/motion.svg" class="mediumopacity-cst" />
+                <img src="/assets/icons/motion.svg" class="margin-bottom-30 mediumopacity-cst" />
 
-                <h3>AUTHENTICATION</h3>
-                <br>
                 <form action="/login" method="post" autocomplete="off">
                     <input type="text" name="username" placeholder="Username" required />
                     <br>

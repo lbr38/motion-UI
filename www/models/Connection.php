@@ -286,7 +286,9 @@ class Connection extends SQLite3
          */
         $this->exec("CREATE INDEX IF NOT EXISTS motion_events_index ON motion_events (Motion_id_event, Motion_id_event_short, Date_start, Time_start, Date_end, Time_end, Camera_id, Status, Seen)");
         $this->exec("CREATE INDEX IF NOT EXISTS motion_events_date_index ON motion_events (Date_start)");
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_seen_index ON motion_events (Seen)");
         $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_index ON motion_events_files (File, Size, Width, Height, Fps, Changed_pixels, Motion_id_event)");
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_motion_id_event_index ON motion_events_files (Motion_id_event)");
     }
 
     /**

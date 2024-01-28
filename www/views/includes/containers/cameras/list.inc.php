@@ -74,7 +74,7 @@
                                  *  Type 'image'
                                  */
                                 if ($camera['Output_type'] == 'image') : ?>
-                                    <img src="/image?id=<?= $camera['Id'] ?>" camera-type="image" camera-id="<?= $camera['Id'] ?>" camera-refresh="<?= $camera['Refresh'] ?>" refresh-timestamp="" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                                    <img src="/assets/icons/photo-camera.svg" data-src="/image?id=<?= $camera['Id'] ?>" camera-type="image" camera-id="<?= $camera['Id'] ?>" camera-refresh="<?= $camera['Refresh'] ?>" refresh-timestamp="" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
                                     <?php
                                 endif;
 
@@ -82,7 +82,7 @@
                                  *  Type 'video'
                                  */
                                 if ($camera['Output_type'] == 'video') : ?>
-                                    <img src="/stream?id=<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                                    <img src="/assets/icons/photo-camera.svg" data-src="/stream?id=<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
                                     <?php
                                 endif ?>
 
@@ -94,23 +94,25 @@
                         endif ?>
                     </div>
 
-                    <div class="camera-btn-div">
+                    <div class="camera-btn-div flex">
                         <div>
-                            <p class="label-green"><b><?= $camera['Name'] ?></b></p>
+                            <img src="/assets/icons/close.svg" class="close-full-screen-camera-btn pointer lowopacity hide" camera-id="<?= $camera['Id'] ?>" title="Close full screen" />
                         </div>
-                        <div>
+
+                        <div class="flex align-item-center justify-space-between">
                             <div>
-                                <button class="close-full-screen-camera-btn btn-medium-yellow" camera-id="<?= $camera['Id'] ?>">Close full screen</button>
+                                <p class="label-green"><b><?= $camera['Name'] ?></b></p>
                             </div>
+                            <div>
+                                <div class="slide-btn configure-camera-btn" title="Configure" camera-id="<?= $camera['Id'] ?>">
+                                    <img src="/assets/icons/cog.svg" />
+                                    <span>Configure</span>
+                                </div>
 
-                            <div class="slide-btn configure-camera-btn" title="Configure" camera-id="<?= $camera['Id'] ?>">
-                                <img src="/assets/icons/cog.svg" />
-                                <span>Configure</span>
-                            </div>
-
-                            <div class="slide-btn-red delete-camera-btn" title="Delete" camera-id="<?= $camera['Id'] ?>">
-                                <img src="/assets/icons/delete.svg" />
-                                <span>Delete</span>
+                                <div class="slide-btn-red delete-camera-btn" title="Delete" camera-id="<?= $camera['Id'] ?>">
+                                    <img src="/assets/icons/delete.svg" />
+                                    <span>Delete</span>
+                                </div>
                             </div>
                         </div>
                     </div>
