@@ -6,11 +6,6 @@ use Exception;
 
 class ContainerState extends \Models\Model
 {
-    // public function __construct()
-    // {
-    //     $this->getConnection('main');
-    // }
-
     /**
      *  Get all layout containers state
      */

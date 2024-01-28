@@ -66,6 +66,22 @@ class Event
     }
 
     /**
+     *  Mark an event as seen
+     */
+    public function seen(int $id)
+    {
+        $this->model->seen($id);
+    }
+
+    /**
+     *  Return total unseen events count
+     */
+    public function getUnseenCount()
+    {
+        return $this->model->getUnseenCount();
+    }
+
+    /**
      *  Attach a file to an event
      */
     public function attachFile(string $motionEventId, string $file, int $width, int $height, int $fps, int $changed_pixels)

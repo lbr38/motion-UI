@@ -1,14 +1,20 @@
 <h4>Global settings</h4>
 
+<p class="lowopacity-cst">These settings are applied both to the live stream and to the motion detection.</p>
+<br>
+
 <form id="camera-global-settings-form" camera-id="<?= $camera['Id'] ?>" output-type="<?= $camera['Output_type'] ?>" autocomplete="off">
     <div class="margin-left-15">
         <div class="grid grid-fr-1-2 align-item-center column-gap-10 row-gap-10">
+            <span>Id</span>
+            <span>#<?= $camera['Id'] ?></span>
+
             <span>Name</span>
             <input type="text" name="edit-camera-name" value="<?= $camera['Name'] ?>" />
             
             <span>URL</span>
             <input type="text" name="edit-camera-url" value="<?= $camera['Url'] ?>" />
-            
+
             <span>Output type</span>
             <span><i class="label-blue"><?= $camera['Output_type'] ?></i></span>
     
@@ -52,6 +58,12 @@
                 <option value="180" <?php echo $camera['Rotate'] == "180" ? 'selected' : '' ?>>180</option>
                 <!-- <option value="270" <?php //echo $camera['Rotate'] == "270" ? 'selected' : '' ?>>270</option> -->
             </select>
+
+            <span>Text left</span>
+            <input type="text" name="edit-camera-text-left" value="<?= $camera['Text_left'] ?>" />
+
+            <span>Text right</span>
+            <input type="text" name="edit-camera-text-right" value="<?= $camera['Text_right'] ?>" />
 
             <span>Display camera live stream</span>
             <label class="onoff-switch-label">

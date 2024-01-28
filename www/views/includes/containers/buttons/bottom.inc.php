@@ -1,52 +1,55 @@
 <section class="bottom-buttons reloadable-container" container="buttons/bottom">
-    <div>
-        <div id="currentload">
-            <?php
-            $load = \Controllers\System::getLoad();
+    <?php
+    $buttons = array(
+        'live' => array(
+            'icon' => 'photo-camera.svg',
+            'title' => 'Cameras and stream'
+        ),
+        'motion' => array(
+            'icon' => 'power.svg',
+            'title' => 'Motion start/stop'
+        ),
+        'events' => array(
+            'icon' => 'video.svg',
+            'title' => 'Motion events and medias'
+        ),
+        'stats' => array(
+            'icon' => 'stats.svg',
+            'title' => 'Motion stats'
+        )
+    );
 
-            if ($load >= 0 && $load < 2) {
-                echo '<span class="round-item bkg-green"></span>';
-            }
-            if ($load >= 2 && $load < 3) {
-                echo '<span class="round-item bkg-yellow"></span>';
-            }
-            if ($load >= 3) {
-                echo '<span class="round-item bkg-red"></span>';
-            }
-            echo ' <span class="lowopacity-cst">CPU load: ' . $load . '</span>'; ?>
-        </div>
+    foreach ($buttons as $uri => $properties) :
+        if (__ACTUAL_URI__[1] == '') {
+            $actualUri = 'live';
+        } else {
+            $actualUri = __ACTUAL_URI__[1];
+        }
 
-        <div class="relative">
-            <img src="/assets/icons/alarm.svg" class="pointer lowopacity slide-panel-btn" slide-panel="notification" title="Show notifications" />
+        /**
+         *  Set class for current tab
+         *  If current tab is the same as the actual URI, add class 'current-tab'
+         */
+        if ($actualUri == $uri) {
+            $class = 'relative current-tab';
+        } else {
+            $class = 'relative';
+        } ?>
+
+        <div class="<?= $class ?>">
             <?php
-            if (NOTIFICATION != 0) : ?>
-                <span class="notification-count"><?= NOTIFICATION ?></span>
+            /**
+             *  If current icon to display is 'events' and there are unseen events, display a badge
+             */
+            if ($uri == 'events' and $unseenEventsTotal > 0) : ?>
+                <span class="unseen-events-count"><?= $unseenEventsTotal ?></span>
                 <?php
             endif ?>
-        </div>
 
-        <div>
-            <img src="/assets/icons/user.svg" class="pointer lowopacity slide-panel-btn" slide-panel="userspace" title="Show userspace" />
+            <a href="/<?= $uri ?>" onclick="veilBody()">
+                <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer lowopacity" title="<?= $properties['title'] ?>" />
+            </a>
         </div>
-
         <?php
-        if (__ACTUAL_URI__[1] == '') : ?>
-            <div>
-                <img src="/assets/icons/cog.svg" class="pointer lowopacity slide-panel-btn" slide-panel="settings" title="Show settings" />
-            </div>
-            <?php
-        endif ?>
-
-        <div>
-            <img src="/assets/icons/plus.svg" class="pointer lowopacity slide-panel-btn" slide-panel="new-camera" title="Add a camera" />
-        </div>
-
-        <?php
-        if (__ACTUAL_URI__[1] == 'live') : ?>
-            <div>
-                <a href="/"><img src="/assets/icons/back.svg" class="pointer lowopacity" title="Go back" /></a>
-            </div>
-            <?php
-        endif ?>
-    </div>
+    endforeach; ?>
 </section>

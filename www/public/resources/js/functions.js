@@ -1,10 +1,10 @@
 
 function openPanel(name)
 {
-    $('.slide-panel-container[slide-panel=' + name + ']').css({
+    $('.slide-panel-container[slide-panel="' + name + '"]').css({
         visibility: 'visible'
     }).promise().done(function () {
-        $('.slide-panel-container[slide-panel=' + name + ']').find('.slide-panel').animate({
+        $('.slide-panel-container[slide-panel="' + name + '"]').find('.slide-panel').animate({
             right: '0'
         })
     })
@@ -140,6 +140,14 @@ function printLoadingVeilByParentClass(name)
 }
 
 /**
+ *  Print a veil on the whole page
+ */
+function veilBody()
+{
+    $('body').append('<div class="body-veil"><img src="/assets/icons/motion.svg" /></div>');
+}
+
+/**
  *  Reload content of an element, by its Id
  *  @param {string} id
  */
@@ -243,6 +251,13 @@ function reloadPanel(panel, myfunction = null)
 function reloadContainer(container)
 {
     /**
+     *  Check if container exists on the current page, else do nothing
+     */
+    if (!$('.reloadable-container[container="' + container + '"]').length) {
+        return;
+    }
+
+    /**
      *  Print a loading icon on the bottom of the page
      */
     // printLoading();
@@ -318,11 +333,13 @@ function getContainerState()
                         containerStateId = value;
                     }
                 });
+
                 /**
                  *  If current container does not appear in cookies yet, add it
                  */
             if (getCookie(containerName) == "") {
                 setCookie(containerName, containerStateId, 365);
+
                 /**
                  *  Else compare current state with cookie state
                  */

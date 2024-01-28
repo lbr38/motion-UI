@@ -2,15 +2,15 @@
 
 <h4>Change password</h4>
 
-<form id="new-password-form" autocomplete="off" username="<?= $_SESSION['username'] ?>">
+<form id="new-password-form" username="<?= $_SESSION['username'] ?>">
     <p>Current password:</p>
-    <input type="password" class="input-large" name="actual-password" required />
+    <input type="password" class="input-large" name="actual-password" autocomplete required />
     <br><br>
     <p>New password:</p>
-    <input type="password" class="input-large" name="new-password" required />
+    <input type="password" class="input-large" name="new-password" autocomplete required />
     <br><br>
     <p>New password (re-type):</p>
-    <input type="password" class="input-large" name="new-password-retype" required />
+    <input type="password" class="input-large" name="new-password-retype" autocomplete required />
     <br><br>
     <button type="submit" class="btn-small-green">Save</button>
 </form>

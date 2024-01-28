@@ -29,5 +29,8 @@ class Directory
             chmod(CAPTURES_DIR, octdec('0770'));
             chgrp(CAPTURES_DIR, 'motion');
         }
+        if (!is_dir(DB_UPDATE_DONE_DIR)) {
+            mkdir(DB_UPDATE_DONE_DIR, 0770, true);
+        }
     }
 }

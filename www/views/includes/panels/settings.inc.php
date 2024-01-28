@@ -1,40 +1,19 @@
 <?php ob_start(); ?>
 
-<h4>Quick action buttons</h4>
+<h4>Home page</h4>
+
+<p class="lowopacity-cst">Motion-UI start page</p>
 
 <div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-start-btn" <?php echo (MOTION_START_BTN === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Motion start/stop button</span>
-</div>
-
-<div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-autostart-btn" <?php echo (MOTION_AUTOSTART_BTN === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Motion autostart button</span>
-</div>
-
-<div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-alert-btn" <?php echo (MOTION_ALERT_BTN === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Motion alerts button</span>
+    <select class="settings-param" setting-name="home-page">
+        <option value="live" <?php echo (HOME_PAGE === 'live') ? 'selected' : ''?>>Cameras and stream page</option>
+        <option value="motion" <?php echo (HOME_PAGE === 'motion') ? 'selected' : ''?>>Motion buttons page</option>
+        <option value="events" <?php echo (HOME_PAGE === 'events') ? 'selected' : ''?>>Motion events page</option>
+        <option value="stats" <?php echo (HOME_PAGE === 'stats') ? 'selected' : ''?>>Motion stats page</option>
+    </select>
 </div>
 
 <h4>Motion events</h4>
-
-<div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-events" <?php echo (MOTION_EVENTS === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Print motion events</span>
-</div>
 
 <div class="flex align-item-center column-gap-5">
     <label class="onoff-switch-label">
@@ -55,44 +34,15 @@
 <br>
 
 <p>
-    Medias retention
+    Media retention
     <br>
-    <span class="lowopacity-cst">Number of days to keep event pictures and videos before automatic deletion</span>
+    <span class="lowopacity-cst">Number of days to keep event pictures & videos before automatic deletion</span>
 </p>
 
 <div class="flex align-item-center column-gap-5">
     <input type="number" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
 </div>
 
-
-
-<h4>Motion stats</h4>
-
-<div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="motion-stats" <?php echo (MOTION_STATS === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Print stats charts</span>
-</div>
-
-<h4>Cameras live stream</h4>
-
-<div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="stream-main-page" <?php echo (STREAM_ON_MAIN_PAGE === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Display stream on main page</span>
-</div>
-
-<div class="flex align-item-center column-gap-5">
-    <label class="onoff-switch-label">
-        <input class="onoff-switch-input settings-param" type="checkbox" setting-name="stream-live-page" <?php echo (STREAM_ON_LIVE_PAGE === true) ? 'checked' : ''?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-    <span>Display stream on a separate page (Live page)</span>
-</div>
 
 <br>
 <br>

@@ -25,30 +25,16 @@ class Settings extends Model
     /**
      *  Edit global settings
      */
-    public function edit(string $streamMainPage, string $streamLivePage, string $motionStartBtn, string $motionAutostartBtn, string $motionAlertBtn, string $motionEvents, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, int $motionEventsRetention, string $motionStats)
+    public function edit(string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, int $motionEventsRetention)
     {
         $stmt = $this->db->prepare("UPDATE Settings SET 
-        Stream_on_main_page = :streamMainPage,
-        Stream_on_live_page = :streamLivePage,
-        Motion_start_btn = :motionStartBtn,
-        Motion_autostart_btn = :motionAutostartBtn,
-        Motion_alert_btn = :motionAlertBtn,
-        Motion_events = :motionEvents,
         Motion_events_videos_thumbnail = :motionEventsVideosThumbnail,
         Motion_events_pictures_thumbnail = :motionEventsPicturesThumbnail,
-        Motion_events_retention = :motionEventsRetention,
-        Motion_stats = :motionStats");
+        Motion_events_retention = :motionEventsRetention");
 
-        $stmt->bindValue(':streamMainPage', $streamMainPage);
-        $stmt->bindValue(':streamLivePage', $streamLivePage);
-        $stmt->bindValue(':motionStartBtn', $motionStartBtn);
-        $stmt->bindValue(':motionAutostartBtn', $motionAutostartBtn);
-        $stmt->bindValue(':motionAlertBtn', $motionAlertBtn);
-        $stmt->bindValue(':motionEvents', $motionEvents);
         $stmt->bindValue(':motionEventsVideosThumbnail', $motionEventsVideosThumbnail);
         $stmt->bindValue(':motionEventsPicturesThumbnail', $motionEventsPicturesThumbnail);
         $stmt->bindValue(':motionEventsRetention', $motionEventsRetention);
-        $stmt->bindValue(':motionStats', $motionStats);
         $stmt->execute();
     }
 

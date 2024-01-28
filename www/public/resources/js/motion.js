@@ -547,7 +547,7 @@ function enableAutostart(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContainer('buttons/main');
+            reloadContainer('motion/buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -708,7 +708,7 @@ function enableAlert(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContainer('buttons/main');
+            reloadContainer('motion/buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

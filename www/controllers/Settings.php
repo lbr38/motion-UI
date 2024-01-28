@@ -26,40 +26,28 @@ class Settings
      */
     public function edit($settings)
     {
-        $streamMainPage = 'false';
-        $streamLivePage = 'false';
-        $motionStartBtn = 'false';
-        $motionAutostartBtn = 'false';
-        $motionAlertBtn = 'false';
-        $motionStats = 'false';
-        $motionEvents = 'false';
+        $homePage = 'live'; // Default home page is '/live'
         $motionEventsVideosThumbnail = 'false';
         $motionEventsPicturesThumbnail = 'false';
         $motionEventsRetention = '30';
 
+        /**
+         *  Convert JSON to array
+         */
         $settings = json_decode($settings, true);
 
-        if (!empty($settings['stream-main-page']) and $settings['stream-main-page'] == 'true') {
-            $streamMainPage = 'true';
+
+        if (isset($settings['home-page']) and in_array($settings['home-page'], ['live', 'motion', 'events', 'stats'])) {
+            $homePage = $settings['home-page'];
         }
-        if (!empty($settings['stream-live-page']) and $settings['stream-live-page'] == 'true') {
-            $streamLivePage = 'true';
+
+        /**
+         *  Home page settings is the only one which is not stored in database but stored as a file
+         */
+        if (!file_put_contents(DATA_DIR . '/.homepage', $homePage)) {
+            throw new Exception('Unable to save Home page settings');
         }
-        if (!empty($settings['motion-start-btn']) and $settings['motion-start-btn'] == 'true') {
-            $motionStartBtn = 'true';
-        }
-        if (!empty($settings['motion-autostart-btn']) and $settings['motion-autostart-btn'] == 'true') {
-            $motionAutostartBtn = 'true';
-        }
-        if (!empty($settings['motion-alert-btn']) and $settings['motion-alert-btn'] == 'true') {
-            $motionAlertBtn = 'true';
-        }
-        if (!empty($settings['motion-stats']) and $settings['motion-stats'] == 'true') {
-            $motionStats = 'true';
-        }
-        if (!empty($settings['motion-events']) and $settings['motion-events'] == 'true') {
-            $motionEvents = 'true';
-        }
+
         if (!empty($settings['motion-events-videos-thumbnail']) and $settings['motion-events-videos-thumbnail'] == 'true') {
             $motionEventsVideosThumbnail = 'true';
         }
@@ -70,7 +58,7 @@ class Settings
             $motionEventsRetention = $settings['motion-events-retention'];
         }
 
-        $this->model->edit($streamMainPage, $streamLivePage, $motionStartBtn, $motionAutostartBtn, $motionAlertBtn, $motionEvents, $motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionEventsRetention, $motionStats);
+        $this->model->edit($motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionEventsRetention);
     }
 
     /**

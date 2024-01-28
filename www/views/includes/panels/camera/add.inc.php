@@ -43,6 +43,12 @@
                 <option value="7680x4320">7680x4320 (4320p)</option>
             </select>
 
+            <span>Text left</span>
+            <input type="text" name="camera-text-left" placeholder="e.g. Front door" />
+
+            <span>Text right</span>
+            <input type="text" name="camera-text-right" placeholder="e.g. Back door" />
+
             <span class="camera-refresh-field hide">Refresh image (sec.)</span>
             <input class="camera-refresh-field hide" type="number" name="camera-refresh" value="3" />
 

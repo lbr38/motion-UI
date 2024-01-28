@@ -1,145 +1,139 @@
 <section class="main-container reloadable-container" container="motion/stats/list">
-    <?php
-    if (MOTION_STATS === true) : ?>
-        <h3>MOTION STATS</h3>
+    <div id="motion-stats-div">
+        <div id="motion-stats-labels-data">
+            <?php
+            $eventChartLabels = '';
+            $eventChartData = '';
+            $filesChartData = '';
+            $statusChartLabels = '';
+            $statusChartData = '';
 
-        <div id="motion-stats-div">
-            <div id="motion-stats-labels-data">
-                <?php
-                $eventChartLabels = '';
-                $eventChartData = '';
-                $filesChartData = '';
-                $statusChartLabels = '';
-                $statusChartData = '';
+            /**
+             *  Get date start and end from cookies if there are, else set a default interval of 7 days.
+             */
+            if (empty($_COOKIE['statsDateStart'])) {
+                $statsDateStart = date('Y-m-d', strtotime('-7 day', strtotime(DATE_YMD)));
+            } else {
+                $statsDateStart = $_COOKIE['statsDateStart'];
+            }
+
+            if (empty($_COOKIE['statsDateEnd'])) {
+                $statsDateEnd = DATE_YMD;
+            } else {
+                $statsDateEnd = $_COOKIE['statsDateEnd'];
+            }
+
+            /**
+             *  The event chart will print data from $statsDateStart;
+             *  Initialize $dateLoop to 1 week ago
+             */
+            $dateLoop = $statsDateStart;
+
+            /**
+             *  Process each dates until $statsDateEnd is reached (this date is also processed)
+             */
+            while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime($statsDateEnd)))) {
+                /**
+                 *  Get total event for the actual day
+                 */
+                $eventCount = $mymotionEvent->getTotalByDate($dateLoop);
 
                 /**
-                 *  Get date start and end from cookies if there are, else set a default interval of 7 days.
+                 *  Add count to data
                  */
-                if (empty($_COOKIE['statsDateStart'])) {
-                    $statsDateStart = date('Y-m-d', strtotime('-7 day', strtotime(DATE_YMD)));
+                if (!empty($eventCount)) {
+                    $eventChartData .= $eventCount . ', ';
                 } else {
-                    $statsDateStart = $_COOKIE['statsDateStart'];
+                    $eventChartData .= '0, ';
                 }
 
-                if (empty($_COOKIE['statsDateEnd'])) {
-                    $statsDateEnd = DATE_YMD;
+                /**
+                 *  Get total files for the actual day
+                 */
+                $filesCount = $mymotionEvent->getTotalFileByDate($dateLoop);
+
+                /**
+                 *  Add count to data
+                 */
+                if (!empty($filesCount)) {
+                    $filesChartData .= $filesCount . ', ';
                 } else {
-                    $statsDateEnd = $_COOKIE['statsDateEnd'];
+                    $filesChartData .= '0, ';
                 }
 
                 /**
-                 *  The event chart will print data from $statsDateStart;
-                 *  Initialize $dateLoop to 1 week ago
+                 *  Add actual day to the labels
                  */
-                $dateLoop = $statsDateStart;
+                $eventChartLabels .= "$dateLoop, ";
 
                 /**
-                 *  Process each dates until $statsDateEnd is reached (this date is also processed)
+                 *  Increment date to process next date until reaching today's date +1
                  */
-                while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime($statsDateEnd)))) {
-                    /**
-                     *  Get total event for the actual day
-                     */
-                    $eventCount = $mymotionEvent->getTotalByDate($dateLoop);
+                $dateLoop = date('Y-m-d', strtotime('+1 day', strtotime($dateLoop)));
+            }
 
-                    /**
-                     *  Add count to data
-                     */
-                    if (!empty($eventCount)) {
-                        $eventChartData .= $eventCount . ', ';
-                    } else {
-                        $eventChartData .= '0, ';
-                    }
+            /**
+             *  The motion start and stop chart will print data on 48 hours
+             */
+            $motionDailyStatus = $mymotionService->getMotionServiceStatusStats();
 
-                    /**
-                     *  Get total files for the actual day
-                     */
-                    $filesCount = $mymotionEvent->getTotalFileByDate($dateLoop);
+            foreach ($motionDailyStatus as $motionStatus) {
+                $statusChartLabels .= $motionStatus['Time'] . ', ';
 
-                    /**
-                     *  Add count to data
-                     */
-                    if (!empty($filesCount)) {
-                        $filesChartData .= $filesCount . ', ';
-                    } else {
-                        $filesChartData .= '0, ';
-                    }
-
-                    /**
-                     *  Add actual day to the labels
-                     */
-                    $eventChartLabels .= "$dateLoop, ";
-
-                    /**
-                     *  Increment date to process next date until reaching today's date +1
-                     */
-                    $dateLoop = date('Y-m-d', strtotime('+1 day', strtotime($dateLoop)));
-                }
-
-                /**
-                 *  The motion start and stop chart will print data on 48 hours
-                 */
-                $motionDailyStatus = $mymotionService->getMotionServiceStatusStats();
-
-                foreach ($motionDailyStatus as $motionStatus) {
-                    $statusChartLabels .= $motionStatus['Time'] . ', ';
-
-                    if ($motionStatus['Status'] == 'inactive') {
-                        $statusChartData .= '0, ';
-                    }
-                    if ($motionStatus['Status'] == 'active') {
-                        $statusChartData .= '1, ';
-                    }
-                }
-
-                /**
-                 *  Then add current motion status to the list
-                 */
-                $statusChartLabels .= date('H:i:s') . ', ';
-
-                if ($mymotionService->isRunning()) {
-                    $statusChartData .= '1, ';
-                } else {
+                if ($motionStatus['Status'] == 'inactive') {
                     $statusChartData .= '0, ';
                 }
+                if ($motionStatus['Status'] == 'active') {
+                    $statusChartData .= '1, ';
+                }
+            }
 
-                /**
-                 *  Remove last comma on all label and data vars
-                 */
-                $eventChartLabels = rtrim($eventChartLabels, ', ');
-                $eventChartData = rtrim($eventChartData, ', ');
-                $filesChartData = rtrim($filesChartData, ', ');
-                $statusChartLabels = rtrim($statusChartLabels, ', ');
-                $statusChartData = rtrim($statusChartData, ', ');
+            /**
+             *  Then add current motion status to the list
+             */
+            $statusChartLabels .= date('H:i:s') . ', ';
 
-                /**
-                 *  Following spans will store labels and data for the charts to load
-                 *  The spans will get reloaded with new labels and data everytime new dates are selected
-                 */ ?>
-                <span id="motion-event-chart-labels-data" labels="<?= $eventChartLabels ?>" event-data="<?= $eventChartData ?>" files-data="<?= $filesChartData ?>"></span>
-                <span id="motion-status-chart-labels-data" labels="<?= $statusChartLabels ?>" status-data="<?= $statusChartData ?>"></span>
-            </div>
+            if ($mymotionService->isRunning()) {
+                $statusChartData .= '1, ';
+            } else {
+                $statusChartData .= '0, ';
+            }
 
-            <div>
-                <p class="lowopacity-cst">Period:</p>
-                <div class="flex column-gap-10">
-                    <input type="date" name="dateStart" class="input-medium stats-date-input" value="<?= $statsDateStart ?>" />
-                    <input type="date" name="dateEnd" class="input-medium stats-date-input" value="<?= $statsDateEnd ?>" />
-                </div>
-            </div>
+            /**
+             *  Remove last comma on all label and data vars
+             */
+            $eventChartLabels = rtrim($eventChartLabels, ', ');
+            $eventChartData = rtrim($eventChartData, ', ');
+            $filesChartData = rtrim($filesChartData, ', ');
+            $statusChartLabels = rtrim($statusChartLabels, ', ');
+            $statusChartData = rtrim($statusChartData, ', ');
 
-            <div id="motion-stats-container">
-                <div class="div-generic-blue">
-                    <canvas id="motion-event-chart"></canvas>
-                </div>
+            /**
+             *  Following spans will store labels and data for the charts to load
+             *  The spans will get reloaded with new labels and data everytime new dates are selected
+             */ ?>
+            <span id="motion-event-chart-labels-data" labels="<?= $eventChartLabels ?>" event-data="<?= $eventChartData ?>" files-data="<?= $filesChartData ?>"></span>
+            <span id="motion-status-chart-labels-data" labels="<?= $statusChartLabels ?>" status-data="<?= $statusChartData ?>"></span>
+        </div>
 
-                <div class="div-generic-blue">
-                    <canvas id="motion-status-chart"></canvas>
-                </div>
+        <div>
+            <p class="lowopacity-cst">Period:</p>
+            <div class="flex column-gap-10">
+                <input type="date" name="dateStart" class="input-medium stats-date-input" value="<?= $statsDateStart ?>" />
+                <input type="date" name="dateEnd" class="input-medium stats-date-input" value="<?= $statsDateEnd ?>" />
             </div>
         </div>
-        <?php
-    endif ?>
+
+        <div id="motion-stats-container">
+            <div class="div-generic-blue">
+                <canvas id="motion-event-chart"></canvas>
+            </div>
+
+            <div class="div-generic-blue">
+                <canvas id="motion-status-chart"></canvas>
+            </div>
+        </div>
+    </div>
 
     <script>
         /**
@@ -153,13 +147,13 @@
                 datasets: [
                 {
                     data: [],
-                    label: "Total events per day",
+                    label: "Motion events",
                     borderColor: '#3e95cd',
                     fill: false
                 },
                 {
                     data: [],
-                    label: "Total files recorded per day",
+                    label: "Motion files recorded",
                     borderColor: '#ea974d',
                     fill: false
                 }

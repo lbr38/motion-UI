@@ -11,13 +11,15 @@ if ($_POST['action'] == "add" and
     isset($_POST['streamUrl']) and
     !empty($_POST['outputType']) and
     !empty($_POST['outputResolution']) and
+    isset($_POST['textLeft']) and
+    isset($_POST['textRight']) and
     isset($_POST['refresh']) and
     !empty($_POST['liveEnable']) and
     !empty($_POST['motionEnable']) and
     isset($_POST['username']) and
     isset($_POST['password'])) {
     try {
-        $mycamera->add($_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputType'], $_POST['outputResolution'], $_POST['refresh'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
+        $mycamera->add($_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputType'], $_POST['outputResolution'], $_POST['textLeft'], $_POST['textRight'], $_POST['refresh'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -62,12 +64,14 @@ if ($_POST['action'] == "edit" and
     !empty($_POST['outputResolution']) and
     isset($_POST['refresh']) and
     isset($_POST['rotate']) and
+    isset($_POST['textLeft']) and
+    isset($_POST['textRight']) and
     !empty($_POST['liveEnable']) and
     !empty($_POST['motionEnable']) and
     isset($_POST['username']) and
     isset($_POST['password'])) {
     try {
-        $mycamera->edit($_POST['id'], $_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputResolution'], $_POST['refresh'], $_POST['rotate'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
+        $mycamera->edit($_POST['id'], $_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputResolution'], $_POST['refresh'], $_POST['rotate'], $_POST['textLeft'], $_POST['textRight'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
