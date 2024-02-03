@@ -144,7 +144,7 @@ function printLoadingVeilByParentClass(name)
  */
 function veilBody()
 {
-    $('body').append('<div class="body-veil"><img src="/assets/icons/motion.svg" /></div>');
+    $('body').append('<div class="body-veil"><img src="/assets/icons/motion.svg" /><img src="/assets/images/loading.gif" /></div>');
 }
 
 /**

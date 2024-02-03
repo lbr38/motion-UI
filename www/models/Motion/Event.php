@@ -34,7 +34,7 @@ class Event extends \Models\Model
         $stmt = $this->db->prepare("SELECT *
         FROM motion_events
         WHERE Date_start = :date
-        ORDER BY Camera_id DESC, Motion_id_event DESC
+        ORDER BY Time_start DESC
         LIMIT 5
         OFFSET :offset");
         $stmt->bindValue(':date', $date);

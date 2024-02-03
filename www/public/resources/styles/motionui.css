@@ -192,8 +192,8 @@ h3 {
     display: grid;
     grid-template-columns: repeat(1, 100%);
     align-items: start;
-    /* row-gap: 40px; */
-    margin: 0px 40px 0px 40px;
+    /* margin: 0px 40px 0px 40px; */
+    margin: 0px 20px 0px 20px;
 }
 
 #motion-stats-container {
@@ -423,11 +423,11 @@ h3 {
 
 .camera-btn-div {
     width: auto;
-    height: 65px;
+    /* height: 65px; */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 15px 0 15px;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px 15px;
 }
 
 .camera-image > img {
@@ -476,8 +476,8 @@ h3 {
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 .close-full-screen-camera-btn {
-    display: none;
-    width: fit-content;
+    width: 50px;
+    height: 50px;
     margin: auto;
 }
 .full-screen img {
@@ -696,6 +696,7 @@ pre {
  */
 .body-veil {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -708,10 +709,16 @@ pre {
     z-index: 90;
 }
 
-.body-veil img {
-    width: 200px;
-    height: 200px;
+.body-veil img:first-child {
+    width: 120px;
+    height: 120px;
     opacity: 0.1;
+}
+
+.body-veil img:last-child {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
 }
 
 /* Desktop configuration */

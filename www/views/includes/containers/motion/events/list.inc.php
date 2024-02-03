@@ -124,7 +124,6 @@
                                     /**
                                      *  Retrieve all files from current event
                                      */
-                                    $eventFiles = $mymotionEvent->getFilesByMotionEventId($event['Motion_id_event']);
                                     $eventId = $event['Id'];
                                     $eventTime = $event['Time_start'];
                                     $eventStatus = $event['Status'];
