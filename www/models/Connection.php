@@ -68,6 +68,8 @@ class Connection extends SQLite3
         Rotate INTEGER,
         Text_left VARCHAR(255),
         Text_right VARCHAR(255),
+        Timestamp_left CHAR(5),
+        Timestamp_right CHAR(5),
         Live_enabled CHAR(5),
         Motion_enabled CHAR(5),
         Username VARCHAR(255),

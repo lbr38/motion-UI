@@ -250,8 +250,13 @@ h3 {
 }
 
 .event-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.event-time p {
     font-size: 16px;
-    padding: 10px 10px 10px 0;
 }
 
 .event-camera {
@@ -439,6 +444,8 @@ h3 {
 .camera-image-text-left, .camera-image-text-right {
     position: absolute;
     font-family: monospace;
+    display: flex;
+    flex-direction: column;
 }
 .camera-image-text-left {
     left: 5px;
@@ -567,10 +574,17 @@ footer #github img { width: 25px; }
     position: relative;
 }
 
-.event-media span {
+/* Event media full time */
+.event-media-file-number {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+}
+
+/* Event media type (image or video) and file size */
+.event-media-file-type {
     position: absolute;
     bottom: 6px;
-    left: 3px;
 }
 
 .event-media img:not(.icon) {
@@ -773,6 +787,10 @@ pre {
     }
 
     .event-time {
+        padding: 0 10px;
+    }
+
+    .event-time p {
         font-size: 22px;
     }
 

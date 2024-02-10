@@ -74,7 +74,7 @@
                                  *  Type 'image'
                                  */
                                 if ($camera['Output_type'] == 'image') : ?>
-                                    <img src="/assets/icons/photo-camera.svg" data-src="/image?id=<?= $camera['Id'] ?>" camera-type="image" camera-id="<?= $camera['Id'] ?>" camera-refresh="<?= $camera['Refresh'] ?>" refresh-timestamp="" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                                    <img Timestamp_leftsrc="/assets/icons/photo-camera.svg" data-src="/image?id=<?= $camera['Id'] ?>" camera-type="image" camera-id="<?= $camera['Id'] ?>" camera-refresh="<?= $camera['Refresh'] ?>" refresh-timestamp="" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
                                     <?php
                                 endif;
 
@@ -86,9 +86,30 @@
                                     <?php
                                 endif ?>
 
-                                <!-- Left and right text -->
-                                <p class="camera-image-text-left"><b><?= $camera['Text_left'] ?></b></p>
-                                <p class="camera-image-text-right"><b><?= $camera['Text_right'] ?></b></p>
+                                <!-- Left and right text / timestamp -->
+                                <div class="camera-image-text-left">
+                                    <p><b><?= $camera['Text_left'] ?></b></p>
+
+                                    <?php
+                                    /**
+                                     *  Print timestamp on the right if enabled
+                                     */
+                                    if ($camera['Timestamp_left'] == 'true') {
+                                        echo '<p class="camera-image-timestamp font-size-12"></p>';
+                                    } ?>
+                                </div>
+
+                                <div class="camera-image-text-right">
+                                    <p class="text-right"><b><?= $camera['Text_right'] ?></b></p>
+
+                                    <?php
+                                    /**
+                                     *  Print timestamp on the right if enabled
+                                     */
+                                    if ($camera['Timestamp_right'] == 'true') {
+                                        echo '<p class="camera-image-timestamp font-size-12"></p>';
+                                    } ?>
+                                </div>
                             </div>
                             <?php
                         endif ?>

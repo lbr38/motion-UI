@@ -23,7 +23,7 @@ class Event
     public function new(string $motionEventId, int $motionEventIdShort, int $cameraId)
     {
         $dateStart = date('Y-m-d');
-        $timeStart = date('H:i');
+        $timeStart = date('H:i:s');
 
         /**
          *  Check if event already exists
@@ -216,17 +216,10 @@ class Event
     }
 
     /**
-     *  Get events for the specified date
-     */
-    public function getByDate(string $date)
-    {
-        return $this->model->getByDate($date);
-    }
-
-    /**
      *  Get events details for the specified date, with offset
+     *  It is possible to add an offset to the request
      */
-    public function getByDateOffset(string $date, int $offset)
+    public function getByDate(string $date, bool $withOffset = false, int $offset = 0)
     {
         /**
          *  Offset cannot be negative
@@ -235,23 +228,7 @@ class Event
             $offset = 0;
         }
 
-        return $this->model->getByDateOffset($date, $offset);
-    }
-
-    /**
-     *  Get total event count for the specified date
-     */
-    public function getTotalByDate(string $date)
-    {
-        return count($this->model->getByDate($date));
-    }
-
-    /**
-     *  Return total event count by date
-     */
-    public function totalEventByDate(string $date)
-    {
-        return count($this->model->getByDate($date));
+        return $this->model->getByDate($date, $withOffset, $offset);
     }
 
     /**

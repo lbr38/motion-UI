@@ -153,71 +153,33 @@ $(document).on('change','.event-date-input',function () {
 });
 
 /**
- *  Event: print next 5 events
+ *  Event: click on a pagination button
  */
-$(document).on('click','.event-next-btn',function () {
+$(document).on('click','.event-pagination-btn',function () {
+    /**
+     *  Get page number
+     */
+    var page = $(this).attr('page');
+
     /**
      *  Retrieve event date
      */
     var eventDate = $(this).attr('event-date');
 
     /**
-     *  Retrieve event offset value (used for pagination), it is stored in the parent container
+     *  Calculate offset (page * 5 - 5)
      */
-    var offset = $('.event-date-container[event-date="' + eventDate + '"]').attr('offset');
-
-    // Increment + 5
-    offset = parseInt(offset) + 5;
+    offset = parseInt(page) * 5 - 5;
 
     /**
-     *  Set cookie for PHP to load the right events
-     */
-    setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
-
-    /**
-     *  Print loading veil
-     */
-    printLoadingVeilByParentClass('event-date-container[event-date="' + eventDate + '"]');
-
-    /**
-     *  Reload the event container matching the date
-     */
-    $('.event-date-container[event-date="' + eventDate + '"]').load(location.href + ' .event-date-container[event-date="' + eventDate + '"] > *');
-
-    /**
-     *  Set the new offset value in the parent container
-     */
-    $('.event-date-container[event-date="' + eventDate + '"]').attr('offset', offset);
-});
-
-/**
- *  Event: print previous 5 events
- */
-$(document).on('click','.event-previous-btn',function () {
-    /**
-     *  Retrieve event date
-     */
-    var eventDate = $(this).attr('event-date');
-
-    /**
-     *  Retrieve event offset value (used for pagination), it is stored in the parent container
-     */
-    var offset = $('.event-date-container[event-date="' + eventDate + '"]').attr('offset');
-
-    /**
-     * Decrement - 5
-     */
-    offset = parseInt(offset) - 5;
-
-    /**
-     *  Offset cannot be negative
+     *  If offset is negative, set it to 0
      */
     if (offset < 0) {
         offset = 0;
     }
 
     /**
-     *  Set cookie for PHP to load the right events
+     *  Set cookie for PHP to load the right content
      */
     setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
 

@@ -91,7 +91,7 @@ class Service
      */
     public function motionuiServiceRunning()
     {
-        $myprocess = new \Controllers\Process('ps aux | grep "' . ROOT . '/tools/service.php$" | grep -v grep');
+        $myprocess = new \Controllers\Process('ps aux | grep "motionui.service" | grep -v grep');
         $myprocess->execute();
         $myprocess->close();
 

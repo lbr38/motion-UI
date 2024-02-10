@@ -7,36 +7,26 @@ use Exception;
 class Event extends \Models\Model
 {
     /**
-     *  Get events for the specified date
+     *  Get events details for the specified date, with offset
+     *  It is possible to add an offset to the request
      */
-    public function getByDate(string $date)
+    public function getByDate(string $date, bool $withOffset, int $offset)
     {
         $events = array();
 
-        $stmt = $this->db->prepare("SELECT * FROM motion_events WHERE Date_start = :date");
-        $stmt->bindValue(':date', $date);
-        $result = $stmt->execute();
+        $query = "SELECT * FROM motion_events WHERE Date_start = :date ORDER BY Time_start DESC";
 
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $events[] = $row;
+        /**
+         *  If offset is specified
+         */
+        if ($withOffset) {
+            $query .= " LIMIT 5 OFFSET :offset";
         }
 
-        return $events;
-    }
-
-    /**
-     *  Get events details for the specified date, with offset
-     */
-    public function getByDateOffset(string $date, int $offset)
-    {
-        $events = array();
-
-        $stmt = $this->db->prepare("SELECT *
-        FROM motion_events
-        WHERE Date_start = :date
-        ORDER BY Time_start DESC
-        LIMIT 5
-        OFFSET :offset");
+        /**
+         *  Prepare query
+         */
+        $stmt = $this->db->prepare($query);
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':offset', $offset);
         $result = $stmt->execute();

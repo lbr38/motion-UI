@@ -99,17 +99,14 @@ class Camera extends Model
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $textLeft, string $textRight, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $liveEnable, string $motionEnable, string $username, string $password)
     {
-        $stmt = $this->db->prepare("INSERT INTO cameras ('Name', 'Url', 'Stream_url', 'Output_type', 'Output_resolution', 'Text_left', 'Text_right', 'Refresh', 'Live_enabled', 'Motion_enabled', 'Username', 'Password') VALUES (:name, :url, :streamUrl, :outputType, :outputResolution, :textLeft, :textRight, :refresh, :liveEnable, :motionEnable, :username, :password)");
+        $stmt = $this->db->prepare("INSERT INTO cameras ('Name', 'Url', 'Stream_url', 'Output_type', 'Output_resolution', 'Text_left', 'Text_right', 'Timestamp_left', 'Timestamp_right', 'Refresh', 'Live_enabled', 'Motion_enabled', 'Username', 'Password') VALUES (:name, :url, :streamUrl, :outputType, :outputResolution, :textLeft, :textRight, 'false', 'false', '3', :liveEnable, :motionEnable, :username, :password)");
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':url', $url);
         $stmt->bindValue(':streamUrl', $streamUrl);
         $stmt->bindValue(':outputType', $outputType);
         $stmt->bindValue(':outputResolution', $outputResolution);
-        $stmt->bindValue(':textLeft', $textLeft);
-        $stmt->bindValue(':textRight', $textRight);
-        $stmt->bindValue(':refresh', $refresh);
         $stmt->bindValue(':liveEnable', $liveEnable);
         $stmt->bindValue(':motionEnable', $motionEnable);
         $stmt->bindValue(':username', $username);
@@ -120,15 +117,14 @@ class Camera extends Model
     /**
      *  Edit camera global settings
      */
-    public function edit(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $refresh, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function editGlobalSettings(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $username, string $password)
     {
-        $stmt = $this->db->prepare("UPDATE cameras SET Name = :name, Url = :url, Stream_url = :streamUrl, Output_resolution = :outputResolution, Refresh = :refresh, Rotate = :rotate, Text_left = :textLeft, Text_right = :textRight, Live_enabled = :liveEnable, Motion_enabled = :motionEnable, Username = :username, Password = :password WHERE Id = :id");
+        $stmt = $this->db->prepare("UPDATE cameras SET Name = :name, Url = :url, Stream_url = :streamUrl, Output_resolution = :outputResolution, Rotate = :rotate, Text_left = :textLeft, Text_right = :textRight, Live_enabled = :liveEnable, Motion_enabled = :motionEnable, Username = :username, Password = :password WHERE Id = :id");
         $stmt->bindValue(':id', $id);
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':url', $url);
         $stmt->bindValue(':streamUrl', $streamUrl);
         $stmt->bindValue(':outputResolution', $outputResolution);
-        $stmt->bindValue(':refresh', $refresh);
         $stmt->bindValue(':rotate', $rotate);
         $stmt->bindValue(':textLeft', $textLeft);
         $stmt->bindValue(':textRight', $textRight);
@@ -136,6 +132,19 @@ class Camera extends Model
         $stmt->bindValue(':motionEnable', $motionEnable);
         $stmt->bindValue(':username', $username);
         $stmt->bindValue(':password', $password);
+        $stmt->execute();
+    }
+
+    /**
+     *  Edit camera stream settings
+     */
+    public function editStreamSettings(string $id, int $refresh, string $timestampLeft, string $timestampRight)
+    {
+        $stmt = $this->db->prepare("UPDATE cameras SET Refresh = :refresh, Timestamp_left = :timestampLeft, Timestamp_right = :timestampRight WHERE Id = :id");
+        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':refresh', $refresh);
+        $stmt->bindValue(':timestampLeft', $timestampLeft);
+        $stmt->bindValue(':timestampRight', $timestampRight);
         $stmt->execute();
     }
 

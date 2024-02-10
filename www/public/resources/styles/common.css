@@ -452,7 +452,7 @@ input::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 40px;
+    min-width: 35px;
     height: 30px;
     border: none;
     border-radius: 60px;

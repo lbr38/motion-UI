@@ -28,11 +28,11 @@ fi
 /usr/sbin/service nginx start
 /usr/sbin/service postfix start
 
-# # Initialize and update database (if needed)
+# Initialize and update database (if needed)
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/initialize-database.php" www-data
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/update-database.php" www-data
 
-# # Start motionui service
+# Start motionui service
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data
 
 /bin/bash

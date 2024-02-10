@@ -36,7 +36,7 @@
                 /**
                  *  Get total event for the actual day
                  */
-                $eventCount = $mymotionEvent->getTotalByDate($dateLoop);
+                $eventCount = count($mymotionEvent->getByDate($dateLoop));
 
                 /**
                  *  Add count to data
