@@ -11,15 +11,13 @@ if ($_POST['action'] == "add" and
     isset($_POST['streamUrl']) and
     !empty($_POST['outputType']) and
     !empty($_POST['outputResolution']) and
-    isset($_POST['textLeft']) and
-    isset($_POST['textRight']) and
     isset($_POST['refresh']) and
     !empty($_POST['liveEnable']) and
     !empty($_POST['motionEnable']) and
     isset($_POST['username']) and
     isset($_POST['password'])) {
     try {
-        $mycamera->add($_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputType'], $_POST['outputResolution'], $_POST['textLeft'], $_POST['textRight'], $_POST['refresh'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
+        $mycamera->add($_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputType'], $_POST['outputResolution'], $_POST['refresh'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -54,15 +52,14 @@ if ($_POST['action'] == "getEditForm" and !empty($_POST['id'])) {
 }
 
 /**
- *  Edit camera configuration
+ *  Edit camera global settings
  */
-if ($_POST['action'] == "edit" and
+if ($_POST['action'] == 'edit-global-settings' and
     !empty($_POST['id']) and
     !empty($_POST['name']) and
     !empty($_POST['url']) and
     isset($_POST['streamUrl']) and
     !empty($_POST['outputResolution']) and
-    isset($_POST['refresh']) and
     isset($_POST['rotate']) and
     isset($_POST['textLeft']) and
     isset($_POST['textRight']) and
@@ -71,12 +68,29 @@ if ($_POST['action'] == "edit" and
     isset($_POST['username']) and
     isset($_POST['password'])) {
     try {
-        $mycamera->edit($_POST['id'], $_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputResolution'], $_POST['refresh'], $_POST['rotate'], $_POST['textLeft'], $_POST['textRight'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
+        $mycamera->editGlobalSettings($_POST['id'], $_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputResolution'], $_POST['rotate'], $_POST['textLeft'], $_POST['textRight'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Camera <b>' . $_POST['name'] . '</b> edited');
+    response(HTTP_OK, 'Camera global settings saved');
+}
+
+/**
+ *  Edit camera stream settings
+ */
+if ($_POST['action'] == 'edit-stream-settings' and
+    !empty($_POST['id']) and
+    isset($_POST['refresh']) and
+    isset($_POST['timestampLeft']) and
+    isset($_POST['timestampRight'])) {
+    try {
+        $mycamera->editStreamSettings($_POST['id'], $_POST['refresh'], $_POST['timestampLeft'], $_POST['timestampRight']);
+    } catch (\Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
+    }
+
+    response(HTTP_OK, 'Camera stream settings saved');
 }
 
 /**

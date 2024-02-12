@@ -9,14 +9,14 @@
             <span>Id</span>
             <span>#<?= $camera['Id'] ?></span>
 
+            <span>Output type</span>
+            <p><span class="label-blue"><?= $camera['Output_type'] ?></span></p>
+
             <span>Name</span>
             <input type="text" name="edit-camera-name" value="<?= $camera['Name'] ?>" />
             
             <span>URL</span>
             <input type="text" name="edit-camera-url" value="<?= $camera['Url'] ?>" />
-
-            <span>Output type</span>
-            <span><i class="label-blue"><?= $camera['Output_type'] ?></i></span>
     
             <span>Output resolution</span>
             <select name="edit-output-resolution">
@@ -44,19 +44,10 @@
                 <option value="7680x4320" <?php echo ($camera['Output_resolution'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
             </select>
 
-            <?php
-            if ($camera['Output_type'] == 'image') : ?>
-                <span class="camera-refresh-field">Refresh image (sec.)</span>
-                <input class="camera-refresh-field" type="number" name="edit-camera-refresh" value="<?= $camera['Refresh'] ?>" />
-                <?php
-            endif; ?>
-
             <span>Rotate</span>
             <select name="edit-camera-rotate">
                 <option value="0" <?php echo $camera['Rotate'] == "0" ? 'selected' : '' ?>>0</option>
-                <!-- <option value="90" <?php //echo $camera['Rotate'] == "90" ? 'selected' : '' ?>>90</option> -->
                 <option value="180" <?php echo $camera['Rotate'] == "180" ? 'selected' : '' ?>>180</option>
-                <!-- <option value="270" <?php //echo $camera['Rotate'] == "270" ? 'selected' : '' ?>>270</option> -->
             </select>
 
             <span>Text left</span>
@@ -118,8 +109,56 @@
 <br>
 
 <?php
-if ($camera['Motion_enabled'] == 'true') :
-    echo '<h4>Motion detection settings</h4>';
+if ($camera['Live_enabled'] == "true") : ?>
+    <hr>
+    <h4>Live stream settings</h4>
+
+    <p class="lowopacity-cst">These settings are applied only to the live stream.</p>
+    <br>
+
+    <form id="camera-stream-settings-form" camera-id="<?= $camera['Id'] ?>" autocomplete="off">
+        <div class="margin-left-15">
+            <div class="grid grid-fr-1-2 align-item-center column-gap-10 row-gap-10">
+                <?php
+                /**
+                 *  Print refresh field only if camera output type is image
+                 */
+                if ($camera['Output_type'] == 'image') : ?>
+                    <span>Refresh stream image (sec.)</span>
+                    <input type="number" name="camera-stream-setting-refresh" value="<?= $camera['Refresh'] ?>" />
+                    <?php
+                endif ?>
+
+                <span>Timestamp left</span>
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input" type="checkbox" name="camera-stream-setting-timestamp-left" <?php echo $camera['Timestamp_left'] == "true" ? 'checked' : '' ?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+
+                <span>Timestamp right</span>
+                <label class="onoff-switch-label">
+                    <input class="onoff-switch-input" type="checkbox" name="camera-stream-setting-timestamp-right" <?php echo $camera['Timestamp_right'] == "true" ? 'checked' : '' ?>>
+                    <span class="onoff-switch-slider"></span>
+                </label>
+            </div>
+
+            <br>
+            <button type="submit" class="btn-small-green">Save</button>
+        </div>
+    </form>
+    <br>
+    <?php
+endif ?>
+
+<?php
+if ($camera['Motion_enabled'] == 'true') : ?>
+    <hr>
+    <h4>Motion detection settings</h4>
+
+    <p class="lowopacity-cst">These settings are applied only to the motion detection.</p>
+    <br>
+
+    <?php
 
     $eventRegistering = false;
 

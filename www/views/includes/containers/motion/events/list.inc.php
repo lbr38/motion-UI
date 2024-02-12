@@ -46,7 +46,7 @@
             if (!empty($eventsDates)) :
                 foreach ($eventsDates as $eventsDate) :
                     $eventDate = $eventsDate['Date_start'];
-                    $totalEventsCount = $mymotionEvent->totalEventByDate($eventDate);
+                    $totalEventsCount = count($mymotionEvent->getByDate($eventDate));
 
                     /**
                      *  $offset defines the start value (offset) of the data to get from the database
@@ -65,7 +65,7 @@
                     /**
                      *  Get all events from the current date
                      */
-                    $events = $mymotionEvent->getByDateOffset($eventDate, $offset); ?>
+                    $events = $mymotionEvent->getByDate($eventDate, true, $offset); ?>
 
                     <div class="event-date-container" event-date="<?= $eventDate ?>" offset="<?= $offset ?>">
                         <div class="event-date">
@@ -89,28 +89,82 @@
                         </div>
 
                         <?php
-                        if ($totalEventsCount > 5) : ?>
-                            <div class="event-previous-next-btns">
-                                <?php
-                                if ($offset > 0) : ?>
-                                    <div class="slide-btn event-previous-btn" event-date="<?= $eventDate ?>" title="Newer events">
-                                        <img src="/assets/icons/previous.svg" />
-                                        <span>Previous</span>
-                                    </div>
-                                    <?php
-                                endif;
+                        /**
+                         *  Pagination buttons
+                         */
 
-                                if ($offset >= 0) :
-                                    if ($totalEventsCount > $offset + 5) : ?>
-                                        <div class="slide-btn event-next-btn" event-date="<?= $eventDate ?>" title="Older events">
-                                            <img src="/assets/icons/next.svg" />
-                                            <span>Next</span>
-                                        </div>
-                                        <?php
-                                    endif;
-                                endif ?>
+                        /**
+                         *  Calculate total pages and current page
+                         */
+                        $totalPages = ceil($totalEventsCount / 5);
+                        $currentPage = ceil($offset / 5) + 1;
+
+                        /**
+                         *  Print pagination if more than one page
+                         */
+                        if ($totalPages > 1) :
+                            $output = ''; ?>
+
+                            <div class="flex justify-end margin-bottom-15">
+                                <?php
+                                /**
+                                 *  Previous button
+                                 */
+                                if ($currentPage > 1) {
+                                    $output .= '<button class="event-pagination-btn pagination-btn-first pagination-btn-previous" page="' . ($currentPage - 1) . '" event-date="' . $eventDate . '" title="Previous"><img src="/assets/icons/previous.svg" class="icon" /></button>';
+                                }
+
+                                /**
+                                 *  Button 1
+                                 */
+                                if ($currentPage == 1) {
+                                    $output .= '<button class="event-pagination-btn pagination-btn-first pagination-btn-current" page="1" event-date="' . $eventDate . '">1</button>';
+                                } else {
+                                    $output .= '<button class="event-pagination-btn pagination-btn" page="1" event-date="' . $eventDate . '">1</button>';
+                                }
+
+                                /**
+                                 *  Print 2 previous and next pages
+                                 */
+                                $start = max(2, $currentPage - 1);
+                                $end = min($totalPages - 1, $currentPage + 1);
+
+                                if ($start > 2) {
+                                    $output .= '<span class="pagination-btn">...</span>';
+                                }
+
+                                for ($i = $start; $i <= $end; $i++) {
+                                    if ($currentPage == $i) {
+                                        $output .= '<button class="event-pagination-btn pagination-btn pagination-btn-current" page="' . $i . '" event-date="' . $eventDate . '">' . $i . '</button>';
+                                    } else {
+                                        $output .= '<button class="event-pagination-btn pagination-btn" page="' . $i . '" event-date="' . $eventDate . '">' . $i . '</button>';
+                                    }
+                                }
+
+                                if ($end < $totalPages - 1) {
+                                    $output .= '<span class="pagination-btn">...</span>';
+                                }
+
+                                /**
+                                 *  Button last
+                                 */
+                                if ($totalPages > 1) {
+                                    if ($currentPage == $totalPages) {
+                                        $output .= '<button class="event-pagination-btn pagination-btn-last pagination-btn-current" page="' . $totalPages . '" event-date="' . $eventDate . '">' . $totalPages . '</button>';
+                                    } else {
+                                        $output .= '<button class="event-pagination-btn pagination-btn" page="' . $totalPages . '" event-date="' . $eventDate . '">' . $totalPages . '</button>';
+                                    }
+                                }
+
+                                /**
+                                 *  Next button
+                                 */
+                                if ($currentPage < $totalPages) {
+                                    $output .= '<button class="event-pagination-btn pagination-btn-last pagination-btn-next" page="' . ($currentPage + 1) . '" event-date="' . $eventDate . '" title="Next"><img src="/assets/icons/next.svg" class="icon" /></button>';
+                                }
+
+                                echo $output; ?>
                             </div>
-                            <br>
                             <?php
                         endif ?>
 
@@ -126,6 +180,8 @@
                                      */
                                     $eventId = $event['Id'];
                                     $eventTime = $event['Time_start'];
+                                    $eventTimeShort = new DateTimeImmutable($eventTime);
+                                    $eventTimeShort = $eventTimeShort->format('H:i');
                                     $eventStatus = $event['Status'];
                                     $eventSeen = $event['Seen'];
                                     $cameraId = $event['Camera_id'];
@@ -133,6 +189,12 @@
                                     $motionEventIdShort = $event['Motion_id_event_short'];
                                     $lastCameraId = '';
                                     $lastMotionEventId = '';
+
+                                    /**
+                                     *  File number counter
+                                     *  This will be used to number the files in the event
+                                     */
+                                    $fileNumberCounter = 1;
 
                                     /**
                                      *  Get current event files by motion event id
@@ -145,8 +207,9 @@
                                     $mymotionEvent->seen($eventId); ?>
 
                                     <div class="div-generic-blue event-container veil-on-reload">
-                                        <div class="event-time">
-                                            <?= $eventTime ?>
+                                        <div class="event-time" title="Event start time">
+                                            <p><?= $eventTimeShort ?></p>
+                                            <span class="lowopacity-cst font-size-11"><?= $eventTime ?></span>
                                         </div>
 
                                         <div class="event-camera">
@@ -207,7 +270,7 @@
                                                                     <span>
                                                                         <?php
                                                                         if ($eventSeen != 'true') {
-                                                                            echo '<code>New</code>';
+                                                                            echo '<code class="bkg-green">New</code>';
                                                                         } ?>
                                                                     </span>
                                                                     <br>
@@ -246,9 +309,14 @@
                                                                             }
                                                                         endif ?>
 
-                                                                        <span class="font-size-13">
-                                                                            <img src="/assets/icons/picture.svg" class="icon" /> (<?= $filesize ?>)
-                                                                        </span>
+                                                                        <div class="event-media-file-number">
+                                                                            <p class="font-size-11">#<?= $fileNumberCounter ?></p>
+                                                                        </div>
+
+                                                                        <div class="event-media-file-type flex align-item-center">
+                                                                            <img src="/assets/icons/video.svg" class="icon" />
+                                                                            <span class="font-size-12">(<?= $filesize ?>)</span>
+                                                                        </div>
                                                                     </div>
                                                                     <?php
                                                                 endif;
@@ -261,7 +329,7 @@
                                                                         <div>
                                                                             <div class="flex align-item-center">
                                                                                 <img src="/assets/icons/picture.svg" class="icon" />
-                                                                                <p>Picture</p>
+                                                                                <p class="font-size-12">Picture #<?= $fileNumberCounter ?></p>
                                                                             </div>
                                                                             <?php
                                                                             /**
@@ -278,14 +346,14 @@
                                                                                 }
                                                                             endif ?>
                                                                         </div>
+
                                                                         <?php
                                                                         if (is_readable($filepath)) : ?>
                                                                             <span class="round-btn-green play-picture-btn" file-id="<?= $fileId ?>" title="Visualize picture">
                                                                                 <img src="/assets/icons/play.svg" />
                                                                             </span>
                                                                             <?php
-                                                                        endif
-                                                                        ?>
+                                                                        endif ?>
                                                                     </div>
                                                                     <?php
                                                                 endif ?>
@@ -338,9 +406,14 @@
                                                                             }
                                                                         endif ?>
 
-                                                                        <span class="font-size-13">
-                                                                            <img src="/assets/icons/video.svg" class="icon" /> (<?= $filesize ?>)
-                                                                        </span>
+                                                                        <div class="event-media-file-number">
+                                                                            <p class="font-size-11">#<?= $fileNumberCounter ?></p>
+                                                                        </div>
+
+                                                                        <div class="event-media-file-type flex align-item-center">
+                                                                            <img src="/assets/icons/video.svg" class="icon" />
+                                                                            <span class="font-size-12">(<?= $filesize ?>)</span>
+                                                                        </div>
                                                                     </div>
                                                                     <?php
                                                                 endif;
@@ -353,7 +426,7 @@
                                                                         <div>
                                                                             <div class="flex align-item-center">
                                                                                 <img src="/assets/icons/video.svg" class="icon" />
-                                                                                <p>Video</p>
+                                                                                <p class="font-size-12">Video #<?= $fileNumberCounter ?></p>
                                                                             </div>
                                                                             <?php
                                                                             /**
@@ -411,6 +484,8 @@
 
                                                 $lastCameraId = $cameraId;
                                                 $lastMotionEventId = $motionEventId;
+
+                                                $fileNumberCounter++;
                                             endforeach; ?>
                                         </div>
                                             

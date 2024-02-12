@@ -47,8 +47,6 @@ An Android app is available for download <a href="https://github.com/lbr38/motio
 
 ## Installation and usage
 
-**Important: .deb and .rpm packages are not longer maintained. Please use the docker image instead.**
-
 Official documentation is available <a href="https://github.com/lbr38/motion-UI/wiki">here</a>.
 
 It should help you **installing** and starting using motion-UI.

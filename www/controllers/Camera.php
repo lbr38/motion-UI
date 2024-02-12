@@ -72,7 +72,7 @@ class Camera
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $textLeft, string $textRight, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
     {
         $mymotionService = new \Controllers\Motion\Service();
 
@@ -91,8 +91,6 @@ class Camera
         $streamUrl = Common::validateData($streamUrl);
         $outputType = Common::validateData($outputType);
         $outputResolution = Common::validateData($outputResolution);
-        $textLeft = Common::validateData($textLeft);
-        $textRight = Common::validateData($textRight);
         $refresh = Common::validateData($refresh);
         $liveEnable = Common::validateData($liveEnable);
         $motionEnable = Common::validateData($motionEnable);
@@ -140,7 +138,7 @@ class Camera
         /**
          *  Add camera in database
          */
-        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $textLeft, $textRight, $refresh, $liveEnable, $motionEnable, $username, $password);
+        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $liveEnable, $motionEnable, $username, $password);
 
         /**
          *  Get inserted camera Id from database
@@ -214,7 +212,7 @@ class Camera
     /**
      *  Edit camera global settings
      */
-    public function edit(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $refresh, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function editGlobalSettings(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $username, string $password)
     {
         $mymotionService = new \Controllers\Motion\Service();
 
@@ -244,7 +242,6 @@ class Camera
         $url = Common::validateData($url);
         $streamUrl = Common::validateData($streamUrl);
         $outputResolution = Common::validateData($outputResolution);
-        $refresh = Common::validateData($refresh);
         $rotate = Common::validateData($rotate);
         $textLeft = Common::validateData($textLeft);
         $textRight = Common::validateData($textRight);
@@ -278,10 +275,6 @@ class Camera
             throw new Exception('Stream URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
         }
 
-        if (!empty($refresh) and !is_numeric($refresh)) {
-            throw new Exception('Specified refresh rate is invalid');
-        }
-
         if (!is_numeric($rotate)) {
             throw new Exception('Specified rotation is invalid');
         }
@@ -311,7 +304,7 @@ class Camera
         /**
          *  Edit global settings in database
          */
-        $this->model->edit($id, $name, $url, $streamUrl, $outputResolution, $refresh, $rotate, $textLeft, $textRight, $liveEnable, $motionEnable, $username, $password);
+        $this->model->editGlobalSettings($id, $name, $url, $streamUrl, $outputResolution, $rotate, $textLeft, $textRight, $liveEnable, $motionEnable, $username, $password);
 
         /**
          *  Edit global settings in motion config file
@@ -394,6 +387,40 @@ class Camera
                 touch(DATA_DIR . '/motion.restart');
             }
         }
+    }
+
+    /**
+     *  Edit camera stream settings
+     */
+    public function editStreamSettings(string $id, int $refresh = 3, string $timestampLeft = 'false', string $timestampRight = 'false')
+    {
+        $refresh = \Controllers\Common::validateData($refresh);
+        $timestampLeft = \Controllers\Common::validateData($timestampLeft);
+        $timestampRight = \Controllers\Common::validateData($timestampRight);
+
+        if (!is_numeric($refresh)) {
+            throw new Exception('Specified refresh rate is invalid');
+        }
+
+        if ($timestampLeft != 'false' and $timestampLeft != 'true') {
+            throw new Exception('Specified timestamp left value is invalid');
+        }
+
+        if ($timestampRight != 'false' and $timestampRight != 'true') {
+            throw new Exception('Specified timestamp right value is invalid');
+        }
+
+        /**
+         *  Check if camera Id exist
+         */
+        if (!$this->existId($id)) {
+            throw new Exception('Camera does not exist');
+        }
+
+        /**
+         *  Edit stream settings in database
+         */
+        $this->model->editStreamSettings($id, $refresh, $timestampLeft, $timestampRight);
     }
 
     /**

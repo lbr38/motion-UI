@@ -1,4 +1,5 @@
 <?php
+cli_set_process_title('motionui.service');
 
 define('ROOT', dirname(__FILE__, 2));
 require_once(ROOT . '/controllers/Autoloader.php');
@@ -18,6 +19,7 @@ $mysignalhandler->touchFileOnInterrupt(DATA_DIR . '/.service-autostart-stop');
  *  Run autostart task
  */
 if (!empty($argv[1]) && $argv[1] == 'autostart') {
+    cli_set_process_title('motionui.autostart');
     $mymotionAutostart->autostart();
     exit;
 }

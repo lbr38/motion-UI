@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    loadCameras();
-    reloadImage();
+    loadStream();
 
     /**
      *  Setting live grid layout
@@ -12,10 +11,27 @@ $(document).ready(function () {
 });
 
 /**
+ *  Load stream page (cameras image and timestamp)
+ */
+function loadStream()
+{
+    loadCameras();
+    reloadImage();
+    reloadTimestamp();
+}
+
+/**
  *  Load cameras image and hide loading div
  */
 function loadCameras()
 {
+    /**
+     *  Quit if there is no camera to load
+     */
+    if ($('.camera-container').length == 0) {
+        return;
+    }
+
     /**
      *  Just wait a little bit to be sure that all camera divs are loaded
      */
@@ -40,7 +56,7 @@ function loadCameras()
                 /**
                  *  Print log message
                  */
-                console.log('Camera image loaded');
+                console.log('Camera(s) loaded');
 
                 /**
                  *  Once the image is loaded, hide the loading div and show the image div
@@ -52,17 +68,53 @@ function loadCameras()
     }, 500);
 }
 
+function reloadTimestamp()
+{
+    /**
+     *  Quit if there is no timestamp to reload
+     */
+    if ($('.camera-image').find('p.camera-image-timestamp').length == 0) {
+        return;
+    }
+    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
+
+    /**
+     *  Refresh timestamp every second
+     */
+    setInterval(function () {
+        /**
+         *  Get date and time to YYYY-MM-DD HH:MM:SS format, with system timezone
+         */
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        var seconds = date.getSeconds().toString().padStart(2, '0');
+        var dateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+        $('.camera-image').find('p.camera-image-timestamp').each(function () {
+            $(this).text(dateTime);
+        });
+    }, 1000);
+}
+
 /**
  *  Regulary reload cameras image
  */
 function reloadImage()
 {
-    if (!$('.camera-image').find('img[camera-type="image"]')) {
+    /**
+     *  Quit if there is no camera image to reload
+     */
+    if ($('.camera-image').find('img[camera-type="image"]').length == 0) {
         return;
     }
 
     setInterval(function () {
-        console.log('Reloading cameras image');
+        console.log('Reloading camera(s) static image');
+
         /**
          *  Get current Unix timestamp
          */
@@ -161,8 +213,6 @@ $(document).on('submit','#new-camera-form',function () {
     var url = $(this).find('input[type=text][name=camera-url]').val();
     var outputType = $(this).find('input[type=radio][name=output-type]:checked').val();
     var outputResolution = $(this).find('select[name=output-resolution]').val();
-    var textLeft = $(this).find('input[type=text][name=camera-text-left]').val();
-    var textRight = $(this).find('input[type=text][name=camera-text-right]').val();
     var refresh = $(this).find('input[type=number][name=camera-refresh]').val();
     var username = $(this).find('input[type=text][name=camera-username]').val();
     var password = $(this).find('input[type=password][name=camera-password]').val();
@@ -182,8 +232,6 @@ $(document).on('submit','#new-camera-form',function () {
             streamUrl: streamUrl,
             outputType: outputType,
             outputResolution: outputResolution,
-            textLeft: textLeft,
-            textRight: textRight,
             refresh: refresh,
             liveEnable: liveEnable,
             motionEnable: motionEnable,
@@ -191,9 +239,9 @@ $(document).on('submit','#new-camera-form',function () {
             password: password
         },
         // Reload containers:
-        [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
+        [ 'cameras/list' ],
         // Execute functions :
-        [ loadCameras() ]
+        [ loadStream() ]
     );
 
     return false;
@@ -221,15 +269,11 @@ $(document).on('submit','#camera-global-settings-form',function () {
     var liveEnable = $(this).find('input[type=checkbox][name=edit-camera-live-enable]').is(':checked');
     var motionEnable = $(this).find('input[type=checkbox][name=edit-camera-motion-enable]').is(':checked');
 
-    if (outputType == 'image') {
-        var refresh = $(this).find('input[type=number][name=edit-camera-refresh]').val();
-    }
-
     ajaxRequest(
         // Controller:
         'camera',
         // Action:
-        'edit',
+        'edit-global-settings',
         // Data:
         {
             id: id,
@@ -247,9 +291,47 @@ $(document).on('submit','#camera-global-settings-form',function () {
             password: password
         },
         // Reload containers:
-        [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
+        [ 'cameras/list' ],
         // Execute functions :
-        [ loadCameras(), reloadEditForm(id) ]
+        [ loadStream(), reloadEditForm(id) ]
+    );
+
+    return false;
+});
+
+
+/**
+ *  Event: edit camera stream settings
+ */
+$(document).on('submit','#camera-stream-settings-form',function () {
+    event.preventDefault();
+
+    // Default value
+    var refresh = 3;
+    var id = $(this).attr('camera-id');
+    var timestampLeft = $(this).find('input[type=checkbox][name="camera-stream-setting-timestamp-left"]').is(':checked');
+    var timestampRight = $(this).find('input[type=checkbox][name="camera-stream-setting-timestamp-right"]').is(':checked');
+    // If refresh field exists, get its value
+    if ($(this).find('input[type=number][name="camera-stream-setting-refresh"]').length > 0) {
+        var refresh = $(this).find('input[type=number][name="camera-stream-setting-refresh"]').val();
+    }
+
+    ajaxRequest(
+        // Controller:
+        'camera',
+        // Action:
+        'edit-stream-settings',
+        // Data:
+        {
+            id: id,
+            refresh: refresh,
+            timestampLeft: timestampLeft,
+            timestampRight: timestampRight
+        },
+        // Reload containers:
+        [ 'cameras/list' ],
+        // Execute functions :
+        [ loadStream(), reloadEditForm(id) ]
     );
 
     return false;
@@ -272,9 +354,9 @@ $(document).on('click','.delete-camera-btn',function () {
                 cameraId: cameraId,
             },
             // Reload containers:
-            [ 'getting-started', 'motion/buttons/main', 'cameras/list' ],
+            [ 'cameras/list' ],
             // Execute functions :
-            [ loadCameras() ]
+            [ loadStream() ]
         );
     });
 });
