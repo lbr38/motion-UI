@@ -1,5 +1,5 @@
 /**
- *  v1.6
+ *  v1.7
  */
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
@@ -104,13 +104,12 @@ pre {
 .center { text-align: center; }
 .baseline { vertical-align: baseline; }
 .font-size-11{font-size: 11px !important}.font-size-12{font-size: 12px !important}.font-size-13{font-size: 13px !important}.font-size-14{font-size: 14px !important}.font-size-15{font-size: 15px !important}.font-size-16{font-size: 16px !important}.font-size-17{font-size: 17px !important}.font-size-18{font-size: 18px !important}
-.lowopacity, .lowopacity-cst {opacity: 0.33} /* lowopacity-cst is used for constant lowopacity even on hover */
-.mediumopacity, .mediumopacity-cst {opacity: 0.55}
+.mediumopacity,.mediumopacity-cst{opacity: 0.55}
+.lowopacity,.lowopacity-cst{opacity: 0.33} /* lowopacity-cst is used for constant lowopacity even on hover */
 .verylowopacity {opacity: 0.08}
-.lowopacity:hover, .mediumopacity:hover, .verylowopacity:hover {opacity: 1}
-.opacity-80 { opacity: 0.80; }
-.wordbreakall { word-break: break-all; }
-
+.opacity-80,.opacity-80-cst{opacity: 0.80}
+.lowopacity:hover,.mediumopacity:hover,.verylowopacity:hover{opacity: 1}
+.wordbreakall {word-break: break-all}
 .flex { display: flex; }
 .flex-div-15 { flex: 0 0 14%; }.flex-div-20 { flex: 0 0 19%; }.flex-div-25 { flex: 0 0 24%; }.flex-div-30 { flex: 0 0 29%; }
 .flex-div-33 { flex: 0 0 32%; }.flex-div-40 { flex: 0 0 39%; }.flex-div-50 { flex: 0 0 47%; }.flex-div-60 { flex: 0 0 59%; }
@@ -125,17 +124,17 @@ pre {
 .grid-fr-2-1 {grid-template-columns: 2fr 1fr !important}
 .grid-fr-4-1 {grid-template-columns: 4fr 1fr !important}
 .grid-fr-auto-1-2 {grid-template-columns: auto 1fr 2fr !important}
+.grid-fr-6 {grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr !important}
 .justify-center {justify-content: center}
 .justify-space-between {justify-content: space-between}
 .justify-end {justify-content: flex-end}
 .align-content-center {align-content: center}
 .align-content-right {align-content: flex-end}
 .align-item-center {align-items: center}
-.align-item-right {align-items: flex-end}
+.align-item-right, .align-flex-end {align-items: flex-end}
 .align-self-center {align-self: center}
 .column-gap-1{column-gap: 1px}.column-gap-2 {column-gap: 2px}.column-gap-4 {column-gap: 4px}.column-gap-5{column-gap: 5px}.column-gap-6{column-gap: 6px}.column-gap-7{column-gap: 7px}.column-gap-8{column-gap: 8px}.column-gap-9{column-gap: 9px}.column-gap-10{column-gap: 10px}
 .column-gap-20{column-gap: 20px}.column-gap-30{column-gap: 30px}.column-gap-40{column-gap: 40px}.column-gap-50{column-gap: 50px}.column-gap-60{column-gap: 60px}.column-gap-70{column-gap: 70px}.column-gap-80{column-gap: 80px}.column-gap-90{column-gap: 90px}.column-gap-100{column-gap: 100px}
-.column-gap-20{column-gap: 20px}
 .row-gap-1 {row-gap: 1px}.row-gap-2 {row-gap: 2px}.row-gap-4 {row-gap: 4px}.row-gap-5 {row-gap: 5px}.row-gap-6 {row-gap: 6px}.row-gap-7 {row-gap: 7px}.row-gap-8 {row-gap: 8px}.row-gap-9{row-gap: 9px}.row-gap-10{row-gap: 10px}
 .padding-left-15 {padding-left: 15px !important}
 .padding-right-15 {padding-right: 15px !important}
@@ -258,7 +257,10 @@ td {
     cursor: pointer;
 }
 .icon-small {
-    height: 8px;
+    height: 8px !important;
+}
+.icon-medium {
+    height: 12px !important;
 }
 .icon-lowopacity {
     opacity: 0.33;
@@ -603,14 +605,16 @@ textarea {
 }
 
 /* boutons switch-field */
-.switch-field {
+.switch-field,
+.single-switch-field {
     display: flex;
     overflow: hidden;
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-.switch-field input {
+.switch-field input,
+.single-switch-field input {
     position: absolute;
     clip: rect(0, 0, 0, 0);
     width: 1px;
@@ -620,7 +624,8 @@ textarea {
     overflow: hidden;
 }
 
-.switch-field label {
+.switch-field label,
+.single-switch-field label {
     background-color: white;
     color: #3b3b3b;
     line-height: 1;
@@ -632,11 +637,13 @@ textarea {
     transition: all 0.1s ease-in-out;
 }
 
-.switch-field label:hover {
+.switch-field label:hover,
+.single-switch-field label:hover {
     cursor: pointer;
 }
 
-.switch-field input:checked + label {
+.switch-field input:checked + label,
+.single-switch-field input:checked + label {
     background-color: #5473e8;
     box-shadow: none;
     color: white;
@@ -648,6 +655,10 @@ textarea {
 
 .switch-field label:last-of-type {
     border-radius: 0 16px 16px 0;
+}
+
+.single-switch-field label {
+    border-radius: 16px;
 }
 
 /**
@@ -704,7 +715,7 @@ textarea {
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index:99;
+    z-index:1000;
     background-color: #182b3e;
     border-top: 1px solid rgb(60, 70, 75);
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;

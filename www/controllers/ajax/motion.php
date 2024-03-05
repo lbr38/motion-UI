@@ -194,6 +194,21 @@ if ($_POST['action'] == "enableDevicePresence" and !empty($_POST['status'])) {
 }
 
 /**
+ *  Acquit all events
+ */
+if ($_POST['action'] == 'acquit-events') {
+    $mymotionEvent = new \Controllers\Motion\Event();
+
+    try {
+        $mymotionEvent->acquitAll();
+    } catch (\Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
+    }
+
+    response(HTTP_OK, 'All events acquitted');
+}
+
+/**
  *  Get event image or video path to visualize
  */
 if ($_POST['action'] == "getFilePath" and !empty($_POST['fileId'])) {

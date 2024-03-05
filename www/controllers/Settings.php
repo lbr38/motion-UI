@@ -27,6 +27,7 @@ class Settings
     public function edit($settings)
     {
         $homePage = 'live'; // Default home page is '/live'
+        $timelapseInterval = '300'; // Default timelapse interval is 300 seconds
         $motionEventsVideosThumbnail = 'false';
         $motionEventsPicturesThumbnail = 'false';
         $motionEventsRetention = '30';
@@ -36,7 +37,9 @@ class Settings
          */
         $settings = json_decode($settings, true);
 
-
+        /**
+         *  Check if home page settings is valid
+         */
         if (isset($settings['home-page']) and in_array($settings['home-page'], ['live', 'motion', 'events', 'stats'])) {
             $homePage = $settings['home-page'];
         }
@@ -48,6 +51,9 @@ class Settings
             throw new Exception('Unable to save Home page settings');
         }
 
+        if (!empty($settings['timelapse-interval']) and is_numeric($settings['timelapse-interval']) and $settings['timelapse-interval'] > 0) {
+            $timelapseInterval = $settings['timelapse-interval'];
+        }
         if (!empty($settings['motion-events-videos-thumbnail']) and $settings['motion-events-videos-thumbnail'] == 'true') {
             $motionEventsVideosThumbnail = 'true';
         }
@@ -58,7 +64,7 @@ class Settings
             $motionEventsRetention = $settings['motion-events-retention'];
         }
 
-        $this->model->edit($motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionEventsRetention);
+        $this->model->edit($timelapseInterval, $motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionEventsRetention);
     }
 
     /**

@@ -206,6 +206,15 @@ class Event extends \Models\Model
     }
 
     /**
+     *  Acquit all events
+     */
+    public function acquitAll()
+    {
+        $stmt = $this->db->prepare("UPDATE motion_events SET Seen = 'true'");
+        $stmt->execute();
+    }
+
+    /**
      *  Mark an event as seen
      */
     public function seen(int $id)

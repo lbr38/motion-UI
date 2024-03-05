@@ -27,6 +27,12 @@ case "$1" in
   stop)
     echo "Stopping motion detection : $NAME"
     start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
+
+    # If the process is still running, kill it
+    if /usr/bin/ps ax | grep "/usr/bin/motion" | grep -v "grep"; then
+        echo "Force stopping motion detection (kill)"
+        killall motion
+    fi
     ;;
 
   status)
@@ -37,7 +43,7 @@ case "$1" in
     else
     	echo "Stopped"
     fi
-    ;;  
+    ;;
     
   reload-config)
     echo "Reloading $NAME configuration"

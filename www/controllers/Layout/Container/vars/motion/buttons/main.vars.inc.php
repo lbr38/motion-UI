@@ -1,6 +1,6 @@
 <?php
 
-$mycamera = new \Controllers\Camera();
+$mycamera = new \Controllers\Camera\Camera();
 $mymotionService = new \Controllers\Motion\Service();
 $mymotionAutostart = new \Controllers\Motion\Autostart();
 $mymotionAlert = new \Controllers\Motion\Alert();

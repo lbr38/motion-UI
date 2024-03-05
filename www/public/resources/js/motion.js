@@ -143,6 +143,26 @@ $(document).on('change','.stats-date-input',function () {
 });
 
 /**
+ *  Event: acquit all events
+ */
+$(document).on('click','.acquit-events-btn',function () {
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'acquit-events',
+        // Data:
+        {},
+        // Print success alert:
+        true,
+        // Print error alert:
+        true,
+        // Reload containers:
+        [ 'motion/events/list', 'buttons/bottom' ]
+    );
+});
+
+/**
  *  Event: select events dates
  */
 $(document).on('change','.event-date-input',function () {

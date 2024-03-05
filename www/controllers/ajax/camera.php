@@ -1,6 +1,6 @@
 <?php
 
-$mycamera = new \Controllers\Camera();
+$mycamera = new \Controllers\Camera\Camera();
 
 /**
  *  Add a new camera
@@ -14,10 +14,11 @@ if ($_POST['action'] == "add" and
     isset($_POST['refresh']) and
     !empty($_POST['liveEnable']) and
     !empty($_POST['motionEnable']) and
+    !empty($_POST['timelapseEnable']) and
     isset($_POST['username']) and
     isset($_POST['password'])) {
     try {
-        $mycamera->add($_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputType'], $_POST['outputResolution'], $_POST['refresh'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
+        $mycamera->add($_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputType'], $_POST['outputResolution'], $_POST['refresh'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['timelapseEnable'], $_POST['username'], $_POST['password']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -65,10 +66,11 @@ if ($_POST['action'] == 'edit-global-settings' and
     isset($_POST['textRight']) and
     !empty($_POST['liveEnable']) and
     !empty($_POST['motionEnable']) and
+    !empty($_POST['timelapseEnable']) and
     isset($_POST['username']) and
     isset($_POST['password'])) {
     try {
-        $mycamera->editGlobalSettings($_POST['id'], $_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputResolution'], $_POST['rotate'], $_POST['textLeft'], $_POST['textRight'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['username'], $_POST['password']);
+        $mycamera->editGlobalSettings($_POST['id'], $_POST['name'], $_POST['url'], $_POST['streamUrl'], $_POST['outputResolution'], $_POST['rotate'], $_POST['textLeft'], $_POST['textRight'], $_POST['liveEnable'], $_POST['motionEnable'], $_POST['timelapseEnable'], $_POST['username'], $_POST['password']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }

@@ -1,18 +1,21 @@
 <section class="top-buttons margin-top-5 margin-bottom-30 reloadable-container" container="buttons/top">
-    <div id="currentload" class="margin-left-15">
+    <div id="currentload" class="margin-left-15" title="CPU load">
         <?php
         $load = \Controllers\System::getLoad();
 
         if ($load >= 0 && $load < 2) {
-            echo '<span class="round-item bkg-green"></span>';
+            $iconColor = 'green';
         }
         if ($load >= 2 && $load < 3) {
-            echo '<span class="round-item bkg-yellow"></span>';
+            $iconColor = 'yellow';
         }
         if ($load >= 3) {
-            echo '<span class="round-item bkg-red"></span>';
-        }
-        echo '<span class="lowopacity-cst">CPU load: ' . $load . '</span>'; ?>
+            $iconColor = 'red';
+        } ?>
+
+        <img src="/assets/icons/cpu.svg" class="icon-medium lowopacity-cst" />
+        <span class="lowopacity-cst"><?= $load ?></span>
+        <span class="round-item bkg-<?= $iconColor ?>"></span>
     </div>
    
     <div class="flex column-gap-40 margin-right-15">

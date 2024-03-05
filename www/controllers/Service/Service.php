@@ -16,6 +16,7 @@ class Service
     private $curlHandle;
     private $autostart;
     private $autostartDevicePresenceEnabled;
+    private $timelapse;
     private $devicesIp;
     private $alertEnabled;
     private $alertRecipient;
@@ -38,6 +39,7 @@ class Service
         echo $this->getDate() . ' Getting settings...' . PHP_EOL;
 
         $mysettings = new \Controllers\Settings();
+        $mytimelapse = new \Controllers\Camera\Timelapse();
         $mymotionAlert = new \Controllers\Motion\Alert();
         $mymotionAutostart = new \Controllers\Motion\Autostart();
 
@@ -46,7 +48,6 @@ class Service
          */
         while (true) {
             $missingSetting = 0;
-            $todayDay = date('l');
 
             /**
              *  Get all settings
@@ -57,6 +58,11 @@ class Service
              *  Motion events retention
              */
             $this->eventRetention = $settings['Motion_events_retention'];
+
+            /**
+             *  Timelapse settings
+             */
+            $this->timelapse = $mytimelapse->enabled();
 
             /**
              *  Autostart settings
@@ -204,7 +210,9 @@ class Service
      */
     private function startStopMotion()
     {
-        // Start motion if following file is present
+        /**
+         *  Start motion if following file is present
+         */
         if (file_exists(DATA_DIR . '/start-motion.request')) {
             echo $this->getDate() . ' A start of motion service is required. Starting...' . PHP_EOL;
             unlink(DATA_DIR . '/start-motion.request');
@@ -219,7 +227,9 @@ class Service
             }
         }
 
-        // Stop motion if following file is present
+        /**
+         *  Stop motion if following file is present
+         */
         if (file_exists(DATA_DIR . '/stop-motion.request')) {
             echo $this->getDate() . ' A stop of motion service is required. Stopping...' . PHP_EOL;
             unlink(DATA_DIR . '/stop-motion.request');
@@ -282,7 +292,7 @@ class Service
             $this->checkRestartNeeded('motionui');
 
             /**
-             *  Check if a start/stop of motion service if needed
+             *  Check if a start/stop of motion service is needed
              */
             $this->startStopMotion();
 
@@ -296,6 +306,13 @@ class Service
              */
             if ($this->autostart == 'enabled') {
                 $this->runService('autostart');
+            }
+
+            /**
+             *  Execute timelapse
+             */
+            if ($this->timelapse === true) {
+                $this->runService('timelapse');
             }
 
             /**
@@ -362,7 +379,7 @@ class Service
              */
             echo $this->getDate() . " Running service with parameter '" . $parameter . "'..." . PHP_EOL;
 
-            $myprocess = new \Controllers\Process("php " . ROOT . "/tools/service.php '" . $parameter . "' >/dev/null 2>/dev/null &");
+            $myprocess = new \Controllers\Process("/usr/bin/php " . ROOT . "/tools/service.php '" . $parameter . "' >/dev/null 2>/dev/null &");
             $myprocess->execute();
             $myprocess->close();
         } catch (Exception $e) {

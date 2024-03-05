@@ -57,6 +57,12 @@
                 <input class="onoff-switch-input" type="checkbox" name="camera-motion-enable" checked>
                 <span class="onoff-switch-slider"></span>
             </label>
+
+            <span>Enable timelapse</span>
+            <label class="onoff-switch-label">
+                <input class="onoff-switch-input" type="checkbox" name="camera-timelapse-enable">
+                <span class="onoff-switch-slider"></span>
+            </label>
         </div>
 
         <p class="camera-stream-url hide yellowtext margin-bottom-10">Motion detection cannot work on static images. Specify a stream URL to use for Motion detection:</p>

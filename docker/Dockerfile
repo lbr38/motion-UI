@@ -7,7 +7,6 @@ FROM debian:12-slim
 LABEL version="1.0" maintainer="lbr38 <motionui@protonmail.com>"
 
 # Variables
-ENV container docker
 ARG WWW_DIR="/var/www/motionui"
 ARG DATA_DIR="/var/lib/motionui"
 ARG DEBIAN_FRONTEND=noninteractive
@@ -92,6 +91,13 @@ RUN chown -R motion:motion /usr/lib/motion
 # Copy motion init script
 RUN cp /tmp/motionui/docker/config/motion/init /etc/init.d/motion
 RUN chmod 755 /etc/init.d/motion
+
+# Some basic configurations
+RUN sed -i 's/# alias ll=/alias ll=/g' /root/.bashrc
+RUN echo "set ic" > /root/.vimrc
+RUN echo "set mouse-=a" >> /root/.vimrc
+RUN echo "syntax on" >> /root/.vimrc
+RUN echo "set background=dark" >> /root/.vimrc
 
 # Copy entrypoint script
 RUN cp /tmp/motionui/docker/entrypoint.sh /entrypoint.sh
