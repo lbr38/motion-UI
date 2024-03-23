@@ -66,6 +66,14 @@ class Event
     }
 
     /**
+     *  Acquit all events
+     */
+    public function acquitAll()
+    {
+        $this->model->acquitAll();
+    }
+
+    /**
      *  Mark an event as seen
      */
     public function seen(int $id)
@@ -110,7 +118,7 @@ class Event
              *  Create thumbnail if not already exist
              */
             if (!file_exists($file . '.thumbnail')) {
-                $myprocess = new \Controllers\Process('ffmpeg -loglevel error -ss 00:00:01.00 -i ' . $file . ' -vf \'scale=320:320:force_original_aspect_ratio=decrease\' -vframes 1 ' . $file . '.thumbnail.jpg');
+                $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss 00:00:01.00 -i ' . $file . ' -vf \'scale=320:320:force_original_aspect_ratio=decrease\' -vframes 1 ' . $file . '.thumbnail.jpg');
                 $myprocess->execute();
                 $myprocess->close();
             }
@@ -136,7 +144,7 @@ class Event
     private function alert(string $type, string $date, string $time, string $motionEventId, string $file = null)
     {
         $mymotionAlert = new \Controllers\Motion\Alert();
-        $mycamera = new \Controllers\Camera();
+        $mycamera = new \Controllers\Camera\Camera();
 
         /**
          *  Get alert settings

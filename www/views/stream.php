@@ -1,6 +1,6 @@
 <?php
 
-$mycamera = new \Controllers\Camera();
+$mycamera = new \Controllers\Camera\Camera();
 
 /**
  *  Check that specified camera Id is valid

@@ -469,7 +469,7 @@ h3 {
     width: 30%;
     height: 30%;
 }
-.full-screen {
+#timelapse, .full-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -482,16 +482,30 @@ h3 {
     -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
-.close-full-screen-camera-btn {
+.timelapse-picture-container {
+    display: flex;
+    align-items: center;
+    height: 70vh;
+}
+.timelapse-picture {
+    max-height: 100%;
+    max-width: 100vw;
+    border-radius: 2px;
+}
+#timelapse #pictureSlider {
+    width: 85vw;
+}
+.close-timelapse-btn, .close-full-screen-camera-btn {
     width: 50px;
     height: 50px;
     margin: auto;
 }
 .full-screen img {
-    max-height: 90vh;
+    max-height: 85vh;
     max-width: 100vw;
     display: block !important;
     margin: auto;
+    border-radius: 2px;
 }
 
 .hide {

@@ -312,7 +312,7 @@ function reloadContainer(container)
  * @param {*} additionalData
  * @param {*} reloadContainers
  */
-function ajaxRequest(controller, action, additionalData = null, reloadContainers = null, execOnSuccess = null, execOnError = null)
+function ajaxRequest(controller, action, additionalData = null, printSuccessAlert = true, printErrorAlert = true, reloadContainers = null, execOnSuccess = null, execOnError = null)
 {
     /**
      *  Default data
@@ -349,7 +349,10 @@ function ajaxRequest(controller, action, additionalData = null, reloadContainers
              *  Retrieve and print success message
              */
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+
+            if (printSuccessAlert) {
+                printAlert(jsonValue.message, 'success');
+            }
 
             /**
              *  Reload containers if specified
@@ -374,7 +377,10 @@ function ajaxRequest(controller, action, additionalData = null, reloadContainers
              *  Retrieve and print error message
              */
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+
+            if (printErrorAlert) {
+                printAlert(jsonValue.message, 'error');
+            }
         },
     });
 }

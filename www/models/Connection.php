@@ -72,6 +72,7 @@ class Connection extends SQLite3
         Timestamp_right CHAR(5),
         Live_enabled CHAR(5),
         Motion_enabled CHAR(5),
+        Timelapse_enabled CHAR(5),
         Username VARCHAR(255),
         Password VARCHAR(255))");
 
@@ -183,6 +184,7 @@ class Connection extends SQLite3
          *  Create settings table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS settings (
+        Timelapse_interval INTEGER NOT NULL,
         Motion_events_videos_thumbnail CHAR(5) NOT NULL,
         Motion_events_pictures_thumbnail CHAR(5) NOT NULL,
         Motion_events_retention INTEGER NOT NULL,
@@ -194,8 +196,8 @@ class Connection extends SQLite3
         $result = $this->query("SELECT * FROM settings");
         if ($this->isempty($result) === true) {
             $this->exec("INSERT INTO settings 
-            (Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_events_retention, Motion_advanced_edition_mode)
-            VALUES ('true', 'true', '30', 'false')");
+            (Timelapse_interval, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_events_retention, Motion_advanced_edition_mode)
+            VALUES ('300', 'true', 'true', '30', 'false')");
         }
 
         /**

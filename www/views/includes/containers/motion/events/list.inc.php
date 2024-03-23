@@ -21,11 +21,21 @@
          */
         $eventsDates = $mymotionEvent->getBetweenDate($eventDateStart, $eventDateEnd); ?>
 
-        <div>
-            <p class="lowopacity-cst">Period:</p>
-            <div class="flex column-gap-10">
-                <input type="date" name="dateStart" class="input-medium event-date-input" value="<?= $eventDateStart ?>" />
-                <input type="date" name="dateEnd" class="input-medium event-date-input" value="<?= $eventDateEnd ?>" />
+        <p class="lowopacity-cst">Period:</p>
+
+        <div class="flex justify-space-between align-item-center">
+            <div>
+                <div class="flex column-gap-10">
+                    <input type="date" name="dateStart" class="input-medium event-date-input" value="<?= $eventDateStart ?>" />
+                    <input type="date" name="dateEnd" class="input-medium event-date-input" value="<?= $eventDateEnd ?>" />
+                </div>
+            </div>
+
+            <div>
+                <div class="slide-btn acquit-events-btn" title="Mark all events as seen">
+                    <img src="/assets/icons/enabled.svg" />
+                    <span>Mark all events as seen</span>
+                </div>
             </div>
         </div>
 
@@ -37,7 +47,7 @@
              *  Print events if there are
              */
             if (empty($eventsDates)) {
-                echo '<p class="lowopacity-cst">No motion event media recorded yet</p>';
+                echo '<p class="lowopacity-cst">No motion event or media recorded for this period</p>';
             }
 
             /**

@@ -218,6 +218,7 @@ $(document).on('submit','#new-camera-form',function () {
     var password = $(this).find('input[type=password][name=camera-password]').val();
     var liveEnable = $(this).find('input[type=checkbox][name=camera-live-enable]').is(':checked');
     var motionEnable = $(this).find('input[type=checkbox][name=camera-motion-enable]').is(':checked');
+    var timelapseEnable = $(this).find('input[type=checkbox][name=camera-timelapse-enable]').is(':checked');
     var streamUrl = $(this).find('input[type=text][name=camera-stream-url]').val();
 
     ajaxRequest(
@@ -235,9 +236,14 @@ $(document).on('submit','#new-camera-form',function () {
             refresh: refresh,
             liveEnable: liveEnable,
             motionEnable: motionEnable,
+            timelapseEnable: timelapseEnable,
             username: username,
             password: password
         },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true,
         // Reload containers:
         [ 'cameras/list' ],
         // Execute functions :
@@ -258,7 +264,6 @@ $(document).on('submit','#camera-global-settings-form',function () {
     var id = $(this).attr('camera-id');
     var name = $(this).find('input[type=text][name=edit-camera-name]').val();
     var url = $(this).find('input[type=text][name=edit-camera-url]').val();
-    var outputType = $(this).attr('output-type');
     var outputResolution = $(this).find('select[name=edit-output-resolution]').val();
     var streamUrl = $(this).find('input[type=text][name=edit-camera-stream-url]').val();
     var rotate = $(this).find('select[name=edit-camera-rotate]').val();
@@ -268,6 +273,7 @@ $(document).on('submit','#camera-global-settings-form',function () {
     var password = $(this).find('input[type=password][name=edit-camera-password]').val();
     var liveEnable = $(this).find('input[type=checkbox][name=edit-camera-live-enable]').is(':checked');
     var motionEnable = $(this).find('input[type=checkbox][name=edit-camera-motion-enable]').is(':checked');
+    var timelapseEnable = $(this).find('input[type=checkbox][name=edit-camera-timelapse-enable]').is(':checked');
 
     ajaxRequest(
         // Controller:
@@ -287,9 +293,14 @@ $(document).on('submit','#camera-global-settings-form',function () {
             textRight: textRight,
             liveEnable: liveEnable,
             motionEnable: motionEnable,
+            timelapseEnable: timelapseEnable,
             username: username,
             password: password
         },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true,
         // Reload containers:
         [ 'cameras/list' ],
         // Execute functions :
@@ -328,6 +339,10 @@ $(document).on('submit','#camera-stream-settings-form',function () {
             timestampLeft: timestampLeft,
             timestampRight: timestampRight
         },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true,
         // Reload containers:
         [ 'cameras/list' ],
         // Execute functions :
@@ -353,10 +368,14 @@ $(document).on('click','.delete-camera-btn',function () {
             {
                 cameraId: cameraId,
             },
+            // Print success alert:
+            true,
+            // Print error alert:
+            true,
             // Reload containers:
             [ 'cameras/list' ],
             // Execute functions :
-            [ loadStream() ]
+            [ closePanel('edit-camera'), loadStream() ]
         );
     });
 });
@@ -371,6 +390,62 @@ $(document).on('click','.configure-camera-btn',function () {
      *  Ask the server to generate the configuration form
      */
     getEditForm(cameraId);
+});
+
+/**
+ *  Event: show camera timelapse
+ */
+$(document).on('click','.timelapse-camera-btn',function () {
+    var cameraId = $(this).attr('camera-id');
+
+    ajaxRequest(
+        // Controller:
+        'timelapse',
+        // Action:
+        'get-timelapse',
+        // Data:
+        {
+            cameraId: cameraId
+        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload containers:
+        null,
+        // Execute functions :
+        [ "$('footer').append(jsonValue.message)" ]
+    );
+});
+
+$(document).on('change','#timelapse-period-input',function () {
+    var date = $(this).val();
+    var cameraId = $(this).attr('camera-id');
+
+    /**
+     *  Remove current timelapse section if it exists
+     */
+    $('#timelapse').remove();
+
+    ajaxRequest(
+        // Controller:
+        'timelapse',
+        // Action:
+        'get-timelapse-by-date',
+        // Data:
+        {
+            cameraId: cameraId,
+            date: date
+        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload containers:
+        null,
+        // Execute functions :
+        [ "$('footer').append(jsonValue.message)" ]
+    );
 });
 
 /**
@@ -401,6 +476,13 @@ $(document).on('click','#motion-advanced-edition-mode',function () {
 });
 
 /**
+ *  Event: close timelapse screen
+ */
+$(document).on('click','.close-timelapse-btn',function () {
+    $('#timelapse').remove();
+});
+
+/**
  *  Event: set a camera on full screen
  */
 $(document).on('click','.full-screen-camera-btn',function () {
@@ -416,7 +498,7 @@ $(document).on('click','.full-screen-camera-btn',function () {
      */
     $('.delete-camera-btn[camera-id='+cameraId+']').hide();
     $('.configure-camera-btn[camera-id='+cameraId+']').hide();
-    $('.full-screen-camera-btn[camera-id='+cameraId+']').hide();
+    $('.timelapse-camera-btn[camera-id='+cameraId+']').hide();
     $('.close-full-screen-camera-btn[camera-id='+cameraId+']').css('display', 'block');
 });
 
@@ -436,7 +518,7 @@ $(document).on('click','.close-full-screen-camera-btn',function () {
      */
     $('.delete-camera-btn[camera-id='+cameraId+']').show();
     $('.configure-camera-btn[camera-id='+cameraId+']').show();
-    $('.full-screen-camera-btn[camera-id='+cameraId+']').show();
+    $('.timelapse-camera-btn[camera-id='+cameraId+']').show();
     $('.close-full-screen-camera-btn[camera-id='+cameraId+']').hide();
 });
 

@@ -67,6 +67,12 @@
                 <input class="onoff-switch-input" type="checkbox" name="edit-camera-motion-enable" camera-id="<?= $camera['Id'] ?>" <?php echo $camera['Motion_enabled'] == "true" ? 'checked' : '' ?>>
                 <span class="onoff-switch-slider"></span>
             </label>
+
+            <span>Enable timelapse</span>
+            <label class="onoff-switch-label">
+                <input class="onoff-switch-input" type="checkbox" name="edit-camera-timelapse-enable" camera-id="<?= $camera['Id'] ?>" <?php echo $camera['Timelapse_enabled'] == "true" ? 'checked' : '' ?>>
+                <span class="onoff-switch-slider"></span>
+            </label>
         </div>
 
         <p class="camera-stream-url hide yellowtext margin-bottom-10">Motion detection cannot work on static images. Specify a stream URL to use for Motion detection:</p>
@@ -102,7 +108,10 @@
         </div>
 
         <br>
-        <button type="submit" class="btn-small-green">Save</button>
+        <div class="flex column-gap-10">
+            <button type="submit" class="btn-small-green">Save</button>
+            <button type="button" class="btn-small-red delete-camera-btn" title="Delete camera" camera-id="<?= $camera['Id'] ?>">Delete</button>
+        </div>
     </div>
 </form>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Controllers\Camera;
 
 use Exception;
 
@@ -15,7 +15,15 @@ class Camera
 
     public function __construct()
     {
-        $this->model = new \Models\Camera();
+        $this->model = new \Models\Camera\Camera();
+    }
+
+    /**
+     *  Get all cameras
+     */
+    public function get()
+    {
+        return $this->model->get();
     }
 
     /**
@@ -72,30 +80,31 @@ class Camera
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $timelapseEnable, string $username, string $password)
     {
         $mymotionService = new \Controllers\Motion\Service();
 
         /**
          *  Only allow certain caracters in URL
          */
-        if (!Common::isAlphanumDash($url, array('&', '=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($url, array('&', '=', ':', '/', '.', '?', '&', '='))) {
             throw new Exception('URL contains invalid caracters');
         }
-        if (!Common::isAlphanumDash($streamUrl, array('&', '=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('&', '=', ':', '/', '.', '?', '&', '='))) {
             throw new Exception('URL contains invalid caracters');
         }
 
-        $name = Common::validateData($name);
-        $url = Common::validateData($url);
-        $streamUrl = Common::validateData($streamUrl);
-        $outputType = Common::validateData($outputType);
-        $outputResolution = Common::validateData($outputResolution);
-        $refresh = Common::validateData($refresh);
-        $liveEnable = Common::validateData($liveEnable);
-        $motionEnable = Common::validateData($motionEnable);
-        $username = Common::validateData($username);
-        $password = Common::validateData($password);
+        $name = \Controllers\Common::validateData($name);
+        $url = \Controllers\Common::validateData($url);
+        $streamUrl = \Controllers\Common::validateData($streamUrl);
+        $outputType = \Controllers\Common::validateData($outputType);
+        $outputResolution = \Controllers\Common::validateData($outputResolution);
+        $refresh = \Controllers\Common::validateData($refresh);
+        $liveEnable = \Controllers\Common::validateData($liveEnable);
+        $motionEnable = \Controllers\Common::validateData($motionEnable);
+        $timelapseEnable = \Controllers\Common::validateData($timelapseEnable);
+        $username = \Controllers\Common::validateData($username);
+        $password = \Controllers\Common::validateData($password);
 
         /**
          *  Check that URL starts with http(s):// or rtsp://
@@ -138,7 +147,7 @@ class Camera
         /**
          *  Add camera in database
          */
-        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $liveEnable, $motionEnable, $username, $password);
+        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $liveEnable, $motionEnable, $timelapseEnable, $username, $password);
 
         /**
          *  Get inserted camera Id from database
@@ -212,7 +221,7 @@ class Camera
     /**
      *  Edit camera global settings
      */
-    public function editGlobalSettings(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $username, string $password)
+    public function editGlobalSettings(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $timelapseEnable, string $username, string $password)
     {
         $mymotionService = new \Controllers\Motion\Service();
 
@@ -231,24 +240,25 @@ class Camera
         /**
          *  Only allow certain caracters in URL
          */
-        if (!Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '='))) {
             throw new Exception('URL contains invalid caracters');
         }
-        if (!Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '='))) {
             throw new Exception('URL contains invalid caracters');
         }
 
-        $name = Common::validateData($name);
-        $url = Common::validateData($url);
-        $streamUrl = Common::validateData($streamUrl);
-        $outputResolution = Common::validateData($outputResolution);
-        $rotate = Common::validateData($rotate);
-        $textLeft = Common::validateData($textLeft);
-        $textRight = Common::validateData($textRight);
-        $liveEnable = Common::validateData($liveEnable);
-        $motionEnable = Common::validateData($motionEnable);
-        $username = Common::validateData($username);
-        $password = Common::validateData($password);
+        $name = \Controllers\Common::validateData($name);
+        $url = \Controllers\Common::validateData($url);
+        $streamUrl = \Controllers\Common::validateData($streamUrl);
+        $outputResolution = \Controllers\Common::validateData($outputResolution);
+        $rotate = \Controllers\Common::validateData($rotate);
+        $textLeft = \Controllers\Common::validateData($textLeft);
+        $textRight = \Controllers\Common::validateData($textRight);
+        $liveEnable = \Controllers\Common::validateData($liveEnable);
+        $motionEnable = \Controllers\Common::validateData($motionEnable);
+        $timelapseEnable = \Controllers\Common::validateData($timelapseEnable);
+        $username = \Controllers\Common::validateData($username);
+        $password = \Controllers\Common::validateData($password);
 
         /**
          *  Check that URL starts with http(s):// or rtsp://
@@ -304,7 +314,7 @@ class Camera
         /**
          *  Edit global settings in database
          */
-        $this->model->editGlobalSettings($id, $name, $url, $streamUrl, $outputResolution, $rotate, $textLeft, $textRight, $liveEnable, $motionEnable, $username, $password);
+        $this->model->editGlobalSettings($id, $name, $url, $streamUrl, $outputResolution, $rotate, $textLeft, $textRight, $liveEnable, $motionEnable, $timelapseEnable, $username, $password);
 
         /**
          *  Edit global settings in motion config file

@@ -3,6 +3,9 @@
 WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
 
+# Make sure motion service is stopped
+/usr/sbin/service motion stop
+
 /bin/bash $WWW_DIR/bin/motionui -p &
 chown -R www-data:motionui $DATA_DIR
 
