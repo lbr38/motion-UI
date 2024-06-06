@@ -65,10 +65,10 @@ class Motion
              */
             if ($option['name'] == 'netcam_url' or $option['name'] == 'netcam_high_url') {
                 /**
-                 *  Check that URL starts with http:// or https://
+                 *  Check that URL starts with http:// or https:// or rtsp://
                  */
-                if (!preg_match('#(^https?://)#', $option['value'])) {
-                    throw new Exception('<b>' . $option['name'] . '</b> parameter value must start with http:// or https://');
+                if (!preg_match('#((^https?|rtsp)://)#', $option['value'])) {
+                    throw new Exception('<b>' . $option['name'] . '</b> parameter value must start with http:// or https:// or rtsp://');
                 }
 
                 if (\Controllers\Common::isAlphanumDash($option['value'], array('.', '/', ':', '=', '?', '&', '@')) === false) {
