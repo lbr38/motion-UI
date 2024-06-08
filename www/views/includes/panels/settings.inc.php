@@ -18,7 +18,7 @@
 <p>
     Interval
     <br>
-    <span class="lowopacity-cst">Interval between each picture capture</span>
+    <span class="lowopacity-cst">Interval between each image capture</span>
 </p>
 
 <div class="flex align-item-center column-gap-5">
@@ -34,6 +34,18 @@
         <option value="1800" <?php echo (TIMELAPSE_INTERVAL == '1800') ? 'selected' : ''?>>30 minutes</option>
         <option value="3600" <?php echo (TIMELAPSE_INTERVAL == '3600') ? 'selected' : ''?>>1 hour</option>
     </select>
+</div>
+
+<br>
+
+<p>
+    Images retention
+    <br>
+    <span class="lowopacity-cst">Number of days to keep timelapse images before automatic deletion</span>
+</p>
+
+<div class="flex align-item-center column-gap-5">
+    <input type="number" min="1" class="settings-param" setting-name="timelapse-retention" value="<?= TIMELAPSE_RETENTION ?>">
 </div>
 
 <h4>Motion events</h4>
@@ -57,13 +69,13 @@
 <br>
 
 <p>
-    Media retention
+    Medias retention
     <br>
     <span class="lowopacity-cst">Number of days to keep event pictures & videos before automatic deletion</span>
 </p>
 
 <div class="flex align-item-center column-gap-5">
-    <input type="number" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
+    <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
 </div>
 
 <br>

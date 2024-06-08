@@ -7,7 +7,7 @@
             <input type="text" name="camera-name" placeholder="e.g. Outside camera" />
 
             <span>URL</span>
-            <input type="text" name="camera-url" placeholder="e.g. http(s)://.../stream" />
+            <input type="text" name="camera-url" placeholder="e.g. http(s)://.../stream or rtsp://..." />
 
             <span>Output type</span>
             <div class="switch-field">
@@ -69,7 +69,7 @@
 
         <div class="grid grid-fr-1-2 align-item-center column-gap-10 row-gap-10">
             <span class="camera-stream-url hide">Stream URL</span>
-            <input class="camera-stream-url hide" type="text" name="camera-stream-url" placeholder="e.g. http(s)://.../stream" />
+            <input class="camera-stream-url hide" type="text" name="camera-stream-url" placeholder="e.g. http(s)://.../stream or rtsp://..." />
         </div>
 
         <p class="margin-top-15 margin-bottom-15">HTTP Authentication</p>

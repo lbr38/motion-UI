@@ -171,4 +171,64 @@ class Timelapse
             sleep(1);
         }
     }
+
+    /**
+     *  Clean timelapse images older than specified date
+     */
+    public function clean(int $retention = 30)
+    {
+        $date = date('Y-m-d', strtotime('-' . $retention . ' days'));
+
+        /**
+         *  Get cameras
+         */
+        $this->cameras = $this->cameraController->get();
+
+        /**
+         *  For each camera, delete timelapse images older than specified date
+         */
+        foreach ($this->cameras as $camera) {
+            $timelapseDir = DATA_DIR . '/cameras/camera-' . $camera['Id'] . '/timelapse';
+
+            /**
+             *  Skip camera if no timelapse directory
+             */
+            if (!file_exists($timelapseDir)) {
+                continue;
+            }
+
+            /**
+             *  Get all timelapse directories
+             */
+            $directories = glob($timelapseDir . '/*', GLOB_ONLYDIR);
+
+            /**
+             *  For each directory, delete if it is older than specified date
+             */
+            foreach ($directories as $directory) {
+                $directoryDate = basename($directory);
+
+                /**
+                 *  Skip directory if it is not a date
+                 */
+                if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $directoryDate)) {
+                    continue;
+                }
+
+                /**
+                 *  Skip directory if it is not older than specified date
+                 */
+                if ($directoryDate >= $date) {
+                    continue;
+                }
+
+                /**
+                 *  Delete directory
+                 */
+                if (!\Controllers\Filesystem\Directory::deleteRecursive($directory)) {
+                    $this->logController->log('error', 'Camera timelapse cleanup', 'Failed to delete timelapse directory: ' . $directory);
+                }
+            }
+        }
+    }
 }

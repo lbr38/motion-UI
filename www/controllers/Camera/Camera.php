@@ -87,10 +87,10 @@ class Camera
         /**
          *  Only allow certain caracters in URL
          */
-        if (!\Controllers\Common::isAlphanumDash($url, array('&', '=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($url, array('&', '=', ':', '/', '.', '?', '&', '=', '@'))) {
             throw new Exception('URL contains invalid caracters');
         }
-        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('&', '=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('&', '=', ':', '/', '.', '?', '&', '=', '@'))) {
             throw new Exception('URL contains invalid caracters');
         }
 
@@ -209,6 +209,15 @@ class Camera
         }
 
         /**
+         *  Delete camera data directory (timelapse images)
+         */
+        if (is_dir(DATA_DIR . '/cameras/camera-' . $id)) {
+            if (!\Controllers\Filesystem\Directory::deleteRecursive(DATA_DIR . '/cameras/camera-' . $id)) {
+                throw new Exception('Could not delete camera data directory: ' . DATA_DIR . '/cameras/camera-' . $id);
+            }
+        }
+
+        /**
          *  Restart motion service if running
          */
         if ($mymotionService->isRunning()) {
@@ -240,10 +249,10 @@ class Camera
         /**
          *  Only allow certain caracters in URL
          */
-        if (!\Controllers\Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '=', '@'))) {
             throw new Exception('URL contains invalid caracters');
         }
-        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '='))) {
+        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '=', '@'))) {
             throw new Exception('URL contains invalid caracters');
         }
 
