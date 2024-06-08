@@ -185,6 +185,7 @@ class Connection extends SQLite3
          */
         $this->exec("CREATE TABLE IF NOT EXISTS settings (
         Timelapse_interval INTEGER NOT NULL,
+        Timelapse_retention INTEGER NOT NULL,
         Motion_events_videos_thumbnail CHAR(5) NOT NULL,
         Motion_events_pictures_thumbnail CHAR(5) NOT NULL,
         Motion_events_retention INTEGER NOT NULL,
@@ -196,8 +197,8 @@ class Connection extends SQLite3
         $result = $this->query("SELECT * FROM settings");
         if ($this->isempty($result) === true) {
             $this->exec("INSERT INTO settings 
-            (Timelapse_interval, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_events_retention, Motion_advanced_edition_mode)
-            VALUES ('300', 'true', 'true', '30', 'false')");
+            (Timelapse_interval, Timelapse_retention, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_events_retention, Motion_advanced_edition_mode)
+            VALUES ('300', '30', 'true', 'true', '30', 'false')");
         }
 
         /**

@@ -46,72 +46,88 @@
                             <div class="flex align-item-center">
                                 <div>
                                     <button class="btn-square-none"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
-                                    <span class="block center lowopacity-cst">Live stream is disabled</span>
+                                    <p class="block center lowopacity-cst">Live stream is disabled</p>
                                 </div>
                             </div>
                             <?php
                         endif;
 
-                        if ($camera['Live_enabled'] == 'true') : ?>
-                            <!-- Loading image -->
-                            <div class="camera-loading">
-                                <button class="btn-square-none"><img src="/assets/images/loading.gif" class="icon" title="Loading image" /></button>
-                                <span class="block center lowopacity-cst">Loading image</span>
-                            </div>
-
-                            <!-- Unavailable image div -->
-                            <div class="camera-unavailable flex align-item-center hide" camera-id="<?= $camera['Id'] ?>">
-                                <div>
-                                    <button class="btn-square-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
-                                    <span class="block center lowopacity-cst">Unavailable</span>
+                        if ($camera['Live_enabled'] == 'true') :
+                            /**
+                             *  If camera is an RTSP camera, print unsupported stream message
+                             */
+                            if (str_starts_with($camera['Url'], 'rtsp://')) : ?>
+                                <div class="flex align-item-center">
+                                    <div>
+                                        <button class="btn-square-none"><img src="/assets/icons/close.svg" class="icon" title="Unsupported stream" /></button>
+                                        <p class="block center lowopacity-cst">RTSP stream cannot be displayed through web browsers</p>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <!-- Camera image -->
-                            <div class="camera-image relative hide" camera-id="<?= $camera['Id'] ?>">
                                 <?php
-                                /**
-                                 *  Type 'image'
-                                 */
-                                if ($camera['Output_type'] == 'image') : ?>
-                                    <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="/image?id=<?= $camera['Id'] ?>" camera-type="image" camera-id="<?= $camera['Id'] ?>" camera-refresh="<?= $camera['Refresh'] ?>" refresh-timestamp="" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
-                                    <?php
-                                endif;
-
-                                /**
-                                 *  Type 'video'
-                                 */
-                                if ($camera['Output_type'] == 'video') : ?>
-                                    <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="/stream?id=<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
-                                    <?php
-                                endif ?>
-
-                                <!-- Left and right text / timestamp -->
-                                <div class="camera-image-text-left">
-                                    <p><b><?= $camera['Text_left'] ?></b></p>
-
-                                    <?php
-                                    /**
-                                     *  Print timestamp on the right if enabled
-                                     */
-                                    if ($camera['Timestamp_left'] == 'true') {
-                                        echo '<p class="camera-image-timestamp font-size-12"></p>';
-                                    } ?>
+                            /**
+                             *  Else print camera stream or image
+                             */
+                            else : ?>
+                                <!-- Loading image -->
+                                <div class="camera-loading">
+                                    <button class="btn-square-none"><img src="/assets/images/loading.gif" class="icon" title="Loading image" /></button>
+                                    <span class="block center lowopacity-cst">Loading image</span>
                                 </div>
 
-                                <div class="camera-image-text-right">
-                                    <p class="text-right"><b><?= $camera['Text_right'] ?></b></p>
+                                <!-- Unavailable image div -->
+                                <div class="camera-unavailable flex align-item-center hide" camera-id="<?= $camera['Id'] ?>">
+                                    <div>
+                                        <button class="btn-square-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
+                                        <span class="block center lowopacity-cst">Unavailable</span>
+                                    </div>
+                                </div>
 
+                                <!-- Camera image -->
+                                <div class="camera-image relative hide" camera-id="<?= $camera['Id'] ?>">
                                     <?php
                                     /**
-                                     *  Print timestamp on the right if enabled
+                                     *  Type 'image'
                                      */
-                                    if ($camera['Timestamp_right'] == 'true') {
-                                        echo '<p class="camera-image-timestamp font-size-12"></p>';
-                                    } ?>
+                                    if ($camera['Output_type'] == 'image') : ?>
+                                        <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="/image?id=<?= $camera['Id'] ?>" camera-type="image" camera-id="<?= $camera['Id'] ?>" camera-refresh="<?= $camera['Refresh'] ?>" refresh-timestamp="" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                                        <?php
+                                    endif;
+
+                                    /**
+                                     *  Type 'video'
+                                     */
+                                    if ($camera['Output_type'] == 'video') : ?>
+                                        <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="/stream?id=<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" style="transform:rotate(<?= $camera['Rotate'] ?>deg);" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                                        <?php
+                                    endif ?>
+
+                                    <!-- Left and right text / timestamp -->
+                                    <div class="camera-image-text-left">
+                                        <p><b><?= $camera['Text_left'] ?></b></p>
+
+                                        <?php
+                                        /**
+                                         *  Print timestamp on the right if enabled
+                                         */
+                                        if ($camera['Timestamp_left'] == 'true') {
+                                            echo '<p class="camera-image-timestamp font-size-12"></p>';
+                                        } ?>
+                                    </div>
+
+                                    <div class="camera-image-text-right">
+                                        <p class="text-right"><b><?= $camera['Text_right'] ?></b></p>
+
+                                        <?php
+                                        /**
+                                         *  Print timestamp on the right if enabled
+                                         */
+                                        if ($camera['Timestamp_right'] == 'true') {
+                                            echo '<p class="camera-image-timestamp font-size-12"></p>';
+                                        } ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            endif;
                         endif ?>
                     </div>
 

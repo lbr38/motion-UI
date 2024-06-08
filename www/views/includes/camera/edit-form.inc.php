@@ -92,7 +92,7 @@
     
         <div class="grid grid-fr-1-2 align-item-center column-gap-10 row-gap-10">
             <span class="camera-stream-url <?= $hideField ?>">Stream URL</span>
-            <input class="camera-stream-url <?= $hideField ?>" type="text" name="edit-camera-stream-url" placeholder="e.g. http(s)://.../stream" value="<?= $camera['Stream_url'] ?>" />
+            <input class="camera-stream-url <?= $hideField ?>" type="text" name="edit-camera-stream-url" placeholder="e.g. http(s)://.../stream or rtsp://..." value="<?= $camera['Stream_url'] ?>" />
         </div>
             
         <p class="margin-top-15 margin-bottom-15">HTTP Authentication</p>

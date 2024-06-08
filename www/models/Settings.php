@@ -25,15 +25,17 @@ class Settings extends Model
     /**
      *  Edit global settings
      */
-    public function edit(string $timelapseInterval, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, int $motionEventsRetention)
+    public function edit(string $timelapseInterval, string $timelapseRetention, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, int $motionEventsRetention)
     {
         $stmt = $this->db->prepare("UPDATE Settings SET 
         Timelapse_interval = :timelapseInterval,
+        Timelapse_retention = :timelapseRetention,
         Motion_events_videos_thumbnail = :motionEventsVideosThumbnail,
         Motion_events_pictures_thumbnail = :motionEventsPicturesThumbnail,
         Motion_events_retention = :motionEventsRetention");
 
         $stmt->bindValue(':timelapseInterval', $timelapseInterval);
+        $stmt->bindValue(':timelapseRetention', $timelapseRetention);
         $stmt->bindValue(':motionEventsVideosThumbnail', $motionEventsVideosThumbnail);
         $stmt->bindValue(':motionEventsPicturesThumbnail', $motionEventsPicturesThumbnail);
         $stmt->bindValue(':motionEventsRetention', $motionEventsRetention);

@@ -474,7 +474,7 @@ h3 {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
     height: 100vh;
     max-height: 100vh;
     border-radius: 4px;
@@ -482,17 +482,17 @@ h3 {
     -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
-.timelapse-picture-container {
+#timelapse-picture-container {
     display: flex;
     align-items: center;
     height: 70vh;
 }
-.timelapse-picture {
+#timelapse-picture {
     max-height: 100%;
     max-width: 100vw;
     border-radius: 2px;
 }
-#timelapse #pictureSlider {
+#timelapse #picture-slider {
     width: 85vw;
 }
 .close-timelapse-btn, .close-full-screen-camera-btn {
@@ -534,7 +534,7 @@ footer #github img { width: 25px; }
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 999;
     display: none;
     width: 100%;
     height: 100%;
@@ -546,7 +546,7 @@ footer #github img { width: 25px; }
     margin: auto;
     padding-top: 15px;
     background-color: #112334;
-    z-index: 9999;
+    z-index: 999;
 }
 
 #event-print-file {

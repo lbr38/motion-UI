@@ -12,11 +12,13 @@ class Service
     private $motionEventController;
     private $motionAutostartController;
     private $motionServiceController;
+    private $timelapseController;
 
     private $curlHandle;
     private $autostart;
     private $autostartDevicePresenceEnabled;
     private $timelapse;
+    private $timelapseRetention;
     private $devicesIp;
     private $alertEnabled;
     private $alertRecipient;
@@ -29,6 +31,7 @@ class Service
         $this->motionController = new \Controllers\Motion\Motion();
         $this->motionAutostartController = new \Controllers\Motion\Autostart();
         $this->motionServiceController = new \Controllers\Motion\Service();
+        $this->timelapseController = new \Controllers\Camera\Timelapse();
     }
 
     /**
@@ -55,14 +58,19 @@ class Service
             $settings = $mysettings->get();
 
             /**
+             *  Timelapse enable status
+             */
+            $this->timelapse = $mytimelapse->enabled();
+
+            /**
+             *  Timelapse retention
+             */
+            $this->timelapseRetention = $settings['Timelapse_retention'];
+
+            /**
              *  Motion events retention
              */
             $this->eventRetention = $settings['Motion_events_retention'];
-
-            /**
-             *  Timelapse settings
-             */
-            $this->timelapse = $mytimelapse->enabled();
 
             /**
              *  Autostart settings
@@ -260,9 +268,9 @@ class Service
     }
 
     /**
-     *  Clean events
+     *  Clean timelapse images and motion events depending on retention
      */
-    private function cleanEvents()
+    private function cleanTimelapseAndMotionEvents()
     {
         /**
          *  Clean events every day at midnight only
@@ -271,6 +279,16 @@ class Service
             return;
         }
 
+        echo $this->getDate() . ' Cleaning timelapse images and motion events...' . PHP_EOL;
+
+        /**
+         *  Clean timelapse images
+         */
+        $this->timelapseController->clean($this->timelapseRetention);
+
+        /**
+         *  Clean events
+         */
         $this->motionEventController->clean($this->eventRetention);
     }
 
@@ -316,9 +334,9 @@ class Service
             }
 
             /**
-             *  Clean events
+             *  Clean timelapse and events depending on retention
              */
-            $this->cleanEvents();
+            $this->cleanTimelapseAndMotionEvents();
 
             /**
              *  Execute actions on service start (counter = 0) and then every hour (counter = 720)

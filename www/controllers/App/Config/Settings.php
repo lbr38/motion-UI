@@ -41,6 +41,14 @@ class Settings
             }
         }
 
+        if (!defined('TIMELAPSE_RETENTION')) {
+            if (!empty($settings['Timelapse_retention'])) {
+                define('TIMELAPSE_RETENTION', $settings['Timelapse_retention']);
+            } else {
+                define('TIMELAPSE_RETENTION', '30');
+            }
+        }
+
         if (!defined('MOTION_EVENTS_VIDEOS_THUMBNAIL')) {
             if (!empty($settings['Motion_events_videos_thumbnail']) and $settings['Motion_events_videos_thumbnail'] == 'true') {
                 define('MOTION_EVENTS_VIDEOS_THUMBNAIL', true);

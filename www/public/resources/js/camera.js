@@ -418,14 +418,17 @@ $(document).on('click','.timelapse-camera-btn',function () {
     );
 });
 
-$(document).on('change','#timelapse-period-input',function () {
+/**
+ *  Event: select another timelapse date
+ */
+$(document).on('change','#timelapse-date-input',function () {
     var date = $(this).val();
     var cameraId = $(this).attr('camera-id');
 
     /**
-     *  Remove current timelapse section if it exists
+     *  Insert timelapse-date-changed in local storage to stop the timelapse if it is playing
      */
-    $('#timelapse').remove();
+    localStorage.setItem('timelapse-date-changed', true);
 
     ajaxRequest(
         // Controller:
@@ -444,8 +447,190 @@ $(document).on('change','#timelapse-period-input',function () {
         // Reload containers:
         null,
         // Execute functions :
-        [ "$('footer').append(jsonValue.message)" ]
+        [
+            "$('#timelapse').replaceWith(jsonValue.message);"
+        ]
     );
+});
+
+/**
+ *  Event: play timelapse
+ */
+$(document).on('click','#timelapse-play-btn',function () {
+    /**
+     *  Call async function to play timelapse
+     */
+    playTimelapse()
+});
+
+/**
+ *  Play timelapse
+ *  @returns
+ */
+async function playTimelapse()
+{
+    /**
+     *  Retrieve camera id, date, max range and all pictures names
+     */
+    var cameraId = $('#picture-slider').attr('camera-id');
+    var date = $('#picture-slider').attr('date');
+    var max = $('#picture-slider').attr('max');
+    var pictures = $('timelapse-data').attr('pictures');
+
+    /**
+     *  Quit if no date was found
+     */
+    if (!date) {
+        printAlert('No timelapse date found', 'error');
+        return;
+    }
+
+    /**
+     *  Quit if no max range was found
+     */
+    if (!max) {
+        printAlert('No timelapse max range found', 'error');
+        return;
+    }
+
+    /**
+     *  Quit if no pictures were found
+     */
+    if (!pictures) {
+        printAlert('No timelapse images to play', 'error');
+        return;
+    }
+
+    /**
+     *  Quit if max = 0
+     */
+    if (max == 0) {
+        printAlert('No timelapse images to play', 'error');
+        return;
+    }
+
+    /**
+     *  Explode pictures string to array, to get all pictures with an index
+     */
+    var pictures = pictures.split(',');
+
+    /**
+     *  Remove pause mode from slider if it was in pause mode
+     *  Change button to 'pause' button
+     */
+    $('#picture-slider').removeAttr('pause');
+    $('#timelapse-play-btn').hide();
+    $('#timelapse-pause-btn').css('display', 'inline-flex');
+
+    /**
+     *  Get the current slider value as index, and convert it to integer
+     *  This will be the starting point of the timelapse
+     */
+    var index = parseInt($('#picture-slider').val());
+
+    /**
+     *  Convert max to integer
+     */
+    var max = parseInt(max);
+
+    /**
+     *  If current index is greater or equal to max, then reset index to 0
+     *  This means that the timelapse has reached the end (previous play was finished)
+     *  So we start again from the beginning
+     */
+    if (index >= max) {
+        index = 0;
+    }
+
+    /**
+     *  The loop will run until the index reaches the max range
+     */
+    while (index < max + 1) {
+        /**
+         *  Quit if timelapse div was closed
+         */
+        if ($('#timelapse').length == 0) {
+            return;
+        }
+
+        /**
+         *  Quit if timelapse is in pause mode
+         */
+        if ($('#picture-slider').attr('pause') == 'true') {
+            return;
+        }
+
+        /**
+         *  Quit if timelapse-date-changed is set in local storage
+         *  This means that the user has changed the date while the timelapse is playing so we stop the timelapse and
+         *  remove the 'timelapse-date-changed' from local storage
+         */
+        if (localStorage.getItem('timelapse-date-changed')) {
+            localStorage.removeItem('timelapse-date-changed');
+            return;
+        }
+
+        /**
+         *  Get JPEG picture filename from the array
+         *  e.g. timelapse_08-17-50.jpg
+         */
+        var picture = pictures[index];
+
+        /**
+         *  Define the path to the target picture
+         *  e.g. /timelapse?id=14&picture=2024-06-04/timelapse_08-17-50.jpg
+         */
+        var path = '/timelapse?id=' + cameraId + '&picture=' + date + '/' + picture;
+
+        /**
+         *  Extract the time from the picture name
+         */
+        var time = picture.split('_')[1].split('.')[0];
+        var hour = time.split('-')[0];
+        var min = time.split('-')[1];
+        var sec = time.split('-')[2];
+
+        /**
+         *  Update the image and the slider value
+         */
+        $('#timelapse-picture').attr('src', path);
+        $('#picture-slider').val(index);
+
+        /**
+         *  Update the picture time
+         */
+        $('#picture-time').text(hour + ':' + min + ':' + sec);
+
+        /**
+         *  Wait 100ms before updating the index
+         */
+        await new Promise(r => setTimeout(r, 100));
+
+        /**
+         *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
+         *  and increment it by 1
+         */
+        index = parseInt($('#picture-slider').val()) + 1;
+    }
+
+    /**
+     *  Change button to 'play' button
+     */
+    $('#timelapse-pause-btn').hide();
+    $('#timelapse-play-btn').css('display', 'inline-flex');
+}
+
+/**
+ *  Event: pause timelapse
+ */
+$(document).on('click','#timelapse-pause-btn',function () {
+    /**
+     *  Change button to 'play' button
+     *  Set the slider in pause mode
+     */
+    $('#timelapse-pause-btn').hide();
+    $('#timelapse-play-btn').css('display', 'inline-flex');
+    $('#picture-slider').attr('pause', true);
 });
 
 /**

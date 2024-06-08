@@ -7,54 +7,6 @@ use DateTime;
 class Common
 {
     /**
-     *  Write to ini file
-     */
-    public static function writeToIni(array $configuration, string $iniFile)
-    {
-        $res = array();
-
-        foreach ($configuration as $key => $val) {
-            if (is_array($val)) {
-                $res[] = "[$key]";
-                foreach ($val as $skey => $sval) {
-                    $res[] = "$skey = ".(is_numeric($sval) ? $sval : '"'.$sval.'"');
-                }
-            } else {
-                $res[] = "$key = ".(is_numeric($val) ? $val : '"'.$val.'"');
-            }
-        }
-
-        Common::safeFileRewrite($iniFile, implode("\r\n", $res));
-    }
-
-    public static function safeFileRewrite($fileName, $dataToSave)
-    {
-        if ($fp = fopen($fileName, 'w')) {
-            $startTime = microtime(true);
-            do {
-                $canWrite = flock($fp, LOCK_EX);
-
-                /**
-                 *  If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
-                 */
-                if (!$canWrite) {
-                    usleep(round(rand(0, 100)*1000));
-                }
-            } while ((!$canWrite)and((microtime(true)-$startTime) < 5));
-
-            /**
-             *  File was locked so now we can store information
-             */
-            if ($canWrite) {
-                fwrite($fp, $dataToSave);
-                flock($fp, LOCK_UN);
-            }
-
-            fclose($fp);
-        }
-    }
-
-    /**
      *  Validate form data
      */
     public static function validateData($data)

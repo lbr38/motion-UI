@@ -1,5 +1,5 @@
 <div id="timelapse" class="flex flex-direction-column align-item-center row-gap-10 margin-bottom-40">
-    <div class="timelapse-picture-container">
+    <div id="timelapse-picture-container">
         <?php
         if (empty($date)) {
             $date = date('Y-m-d');
@@ -30,6 +30,7 @@
              */
             $pictures = array();
             $picturesGlob = glob($timelapseDir . '/' . $date . '/*.jpg');
+
             foreach ($picturesGlob as $pictureGlob) {
                 $pictures[] = basename($pictureGlob);
             }
@@ -42,22 +43,27 @@
             }
 
             /**
-             *  Print latest image first
+             *  Print first image first
              */
             if (empty($picture)) {
-                $picture = $date . '/' . end($pictures);
+                $picture = $date . '/' . $pictures[0];
             }
+
+            /**
+             *  Print all pictures in a hidden element
+             */
+            echo '<timelapse-data pictures="' . implode(',', $pictures) . '"></timelapse-data>';
 
             /**
              *  Print picture
              */
-            echo '<img src="/timelapse?id=' . $cameraId . '&picture=' . $picture . '" class="timelapse-picture" />';
+            echo '<img id="timelapse-picture" src="/timelapse?id=' . $cameraId . '&picture=' . $picture . '" />';
         } catch (Exception $e) {
             echo '<p>' . $e->getMessage() . '</p>';
         } ?>
     </div>
 
-    <div class="flex flex-direction-column row-gap-10">
+    <div class="flex flex-direction-column row-gap-10 padding-left-15 padding-right-15">
         <div>
             <?php
             if (!empty($picture)) {
@@ -69,13 +75,15 @@
                 $pictureMin = explode('-', $pictureTime)[1];
                 $pictureSec = explode('-', $pictureTime)[2];
 
-                echo '<p class="picture-time font-size-18 text-center lowopacity-cst">' . $pictureHour . ':' . $pictureMin . ':' . $pictureSec . '</p>';
+                echo '<p id="picture-time" class="font-size-18 text-center lowopacity-cst">' . $pictureHour . ':' . $pictureMin . ':' . $pictureSec . '</p>';
             } ?>
         </div>
 
         <div>
-            <!-- Slider -->
-            <input type="range" min="0" max="0" value="0" id="pictureSlider" date="<?= $date ?>" />
+            <div class="flex justify-center">
+                <!-- Slider -->
+                <input id="picture-slider" type="range" min="0" max="0" value="" date="<?= $date ?>" camera-id="<?= $cameraId ?>" />
+            </div>
 
             <!-- Slider start and end time -->
             <div class="flex justify-space-between">
@@ -106,15 +114,15 @@
             <script>
                 $(document).ready(function () {
                     // Get date from the slider
-                    var date = $('#pictureSlider').attr('date');
+                    var date = $('#picture-slider').attr('date');
                     // Get pictures from pictures array (php)
                     var pictures = <?= json_encode($pictures) ?>;
 
                     // Update the maximum of the slider to match the number of pictures
-                    document.getElementById('pictureSlider').max = pictures.length - 1;
+                    document.getElementById('picture-slider').max = pictures.length - 1;
 
-                    // Update the displayed image when the slider value changes
-                    document.getElementById('pictureSlider').addEventListener('input', function(event) {
+                    // Update the displayed image when the slider value changes (event)
+                    document.getElementById('picture-slider').addEventListener('input', function(event) {
                         var index = event.target.value;
                         var path = '/timelapse?id=' + <?= $cameraId ?> + '&picture=' + date + '/' + pictures[index];
 
@@ -128,18 +136,32 @@
                         var sec = time.split('-')[2];
 
                         // Update the image
-                        $('.timelapse-picture').attr('src', path);
+                        $('#timelapse-picture').attr('src', path);
 
                         // Update the picture time
-                        $('.picture-time').text(hour + ':' + min + ':' + sec);
+                        $('#picture-time').text(hour + ':' + min + ':' + sec);
                     });
                 });
             </script>
         </div>
 
-        <div>
-            <p>Period:</p>
-            <input type="date" class="input-medium" max="<?= date('Y-m-d') ?>" id="timelapse-period-input" camera-id="<?= $cameraId ?>" value="<?= $date ?>" />
+        <div class="grid grid-3 justify-space-between">
+            <div>
+                <p>Date:</p>
+                <input id="timelapse-date-input" type="date" class="input-medium" max="<?= date('Y-m-d') ?>" camera-id="<?= $cameraId ?>" value="<?= $date ?>" />
+            </div>
+
+            <div class="flex justify-center">
+                <div id="timelapse-play-btn" class="slide-btn" title="Play timelapse">
+                    <img src="/assets/icons/play.svg" />
+                    <span>Play timelapse</span>
+                </div>
+
+                <div id="timelapse-pause-btn" class="slide-btn-yellow hide" title="Pause timelapse">
+                    <img src="/assets/icons/pause.svg" />
+                    <span>Pause timelapse</span>
+                </div>
+            </div>
         </div>
 
         <div class="flex">
