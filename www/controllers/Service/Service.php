@@ -380,8 +380,7 @@ class Service
             /**
              *  Check if the service with specified parameter is already running (a php process must be running)
              */
-            // $myprocess = new \Controllers\Process("/usr/bin/pwd aux | grep 'motionui." . $parameter . "' | grep -v grep");
-            $myprocess = new \Controllers\Process("echo toto");
+            $myprocess = new \Controllers\Process("/usr/bin/pwd aux | grep 'motionui." . $parameter . "' | grep -v grep");
             $myprocess->execute();
             $content = $myprocess->getOutput();
             $myprocess->close();
