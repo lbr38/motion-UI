@@ -128,13 +128,13 @@ class Process
          */
         $this->process = proc_open($this->command, $descriptors, $this->pipes, $this->workingDir, $this->env);
 
-        if ($this->runInBackground === true) {
+        // if ($this->runInBackground === true) {
             /**
              *  Make sure pipes are not blocking execution
              */
             stream_set_blocking($this->pipes[1], false);
             stream_set_blocking($this->pipes[2], false);
-        }
+        // }
 
         /**
          *  Get process PID
