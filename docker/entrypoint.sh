@@ -27,7 +27,7 @@ if [ ! -z "$FQDN" ];then
 fi
 
 # Start services
-/usr/sbin/service php8.1-fpm start
+/usr/sbin/service php8.3-fpm start
 /usr/sbin/service nginx start
 /usr/sbin/service postfix start
 

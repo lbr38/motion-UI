@@ -21,13 +21,13 @@ RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transpor
 RUN curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh.gpg
 RUN echo "deb https://packages.bespin.ovh/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
 
-# Add nginx and PHP 8.1 repositories
+# Add nginx and PHP repositories
 RUN echo "deb https://packages.bespin.ovh/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
 RUN echo "deb https://packages.bespin.ovh/repo/motionui-php/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update -y
 
-# Install nginx and PHP 8.1
-RUN apt-get install nginx php8.1-fpm php8.1-cli php8.1-sqlite3 php8.1-xml php8.1-curl sqlite3 -y
+# Install nginx and PHP 8.3
+RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-xml php8.3-curl sqlite3 -y
 
 # Install motion
 RUN apt-get install motion -y
@@ -48,7 +48,7 @@ RUN cp /tmp/motionui/docker/config/nginx/motionui.conf /etc/nginx/sites-enabled/
 RUN rm -rf /etc/nginx/sites-enabled/default /var/www/html
 
 # Configure PHP
-RUN cp /tmp/motionui/docker/config/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
+RUN cp /tmp/motionui/docker/config/php/www.conf /etc/php/8.3/fpm/pool.d/www.conf
 
 # Configure SQLite
 RUN echo ".headers on" > /root/.sqliterc

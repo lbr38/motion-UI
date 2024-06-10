@@ -7,7 +7,7 @@ namespace Controllers;
 
 class Process
 {
-    private $workingDir = ROOT . '/.temp'; // Répertoire de travail pour php
+    private $workingDir = ROOT;
     private $command;
     private $env;
     private $process;
