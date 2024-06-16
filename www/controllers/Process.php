@@ -32,6 +32,31 @@ class Process
         if (!empty($env)) {
             $this->env = array_merge($this->env, $env);
         }
+
+        /**
+         *  File descriptors for each subprocess.
+         *  http://phptutorial.info/?proc-open
+         *  https://gist.github.com/swichers/027d5ae903350cbd4af8
+         */
+        $descriptors = array(
+            0 => array("pipe", "r"), // stdin is a pipe that the child will read from
+            1 => array("pipe", "w"), // stdout is a pipe that the child will write to
+            2 => array("pipe", "w")  // stderr is a pipe that the child will write to
+        );
+
+        $this->process = proc_open($this->command, $descriptors, $this->pipes, $this->workingDir, $this->env);
+
+        /**
+         *  Get process PID
+         */
+        $this->pid = $this->getPid();
+
+        /**
+         *  If process must not run in background, just loop and get its output till it has finished
+         */
+        if ($this->runInBackground === false) {
+            $this->getOutput();
+        }
     }
 
     /**
@@ -90,6 +115,10 @@ class Process
      */
     public function getPid()
     {
+        if (!is_resource($this->process)) {
+            return null;
+        }
+
         $procInfo = proc_get_status($this->process);
 
         if (!empty($procInfo['pid'])) {
@@ -105,29 +134,7 @@ class Process
     public function setBackground(bool $runInBackground)
     {
         $this->runInBackground = $runInBackground;
-    }
-
-    /**
-     *  Create and execute a new process with the specified command
-     */
-    public function execute()
-    {
-        /**
-         *  File descriptors for each subprocess.
-         *  http://phptutorial.info/?proc-open
-         *  https://gist.github.com/swichers/027d5ae903350cbd4af8
-         */
-        $descriptors = array(
-            0 => array("pipe", "r"), // stdin is a pipe that the child will read from
-            1 => array("pipe", "w"), // stdout is a pipe that the child will write to
-            2 => array("pipe", "w")  // stderr is a pipe that the child will write to
-        );
-
-        /**
-         *  Execution
-         */
-        $this->process = proc_open($this->command, $descriptors, $this->pipes, $this->workingDir, $this->env);
-
+        
         if ($this->runInBackground === true) {
             /**
              *  Make sure pipes are not blocking execution
@@ -135,18 +142,39 @@ class Process
             stream_set_blocking($this->pipes[1], false);
             stream_set_blocking($this->pipes[2], false);
         }
+    }
+
+    /**
+     *  Create and execute a new process with the specified command
+     */
+    public function execute()
+    {
+        
+
+        /**
+         *  Execution
+         */
+        // $this->process = proc_open($this->command, $descriptors, $this->pipes, $this->workingDir, $this->env);
+
+        // if ($this->runInBackground === true) {
+        //     /**
+        //      *  Make sure pipes are not blocking execution
+        //      */
+        //     stream_set_blocking($this->pipes[1], false);
+        //     stream_set_blocking($this->pipes[2], false);
+        // }
 
         /**
          *  Get process PID
          */
-        $this->pid = $this->getPid();
+        // $this->pid = $this->getPid();
 
         /**
          *  If process must not run in background, just loop and get its output till it has finished
          */
-        if ($this->runInBackground === false) {
-            $this->getOutput();
-        }
+        // if ($this->runInBackground === false) {
+        //     $this->getOutput();
+        // }
     }
 
     /**
