@@ -36,7 +36,6 @@ fi
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/update-database.php" www-data
 
 # Start motionui service
-# /bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data
+/bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data
 
-sleep 3000000000
 /bin/bash
