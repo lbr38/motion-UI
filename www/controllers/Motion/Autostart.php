@@ -245,8 +245,14 @@ class Autostart
                  *  If actual time is between autostart time slot, then start motion
                  */
                 $time = time();
+                $autostartTodayEndTmp;
 
-                if ($time >= strtotime($autostartTodayStart) && $time < strtotime($autostartTodayEnd)) {
+                if (strtotime($autostartTodayStart) > (strtotime($autostartTodayEnd))) {
+                    $autostartTodayEndTmp = strtotime($autostartTodayEnd . " + 24 hours");
+                } else {
+                    $autostartTodayEndTmp = strtotime($autostartTodayEnd);
+                }
+                if ($time >= strtotime($autostartTodayStart) && $time < $autostartTodayEndTmp) {
                     /**
                      *  Start motion only if not already running
                      */
