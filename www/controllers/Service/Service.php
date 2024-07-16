@@ -39,8 +39,6 @@ class Service
      */
     private function getSettings()
     {
-        echo $this->getDate() . ' Getting settings...' . PHP_EOL;
-
         $mysettings = new \Controllers\Settings();
         $mytimelapse = new \Controllers\Camera\Timelapse();
         $mymotionAlert = new \Controllers\Motion\Alert();
