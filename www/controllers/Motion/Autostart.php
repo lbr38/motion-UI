@@ -247,7 +247,7 @@ class Autostart
                 $time = time();
                 $autostartTodayEndTmp;
                     
-                if (strtotime($autostartTodayStart) > (strtotime($autostartTodayEnd)){
+                if (strtotime($autostartTodayStart) > (strtotime($autostartTodayEnd))){
                     $autostartTodayEndTmp = strtotime($autostartTodayEnd . " + 24 hours");
                 } else {
                     $autostartTodayEndTmp = strtotime($autostartTodayEnd);
