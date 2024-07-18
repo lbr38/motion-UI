@@ -245,14 +245,32 @@ class Autostart
                  *  If actual time is between autostart time slot, then start motion
                  */
                 $time = time();
-                $autostartTodayEndTmp;
+            	$autostartTodayEndTmp = time();
 
-                if (strtotime($autostartTodayStart) > (strtotime($autostartTodayEnd))) {
-                    $autostartTodayEndTmp = strtotime($autostartTodayEnd . " + 24 hours");
-                } else {
-                    $autostartTodayEndTmp = strtotime($autostartTodayEnd);
-                }
-                if ($time >= strtotime($autostartTodayStart) && $time < $autostartTodayEndTmp) {
+            	if (strtotime($autostartTodayStart) > strtotime($autostartTodayEnd)) {
+                	$autostartTodayEndTmp = strtotime($autostartTodayEnd . ' + 1 day');
+            	} else {
+                	$autostartTodayEndTmp = strtotime($autostartTodayEnd);
+            	}
+
+            	$previousDay = date('l', strtotime('yesterday'));
+            	$autostartYesterdayStart = $timeSlots[$previousDay . '_start'];
+            	$autostartYesterdayEnd = $timeSlots[$previousDay . '_end'];
+
+            	if ($autostartYesterdayEnd == '00:00') {
+                	$autostartYesterdayEnd = '23:59:59';
+            	}
+
+            	if (strtotime($autostartYesterdayStart) > strtotime($autostartYesterdayEnd)) {
+                	$autostartYesterdayEndTmp = strtotime($autostartYesterdayEnd . ' + 1 day');
+            	} else {
+                	$autostartYesterdayEndTmp = strtotime($autostartYesterdayEnd);
+            	}
+
+            	$yesterdayEndTime = strtotime('yesterday') + $autostartYesterdayEndTmp;
+
+                if (($time >= strtotime($autostartTodayStart) && $time < $autostartTodayEndTmp) ||
+		        ($time >= strtotime('yesterday') && $time < $yesterdayEndTime))	{
                     /**
                      *  Start motion only if not already running
                      */
