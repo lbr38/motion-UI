@@ -245,14 +245,45 @@ class Autostart
                  *  If actual time is between autostart time slot, then start motion
                  */
                 $time = time();
-                $autostartTodayEndTmp;
 
-                if (strtotime($autostartTodayStart) > (strtotime($autostartTodayEnd))) {
-                    $autostartTodayEndTmp = strtotime($autostartTodayEnd . " + 24 hours");
-                } else {
-                    $autostartTodayEndTmp = strtotime($autostartTodayEnd);
+                // Today and yesterday's dates
+                $today = date('Y-m-d');
+                $yesterday = date('Y-m-d', strtotime('yesterday'));
+
+                // Today's autostart times
+                $autostartTodayStart = $timeSlots[date('l') . '_start'];
+                $autostartTodayEnd = $timeSlots[date('l') . '_end'];
+
+                // Yesterday's autostart times
+                $previousDay = date('l', strtotime('yesterday'));
+                $autostartYesterdayStart = $timeSlots[$previousDay . '_start'];
+                $autostartYesterdayEnd = $timeSlots[$previousDay . '_end'];
+
+                // Adjust yesterday's end time if it's '00:00'
+                if ($autostartYesterdayEnd == '00:00') {
+                    $autostartYesterdayEnd = '23:59:59';
                 }
-                if ($time >= strtotime($autostartTodayStart) && $time < $autostartTodayEndTmp) {
+
+                // Calculate timestamps
+                $autostartTodayStartTime = strtotime("$today $autostartTodayStart");
+                $autostartTodayEndTime = strtotime("$today $autostartTodayEnd");
+
+                // Handle case where end time is past midnight
+                if ($autostartTodayStartTime > $autostartTodayEndTime) {
+                    $autostartTodayEndTime = strtotime("$today $autostartTodayEnd +1 day");
+                }
+
+                $autostartYesterdayStartTime = strtotime("$yesterday $autostartYesterdayStart");
+                $autostartYesterdayEndTime = strtotime("$yesterday $autostartYesterdayEnd");
+
+                // Handle case where end time is past midnight
+                if ($autostartYesterdayStartTime > $autostartYesterdayEndTime) {
+                    $autostartYesterdayEndTime = strtotime("$yesterday $autostartYesterdayEnd +1 day");
+                }
+
+                // Check if current time falls within today's or yesterday's time slots
+                if (($time >= $autostartTodayStartTime && $time < $autostartTodayEndTime) ||
+                ($time >= $autostartYesterdayStartTime && $time < $autostartYesterdayEndTime)) {
                     /**
                      *  Start motion only if not already running
                      */
