@@ -6,5 +6,9 @@
     "NT02" : {
         "title" : "New! Android app",
         "message" : "An Android app is now available for download <b><a href='https://github.com/lbr38/motion-UI/releases/tag/android-1.0'>here</a></b> (in the assets section).<br><br>This is a <b>beta version</b> which could need some improvements. Feel free to test it and send me your feedbacks or issues!"
+    },
+    "NT03" : {
+        "title" : "New! Discord channel",
+        "message" : "A Discord channel is available <b><a href='https://discord.gg/Dn8FurvWfX'>here</a></b> for any questions or quick help/debugging (English or French spoken)."
     }
 }
