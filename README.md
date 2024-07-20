@@ -50,3 +50,8 @@ An Android app is available for download <a href="https://github.com/lbr38/motio
 Official documentation is available <a href="https://github.com/lbr38/motion-UI/wiki">here</a>.
 
 It should help you **installing** and starting using motion-UI.
+
+## Contact
+
+- For bug reports, issues or features requests, please open a new issue in the Github ``Issues`` section
+- A Discord channel is available <a href="https://discord.gg/Dn8FurvWfX">here</a> for any questions or quick help/debugging (English or French spoken)
