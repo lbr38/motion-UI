@@ -100,8 +100,8 @@ RUN echo "syntax on" >> /root/.vimrc
 RUN echo "set background=dark" >> /root/.vimrc
 
 # Copy entrypoint script
-RUN cp /tmp/motionui/docker/entrypoint.sh /entrypoint.sh
-RUN chmod 700 /entrypoint.sh
+RUN cp /tmp/motionui/docker/init /init
+RUN chmod 700 /init
 
 # Clean
 RUN rm -rf /tmp/motionui
@@ -112,4 +112,4 @@ EXPOSE 8080
 # Set working dir
 WORKDIR ${DATA_DIR}
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/init"]

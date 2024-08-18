@@ -45,7 +45,7 @@
                         if ($camera['Live_enabled'] == 'false') : ?>
                             <div class="flex align-item-center">
                                 <div>
-                                    <button class="btn-square-none"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
+                                    <button class="btn-square-none lowopacity-cst"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
                                     <p class="block center lowopacity-cst">Live stream is disabled</p>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                              */
                             else : ?>
                                 <!-- Loading image -->
-                                <div class="camera-loading">
+                                <div class="camera-loading" camera-id="<?= $camera['Id'] ?>">
                                     <button class="btn-square-none"><img src="/assets/images/loading.gif" class="icon" title="Loading image" /></button>
                                     <span class="block center lowopacity-cst">Loading image</span>
                                 </div>
@@ -132,25 +132,25 @@
                     </div>
 
                     <div class="camera-btn-div flex">
-                        <div>
-                            <img src="/assets/icons/close.svg" class="close-full-screen-camera-btn pointer lowopacity hide" camera-id="<?= $camera['Id'] ?>" title="Close full screen" />
-                        </div>
-
                         <div class="flex align-item-center justify-space-between">
                             <div>
                                 <p class="label-green"><b><?= $camera['Name'] ?></b></p>
                             </div>
                             <div>
-                                <div class="slide-btn timelapse-camera-btn" title="See timelapse" camera-id="<?= $camera['Id'] ?>">
+                                <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $camera['Id'] ?>">
                                     <img src="/assets/icons/picture.svg" />
                                     <span>Timelapse</span>
                                 </div>
 
-                                <div class="slide-btn configure-camera-btn" title="Configure" camera-id="<?= $camera['Id'] ?>">
+                                <div class="slide-btn-medium-tr configure-camera-btn" title="Configure" camera-id="<?= $camera['Id'] ?>">
                                     <img src="/assets/icons/cog.svg" />
                                     <span>Configure</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="close-full-screen-container margin-bottom-30 hide" camera-id="<?= $camera['Id'] ?>">
+                            <img src="/assets/icons/close.svg" class="close-full-screen-btn pointer lowopacity" camera-id="<?= $camera['Id'] ?>" title="Close full screen" />
                         </div>
                     </div>
                 </div>

@@ -23,20 +23,13 @@
 
         <p class="lowopacity-cst">Period:</p>
 
-        <div class="flex justify-space-between align-item-center">
+        <div>
             <div>
                 <div class="flex column-gap-10">
                     <input type="date" name="dateStart" class="input-medium event-date-input" value="<?= $eventDateStart ?>" />
                     <input type="date" name="dateEnd" class="input-medium event-date-input" value="<?= $eventDateEnd ?>" />
                 </div>
-            </div>
-
-            <div>
-                <div class="slide-btn acquit-events-btn" title="Mark all events as seen">
-                    <img src="/assets/icons/enabled.svg" />
-                    <span>Mark all events as seen</span>
-                </div>
-            </div>
+            </div>            
         </div>
 
         <br>
@@ -516,19 +509,27 @@
                 endforeach;
             endif ?>
         </div>
-    </div>
 
-    <div id="event-print-file-div">
-        <div id="event-print-file-container">
-        
-            <!-- Event image or video -->
-            <div id="event-print-file">
-            </div>
-
-            <br>
-
-            <!-- Close button -->
-            <span id="event-print-file-close-btn" class="btn-medium-yellow">Close</span>
+        <div id="motion-events-captures-acquit-container">
+            <?php
+            if ($unseenEventsTotal > 0) : ?>
+                <div class="slide-btn-medium-green acquit-events-btn" title="Mark all events as seen">
+                    <img src="/assets/icons/enabled.svg" />
+                    <span>Mark all events as seen</span>
+                </div>
+                <?php
+            endif ?>
         </div>
     </div>
 </section>
+
+<div class="event-print-file-container">
+    <!-- Event image or video -->
+    <div class="event-print-file">
+    </div>
+
+    <!-- Close button -->
+    <div class="event-print-file-close-btn margin-bottom-30 hide" style="display: block;">
+        <img src="/assets/icons/close.svg" class="close-full-screen-btn pointer lowopacity" title="Close full screen">
+    </div>
+</div>

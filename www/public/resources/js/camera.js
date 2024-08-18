@@ -33,39 +33,37 @@ function loadCameras()
     }
 
     /**
-     *  Just wait a little bit to be sure that all camera divs are loaded
+     *  For each camera container, load the camera image and hide the loading div
      */
-    setTimeout(function () {
-        $('.camera-container').each(function () {
+    $('.camera-container').each(function () {
+        /**
+         *  Retrieve camera loading div and camera image div
+         */
+        const cameraLoadingDiv = $(this).find('div.camera-loading');
+        const cameraImageDiv = $(this).find('div.camera-image');
+
+        /**
+         *  Retrieve camera 'img' tag and its 'data-src' attribute
+         */
+        const cameraImageImg = cameraImageDiv.find('img');
+        const cameraImageSrc = cameraImageImg.attr('data-src');
+
+        /**
+         *  Find 'img' tag inside camera image div and set its 'src' attribute to the 'data-src' attribute
+         */
+        cameraImageDiv.find('img').on('load', function () {
             /**
-             *  Retrieve camera loading div and camera image div
+             *  Print log message
              */
-            const cameraLoadingDiv = $(this).find('div.camera-loading');
-            const cameraImageDiv = $(this).find('div.camera-image');
+            console.log('Camera(s) loaded');
 
             /**
-             *  Retrieve camera 'img' tag and its 'data-src' attribute
+             *  Once the image is loaded, hide the loading div and show the image div
              */
-            const cameraImageImg = cameraImageDiv.find('img');
-            const cameraImageSrc = cameraImageImg.attr('data-src');
-
-            /**
-             *  Find 'img' tag inside camera image div and set its 'src' attribute to the 'data-src' attribute
-             */
-            cameraImageDiv.find('img').on('load', function () {
-                /**
-                 *  Print log message
-                 */
-                console.log('Camera(s) loaded');
-
-                /**
-                 *  Once the image is loaded, hide the loading div and show the image div
-                 */
-                cameraLoadingDiv.hide();
-                cameraImageDiv.show();
-            }).attr('src', cameraImageSrc);
-        });
-    }, 500);
+            cameraLoadingDiv.hide();
+            cameraImageDiv.show();
+        }).attr('src', cameraImageSrc);
+    });
 }
 
 function reloadTimestamp()
@@ -76,7 +74,7 @@ function reloadTimestamp()
     if ($('.camera-image').find('p.camera-image-timestamp').length == 0) {
         return;
     }
-    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    // console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
     /**
      *  Refresh timestamp every second
@@ -140,8 +138,22 @@ function reloadImage()
              *  Then set camera 'next reload' timestamp
              */
             if (cameraTimestamp == currentTimestamp) {
-                $(this).attr('src', '/image?id=' + cameraId + '&' + currentTimestamp);
-                $(this).attr('refresh-timestamp', (Math.floor((Date.now() / 1000) + parseInt(refreshInterval))));
+                $(this).on('load', function () {
+                    /**
+                     *  Print log message
+                     */
+                    console.log('Camera reloaded');
+
+                    /**
+                     *  Always make sure to hide the 'camera-unavailable' and 'camera-loading' divs
+                     */
+                    $('div.camera-unavailable[camera-id=' + cameraId + ']').hide();
+                    $('div.camera-loading[camera-id=' + cameraId + ']').hide();
+                    $('div.camera-image[camera-id=' + cameraId + ']').show();
+                }).attr({
+                    'src': '/image?id=' + cameraId + '&' + currentTimestamp,
+                    'refresh-timestamp': (Math.floor((Date.now() / 1000) + parseInt(refreshInterval)))
+                });
             }
         });
     }, 1000);
@@ -684,13 +696,13 @@ $(document).on('click','.full-screen-camera-btn',function () {
     $('.delete-camera-btn[camera-id='+cameraId+']').hide();
     $('.configure-camera-btn[camera-id='+cameraId+']').hide();
     $('.timelapse-camera-btn[camera-id='+cameraId+']').hide();
-    $('.close-full-screen-camera-btn[camera-id='+cameraId+']').css('display', 'block');
+    $('.close-full-screen-container[camera-id='+cameraId+']').css('display', 'block');
 });
 
 /**
  *  Event: close camera full screen
  */
-$(document).on('click','.close-full-screen-camera-btn',function () {
+$(document).on('click','.close-full-screen-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
     /**
@@ -704,7 +716,7 @@ $(document).on('click','.close-full-screen-camera-btn',function () {
     $('.delete-camera-btn[camera-id='+cameraId+']').show();
     $('.configure-camera-btn[camera-id='+cameraId+']').show();
     $('.timelapse-camera-btn[camera-id='+cameraId+']').show();
-    $('.close-full-screen-camera-btn[camera-id='+cameraId+']').hide();
+    $('.close-full-screen-container[camera-id='+cameraId+']').hide();
 });
 
 /**
