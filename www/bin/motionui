@@ -31,7 +31,7 @@ function help
 # Set correct permissions on all directories and files used by motionui
 function permissions
 {
-    echo -ne "\n${YELLOW} Setting permissions... ${RESET}"
+    echo -e "\n${YELLOW} Setting permissions... ${RESET}"
 
     # Permissions on web directory
     find "$WWW_DIR" -type f -exec chmod 0660 {} \;
@@ -58,8 +58,6 @@ function permissions
     find "/etc/motion" -type d -exec chmod 0770 {} \;
     chown -R ${WWW_USER}:motion /etc/motion
     chmod 770 /etc/motion
-
-    echo -e "${GREEN}OK${RESET}\n"
 }
 
 echo '

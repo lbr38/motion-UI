@@ -49,6 +49,7 @@ class Event
          */
         $this->layoutContainerStateController->update('motion/events/list');
         $this->layoutContainerStateController->update('motion/stats/list');
+        $this->layoutContainerStateController->update('buttons/bottom');
     }
 
     /**
@@ -63,6 +64,7 @@ class Event
          */
         $this->layoutContainerStateController->update('motion/events/list');
         $this->layoutContainerStateController->update('motion/stats/list');
+        $this->layoutContainerStateController->update('buttons/bottom');
     }
 
     /**

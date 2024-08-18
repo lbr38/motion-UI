@@ -55,24 +55,6 @@
 
             <span>Text right</span>
             <input type="text" name="edit-camera-text-right" value="<?= $camera['Text_right'] ?>" />
-
-            <span>Display camera live stream</span>
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input" type="checkbox" name="edit-camera-live-enable" <?php echo $camera['Live_enabled'] == "true" ? 'checked' : '' ?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-
-            <span>Enable motion detection</span>
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input" type="checkbox" name="edit-camera-motion-enable" camera-id="<?= $camera['Id'] ?>" <?php echo $camera['Motion_enabled'] == "true" ? 'checked' : '' ?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
-
-            <span>Enable timelapse</span>
-            <label class="onoff-switch-label">
-                <input class="onoff-switch-input" type="checkbox" name="edit-camera-timelapse-enable" camera-id="<?= $camera['Id'] ?>" <?php echo $camera['Timelapse_enabled'] == "true" ? 'checked' : '' ?>>
-                <span class="onoff-switch-slider"></span>
-            </label>
         </div>
 
         <p class="camera-stream-url hide yellowtext margin-bottom-10">Motion detection cannot work on static images. Specify a stream URL to use for Motion detection:</p>
@@ -95,7 +77,7 @@
             <input class="camera-stream-url <?= $hideField ?>" type="text" name="edit-camera-stream-url" placeholder="e.g. http(s)://.../stream or rtsp://..." value="<?= $camera['Stream_url'] ?>" />
         </div>
             
-        <p class="margin-top-15 margin-bottom-15">HTTP Authentication</p>
+        <p class="margin-top-15 margin-bottom-10">HTTP Authentication</p>
 
         <p class="lowopacity-cst margin-bottom-5">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP Authentication.</p>
         
@@ -107,8 +89,27 @@
             <input type="password" name="edit-camera-password" value="<?= $camera['Password'] ?>" />
         </div>
 
-        <br>
-        <div class="flex column-gap-10">
+        <div class="grid grid-fr-1-2 align-item-center column-gap-10 row-gap-10 margin-top-15">
+            <span>Display camera live stream</span>
+            <label class="onoff-switch-label">
+                <input class="onoff-switch-input" type="checkbox" name="edit-camera-live-enable" <?php echo $camera['Live_enabled'] == "true" ? 'checked' : '' ?>>
+                <span class="onoff-switch-slider"></span>
+            </label>
+
+            <span>Enable motion detection</span>
+            <label class="onoff-switch-label">
+                <input class="onoff-switch-input" type="checkbox" name="edit-camera-motion-enable" camera-id="<?= $camera['Id'] ?>" <?php echo $camera['Motion_enabled'] == "true" ? 'checked' : '' ?>>
+                <span class="onoff-switch-slider"></span>
+            </label>
+
+            <span>Enable timelapse</span>
+            <label class="onoff-switch-label">
+                <input class="onoff-switch-input" type="checkbox" name="edit-camera-timelapse-enable" camera-id="<?= $camera['Id'] ?>" <?php echo $camera['Timelapse_enabled'] == "true" ? 'checked' : '' ?>>
+                <span class="onoff-switch-slider"></span>
+            </label>
+        </div>
+
+        <div class="flex column-gap-10 margin-top-20">
             <button type="submit" class="btn-small-green">Save</button>
             <button type="button" class="btn-small-red delete-camera-btn" title="Delete camera" camera-id="<?= $camera['Id'] ?>">Delete</button>
         </div>

@@ -8,7 +8,6 @@ $(document).ready(function () {
      */
     setInterval(function () {
         reloadContainer('buttons/top');
-        reloadContainer('buttons/bottom');
     }, 5000);
 });
 

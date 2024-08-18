@@ -1,4 +1,4 @@
-<div id="timelapse" class="flex flex-direction-column align-item-center row-gap-10 margin-bottom-40">
+<div id="timelapse" class="grid justify-items-center row-gap-10">
     <div id="timelapse-picture-container">
         <?php
         if (empty($date)) {
@@ -63,7 +63,7 @@
         } ?>
     </div>
 
-    <div class="flex flex-direction-column row-gap-10 padding-left-15 padding-right-15">
+    <div class="grid justify-space-between row-gap-10 padding-left-15 padding-right-15">
         <div>
             <?php
             if (!empty($picture)) {
@@ -145,26 +145,25 @@
             </script>
         </div>
 
-        <div class="grid grid-3 justify-space-between">
+        <div class="grid grid-2 justify-space-between">
             <div>
-                <p>Date:</p>
                 <input id="timelapse-date-input" type="date" class="input-medium" max="<?= date('Y-m-d') ?>" camera-id="<?= $cameraId ?>" value="<?= $date ?>" />
             </div>
 
-            <div class="flex justify-center">
-                <div id="timelapse-play-btn" class="slide-btn" title="Play timelapse">
+            <div class="flex justify-end">
+                <div id="timelapse-play-btn" class="slide-btn-medium-tr" title="Play timelapse">
                     <img src="/assets/icons/play.svg" />
                     <span>Play timelapse</span>
                 </div>
 
-                <div id="timelapse-pause-btn" class="slide-btn-yellow hide" title="Pause timelapse">
+                <div id="timelapse-pause-btn" class="slide-btn-medium-tr hide" title="Pause timelapse">
                     <img src="/assets/icons/pause.svg" />
                     <span>Pause timelapse</span>
                 </div>
             </div>
         </div>
 
-        <div class="flex">
+        <div class="flex margin-bottom-40">
             <img src="/assets/icons/close.svg" class="close-timelapse-btn pointer lowopacity" title="Close timelapse screen">
         </div>
     </div>

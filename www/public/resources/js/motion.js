@@ -225,8 +225,8 @@ $(document).on('click','.event-pagination-btn',function () {
 $(document).on('click','.play-picture-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    $('#event-print-file').html('<img src="/media?id=' + fileId + '" />');
-    $('#event-print-file-div').show();
+    $('.event-print-file').html('<img src="/media?id=' + fileId + '" />');
+    $('.event-print-file-container').css('display', 'flex');
 });
 
 /**
@@ -235,23 +235,23 @@ $(document).on('click','.play-picture-btn',function () {
 $(document).on('click','.play-video-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    $('#event-print-file').html('<video controls><source src="/media?id=' + fileId + '"><p>You browser does not support embedded videos.</p></video>');
-    $('#event-print-file-div').show();
+    $('.event-print-file').html('<video controls><source src="/media?id=' + fileId + '"><p>You browser does not support embedded videos.</p></video>');
+    $('.event-print-file-container').css('display', 'flex');
 });
 
 /**
  *  Event: close event picture or video
  */
-$(document).on('click','#event-print-file-close-btn',function () {
+$(document).on('click','.event-print-file-close-btn',function () {
     /**
      *  Mask container div
      */
-    $('#event-print-file-div').hide();
+    $('.event-print-file-container').hide();
 
     /**
      *  Clear div
      */
-    $('#event-print-file').html('');
+    $('.event-print-file').html('');
 });
 
 /**

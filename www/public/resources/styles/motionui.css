@@ -2,7 +2,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: 'Roboto', sans-serif !important;
     margin: 0px;
     padding: 0px;
     background-color: #112334;
@@ -210,12 +209,17 @@ h3 {
 }
 
 #motion-events-captures-container {
-    /* max-height: 900px; */
     display: grid;
     grid-template-columns: repeat(1, 100%);
     justify-content: center;
     overflow-x: auto;
     overflow-y: auto;
+}
+
+#motion-events-captures-acquit-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
 }
 
 .event-container {
@@ -477,7 +481,6 @@ h3 {
     z-index: 999;
     height: 100vh;
     max-height: 100vh;
-    border-radius: 4px;
     background-color: #182b3e;
     -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
@@ -485,7 +488,7 @@ h3 {
 #timelapse-picture-container {
     display: flex;
     align-items: center;
-    height: 70vh;
+    height: 50vh;
 }
 #timelapse-picture {
     max-height: 100%;
@@ -495,7 +498,7 @@ h3 {
 #timelapse #picture-slider {
     width: 85vw;
 }
-.close-timelapse-btn, .close-full-screen-camera-btn {
+.close-timelapse-btn, .close-full-screen-btn {
     width: 50px;
     height: 50px;
     margin: auto;
@@ -530,7 +533,7 @@ footer {
 
 footer #github img { width: 25px; }
 
-#event-print-file-div {
+.event-print-file-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -538,32 +541,21 @@ footer #github img { width: 25px; }
     display: none;
     width: 100%;
     height: 100%;
-}
-
-#event-print-file-container {
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    padding-top: 15px;
     background-color: #112334;
-    z-index: 999;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#event-print-file {
+.event-print-file {
     width: fit-content;
     max-width: 99%;
     margin: auto;
 }
 
-#event-print-file img, #event-print-file video {
+.event-print-file img, .event-print-file video {
     width: 100%;
     max-height: 90vh;
-}
-
-#event-print-file-close-btn {
-    display: block;
-    margin: auto;
-    width: fit-content;
 }
 
 .event-media-row {
@@ -631,15 +623,6 @@ footer #github img { width: 25px; }
     text-align: center;
 }
 
-#new-release-div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    align-content: center;
-    width: fit-content;
-    margin: auto;
-}
-
 /* Scrollbar personnalisée */
 /* Compatible Chrome uniquement */
 /* width */
@@ -656,14 +639,6 @@ footer #github img { width: 25px; }
 ::-webkit-scrollbar-thumb {
     background: #596EB5;
     border-radius: 5px;
-}
-
-pre {
-    border-radius: 2px;
-    background-color: #25394b;
-    padding: 2px;
-    white-space: pre-wrap;
-    line-height: 1.5em;
 }
 
 #loginDiv-container {
@@ -776,6 +751,10 @@ pre {
     .main-container {
         grid-template-columns: repeat(1, 100%);
         justify-content: space-around;
+    }
+
+    #timelapse-picture-container {
+        height: 70vh;
     }
 
     #motion-events-captures-container {

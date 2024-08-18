@@ -4,7 +4,7 @@
  */
 function setUnavailable(cameraId)
 {
-    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-loading').remove();
-    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-image').remove();
+    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-loading').hide();
+    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-image').hide();
     $('.camera-container[camera-id=' + cameraId + ']').find('.camera-unavailable').css('display', 'flex');
 }
