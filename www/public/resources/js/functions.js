@@ -6,19 +6,29 @@ function openPanel(name)
     }).promise().done(function () {
         $('.slide-panel-container[slide-panel="' + name + '"]').find('.slide-panel').animate({
             right: '0'
-        })
+        }, 150)
     })
 }
 
-function closePanel()
+function closePanel(name = null)
 {
-    $('.slide-panel').animate({
-        right: '-1000px',
-    }).promise().done(function () {
-        $('.slide-panel-container').css({
-            visibility: 'hidden'
+    if (name != null) {
+        $('.slide-panel-container[slide-panel="' + name + '"]').find('.slide-panel').animate({
+            right: '-1000px',
+        }).promise().done(function () {
+            $('.slide-panel-container[slide-panel="' + name + '"]').css({
+                visibility: 'hidden'
+            })
         })
-    })
+    } else {
+        $('.slide-panel').animate({
+            right: '-1000px',
+        }).promise().done(function () {
+            $('.slide-panel-container').css({
+                visibility: 'hidden'
+            })
+        })
+    }
 }
 
 /**
@@ -127,7 +137,7 @@ function confirmBox(message, myfunction1, confirmBox1 = 'Delete', myfunction2 = 
  */
 function printLoadingVeilByClass(name)
 {
-    $('.' + name).append('<div class="loading-veil"><img src="/assets/images/loading.gif" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+    $('.' + name).append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
 }
 
 /**
@@ -136,7 +146,7 @@ function printLoadingVeilByClass(name)
  */
 function printLoadingVeilByParentClass(name)
 {
-    $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/images/loading.gif" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+    $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
 }
 
 /**
@@ -144,7 +154,7 @@ function printLoadingVeilByParentClass(name)
  */
 function veilBody()
 {
-    $('body').append('<div class="body-veil"><img src="/assets/icons/motion.svg" /><img src="/assets/images/loading.gif" /></div>');
+    $('body').append('<div class="body-veil"><img src="/assets/icons/motion.svg" /><img src="/assets/icons/loading.svg" /></div>');
 }
 
 /**
@@ -202,6 +212,44 @@ function setCookie(cname, cvalue, exdays)
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;Secure";
+}
+
+/**
+ *  Return GET parameters as object (array)
+ */
+function getGetParams()
+{
+    /**
+     *  Get current URL and GET parameters
+     */
+    let url = new URL(window.location.href)
+    let params = new URLSearchParams(url.search);
+    let entries = params.entries();
+
+    /**
+     *  Parse and convert to object
+     *  For each GET param, add key and value to the object
+     */
+    let array = {}
+    for (let entry of entries) { // each 'entry' is a [key, value]
+        let [key, val] = entry;
+
+        /**
+         *  If key ends with '[]' then it's an array
+         */
+        if (key.endsWith('[]')) {
+            // clean up the key
+            key = key.slice(0,-2);
+            (array[key] || (array[key] = [])).push(val)
+        /**
+         *  Else it's a normal parameter
+         */
+        } else {
+            array[key] = val;
+        }
+    }
+
+    return array;
 }
 
 /**

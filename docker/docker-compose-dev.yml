@@ -15,6 +15,7 @@ services:
     restart: always
     ports:
       - "8888:8080"
+      - "1984:1984" # To access go2rtc web interface
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/lib/docker/volumes/motionui-dev-data:/var/lib/motionui

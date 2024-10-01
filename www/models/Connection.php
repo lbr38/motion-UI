@@ -61,20 +61,19 @@ class Connection extends SQLite3
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         Name VARCHAR(255) NOT NULL,
         Url VARCHAR(255) NOT NULL,
-        Stream_url VARCHAR(255),
-        Output_type CHAR(5), /* image, video */
         Output_resolution VARCHAR(255),
-        Refresh INTEGER,
+        Framerate INTEGER,
+        Username VARCHAR(255),
+        Password VARCHAR(255),
+        Live_enabled CHAR(5),
         Rotate INTEGER,
         Text_left VARCHAR(255),
         Text_right VARCHAR(255),
         Timestamp_left CHAR(5),
         Timestamp_right CHAR(5),
-        Live_enabled CHAR(5),
         Motion_enabled CHAR(5),
         Timelapse_enabled CHAR(5),
-        Username VARCHAR(255),
-        Password VARCHAR(255))");
+        Hardware_acceleration CHAR(5))");
 
         /**
          *  Create alerts table
@@ -186,10 +185,7 @@ class Connection extends SQLite3
         $this->exec("CREATE TABLE IF NOT EXISTS settings (
         Timelapse_interval INTEGER NOT NULL,
         Timelapse_retention INTEGER NOT NULL,
-        Motion_events_videos_thumbnail CHAR(5) NOT NULL,
-        Motion_events_pictures_thumbnail CHAR(5) NOT NULL,
-        Motion_events_retention INTEGER NOT NULL,
-        Motion_advanced_edition_mode CHAR(5) NOT NULL)");
+        Motion_events_retention INTEGER NOT NULL)");
 
         /**
          *  If settings table is empty, fill it with default values
@@ -197,8 +193,8 @@ class Connection extends SQLite3
         $result = $this->query("SELECT * FROM settings");
         if ($this->isempty($result) === true) {
             $this->exec("INSERT INTO settings 
-            (Timelapse_interval, Timelapse_retention, Motion_events_videos_thumbnail, Motion_events_pictures_thumbnail, Motion_events_retention, Motion_advanced_edition_mode)
-            VALUES ('300', '30', 'true', 'true', '30', 'false')");
+            (Timelapse_interval, Timelapse_retention, Motion_events_retention)
+            VALUES ('300', '30', '30')");
         }
 
         /**

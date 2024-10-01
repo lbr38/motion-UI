@@ -26,83 +26,83 @@
    showgrid="false"
    inkscape:zoom="12.982143"
    inkscape:cx="28"
-   inkscape:cy="28"
+   inkscape:cy="28.308115"
    inkscape:window-width="1920"
-   inkscape:window-height="985"
-   inkscape:window-x="1052"
-   inkscape:window-y="1109"
+   inkscape:window-height="979"
+   inkscape:window-x="0"
+   inkscape:window-y="29"
    inkscape:window-maximized="1"
-   inkscape:current-layer="Capa_1" />
+   inkscape:current-layer="g6" />
 <g
    id="g6"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 	<path
-   d="M35.31,5.042c-0.532-0.155-1.085,0.15-1.24,0.68s0.149,1.085,0.68,1.24C44.906,9.932,52,19.405,52,30   c0,13.233-10.767,24-24,24S4,43.233,4,30C4,19.392,11.105,9.915,21.279,6.953c0.53-0.154,0.835-0.709,0.681-1.239   c-0.153-0.53-0.708-0.839-1.239-0.681C9.698,8.241,2,18.508,2,30c0,14.337,11.663,26,26,26s26-11.663,26-26   C54,18.522,46.314,8.26,35.31,5.042z"
+   d="m 35.334485,3.9857842 c -0.53378,-0.1585425 -1.088637,0.1534283 -1.244156,0.6955414 -0.155519,0.5421131 0.149502,1.1097975 0.68228,1.26834 10.190016,3.0378785 17.307774,12.7273844 17.307774,23.5645324 0,13.535439 -10.803063,24.54852 -24.080384,24.54852 -13.27732,0 -24.0803826,-11.013081 -24.0803826,-24.54852 0,-10.850445 7.1287986,-20.5440414 17.3368726,-23.5737381 C 21.788261,5.7829404 22.094288,5.2152558 21.939773,4.6731426 21.786254,4.1310295 21.229398,3.8149674 20.696621,3.9765784 9.6367,7.2578972 1.9129175,17.759549 1.9129175,29.514198 c 0,14.664672 11.7020635,26.59423 26.0870815,26.59423 14.385019,0 26.087084,-11.929558 26.087084,-26.59423 0,-11.740328 -7.711745,-22.2368666 -18.752598,-25.5284138 z"
    id="path2"
-   style="fill:#ffffff;fill-opacity:1" />
+   style="fill:#ffffff;fill-opacity:1;stroke-width:1.013;stroke-miterlimit:4;stroke-dasharray:none" />
 	<path
-   d="M28,27c0.553,0,1-0.447,1-1V1c0-0.553-0.447-1-1-1s-1,0.447-1,1v25C27,26.553,27.447,27,28,27z"
+   d="m 28,27 c 0.6083,0 1.1,-0.447 1.1,-1 V 1 C 29.1,0.447 28.6083,0 28,0 27.3917,0 26.9,0.447 26.9,1 v 25 c 0,0.553 0.4917,1 1.1,1 z"
    id="path4"
-   style="fill:#ffffff;fill-opacity:1" />
+   style="fill:#ffffff;fill-opacity:1;stroke-width:1.04881" />
 </g>
 <g
    id="g8"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g10"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g12"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g14"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g16"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g18"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g20"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g22"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g24"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g26"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g28"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g30"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g32"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g34"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 <g
    id="g36"
-   style="fill:#ffffff;fill-opacity:1">
+   style="fill:#b60808;fill-opacity:1">
 </g>
 </svg>

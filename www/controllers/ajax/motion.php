@@ -1,4 +1,33 @@
 <?php
+/**
+ *  Get motion configuration edit form
+ */
+if ($_POST['action'] == "get-motion-config-form" and !empty($_POST['id'])) {
+    try {
+        $mymotionConfig = new \Controllers\Motion\Config();
+        $mycamera = new \Controllers\Camera\Camera();
+
+        /**
+         *  Check if camera exists
+         */
+        if ($mycamera->existId($_POST['id']) === false) {
+            throw new Exception('Camera does not exist');
+        }
+
+        $id = $_POST['id'];
+
+        /**
+         *  Generate configuration form for this camera
+         */
+        ob_start();
+        include_once(ROOT . '/views/includes/camera/edit/motion-config-form.inc.php');
+        $form = ob_get_clean();
+    } catch (\Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
+    }
+
+    response(HTTP_OK, $form);
+}
 
 /**
  *  Send a test email
@@ -90,9 +119,9 @@ if ($_POST['action'] == "enableAutostart" and !empty($_POST['status'])) {
 }
 
 /**
- *  Start / stop motion capture
+ *  Start / stop motion service
  */
-if ($_POST['action'] == "startStopMotion" and !empty($_POST['status'])) {
+if ($_POST['action'] == "start-stop" and !empty($_POST['status'])) {
     $mymotion = new \Controllers\Motion\Motion();
 
     try {
@@ -241,11 +270,11 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
 /**
  *  Configure motion
  */
-if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !empty($_POST['options_array'])) {
-    $mymotion = new \Controllers\Motion\Motion();
+if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !empty($_POST['params'])) {
+    $mymotionConfig = new \Controllers\Motion\Config();
 
     try {
-        $mymotion->configure($_POST['cameraId'], $_POST['options_array']);
+        $mymotionConfig->configure($_POST['cameraId'], $_POST['params']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }

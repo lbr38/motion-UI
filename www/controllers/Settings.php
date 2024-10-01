@@ -29,8 +29,6 @@ class Settings
         $homePage = 'live'; // Default home page is '/live'
         $timelapseInterval = '300'; // Default timelapse interval is 300 seconds
         $timelapseRetention = '30'; // Default timelapse retention is 30 days
-        $motionEventsVideosThumbnail = 'false';
-        $motionEventsPicturesThumbnail = 'false';
         $motionEventsRetention = '30';
 
         /**
@@ -58,24 +56,10 @@ class Settings
         if (!empty($settings['timelapse-retention']) and is_numeric($settings['timelapse-retention']) and $settings['timelapse-retention'] > 0) {
             $timelapseRetention = $settings['timelapse-retention'];
         }
-        if (!empty($settings['motion-events-videos-thumbnail']) and $settings['motion-events-videos-thumbnail'] == 'true') {
-            $motionEventsVideosThumbnail = 'true';
-        }
-        if (!empty($settings['motion-events-pictures-thumbnail']) and $settings['motion-events-pictures-thumbnail'] == 'true') {
-            $motionEventsPicturesThumbnail = 'true';
-        }
         if (!empty($settings['motion-events-retention']) and is_numeric($settings['motion-events-retention']) and $settings['motion-events-retention'] > 0) {
             $motionEventsRetention = $settings['motion-events-retention'];
         }
 
-        $this->model->edit($timelapseInterval, $timelapseRetention, $motionEventsVideosThumbnail, $motionEventsPicturesThumbnail, $motionEventsRetention);
-    }
-
-    /**
-     *  Enable / disable motion configuration's advanced edition mode
-     */
-    public function motionAdvancedEditionMode(string $status)
-    {
-        $this->model->motionAdvancedEditionMode($status);
+        $this->model->edit($timelapseInterval, $timelapseRetention, $motionEventsRetention);
     }
 }

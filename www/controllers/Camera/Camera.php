@@ -11,11 +11,17 @@ class Camera
     private $name;
     private $url;
     private $rotate;
-    private $refresh;
+
+    private $motionConfigController;
+    private $motionServiceController;
+    private $go2rtcController;
 
     public function __construct()
     {
         $this->model = new \Models\Camera\Camera();
+        $this->motionConfigController = new \Controllers\Motion\Config();
+        $this->motionServiceController = new \Controllers\Motion\Service();
+        $this->go2rtcController = new \Controllers\Go2rtc\Go2rtc();
     }
 
     /**
@@ -80,77 +86,86 @@ class Camera
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $refresh, string $liveEnable, string $motionEnable, string $timelapseEnable, string $username, string $password)
+    public function add(array $params)
     {
-        $mymotionService = new \Controllers\Motion\Service();
+        $motionParams = [];
 
         /**
-         *  Only allow certain caracters in URL
+         *  Define some default params values
          */
-        if (!\Controllers\Common::isAlphanumDash($url, array('&', '=', ':', '/', '.', '?', '&', '=', '@'))) {
-            throw new Exception('URL contains invalid caracters');
-        }
-        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('&', '=', ':', '/', '.', '?', '&', '=', '@'))) {
-            throw new Exception('URL contains invalid caracters');
-        }
-
-        $name = \Controllers\Common::validateData($name);
-        $url = \Controllers\Common::validateData($url);
-        $streamUrl = \Controllers\Common::validateData($streamUrl);
-        $outputType = \Controllers\Common::validateData($outputType);
-        $outputResolution = \Controllers\Common::validateData($outputResolution);
-        $refresh = \Controllers\Common::validateData($refresh);
-        $liveEnable = \Controllers\Common::validateData($liveEnable);
-        $motionEnable = \Controllers\Common::validateData($motionEnable);
-        $timelapseEnable = \Controllers\Common::validateData($timelapseEnable);
-        $username = \Controllers\Common::validateData($username);
-        $password = \Controllers\Common::validateData($password);
+        $basicAuthUsername = '';
+        $basicAuthPassword = '';
+        $motionEnabled = 'false';
 
         /**
-         *  Check that URL starts with http(s):// or rtsp://
+         *  Get that minimal required parameters are set
          */
-        if (!preg_match('#(^https?://|^rtsp://)#', $url)) {
-            throw new Exception('URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
+        if (empty($params['name'])) {
+            throw new Exception('Name is required');
+        }
+        if (empty($params['url'])) {
+            throw new Exception('URL or device is required');
+        }
+        if (empty($params['resolution'])) {
+            throw new Exception('Resolution is required');
+        }
+        if (!isset($params['framerate'])) {
+            throw new Exception('Frame rate is required');
         }
 
         /**
-         *  Check that output type is valid
+         *  Retrieve params
          */
-        if ($outputType != 'image' and $outputType != 'video') {
-            throw new Exception('Specified output type is invalid');
+        $name = \Controllers\Common::validateData($params['name']);
+        $url = \Controllers\Common::validateData($params['url']);
+        $resolution = \Controllers\Common::validateData($params['resolution']);
+        $framerate = \Controllers\Common::validateData($params['framerate']);
+
+        /**
+         *  If Basic auth username and password are set
+         */
+        if (!empty($params['basic-auth-username'])) {
+            $basicAuthUsername = \Controllers\Common::validateData($params['basic-auth-username']);
+        }
+        if (!empty($params['basic-auth-password'])) {
+            $basicAuthPassword = \Controllers\Common::validateData($params['basic-auth-password']);
+        }
+
+        /**
+         *  If motion detection is enabled
+         */
+        if (!empty($params['motion-detection-enable']) and $params['motion-detection-enable'] == 'true') {
+            $motionEnabled = 'true';
+        }
+
+        /**
+         *  Check that URL starts with http(s)://, rtsp:// or /dev/video
+         */
+        if (!preg_match('#(^https?://|^rtsp://|^/dev/video)#', $url)) {
+            throw new Exception('URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/video</b>');
         }
 
         /**
          *  Check that resolution is valid
          */
-        if (!preg_match('#^([0-9]+)x([0-9]+)$#', $outputResolution)) {
+        if (!preg_match('#^([0-9]+)x([0-9]+)$#', $resolution)) {
             throw new Exception('Specified resolution is invalid');
         }
 
-        if ($outputType == 'image' and $motionEnable == 'true' and empty($streamUrl)) {
-            throw new Exception('Motion detection requires a stream URL');
-        }
-
         /**
-         *  If an additional stream URL is provided, check that it starts with http(s):// or rtsp://
+         *  Check that frame rate is valid
          */
-        if (!empty($streamUrl and !preg_match('#(^https?://)#', $streamUrl))) {
-            throw new Exception('Stream URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
-        }
-
-        if ($outputType == 'image') {
-            if (!is_numeric($refresh)) {
-                throw new Exception('Specified refresh rate is invalid');
-            }
+        if (!is_numeric($framerate) or $framerate < 0) {
+            throw new Exception('Frame rate value is invalid');
         }
 
         /**
          *  Add camera in database
          */
-        $this->model->add($name, $url, $streamUrl, $outputType, $outputResolution, $liveEnable, $motionEnable, $timelapseEnable, $username, $password);
+        $this->model->add($name, $url, $resolution, $framerate, $basicAuthUsername, $basicAuthPassword, $motionEnabled);
 
         /**
-         *  Get inserted camera Id from database
+         *  Get new camera Id from database
          */
         $id = $this->getIdByName($name);
 
@@ -159,19 +174,47 @@ class Camera
         }
 
         /**
+         *  Prepare motion configuration parameters
+         */
+        $motionParams['camera_id']   = ['status' => 'enabled', 'value' => $id];
+        $motionParams['camera_name'] = ['status' => 'enabled', 'value' => $name];
+        $motionParams['width']       = ['status' => 'enabled', 'value' => explode('x', $resolution)[0]];
+        $motionParams['height']      = ['status' => 'enabled', 'value' => explode('x', $resolution)[1]];
+
+        /**
          *  Motion configuration
          *  Generate a new motion configuration file for this camera
          */
-        $this->generateMotionConfiguration($id);
+        $this->motionConfigController->generateCameraConfig($id);
 
         /**
-         *  Restart motion service if running
+         *  Edit motion configuration file for this camera
          */
-        if ($mymotionService->isRunning()) {
-            if (!file_exists(DATA_DIR . '/motion.restart')) {
-                touch(DATA_DIR . '/motion.restart');
-            }
+        $this->motionConfigController->edit(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf', $motionParams);
+
+        /**
+         *  Enable / disable motion configuration file
+         */
+        if ($motionEnabled == 'true') {
+            $this->motionConfigController->enable($id);
+        } else {
+            $this->motionConfigController->disable($id);
         }
+
+        /**
+         *  Add a new stream in go2rtc
+         */
+        $params = [
+            'id' => $id,
+            'url' => $url,
+            'basicAuthUsername' => $basicAuthUsername,
+            'basicAuthPassword' => $basicAuthPassword,
+            'rotate' => 0,
+            'resolution' => $resolution,
+            'framerate' => $framerate,
+            'hardware_acceleration' => 'false'
+        ];
+        $this->go2rtcController->addStream($id, $params);
     }
 
     /**
@@ -179,7 +222,7 @@ class Camera
      */
     public function delete(string $id)
     {
-        $mymotionService = new \Controllers\Motion\Service();
+        $motionRestart = false;
 
         /**
          *  Check if camera Id exist
@@ -196,43 +239,66 @@ class Camera
         /**
          *  Delete camera config file
          */
-        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
-            if (!unlink(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
-                throw new Exception('Could not delete camera config file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf');
+        if (file_exists(CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf')) {
+            if (!unlink(CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf')) {
+                throw new Exception('Could not delete camera config file: ' . CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf');
             }
-        }
 
-        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled')) {
-            if (!unlink(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled')) {
-                throw new Exception('Could not delete camera config file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf.disabled');
+            // Trigger motion restart if camera config file was enabled
+            $motionRestart = true;
+        }
+        if (file_exists(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
+            if (!unlink(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
+                throw new Exception('Could not delete camera config file: ' . CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf');
             }
         }
 
         /**
          *  Delete camera data directory (timelapse images)
          */
-        if (is_dir(DATA_DIR . '/cameras/camera-' . $id)) {
-            if (!\Controllers\Filesystem\Directory::deleteRecursive(DATA_DIR . '/cameras/camera-' . $id)) {
-                throw new Exception('Could not delete camera data directory: ' . DATA_DIR . '/cameras/camera-' . $id);
+        if (is_dir(CAMERAS_TIMELAPSE_DIR . '/camera-' . $id)) {
+            if (!\Controllers\Filesystem\Directory::deleteRecursive(CAMERAS_TIMELAPSE_DIR . '/camera-' . $id)) {
+                throw new Exception('Could not delete camera data directory: ' . CAMERAS_TIMELAPSE_DIR . '/camera-' . $id);
             }
         }
 
         /**
          *  Restart motion service if running
          */
-        if ($mymotionService->isRunning()) {
+        if ($this->motionServiceController->isRunning() and $motionRestart) {
             if (!file_exists(DATA_DIR . '/motion.restart')) {
                 touch(DATA_DIR . '/motion.restart');
             }
         }
+
+        /**
+         *  Remove stream from go2rtc
+         */
+        $this->go2rtcController->removeStream($id);
     }
 
     /**
      *  Edit camera global settings
      */
-    public function editGlobalSettings(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $timelapseEnable, string $username, string $password)
+    public function editGlobalSettings(int $id, array $params)
     {
-        $mymotionService = new \Controllers\Motion\Service();
+        $motionParams = [];
+        $motionRestart = false;
+
+        /**
+         *  Define some default params values
+         */
+        $rotate = 0;
+        $textLeft = '';
+        $textRight = '';
+        $basicAuthUsername = '';
+        $basicAuthPassword = '';
+        $liveEnabled = 'false';
+        $timestampLeft = 'false';
+        $timestampRight = 'false';
+        $motionEnabled = 'false';
+        $timelapseEnabled = 'false';
+        $hardwareAcceleration = 'false';
 
         /**
          *  Check if camera Id exist
@@ -247,199 +313,195 @@ class Camera
         $actualConfiguration = $this->getConfiguration($id);
 
         /**
-         *  Only allow certain caracters in URL
+         *  Get that minimal required parameters are set
          */
-        if (!\Controllers\Common::isAlphanumDash($url, array('=', ':', '/', '.', '?', '&', '=', '@'))) {
-            throw new Exception('URL contains invalid caracters');
+        if (empty($params['name'])) {
+            throw new Exception('Name is required');
         }
-        if (!\Controllers\Common::isAlphanumDash($streamUrl, array('=', ':', '/', '.', '?', '&', '=', '@'))) {
-            throw new Exception('URL contains invalid caracters');
+        if (empty($params['url'])) {
+            throw new Exception('URL or device is required');
         }
-
-        $name = \Controllers\Common::validateData($name);
-        $url = \Controllers\Common::validateData($url);
-        $streamUrl = \Controllers\Common::validateData($streamUrl);
-        $outputResolution = \Controllers\Common::validateData($outputResolution);
-        $rotate = \Controllers\Common::validateData($rotate);
-        $textLeft = \Controllers\Common::validateData($textLeft);
-        $textRight = \Controllers\Common::validateData($textRight);
-        $liveEnable = \Controllers\Common::validateData($liveEnable);
-        $motionEnable = \Controllers\Common::validateData($motionEnable);
-        $timelapseEnable = \Controllers\Common::validateData($timelapseEnable);
-        $username = \Controllers\Common::validateData($username);
-        $password = \Controllers\Common::validateData($password);
+        if (empty($params['resolution'])) {
+            throw new Exception('Resolution is required');
+        }
+        if (!isset($params['framerate'])) {
+            throw new Exception('Frame rate is required');
+        }
 
         /**
-         *  Check that URL starts with http(s):// or rtsp://
+         *  Retrieve params
          */
-        if (!preg_match('#(^https?://|^rtsp://)#', $url)) {
-            throw new Exception('URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
+        $name = \Controllers\Common::validateData($params['name']);
+        $url = \Controllers\Common::validateData($params['url']);
+        $resolution = \Controllers\Common::validateData($params['resolution']);
+        $framerate = \Controllers\Common::validateData($params['framerate']);
+
+        /**
+         *  If rotate is set
+         */
+        if (!empty($params['rotate'])) {
+            $rotate = \Controllers\Common::validateData($params['rotate']);
+
+            // Check that rotate value is numeric
+            if (!is_numeric($rotate)) {
+                throw new Exception('Specified rotation is invalid');
+            }
         }
 
-        if ($actualConfiguration['Output_type'] == 'image' and $motionEnable == 'true' and empty($streamUrl)) {
-            throw new Exception('Motion detection requires a stream URL');
+        /**
+         *  If text left or right is set
+         */
+        if (!empty($params['text-left'])) {
+            $textLeft = \Controllers\Common::validateData($params['text-left']);
+        }
+        if (!empty($params['text-right'])) {
+            $textRight = \Controllers\Common::validateData($params['text-right']);
+        }
+
+        /**
+         *  If Basic auth username and password are set
+         */
+        if (!empty($params['basic-auth-username'])) {
+            $basicAuthUsername = \Controllers\Common::validateData($params['basic-auth-username']);
+        }
+        if (!empty($params['basic-auth-password'])) {
+            $basicAuthPassword = \Controllers\Common::validateData($params['basic-auth-password']);
+        }
+
+        /**
+         *  If live stream is enabled
+         */
+        if (!empty($params['live-enable']) and $params['live-enable'] == 'true') {
+            $liveEnabled = 'true';
+        }
+
+        /**
+         *  If timestamp left or right is enabled
+         */
+        if (!empty($params['timestamp-left']) and $params['timestamp-left'] == 'true') {
+            $timestampLeft = 'true';
+        }
+        if (!empty($params['timestamp-right']) and $params['timestamp-right'] == 'true') {
+            $timestampRight = 'true';
+        }
+
+        /**
+         *  If hardware acceleration is enabled
+         */
+        if (!empty($params['hardware-acceleration']) and $params['hardware-acceleration'] == 'true') {
+            $hardwareAcceleration = 'true';
+        }
+
+        /**
+         *  If motion detection is enabled
+         */
+        if (!empty($params['motion-detection-enable']) and $params['motion-detection-enable'] == 'true') {
+            $motionEnabled = 'true';
+        }
+
+        /**
+         *  If timelapse is enabled
+         */
+        if (!empty($params['timelapse-enable']) and $params['timelapse-enable'] == 'true') {
+            $timelapseEnabled = 'true';
+        }
+
+        /**
+         *  Check that URL starts with http(s)://, rtsp:// or /dev/video
+         */
+        if (!preg_match('#(^https?://|^rtsp://|^/dev/video)#', $url)) {
+            throw new Exception('URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/video</b>');
         }
 
         /**
          *  Check that resolution is valid
          */
-        if (!preg_match('#^([0-9]+)x([0-9]+)$#', $outputResolution)) {
+        if (!preg_match('#^([0-9]+)x([0-9]+)$#', $resolution)) {
             throw new Exception('Specified resolution is invalid');
         }
 
         /**
-         *  If an additional stream URL is provided, check that it starts with http(s):// or rtsp://
+         *  Check that frame rate is valid
          */
-        if (!empty($streamUrl and !preg_match('#(^https?://)#', $streamUrl))) {
-            throw new Exception('Stream URL must start with <b>http(s)://</b> or <b>rtsp://</b>');
-        }
-
-        if (!is_numeric($rotate)) {
-            throw new Exception('Specified rotation is invalid');
-        }
-
-        if ($actualConfiguration['Motion_enabled'] == 'false') {
-            $configFilePath = CAMERAS_DIR . '/camera-' . $id . '.conf.disabled';
-        }
-        if ($actualConfiguration['Motion_enabled'] == 'true') {
-            $configFilePath = CAMERAS_DIR . '/camera-' . $id . '.conf';
+        if (!is_numeric($framerate) or $framerate < 0) {
+            throw new Exception('Frame rate value is invalid');
         }
 
         /**
-         *  Check if config file exist
+         *  Check if config file exist and is readable and writeable
          */
-        if ($actualConfiguration['Motion_enabled'] == 'true') {
-            if (!file_exists($configFilePath)) {
-                throw new Exception('Cannot found camera configuration file');
-            }
-            if (!is_readable($configFilePath)) {
-                throw new Exception('Camera configuration file is not readable');
-            }
-            if (!is_writeable($configFilePath)) {
-                throw new Exception('Camera configuration file is not writeable');
-            }
+        if (!file_exists(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
+            throw new Exception('Cannot found camera configuration file');
+        }
+        if (!is_readable(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
+            throw new Exception('Camera configuration file is not readable');
+        }
+        if (!is_writeable(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
+            throw new Exception('Camera configuration file is not writeable');
+        }
+
+        /**
+         *  Check if some params have changed compared to the actual configuration in database
+         *  If so, then motion service will be restarted
+         *  Params that will trigger a motion service restart:
+         *    - resolution
+         *    - text left
+         *    - text right
+         */
+        if ($actualConfiguration['Output_resolution'] != $resolution) {
+            $motionRestart = true;
+        }
+        if ($actualConfiguration['Text_left'] != $textLeft) {
+            $motionRestart = true;
+        }
+        if ($actualConfiguration['Text_right'] != $textRight) {
+            $motionRestart = true;
         }
 
         /**
          *  Edit global settings in database
          */
-        $this->model->editGlobalSettings($id, $name, $url, $streamUrl, $outputResolution, $rotate, $textLeft, $textRight, $liveEnable, $motionEnable, $timelapseEnable, $username, $password);
+        $this->model->editGlobalSettings($id, $name, $url, $resolution, $framerate, $rotate, $textLeft, $textRight, $basicAuthUsername, $basicAuthPassword, $liveEnabled, $timestampLeft, $timestampRight, $motionEnabled, $timelapseEnabled, $hardwareAcceleration);
 
         /**
-         *  Edit global settings in motion config file
+         *  Prepare motion configuration parameters
          */
-        $configuration = file_get_contents($configFilePath);
-        $configuration = preg_replace('/camera_name.*/i', 'camera_name ' . $name, $configuration);
-
-        if ($actualConfiguration['Output_type'] == 'image') {
-            if (!empty($streamUrl)) {
-                $configuration = preg_replace('/netcam_url.*/i', 'netcam_url ' . $streamUrl, $configuration);
-                $configuration = preg_replace('/netcam_high_url.*/i', 'netcam_high_url ' . $streamUrl, $configuration);
-            }
-        }
-        if ($actualConfiguration['Output_type'] == 'video') {
-            $configuration = preg_replace('/netcam_url.*/i', 'netcam_url ' . $url, $configuration);
-            $configuration = preg_replace('/netcam_high_url.*/i', 'netcam_high_url ' . $url, $configuration);
-        }
+        $motionParams['camera_id']   = ['status' => 'enabled', 'value' => $id];
+        $motionParams['camera_name'] = ['status' => 'enabled', 'value' => $name];
+        $motionParams['width']       = ['status' => 'enabled', 'value' => explode('x', $resolution)[0]];
+        $motionParams['height']      = ['status' => 'enabled', 'value' => explode('x', $resolution)[1]];
+        $motionParams['text_left']   = ['status' => 'enabled', 'value' => $textLeft];
+        $motionParams['text_right']  = ['status' => 'enabled', 'value' => $textRight];
 
         /**
-         *  Set width and height using resolution value
+         *  Edit camera motion configuration file
          */
-        $resolution = explode('x', $outputResolution);
-        $configuration = preg_replace('/width.*/i', 'width ' . $resolution[0], $configuration);
-        $configuration = preg_replace('/height.*/i', 'height ' . $resolution[1], $configuration);
+        $this->motionConfigController->edit(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf', $motionParams);
 
         /**
-         *  Set rotation
+         *  Enable / disable motion configuration file
          */
-        $configuration = preg_replace('/rotate.*/i', 'rotate ' . $rotate, $configuration);
-
-        /**
-         *  Set text_left and text_right
-         */
-        if (!empty($textLeft)) {
-            $configuration = preg_replace('/.*text_left.*/i', 'text_left ' . $textLeft, $configuration);
+        if ($motionEnabled == 'true') {
+            // Also force motion restart if a change was made in the camera configuration and if $motionEnabled is true
+            $this->motionConfigController->enable($id, $motionRestart);
         } else {
-            $configuration = preg_replace('/text_left.*/i', ';text_left ', $configuration);
-        }
-        if (!empty($textRight)) {
-            $configuration = preg_replace('/.*text_right.*/i', 'text_right ' . $textRight, $configuration);
-        } else {
-            $configuration = preg_replace('/text_right.*/i', ';text_right ', $configuration);
+            $this->motionConfigController->disable($id);
         }
 
         /**
-         *  If an username and password is specified
+         *  Update go2rtc configuration for this stream
          */
-        if (!empty($username) and !empty($password)) {
-            $configuration = preg_replace('/.*netcam_userpass.*/i', 'netcam_userpass ' . $username . ':' . $password, $configuration);
-        } else {
-            $configuration = preg_replace('/.*netcam_userpass.*/i', ';netcam_userpass ', $configuration);
-        }
-
-        /**
-         *  Write new configuration
-         */
-        if (!file_put_contents($configFilePath, $configuration)) {
-            throw new Exception('Could not write to configuration file: ' . $configFilePath);
-        }
-
-        /**
-         *  Rename config file if motion detection is enabled or disabled
-         */
-        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled') and $motionEnable == 'true') {
-            if (!rename(CAMERAS_DIR . '/camera-' . $id . '.conf.disabled', CAMERAS_DIR . '/camera-' . $id . '.conf')) {
-                throw new Exception('Could not enable motion detection for this camera');
-            }
-        }
-        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf') and $motionEnable == 'false') {
-            if (!rename(CAMERAS_DIR . '/camera-' . $id . '.conf', CAMERAS_DIR . '/camera-' . $id . '.conf.disabled')) {
-                throw new Exception('Could not disable motion detection for this camera');
-            }
-        }
-
-        /**
-         *  Restart motion service if running
-         */
-        if ($mymotionService->isRunning()) {
-            if (!file_exists(DATA_DIR . '/motion.restart')) {
-                touch(DATA_DIR . '/motion.restart');
-            }
-        }
-    }
-
-    /**
-     *  Edit camera stream settings
-     */
-    public function editStreamSettings(string $id, int $refresh = 3, string $timestampLeft = 'false', string $timestampRight = 'false')
-    {
-        $refresh = \Controllers\Common::validateData($refresh);
-        $timestampLeft = \Controllers\Common::validateData($timestampLeft);
-        $timestampRight = \Controllers\Common::validateData($timestampRight);
-
-        if (!is_numeric($refresh)) {
-            throw new Exception('Specified refresh rate is invalid');
-        }
-
-        if ($timestampLeft != 'false' and $timestampLeft != 'true') {
-            throw new Exception('Specified timestamp left value is invalid');
-        }
-
-        if ($timestampRight != 'false' and $timestampRight != 'true') {
-            throw new Exception('Specified timestamp right value is invalid');
-        }
-
-        /**
-         *  Check if camera Id exist
-         */
-        if (!$this->existId($id)) {
-            throw new Exception('Camera does not exist');
-        }
-
-        /**
-         *  Edit stream settings in database
-         */
-        $this->model->editStreamSettings($id, $refresh, $timestampLeft, $timestampRight);
+        $params = [
+            'id' => $id,
+            'url' => $url,
+            'basicAuthUsername' => $basicAuthUsername,
+            'basicAuthPassword' => $basicAuthPassword,
+            'rotate' => $rotate,
+            'resolution' => $resolution,
+            'framerate' => $framerate,
+            'hardware_acceleration' => $hardwareAcceleration
+        ];
+        $this->go2rtcController->editStream($id, $params);
     }
 
     /**
@@ -448,140 +510,5 @@ class Camera
     public function existId(string $id)
     {
         return $this->model->existId($id);
-    }
-
-    /**
-     *  Generate motion configuration file
-     */
-    public function generateMotionConfiguration(string $id)
-    {
-        /**
-         *  Generate motion.conf is not exist
-         */
-        $this->generationMotionMainConfiguration();
-
-        /**
-         *  Quit if a config file already exist
-         */
-        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
-            return;
-        }
-
-        /**
-         *  Check if camera Id exist
-         */
-        if (!$this->existId($id)) {
-            throw new Exception('Camera does not exist');
-        }
-
-        /**
-         *  Get camera configuration
-         */
-        $camera = $this->getConfiguration($id);
-
-        /**
-         *  Create camera's motion conf file from template
-         */
-
-        /**
-         *  Create cameras dir if not exist
-         */
-        if (!is_dir(CAMERAS_DIR)) {
-            throw new Exception('Cameras config dir does not exist: ' . CAMERAS_DIR);
-        }
-
-        /**
-         *  First, delete file if already exist
-         */
-        if (file_exists(CAMERAS_DIR . '/camera-' . $id . '.conf')) {
-            unlink(CAMERAS_DIR . '/camera-' . $id . '.conf');
-        }
-
-        /**
-         *  Copy template
-         */
-        if (!copy(ROOT . '/templates/motion/motion-camera.conf', CAMERAS_DIR . '/camera-' . $id . '.conf')) {
-            throw new Exception('Could not create camera config motion');
-        }
-
-        /**
-         *  Set permissions
-         */
-        if (!chmod(CAMERAS_DIR . '/camera-' . $id . '.conf', octdec("0660"))) {
-            throw new Exception('Could not set permissions on configuration file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf');
-        }
-        if (!chgrp(CAMERAS_DIR . '/camera-' . $id . '.conf', 'motion')) {
-            throw new Exception('Could not set group on configuration file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf');
-        }
-
-        /**
-         *  Replace values
-         */
-        $configuration = file_get_contents(CAMERAS_DIR . '/camera-' . $id . '.conf');
-        $configuration = str_replace('__CAMERA_ID__', $id, $configuration);
-        $configuration = str_replace('__CAMERA_NAME__', $camera['Name'], $configuration);
-
-        if ($camera['Output_type'] == 'image' and !empty($camera['Stream_url'])) {
-            $configuration = str_replace('__URL__', $camera['Stream_url'], $configuration);
-        } else {
-            $configuration = str_replace('__URL__', $camera['Url'], $configuration);
-        }
-
-        /**
-         *  Set width and height using resolution value
-         */
-        $resolution = explode('x', $camera['Output_resolution']);
-        $configuration = str_replace('__WIDTH__', $resolution[0], $configuration);
-        $configuration = str_replace('__HEIGHT__', $resolution[1], $configuration);
-
-        /**
-         *  Set text_left and text_right
-         */
-        if (!empty($camera['Text_left'])) {
-            $configuration = preg_replace('/.*text_left.*/i', 'text_left ' . $camera['Text_left'], $configuration);
-        } else {
-            $configuration = preg_replace('/text_left.*/i', ';text_left ', $configuration);
-        }
-        if (!empty($camera['Text_right'])) {
-            $configuration = preg_replace('/.*text_right.*/i', 'text_right ' . $camera['Text_right'], $configuration);
-        } else {
-            $configuration = preg_replace('/text_right.*/i', ';text_right ', $configuration);
-        }
-
-        /**
-         *  Set username and password for HTTP authentication if specified
-         */
-        if (!empty($camera['Username']) and !empty($camera['Password'])) {
-            $configuration = preg_replace('/.*netcam_userpass.*/i', 'netcam_userpass ' . $camera['Username'] . ':' . $camera['Password'], $configuration);
-        }
-
-        /**
-         *  Write to file
-         */
-        if (!file_put_contents(CAMERAS_DIR . '/camera-' . $id . '.conf', $configuration)) {
-            throw new Exception('Could not write to configuration file: ' . CAMERAS_DIR . '/camera-' . $id . '.conf', $configuration);
-        }
-
-        if ($camera['Motion_enabled'] == 'false') {
-            rename(CAMERAS_DIR . '/camera-' . $id . '.conf', CAMERAS_DIR . '/camera-' . $id . '.conf.disabled');
-        }
-    }
-
-    /**
-     *  Generate motion main configuration file
-     */
-    public function generationMotionMainConfiguration()
-    {
-        /**
-         *  Copy motion.conf template if not exist
-         */
-        if (!file_exists('/etc/motion/motion.conf')) {
-            if (!copy(ROOT . '/templates/motion/motion.conf', '/etc/motion/motion.conf')) {
-                throw new Exception('Could not setup motion main config file: /etc/motion/motion.conf');
-            }
-
-            chmod('/etc/motion/motion.conf', octdec("0660"));
-            chgrp('/etc/motion/motion.conf', 'motion');
-        }
     }
 }

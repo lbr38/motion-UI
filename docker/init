@@ -2,6 +2,7 @@
 
 WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
+GO2RTC_DIR="/var/lib/motionui/go2rtc"
 
 # Make sure motion service is stopped
 /usr/sbin/service motion stop
@@ -11,6 +12,11 @@ chown -R www-data:motionui $DATA_DIR
 
 if [ -f /run/motion/motion.pid ]; then
     rm -f /run/motion/motion.pid
+fi
+
+# Set permissions for video devices, if any
+if ls /dev/video* > /dev/null 2>&1; then
+    chown root:motionui /dev/video*
 fi
 
 # Docker run options
@@ -34,6 +40,9 @@ fi
 # Initialize and update database (if needed)
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/initialize-database.php" www-data
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/update-database.php" www-data
+
+# Start go2rtc in background
+/bin/su -s /bin/bash -c "/usr/local/bin/go2rtc -c $GO2RTC_DIR/go2rtc.yml >/dev/null 2>/dev/null &" www-data
 
 # Start motionui service
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data

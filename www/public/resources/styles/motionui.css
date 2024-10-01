@@ -1,3 +1,9 @@
+@keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -24,10 +30,6 @@ h3 {
     border-spacing: 4px 0px;
 }
 
-.rename-motion-conf-input {
-    background-color: #112334 !important;
-}
-
 .notification-count, .unseen-events-count {
     position: absolute;
     right: -9px;
@@ -38,7 +40,7 @@ h3 {
     border: none;
     border-radius: 50%;
     color: white;
-    background-color: #ff0044;
+    background-color: #FF495C;
     text-align: center;
     font-size: 9px;
     font-family: monospace;
@@ -63,7 +65,14 @@ h3 {
     justify-content: space-around !important;
 }
 
-/* Boutons carrés */
+/* Red blink background */
+.bkg-red-blink {
+    background-color: #FF495C;
+    color: white;
+    animation: blinker 1.5s linear infinite;
+}
+
+/* Square buttons */
 [class^="btn-square"] {
     width: 125px;
     height: 125px;
@@ -71,9 +80,9 @@ h3 {
     border-radius: 50%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 4px;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    /* padding: 4px; */
     color: white;
     text-align: center;
     text-decoration: none;
@@ -82,7 +91,7 @@ h3 {
     cursor: pointer;
 }
 
-/* Taille des icones dans les boutons carrés */
+/* Size of the icons in the square buttons */
 [class^="btn-square"] img.icon {
     width: 30%;
     height: 30%;
@@ -101,7 +110,7 @@ h3 {
     background-color: #15bf7f;
 }
 .btn-square-red {
-    background-color: #ff0044;
+    background-color: #FF495C;
 }
 .btn-square-none {
     background-color: #43414100;
@@ -109,16 +118,48 @@ h3 {
     box-shadow: none;
 }
 .btn-square-blue:hover {
-    transition-duration: 0.4s;
+    transition-duration: 0.2s;
     background-color: #4e69cd;
 }
 .btn-square-green:hover {
-    transition-duration: 0.4s;
+    transition-duration: 0.2s;
     background-color: #12a16a;
 }
 .btn-square-red:hover {
-    transition-duration: 0.4s;
-    background-color: #dc0044;
+    transition-duration: 0.2s;
+    background-color: #ff3347;
+}
+
+[class^="btn-semi-circle"] {
+    width: 62.5px;
+    height: 125px;
+}
+
+[class^="btn-semi-circle"] img.icon {
+    width: 45%;
+    height: 45%;
+}
+
+.btn-semi-circle-red-left {
+    border-radius: 125px 0 0 125px;
+    background-color: #FF495C;
+    box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
+}
+
+.btn-semi-circle-blue-right {
+    border-radius: 0 125px 125px 0;
+    background-color: #13273a;
+    box-shadow: 0px 0px 2px 0px #000000;
+}
+
+.btn-semi-circle-red-left:hover {
+    transition-duration: 0.2s;
+    background-color: #ff3347;
+}
+
+.btn-semi-circle-blue-right:hover {
+    transition-duration: 0.2s;
+    background-color: #19344d;
 }
 
 .bottom-buttons, .top-buttons {
@@ -151,19 +192,8 @@ h3 {
 .bottom-buttons div.current-tab {
     border-bottom: 1px solid #5473e8;
 }
-
 .bottom-buttons img, .top-buttons img {
     height: 30px;
-}
-
-#currentload {
-    display: flex;
-    column-gap: 5px;
-    align-items: center;
-}
-
-#currentload span {
-    font-size: 12px;
 }
 
 .close-btn {
@@ -172,7 +202,7 @@ h3 {
     cursor: pointer;
 }
 
-.main-buttons-container {
+.main-buttons {
     display: grid;
     grid-template-columns: repeat(1, 100%);
     justify-content: space-evenly;
@@ -191,7 +221,6 @@ h3 {
     display: grid;
     grid-template-columns: repeat(1, 100%);
     align-items: start;
-    /* margin: 0px 40px 0px 40px; */
     margin: 0px 20px 0px 20px;
 }
 
@@ -226,7 +255,7 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    column-gap: 10px;
+    row-gap: 10px;
 }
 
 .event-date-container {
@@ -253,33 +282,41 @@ h3 {
     justify-content: center;
 }
 
-.event-time {
+.event-metadata {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-}
-
-.event-time p {
-    font-size: 16px;
+    width: 90%;
+    margin-bottom: 15px;
 }
 
 .event-camera {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 25px;
+    row-gap: 25px;
     width: 100%;
     max-height: 800px;
     overflow-y: auto;
 }
 
 .event-row {
-    margin: 2px 0 0px 4px;
+    width: 100%;
+    min-height: 150px;
 }
 
 .event-id {
-    display: block;
-    margin-bottom: 15px;
+    align-self: center;
 }
 
-.event-running img, .event-loading img {
-    height: 20px;
+.event-loading {
+    background-color: #152637;
+    border-radius: 8px;
+}
+
+.event-loading img {
+    height: 40px;
 }
 
 #events-captures-div, #motion-stats-div, #motion-configuration-div {
@@ -559,25 +596,27 @@ footer #github img { width: 25px; }
 }
 
 .event-media-row {
-    display: grid;
-    grid-template-columns: 90% 10%;
-    align-items: center;
-    height: 80px;
-    background-color: #182b3e;
+    background-color: #1d3349;
+    border: 1px solid #1d3349;
     border-radius: 8px;
-    border: 1px solid #213446;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
+    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 
 .event-media-row > div:first-child {
-    display: grid;
-    grid-template-columns: 150px minmax(auto, 50%);
+    display: flex;
+    flex-direction: column;
     column-gap: 5px;
-    align-items: center;
 }
 
 .event-media {
     position: relative;
+}
+
+.event-media img {
+    width: 100%;
+    max-height: 180px;
+    border-radius: 8px;
 }
 
 /* Event media full time */
@@ -593,33 +632,41 @@ footer #github img { width: 25px; }
     bottom: 6px;
 }
 
-.event-media img:not(.icon) {
-    height: 80px;
+.select-all-media-checkbox {
+    margin-right: 10px;
 }
 
-.event-media-metadata {
-    min-width: 90px;
+.event-media-checkbox-container {
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
 
 .event-container:hover .event-media-checkbox {
     visibility: visible;
 }
 
-.event-media-checkbox {
+.event-media-checkbox, .select-all-media-checkbox {
+    width: 28px !important;
+    height: 28px !important;
     opacity: 0.5;
 }
 
-.event-media-checkbox:hover {
+.event-media-checkbox:hover, .select-all-media-checkbox:hover {
     opacity: 1;
 }
 
 .file-unavailable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 180px;
     background: #181818de;
-    padding: 15px 20px 25px 20px;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 .file-unavailable p {
+    width: 100%;
     text-align: center;
 }
 
@@ -679,21 +726,6 @@ footer #github img { width: 25px; }
     height: 0;
 }
 
-.rotate-90 {
-    display: block;
-    transform-origin: top left;
-    /* Note: for a CLOCKWISE rotation, use the commented-out
-        transform instead of this one. */
-    transform: rotate(-90deg) translate(-100%);
-    /* transform: rotate(90deg) translate(0, -100%); */
-    margin-top: -50%;
-
-    /* Not vital, but possibly a good idea if the element you're rotating contains
-        text and you want a single long vertical line of text and the pre-rotation
-        width of your element is small enough that the text wraps: */
-    white-space: nowrap;
-}
-
 /**
  *  Full page loading veil
  */
@@ -703,6 +735,7 @@ footer #github img { width: 25px; }
     justify-content: center;
     align-items: center;
     position: fixed;
+    row-gap: 20px;
     top: 0;
     left: 0;
     width: 100%;
@@ -740,13 +773,34 @@ footer #github img { width: 25px; }
     }
 
     .main-buttons-container {
+        display: grid;
+        align-items: center;
+        height: 60vh;
+    }
+
+    .main-buttons {
         grid-template-columns: repeat(3, 30%);
     }
 
     [class^="btn-square"] {
-        width: 170px;
-        height: 170px;
+        width: 250px;
+        height: 250px;
     }
+
+    [class^="btn-semi-circle"] {
+        width: 125px;
+        height: 250px;
+    }
+
+    .btn-semi-circle-red-left {
+        border-radius: 250px 0 0 250px;
+    }
+
+    .btn-semi-circle-blue-right {
+        border-radius: 0 250px 250px 0;
+    }
+
+    /* toto */
 
     .main-container {
         grid-template-columns: repeat(1, 100%);
@@ -773,22 +827,30 @@ footer #github img { width: 25px; }
     .event-container {
         display: flex;
         flex-direction: row;
+        row-gap: 0px;
+        column-gap: 10px;
     }
 
     .event-previous-next-btns {
         justify-content: flex-end;
     }
 
-    .event-time {
-        padding: 0 10px;
-    }
-
-    .event-time p {
-        font-size: 22px;
-    }
-
     .event-camera {
-        padding-left: 10px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .event-metadata {
+        flex-direction: column;
+        row-gap: 20px;
+        width: 250px;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .event-media-checkbox, .select-all-media-checkbox {
+        width: 22px !important;
+        height: 22px !important;
     }
 
     .event-media-checkbox {

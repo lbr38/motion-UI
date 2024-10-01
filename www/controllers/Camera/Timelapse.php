@@ -110,7 +110,7 @@ class Timelapse
                     /**
                      *  Create timelapse directory if it does not exist, with today date
                      */
-                    $targetDir = DATA_DIR . '/cameras/camera-' . $camera['Id'] . '/timelapse/' . date('Y-m-d');
+                    $targetDir = CAMERAS_TIMELAPSE_DIR . '/camera-' . $camera['Id'] . '/' . date('Y-m-d');
 
                     if (!file_exists($targetDir)) {
                         if (!mkdir($targetDir, 0750, true)) {
@@ -129,25 +129,9 @@ class Timelapse
                     $ffmpeg = '/usr/bin/timeout --kill-after=5 3 /usr/bin/ffmpeg';
 
                     /**
-                     *  If camera has username and password, add it to the URL (format is http://username:password@url)
+                     *  Add input stream
                      */
-                    if (!empty($camera['Username']) and !empty($camera['Password'])) {
-                        $ffmpeg .= ' -i ' . preg_replace('#://#i', '://' . $camera['Username'] . ':' . $camera['Password'] . '@', $camera['Url']);
-                    } else {
-                        $ffmpeg .= ' -i ' . $camera['Url'];
-                    }
-
-                    /**
-                     *  If camera has rotate 180, add it to the command
-                     */
-                    if ($camera['Rotate'] == '180') {
-                        $ffmpeg .= ' -vf "transpose=2,transpose=2"';
-                    }
-
-                    /**
-                     *  Add output resolution
-                     */
-                    $ffmpeg .= ' -vframes 1 -video_size ' . $camera['Output_resolution'];
+                    $ffmpeg .= ' -i ' . 'http://127.0.0.1:1984/api/stream.mjpeg?src=camera_' . $camera['Id'];
 
                     /**
                      *  Execute ffmpeg command and save to file
@@ -188,7 +172,7 @@ class Timelapse
          *  For each camera, delete timelapse images older than specified date
          */
         foreach ($this->cameras as $camera) {
-            $timelapseDir = DATA_DIR . '/cameras/camera-' . $camera['Id'] . '/timelapse';
+            $timelapseDir = CAMERAS_TIMELAPSE_DIR . '/camera-' . $camera['Id'];
 
             /**
              *  Skip camera if no timelapse directory

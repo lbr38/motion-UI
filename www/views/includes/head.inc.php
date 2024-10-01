@@ -10,6 +10,8 @@
 
     <!-- jQuery -->
     <script src="/resources/js/jquery/jquery-3.7.1.min.js?<?= VERSION ?>"></script>
+    <!-- jQuery long press plugin -->
+    <script src="/resources/js/jquery/jquery.longpress.js?<?= VERSION ?>"></script>
     <!-- ChartJS -->
     <script src="/resources/js/chartjs/chart-3.7.1.min.js?<?= VERSION ?>"></script>
 

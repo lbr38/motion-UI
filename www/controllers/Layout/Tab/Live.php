@@ -20,5 +20,6 @@ class Live
         \Controllers\Layout\Panel\Settings::render();
         \Controllers\Layout\Panel\Camera\Add::render();
         \Controllers\Layout\Panel\Camera\Edit::render();
+        \Controllers\Layout\Panel\Motion\Edit::render();
     }
 }

@@ -25,30 +25,16 @@ class Settings extends Model
     /**
      *  Edit global settings
      */
-    public function edit(string $timelapseInterval, string $timelapseRetention, string $motionEventsVideosThumbnail, string $motionEventsPicturesThumbnail, int $motionEventsRetention)
+    public function edit(string $timelapseInterval, string $timelapseRetention, int $motionEventsRetention)
     {
-        $stmt = $this->db->prepare("UPDATE Settings SET 
+        $stmt = $this->db->prepare("UPDATE Settings SET
         Timelapse_interval = :timelapseInterval,
         Timelapse_retention = :timelapseRetention,
-        Motion_events_videos_thumbnail = :motionEventsVideosThumbnail,
-        Motion_events_pictures_thumbnail = :motionEventsPicturesThumbnail,
         Motion_events_retention = :motionEventsRetention");
 
         $stmt->bindValue(':timelapseInterval', $timelapseInterval);
         $stmt->bindValue(':timelapseRetention', $timelapseRetention);
-        $stmt->bindValue(':motionEventsVideosThumbnail', $motionEventsVideosThumbnail);
-        $stmt->bindValue(':motionEventsPicturesThumbnail', $motionEventsPicturesThumbnail);
         $stmt->bindValue(':motionEventsRetention', $motionEventsRetention);
-        $stmt->execute();
-    }
-
-    /**
-     *  Enable / disable motion configuration's advanced edition mode
-     */
-    public function motionAdvancedEditionMode(string $status)
-    {
-        $stmt = $this->db->prepare("UPDATE Settings SET Motion_advanced_edition_mode = :status");
-        $stmt->bindValue(':status', $status);
         $stmt->execute();
     }
 }

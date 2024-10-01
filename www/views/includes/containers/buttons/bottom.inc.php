@@ -6,8 +6,8 @@
             'title' => 'Cameras and stream'
         ),
         'motion' => array(
-            'icon' => 'power.svg',
-            'title' => 'Motion start/stop'
+            'icon' => 'motion.svg',
+            'title' => 'Motion'
         ),
         'events' => array(
             'icon' => 'video.svg',
@@ -20,6 +20,8 @@
     );
 
     foreach ($buttons as $uri => $properties) :
+        $class = '';
+
         if (__ACTUAL_URI__[1] == '') {
             $actualUri = 'live';
         } else {
@@ -28,15 +30,13 @@
 
         /**
          *  Set class for current tab
-         *  If current tab is the same as the actual URI, add class 'current-tab'
+         *  If current tab is not the same as the tab to display, then the icon will be lowopacity
          */
-        if ($actualUri == $uri) {
-            $class = 'relative current-tab';
-        } else {
-            $class = 'relative';
+        if ($actualUri != $uri) {
+            $class = 'lowopacity';
         } ?>
 
-        <div class="<?= $class ?>">
+        <div class="relative">
             <?php
             /**
              *  If current icon to display is 'events' and there are unseen events, display a badge
@@ -47,7 +47,7 @@
             endif ?>
 
             <a href="/<?= $uri ?>" onclick="veilBody()">
-                <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer lowopacity" title="<?= $properties['title'] ?>" />
+                <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer <?= $class ?>" title="<?= $properties['title'] ?>" />
             </a>
         </div>
         <?php

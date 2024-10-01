@@ -48,10 +48,10 @@ if ($action == "getContainerState") {
 /**
  *  Return specified table content
  */
-if ($action == "getTable" && !empty($_POST['table']) && isset($_POST['offset']) && isset($_POST['data'])) {
+if ($action == "getTable" && !empty($_POST['table']) && isset($_POST['offset'])) {
     try {
         ob_start();
-        \Controllers\Layout\Table\Render::render($_POST['table'], $_POST['offset'], $_POST['data']);
+        \Controllers\Layout\Table\Render::render($_POST['table'], $_POST['offset']);
         $content = ob_get_clean();
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());

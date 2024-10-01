@@ -10,7 +10,7 @@ if (empty($_GET['picture'])) {
     return;
 }
 
-$filePath = DATA_DIR . '/cameras/camera-' . $_GET['id'] . '/timelapse/' . $_GET['picture'];
+$filePath = CAMERAS_TIMELAPSE_DIR . '/camera-' . $_GET['id'] . '/' . $_GET['picture'];
 
 if (!file_exists($filePath)) {
     return;

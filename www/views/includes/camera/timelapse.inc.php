@@ -16,7 +16,7 @@
             /**
              *  Timelapse pictures root directory
              */
-            $timelapseDir = DATA_DIR . '/cameras/camera-' . $cameraId . '/timelapse';
+            $timelapseDir = CAMERAS_TIMELAPSE_DIR . '/camera-' . $cameraId;
 
             /**
              *  Check if specified date directory exists

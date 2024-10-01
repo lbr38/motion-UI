@@ -3,14 +3,15 @@
 <h4>Change password</h4>
 
 <form id="new-password-form" username="<?= $_SESSION['username'] ?>">
-    <p>Current password:</p>
+    <h6>CURRENT PASSWORD</h6>
     <input type="password" class="input-large" name="actual-password" autocomplete required />
-    <br><br>
-    <p>New password:</p>
+
+    <h6>NEW PASSWORD</h6>
     <input type="password" class="input-large" name="new-password" autocomplete required />
-    <br><br>
-    <p>New password (re-type):</p>
+
+    <h6>NEW PASSWORD (re-type)</h6>
     <input type="password" class="input-large" name="new-password-retype" autocomplete required />
+    
     <br><br>
     <button type="submit" class="btn-small-green">Save</button>
 </form>

@@ -9,7 +9,7 @@ else :
             echo '<h4><b>' . $notification['Title'] . '</b></h4>';
         } ?>
         
-        <div class="flex flex-direction-column">
+        <div class="flex flex-direction-column row-gap-10">
             <p><?= htmlspecialchars_decode($notification['Message']) ?></p>
         
             <?php

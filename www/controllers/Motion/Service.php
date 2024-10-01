@@ -32,9 +32,9 @@ class Service
     }
 
     /**
-     *  Return motion service status
+     *  Returns true if motion service is running
      */
-    public function isRunning()
+    public function isRunning() : bool
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion status');
         $myprocess->execute();
@@ -51,7 +51,7 @@ class Service
     /**
      *  Stop motion service
      */
-    public function stop()
+    public function stop() : bool
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion stop');
         $myprocess->execute();
@@ -70,7 +70,7 @@ class Service
     /**
      *  Start motion service
      */
-    public function start()
+    public function start() : bool
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion start');
         $myprocess->execute();
@@ -87,9 +87,9 @@ class Service
     }
 
     /**
-     *  Returns status of systemd 'motionui' service
+     *  Returns true if motionui service is running
      */
-    public function motionuiServiceRunning()
+    public function motionuiServiceRunning() : bool
     {
         $myprocess = new \Controllers\Process('ps aux | grep "motionui.service" | grep -v grep');
         $myprocess->execute();

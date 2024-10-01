@@ -1,8 +1,6 @@
 <section class="top-buttons margin-top-5 margin-bottom-30 reloadable-container" container="buttons/top">
-    <div id="currentload" class="margin-left-15" title="CPU load">
+    <div class="flex column-gap-20">
         <?php
-        $load = \Controllers\System::getLoad();
-
         if ($load >= 0 && $load < 2) {
             $iconColor = 'green';
         }
@@ -12,10 +10,27 @@
         if ($load >= 3) {
             $iconColor = 'red';
         } ?>
+    
+        <div class="flex column-gap-10 align-item-center margin-left-15" title="CPU load">
+            <img src="/assets/icons/cpu.svg" class="icon-medium icon-np lowopacity-cst margin-right-0" />
+            <span class="lowopacity-cst font-size-12"><?= $load ?></span>
+            <span class="round-item bkg-<?= $iconColor ?>"></span>
+        </div>
 
-        <img src="/assets/icons/cpu.svg" class="icon-medium lowopacity-cst" />
-        <span class="lowopacity-cst"><?= $load ?></span>
-        <span class="round-item bkg-<?= $iconColor ?>"></span>
+        <?php
+        if ($serviceStatus == 'running') {
+            $iconColor = 'red-blink';
+            $title = 'Motion detection is running';
+        }
+        if ($serviceStatus == 'stopped') {
+            $iconColor = 'gray';
+            $title = 'Motion service is stopped';
+        } ?>
+
+        <div class="flex column-gap-10 align-item-center" title="<?= $title ?>">
+            <img src="/assets/icons/motion.svg" class="icon-medium icon-np lowopacity-cst margin-right-0" />
+            <span class="round-item bkg-<?= $iconColor ?>"></span>
+        </div>
     </div>
    
     <div class="flex column-gap-40 margin-right-15">

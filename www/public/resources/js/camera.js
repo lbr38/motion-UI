@@ -13,57 +13,66 @@ $(document).ready(function () {
 /**
  *  Load stream page (cameras image and timestamp)
  */
-function loadStream()
+function loadStream(reload = false)
 {
-    loadCameras();
-    reloadImage();
+    loadCameras(reload);
     reloadTimestamp();
 }
 
 /**
  *  Load cameras image and hide loading div
  */
-function loadCameras()
+function loadCameras(reload = false)
 {
-    /**
-     *  Quit if there is no camera to load
-     */
-    if ($('.camera-container').length == 0) {
-        return;
+    timeout = 0;
+
+    // If reload is true, set timeout to 2000ms, to wait for the DOM to be fully reloaded
+    if (reload) {
+        timeout = 2000;
     }
 
-    /**
-     *  For each camera container, load the camera image and hide the loading div
-     */
-    $('.camera-container').each(function () {
+    // Wait for the DOM to be fully reloaded
+    setTimeout(function () {
         /**
-         *  Retrieve camera loading div and camera image div
+         *  Quit if there is no camera to load
          */
-        const cameraLoadingDiv = $(this).find('div.camera-loading');
-        const cameraImageDiv = $(this).find('div.camera-image');
+        if ($('.camera-container').length == 0) {
+            return;
+        }
 
         /**
-         *  Retrieve camera 'img' tag and its 'data-src' attribute
+         *  For each camera container, load the camera image and hide the loading div
          */
-        const cameraImageImg = cameraImageDiv.find('img');
-        const cameraImageSrc = cameraImageImg.attr('data-src');
-
-        /**
-         *  Find 'img' tag inside camera image div and set its 'src' attribute to the 'data-src' attribute
-         */
-        cameraImageDiv.find('img').on('load', function () {
+        $('.camera-container').each(function () {
             /**
-             *  Print log message
+             *  Retrieve camera loading div and camera image div
              */
-            console.log('Camera(s) loaded');
+            const cameraLoadingDiv = $(this).find('div.camera-loading');
+            const cameraImageDiv = $(this).find('div.camera-image');
 
             /**
-             *  Once the image is loaded, hide the loading div and show the image div
+             *  Retrieve camera 'img' tag and its 'data-src' attribute
              */
-            cameraLoadingDiv.hide();
-            cameraImageDiv.show();
-        }).attr('src', cameraImageSrc);
-    });
+            const cameraImageImg = cameraImageDiv.find('img');
+            const cameraImageSrc = cameraImageImg.attr('data-src');
+
+            /**
+             *  Find 'img' tag inside camera image div and set its 'src' attribute to the 'data-src' attribute
+             */
+            cameraImageDiv.find('img').on('load', function () {
+                /**
+                 *  Print log message
+                 */
+                console.log('Camera(s) loaded');
+
+                /**
+                 *  Once the image is loaded, hide the loading div and show the image div
+                 */
+                cameraLoadingDiv.hide();
+                cameraImageDiv.show();
+            }).attr('src', cameraImageSrc + '&' + new Date().getTime());
+        });
+    }, timeout);
 }
 
 function reloadTimestamp()
@@ -99,67 +108,6 @@ function reloadTimestamp()
 }
 
 /**
- *  Regulary reload cameras image
- */
-function reloadImage()
-{
-    /**
-     *  Quit if there is no camera image to reload
-     */
-    if ($('.camera-image').find('img[camera-type="image"]').length == 0) {
-        return;
-    }
-
-    setInterval(function () {
-        console.log('Reloading camera(s) static image');
-
-        /**
-         *  Get current Unix timestamp
-         */
-        var currentTimestamp = Math.floor(Date.now() / 1000);
-
-        /**
-         *  Get all camera type 'image' and their refresh param
-         */
-        $('img[camera-type="image"]').each(function () {
-            var cameraId = $(this).attr('camera-id');
-            var refreshInterval = $(this).attr('camera-refresh');
-            var cameraTimestamp = $(this).attr('refresh-timestamp');
-
-            /**
-             *  On first page load, set camera 'next reload' timestamp
-             */
-            if (cameraTimestamp == '') {
-                $(this).attr('refresh-timestamp', (Math.floor((Date.now() / 1000) + parseInt(refreshInterval))));
-            }
-
-            /**
-             *  If current timestamp matches the 'next reload' timestamp, then reload image src to get a new image
-             *  Then set camera 'next reload' timestamp
-             */
-            if (cameraTimestamp == currentTimestamp) {
-                $(this).on('load', function () {
-                    /**
-                     *  Print log message
-                     */
-                    console.log('Camera reloaded');
-
-                    /**
-                     *  Always make sure to hide the 'camera-unavailable' and 'camera-loading' divs
-                     */
-                    $('div.camera-unavailable[camera-id=' + cameraId + ']').hide();
-                    $('div.camera-loading[camera-id=' + cameraId + ']').hide();
-                    $('div.camera-image[camera-id=' + cameraId + ']').show();
-                }).attr({
-                    'src': '/image?id=' + cameraId + '&' + currentTimestamp,
-                    'refresh-timestamp': (Math.floor((Date.now() / 1000) + parseInt(refreshInterval)))
-                });
-            }
-        });
-    }, 1000);
-}
-
-/**
  *  Event: change live grid layout
  */
 $(document).on('click','.live-layout-btn',function () {
@@ -172,48 +120,78 @@ $(document).on('click','.live-layout-btn',function () {
 });
 
 /**
- *  Event: on output type select (new camera form)
+ *  Event: show / hide http basic auth fields
  */
-$(document).on('click','input[type=radio][name=output-type]',function () {
-    var outputType = $('#new-camera-form').find('input[type=radio][name=output-type]:checked').val();
-
-    if (outputType == 'image') {
-        $('#new-camera-form').find('.camera-refresh-field').show();
-        $('#new-camera-form').find('input[type=checkbox][name=camera-motion-enable]').prop("checked", false);
+$(document).on('click','.basic-auth-switch',function () {
+    if ($(this).is(':checked')) {
+        $('.basic-auth-fields').show();
     } else {
-        $('#new-camera-form').find('input[type=checkbox][name=camera-motion-enable]').prop("checked", true);
-        $('#new-camera-form').find('.camera-refresh-field').hide();
-        $('#new-camera-form').find('.camera-stream-url').hide();
+        $('.basic-auth-fields').hide();
     }
 });
 
 /**
- *  Event: print additional 'stream url' field if output type is 'image' and motion detection is enabled
+ *  Event: show/hide additional 'motion url' field if refresh > 0 and motion detection is enabled
  */
-$(document).on('click','input[type=checkbox][name=camera-motion-enable]',function () {
-    var outputType = $('#new-camera-form').find('input[type=radio][name=output-type]:checked').val();
+$(document).on('click', 'input[type=checkbox][param-name="motion-detection-enable"]', function () {
+    // Retrieve parent form name
+    var form = '#' + $(this).closest('form').attr('id');
+    var refresh = $(form).find('input.form-param[param-name="refresh"]').val();
 
-    if (outputType == 'image' && $('input[type=checkbox][name=camera-motion-enable]').is(':checked')) {
-        $('#new-camera-form').find('.camera-stream-url').show();
+    if ($(this).is(':checked') && refresh > 0) {
+        $(form).find('.motion-url-field').show();
     } else {
-        $('#new-camera-form').find('.camera-stream-url').hide();
+        $(form).find('.motion-url-field').hide();
+    }
+});
+$(document).on('change', 'input.form-param[param-name="refresh"]', function () {
+    // Retrieve parent form name
+    var form = '#' + $(this).closest('form').attr('id');
+    var refresh = $(this).val();
+    var motionDetectionEnable = $(form).find('input[type=checkbox][param-name="motion-detection-enable"]').is(':checked');
+
+    if (motionDetectionEnable && refresh > 0) {
+        $(form).find('.motion-url-field').show();
+    } else {
+        $(form).find('.motion-url-field').hide();
     }
 });
 
-/**
- *  Event: enable / disable motion detection
- */
-$(document).on('click','input[type=checkbox][name=edit-camera-motion-enable]',function () {
-    var id = $(this).attr('camera-id');
-    var form = $('#camera-global-settings-form[camera-id="' + id + '"]');
-    var outputType = form.attr('output-type');
+function getFormParams(form)
+{
+    var params = {};
 
-    if (outputType == 'image' && form.find('input[type=checkbox][name=edit-camera-motion-enable]').is(':checked')) {
-        form.find('.camera-stream-url').show();
-    } else {
-        form.find('.camera-stream-url').hide();
-    }
-});
+    /**
+     *  Search all inputs with class 'form-param' in the form
+     */
+    $(form).find('.form-param').each(function () {
+        // Getting param name in the 'param-name' attribute of each input
+        var param_name = $(this).attr('param-name');
+
+        /**
+         *  If input is a checkbox and it is checked then its value is 'true'
+         *  Else its value is 'false'
+         */
+        if ($(this).attr('type') == 'checkbox') {
+            if ($(this).is(":checked")) {
+                var param_value = 'true';
+            } else {
+                var param_value = 'false';
+            }
+
+        /**
+         *  If input is not a checkbox then get its value
+         */
+        } else {
+            var param_value = $(this).val();
+        }
+
+        params[param_name] = param_value;
+    });
+
+    // Return the params
+    return params;
+}
 
 /**
  *  Event: Add a new camera
@@ -221,17 +199,8 @@ $(document).on('click','input[type=checkbox][name=edit-camera-motion-enable]',fu
 $(document).on('submit','#new-camera-form',function () {
     event.preventDefault();
 
-    var name = $(this).find('input[type=text][name=camera-name]').val();
-    var url = $(this).find('input[type=text][name=camera-url]').val();
-    var outputType = $(this).find('input[type=radio][name=output-type]:checked').val();
-    var outputResolution = $(this).find('select[name=output-resolution]').val();
-    var refresh = $(this).find('input[type=number][name=camera-refresh]').val();
-    var username = $(this).find('input[type=text][name=camera-username]').val();
-    var password = $(this).find('input[type=password][name=camera-password]').val();
-    var liveEnable = $(this).find('input[type=checkbox][name=camera-live-enable]').is(':checked');
-    var motionEnable = $(this).find('input[type=checkbox][name=camera-motion-enable]').is(':checked');
-    var timelapseEnable = $(this).find('input[type=checkbox][name=camera-timelapse-enable]').is(':checked');
-    var streamUrl = $(this).find('input[type=text][name=camera-stream-url]').val();
+    // Get form params
+    params = getFormParams('#new-camera-form');
 
     ajaxRequest(
         // Controller:
@@ -240,17 +209,7 @@ $(document).on('submit','#new-camera-form',function () {
         'add',
         // Data:
         {
-            name: name,
-            url: url,
-            streamUrl: streamUrl,
-            outputType: outputType,
-            outputResolution: outputResolution,
-            refresh: refresh,
-            liveEnable: liveEnable,
-            motionEnable: motionEnable,
-            timelapseEnable: timelapseEnable,
-            username: username,
-            password: password
+            params: params
         },
         // Print success alert:
         true,
@@ -259,7 +218,7 @@ $(document).on('submit','#new-camera-form',function () {
         // Reload containers:
         [ 'cameras/list' ],
         // Execute functions :
-        [ loadStream() ]
+        [ 'loadStream(true)' ]
     );
 
     return false;
@@ -268,24 +227,13 @@ $(document).on('submit','#new-camera-form',function () {
 /**
  *  Event: edit camera global settings
  */
-$(document).on('submit','#camera-global-settings-form',function () {
+$(document).on('submit','#edit-global-settings-form',function () {
     event.preventDefault();
 
-    var refresh = '';
-
     var id = $(this).attr('camera-id');
-    var name = $(this).find('input[type=text][name=edit-camera-name]').val();
-    var url = $(this).find('input[type=text][name=edit-camera-url]').val();
-    var outputResolution = $(this).find('select[name=edit-output-resolution]').val();
-    var streamUrl = $(this).find('input[type=text][name=edit-camera-stream-url]').val();
-    var rotate = $(this).find('select[name=edit-camera-rotate]').val();
-    var textLeft = $(this).find('input[type=text][name=edit-camera-text-left]').val();
-    var textRight = $(this).find('input[type=text][name=edit-camera-text-right]').val();
-    var username = $(this).find('input[type=text][name=edit-camera-username]').val();
-    var password = $(this).find('input[type=password][name=edit-camera-password]').val();
-    var liveEnable = $(this).find('input[type=checkbox][name=edit-camera-live-enable]').is(':checked');
-    var motionEnable = $(this).find('input[type=checkbox][name=edit-camera-motion-enable]').is(':checked');
-    var timelapseEnable = $(this).find('input[type=checkbox][name=edit-camera-timelapse-enable]').is(':checked');
+
+    // Get form params
+    params = getFormParams('#edit-global-settings-form');
 
     ajaxRequest(
         // Controller:
@@ -295,19 +243,7 @@ $(document).on('submit','#camera-global-settings-form',function () {
         // Data:
         {
             id: id,
-            name: name,
-            url: url,
-            streamUrl: streamUrl,
-            outputResolution: outputResolution,
-            refresh: refresh,
-            rotate: rotate,
-            textLeft: textLeft,
-            textRight: textRight,
-            liveEnable: liveEnable,
-            motionEnable: motionEnable,
-            timelapseEnable: timelapseEnable,
-            username: username,
-            password: password
+            params: params
         },
         // Print success alert:
         true,
@@ -316,49 +252,10 @@ $(document).on('submit','#camera-global-settings-form',function () {
         // Reload containers:
         [ 'cameras/list' ],
         // Execute functions :
-        [ loadStream(), reloadEditForm(id) ]
-    );
-
-    return false;
-});
-
-
-/**
- *  Event: edit camera stream settings
- */
-$(document).on('submit','#camera-stream-settings-form',function () {
-    event.preventDefault();
-
-    // Default value
-    var refresh = 3;
-    var id = $(this).attr('camera-id');
-    var timestampLeft = $(this).find('input[type=checkbox][name="camera-stream-setting-timestamp-left"]').is(':checked');
-    var timestampRight = $(this).find('input[type=checkbox][name="camera-stream-setting-timestamp-right"]').is(':checked');
-    // If refresh field exists, get its value
-    if ($(this).find('input[type=number][name="camera-stream-setting-refresh"]').length > 0) {
-        var refresh = $(this).find('input[type=number][name="camera-stream-setting-refresh"]').val();
-    }
-
-    ajaxRequest(
-        // Controller:
-        'camera',
-        // Action:
-        'edit-stream-settings',
-        // Data:
-        {
-            id: id,
-            refresh: refresh,
-            timestampLeft: timestampLeft,
-            timestampRight: timestampRight
-        },
-        // Print success alert:
-        true,
-        // Print error alert:
-        true,
-        // Reload containers:
-        [ 'cameras/list' ],
-        // Execute functions :
-        [ loadStream(), reloadEditForm(id) ]
+        [
+            'loadStream(true)',
+            'reloadEditForm(' + id + ')'
+        ]
     );
 
     return false;
@@ -387,7 +284,10 @@ $(document).on('click','.delete-camera-btn',function () {
             // Reload containers:
             [ 'cameras/list' ],
             // Execute functions :
-            [ closePanel('edit-camera'), loadStream() ]
+            [
+                "closePanel('edit-camera')",
+                "loadStream(true)"
+            ]
         );
     });
 });
@@ -655,24 +555,6 @@ $(document).on('click','.hide-camera-configuration-btn',function () {
 });
 
 /**
- *  Event: enable / disable motion configuration's advanced edition mode
- */
-$(document).on('click','#motion-advanced-edition-mode',function () {
-    var cameraId = $(this).attr('camera-id');
-
-    if ($(this).is(':checked')) {
-        advancedEditionMode(true);
-    } else {
-        advancedEditionMode(false);
-    }
-
-    /**
-     *  Reload edit form
-     */
-    reloadEditForm(cameraId);
-});
-
-/**
  *  Event: close timelapse screen
  */
 $(document).on('click','.close-timelapse-btn',function () {
@@ -772,28 +654,4 @@ function reloadEditForm(id)
             },
         });
     }, 50);
-}
-
-/**
- *  Ajax: enable / disable motion configuration's advanced edition mode
- */
-function advancedEditionMode(status)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "settings",
-            action: "advancedEditionMode",
-            status: status
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
 }

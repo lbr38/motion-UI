@@ -54,12 +54,15 @@ unset($mycamera, $context, $configuration, $username, $password);
 
 ob_end_flush();
 
-// Possible support for /dev/videoX
-// If URL stars with /dev/videoX, use passthru
-// if (preg_match('#^/dev/video[0-9]+$#', $url)) {
-//     passthru('/usr/bin/ffmpeg -f video4linux2 -i /dev/video0 -s 1920x1080 pipe:.jpg 2>/dev/null');
-//     return;
-// }
+// Support for /dev/videoX and rtsp:// streams
+// If URL stars with /dev/videoX or rtsp://
+if (preg_match('#^/dev/video[0-9]+$#', $url) or preg_match('#^rtsp://#', $url)) {
+    /**
+     *  Read local output file
+     */
+    readfile('/var/lib/motionui/cameras/camera-' . $_GET['id'] . '/output/output.jpg', false);
+    return;
+}
 
 /**
  *  Read distant file (stream)
