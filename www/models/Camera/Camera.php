@@ -115,54 +115,41 @@ class Camera extends \Models\Model
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $streamUrl, string $outputType, string $outputResolution, string $liveEnable, string $motionEnable, string $timelapseEnable, string $username, string $password)
+    public function add(string $name, string $url, string $resolution, int $framerate, string $basicAuthUsername, string $basicAuthPassword, string $motionEnabled)
     {
-        $stmt = $this->db->prepare("INSERT INTO cameras ('Name', 'Url', 'Stream_url', 'Output_type', 'Output_resolution', 'Text_left', 'Text_right', 'Timestamp_left', 'Timestamp_right', 'Refresh', 'Live_enabled', 'Motion_enabled', 'Timelapse_enabled', 'Username', 'Password') VALUES (:name, :url, :streamUrl, :outputType, :outputResolution, :textLeft, :textRight, 'false', 'false', '3', :liveEnable, :motionEnable, :timelapseEnable, :username, :password)");
+        $stmt = $this->db->prepare("INSERT INTO cameras ('Name', 'Url', 'Output_resolution', 'Framerate', 'Username', 'Password', 'Live_enabled', 'Motion_enabled', 'Hardware_acceleration') VALUES (:name, :url, :resolution, :framerate, :username, :password, 'true', :motionEnabled, 'false')");
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':url', $url);
-        $stmt->bindValue(':streamUrl', $streamUrl);
-        $stmt->bindValue(':outputType', $outputType);
-        $stmt->bindValue(':outputResolution', $outputResolution);
-        $stmt->bindValue(':liveEnable', $liveEnable);
-        $stmt->bindValue(':motionEnable', $motionEnable);
-        $stmt->bindValue(':timelapseEnable', $timelapseEnable);
-        $stmt->bindValue(':username', $username);
-        $stmt->bindValue(':password', $password);
+        $stmt->bindValue(':resolution', $resolution);
+        $stmt->bindValue(':framerate', $framerate);
+        $stmt->bindValue(':username', $basicAuthUsername);
+        $stmt->bindValue(':password', $basicAuthPassword);
+        $stmt->bindValue(':motionEnabled', $motionEnabled);
         $stmt->execute();
     }
 
     /**
      *  Edit camera global settings
      */
-    public function editGlobalSettings(string $id, string $name, string $url, string $streamUrl, string $outputResolution, string $rotate, string $textLeft, string $textRight, string $liveEnable, string $motionEnable, string $timelapseEnable, string $username, string $password)
+    public function editGlobalSettings(int $id, string $name, string $url, string $resolution, int $framerate, string $rotate, string $textLeft, string $textRight, string $basicAuthUsername, string $basicAuthPassword, string $liveEnabled, string $timestampLeft, string $timestampRight, string $motionEnabled, string $timelapseEnabled, string $hardwareAcceleration)
     {
-        $stmt = $this->db->prepare("UPDATE cameras SET Name = :name, Url = :url, Stream_url = :streamUrl, Output_resolution = :outputResolution, Rotate = :rotate, Text_left = :textLeft, Text_right = :textRight, Live_enabled = :liveEnable, Motion_enabled = :motionEnable, Timelapse_enabled = :timelapseEnable, Username = :username, Password = :password WHERE Id = :id");
+        $stmt = $this->db->prepare("UPDATE cameras SET Name = :name, Url = :url, Output_resolution = :outputResolution, Framerate = :framerate, Rotate = :rotate, Text_left = :textLeft, Text_right = :textRight, Username = :username, Password = :password, Live_enabled = :liveEnabled, Timestamp_left = :timestampLeft, Timestamp_right = :timestampRight, Motion_enabled = :motionEnabled, 'Timelapse_enabled' = :timelapseEnabled, 'Hardware_acceleration' = :hardwareAcceleration WHERE Id = :id");
         $stmt->bindValue(':id', $id);
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':url', $url);
-        $stmt->bindValue(':streamUrl', $streamUrl);
-        $stmt->bindValue(':outputResolution', $outputResolution);
+        $stmt->bindValue(':outputResolution', $resolution);
+        $stmt->bindValue(':framerate', $framerate);
         $stmt->bindValue(':rotate', $rotate);
         $stmt->bindValue(':textLeft', $textLeft);
         $stmt->bindValue(':textRight', $textRight);
-        $stmt->bindValue(':liveEnable', $liveEnable);
-        $stmt->bindValue(':motionEnable', $motionEnable);
-        $stmt->bindValue(':timelapseEnable', $timelapseEnable);
-        $stmt->bindValue(':username', $username);
-        $stmt->bindValue(':password', $password);
-        $stmt->execute();
-    }
-
-    /**
-     *  Edit camera stream settings
-     */
-    public function editStreamSettings(string $id, int $refresh, string $timestampLeft, string $timestampRight)
-    {
-        $stmt = $this->db->prepare("UPDATE cameras SET Refresh = :refresh, Timestamp_left = :timestampLeft, Timestamp_right = :timestampRight WHERE Id = :id");
-        $stmt->bindValue(':id', $id);
-        $stmt->bindValue(':refresh', $refresh);
+        $stmt->bindValue(':username', $basicAuthUsername);
+        $stmt->bindValue(':password', $basicAuthPassword);
+        $stmt->bindValue(':liveEnabled', $liveEnabled);
         $stmt->bindValue(':timestampLeft', $timestampLeft);
         $stmt->bindValue(':timestampRight', $timestampRight);
+        $stmt->bindValue(':motionEnabled', $motionEnabled);
+        $stmt->bindValue(':timelapseEnabled', $timelapseEnabled);
+        $stmt->bindValue(':hardwareAcceleration', $hardwareAcceleration);
         $stmt->execute();
     }
 

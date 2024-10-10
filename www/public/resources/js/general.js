@@ -32,7 +32,8 @@ $(document).on('click','.slide-panel-btn',function () {
  *  Slide panel closing
  */
 $(document).on('click','.slide-panel-close-btn',function () {
-    closePanel();
+    var name = $(this).attr('slide-panel');
+    closePanel(name);
 });
 
 /**
@@ -42,6 +43,37 @@ $(document).on('click','.acquit-log-btn',function () {
     var id = $(this).attr('log-id');
 
     acquitLog(id);
+});
+
+/**
+ *  Event: click on a reloadable table page number
+ */
+$(document).on('click','.reloadable-table-page-btn',function () {
+    /**
+     *  Get table name and offset from parent
+     */
+    var table = $(this).parents('.reloadable-table').attr('table');
+    var page = $(this).attr('page');
+
+    /**
+     *  Calculate offset (page * 10 - 10)
+     */
+    offset = parseInt(page) * 10 - 10;
+
+    /**
+     *  If offset is negative, set it to 0
+     */
+    if (offset < 0) {
+        offset = 0;
+    }
+
+    /**
+     *  Set cookie for PHP to load the right content
+     *  e.g tables/tasks/list-done/offset
+     */
+    setCookie('tables/' + table + '/offset', offset, 1);
+
+    reloadTable(table, offset);
 });
 
 /**
@@ -160,35 +192,38 @@ function getContainerState()
  * @param {*} table
  * @param {*} offset
  */
-function reloadTable(table, offset, data)
+function reloadTable(table, offset)
 {
     // printLoading();
 
-    $.ajax({
-        type: "POST",
-        url: "/ajax/controller.php",
-        data: {
-            controller: "general",
-            action: "getTable",
+    ajaxRequest(
+        // Controller:
+        'general',
+        // Action:
+        'getTable',
+        // Data:
+        {
             table: table,
             offset: offset,
-            data: data,
             sourceUrl: window.location.href,
-            sourceUri: window.location.pathname
+            sourceUri: window.location.pathname,
+            sourceGetParameters: getGetParams()
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            /**
-             *  Replace table with itself, with new content
-             */
-            $('.reloadable-table[table="' + table + '"]').replaceWith(jsonValue.message);
-        },
-        error: function (jqXHR, textStatus, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload container:
+        [],
+        // Execute functions on success:
+        [
+            // Replace table with itself, with new content
+            "$('.reloadable-table[table=\"" + table + "\"]').replaceWith(jsonValue.message)"
+        ]
+    );
 
+    /**
+     *  Hide loading icon
+     */
     // hideLoading();
 }

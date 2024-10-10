@@ -26,8 +26,20 @@ class Main
         if (!defined('CAMERAS_DIR')) {
             define('CAMERAS_DIR', DATA_DIR . '/cameras');
         }
+        if (!defined('CAMERAS_MOTION_CONF_AVAILABLE_DIR')) {
+            define('CAMERAS_MOTION_CONF_AVAILABLE_DIR', CAMERAS_DIR . '/motion/conf-available');
+        }
+        if (!defined('CAMERAS_MOTION_CONF_ENABLED_DIR')) {
+            define('CAMERAS_MOTION_CONF_ENABLED_DIR', CAMERAS_DIR . '/motion/conf-enabled');
+        }
+        if (!defined('CAMERAS_TIMELAPSE_DIR')) {
+            define('CAMERAS_TIMELAPSE_DIR', CAMERAS_DIR . '/timelapse');
+        }
         if (!defined('CAPTURES_DIR')) {
             define('CAPTURES_DIR', '/var/lib/motion');
+        }
+        if (!defined('GO2RTC_DIR')) {
+            define('GO2RTC_DIR', DATA_DIR . '/go2rtc');
         }
         if (!defined('DB_UPDATE_DONE_DIR')) {
             define('DB_UPDATE_DONE_DIR', DATA_DIR . '/update');

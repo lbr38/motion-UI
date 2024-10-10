@@ -49,30 +49,6 @@ class Settings
             }
         }
 
-        if (!defined('MOTION_EVENTS_VIDEOS_THUMBNAIL')) {
-            if (!empty($settings['Motion_events_videos_thumbnail']) and $settings['Motion_events_videos_thumbnail'] == 'true') {
-                define('MOTION_EVENTS_VIDEOS_THUMBNAIL', true);
-            } else {
-                define('MOTION_EVENTS_VIDEOS_THUMBNAIL', false);
-            }
-        }
-
-        if (!defined('MOTION_EVENTS_PICTURES_THUMBNAIL')) {
-            if (!empty($settings['Motion_events_pictures_thumbnail']) and $settings['Motion_events_pictures_thumbnail'] == 'true') {
-                define('MOTION_EVENTS_PICTURES_THUMBNAIL', true);
-            } else {
-                define('MOTION_EVENTS_PICTURES_THUMBNAIL', false);
-            }
-        }
-
-        if (!defined('MOTION_ADVANCED_EDITION_MODE')) {
-            if (!empty($settings['Motion_advanced_edition_mode']) and $settings['Motion_advanced_edition_mode'] == 'true') {
-                define('MOTION_ADVANCED_EDITION_MODE', true);
-            } else {
-                define('MOTION_ADVANCED_EDITION_MODE', false);
-            }
-        }
-
         if (!defined('MOTION_EVENTS_RETENTION')) {
             if (!empty($settings['Motion_events_retention']) and is_numeric($settings['Motion_events_retention'])) {
                 define('MOTION_EVENTS_RETENTION', $settings['Motion_events_retention']);

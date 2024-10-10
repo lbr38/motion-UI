@@ -7,7 +7,7 @@ use Exception;
 class Autostart
 {
     private $model;
-    private $motionServiceController;
+    private $motionService;
     private $logController;
 
     public function __construct()

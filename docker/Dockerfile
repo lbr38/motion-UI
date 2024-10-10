@@ -10,8 +10,10 @@ LABEL version="1.0" maintainer="lbr38 <motionui@protonmail.com>"
 ARG WWW_DIR="/var/www/motionui"
 ARG DATA_DIR="/var/lib/motionui"
 ARG DEBIAN_FRONTEND=noninteractive
-ARG env
 ARG fqdn
+ARG env
+# Debug only
+# ARG env=devel
 
 # Install dependencies, postfix
 RUN apt-get update -y
@@ -27,7 +29,7 @@ RUN echo "deb https://packages.bespin.ovh/repo/motionui-php/bookworm/main_prod b
 RUN apt-get update -y
 
 # Install nginx and PHP 8.3
-RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-xml php8.3-curl sqlite3 -y
+RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-curl php8.3-yaml sqlite3 -y
 
 # Install motion
 RUN apt-get install motion -y
@@ -98,6 +100,23 @@ RUN echo "set ic" > /root/.vimrc
 RUN echo "set mouse-=a" >> /root/.vimrc
 RUN echo "syntax on" >> /root/.vimrc
 RUN echo "set background=dark" >> /root/.vimrc
+
+# Setup go2rtc
+# First, check if a binary is available for the current architecture
+RUN ARCH=$(dpkg --print-architecture); \
+    if [ ! -f "${WWW_DIR}/bin/go2rtc/go2rtc_linux_${ARCH}" ]; then \
+        echo "No go2rtc binary available for this architecture (${ARCH})"; \
+        exit 1; \
+    fi
+# Then link go2rtc binary to /usr/local/bin/ and set permissions
+RUN ln -s ${WWW_DIR}/bin/go2rtc/go2rtc_linux_$(dpkg --print-architecture) /usr/local/bin/go2rtc
+RUN chmod 755 /usr/local/bin/go2rtc
+# Copy go2rtc template config file if not exists
+RUN if [ ! -f "${DATA_DIR}/go2rtc/go2rtc.yml" ]; then \
+        mkdir -p ${DATA_DIR}/go2rtc; \
+        cp ${WWW_DIR}/templates/go2rtc/go2rtc.yml ${DATA_DIR}/go2rtc/go2rtc.yml; \
+        chown www-data:motionui ${DATA_DIR}/go2rtc/go2rtc.yml; \
+    fi
 
 # Copy entrypoint script
 RUN cp /tmp/motionui/docker/init /init

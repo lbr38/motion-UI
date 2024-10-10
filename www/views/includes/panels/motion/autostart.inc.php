@@ -1,64 +1,90 @@
 <?php ob_start(); ?>
 
+<h4>Autostart time period</h4>
+
+<p class="input-note">For each day, define the time period in which <b>motion</b> will be running. Outside of this time period, <b>motion</b> will be stopped.</p>
+<br>
+<p class="input-note">Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> if you wish not to run motion on a specific day.</p>
+<br>
+<p class="input-note">Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> if you wish to run motion <b>24hours a day</b>.</p>
+<br>
+
 <form id="autostart-conf-form" autocomplete="off">
-    <br>
-    <h4>Autostart time period</h4>
+    <h6>MONDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="monday-start" value="<?= $autostartConfiguration['Monday_start'] ?>" />
+        <input type="time" name="monday-end" value="<?= $autostartConfiguration['Monday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
 
-    <p class="lowopacity-cst">For each day, define the time period in which <code>motion</code> will be running. Outside of this time period, <code>motion</code> will be stopped.</p>
-    <br>
+    <h6>TUESDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="tuesday-start" value="<?= $autostartConfiguration['Tuesday_start'] ?>" />
+        <input type="time" name="tuesday-end" value="<?= $autostartConfiguration['Tuesday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
+
+    <h6>WEDNESDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="wednesday-start" value="<?= $autostartConfiguration['Wednesday_start'] ?>" />
+        <input type="time" name="wednesday-end" value="<?= $autostartConfiguration['Wednesday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
+
+    <h6>THURSDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="thursday-start" value="<?= $autostartConfiguration['Thursday_start'] ?>" />
+        <input type="time" name="thursday-end" value="<?= $autostartConfiguration['Thursday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
+
+    <h6>FRIDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="friday-start" value="<?= $autostartConfiguration['Friday_start'] ?>" />
+        <input type="time" name="friday-end" value="<?= $autostartConfiguration['Friday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
+
+    <h6>SATURDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="saturday-start" value="<?= $autostartConfiguration['Saturday_start'] ?>" />
+        <input type="time" name="saturday-end" value="<?= $autostartConfiguration['Saturday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
+
+    <h6>SUNDAY</h6>
+    <div class="flex column-gap-15">
+        <input type="time" name="sunday-start" value="<?= $autostartConfiguration['Sunday_start'] ?>" />
+        <input type="time" name="sunday-end" value="<?= $autostartConfiguration['Sunday_end'] ?>" />
+    </div>
+    <div class="flex column-gap-15 justify-space-around">
+        <p class="input-note">Start</p>
+        <p class="input-note">End</p>
+    </div>
 
     <br>
-    <table class="config-table">
-        <tr>
-            <th class="td-30"></th>
-            <th class="center">Start</th>
-            <th class="center">End</th>
-        </tr>
-        <tr>
-            <th class="td-30">Monday</th>
-            <td><input type="time" name="monday-start" value="<?= $autostartConfiguration['Monday_start'] ?>" /></td>
-            <td><input type="time" name="monday-end" value="<?= $autostartConfiguration['Monday_end'] ?>" /></td>
-        </tr>
-        <tr>
-            <th class="td-30">Tuesday</th>
-            <td><input type="time" name="tuesday-start" value="<?= $autostartConfiguration['Tuesday_start'] ?>" /></td>
-            <td><input type="time" name="tuesday-end" value="<?= $autostartConfiguration['Tuesday_end'] ?>" /></td>
-        </tr>
-        <tr>
-            <th class="td-30">Wednesday</th>
-            <td><input type="time" name="wednesday-start" value="<?= $autostartConfiguration['Wednesday_start'] ?>" /></td>
-            <td><input type="time" name="wednesday-end" value="<?= $autostartConfiguration['Wednesday_end'] ?>" /></td>
-        </tr>
-        <tr>
-            <th class="td-30">Thursday</th>
-            <td><input type="time" name="thursday-start" value="<?= $autostartConfiguration['Thursday_start'] ?>" /></td>
-            <td><input type="time" name="thursday-end" value="<?= $autostartConfiguration['Thursday_end'] ?>" /></td>
-        </tr>
-        <tr>
-            <th class="td-30">Friday</th>
-            <td><input type="time" name="friday-start" value="<?= $autostartConfiguration['Friday_start'] ?>" /></td>
-            <td><input type="time" name="friday-end" value="<?= $autostartConfiguration['Friday_end'] ?>" /></td>
-        </tr>
-        <tr>
-            <th class="td-30">Saturday</th>
-            <td><input type="time" name="saturday-start" value="<?= $autostartConfiguration['Saturday_start'] ?>" /></td>
-            <td><input type="time" name="saturday-end" value="<?= $autostartConfiguration['Saturday_end'] ?>" /></td>
-        </tr>
-        <tr>
-            <th class="td-30">Sunday</th>
-            <td><input type="time" name="sunday-start" value="<?= $autostartConfiguration['Sunday_start'] ?>" /></td>
-            <td><input type="time" name="sunday-end" value="<?= $autostartConfiguration['Sunday_end'] ?>" /></td>
-        </tr>
-     </table>
-
-    <br>
-    <p class="lowopacity-cst">Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> if you wish not to run motion on a specific day.</p>
-    <br>
-    <p class="lowopacity-cst">Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> if you wish to run motion <b>24hours a day</b>.</p>
-
+    
     <?php
     if ($autostartDevicePresenceEnabled == 'enabled') {
-        echo '<br><p class="yellowtext">Autostart and stop on device presence is enabled. It will overwrite this configuration.</p>';
+        echo '<br><p class="yellowtext">Autostart & stop on device presence is enabled. It will overwrite this configuration.</p>';
     } ?>
 
     <br>
@@ -67,7 +93,7 @@
 
 <br>
 <h4>Autostart on device presence</h4>
-<div class="flex align-item-center column-gap-4">
+<div class="flex align-item-center column-gap-5">
     <p>Enable autostart on device presence on the local network</p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input" type="checkbox" id="enable-device-presence-btn" <?php echo ($autostartDevicePresenceEnabled == 'enabled') ? 'checked' : ''?>>
@@ -78,15 +104,14 @@
 <?php
 if ($autostartDevicePresenceEnabled == 'enabled') : ?>
     <br>
-    <p>
-    - Motion will be started if none of the configured devices are present on the local network.<br>
-    - Motion will be stopped if at least <b>1</b> of the configured devices is connected to the local network.
-    </p>
+    <p class="input-note">Motion will be started if none of the configured devices are present on the local network.</p>
+    <br>
+    <p class="input-note">Motion will be stopped if at least <b>one</b> of the configured devices is connected to the local network.</p>
 
     <?php
     if (!empty($autostartKnownDevices)) : ?>
-        <br>
-        <p><b>Known devices</b></p>
+        <h6>KNOWN DEVICES</h6>
+
         <table>
             <?php
             foreach ($autostartKnownDevices as $knownDevice) :
@@ -95,7 +120,7 @@ if ($autostartDevicePresenceEnabled == 'enabled') : ?>
                 $deviceIp = $knownDevice['Ip']; ?>
                 <tr class="td-fit">
                     <td>
-                        <b><?= $deviceName ?></b>
+                        <?= $deviceName ?>
                     </td>
                     <td>
                         <?= $deviceIp ?>
@@ -107,16 +132,18 @@ if ($autostartDevicePresenceEnabled == 'enabled') : ?>
                 <?php
             endforeach ?>
         </table>
-        <hr>
         <?php
     endif ?>
     <br>
+
     <form id="device-presence-form" autocomplete="off">
-        <p>Add a new device:</p>
-        <input type="text" name="device-name" placeholder="Device name" required />
-        <input type="text" name="device-ip" placeholder="IP address" required />
-        <br><br>
-        <button type="submit" class="btn-small-green">Add device</button>
+        <h6>ADD A DEVICE</h6>
+        <div class="flex column-gap-15">
+            <input type="text" name="device-name" placeholder="Device name" required />
+            <input type="text" name="device-ip" placeholder="IP address" required />
+        </div>
+        <br>
+        <button type="submit" class="btn-small-green">Add</button>
     </form>
     <?php
 endif ?>

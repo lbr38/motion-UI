@@ -20,7 +20,7 @@ class Event extends \Models\Model
          *  If offset is specified
          */
         if ($withOffset) {
-            $query .= " LIMIT 5 OFFSET :offset";
+            $query .= " LIMIT 10 OFFSET :offset";
         }
 
         /**

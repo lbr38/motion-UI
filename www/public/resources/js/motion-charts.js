@@ -51,22 +51,3 @@ function statsDateSelect(dateStart, dateEnd)
         loadAllStatsCharts();
     }, 50);
 }
-
-/**
- * Function: print events between selected dates
- * @param {*} dateStart
- * @param {*} dateEnd
- */
-function eventDateSelect(dateStart, dateEnd)
-{
-    /**
-     *  Add specified dates into cookies
-     */
-    document.cookie = "eventDateStart="+dateStart+";max-age=900;";
-    document.cookie = "eventDateEnd="+dateEnd+";max-age=900;";
-
-    /**
-     *  Then reload events div
-     */
-    reloadContainer('motion/events/list');
-}

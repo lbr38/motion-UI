@@ -1,7 +1,5 @@
 <?php
 
-$mycamera = new \Controllers\Camera\Camera();
-
 /**
  *  Check that specified camera Id is valid
  */
@@ -11,36 +9,22 @@ if (empty($_GET['id'])) {
 if (!is_numeric($_GET['id'])) {
     return;
 }
-if (!$mycamera->existId($_GET['id'])) {
-    return;
-}
 
 /**
- *  Get camera configuration
+ *  URL is go2rtc stream server, followed by camera id
  */
-$configuration = $mycamera->getConfiguration($_GET['id']);
-$url = $configuration['Url'];
-$username = $configuration['Username'];
-$password = $configuration['Password'];
+$url = 'http://127.0.0.1:1984/api/stream.mjpeg?src=camera_' . $_GET['id'];
 
 /**
  *  Define context options
- *  Set default socket timeout to 3 seconds
+ *  Set default socket timeout to 5 seconds
  */
 $context = [
     'http' => [
-        'timeout' => 3,
+        'timeout' => 5,
         'method' => 'GET'
     ]
 ];
-
-/**
- *  Append username and password if not empty
- *  Convert to base64
- */
-if (!empty($username) and !empty($password)) {
-    $context['http']['header'] = 'Authorization: Basic ' . base64_encode($username . ':' . $password);
-}
 
 /**
  *  Set context (will apply to get_headers and readfile)
@@ -72,7 +56,7 @@ header('Content-Type: ' . $headers['content-type']);
 /**
  *  Clear memory
  */
-unset($mycamera, $context, $configuration, $username, $password, $headers);
+unset($context, $headers);
 
 ob_end_flush();
 

@@ -1,0 +1,8 @@
+# Go2rtc configuration file
+streams:
+
+api:
+  mjpeg:
+
+ffmpeg:
+  bin: /usr/bin/ffmpeg

@@ -231,13 +231,6 @@ class Event
      */
     public function getByDate(string $date, bool $withOffset = false, int $offset = 0)
     {
-        /**
-         *  Offset cannot be negative
-         */
-        if ($offset < 0) {
-            $offset = 0;
-        }
-
         return $this->model->getByDate($date, $withOffset, $offset);
     }
 

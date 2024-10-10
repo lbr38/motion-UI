@@ -117,7 +117,7 @@
         </div>
 
         <div>
-            <p class="lowopacity-cst">Period:</p>
+            <h6>SELECT PERIOD</h6>
             <div class="flex column-gap-10">
                 <input type="date" name="dateStart" class="input-medium stats-date-input" value="<?= $statsDateStart ?>" />
                 <input type="date" name="dateEnd" class="input-medium stats-date-input" value="<?= $statsDateEnd ?>" />

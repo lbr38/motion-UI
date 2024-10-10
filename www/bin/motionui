@@ -34,7 +34,11 @@ function permissions
     echo -e "\n${YELLOW} Setting permissions... ${RESET}"
 
     # Permissions on web directory
-    find "$WWW_DIR" -type f -exec chmod 0660 {} \;
+    chmod 750 "$WWW_DIR/bin/motionui"
+    chmod 750 "$WWW_DIR/bin/on_event"*
+    chmod 750 "$WWW_DIR/bin/go2rtc/"*
+    # Set 660 permissions on all files and directories except scripts in bin:
+    find "$WWW_DIR" -type f -not -not \( -path bin -prune \) -exec chmod 0660 {} \;
     find "$WWW_DIR" -type d -exec chmod 0770 {} \;
     chown -R $WWW_USER "$WWW_DIR"
     chgrp -R $WWW_USER "$WWW_DIR"

@@ -71,18 +71,65 @@ function downloadMedia()
     document.body.removeChild(temporaryDownloadLink);
 }
 
-/**
- *  Event: Start motion capture
- */
-$(document).on('click','#start-motion-btn',function () {
-    startStopMotion('start');
-});
+function reloadMotionConfigEditForm(id)
+{
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'get-motion-config-form',
+        // Data:
+        {
+            id: id
+        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload containers:
+        [],
+        // Execute function on success:
+        [
+            "$('#camera-edit-motion-config-form-container').html(jsonValue.message);",
+        ]
+    );
+}
 
 /**
- *  Event: Stop motion capture
+ *  Start / stop motion service
  */
-$(document).on('click','#stop-motion-btn',function () {
-    startStopMotion('stop');
+$(document).on('click','.start-stop-service-btn',function () {
+    var status = $(this).attr('status');
+
+    if (status == 'start') {
+        printAlert('Starting motion capture, please wait...', 'success');
+    }
+    if (status == 'stop') {
+        printAlert('Stopping motion capture, please wait...', 'success');
+    }
+
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'start-stop',
+        // Data:
+        {
+            status: status
+        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload containers:
+        [],
+        // Execute functions :
+        []
+    );
+
+    setTimeout(function () {
+        reloadContainer('motion/buttons/main');
+    }, 3500);
 });
 
 /**
@@ -163,60 +210,33 @@ $(document).on('click','.acquit-events-btn',function () {
 });
 
 /**
+ * Function: print events between selected dates
+ * @param {*} dateStart
+ * @param {*} dateEnd
+ */
+function eventDateSelect(dateStart, dateEnd)
+{
+    /**
+     *  Add specified dates into cookies
+     */
+    document.cookie = "eventDateStart="+dateStart+";max-age=900;";
+    document.cookie = "eventDateEnd="+dateEnd+";max-age=900;";
+
+    /**
+     *  Then reload events div
+     */
+    reloadContainer('motion/events/list');
+}
+
+/**
  *  Event: select events dates
  */
 $(document).on('change','.event-date-input',function () {
-    var dateStart = $('.event-date-input[name=dateStart]').val();
-    var dateEnd = $('.event-date-input[name=dateEnd]').val();
+    date = $(this).val();
 
-    eventDateSelect(dateStart, dateEnd);
-});
+    document.cookie = "event-date=" + date + ";max-age=900;";
 
-/**
- *  Event: click on a pagination button
- */
-$(document).on('click','.event-pagination-btn',function () {
-    /**
-     *  Get page number
-     */
-    var page = $(this).attr('page');
-
-    /**
-     *  Retrieve event date
-     */
-    var eventDate = $(this).attr('event-date');
-
-    /**
-     *  Calculate offset (page * 5 - 5)
-     */
-    offset = parseInt(page) * 5 - 5;
-
-    /**
-     *  If offset is negative, set it to 0
-     */
-    if (offset < 0) {
-        offset = 0;
-    }
-
-    /**
-     *  Set cookie for PHP to load the right content
-     */
-    setCookie('motion/events/list/' + eventDate + '/offset', offset, 1);
-
-    /**
-     *  Print loading veil
-     */
-    printLoadingVeilByParentClass('event-date-container[event-date="' + eventDate + '"]');
-
-    /**
-     *  Reload the event container matching the date
-     */
-    $('.event-date-container[event-date="' + eventDate + '"]').load(location.href + ' .event-date-container[event-date="' + eventDate + '"] > *');
-
-    /**
-     *  Set the new offset value in the parent container
-     */
-    $('.event-date-container[event-date="' + eventDate + '"]').attr('offset', offset);
+    reloadContainer('motion/events/list');
 });
 
 /**
@@ -274,7 +294,7 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
          */
         $('#newConfirmAlert').remove();
         $('#events-captures-div').find('input[class=event-media-checkbox]').removeAttr('style');
-        $('#events-captures-div').find('.select-all-media-btn').hide();
+        $('#events-captures-div').find('.select-all-media-checkbox').hide();
         return;
     }
 
@@ -294,7 +314,7 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
     /**
      *  Print related 'Select all' button
      */
-    $('#events-captures-div').find('.select-all-media-btn[event-id="' + eventId + '"]').css('display', 'initial');
+    $('#events-captures-div').find('.select-all-media-checkbox[event-id="' + eventId + '"]').css('display', 'initial');
 
     /**
      *  Print all related checkboxes with opacity 1
@@ -306,7 +326,7 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
 /**
  *  Event: on 'Select all' button click
  */
-$(document).on('click',".select-all-media-btn",function () {
+$(document).on('click',".select-all-media-checkbox",function () {
     var eventId = $(this).attr('event-id');
 
     /**
@@ -321,18 +341,54 @@ $(document).on('click',".select-all-media-btn",function () {
 
     if (count_checked == count_total) {
         $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', false);
+        // Hide 'select all' button
+        $(this).hide();
+        // Hide confirm box
+        $('#newConfirmAlert').remove();
     } else {
         $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', true);
     }
 });
 
 /**
+ *  Event: get motion configuration form
+ */
+$(document).on('click','.get-motion-config-form-btn',function () {
+    var id = $(this).attr('camera-id');
+
+    /**
+     *  Ask the server to generate the configuration form
+     */
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'get-motion-config-form',
+        // Data:
+        {
+            id: id
+        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload containers:
+        [],
+        // Execute function on success:
+        [
+            "$('#camera-edit-motion-config-form-container').html(jsonValue.message);",
+            "openPanel('edit-motion-config');"
+        ]
+    );
+});
+
+/**
  *  Event: save motion configuration file
  */
-$(document).on('submit','.camera-motion-settings-form',function () {
+$(document).on('submit','#camera-motion-settings-form',function () {
     event.preventDefault();
 
-    var options_array = [];
+    var params = [];
 
     /**
      *  Get the name of the configuration file
@@ -370,9 +426,9 @@ $(document).on('submit','.camera-motion-settings-form',function () {
             var option_value = $(this).find('input[name=option-value][option-id=' + i + ']').val()
 
             /**
-             *  Push all to options_array
+             *  Push all to params
              */
-            options_array.push(
+            params.push(
                 {
                     status: option_status,
                     name: option_name,
@@ -393,7 +449,7 @@ $(document).on('submit','.camera-motion-settings-form',function () {
     var option_name = $(this).find('input[name=additional-option-name]').val();
     var option_value = $(this).find('input[name=additional-option-value]').val();
 
-    options_array.push(
+    params.push(
         {
             status: option_status,
             name: option_name,
@@ -401,7 +457,27 @@ $(document).on('submit','.camera-motion-settings-form',function () {
         }
     );
 
-    configure(cameraId, options_array);
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'configureMotion',
+        // Data:
+        {
+            cameraId: cameraId,
+            params: params
+        },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true,
+        // Reload containers:
+        [],
+        // Execute functions :
+        [
+            "reloadMotionConfigEditForm(" + cameraId + ");"
+        ]
+    );
 
     return false;
 });
@@ -480,37 +556,6 @@ $(document).on('submit','#alert-conf-form',function () {
 
     return false;
 });
-
-/**
- * Ajax: start or stop motion capture
- * @param {*} status
- */
-function startStopMotion(status)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "startStopMotion",
-            status: status
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            if (status == 'start') {
-                printAlert('Starting motion service, please wait...', 'success');
-            }
-            if (status == 'stop') {
-                printAlert('Stopping motion service, please wait...', 'success');
-            }
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
 
 /**
  * Ajax: enable autostart
@@ -700,7 +745,7 @@ function enableAlert(status)
 }
 
 /**
- * Ajax: send a test email
+ *  Ajax: send a test email
  */
 function sendTestEmail(mailRecipient)
 {
@@ -771,35 +816,6 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
             reloadPanel('alert');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: configure motion config file
- * @param {*} cameraId
- * @param {*} options_array
- */
-function configure(cameraId, options_array)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "configureMotion",
-            cameraId: cameraId,
-            options_array: options_array
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadEditForm(cameraId);
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
