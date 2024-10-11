@@ -3,29 +3,29 @@
 A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize live stream from http cameras.
 
 <div align="center">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/fb0f78f3-10f6-45ef-8e9a-2ce119795493" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/3fadc296-4e51-48d1-9454-f956e43f3ec7" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/fcd1f4d6-b80d-43e3-8cf0-f09abe9f0e37" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/870aef98-5e5c-42e0-8387-261f6981561e" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/76b7150b-6439-445d-815f-e899563dacbd" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/26cbd47b-d2c4-483d-8b37-857018876df7" width=25% align="top">
 </div>
 <br>
 <div align="center">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/e4194032-8163-4944-bc9d-4783018054cf" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/6c1e40d7-950f-4593-9243-5ec4be81e1ea" width=25% align="top">
-    <img src="https://github.com/lbr38/motion-UI/assets/54670129/28a7d13e-4001-4bd0-822d-2e9b83374cc8" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/93d00121-defb-42ae-b655-83ef339eee0b" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/a8e596cc-e5f5-4123-bae4-d94f3ba7de1d" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/50509fd8-6af0-46e4-be29-0592b43cc306" width=25% align="top">
 </div>
 
 <br>
 
 ## Features
 
+- Visualize cameras stream.
 - **Start and stop** motion service directly from the web interface,
 - Enable **autostart and stop** of the motion service, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion service will be automatically started as nobody is at home.
 - Receive **mail alerts** on motion detection.
 - Visualize captured images and videos and/or download them.
-- Edit **motion** configuration files.
-- Visualize http cameras stream.
+- Create timelapses.
 
-## 📱 Android app (new!)
+## 📱 Android app
 
 An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0">here</a> (in the assets section).
 
