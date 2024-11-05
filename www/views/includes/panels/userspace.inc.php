@@ -1,6 +1,12 @@
-<?php ob_start(); ?> 
+<?php ob_start(); ?>
 
-<h4>Change password</h4>
+<a href="/logout">
+    <div class="btn-small-red" title="Logout">
+        <span>Logout</span>
+    </div>
+</a>
+
+<h5>CHANGE PASSWORD</h5>
 
 <form id="new-password-form" username="<?= $_SESSION['username'] ?>">
     <h6>CURRENT PASSWORD</h6>
@@ -15,14 +21,6 @@
     <br><br>
     <button type="submit" class="btn-small-green">Save</button>
 </form>
-
-<br><br>
-
-<a href="/logout">
-    <div class="btn-small-red" title="Logout">
-        <span>Logout</span>
-    </div>
-</a>
 
 <?php
 $content = ob_get_clean();

@@ -247,8 +247,18 @@ h3 {
 
 #motion-events-captures-acquit-container {
     position: fixed;
-    bottom: 80px;
-    right: 20px;
+    bottom: 85px;
+    right: 25px;
+}
+
+#motion-events-captures-acquit-container .acquit-events-btn {
+    min-width: 50px;
+    height: 50px !important;
+}
+
+#motion-events-captures-acquit-container .acquit-events-btn img {
+    width: 37px !important;
+    padding-left: 7px !important;
 }
 
 .event-container {
@@ -287,8 +297,14 @@ h3 {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
-    margin-bottom: 15px;
+    width: 95%;
+}
+
+.event-camera-name-id {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 10px;
 }
 
 .event-camera {
@@ -633,7 +649,7 @@ footer #github img { width: 25px; }
 }
 
 .select-all-media-checkbox {
-    margin-right: 10px;
+    margin-right: 14px;
 }
 
 .event-media-checkbox-container {
@@ -800,8 +816,6 @@ footer #github img { width: 25px; }
         border-radius: 0 250px 250px 0;
     }
 
-    /* toto */
-
     .main-container {
         grid-template-columns: repeat(1, 100%);
         justify-content: space-around;
@@ -846,6 +860,11 @@ footer #github img { width: 25px; }
         margin-left: 20px;
         margin-right: 20px;
         margin-bottom: 0;
+    }
+
+    .event-camera-name-id {
+        align-items: center;
+        row-gap: 20px;
     }
 
     .event-media-checkbox, .select-all-media-checkbox {

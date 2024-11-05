@@ -2,7 +2,7 @@
     <div>
         <h5>HELP</h5>
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI/wiki">
-            <span class="lowopacity">Documentation<img src="/assets/icons/external-link.svg" class="icon" /></span>
+            <span class="lowopacity">Documentation <img src="/assets/icons/external-link.svg" class="icon" /></span>
         </a>
         
         <br><br>

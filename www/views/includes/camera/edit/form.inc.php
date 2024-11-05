@@ -2,15 +2,15 @@
 <p>#<?= $camera['Id'] ?></p>
 
 <form id="edit-global-settings-form" camera-id="<?= $camera['Id'] ?>" autocomplete="off">
-    <h4>Global settings</h4>
-
-    <h6>NAME</h6>
+    <h6 class="required">NAME</h6>
     <input type="text" class="form-param" param-name="name" value="<?= $camera['Name'] ?>" />
         
-    <h6>DEVICE or URL</h6>
+    <h6 class="required">DEVICE or URL</h6>
+    <p class="note">Device path like /dev/video0 or URL like http://... or rtsp://... are supported.</p>
     <input type="text" class="form-param" param-name="url" value="<?= $camera['Url'] ?>" placeholder="e.g. /dev/video0 or http(s)://... or rtsp://..." />
 
-    <h6>RESOLUTION</h6>
+    <h6 class="required">RESOLUTION</h6>
+    <p class="note">The selected resolution should match the resolution of the camera.</p>
     <select class="form-param" param-name="resolution">
         <!-- 4/3 -->
         <option disabled>4/3 resolutions:</option>
@@ -37,11 +37,11 @@
     </select>
 
     <h6>FRAME RATE</h6>
-    <p class="input-note">Set to 0 to use the default frame rate of the camera.</p>
+    <p class="note">Set to 0 to use the default frame rate of the camera.</p>
     <input type="number" class="form-param" param-name="framerate" value="<?= $camera['Framerate'] ?>" min="0" />
 
     <h6>ROTATE</h6>
-    <p class="input-note">Set to 0 to disable rotation.</p>
+    <p class="note">Set to 0 to disable rotation.</p>
     <select class="form-param" param-name="rotate">
         <option value="0" <?php echo $camera['Rotate'] == "0" ? 'selected' : '' ?>>0</option>
         <option value="90" <?php echo $camera['Rotate'] == "90" ? 'selected' : '' ?>>90</option>
@@ -50,18 +50,22 @@
     </select>
 
     <h6>TEXT LEFT</h6>
+    <p class="note">Text to display on the left side of the camera feed.</p>
     <input type="text" class="form-param" param-name="text-left" value="<?= $camera['Text_left'] ?>" />
 
     <h6>TEXT RIGHT</h6>
+    <p class="note">Text to display on the right side of the camera feed.</p>
     <input type="text" class="form-param" param-name="text-right" value="<?= $camera['Text_right'] ?>" />  
     
     <h6>TIMESTAMP LEFT</h6>
+    <p class="note">Display timestamp on the left side of the camera feed.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="timestamp-left" <?php echo $camera['Timestamp_left'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
     </label>
 
     <h6>TIMESTAMP RIGHT</h6>
+    <p class="note">Display timestamp on the right side of the camera feed.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="timestamp-right" <?php echo $camera['Timestamp_right'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
@@ -69,7 +73,7 @@
 
     <h6>HTTP AUTHENTICATION</h6>   
     <div class="basic-auth-fields">
-        <p class="lowopacity-cst margin-bottom-5">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP Authentication.</p>
+        <p class="note">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP Authentication.</p>
 
         <h6>USERNAME</h6>
         <input type="text" class="form-param" param-name="basic-auth-username" value="<?= $camera['Username'] ?>" />
@@ -78,37 +82,33 @@
         <input type="password" class="form-param" param-name="basic-auth-password" value="<?= $camera['Password'] ?>" />
     </div>
 
-    <h4>Live stream</h4>
-
     <h6>DISPLAY LIVE STREAM</h6>
+    <p class="note">Display camera output on the live stream page.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="live-enable" <?php echo $camera['Live_enabled'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
     </label>
 
     <h6>HARDWARE ACCELERATION</h6>
-    <p class="input-note">Enable hardware acceleration for decoding and encoding video streams.</p>
+    <p class="note">Enable hardware acceleration for decoding and encoding video streams.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="hardware-acceleration" <?php echo $camera['Hardware_acceleration'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
     </label>
 
-    <h4>Motion detection</h4>
-
     <h6>ENABLE MOTION DETECTION</h6>
+    <p class="note">Enable motion detection for this camera.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="motion-detection-enable" <?php echo $camera['Motion_enabled'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
     </label>
 
-    <br>
-
-    <h6>CONFIGURATION</h6>
-    <button type="button" class="btn-medium-tr get-motion-config-form-btn margin-top-5" camera-id="<?= $camera['Id'] ?>">Edit motion configuration</button>
-
-    <h4>Timelapse</h4>
+    <h6>MOTION CONFIGURATION</h6>
+    <p class="note">Configure motion parameters for this camera. For advanced users only.</p>
+    <button type="button" class="btn-medium-tr get-motion-config-form-btn margin-top-5" camera-id="<?= $camera['Id'] ?>">Configure</button>
 
     <h6>ENABLE TIMELAPSE</h6>
+    <p class="note">Enable timelapse for this camera.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="timelapse-enable" <?php echo $camera['Timelapse_enabled'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>

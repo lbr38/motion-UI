@@ -1,15 +1,16 @@
 <?php ob_start(); ?> 
 
 <form id="new-camera-form" autocomplete="off">
-    <h4>Global settings</h4>
+    <h6 class="required">NAME</h6>
+    <p class="note">Example: Outside camera</p>
+    <input type="text" class="form-param" param-name="name" />
 
-    <h6>NAME</h6>
-    <input type="text" class="form-param" param-name="name" placeholder="e.g. Outside camera" />
+    <h6 class="required">DEVICE or URL</h6>
+    <p class="note">Device path like /dev/video0 or URL like http://... or rtsp://... are supported.</p>
+    <input type="text" class="form-param" param-name="url" />
 
-    <h6>DEVICE or URL</h6>
-    <input type="text" class="form-param" param-name="url" placeholder="e.g. /dev/video0 or http(s)://... or rtsp://..." />
-
-    <h6>RESOLUTION</h6>
+    <h6 class="required">RESOLUTION</h6>
+    <p class="note">The selected resolution should match the resolution of the camera.</p>
     <select class="form-param" param-name="resolution">
         <!-- 4/3 -->
         <option disabled>4/3 resolutions:</option>
@@ -36,17 +37,18 @@
     </select>
 
     <h6>FRAME RATE</h6>
-    <p class="input-note">Set to 0 to use the default frame rate of the camera.</p>
+    <p class="note">Set to 0 to use the default frame rate of the camera.</p>
     <input type="number" class="form-param" param-name="framerate" value="0" min="0" />
 
     <h6>HTTP AUTHENTICATION</h6>
+    <p class="note">Enable this option if the camera requires HTTP authentication.</p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input basic-auth-switch" type="checkbox">
         <span class="onoff-switch-slider"></span>
     </label>
     
     <div class="basic-auth-fields hide">
-        <p class="lowopacity-cst margin-bottom-5">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP Authentication.</p>
+        <p class="note">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP Authentication.</p>
 
         <h6>USERNAME</h6>
         <input type="text" class="form-param" param-name="basic-auth-username" />
@@ -55,9 +57,8 @@
         <input type="password" class="form-param" param-name="basic-auth-password" />
     </div>
 
-    <h4>Motion detection</h4>
-
     <h6>ENABLE MOTION DETECTION</h6>
+    <p class="note">Enable motion detection for this camera.</p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="motion-detection-enable" checked>
         <span class="onoff-switch-slider"></span>
