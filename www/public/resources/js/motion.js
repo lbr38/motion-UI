@@ -56,7 +56,9 @@ function downloadMedia()
 
     for (var n = 0; n < filesForDownload.length; n++) {
         var download = filesForDownload[n];
-        temporaryDownloadLink.setAttribute('href', '/media?id=' + download.fileId);
+        // Set the href attribute to the file path, also include the filename for the android app to make sure it downloads the file with the correct name
+        temporaryDownloadLink.setAttribute('href', '/media?id=' + download.fileId + '&filename=' + download.filename);
+        // Set the download attribute to force download
         temporaryDownloadLink.setAttribute('download', download.filename);
 
         /**

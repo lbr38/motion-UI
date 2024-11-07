@@ -1,10 +1,15 @@
 package com.example.motionui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
+import android.app.DownloadManager;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -12,13 +17,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.os.Build;
 import android.webkit.CookieManager;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
+
 
 /**
  *  MainActivity
  *  This is the main activity of the app (motionUI main page)
  */
 public class MainActivity extends AppCompatActivity {
-
+    private static final int STORAGE_PERMISSION_REQUEST_CODE = 1001;
     private WebView webView;
     private String url;
     // private Integer authTry = 0;
@@ -58,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**
+         *  Check that the app has the necessary permissions to access the storage
+         *  This is required to download files (videos and images from motion)
+         */
+        checkAndRequestStoragePermissions();
 
         /**
          *  Retrieve motionUI URL from Startup activity
@@ -182,6 +199,54 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /**
+         *  Permit download of video files
+         */
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                String fileName = "";
+
+                /**
+                 *  Try to extract the file name from the URL
+                 *  The URL should contain the file name as a query parameter, like this: http://example.com/media.php?id=xxxxx&filename=myfile.mp4
+                 */
+                try {
+                    Uri uri = Uri.parse(url);
+                    fileName = uri.getQueryParameter("filename");
+                } catch (Exception e) {
+                    // Notify the user that the download failed because the file name could not be extracted
+                    Toast.makeText(getApplicationContext(), "Download failed: error while extracting file name from URL", Toast.LENGTH_LONG).show();
+                }
+
+                Log.d("Download", "Downloading file: " + fileName);
+
+                // Check that the file name is not empty
+                if (fileName == null || fileName.isEmpty()) {
+                    // Notify the user that the download failed because the file name could not be extracted
+                    Toast.makeText(getApplicationContext(), "Download failed: could not extract file name from URL", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                /**
+                 *  Start the download
+                 */
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                request.setMimeType(mimeType);
+                String cookies = CookieManager.getInstance().getCookie(url);
+                request.addRequestHeader("cookie", cookies);
+                request.addRequestHeader("User-Agent", userAgent);
+                request.setDescription("Downloading file...");
+                request.setTitle(fileName);
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+            }
+        });
+     
+        /**
          *  Load motionUI URL in the WebView
          */
         webView.loadUrl(url);
@@ -199,5 +264,61 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     *  Check that the app has the necessary permissions to access the storage
+     */
+    private void checkAndRequestStoragePermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13 and higher: request specific media permissions
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                Manifest.permission.READ_MEDIA_IMAGES,
+                                Manifest.permission.READ_MEDIA_VIDEO,
+                                Manifest.permission.READ_MEDIA_AUDIO
+                        },
+                        STORAGE_PERMISSION_REQUEST_CODE);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android 10 to Android 12: use READ_EXTERNAL_STORAGE
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        STORAGE_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            // Android 9 and earlier: WRITE_EXTERNAL_STORAGE is required
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        STORAGE_PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    /**
+     *  This method is called after the user's response to the permissions
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_REQUEST_CODE) {
+            boolean allPermissionsGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+            if (!allPermissionsGranted) {
+                // One or more permissions were denied
+                Toast.makeText(this, "Write permission is denied. You will not be able to download files.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

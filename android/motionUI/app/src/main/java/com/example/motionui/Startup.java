@@ -1,18 +1,12 @@
 package com.example.motionui;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.util.Log;
-
-// Encrypted SharedPreferences
-// import androidx.security.crypto.EncryptedSharedPreferences;
-// import androidx.security.crypto.MasterKeys;
 
 /**
  *  Startup activity
@@ -21,7 +15,6 @@ import android.util.Log;
  *  Then it redirects to the MainActivity (motionUI main page)
  */
 public class Startup extends AppCompatActivity {
-
     private Button button;
     private EditText editText;
     private String url;
