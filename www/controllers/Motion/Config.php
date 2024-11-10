@@ -167,6 +167,16 @@ class Config
          *  Edit and overwrite current params with new params
          */
         foreach ($params as $param => $details) {
+            // Ignore if param is empty
+            if (empty($param)) {
+                continue;
+            }
+
+            // Ignore if param value is empty
+            if (empty($details['value'])) {
+                continue;
+            }
+
             $status = $details['status'];
             $value  = $details['value'];
 
@@ -194,9 +204,40 @@ class Config
     {
         $content = '';
 
-        foreach ($params as $param => $details) {
+        foreach ($params as $name => $details) {
+            $name   = \Controllers\Common::validateData($name);
             $status = $details['status'];
             $value  = $details['value'];
+
+            /**
+             *  Check that parameter name is valid and does not contains invalid caracters
+             */
+            if (\Controllers\Common::isAlphanumDash($name) === false) {
+                throw new Exception($name . ' parameter name contains invalid caracter(s)');
+            }
+
+            /**
+             *  Case the option is 'netcam_url' or 'netcam_high_url'
+             */
+            if ($status == 'enabled' and ($name == 'netcam_url' or $name == 'netcam_high_url')) {
+                /**
+                 *  Check that URL starts with http:// or https:// or rtsp://
+                 */
+                if (!preg_match('#((^https?|rtsp)://)#', $value)) {
+                    throw new Exception('<b>' . $name . '</b> parameter value must start with http:// or https:// or rtsp://');
+                }
+
+                if (\Controllers\Common::isAlphanumDash($value, array('.', '/', ':', '=', '?', '&', '@')) === false) {
+                    throw new Exception('<b>' . $name . '</b> parameter value contains invalid caracter(s)');
+                }
+            /**
+             *  All other options
+             */
+            } else {
+                if (\Controllers\Common::isAlphanumDash($value, array('.', ' ', ',', ':', '/', '%Y', '%m', '%d', '%H', '%M', '%S', '%q', '%v', '%t', '%w', '%h', '%D', '%f', '%{eventid}', '%{fps}', '(', ')', '=', '\'', '[', ']', '@')) === false) {
+                    throw new Exception('<b>' . $name . '</b> parameter value contains invalid caracter(s)');
+                }
+            }
 
             if ($status == 'enabled') {
                 $status = '';
@@ -204,7 +245,7 @@ class Config
                 $status = ';';
             }
 
-            $content .= $status . $param . " " . $value . PHP_EOL . PHP_EOL;
+            $content .= $status . $name . " " . $value . PHP_EOL . PHP_EOL;
         }
 
         /**
@@ -217,78 +258,58 @@ class Config
         unset($content);
     }
 
-    // TODO : fait doublon avec la fonction edit() ci-dessus
     /**
      *  Edit motion configuration file (in /var/lib/motionui/cameras/)
      */
-    public function configure(string $cameraId, array $options)
+    public function configure(string $cameraId, array $params)
     {
-        $filename = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $cameraId . '.conf';
+        $file = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $cameraId . '.conf';
 
-        if (!file_exists($filename)) {
-            throw new Exception('Camera configuration file does not exist: ' . $filename);
-        }
-
-        $content = '';
-
-        foreach ($options as $option) {
-            /**
-             *  Comment the parameter with a semicolon in the final file if status sent is not 'enabled'
-             */
-            if ($option['status'] == 'enabled') {
-                $optionStatus = '';
-            } else {
-                $optionStatus = ';';
-            }
-
-            /**
-             *  Check that option name is valid and does not contains invalid caracters
-             */
-            if (\Controllers\Common::isAlphanumDash($option['name']) === false) {
-                throw new Exception('<b>' . $option['name'] . '</b> parameter name contains invalid caracter(s)');
-            }
-
-            /**
-             *  Case the option is 'netcam_url' or 'netcam_high_url'
-             */
-            if ($option['status'] == 'enabled' and ($option['name'] == 'netcam_url' or $option['name'] == 'netcam_high_url')) {
-                /**
-                 *  Check that URL starts with http:// or https:// or rtsp://
-                 */
-                if (!preg_match('#((^https?|rtsp)://)#', $option['value'])) {
-                    throw new Exception('<b>' . $option['name'] . '</b> parameter value must start with http:// or https:// or rtsp://');
-                }
-
-                if (\Controllers\Common::isAlphanumDash($option['value'], array('.', '/', ':', '=', '?', '&', '@')) === false) {
-                    throw new Exception('<b>' . $option['name'] . '</b> parameter value contains invalid caracter(s)');
-                }
-            /**
-             *  All other options
-             */
-            } else {
-                if (\Controllers\Common::isAlphanumDash($option['value'], array('.', ' ', ',', ':', '/', '%Y', '%m', '%d', '%H', '%M', '%S', '%q', '%v', '%t', '%w', '%h', '%D', '%f', '%{eventid}', '%{fps}', '(', ')', '=', '\'', '[', ']', '@')) === false) {
-                    throw new Exception('<b>' . $option['name'] . '</b> parameter value contains invalid caracter(s)');
-                }
-            }
-
-            $optionName = \Controllers\Common::validateData($option['name']);
-            $optionValue = $option['value'];
-
-            /**
-             *  If there is no error then forge the parameter line with its name and value, separated by a space ' '
-             *  Else forge the same line but leave the value empty so that the user can re-enter it
-             */
-            $content .= $optionStatus . $optionName . " " . $optionValue . PHP_EOL . PHP_EOL;
+        if (!file_exists($file)) {
+            throw new Exception('Camera configuration file does not exist: ' . $file);
         }
 
         /**
-         *  Write to file
+         *  Edit and overwrite current params with new params
          */
-        if (file_exists($filename)) {
-            file_put_contents($filename, trim($content));
-        }
+        $this->edit($file, $params);
 
-        unset($content);
+        /**
+         *  Restart motion service if running
+         */
+        if ($this->motionServiceController->isRunning()) {
+            if (!file_exists(DATA_DIR . '/motion.restart')) {
+                touch(DATA_DIR . '/motion.restart');
+            }
+        }
+    }
+
+    /**
+     *  Delete parameter from motion configuration file
+     */
+    public function deleteParameter(int $id, string $param)
+    {
+        $file = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
+
+        /**
+         *  First get current params
+         */
+        $currentParams = $this->getConfig($file);
+
+        /**
+         *  Delete param from current params
+         */
+        unset($currentParams[$param]);
+
+        /**
+         *  Order params
+         */
+        ksort($currentParams);
+
+        /**
+         *  Write new configuration
+         */
+        $this->write($file, $currentParams);
 
         /**
          *  Restart motion service if running

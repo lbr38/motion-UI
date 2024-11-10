@@ -1,7 +1,7 @@
 <div class="reloadable-table" table="<?= $table ?>" offset="<?= $reloadableTableOffset ?>">
     <?php
     if ($reloadableTableTotalItems == 0) {
-        echo '<p class="input-note">No events found for this date.</p>';
+        echo '<p class="note">No events found for this date.</p>';
     }
 
     if (!empty($reloadableTableContent)) : ?>
@@ -61,57 +61,68 @@
                 <div class="event-metadata">
                     <div class="flex flex-direction-column align-item-center" title="Event start time">
                         <p class="font-size-22"><?= $eventTimeShort ?></p>
-                        <span class="lowopacity-cst font-size-11"><?= $eventTime ?></span>
+                        <p class="note font-size-11"><?= $eventTime ?></p>
                     </div>
 
-                    <div class="flex flex-direction-column align-item-center row-gap-20">
-                        <div>
+                    <div class="event-camera-name-id">
+                        <?php
+                        if ($cameraId != $lastCameraId) : ?>                            
+                            <p class="label-green">
+                                <b>
+                                    <?php
+                                    if (!empty($cameraName)) {
+                                        echo $cameraName;
+                                    } else {
+                                        echo 'Camera Id #' . $cameraId;
+                                    } ?>
+                                </b>
+                            </p>
                             <?php
-                            if ($cameraId != $lastCameraId) : ?>                            
-                                <p class="label-green">
-                                    <b>
-                                        <?php
-                                        if (!empty($cameraName)) {
-                                            echo $cameraName;
-                                        } else {
-                                            echo 'Camera Id #' . $cameraId;
-                                        } ?>
-                                    </b>
-                                </p>
-                                <?php
-                            endif ?>
-                        </div>
+                        endif ?>
                     
                         <div class="event-id">
                             <?php
                             if ($motionEventId != $lastMotionEventId) : ?>
-                                <span>
-                                    <?php
-                                    $eventSeen;
+                                <div class="flex column-gap-5 align-item-center">
+                                    <p class="note" title="Full event ID #<?= $motionEventId ?>">
+                                        <?php
+                                        if ($totalFilesCount == 1) {
+                                            echo 'Event #' . $motionEventIdShort;
+                                        } else {
+                                            echo 'Event #' . $motionEventIdShort;
+                                        } ?>
+                                    </p>
 
-                                    if ($totalFilesCount == 1) {
-                                        echo '<b>Event #' . $motionEventIdShort . '</b> (1 file)';
-                                    } else {
-                                        echo '<b>Event #' . $motionEventIdShort . '</b> (' . $totalFilesCount . ' files)';
-                                    } ?>
-                                </span>
+                                    <p>
+                                        <?php
+                                        if ($eventSeen != 'true') {
+                                            echo ' <code class="bkg-green font-size-10">New</code>';
+                                        } ?>
+                                    </p>
+                                </div>
 
-                                <span>
-                                    <?php
-                                    if ($eventSeen != 'true') {
-                                        echo '<code class="bkg-green">New</code>';
-                                    } ?>
-                                </span>
-                                <br>
-                                <span class="lowopacity-cst font-size-11" title="Full event id">#<?= $motionEventId ?>
+                                <p class="note">
+                                    
+                                </p>
                                 <?php
                             endif; ?>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-direction-column row-gap-20 width-100">
-                    <input type="checkbox" class="select-all-media-checkbox align-self-end hide" event-id="<?= $eventId ?>" title="Select event" />
+                <div class="flex flex-direction-column row-gap-10 width-100">
+                    <div class="flex align-item-center column-gap-5 align-self-end">
+                        <p class="note file-counter">
+                            <?php
+                            if ($totalFilesCount == 1) {
+                                echo '1 file';
+                            } else {
+                                echo $totalFilesCount . ' files';
+                            } ?>
+                        </p>
+
+                        <input type="checkbox" class="select-all-media-checkbox hide" event-id="<?= $eventId ?>" title="Select event" />
+                    </div>
 
                     <div class="event-camera">
                         <?php
@@ -149,7 +160,7 @@
                                             </div>
 
                                             <div class="event-media-file-type flex align-item-center">
-                                                <img src="/assets/icons/video.svg" class="icon margin-left-5 margin-right-5" />
+                                                <img src="/assets/icons/picture.svg" class="icon margin-left-5 margin-right-5" />
                                                 <span class="font-size-12">(<?= $filesize ?>)</span>
                                             </div>
 

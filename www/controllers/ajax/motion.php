@@ -270,7 +270,7 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
 /**
  *  Configure motion
  */
-if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !empty($_POST['params'])) {
+if ($_POST['action'] == "configure-motion" and !empty($_POST['cameraId']) and !empty($_POST['params'])) {
     $mymotionConfig = new \Controllers\Motion\Config();
 
     try {
@@ -280,6 +280,21 @@ if ($_POST['action'] == "configureMotion" and !empty($_POST['cameraId']) and !em
     }
 
     response(HTTP_OK, 'Configuration saved.');
+}
+
+/**
+ *  Delete motion parameter from configuration file
+ */
+if ($_POST['action'] == 'delete-param-from-config' and !empty($_POST['cameraId']) and !empty($_POST['name'])) {
+    $mymotionConfig = new \Controllers\Motion\Config();
+
+    try {
+        $mymotionConfig->deleteParameter($_POST['cameraId'], $_POST['name']);
+    } catch (\Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
+    }
+
+    response(HTTP_OK, 'Parameter deleted');
 }
 
 response(HTTP_BAD_REQUEST, 'Invalid action');

@@ -56,15 +56,13 @@
                             <!-- Loading image -->
                             <div class="camera-loading" camera-id="<?= $camera['Id'] ?>">
                                 <button class="btn-square-none"><img src="/assets/icons/loading.svg" class="icon" title="Loading image" /></button>
-                                <span class="block center lowopacity-cst">Loading image</span>
+                                <p class="block center lowopacity-cst">Loading image</p>
                             </div>
 
                             <!-- Unavailable image div -->
-                            <div class="camera-unavailable flex align-item-center hide" camera-id="<?= $camera['Id'] ?>">
-                                <div>
-                                    <button class="btn-square-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
-                                    <span class="block center lowopacity-cst">Unavailable</span>
-                                </div>
+                            <div class="camera-unavailable flex align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $camera['Id'] ?>">
+                                <button class="btn-square-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
+                                <p class="block center lowopacity-cst">Unavailable</p>
                             </div>
 
                             <!-- Camera image -->

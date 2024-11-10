@@ -383,12 +383,56 @@ $(document).on('click','.get-motion-config-form-btn',function () {
 });
 
 /**
- *  Event: save motion configuration file
+ *  Event: Collapse motion parameter div
+ */
+$(document).on('click','.motion-param-collapse-btn',function () {
+    var id = $(this).attr('param-id');
+
+    $('.motion-param-div[param-id=' + id + ']').toggle();
+});
+
+/**
+ *  Event: Delete motion parameter
+ */
+$(document).on('click','.motion-param-delete-btn',function (e) {
+    // Prevent parent to be triggered
+    e.stopPropagation();
+
+    var cameraId = $(this).attr('camera-id');
+    var name = $(this).attr('param-name');
+
+    confirmBox('Are you sure you want to delete ' + name + ' parameter?', function () {
+        ajaxRequest(
+            // Controller:
+            'motion',
+            // Action:
+            'delete-param-from-config',
+            // Data:
+            {
+                cameraId: cameraId,
+                name: name
+            },
+            // Print success alert:
+            true,
+            // Print error alert:
+            true,
+            // Reload containers:
+            [],
+            // Execute function on success:
+            [
+                "reloadMotionConfigEditForm(" + cameraId + ");"
+            ]
+        );
+    }, 'Delete');
+});
+
+/**
+ *  Event: edit motion configuration file
  */
 $(document).on('submit','#camera-motion-settings-form',function () {
     event.preventDefault();
 
-    var params = [];
+    var params = {};
 
     /**
      *  Get the name of the configuration file
@@ -400,9 +444,9 @@ $(document).on('submit','#camera-motion-settings-form',function () {
      */
 
     /**
-     *  First count all span that has name=option-name in the form
+     *  First count all span that has name=param-name in the form
      */
-    var countTotal = $(this).find('span[name=option-name]').length
+    var countTotal = $(this).find('span[name=param-name]').length
 
     /**
      *  Every configuration param and its value have an Id
@@ -410,58 +454,47 @@ $(document).on('submit','#camera-motion-settings-form',function () {
      */
     if (countTotal > 0) {
         for (let i = 0; i < countTotal; i++) {
-            /**
-             *  Get parameter status (slider checked or not)
-             */
-            if ($(this).find('input[name=option-status][option-id=' + i + ']').is(':checked')) {
-                var option_status = 'enabled';
-            } else {
-                var option_status = '';
-            }
+            var status = 'disabled';
 
             /**
              *  Get parameter name and its value
              */
-            var option_name = $(this).find('span[name=option-name][option-id=' + i + ']').attr('value');
-            var option_value = $(this).find('input[name=option-value][option-id=' + i + ']').val()
+            var name = $(this).find('span[name=param-name][param-id=' + i + ']').attr('value');
+            var value = $(this).find('input[name=param-value][param-id=' + i + ']').val()
+            if ($(this).find('input[name=param-status][param-id=' + i + ']').is(':checked')) {
+                var status = 'enabled';
+            }
 
-            /**
-             *  Push all to params
-             */
-            params.push(
-                {
-                    status: option_status,
-                    name: option_name,
-                    value: option_value
-                }
-            );
+            params[name] = {
+                status: status,
+                value: value
+            }
         }
     }
 
     /**
      *  Add additional parameter if any
      */
-    if ($(this).find('input[name=additional-option-status]').is(':checked')) {
-        var option_status = 'enabled';
-    } else {
-        var option_status = '';
-    }
-    var option_name = $(this).find('input[name=additional-option-name]').val();
-    var option_value = $(this).find('input[name=additional-option-value]').val();
+    var status = 'disabled';
 
-    params.push(
-        {
-            status: option_status,
-            name: option_name,
-            value: option_value
+    var name = $(this).find('input[name=additional-param-name]').val();
+    var value = $(this).find('input[name=additional-param-value]').val();
+    if ($(this).find('input[name=additional-param-status]').is(':checked')) {
+        var status = 'enabled';
+    }
+
+    if (name != '' && value != '') {
+        params[name] = {
+            status: status,
+            value: value
         }
-    );
+    }
 
     ajaxRequest(
         // Controller:
         'motion',
         // Action:
-        'configureMotion',
+        'configure-motion',
         // Data:
         {
             cameraId: cameraId,

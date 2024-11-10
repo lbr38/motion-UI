@@ -1,7 +1,7 @@
 <?php ob_start(); ?>
 
 <h6>HOME PAGE</h6>
-<p class="input-note">Motion-UI start page.</p>
+<p class="note">Motion-UI start page.</p>
 <select class="settings-param" setting-name="home-page">
     <option value="live" <?php echo (HOME_PAGE === 'live') ? 'selected' : ''?>>Cameras and stream page</option>
     <option value="motion" <?php echo (HOME_PAGE === 'motion') ? 'selected' : ''?>>Motion buttons page</option>
@@ -9,10 +9,10 @@
     <option value="stats" <?php echo (HOME_PAGE === 'stats') ? 'selected' : ''?>>Motion stats page</option>
 </select>
 
-<h4>Timelapse</h4>
+<h5>TIMELAPSE</h5>
 
 <h6>INTERVAL</h6>
-<p class="input-note">Interval between each image capture.</p>
+<p class="note">Interval between each image capture.</p>
 <select class="settings-param" setting-name="timelapse-interval">
     <option value="5" <?php echo (TIMELAPSE_INTERVAL == '5') ? 'selected' : ''?>>5 seconds</option>
     <option value="10" <?php echo (TIMELAPSE_INTERVAL == '10') ? 'selected' : ''?>>10 seconds</option>
@@ -27,13 +27,13 @@
 </select>
 
 <h6>IMAGES RETENTION</h6>
-<p class="input-note">Number of days to keep timelapse images before automatic deletion.</p>
+<p class="note">Number of days to keep timelapse images before automatic deletion.</p>
 <input type="number" min="1" class="settings-param" setting-name="timelapse-retention" value="<?= TIMELAPSE_RETENTION ?>">
 
-<h4>Motion events</h4>
+<h5>MOTION EVENTS</h5>
 
 <h6>MEDIAS RETENTION</h6>
-<p class="input-note">Number of days to keep event pictures & videos before automatic deletion</p>
+<p class="note">Number of days to keep event pictures & videos before automatic deletion</p>
 <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
 
 <br>

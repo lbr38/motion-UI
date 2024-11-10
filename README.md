@@ -1,6 +1,6 @@
 # motion-UI
 
-A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize live stream from http cameras.
+A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
 
 <div align="center">
     <img src="https://github.com/user-attachments/assets/870aef98-5e5c-42e0-8387-261f6981561e" width=25% align="top">
@@ -25,7 +25,7 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 - Visualize captured images and videos and/or download them.
 - Create timelapses.
 
-## 📱 Android app
+## Android app 📱
 
 An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0">here</a> (in the assets section).
 
