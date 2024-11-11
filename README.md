@@ -3,15 +3,19 @@
 A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
 
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/870aef98-5e5c-42e0-8387-261f6981561e" width=25% align="top">
-    <img src="https://github.com/user-attachments/assets/76b7150b-6439-445d-815f-e899563dacbd" width=25% align="top">
-    <img src="https://github.com/user-attachments/assets/26cbd47b-d2c4-483d-8b37-857018876df7" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/bdae2550-819d-40c4-895b-541ee64bdc03" width=25% align="top">
+    &nbsp;
+    <img src="https://github.com/user-attachments/assets/afe3e48a-3a26-4e75-a6a7-a97b2ac2bf9e" width=25% align="top">
+    &nbsp;
+    <img src="https://github.com/user-attachments/assets/a2472f8b-24fc-4967-bb6a-f8ad8af95270" width=25% align="top">
 </div>
 <br>
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/93d00121-defb-42ae-b655-83ef339eee0b" width=25% align="top">
-    <img src="https://github.com/user-attachments/assets/a8e596cc-e5f5-4123-bae4-d94f3ba7de1d" width=25% align="top">
-    <img src="https://github.com/user-attachments/assets/50509fd8-6af0-46e4-be29-0592b43cc306" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/cb9137c7-484a-4c2c-ad0f-c33ef7a602bd" width=25% align="top">
+    &nbsp;
+    <img src="https://github.com/user-attachments/assets/81c05e3f-599d-4cc1-9d9a-9748fce54763" width=25% align="top">
+    &nbsp;
+    <img src="https://github.com/user-attachments/assets/04b18116-2af0-4bd3-8438-e9f1fed8c7ed" width=25% align="top">
 </div>
 
 <br>

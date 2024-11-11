@@ -33,7 +33,7 @@
         </div>
     </div>
    
-    <div class="flex column-gap-40 margin-right-15">
+    <div class="flex column-gap-30 margin-right-15">
         <div class="relative">
             <img src="/assets/icons/alarm.svg" class="pointer lowopacity slide-panel-btn" slide-panel="notification" title="Show notifications" />
             <?php

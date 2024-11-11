@@ -96,9 +96,9 @@
                     </div>
 
                     <div class="camera-btn-div flex">
-                        <div class="flex align-item-center justify-space-between">
+                        <div class="flex align-item-center justify-space-between column-gap-20">
                             <div>
-                                <p class="label-green"><b><?= $camera['Name'] ?></b></p>
+                                <p class="label-green wordbreakall"><b><?= $camera['Name'] ?></b></p>
                             </div>
                             <div class="flex column-gap-10">
                                 <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $camera['Id'] ?>">

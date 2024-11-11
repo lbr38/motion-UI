@@ -109,6 +109,7 @@ pre.codeblock {
     font-size: 12px;
     line-height: 1.5;
     text-align: left;
+    text-wrap: auto;
     padding: 20px;
 }
 
@@ -190,6 +191,7 @@ pre.codeblock {
 .row-gap-1 {row-gap: 1px}.row-gap-2 {row-gap: 2px}.row-gap-4 {row-gap: 4px}.row-gap-5 {row-gap: 5px}.row-gap-6 {row-gap: 6px}.row-gap-7 {row-gap: 7px}.row-gap-8 {row-gap: 8px}.row-gap-9{row-gap: 9px}.row-gap-10{row-gap: 10px}.row-gap-15{row-gap: 15px}.row-gap-20{row-gap: 20px}
 .padding-left-15{padding-left:15px !important}.padding-left-20{padding-left:20px !important}.padding-left-30{padding-left:30px !important}.padding-left-40{padding-left:40px !important}
 .padding-right-15{padding-right:15px !important}.padding-right-20{padding-right:20px !important}.padding-right-30{padding-right:30px !important}.padding-right-40{padding-right:40px !important}
+.margin-10{margin:10px !important}.margin-15{margin:15px !important}
 .margin-left-0 {margin-left: 0px !important}.margin-left-5 {margin-left: 5px !important}.margin-left-10 {margin-left: 10px !important}.margin-left-15 {margin-left: 15px !important}.margin-left-20 {margin-left: 20px !important}.margin-left-30 {margin-left: 30px !important}.margin-left-40 {margin-left: 40px !important}
 .margin-right-0 {margin-right: 0px !important}.margin-right-5 {margin-right: 5px !important}.margin-right-10 {margin-right: 10px !important}.margin-right-15 {margin-right: 15px !important}.margin-right-20 {margin-right: 20px !important}.margin-right-30 {margin-right: 30px !important}.margin-right-40 {margin-right: 40px !important}
 .margin-top-0 {margin-top: 0px !important}.margin-top-5 {margin-top: 5px !important}.margin-top-10 {margin-top: 10px !important}.margin-top-15 {margin-top: 15px !important}.margin-top-20 {margin-top: 20px !important}.margin-top-30 {margin-top: 30px !important}.margin-top-40 {margin-top: 40px !important}
@@ -292,14 +294,12 @@ td {
  *  Icons
  */
 .icon, .icon-small, .icon-medium, .icon-lowopacity, .icon-mediumopacity, .icon-nf, .icon-np {
-    /* height: 16px; */
-    /* height: 17px; */
     height: 19px;
     vertical-align: middle;
     cursor: pointer;
 }
 .icon-small {
-    height: 8px !important;
+    height: 12px !important;
 }
 .icon-medium {
     height: 18px !important;
@@ -358,8 +358,10 @@ input::placeholder, select::placeholder, textarea::placeholder {
 
 /* All checkboxes unless onoff-switch-input */
 input[type=checkbox]:not(.onoff-switch-input) {
-    width: 16px;
-    height: 16px;
+    /* width: 16px;
+    height: 16px; */
+    width: 20px;
+    height: 20px;
     background-color: white;
     border-radius: 50%;
     vertical-align: middle;
@@ -388,7 +390,7 @@ input[type=checkbox]:not(.onoff-switch-input):checked {
 
 /* All buttons */
 [class^="btn-"], [class*=" btn-"], input::file-selector-button {
-    padding: 7px 5px 7px 5px;
+    padding: 10px 5px 10px 5px;
     border: none;
     border-radius: 60px;
     color: white;
@@ -810,57 +812,55 @@ textarea {
 /**
  *  Alert div
  */
-.action, .alert, .alert-success, .alert-error, .confirmAlert {
-    width: 100%;
+.alert, .alert-success, .alert-error, .confirm-box {
+    width: 95%;
+    max-width: 100%;
     display: grid;
-    grid-template-columns: repeat(1, auto);
-    justify-content: space-around;
-    align-items: center;
-    align-content: center;
-    min-height: 60px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    grid-template-columns: 1fr;
+    column-gap: 10px;
+    align-items: flex-start;
+    visibility: hidden;
+    min-height: 20px;
+    padding: 20px 0px 20px 0px;
     font-size: 16px;
     position: fixed;
     bottom: 0;
-    left: 0;
+    right: -1000px;
+    bottom: 50px;
     z-index: 1000;
-    background-color: #182b3e;
-    border-top: 1px solid rgb(60, 70, 75);
+    background-color: #1d3349;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     color: white;
-    text-align: center;
+    border-radius: 8px 0 0 8px;
+    border-left: 5px solid #15bf7f;
 }
-.confirmAlert {
-    grid-template-columns: repeat(3, 33%);
+.alert-success {
+    background-color: #47ebac;
+    border-left: 5px solid #0f8a5b;
 }
-.alert-success { background-color: #14be7e; }
-.alert-error { background-color: #F32F63; }
-.alert span, .alert-success span, .alert-error span, .confirmAlert span,
-.alert a, .alert-success a, .alert-error a, .confirmAlert a {
-    font-size: 16px;
-}
-.confirmAlert-buttons-container {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-[class*="btn-doConfirm"], .btn-doGeneric, .btn-doCancel {
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 20px;
-    border-radius: 30px;
-    box-shadow: rgb(12 18 20 / 67%) 0px 0px 0px 1px;
-}
-[class*="btn-doConfirm"] {
+.alert-error {
     background-color: #F32F63;
+    border-left: 5px solid #780725;
 }
-[class*="btn-doConfirm"]:hover {
-    background-color: #f10e4b;
+.alert-success p {
+    color: #0f8a5b;
 }
-.btn-doGeneric:hover {
-    background-color: #1d3349;
+.alert-error p {
+    color: #780725;
+}
+.alert-close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    filter: brightness(0) saturate(100%) invert(9%) sepia(54%) saturate(6819%) hue-rotate(335deg) brightness(98%) contrast(100%);
+}
+.alert-error pre.codeblock {
+    max-height: 100px;
+    overflow: auto;
+}
+.confirm-box {
+    border-top: 1px solid #d1d1d11f;
+    border-bottom: 1px solid #d1d1d11f;
 }
 
 /**
@@ -963,6 +963,11 @@ textarea {
 
 /* Desktop configuration */
 @media (min-width:1025px) {
+    /* All buttons */
+    [class^="btn-"], [class*=" btn-"], input::file-selector-button {
+        padding: 7px 5px 7px 5px;
+    }
+
     /**
      *  Slide btns
      */
@@ -972,5 +977,9 @@ textarea {
 
     .slide-panel {
         width: 30%;
+    }
+
+    .alert, .alert-success, .alert-error, .confirm-box {
+        width: 25%;
     }
 }
