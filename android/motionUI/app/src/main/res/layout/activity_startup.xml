@@ -22,7 +22,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter motionUI server URL:"
+            android:text="Enter motion-UI server URL:"
             android:textAlignment="center"
             android:textSize="16dp"
             android:textColor="@color/white" />
