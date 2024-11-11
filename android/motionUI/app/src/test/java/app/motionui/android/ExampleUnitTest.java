@@ -1,4 +1,4 @@
-package com.example.motionui;
+package app.motionui.android;
 
 import org.junit.Test;
 

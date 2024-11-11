@@ -1,4 +1,4 @@
-package com.example.motionui;
+package app.motionui.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
@@ -22,7 +22,6 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
-
 
 /**
  *  MainActivity

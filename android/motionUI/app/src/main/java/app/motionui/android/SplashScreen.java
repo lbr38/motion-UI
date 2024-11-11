@@ -1,7 +1,6 @@
-package com.example.motionui;
+package app.motionui.android;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
