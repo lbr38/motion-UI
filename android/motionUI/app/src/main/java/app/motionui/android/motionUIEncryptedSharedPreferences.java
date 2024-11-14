@@ -1,4 +1,4 @@
-package com.example.motionui;
+package app.motionui.android;
 import android.content.Context;
 
 import androidx.security.crypto.EncryptedSharedPreferences;

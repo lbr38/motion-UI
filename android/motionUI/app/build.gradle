@@ -19,12 +19,12 @@ android {
             keyAlias keystoreProperties['keyAlias']
         }
     }
-    namespace 'com.example.motionui'
+    namespace 'app.motionui.android'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.motionui"
-        minSdk 24
+        applicationId "app.motionui.android"
+        minSdk 30
         targetSdk 34
         versionCode 1
         versionName "1.0"
