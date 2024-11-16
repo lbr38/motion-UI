@@ -61,13 +61,13 @@
                 <div class="event-metadata">
                     <div class="flex flex-direction-column align-item-center" title="Event start time">
                         <p class="font-size-22"><?= $eventTimeShort ?></p>
-                        <p class="note font-size-11"><?= $eventTime ?></p>
+                        <p class="lowopacity-cst font-size-11"><?= $eventTime ?></p>
                     </div>
 
                     <div class="event-camera-name-id">
                         <?php
                         if ($cameraId != $lastCameraId) : ?>                            
-                            <p class="label-green">
+                            <p class="label-green wordbreakall">
                                 <b>
                                     <?php
                                     if (!empty($cameraName)) {
@@ -80,39 +80,28 @@
                             <?php
                         endif ?>
                     
-                        <div class="event-id">
+                        <div class="event-id flex column-gap-5">
                             <?php
                             if ($motionEventId != $lastMotionEventId) : ?>
-                                <div class="flex column-gap-5 align-item-center">
-                                    <p class="note" title="Full event ID #<?= $motionEventId ?>">
-                                        <?php
-                                        if ($totalFilesCount == 1) {
-                                            echo 'Event #' . $motionEventIdShort;
-                                        } else {
-                                            echo 'Event #' . $motionEventIdShort;
-                                        } ?>
-                                    </p>
-
-                                    <p>
-                                        <?php
-                                        if ($eventSeen != 'true') {
-                                            echo ' <code class="bkg-green font-size-10">New</code>';
-                                        } ?>
-                                    </p>
-                                </div>
-
-                                <p class="note">
-                                    
+                                <p class="" title="Full event ID #<?= $motionEventId ?>">
+                                    Event #<?= $motionEventIdShort ?>
                                 </p>
+
                                 <?php
+                                if ($eventSeen != 'true') : ?>
+                                    <p>
+                                        <code class="bkg-green font-size-10">New</code>
+                                    </p>
+                                    <?php
+                                endif;
                             endif; ?>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-direction-column row-gap-10 width-100">
-                    <div class="flex align-item-center column-gap-5 align-self-end">
-                        <p class="note file-counter">
+                    <div class="flex flex-direction-column align-item-right column-gap-5 align-self-end">
+                        <p class="lowopacity-cst">
                             <?php
                             if ($totalFilesCount == 1) {
                                 echo '1 file';
@@ -121,7 +110,7 @@
                             } ?>
                         </p>
 
-                        <input type="checkbox" class="select-all-media-checkbox hide" event-id="<?= $eventId ?>" title="Select event" />
+                        <input type="checkbox" class="select-all-media-checkbox hide" event-id="<?= $eventId ?>" title="Select all media files" />
                     </div>
 
                     <div class="event-camera">
@@ -168,7 +157,7 @@
                                                 <?php
                                                 if (file_exists($filepath)) {
                                                     if (is_writeable($filepath)) {
-                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" title="Select media file" />';
                                                     } else {
                                                         echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
                                                     }
@@ -224,7 +213,7 @@
                                                     <?php
                                                     if (file_exists($filepath)) {
                                                         if (is_writeable($filepath)) {
-                                                            echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" />';
+                                                            echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" title="Select media file" />';
                                                         } else {
                                                             echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
                                                         }

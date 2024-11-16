@@ -294,7 +294,7 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
         /**
          *  Hide confirm box, checkboxes and 'Select all' button
          */
-        $('#newConfirmAlert').remove();
+        closeConfirmBox();
         $('#events-captures-div').find('input[class=event-media-checkbox]').removeAttr('style');
         $('#events-captures-div').find('.select-all-media-checkbox').hide();
         return;
@@ -304,13 +304,14 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
      *  Print confirm box to delete selected medias
      */
     confirmBox(
-        '',
+        'Delete or download selected media(s)',
         function () {
             deleteMedia(); },
         'Delete',
         function () {
             downloadMedia(); },
-        'Download'
+        'Download',
+        'select-media-confirm'
     );
 
     /**
@@ -346,7 +347,7 @@ $(document).on('click',".select-all-media-checkbox",function () {
         // Hide 'select all' button
         $(this).hide();
         // Hide confirm box
-        $('#newConfirmAlert').remove();
+        closeConfirmBox();
     } else {
         $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', true);
     }

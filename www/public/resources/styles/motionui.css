@@ -56,15 +56,6 @@ h3 {
     width: 90%;
 }
 
-.action, .alert-success, .alert-error, .confirmAlert {
-    grid-template-columns: repeat(3, auto);
-}
-
-.alert-success, .alert-error {
-    grid-template-columns: repeat(1, auto) !important;
-    justify-content: space-around !important;
-}
-
 /* Red blink background */
 .bkg-red-blink {
     background-color: #FF495C;
@@ -80,9 +71,6 @@ h3 {
     border-radius: 50%;
     margin-left: auto;
     margin-right: auto;
-    /* margin-top: 10px;
-    margin-bottom: 10px; */
-    /* padding: 4px; */
     color: white;
     text-align: center;
     text-decoration: none;
@@ -296,8 +284,9 @@ h3 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    width: 95%;
+    column-gap: 20px;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .event-camera-name-id {
@@ -320,10 +309,6 @@ h3 {
 .event-row {
     width: 100%;
     min-height: 150px;
-}
-
-.event-id {
-    align-self: center;
 }
 
 .event-loading {
@@ -648,10 +633,6 @@ footer #github img { width: 25px; }
     bottom: 6px;
 }
 
-.select-all-media-checkbox {
-    margin-right: 14px;
-}
-
 .event-media-checkbox-container {
     position: absolute;
     top: 8px;
@@ -783,11 +764,6 @@ footer #github img { width: 25px; }
         width: 29.5%;
     }
 
-    .action, .alert-success, .alert-error, .confirmAlert {
-        display: grid;
-        grid-template-columns: repeat(3, 33%);
-    }
-
     .main-buttons-container {
         display: grid;
         align-items: center;
@@ -855,6 +831,7 @@ footer #github img { width: 25px; }
 
     .event-metadata {
         flex-direction: column;
+        align-items: center;
         row-gap: 20px;
         width: 250px;
         margin-left: 20px;
@@ -865,6 +842,10 @@ footer #github img { width: 25px; }
     .event-camera-name-id {
         align-items: center;
         row-gap: 20px;
+    }
+
+    .event-id {
+        align-self: center;
     }
 
     .event-media-checkbox, .select-all-media-checkbox {
