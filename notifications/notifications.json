@@ -3,12 +3,12 @@
         "title" : "Welcome to motion-UI",
         "message" : "Hey! This is the notification section, sometimes you will see some important messages here. <br><br>For any help, please check out the documentation <a href='https://github.com/lbr38/motion-UI/wiki'>here</a> or feel free to add an issue on <a href='https://github.com/lbr38/motion-UI/issues'>github</a>."
     },
-    "NT02" : {
-        "title" : "New! Android app",
-        "message" : "An Android app is now available for download <b><a href='https://github.com/lbr38/motion-UI/releases/tag/android-1.0'>here</a></b> (in the assets section)."
-    },
     "NT03" : {
         "title" : "New! Discord channel",
         "message" : "A Discord channel is available <b><a href='https://discord.gg/Dn8FurvWfX'>here</a></b> for any questions or quick help/debugging (English or French spoken)."
+    },
+    "NT04" : {
+        "title" : "Android app",
+        "message" : "An Android app is available for download <b><a href='https://github.com/lbr38/motion-UI/releases/tag/android-1.0.0'>here</a></b> (in the assets section). This app replaces the previous one which was a beta version."
     }
 }
