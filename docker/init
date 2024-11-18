@@ -44,6 +44,9 @@ fi
 # Start go2rtc in background
 /bin/su -s /bin/bash -c "/usr/local/bin/go2rtc -c $GO2RTC_DIR/go2rtc.yml >/dev/null 2>/dev/null &" www-data
 
+# Start shell service in background
+/bin/bash "$WWW_DIR/bin/service.sh" &
+
 # Start motionui service
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data
 

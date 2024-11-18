@@ -1,6 +1,6 @@
 # motion-UI
 
-A web responsive interface to manage <a href="https://motion-project.github.io/"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
+A dockerized web responsive interface to manage <a href="https://github.com/Motion-Project/motion"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
 
 <div align="center">
     <img src="https://github.com/user-attachments/assets/bdae2550-819d-40c4-895b-541ee64bdc03" width=25% align="top">
@@ -20,23 +20,27 @@ A web responsive interface to manage <a href="https://motion-project.github.io/"
 
 <br>
 
-## Features
+## 🚀 Features
 
-- Visualize cameras stream.
-- **Start and stop** motion service directly from the web interface,
-- Enable **autostart and stop** of the motion service, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion service will be automatically started as nobody is at home.
-- Receive **mail alerts** on motion detection.
+- Visualize camera stream.
+- Start and stop motion detection from the web interface.
+- Enable **autostart and stop** of the motion detection, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion detection will be automatically started as nobody is at home.
+- Receive email alerts on motion detection.
 - Visualize captured images and videos and/or download them.
 - Create timelapses.
 
+## 📷 Supported cameras
+
+`http://`, `rtsp://` and `/dev/video*` cameras are supported.
+
 ## Android app 📱
 
-An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0">here</a> (in the assets section).
+An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0.0">here</a> (in the assets section).
 
 <hr>
 
 
-## Requirements
+## 📦 Requirements
 
 ### Hardware
 
@@ -55,7 +59,7 @@ Official documentation is available <a href="https://github.com/lbr38/motion-UI/
 
 It should help you **installing** and starting using motion-UI.
 
-## Contact
+## 📧 Contact
 
 - For bug reports, issues or features requests, please open a new issue in the Github ``Issues`` section
 - A Discord channel is available <a href="https://discord.gg/Dn8FurvWfX">here</a> for any questions or quick help/debugging (English or French spoken)

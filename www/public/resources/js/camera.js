@@ -443,7 +443,7 @@ async function playTimelapse()
     /**
      *  Convert max to integer
      */
-    var max = parseInt(max);
+    max = parseInt(max);
 
     /**
      *  If current index is greater or equal to max, then reset index to 0
@@ -455,81 +455,92 @@ async function playTimelapse()
     }
 
     /**
-     *  The loop will run until the index reaches the max range
+     *  Define timelapse object
      */
-    while (index < max + 1) {
-        /**
-         *  Quit if timelapse div was closed
-         */
-        if ($('#timelapse').length == 0) {
-            return;
+    const timelapse = {
+        images: pictures,
+        index: index,
+        imgElement: $("#timelapse-picture"),
+        loadNextImage: function () {
+            if (this.index < this.images.length) {
+                /**
+                 *  Quit if timelapse div was closed
+                 */
+                if ($('#timelapse').length == 0) {
+                    return;
+                }
+
+                /**
+                 *  Quit if timelapse is in pause mode
+                 */
+                if ($('#picture-slider').attr('pause') == 'true') {
+                    return;
+                }
+
+                /**
+                 *  Quit if timelapse-date-changed is set in local storage
+                 *  This means that the user has changed the date while the timelapse is playing so we stop the timelapse and
+                 *  remove the 'timelapse-date-changed' from local storage
+                 */
+                if (localStorage.getItem('timelapse-date-changed')) {
+                    localStorage.removeItem('timelapse-date-changed');
+                    return;
+                }
+
+                /**
+                 *  Get JPEG picture filename from the array
+                 *  e.g. timelapse_08-17-50.jpg
+                 */
+                var picture = pictures[this.index];
+
+                /**
+                 *  Define the path to the target picture
+                 *  e.g. /timelapse?id=14&picture=2024-06-04/timelapse_08-17-50.jpg
+                 */
+                var path = '/timelapse?id=' + cameraId + '&picture=' + date + '/' + picture;
+
+                /**
+                 *  Extract the time from the picture name
+                 */
+                var time = picture.split('_')[1].split('.')[0];
+                var hour = time.split('-')[0];
+                var min = time.split('-')[1];
+                var sec = time.split('-')[2];
+
+                /**
+                 *  Create a new Image object and set its src to the target picture path
+                 */
+                const nextImage = new Image();
+                nextImage.src = path;
+
+                /**
+                 *  Once the image is fully loaded, update the image <img> and the slider value
+                 */
+                nextImage.onload = () => {
+                    // Image is fully loaded, update the slider value
+                    $('#picture-slider').val(this.index);
+
+                    // Update the picture time
+                    $('#picture-time').text(hour + ':' + min + ':' + sec);
+
+                    this.imgElement.attr("src", path);
+
+                    /**
+                     *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
+                     *  and increment it by 1
+                     */
+                    this.index++;
+
+                    setTimeout(() => this.loadNextImage(), 150); // Pause
+                };
+            }
         }
-
-        /**
-         *  Quit if timelapse is in pause mode
-         */
-        if ($('#picture-slider').attr('pause') == 'true') {
-            return;
-        }
-
-        /**
-         *  Quit if timelapse-date-changed is set in local storage
-         *  This means that the user has changed the date while the timelapse is playing so we stop the timelapse and
-         *  remove the 'timelapse-date-changed' from local storage
-         */
-        if (localStorage.getItem('timelapse-date-changed')) {
-            localStorage.removeItem('timelapse-date-changed');
-            return;
-        }
-
-        /**
-         *  Get JPEG picture filename from the array
-         *  e.g. timelapse_08-17-50.jpg
-         */
-        var picture = pictures[index];
-
-        /**
-         *  Define the path to the target picture
-         *  e.g. /timelapse?id=14&picture=2024-06-04/timelapse_08-17-50.jpg
-         */
-        var path = '/timelapse?id=' + cameraId + '&picture=' + date + '/' + picture;
-
-        /**
-         *  Extract the time from the picture name
-         */
-        var time = picture.split('_')[1].split('.')[0];
-        var hour = time.split('-')[0];
-        var min = time.split('-')[1];
-        var sec = time.split('-')[2];
-
-        /**
-         *  Update the image and the slider value
-         */
-        $('#timelapse-picture').attr('src', path);
-        $('#picture-slider').val(index);
-
-        /**
-         *  Update the picture time
-         */
-        $('#picture-time').text(hour + ':' + min + ':' + sec);
-
-        /**
-         *  Wait 100ms before updating the index
-         */
-        await new Promise(r => setTimeout(r, 100));
-
-        /**
-         *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
-         *  and increment it by 1
-         */
-        index = parseInt($('#picture-slider').val()) + 1;
-    }
+    };
 
     /**
-     *  Change button to 'play' button
+     *  Start timelapse
      */
-    $('#timelapse-pause-btn').hide();
-    $('#timelapse-play-btn').css('display', 'inline-flex');
+    timelapse.loadNextImage();
 }
 
 /**

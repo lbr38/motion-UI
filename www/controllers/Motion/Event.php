@@ -120,7 +120,7 @@ class Event
              *  Create thumbnail if not already exist
              */
             if (!file_exists($file . '.thumbnail')) {
-                $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss 00:00:01.00 -i ' . $file . ' -vf \'scale=320:320:force_original_aspect_ratio=decrease\' -vframes 1 ' . $file . '.thumbnail.jpg');
+                $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss 00:00:00.10 -i ' . $file . ' -vf \'scale=320:320:force_original_aspect_ratio=decrease\' -vframes 1 ' . $file . '.thumbnail.jpg');
                 $myprocess->execute();
                 $myprocess->close();
             }
