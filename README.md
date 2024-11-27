@@ -31,14 +31,9 @@ A dockerized web responsive interface to manage <a href="https://github.com/Moti
 
 ## 📷 Supported cameras
 
-`http://`, `rtsp://` and `/dev/video*` cameras are supported.
-
-## Android app 📱
-
-An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0.0">here</a> (in the assets section).
-
-<hr>
-
+- **USB cameras**
+- **Raspberry Pi cameras**
+- **Network cameras** (RTSP, HTTP, etc.)
 
 ## 📦 Requirements
 
@@ -53,11 +48,15 @@ An Android app is available for download <a href="https://github.com/lbr38/motio
 - **A fully qualified domain name** (FQDN) and a valid SSL certificate for this FQDN if you want to access the web interface through a secure connection (https)
 - A least a **SPF record** configured for your FQDN, to be able to send email alerts from motion-UI
 
-## Installation and usage
+## 🪛 Installation and usage
 
 Official documentation is available <a href="https://github.com/lbr38/motion-UI/wiki">here</a>.
 
 It should help you **installing** and starting using motion-UI.
+
+## 📱 Android app
+
+An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0.0">here</a> (in the assets section).
 
 ## 📧 Contact
 
