@@ -685,44 +685,6 @@ footer #github img { width: 25px; }
     border-radius: 5px;
 }
 
-#loginDiv-container {
-    height: 90vh;
-    position: relative;
-}
-
-#loginDiv {
-    width: 250px;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-#loginDiv img {
-    max-width: 80px;
-}
-#loginDiv h3 {
-    margin-left: auto;
-    margin-right: auto;
-}
-#loginDiv form input {
-    display: block;
-}
-#loginDiv div {
-    margin: auto;
-}
-
-.rotation-wrapper-outer {
-    display: table;
-}
-
-.rotation-wrapper-inner {
-    padding: 50% 0;
-    height: 0;
-}
-
 /**
  *  Full page loading veil
  */

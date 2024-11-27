@@ -56,13 +56,10 @@ class Go2rtc
          *  Rotate filter
          */
         if ($rotate == 90) {
-            // $ffmpegParams .= ' -vf "transpose=1"';
             $ffmpegParams .= '#rotate=90';
         } else if ($rotate == 180) {
-            // $ffmpegParams .= ' -vf "transpose=2,transpose=2"';
             $ffmpegParams .= '#rotate=180';
         } else if ($rotate == 270) {
-            // $ffmpegParams .= ' -vf "transpose=2"';
             $ffmpegParams .= '#rotate=270';
         }
 
