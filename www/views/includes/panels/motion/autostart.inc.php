@@ -18,7 +18,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">TUESDAY</h6>
+    <h6 class="required margin-top-0">TUESDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="tuesday-start" value="<?= $autostartConfiguration['Tuesday_start'] ?>" />
         <input type="time" name="tuesday-end" value="<?= $autostartConfiguration['Tuesday_end'] ?>" />
@@ -28,7 +28,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">WEDNESDAY</h6>
+    <h6 class="required margin-top-0">WEDNESDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="wednesday-start" value="<?= $autostartConfiguration['Wednesday_start'] ?>" />
         <input type="time" name="wednesday-end" value="<?= $autostartConfiguration['Wednesday_end'] ?>" />
@@ -38,7 +38,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">THURSDAY</h6>
+    <h6 class="required margin-top-0">THURSDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="thursday-start" value="<?= $autostartConfiguration['Thursday_start'] ?>" />
         <input type="time" name="thursday-end" value="<?= $autostartConfiguration['Thursday_end'] ?>" />
@@ -48,7 +48,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">FRIDAY</h6>
+    <h6 class="required margin-top-0">FRIDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="friday-start" value="<?= $autostartConfiguration['Friday_start'] ?>" />
         <input type="time" name="friday-end" value="<?= $autostartConfiguration['Friday_end'] ?>" />
@@ -58,7 +58,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">SATURDAY</h6>
+    <h6 class="required margin-top-0">SATURDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="saturday-start" value="<?= $autostartConfiguration['Saturday_start'] ?>" />
         <input type="time" name="saturday-end" value="<?= $autostartConfiguration['Saturday_end'] ?>" />
@@ -68,7 +68,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">SUNDAY</h6>
+    <h6 class="required margin-top-0">SUNDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="sunday-start" value="<?= $autostartConfiguration['Sunday_start'] ?>" />
         <input type="time" name="sunday-end" value="<?= $autostartConfiguration['Sunday_end'] ?>" />

@@ -148,13 +148,13 @@
                 {
                     data: [],
                     label: "Motion events",
-                    borderColor: '#3e95cd',
+                    borderColor: '#15bf7f',
                     fill: false
                 },
                 {
                     data: [],
                     label: "Motion files recorded",
-                    borderColor: '#ea974d',
+                    borderColor: '#ffb536',
                     fill: false
                 }
                 ]
@@ -189,7 +189,7 @@
                 datasets: [{
                     data: [],
                     label: "Motion service activity (24h)",
-                    borderColor: '#d8524e',
+                    borderColor: '#F32F63',
                     fill: false
                 }]
             },

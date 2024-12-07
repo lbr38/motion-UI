@@ -64,7 +64,7 @@ h3 {
 }
 
 /* Square buttons */
-[class^="btn-square"] {
+[class^="btn-round"] {
     width: 125px;
     height: 125px;
     border: none;
@@ -80,40 +80,40 @@ h3 {
 }
 
 /* Size of the icons in the square buttons */
-[class^="btn-square"] img.icon {
+[class^="btn-round"] img.icon {
     width: 30%;
     height: 30%;
 }
 
-.btn-square-green {
+.btn-round-green {
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
-.btn-square-red {
+.btn-round-red {
     box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
 }
-.btn-square-blue {
+.btn-round-blue {
     background-color: #5473e8;
 }
-.btn-square-green {
+.btn-round-green {
     background-color: #15bf7f;
 }
-.btn-square-red {
+.btn-round-red {
     background-color: #FF495C;
 }
-.btn-square-none {
+.btn-round-none {
     background-color: #43414100;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-.btn-square-blue:hover {
+.btn-round-blue:hover {
     transition-duration: 0.2s;
     background-color: #4e69cd;
 }
-.btn-square-green:hover {
+.btn-round-green:hover {
     transition-duration: 0.2s;
     background-color: #12a16a;
 }
-.btn-square-red:hover {
+.btn-round-red:hover {
     transition-duration: 0.2s;
     background-color: #ff3347;
 }
@@ -458,23 +458,19 @@ h3 {
     justify-content: space-between;
     border-radius: 8px;
     background-color: #182b3e;
-    -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
-    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
+    box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
 }
 
 .camera-output {
-    min-height: 200px;
-    height: fit-content;
-    margin: auto;
+    height: 100%;
 }
 
 .camera-btn-div {
     width: auto;
-    /* height: 65px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 20px 15px;
+    margin: 15px;
 }
 
 .camera-image > img {
@@ -511,7 +507,11 @@ h3 {
     width: 30%;
     height: 30%;
 }
-#timelapse, .full-screen {
+
+#fullscreen, #timelapse {
+    display: grid;
+    row-gap: 15px;
+    justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -523,30 +523,43 @@ h3 {
     -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
+#fullscreen {
+    grid-template-rows: 80% 20%;
+}
+#timelapse {
+    grid-template-rows: 40% 40% 20%;
+}
 #timelapse-picture-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    height: 50vh;
+    justify-content: center;
+    row-gap: 15px;
+    height: 100% !important;
+    max-height: 100% !important;
+}
+#timelapse-picture-container div:nth-child(1) {
+    max-height: 100%;
 }
 #timelapse-picture {
     max-height: 100%;
-    max-width: 100vw;
+    width: auto;
+    max-width: 100%;
+    margin: auto;
     border-radius: 2px;
+    box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
 }
 #timelapse #picture-slider {
     width: 85vw;
 }
-.close-timelapse-btn, .close-full-screen-btn {
+
+.close-timelapse-btn, .close-fullscreen-btn {
     width: 50px;
     height: 50px;
-    margin: auto;
 }
-.full-screen img {
-    max-height: 85vh;
-    max-width: 100vw;
-    display: block !important;
-    margin: auto;
-    border-radius: 2px;
+#fullscreen img:first-child, #fullscreen video {
+    max-height: 100% !important;
+    max-width: 100% !important;
 }
 
 .hide {
@@ -600,8 +613,7 @@ footer #github img { width: 25px; }
     background-color: #1d3349;
     border: 1px solid #1d3349;
     border-radius: 8px;
-    /* margin-bottom: 8px; */
-    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
+    box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
 }
 
 .event-media-row > div:first-child {
@@ -736,7 +748,7 @@ footer #github img { width: 25px; }
         grid-template-columns: repeat(3, 30%);
     }
 
-    [class^="btn-square"] {
+    [class^="btn-round"] {
         width: 250px;
         height: 250px;
     }
@@ -757,10 +769,6 @@ footer #github img { width: 25px; }
     .main-container {
         grid-template-columns: repeat(1, 100%);
         justify-content: space-around;
-    }
-
-    #timelapse-picture-container {
-        height: 70vh;
     }
 
     #motion-events-captures-container {
@@ -847,6 +855,14 @@ footer #github img { width: 25px; }
 
     #camera-grid-container {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    #timelapse {
+        grid-template-rows: 65% 20% 15%;
+    }
+
+    #fullscreen {
+        grid-template-rows: 85% 15%;
     }
 
     .bottom-buttons {

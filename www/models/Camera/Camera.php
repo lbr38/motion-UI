@@ -6,6 +6,11 @@ use Exception;
 
 class Camera extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Get all cameras
      */

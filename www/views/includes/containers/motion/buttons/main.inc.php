@@ -6,7 +6,7 @@
                 <h6 class="center">MOTION</h6>
                 <?php
                 if ($motionActive === false) : ?>
-                    <button class="btn-square-green start-stop-service-btn" status="start" title="Start motion service now">
+                    <button class="btn-round-green start-stop-service-btn" status="start" title="Start motion service now">
                         <img src="/assets/icons/power.svg" class="icon" />
                     </button>
                     <span class="block center lowopacity-cst">Start capture</span>
@@ -14,7 +14,7 @@
                 endif;
 
                 if ($motionActive === true) : ?>
-                    <button class="btn-square-red start-stop-service-btn" status="stop" title="Stop motion service">
+                    <button class="btn-round-red start-stop-service-btn" status="stop" title="Stop motion service">
                         <img src="/assets/icons/power.svg" class="icon" />
                     </button>
                     <span class="block center lowopacity-cst">Stop capture</span>
@@ -29,7 +29,7 @@
                 <?php
                 if ($motionAutostartEnabled == "disabled") : ?>
                     <div class="flex justify-center">
-                        <button id="enable-autostart-btn" class="btn-square-green" title="Enable motion service autostart">
+                        <button id="enable-autostart-btn" class="btn-round-green" title="Enable motion service autostart">
                             <img src="/assets/icons/time.svg" class="icon" />
                         </button>
                     </div>
@@ -60,7 +60,7 @@
                 <?php
                 if (ALERT_ENABLED == "disabled") : ?>
                     <div class="flex justify-center">
-                        <button type="button" id="enable-alert-btn" class="btn-square-green" title="Enable motion alerts">
+                        <button type="button" id="enable-alert-btn" class="btn-round-green" title="Enable motion alerts">
                             <img src="/assets/icons/alarm.svg" class="icon">
                         </button>
                     </div>
