@@ -6,6 +6,11 @@ use Exception;
 
 class Log extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Get all logs or logs of a specific type
      */
@@ -37,7 +42,7 @@ class Log extends \Models\Model
             }
             $result = $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -61,7 +66,7 @@ class Log extends \Models\Model
             $stmt->bindValue(':message', $message);
             $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
     }
 
@@ -75,7 +80,7 @@ class Log extends \Models\Model
             $stmt->bindValue(':id', $id);
             $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
     }
 }

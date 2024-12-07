@@ -11,9 +11,14 @@ abstract class Model
     /**
      *  Nouvelle connexion à la base de données
      */
-    public function __construct()
+    // public function __construct()
+    // {
+    //     $this->db = new Connection();
+    // }
+
+    public function getConnection(string $database)
     {
-        $this->db = new Connection();
+        $this->db = new Connection($database);
     }
 
     /**

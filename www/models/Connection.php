@@ -6,7 +6,7 @@ use SQLite3;
 
 class Connection extends SQLite3
 {
-    public function __construct()
+    public function __construct(string $database = 'main')
     {
         try {
             if (!is_dir(DB_DIR)) {
@@ -18,22 +18,24 @@ class Connection extends SQLite3
             /**
              *  Open database
              */
-            $this->open(DB);
-            $this->enableExceptions(true);
+            if ($database == 'main') {
+                $this->open(DB);
+                $this->busyTimeout(30000);
+                $this->enableExceptions(true);
+                $this->enableWAL();
+                $this->generateTables();
+            } elseif ($database == 'ws') {
+                $this->open(WS_DB);
+                $this->busyTimeout(30000);
+                $this->enableExceptions(true);
+                $this->enableWAL();
+                $this->generateWsTables();
+            } else {
+                throw new Exception("unknown database: $database");
+            }
         } catch (\Exception $e) {
             die('Error while trying to open database: ' . $e->getMessage());
         }
-
-        /**
-         *  Add a 5sec timeout to database opening
-         */
-        try {
-            $this->busyTimeout(10000);
-        } catch (\Exception $e) {
-            die('Error while trying to configure database timeout: ' . $e->getMessage());
-        }
-
-        $this->generateTables();
     }
 
     /**
@@ -52,8 +54,6 @@ class Connection extends SQLite3
      */
     private function generateTables()
     {
-        $this->enableWAL();
-
         /**
          *  Create live (cameras) table
          */
@@ -249,7 +249,7 @@ class Connection extends SQLite3
                 $stmt->bindValue(':password_hashed', $password_hashed);
                 $stmt->execute();
             } catch (\Exception $e) {
-                \Controllers\Common::dbError($e);
+                $this->logError($e->getMessage());
             }
         }
 
@@ -257,8 +257,7 @@ class Connection extends SQLite3
          *  Generate layout_container_state table if not exists
          */
         $this->exec("CREATE TABLE IF NOT EXISTS layout_container_state (
-        Container VARCHAR(255) NOT NULL,
-        Id INTEGER NOT NULL)");
+        Container VARCHAR(255) NOT NULL)");
 
         /**
          *  Generate logs table if not exists
@@ -290,6 +289,25 @@ class Connection extends SQLite3
         $this->exec("CREATE INDEX IF NOT EXISTS motion_events_seen_index ON motion_events (Seen)");
         $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_index ON motion_events_files (File, Size, Width, Height, Fps, Changed_pixels, Motion_id_event)");
         $this->exec("CREATE INDEX IF NOT EXISTS motion_events_files_motion_id_event_index ON motion_events_files (Motion_id_event)");
+    }
+
+    /**
+     *  Generate tables in the ws database
+     */
+    private function generateWsTables()
+    {
+        /**
+         *  ws_connections table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS ws_connections (
+        Connection_id INTEGER,
+        Type VARCHAR(255),
+        Authenticated CHAR(5))"); /* true, false */
+
+        // ws_connections table indexes:
+        $this->exec("CREATE INDEX IF NOT EXISTS ws_connections_type ON ws_connections (Type)");
+        $this->exec("CREATE INDEX IF NOT EXISTS ws_connections_authenticated ON ws_connections (Authenticated)");
+        $this->exec("CREATE INDEX IF NOT EXISTS ws_connections_connection_id ON ws_connections (Connection_id)");
     }
 
     /**
@@ -333,5 +351,19 @@ class Connection extends SQLite3
         }
 
         return false;
+    }
+
+    /**
+     *  Log a database error in database
+     */
+    public function logError(string $exception = null)
+    {
+        $logController = new \Controllers\Log\Log();
+
+        if (!empty($exception)) {
+            $logController->log('error', 'Database', 'An error occured while executing request in database.', $exception);
+        } else {
+            $logController->log('error', 'Database', 'An error occured while executing request in database.');
+        }
     }
 }

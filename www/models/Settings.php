@@ -6,6 +6,11 @@ use Exception;
 
 class Settings extends Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Return global settings
      */

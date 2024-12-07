@@ -20,12 +20,12 @@ RUN apt-get update -y
 RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transport-https dnsutils vim gnupg2 ffmpeg postfix -y
 
 # Add motion 4.5.x repository
-RUN curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh.gpg
-RUN echo "deb https://packages.bespin.ovh/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
+RUN curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.net.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.repomanager.net.gpg
+RUN echo "deb https://packages.repomanager.net/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
 
 # Add nginx and PHP repositories
-RUN echo "deb https://packages.bespin.ovh/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
-RUN echo "deb https://packages.bespin.ovh/repo/motionui-php/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.repomanager.net/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
+RUN echo "deb https://packages.repomanager.net/repo/motionui-php/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update -y
 
 # Install nginx and PHP 8.3

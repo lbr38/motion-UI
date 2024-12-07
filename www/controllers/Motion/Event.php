@@ -7,13 +7,13 @@ use Exception;
 class Event
 {
     private $model;
-    private $layoutContainerStateController;
+    private $layoutContainerReloadController;
     private $logController;
 
     public function __construct()
     {
         $this->model = new \Models\Motion\Event();
-        $this->layoutContainerStateController = new \Controllers\Layout\ContainerState();
+        $this->layoutContainerReloadController = new \Controllers\Layout\ContainerReload();
         $this->logController = new \Controllers\Log\Log();
     }
 
@@ -47,9 +47,9 @@ class Event
         /**
          *  Refresh page
          */
-        $this->layoutContainerStateController->update('motion/events/list');
-        $this->layoutContainerStateController->update('motion/stats/list');
-        $this->layoutContainerStateController->update('buttons/bottom');
+        $this->layoutContainerReloadController->reload('motion/events/list');
+        $this->layoutContainerReloadController->reload('motion/stats/list');
+        $this->layoutContainerReloadController->reload('buttons/bottom');
     }
 
     /**
@@ -62,9 +62,9 @@ class Event
         /**
          *  Refresh page
          */
-        $this->layoutContainerStateController->update('motion/events/list');
-        $this->layoutContainerStateController->update('motion/stats/list');
-        $this->layoutContainerStateController->update('buttons/bottom');
+        $this->layoutContainerReloadController->reload('motion/events/list');
+        $this->layoutContainerReloadController->reload('motion/stats/list');
+        $this->layoutContainerReloadController->reload('buttons/bottom');
     }
 
     /**
@@ -86,9 +86,9 @@ class Event
     /**
      *  Return total unseen events count
      */
-    public function getUnseenCount()
+    public function getUnseenCount(int|null $cameraId = null)
     {
-        return $this->model->getUnseenCount();
+        return $this->model->getUnseenCount($cameraId);
     }
 
     /**
@@ -136,8 +136,8 @@ class Event
         /**
          *  Refresh page
          */
-        $this->layoutContainerStateController->update('motion/events/list');
-        $this->layoutContainerStateController->update('motion/stats/list');
+        $this->layoutContainerReloadController->reload('motion/events/list');
+        $this->layoutContainerReloadController->reload('motion/stats/list');
     }
 
     /**

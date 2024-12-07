@@ -6,6 +6,11 @@ use Exception;
 
 class Login extends Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Return specified username hashed password from db
      */
@@ -18,7 +23,7 @@ class Login extends Model
             $stmt->bindValue(':username', $username);
             $result = $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -40,7 +45,7 @@ class Login extends Model
             $stmt->bindValue(':username', $username);
             $result = $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -60,7 +65,7 @@ class Login extends Model
         try {
             $result = $this->db->query("SELECT users.Id, users.Username, users.First_name, users.Last_name, users.Email, users.Type, user_role.Name as Role_name FROM users JOIN user_role ON users.Role = user_role.Id WHERE State = 'active' ORDER BY Username ASC");
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -86,7 +91,7 @@ class Login extends Model
             $stmt->bindValue(':role', $role);
             $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
     }
 
@@ -103,7 +108,7 @@ class Login extends Model
             $stmt->bindValue(':email', $email);
             $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
     }
 
@@ -117,7 +122,7 @@ class Login extends Model
             $stmt->bindValue(':username', $username);
             $result = $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
     }
 
@@ -133,7 +138,7 @@ class Login extends Model
             $stmt->bindValue(':username', $username);
             $result = $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -154,7 +159,7 @@ class Login extends Model
             $stmt->bindValue(':password', $hashedPassword);
             $stmt->execute();
         } catch (\Exception $e) {
-            \Controllers\Common::dbError($e);
+            $this->db->logError($e->getMessage());
         }
     }
 }

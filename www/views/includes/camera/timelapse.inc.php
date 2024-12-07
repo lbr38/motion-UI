@@ -111,6 +111,10 @@
                 } ?>
             </div>
 
+            <div class="margin-top-10">
+                <p class="note">Timelapse speed and fluidity will mainly depend on the bandwidth, the resolution of the images, the server performance and the ability of your device browser to display images quickly.</p>
+            </div>
+
             <script>
                 $(document).ready(function () {
                     // Get date from the slider
@@ -145,12 +149,12 @@
             </script>
         </div>
 
-        <div class="grid grid-2 justify-space-between">
+        <div class="grid grid-2 align-item-center justify-space-between">
             <div>
                 <input id="timelapse-date-input" type="date" class="input-medium" max="<?= date('Y-m-d') ?>" camera-id="<?= $cameraId ?>" value="<?= $date ?>" />
             </div>
 
-            <div class="flex justify-end">
+            <div class="flex column-gap-5 align-item-center justify-end">
                 <div id="timelapse-play-btn" class="slide-btn-medium-tr" title="Play timelapse">
                     <img src="/assets/icons/play.svg" />
                     <span>Play timelapse</span>
@@ -160,6 +164,12 @@
                     <img src="/assets/icons/pause.svg" />
                     <span>Pause timelapse</span>
                 </div>
+
+                <select id="timelapse-speed-input" class="select-small">
+                    <option value="500">slow</option>
+                    <option value="100">medium</option>
+                    <option value="10" selected>fast</option>
+                </select>
             </div>
         </div>
 
