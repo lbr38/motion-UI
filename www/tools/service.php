@@ -25,10 +25,10 @@ try {
         cli_set_process_title('motionui.wss');
 
         /**
-         *  Start websocket server on port 8081
+         *  Start websocket server on port 8085 (8081 is already used by motion)
          */
         $websockerServer = new \Controllers\Websocket\WebsocketServer();
-        $websockerServer->run(8081);
+        $websockerServer->run(8085);
         exit;
     }
 
