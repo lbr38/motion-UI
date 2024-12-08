@@ -334,8 +334,7 @@ class Service
             /**
              *  Start websocket server
              */
-            // TODO debug
-            // $this->runService('websocket server', 'wss');
+            $this->runService('websocket server', 'wss');
 
             /**
              *  Clean timelapse and events depending on retention
