@@ -336,11 +336,14 @@ $(document).on('click','.timelapse-camera-btn',function () {
 $(document).on('change','#timelapse-date-input',function () {
     var date = $(this).val();
     var cameraId = $(this).attr('camera-id');
+    var status = $('#picture-slider').attr('status');
 
     /**
      *  Insert timelapse-date-changed in local storage to stop the timelapse if it is playing
      */
-    localStorage.setItem('timelapse-date-changed', true);
+    if (status == 'playing') {
+        localStorage.setItem('timelapse-date-changed', true);
+    }
 
     ajaxRequest(
         // Controller:
@@ -388,6 +391,7 @@ async function playTimelapse()
     var date = $('#picture-slider').attr('date');
     var max = $('#picture-slider').attr('max');
     var pictures = $('timelapse-data').attr('pictures');
+    var speed = $('#timelapse-speed-input').val();
 
     /**
      *  Quit if no date was found
@@ -427,10 +431,10 @@ async function playTimelapse()
     var pictures = pictures.split(',');
 
     /**
-     *  Remove pause mode from slider if it was in pause mode
+     *  Set slider status to 'playing'
      *  Change button to 'pause' button
      */
-    $('#picture-slider').removeAttr('pause');
+    $('#picture-slider').attr('status', 'playing');
     $('#timelapse-play-btn').hide();
     $('#timelapse-pause-btn').css('display', 'inline-flex');
 
@@ -473,7 +477,7 @@ async function playTimelapse()
                 /**
                  *  Quit if timelapse is in pause mode
                  */
-                if ($('#picture-slider').attr('pause') == 'true') {
+                if ($('#picture-slider').attr('status') == 'pause') {
                     return;
                 }
 
@@ -486,6 +490,11 @@ async function playTimelapse()
                     localStorage.removeItem('timelapse-date-changed');
                     return;
                 }
+
+                /**
+                 *  Get timelapsed speed again, in case the user changed it while the timelapse is playing
+                 */
+                var speed = $('#timelapse-speed-input').val();
 
                 /**
                  *  Get JPEG picture filename from the array
@@ -517,6 +526,12 @@ async function playTimelapse()
                  *  Once the image is fully loaded, update the image <img> and the slider value
                  */
                 nextImage.onload = () => {
+                    /**
+                     *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
+                     *  and increment it by 1
+                     */
+                    this.index = parseInt($('#picture-slider').val()) + 1;
+
                     // Image is fully loaded, update the slider value
                     $('#picture-slider').val(this.index);
 
@@ -525,14 +540,17 @@ async function playTimelapse()
 
                     this.imgElement.attr("src", path);
 
-                    /**
-                     *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
-                     *  and increment it by 1
-                     */
-                    this.index++;
-
-                    setTimeout(() => this.loadNextImage(), 150); // Pause
+                    setTimeout(() => this.loadNextImage(), speed); // Pause
                 };
+            }
+
+            /**
+             *  If the index reaches the max range, then stop the timelapse
+             */
+            if (this.index == this.images.length) {
+                $('#picture-slider').attr('status', 'pause');
+                $('#timelapse-play-btn').css('display', 'inline-flex');
+                $('#timelapse-pause-btn').hide();
             }
         }
     };
@@ -553,7 +571,7 @@ $(document).on('click','#timelapse-pause-btn',function () {
      */
     $('#timelapse-pause-btn').hide();
     $('#timelapse-play-btn').css('display', 'inline-flex');
-    $('#picture-slider').attr('pause', true);
+    $('#picture-slider').attr('status', 'pause');
 });
 
 /**

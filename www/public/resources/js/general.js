@@ -1,10 +1,11 @@
-$(document).ready(function () {
-    setInterval(function () {
-        getContainerState();
-    }, 2000);
+/**
+ *  Open websocket connection with server
+ */
+websocket_client();
 
+$(document).ready(function () {
     /**
-     *  Reload top and bottoms buttons to reload CPU load and unseen events total count
+     *  Reload top and bottoms buttons to reload CPU load
      */
     setInterval(function () {
         reloadContainer('buttons/top');
@@ -119,63 +120,6 @@ function reloadOpenedClosedElements()
             var element = element.replace('/opened', '');
             $(element).hide();
         }
-    });
-}
-
-/**
- *  Ajax: Get all containers state and reload them if needed
- */
-function getContainerState()
-{
-    $.ajax({
-        type: "POST",
-        url: "/ajax/controller.php",
-        data: {
-            controller: "general",
-            action: "getContainerState"
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            /**
-             *  Parse results and compare with current state
-             */
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            containersArray = jQuery.parseJSON(jsonValue.message);
-            containersArray.forEach(obj => {
-                Object.entries(obj).forEach(([key, value]) => {
-                    if (key == 'Container') {
-                        containerName = value;
-                    }
-                    if (key == 'Id') {
-                        containerStateId = value;
-                    }
-                });
-
-                /**
-                 *  If current container does not appear in cookies yet, add it
-                 */
-            if (getCookie(containerName) == "") {
-                setCookie(containerName, containerStateId, 365);
-                /**
-                 *  Else compare current state with cookie state
-                 */
-            } else {
-                var cookieState = getCookie(containerName);
-
-                /**
-                 *  If state has changed, reload container and update cookie
-                 */
-                if (cookieState != containerStateId) {
-                    setCookie(containerName, containerStateId, 365);
-                    reloadContainer(containerName);
-                }
-            }
-            });
-        },
-        error: function (jqXHR, textStatus, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
     });
 }
 

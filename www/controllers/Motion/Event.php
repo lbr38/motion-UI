@@ -7,13 +7,13 @@ use Exception;
 class Event
 {
     private $model;
-    private $layoutContainerStateController;
+    private $layoutContainerReloadController;
     private $logController;
 
     public function __construct()
     {
         $this->model = new \Models\Motion\Event();
-        $this->layoutContainerStateController = new \Controllers\Layout\ContainerState();
+        $this->layoutContainerReloadController = new \Controllers\Layout\ContainerReload();
         $this->logController = new \Controllers\Log\Log();
     }
 
@@ -47,9 +47,9 @@ class Event
         /**
          *  Refresh page
          */
-        $this->layoutContainerStateController->update('motion/events/list');
-        $this->layoutContainerStateController->update('motion/stats/list');
-        $this->layoutContainerStateController->update('buttons/bottom');
+        $this->layoutContainerReloadController->reload('motion/events/list');
+        $this->layoutContainerReloadController->reload('motion/stats/list');
+        $this->layoutContainerReloadController->reload('buttons/bottom');
     }
 
     /**
@@ -62,9 +62,9 @@ class Event
         /**
          *  Refresh page
          */
-        $this->layoutContainerStateController->update('motion/events/list');
-        $this->layoutContainerStateController->update('motion/stats/list');
-        $this->layoutContainerStateController->update('buttons/bottom');
+        $this->layoutContainerReloadController->reload('motion/events/list');
+        $this->layoutContainerReloadController->reload('motion/stats/list');
+        $this->layoutContainerReloadController->reload('buttons/bottom');
     }
 
     /**
@@ -86,9 +86,9 @@ class Event
     /**
      *  Return total unseen events count
      */
-    public function getUnseenCount()
+    public function getUnseenCount(int|null $cameraId = null)
     {
-        return $this->model->getUnseenCount();
+        return $this->model->getUnseenCount($cameraId);
     }
 
     /**
@@ -120,9 +120,34 @@ class Event
              *  Create thumbnail if not already exist
              */
             if (!file_exists($file . '.thumbnail')) {
-                $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss 00:00:00.10 -i ' . $file . ' -vf \'scale=320:320:force_original_aspect_ratio=decrease\' -vframes 1 ' . $file . '.thumbnail.jpg');
+                /**
+                 *  First, get the duration of the movie
+                 */
+                $myprocess = new \Controllers\Process("/usr/bin/ffmpeg -i " . $file . " 2>&1 | grep 'Duration' | awk '{print $2}' | tr -d ,");
                 $myprocess->execute();
+                $output = $myprocess->getOutput();
                 $myprocess->close();
+
+                /**
+                 *  If duration has been found, then create thumbnail
+                 */
+                if (!empty($output)) {
+                    $duration = $output;
+
+                    /**
+                     *  Convert duration to seconds
+                     */
+                    list($hours, $minutes, $seconds) = explode(":", $duration);
+                    $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+
+                    /**
+                     *  Create thumbnail at the middle of the movie
+                     */
+                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $totalSeconds / 2) . ' -i ' . $file . " -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 " . $file . '.thumbnail.jpg');
+                    $myprocess->execute();
+                    $output = $myprocess->getOutput();
+                    $myprocess->close();
+                }
             }
         }
 
@@ -136,8 +161,8 @@ class Event
         /**
          *  Refresh page
          */
-        $this->layoutContainerStateController->update('motion/events/list');
-        $this->layoutContainerStateController->update('motion/stats/list');
+        $this->layoutContainerReloadController->reload('motion/events/list');
+        $this->layoutContainerReloadController->reload('motion/stats/list');
     }
 
     /**

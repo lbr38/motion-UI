@@ -6,6 +6,11 @@ use Exception;
 
 class Service extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Get daily motion service status (for stats)
      */

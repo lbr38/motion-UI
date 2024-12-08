@@ -9,7 +9,7 @@ class Main
     public static function get()
     {
         if (!defined('ROOT')) {
-            define('ROOT', dirname(__FILE__, 4));
+            define('ROOT', '/var/www/motionui');
         }
         if (!defined('DATA_DIR')) {
             define('DATA_DIR', '/var/lib/motionui');
@@ -20,8 +20,16 @@ class Main
         if (!defined('DB')) {
             define('DB', DB_DIR . '/motionui.sqlite');
         }
+        // Websocket server database
+        if (!defined('WS_DB')) {
+            define('WS_DB', DB_DIR . "/motionui-ws.sqlite");
+        }
         if (!defined('LOGS_DIR')) {
             define('LOGS_DIR', DATA_DIR . '/logs');
+        }
+        // Websocket server logs dir
+        if (!defined('WS_LOGS_DIR')) {
+            define('WS_LOGS_DIR', LOGS_DIR . '/websocket');
         }
         if (!defined('CAMERAS_DIR')) {
             define('CAMERAS_DIR', DATA_DIR . '/cameras');

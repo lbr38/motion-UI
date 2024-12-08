@@ -10,13 +10,13 @@
                 <?php
                 foreach (LOG_MESSAGES as $log) : ?>
                     <div class="flex justify-space-between">
-                        <div class="flex align-item-center">
+                        <div class="flex align-item-center column-gap-5">
                             <?php
                             if ($log['Type'] == 'error') {
-                                echo '<img src="/assets/icons/redcircle.png" class="icon-small">';
+                                echo '<img src="/assets/icons/error.svg" class="icon">';
                             }
                             if ($log['Type'] == 'info') {
-                                echo '<img src="/assets/icons/greencircle.png" class="icon-small">';
+                                echo '<img src="/assets/icons/warning.svg" class="icon">';
                             } ?>
                             <span><?= $log['Date'] . ' ' . $log['Time'] ?> - <?= $log['Component'] ?> - <?= $log['Message'] ?></span>
                         </div>
