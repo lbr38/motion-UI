@@ -387,7 +387,7 @@ class Service
              *  If force != false, then the service will be run even if it is already running (e.g: for running multiple scheduled tasks at the same time)
              */
             if ($force === false) {
-                $myprocess = new \Controllers\Process('/usr/bin/ps aux | grep "repomanager.' . $parameter . '" | grep -v grep');
+                $myprocess = new \Controllers\Process('/usr/bin/ps aux | grep "motionui.' . $parameter . '" | grep -v grep');
                 $myprocess->execute();
                 $content = $myprocess->getOutput();
                 $myprocess->close();

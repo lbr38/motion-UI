@@ -120,18 +120,32 @@ class Event
              *  Create thumbnail if not already exist
              */
             if (!file_exists($file . '.thumbnail')) {
+                /**
+                 *  First, get the duration of the movie
+                 */
                 $myprocess = new \Controllers\Process("/usr/bin/ffmpeg -i " . $file . " 2>&1 | grep 'Duration' | awk '{print $2}' | tr -d ,");
                 $myprocess->execute();
                 $output = $myprocess->getOutput();
                 $myprocess->close();
 
+                /**
+                 *  If duration has been found, then create thumbnail
+                 */
                 if (!empty($output)) {
                     $duration = $output;
+
+                    /**
+                     *  Convert duration to seconds
+                     */
                     list($hours, $minutes, $seconds) = explode(":", $duration);
                     $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
 
-                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $thumbnailTime) . '-i ' . $file . " -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 " . $file . '.thumbnail.jpg');
+                    /**
+                     *  Create thumbnail at the middle of the movie
+                     */
+                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $totalSeconds / 2) . ' -i ' . $file . " -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 " . $file . '.thumbnail.jpg');
                     $myprocess->execute();
+                    $output = $myprocess->getOutput();
                     $myprocess->close();
                 }
             }
