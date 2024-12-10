@@ -17,6 +17,10 @@ class Directory
             mkdir(LOGS_DIR, 0770, true);
         }
 
+        if (!is_dir(WS_LOGS_DIR)) {
+            mkdir(WS_LOGS_DIR, 0770, true);
+        }
+
         if (!is_dir(CAMERAS_DIR)) {
             mkdir(CAMERAS_DIR, 0770, true);
 

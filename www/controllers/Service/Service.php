@@ -321,15 +321,20 @@ class Service
              *  Execute autostart
              */
             if ($this->autostart == 'enabled') {
-                $this->runService('autostart');
+                $this->runService('autostart', 'autostart');
             }
 
             /**
              *  Execute timelapse
              */
             if ($this->timelapse === true) {
-                $this->runService('timelapse');
+                $this->runService('timelapse', 'timelapse');
             }
+
+            /**
+             *  Start websocket server
+             */
+            $this->runService('websocket server', 'wss');
 
             /**
              *  Clean timelapse and events depending on retention
@@ -372,28 +377,33 @@ class Service
     /**
      *  Run this service with the specified parameter
      */
-    private function runService(string $parameter)
+    private function runService(string $name, string $parameter, bool $force = false)
     {
         try {
             /**
-             *  Check if the service with specified parameter is already running (a php process must be running)
+             *  Check if the service with specified parameter is already running to avoid running it twice
+             *  A php process must be running
+             *
+             *  If force != false, then the service will be run even if it is already running (e.g: for running multiple scheduled tasks at the same time)
              */
-            $myprocess = new \Controllers\Process("/usr/bin/ps aux | grep 'motionui." . $parameter . "' | grep -v grep");
-            $myprocess->execute();
-            $content = $myprocess->getOutput();
-            $myprocess->close();
+            if ($force === false) {
+                $myprocess = new \Controllers\Process('/usr/bin/ps aux | grep "motionui.' . $parameter . '" | grep -v grep');
+                $myprocess->execute();
+                $content = $myprocess->getOutput();
+                $myprocess->close();
 
-            /**
-             *  Quit if there is already a process running
-             */
-            if ($myprocess->getExitCode() == 0) {
-                return;
+                /**
+                 *  Quit if there is already a process running
+                 */
+                if ($myprocess->getExitCode() == 0) {
+                    return;
+                }
             }
 
             /**
              *  Else, run the service with the specified parameter
              */
-            echo $this->getDate() . " Running service with parameter '" . $parameter . "'..." . PHP_EOL;
+            echo $this->getDate() . ' Running ' . $name . '...' . PHP_EOL;
 
             $myprocess = new \Controllers\Process("/usr/bin/php " . ROOT . "/tools/service.php '" . $parameter . "' >/dev/null 2>/dev/null &");
             $myprocess->execute();

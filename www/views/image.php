@@ -54,16 +54,6 @@ unset($mycamera, $context, $configuration, $username, $password);
 
 ob_end_flush();
 
-// Support for /dev/videoX and rtsp:// streams
-// If URL stars with /dev/videoX or rtsp://
-if (preg_match('#^/dev/video[0-9]+$#', $url) or preg_match('#^rtsp://#', $url)) {
-    /**
-     *  Read local output file
-     */
-    readfile('/var/lib/motionui/cameras/camera-' . $_GET['id'] . '/output/output.jpg', false);
-    return;
-}
-
 /**
  *  Read distant file (stream)
  */

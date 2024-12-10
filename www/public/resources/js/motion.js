@@ -4,7 +4,7 @@
  */
 function setVideoThumbnailUnavailable(fileId)
 {
-    $('.media-thumbnail[file-id=' + fileId + ']').replaceWith('<div class="file-unavailable play-video-btn pointer" file-id="' + fileId + '"><p>Preview<br>unavailable</p></div>');
+    $('.media-thumbnail[file-id=' + fileId + ']').replaceWith('<div class="file-unavailable play-video-btn pointer" file-id="' + fileId + '"><p>Preview unavailable</p></div>');
 }
 
 /**
@@ -247,8 +247,17 @@ $(document).on('change','.event-date-input',function () {
 $(document).on('click','.play-picture-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    $('.event-print-file').html('<img src="/media?id=' + fileId + '" />');
-    $('.event-print-file-container').css('display', 'flex');
+    html = '<div id="fullscreen">'
+    + '<div class="flex align-item-center">'
+    + '<img src="/media?id=' + fileId + '" title="Full screen event picture" />'
+    + '</div>'
+    + '<div class="flex align-item-center justify-center">'
+    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'
+    + '</div>'
+    + '</div>';
+
+    // Append the fullscreen div to the body
+    $('body').append(html);
 });
 
 /**
@@ -257,8 +266,17 @@ $(document).on('click','.play-picture-btn',function () {
 $(document).on('click','.play-video-btn',function () {
     var fileId = $(this).attr('file-id');
 
-    $('.event-print-file').html('<video controls><source src="/media?id=' + fileId + '"><p>You browser does not support embedded videos.</p></video>');
-    $('.event-print-file-container').css('display', 'flex');
+    html = '<div id="fullscreen">'
+    + '<div class="flex align-item-center">'
+    + '<video controls title="Full screen event video"><source src="/media?id=' + fileId + '"><p>You browser does not support embedded videos.</p></video>'
+    + '</div>'
+    + '<div class="flex align-item-center justify-center">'
+    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'
+    + '</div>'
+    + '</div>';
+
+    // Append the fullscreen div to the body
+    $('body').append(html);
 });
 
 /**

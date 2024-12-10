@@ -121,32 +121,23 @@ class Timelapse
                     /**
                      *  Capture image
                      */
+                    $content = file_get_contents('http://127.0.0.1:1984/api/frame.jpeg?src=camera_' . $camera['Id'], false, stream_context_create([
+                        'http' => [
+                            'timeout' => 3
+                        ]
+                    ]));
 
                     /**
-                     *  Define ffmpeg command
-                     *  Timeout is set to 3 seconds, kill after 5 seconds if it does not exit
+                     *  Ignore if it fails to capture image because the camera may not be running 24/7
                      */
-                    $ffmpeg = '/usr/bin/timeout --kill-after=5 3 /usr/bin/ffmpeg';
+                    if ($content === false or empty($content)) {
+                        continue;
+                    }
 
                     /**
-                     *  Add input stream
+                     *  Save image to file
                      */
-                    $ffmpeg .= ' -i ' . 'http://127.0.0.1:1984/api/stream.mjpeg?src=camera_' . $camera['Id'];
-
-                    /**
-                     *  Execute ffmpeg command and save to file
-                     */
-                    $myprocess = new \Controllers\Process($ffmpeg . ' ' . $targetDir . '/timelapse_' . date('H-i-s') . '.jpg >/dev/null 2>/dev/null &');
-                    $myprocess->execute();
-                    $output = $myprocess->getOutput();
-                    $myprocess->close();
-
-                    /**
-                     *  Ignore error if ffmpeg fails to capture image because the camera may not be running 24/7
-                     */
-                    // if ($myprocess->getExitCode() != 0) {
-                    //     throw new Exception('Failed to capture timelapse image for camera "' . $camera['Name'] . '" (ffmpeg error)');
-                    // }
+                    file_put_contents($targetDir . '/timelapse_' . date('H-i-s') . '.jpg', $content);
                 } catch (Exception $e) {
                     $this->logController->log('error', 'Camera timelapse', 'Errow while executing timelapse capture: ' . $e->getMessage());
                 }

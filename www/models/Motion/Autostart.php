@@ -6,6 +6,11 @@ use Exception;
 
 class Autostart extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Returns actual autostart time slots configuration
      */

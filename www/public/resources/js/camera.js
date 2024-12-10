@@ -328,6 +328,9 @@ $(document).on('click','.timelapse-camera-btn',function () {
         // Execute functions :
         [ "$('footer').append(jsonValue.message)" ]
     );
+
+    // Temporary hide all other stream images to avoid CPU loads
+    $('.camera-image').hide();
 });
 
 /**
@@ -336,11 +339,14 @@ $(document).on('click','.timelapse-camera-btn',function () {
 $(document).on('change','#timelapse-date-input',function () {
     var date = $(this).val();
     var cameraId = $(this).attr('camera-id');
+    var status = $('#picture-slider').attr('status');
 
     /**
      *  Insert timelapse-date-changed in local storage to stop the timelapse if it is playing
      */
-    localStorage.setItem('timelapse-date-changed', true);
+    if (status == 'playing') {
+        localStorage.setItem('timelapse-date-changed', true);
+    }
 
     ajaxRequest(
         // Controller:
@@ -377,9 +383,8 @@ $(document).on('click','#timelapse-play-btn',function () {
 
 /**
  *  Play timelapse
- *  @returns
  */
-async function playTimelapse()
+function playTimelapse()
 {
     /**
      *  Retrieve camera id, date, max range and all pictures names
@@ -388,6 +393,7 @@ async function playTimelapse()
     var date = $('#picture-slider').attr('date');
     var max = $('#picture-slider').attr('max');
     var pictures = $('timelapse-data').attr('pictures');
+    var speed = $('#timelapse-speed-input').val();
 
     /**
      *  Quit if no date was found
@@ -427,10 +433,10 @@ async function playTimelapse()
     var pictures = pictures.split(',');
 
     /**
-     *  Remove pause mode from slider if it was in pause mode
+     *  Set slider status to 'playing'
      *  Change button to 'pause' button
      */
-    $('#picture-slider').removeAttr('pause');
+    $('#picture-slider').attr('status', 'playing');
     $('#timelapse-play-btn').hide();
     $('#timelapse-pause-btn').css('display', 'inline-flex');
 
@@ -473,7 +479,7 @@ async function playTimelapse()
                 /**
                  *  Quit if timelapse is in pause mode
                  */
-                if ($('#picture-slider').attr('pause') == 'true') {
+                if ($('#picture-slider').attr('status') == 'pause') {
                     return;
                 }
 
@@ -486,6 +492,11 @@ async function playTimelapse()
                     localStorage.removeItem('timelapse-date-changed');
                     return;
                 }
+
+                /**
+                 *  Get timelapsed speed again, in case the user changed it while the timelapse is playing
+                 */
+                var speed = $('#timelapse-speed-input').val();
 
                 /**
                  *  Get JPEG picture filename from the array
@@ -517,6 +528,12 @@ async function playTimelapse()
                  *  Once the image is fully loaded, update the image <img> and the slider value
                  */
                 nextImage.onload = () => {
+                    /**
+                     *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
+                     *  and increment it by 1
+                     */
+                    this.index = parseInt($('#picture-slider').val()) + 1;
+
                     // Image is fully loaded, update the slider value
                     $('#picture-slider').val(this.index);
 
@@ -525,14 +542,17 @@ async function playTimelapse()
 
                     this.imgElement.attr("src", path);
 
-                    /**
-                     *  Always define index from the current slider value (in case the user changed the slider value while the timelapse is playing)
-                     *  and increment it by 1
-                     */
-                    this.index++;
-
-                    setTimeout(() => this.loadNextImage(), 150); // Pause
+                    setTimeout(() => this.loadNextImage(), speed); // Pause
                 };
+            }
+
+            /**
+             *  If the index reaches the max range, then stop the timelapse
+             */
+            if (this.index == this.images.length) {
+                $('#picture-slider').attr('status', 'pause');
+                $('#timelapse-play-btn').css('display', 'inline-flex');
+                $('#timelapse-pause-btn').hide();
             }
         }
     };
@@ -553,7 +573,7 @@ $(document).on('click','#timelapse-pause-btn',function () {
      */
     $('#timelapse-pause-btn').hide();
     $('#timelapse-play-btn').css('display', 'inline-flex');
-    $('#picture-slider').attr('pause', true);
+    $('#picture-slider').attr('status', 'pause');
 });
 
 /**
@@ -569,6 +589,9 @@ $(document).on('click','.hide-camera-configuration-btn',function () {
  *  Event: close timelapse screen
  */
 $(document).on('click','.close-timelapse-btn',function () {
+    // Show all stream images
+    $('.camera-image').show();
+
     $('#timelapse').remove();
 });
 
@@ -576,40 +599,33 @@ $(document).on('click','.close-timelapse-btn',function () {
  *  Event: set a camera on full screen
  */
 $(document).on('click','.full-screen-camera-btn',function () {
-    var cameraId = $(this).attr('camera-id');
+    var img = $(this);
 
-    /**
-     *  Add full-screen class to set the div on full screen
-     */
-    $('.camera-container[camera-id='+cameraId+']').addClass("full-screen");
+    html = '<div id="fullscreen">'
+    + '<div class="flex align-item-center">'
+    + '<img src="' + img.attr('src') + '" class="fullscreen-image" alt="Camera Image" />'
+    + '</div>'
+    + '<div class="flex align-item-center justify-center">'
+    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'
+    + '</div>'
+    + '</div>';
 
-    /**
-     *  Show and hide certain buttons
-     */
-    $('.delete-camera-btn[camera-id='+cameraId+']').hide();
-    $('.configure-camera-btn[camera-id='+cameraId+']').hide();
-    $('.timelapse-camera-btn[camera-id='+cameraId+']').hide();
-    $('.close-full-screen-container[camera-id='+cameraId+']').css('display', 'block');
+    // Append the fullscreen div to the body
+    $('body').append(html);
+
+    // Temporary hide all other stream images to avoid CPU loads
+    $('.camera-image').hide();
 });
 
 /**
  *  Event: close camera full screen
  */
-$(document).on('click','.close-full-screen-btn',function () {
-    var cameraId = $(this).attr('camera-id');
+$(document).on('click','.close-fullscreen-btn',function () {
+    // Show all stream images
+    $('.camera-image').show();
 
-    /**
-     *  Remove full-screen class to set the div on normal screen
-     */
-    $('.camera-container[camera-id='+cameraId+']').removeClass("full-screen");
-
-    /**
-     *  Show and hide certain buttons
-     */
-    $('.delete-camera-btn[camera-id='+cameraId+']').show();
-    $('.configure-camera-btn[camera-id='+cameraId+']').show();
-    $('.timelapse-camera-btn[camera-id='+cameraId+']').show();
-    $('.close-full-screen-container[camera-id='+cameraId+']').hide();
+    // Remove the fullscreen div
+    $('#fullscreen').remove();
 });
 
 /**

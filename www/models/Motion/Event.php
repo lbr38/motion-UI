@@ -6,6 +6,11 @@ use Exception;
 
 class Event extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Get events details for the specified date, with offset
      *  It is possible to add an offset to the request
@@ -227,11 +232,18 @@ class Event extends \Models\Model
     /**
      *  Return total unseen events count
      */
-    public function getUnseenCount()
+    public function getUnseenCount(int|null $cameraId = null)
     {
         $count = 0;
 
-        $stmt = $this->db->prepare("SELECT COUNT(*) as Count FROM motion_events WHERE Seen = 'false'");
+        if (!empty($cameraId)) {
+            $query = "SELECT COUNT(*) as Count FROM motion_events WHERE Seen = 'false' AND Camera_id = :cameraId";
+        } else {
+            $query = "SELECT COUNT(*) as Count FROM motion_events WHERE Seen = 'false'";
+        }
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':cameraId', $cameraId);
         $result = $stmt->execute();
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {

@@ -23,7 +23,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">TUESDAY</h6>
+    <h6 class="required margin-top-0">TUESDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="tuesday-start" value="<?= $alertConfiguration['Tuesday_start'] ?>" />
         <input type="time" name="tuesday-end" value="<?= $alertConfiguration['Tuesday_end'] ?>" />
@@ -33,7 +33,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">WEDNESDAY</h6>
+    <h6 class="required margin-top-0">WEDNESDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="wednesday-start" value="<?= $alertConfiguration['Wednesday_start'] ?>" />
         <input type="time" name="wednesday-end" value="<?= $alertConfiguration['Wednesday_end'] ?>" />
@@ -43,7 +43,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">THURSDAY</h6>
+    <h6 class="required margin-top-0">THURSDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="thursday-start" value="<?= $alertConfiguration['Thursday_start'] ?>" />
         <input type="time" name="thursday-end" value="<?= $alertConfiguration['Thursday_end'] ?>" />
@@ -53,7 +53,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">FRIDAY</h6>
+    <h6 class="required margin-top-0">FRIDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="friday-start" value="<?= $alertConfiguration['Friday_start'] ?>" />
         <input type="time" name="friday-end" value="<?= $alertConfiguration['Friday_end'] ?>" />
@@ -63,7 +63,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">SATURDAY</h6>
+    <h6 class="required margin-top-0">SATURDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="saturday-start" value="<?= $alertConfiguration['Saturday_start'] ?>" />
         <input type="time" name="saturday-end" value="<?= $alertConfiguration['Saturday_end'] ?>" />
@@ -73,7 +73,7 @@
         <p class="note">End</p>
     </div>
 
-    <h6 class="required">SUNDAY</h6>
+    <h6 class="required margin-top-0">SUNDAY</h6>
     <div class="flex column-gap-15">
         <input type="time" name="sunday-start" value="<?= $alertConfiguration['Sunday_start'] ?>" />
         <input type="time" name="sunday-end" value="<?= $alertConfiguration['Sunday_end'] ?>" />
