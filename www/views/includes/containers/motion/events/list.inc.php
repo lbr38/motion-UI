@@ -41,6 +41,6 @@
 
     <!-- Close button -->
     <div class="event-print-file-close-btn margin-bottom-30 hide" style="display: block;">
-        <img src="/assets/icons/close.svg" class="close-full-screen-btn pointer lowopacity" title="Close full screen">
+        <img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close full screen">
     </div>
 </div>

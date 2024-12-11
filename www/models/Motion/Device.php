@@ -6,6 +6,11 @@ use Exception;
 
 class Device extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Add a new device name and ip address to known devices
      */

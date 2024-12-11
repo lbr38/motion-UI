@@ -48,7 +48,7 @@ if ($_POST['action'] == 'edit-global-settings' and !empty($_POST['id']) and !emp
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Camera global settings saved');
+    response(HTTP_OK, 'Camera settings saved');
 }
 
 /**

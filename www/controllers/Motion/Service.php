@@ -7,12 +7,12 @@ use Exception;
 class Service
 {
     private $model;
-    private $layoutContainerStateController;
+    private $layoutContainerReloadController;
 
     public function __construct()
     {
         $this->model = new \Models\Motion\Service();
-        $this->layoutContainerStateController = new \Controllers\Layout\ContainerState();
+        $this->layoutContainerReloadController = new \Controllers\Layout\ContainerReload();
     }
 
     /**
@@ -62,7 +62,7 @@ class Service
             return false;
         }
 
-        $this->layoutContainerStateController->update('motion/buttons/main');
+        $this->layoutContainerReloadController->reload('motion/buttons/main');
 
         return true;
     }
@@ -81,7 +81,7 @@ class Service
             return false;
         }
 
-        $this->layoutContainerStateController->update('motion/buttons/main');
+        $this->layoutContainerReloadController->reload('motion/buttons/main');
 
         return true;
     }

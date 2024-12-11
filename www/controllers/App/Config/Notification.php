@@ -22,7 +22,9 @@ class Notification
          *  If an update is available, generate a new notification
          */
         if (UPDATE_AVAILABLE) {
-            $message = '<span class="yellowtext">A new release is available: <b>' . GIT_VERSION . '</b>.</span><br><br>Please update your docker image by following the steps documented <a href="' . PROJECT_UPDATE_DOC_URL . '">here</a></span>';
+            $message = '<p>A new release is available: <a href="' . PROJECT_GIT_REPO . '/releases/latest" target="_blank" rel="noopener noreferrer" title="See changelog"><code>' . GIT_VERSION . '</code> <img src="/assets/icons/external-link.svg" class="icon" /></a></p>';
+            $message .= '<p>Please update your docker image by following the steps documented <b><a href="' . PROJECT_UPDATE_DOC_URL . '" target="_blank" rel="noopener noreferrer"><code>here</code></b> <img src="/assets/icons/external-link.svg" class="icon" /></a></p>';
+
             $NOTIFICATION_MESSAGES[] = array('Title' => 'Update available', 'Message' =>  $message);
             $NOTIFICATION++;
         }

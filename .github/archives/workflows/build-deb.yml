@@ -82,8 +82,8 @@ jobs:
 
       - name: Install motionui repo to grant access to most recent motion packages
         run: |
-          curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
-          echo "deb https://packages.bespin.ovh/repo/motionui/buster/main_prod buster main" > /etc/apt/sources.list.d/motionui.list
+          curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.net.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.repomanager.net_deb.gpg
+          echo "deb https://packages.repomanager.net/repo/motionui/buster/main_prod buster main" > /etc/apt/sources.list.d/motionui.list
 
       # Download builded deb package artifact
       - name: Download artifact
@@ -117,8 +117,8 @@ jobs:
 
       - name: Install motionui repo to grant access to most recent motion packages
         run: |
-          curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
-          echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui.list
+          curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.net.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.repomanager.net_deb.gpg
+          echo "deb https://packages.repomanager.net/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui.list
 
       # Download builded deb package artifact
       - name: Download artifact

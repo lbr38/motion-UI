@@ -6,6 +6,11 @@ use Exception;
 
 class Update extends Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     public function updateDB(string $updateFile)
     {
         if (!file_exists($updateFile)) {

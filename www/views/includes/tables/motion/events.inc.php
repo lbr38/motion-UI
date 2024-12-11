@@ -67,11 +67,11 @@
                     <div class="event-camera-name-id">
                         <?php
                         if ($cameraId != $lastCameraId) : ?>                            
-                            <p class="label-green wordbreakall">
+                            <p class="wordbreakall font-size-13">
                                 <b>
                                     <?php
                                     if (!empty($cameraName)) {
-                                        echo $cameraName;
+                                        echo strtoupper($cameraName);
                                     } else {
                                         echo 'Camera Id #' . $cameraId;
                                     } ?>
@@ -80,7 +80,7 @@
                             <?php
                         endif ?>
                     
-                        <div class="event-id flex column-gap-5">
+                        <div class="event-id flex align-item-center column-gap-5">
                             <?php
                             if ($motionEventId != $lastMotionEventId) : ?>
                                 <p class="" title="Full event ID #<?= $motionEventId ?>">

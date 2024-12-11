@@ -6,6 +6,11 @@ use Exception;
 
 class Alert extends \Models\Model
 {
+    public function __construct()
+    {
+        $this->getConnection('main');
+    }
+
     /**
      *  Returns actual alerts time slots configuration
      */

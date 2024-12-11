@@ -37,15 +37,20 @@
                 /**
                  *  Get camera configuration
                  */
-                $camera = $mycamera->getConfiguration($cameraId); ?>
+                $camera = $mycamera->getConfiguration($cameraId);
+
+                /**
+                 *  Get unseen events count
+                 */
+                $eventsCount = $mymotionEvent->getUnseenCount($cameraId); ?>
 
                 <div class="camera-container" camera-id="<?= $camera['Id'] ?>">
                     <div class="camera-output">
                         <?php
                         if ($camera['Live_enabled'] == 'false') : ?>
-                            <div class="flex align-item-center">
+                            <div class="height-100 flex align-item-center justify-center margin-bottom-30">
                                 <div>
-                                    <button class="btn-square-none lowopacity-cst"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
+                                    <button class="btn-round-none lowopacity-cst"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
                                     <p class="block center lowopacity-cst">Live stream is disabled</p>
                                 </div>
                             </div>
@@ -55,19 +60,18 @@
                         if ($camera['Live_enabled'] == 'true') : ?>
                             <!-- Loading image -->
                             <div class="camera-loading" camera-id="<?= $camera['Id'] ?>">
-                                <button class="btn-square-none"><img src="/assets/icons/loading.svg" class="icon" title="Loading image" /></button>
+                                <button class="btn-round-none"><img src="/assets/icons/loading.svg" class="icon" title="Loading image" /></button>
                                 <p class="block center lowopacity-cst">Loading image</p>
                             </div>
 
                             <!-- Unavailable image div -->
                             <div class="camera-unavailable flex align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $camera['Id'] ?>">
-                                <button class="btn-square-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
+                                <button class="btn-round-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
                                 <p class="block center lowopacity-cst">Unavailable</p>
                             </div>
 
                             <!-- Camera image -->
                             <div class="camera-image relative hide" camera-id="<?= $camera['Id'] ?>">
-                                <!-- <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="/stream?id=<?= $camera['Id'] ?>&<?= time() ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)"> -->
                                 <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="<?= __SERVER_URL__ ?>/api/stream.mjpeg?src=camera_<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
 
                                 <!-- Left and right text / timestamp -->
@@ -96,9 +100,19 @@
                     </div>
 
                     <div class="camera-btn-div flex">
-                        <div class="flex align-item-center justify-space-between column-gap-20">
+                        <div class="flex justify-space-between column-gap-20">
                             <div>
-                                <p class="label-green wordbreakall"><b><?= $camera['Name'] ?></b></p>
+                                <p class="wordbreakall font-size-13"><b><?= strtoupper($camera['Name']) ?></b></p>
+                                <?php
+                                if ($eventsCount > 0) {
+                                    if ($eventsCount == 1) {
+                                        $eventsCount = '1 new event';
+                                    } else {
+                                        $eventsCount = $eventsCount . ' new events';
+                                    }
+
+                                    echo '<p class="note"><a href="/events" class="font-size-13">' . $eventsCount . '</a></p>';
+                                } ?>
                             </div>
                             <div class="flex column-gap-10">
                                 <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $camera['Id'] ?>">
@@ -111,10 +125,6 @@
                                     <span>Configure</span>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="close-full-screen-container margin-bottom-30 hide" camera-id="<?= $camera['Id'] ?>">
-                            <img src="/assets/icons/close.svg" class="close-full-screen-btn pointer lowopacity" camera-id="<?= $camera['Id'] ?>" title="Close full screen" />
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 <html>
     <?php
     if (!defined('ROOT')) {
-        define('ROOT', dirname(__FILE__, 2));
+        define('ROOT', '/var/www/motionui');
     }
     if (!defined('DATA_DIR')) {
         define('DATA_DIR', '/var/lib/motionui');

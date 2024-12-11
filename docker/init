@@ -3,6 +3,7 @@
 WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
 GO2RTC_DIR="/var/lib/motionui/go2rtc"
+GO2RTC_LOG=""
 
 # Make sure motion service is stopped
 /usr/sbin/service motion stop
@@ -42,7 +43,7 @@ fi
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/update-database.php" www-data
 
 # Start go2rtc in background
-/bin/su -s /bin/bash -c "/usr/local/bin/go2rtc -c $GO2RTC_DIR/go2rtc.yml >/dev/null 2>/dev/null &" www-data
+/bin/su -s /bin/bash -c "/usr/local/bin/go2rtc -c $GO2RTC_DIR/go2rtc.yml >/var/lib/motionui/go2rtc/go2rtc.log &" www-data
 
 # Start shell service in background
 /bin/bash "$WWW_DIR/bin/service.sh" &
