@@ -2,7 +2,7 @@
     <?php
     $buttons = array(
         'live' => array(
-            'icon' => 'photo-camera.svg',
+            'icon' => 'camera.svg',
             'title' => 'Cameras and stream'
         ),
         'motion' => array(

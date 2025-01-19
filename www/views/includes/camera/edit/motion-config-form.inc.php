@@ -8,7 +8,7 @@
     // Retrieve the filename (and not the entire path)
     $configurationFile = basename(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf'); ?>
 
-    <p class="note">All available parameters can be found in the <a target="_blank" href="https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha">official Motion documentation <img src="/assets/icons/external-link.svg" class="icon" /></a></p>
+    <p class="note">All available parameters can be found in the <a target="_blank" href="https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha">official Motion documentation <img src="/assets/icons/external-link.svg" class="icon-small" /></a></p>
 
     <?php
     $params = $mymotionConfig->getConfig(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf');
@@ -40,7 +40,7 @@
 
             <div class="table-container grid-fr-4-1 bck-blue-alt pointer motion-param-collapse-btn" param-id="<?= $i ?>">
                 <div>
-                    <p><?= $param ?></p>
+                    <p><?= $param ?> <?php echo ($status != 'enabled') ? '<span class="mediumopacity-cst">(disabled)</span>' : '' ?></p>
                     <p class="lowopacity-cst"><?= $value ?></p>
                 </div>
 
@@ -59,9 +59,9 @@
                 <input type="text" name="param-value" param-id="<?= $i ?>" value="<?= $value ?>" />
 
                 <!-- Param status -->
-                <h6 class="required">ENABLE</h6>
+                <h6>ENABLE</h6>
                 <label class="onoff-switch-label">
-                    <input class="onoff-switch-input" type="checkbox" name="param-status" param-id="<?= $i ?>" value="enabled" <?php echo ($status == 'enabled') ? 'checked' : ''?>>
+                    <input class="onoff-switch-input" type="checkbox" name="param-status" param-id="<?= $i ?>" value="enabled" <?php echo ($status == 'enabled') ? 'checked' : '' ?>>
                     <span class="onoff-switch-slider"></span>
                 </label>
             </div>
@@ -70,7 +70,11 @@
         endforeach;
     endif ?>
 
+    <br>
+    <button type="submit" class="btn-small-green">Save</button>
+
     <h6>ADDITIONAL PARAMETER</h5>
+    <p class="note">Add a new parameter to the configuration file.</p>
 
     <h6 class="required">NAME</h6>
     <input type="text" name="additional-param-name" value="" placeholder="Parameter name" />
@@ -78,14 +82,14 @@
     <h6 class="required">VALUE</h6>
     <input type="text" name="additional-param-value" value="" placeholder="Parameter value" />
 
-    <h6 class="required">ENABLE</h6>
+    <h6>ENABLE</h6>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input" type="checkbox" name="additional-param-status" value="enabled" checked>
         <span class="onoff-switch-slider"></span>
     </label>
     
     <br><br>
-    <button type="submit" class="btn-small-green">Save</button>
+    <button type="submit" class="btn-small-green">Add</button>
 </form>
 
 <br><br>

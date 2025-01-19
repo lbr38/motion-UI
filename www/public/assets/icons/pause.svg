@@ -1,112 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-
 <svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
    version="1.1"
-   id="Capa_1"
-   x="0px"
-   y="0px"
-   viewBox="0 0 60 60"
-   style="enable-background:new 0 0 60 60;"
-   xml:space="preserve"
-   sodipodi:docname="pause.svg"
+   id="svg4"
+   sodipodi:docname="pause-circle.svg"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs43" /><sodipodi:namedview
-   id="namedview41"
-   pagecolor="#ffffff"
-   bordercolor="#666666"
-   borderopacity="1.0"
-   inkscape:pageshadow="2"
-   inkscape:pageopacity="0.0"
-   inkscape:pagecheckerboard="0"
-   showgrid="false"
-   inkscape:zoom="12.116667"
-   inkscape:cx="30"
-   inkscape:cy="30"
-   inkscape:window-width="1920"
-   inkscape:window-height="979"
-   inkscape:window-x="598"
-   inkscape:window-y="1109"
-   inkscape:window-maximized="1"
-   inkscape:current-layer="Capa_1" />
-<g
-   id="g8"
-   style="fill:#ffffff;fill-opacity:1">
-	<path
-   d="M30,0C13.458,0,0,13.458,0,30s13.458,30,30,30s30-13.458,30-30S46.542,0,30,0z M30,58C14.561,58,2,45.439,2,30   S14.561,2,30,2s28,12.561,28,28S45.439,58,30,58z"
-   id="path2"
-   style="fill:#ffffff;fill-opacity:1" />
-	<path
-   d="M33,46h8V14h-8V46z M35,16h4v28h-4V16z"
-   id="path4"
-   style="fill:#ffffff;fill-opacity:1" />
-	<path
-   d="M19,46h8V14h-8V46z M21,16h4v28h-4V16z"
-   id="path6"
-   style="fill:#ffffff;fill-opacity:1" />
-</g>
-<g
-   id="g10"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g12"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g14"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g16"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g18"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g20"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g22"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g24"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g26"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g28"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g30"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g32"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g34"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g36"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
-<g
-   id="g38"
-   style="fill:#ffffff;fill-opacity:1">
-</g>
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4199219"
+     inkscape:cx="255.64787"
+     inkscape:cy="256"
+     inkscape:window-width="1920"
+     inkscape:window-height="977"
+     inkscape:window-x="865"
+     inkscape:window-y="1111"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="M 256,1.7929402 C 115.8317,1.7929402 1.7929416,115.8317 1.7929416,256 1.7929416,396.1683 115.8317,510.20706 256,510.20706 396.1683,510.20706 510.20706,396.1683 510.20706,256 510.20706,115.8317 396.1683,1.7929402 256,1.7929402 Z M 216.89123,334.21755 a 19.554391,19.554391 0 0 1 -39.10878,0 v -156.4351 a 19.554391,19.554391 0 0 1 39.10878,0 z m 117.32632,0 a 19.554389,19.554389 0 0 1 -39.10877,0 v -156.4351 a 19.554389,19.554389 0 0 1 39.10877,0 z"
+     id="path2"
+     style="stroke-width:1.22215;fill:#ffffff;fill-opacity:1" />
 </svg>

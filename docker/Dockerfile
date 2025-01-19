@@ -110,7 +110,7 @@ RUN ARCH=$(dpkg --print-architecture); \
     fi
 # Then link go2rtc binary to /usr/local/bin/ and set permissions
 RUN ln -s ${WWW_DIR}/bin/go2rtc/go2rtc_linux_$(dpkg --print-architecture) /usr/local/bin/go2rtc
-RUN chmod 755 /usr/local/bin/go2rtc
+RUN chmod 750 /usr/local/bin/go2rtc
 # Copy go2rtc template config file if not exists
 RUN if [ ! -f "${DATA_DIR}/go2rtc/go2rtc.yml" ]; then \
         mkdir -p ${DATA_DIR}/go2rtc; \

@@ -114,6 +114,20 @@ class Camera
         }
 
         /**
+         *  Check that URL starts with http(s)://, rtsp:// or /dev/video
+         */
+        if (!preg_match('#(^https?://|^rtsp://|^/dev/video)#', $params['url'])) {
+            throw new Exception('URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/video</b>');
+        }
+
+        /**
+         *  Check that URL does not contain invalid characters
+         */
+        if (str_contains($params['url'], "'") || str_contains($params['url'], "\\") || str_contains($params['url'], '<') || str_contains($params['url'], '>')) {
+            throw new Exception('Url contains invalid characters');
+        }
+
+        /**
          *  Retrieve params
          */
         $name = \Controllers\Common::validateData($params['name']);
@@ -136,13 +150,6 @@ class Camera
          */
         if (!empty($params['motion-detection-enable']) and $params['motion-detection-enable'] == 'true') {
             $motionEnabled = 'true';
-        }
-
-        /**
-         *  Check that URL starts with http(s)://, rtsp:// or /dev/video
-         */
-        if (!preg_match('#(^https?://|^rtsp://|^/dev/video)#', $url)) {
-            throw new Exception('URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/video</b>');
         }
 
         /**
@@ -329,6 +336,20 @@ class Camera
         }
 
         /**
+         *  Check that URL starts with http(s)://, rtsp:// or /dev/video
+         */
+        if (!preg_match('#(^https?://|^rtsp://|^/dev/video)#', $params['url'])) {
+            throw new Exception('URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/video</b>');
+        }
+
+        /**
+         *  Check that URL does not contain invalid characters
+         */
+        if (str_contains($params['url'], "'") || str_contains($params['url'], "\\") || str_contains($params['url'], '<') || str_contains($params['url'], '>')) {
+            throw new Exception('Url contains invalid characters');
+        }
+
+        /**
          *  Retrieve params
          */
         $name = \Controllers\Common::validateData($params['name']);
@@ -404,13 +425,6 @@ class Camera
          */
         if (!empty($params['timelapse-enable']) and $params['timelapse-enable'] == 'true') {
             $timelapseEnabled = 'true';
-        }
-
-        /**
-         *  Check that URL starts with http(s)://, rtsp:// or /dev/video
-         */
-        if (!preg_match('#(^https?://|^rtsp://|^/dev/video)#', $url)) {
-            throw new Exception('URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/video</b>');
         }
 
         /**

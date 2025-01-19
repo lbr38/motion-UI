@@ -5,8 +5,8 @@
     }
 
     if (!empty($reloadableTableContent)) : ?>
-        <div class="flex justify-space-between align-item-center margin-top-15 margin-bottom-5">
-            <p class="font-size-18"><b><?= strtoupper($eventDateTitle) ?></b></p>
+        <div class="flex align-item-center column-gap-10 margin-top-15 margin-bottom-5">
+            <p class="font-size-18"><b><?= $eventDateTitle ?></b></p>
 
             <p class="lowopacity-cst">
                 <?php

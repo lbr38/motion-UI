@@ -90,7 +90,7 @@
 <br>
 <h5>AUTOSTART ON DEVICE PRESENCE</h5>
 
-<h6>ENABLE AUTOSTART ON DEVICE PRESENCE ON THE LOCAL NETWORK</h6>
+<h6>ENABLE AUTOSTART ON DEVICE PRESENCE</h6>
 <p class="note">Motion will be started if none of the configured devices are present on the local network.</p>
 <p class="note">Motion will be stopped if at least <b>one</b> of the configured devices is connected to the local network.</p>
 <label class="onoff-switch-label">
@@ -112,7 +112,7 @@ if ($autostartDevicePresenceEnabled == 'enabled') :
             <div class="table-container grid-2 bck-blue-alt">
                 <div>
                     <p><?= $deviceName ?></p>
-                    <p class="note"><?= $deviceIp ?></p>
+                    <p class="mediumopacity-cst"><?= $deviceIp ?></p>
                 </div>
                 <div class="flex justify-end">
                     <img src="/assets/icons/delete.svg" class="icon-lowopacity remove-device-btn" device-id="<?= $deviceId ?>" title="Remove device <?= $deviceName ?>" />
@@ -127,7 +127,7 @@ if ($autostartDevicePresenceEnabled == 'enabled') :
 
     <form id="device-presence-form" autocomplete="off">
         <h6 class="required">NAME</h6>
-        <p class="note">Just a name to identify the device.</p>
+        <p class="note">A name to identify the device.</p>
         <input type="text" name="device-name" placeholder="Device name" required />
 
         <h6 class="required">IP ADDRESS</h6>

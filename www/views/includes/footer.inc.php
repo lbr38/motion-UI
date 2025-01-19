@@ -2,7 +2,7 @@
     <div>
         <h5>HELP</h5>
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI/wiki">
-            <span class="lowopacity">Documentation <img src="/assets/icons/external-link.svg" class="icon" /></span>
+            <span class="lowopacity">Documentation <img src="/assets/icons/external-link.svg" class="icon-small" /></span>
         </a>
         
         <br><br>
@@ -15,7 +15,7 @@
     <div>
         <h5>GITHUB</h5>
         <span class="lowopacity">
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI" id="github"><img src="/assets/images/github.png" /></a>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI" id="github"><img src="/assets/icons/github.svg" /></a>
         </span>
     </div>
 

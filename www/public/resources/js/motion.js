@@ -1,13 +1,4 @@
 /**
- * Set video preview thumbnail as unavailable
- * @param {*} fileId
- */
-function setVideoThumbnailUnavailable(fileId)
-{
-    $('.media-thumbnail[file-id=' + fileId + ']').replaceWith('<div class="file-unavailable play-video-btn pointer" file-id="' + fileId + '"><p>Preview unavailable</p></div>');
-}
-
-/**
  *  Function: get selected media Id and delete them
  */
 function deleteMedia()
@@ -104,10 +95,10 @@ $(document).on('click','.start-stop-service-btn',function () {
     var status = $(this).attr('status');
 
     if (status == 'start') {
-        printAlert('Starting motion capture, please wait...', 'success');
+        printAlert('Starting motion capture, please wait...');
     }
     if (status == 'stop') {
-        printAlert('Stopping motion capture, please wait...', 'success');
+        printAlert('Stopping motion capture, please wait...');
     }
 
     ajaxRequest(
