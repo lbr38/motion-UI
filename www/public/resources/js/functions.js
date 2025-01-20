@@ -99,46 +99,51 @@ function closePanel(name = null)
  */
 function printAlert(message, type = null, timeout = 3000)
 {
+    random = Math.floor(Math.random() * (100000 - 100 + 1) + 100)
+
     if (type == null) {
-        var alertType = 'alert';
+        var classes = 'alert ' + random;
+        var selector = '.alert.' + random;
         var icon = 'info';
     }
 
     if (type == 'success') {
-        var alertType = 'alert-success';
+        var classes = 'alert-success ' + random;
+        var selector = '.alert-success.' + random;
         var icon = 'check';
     }
 
     if (type == 'error') {
-        var alertType = 'alert-error';
+        var classes = 'alert-error ' + random;
+        var selector = '.alert-error.' + random;
         var icon = 'error';
         timeout = 4000;
     }
 
     // Remove any existing alert
-    $('#alert').remove();
+    $('.alert').remove();
 
     $('footer').append(' \
-    <div id="alert" class="' + alertType + '"> \
+    <div class="' + classes + '"> \
         <div class="flex align-item-center column-gap-8 padding-left-15 padding-right-15"> \
-            <img src="/assets/icons/' + icon + '.svg" class="icon" /> \
+            <img src="/assets/icons/' + icon + '.svg" class="icon-np" /> \
             <div> \
                 <p>' + message + '</p> \
             </div> \
         </div> \
     </div>');
 
-    $('#alert').css({
+    $(selector).css({
         visibility: 'visible'
     }).promise().done(function () {
-        $('#alert').animate({
+        $(selector).animate({
             right: '0'
         }, 150)
     })
 
-    if (timeout != 'none') {
+    if (timeout != null) {
         window.setTimeout(function () {
-            closeAlert();
+            closeAlert(selector);
         }, timeout);
     }
 }
@@ -235,12 +240,12 @@ function confirmBox(message = '', confirmBoxFunction1, confirmBtn1 = 'Delete', c
 /**
  *  Close alert and confirm box modal
  */
-function closeAlert()
+function closeAlert(selector = '.alert')
 {
-    $('#alert').animate({
+    $(selector).animate({
         right: '-1000px'
     }, 150).promise().done(function () {
-        $('#alert').remove();
+        $(selector).remove();
     });
 }
 

@@ -8,7 +8,7 @@ $reloadableTableOffset = 0;
  */
 if (empty($_COOKIE['event-date'])) {
     $eventDate = DATE_YMD;
-    $eventDateTitle = 'Today';
+    $eventDateTitle = 'TODAY';
 } else {
     $eventDate = $_COOKIE['event-date'];
     $eventDateTitle = $eventDate;

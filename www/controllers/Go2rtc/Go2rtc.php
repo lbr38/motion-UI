@@ -43,7 +43,7 @@ class Go2rtc
     public function addStream(int $id, array $params)
     {
         $id = $params['id'];
-        $urlOrDevice = $params['url'];
+        $urlOrDevice = htmlspecialchars_decode($params['url']);
         $basicAuthUsername = $params['basicAuthUsername'];
         $basicAuthPassword = $params['basicAuthPassword'];
         $rotate = $params['rotate'];

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   width="256"
+   height="256"
+   viewBox="0 0 256 256"
+   xml:space="preserve"
+   id="svg12"
+   sodipodi:docname="warning-red.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview14"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="2.8398438"
+   inkscape:cx="128"
+   inkscape:cy="128"
+   inkscape:window-width="1920"
+   inkscape:window-height="977"
+   inkscape:window-x="598"
+   inkscape:window-y="1111"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g10" />
+
+<defs
+   id="defs2">
+</defs>
+<g
+   style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+   transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+   id="g10">
+	<path
+   d="M 45 90 C 20.187 90 0 69.813 0 45 C 0 20.187 20.187 0 45 0 c 24.813 0 45 20.187 45 45 C 90 69.813 69.813 90 45 90 z"
+   style="stroke:none;stroke-width:1;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;fill:#f32f63;fill-rule:nonzero;opacity:1;fill-opacity:1"
+   transform=" matrix(1 0 0 1 0 0) "
+   stroke-linecap="round"
+   id="path4" />
+	<path
+   d="M 45 57.469 L 45 57.469 c -1.821 0 -3.319 -1.434 -3.399 -3.252 L 38.465 23.95 c -0.285 -3.802 2.722 -7.044 6.535 -7.044 h 0 c 3.813 0 6.82 3.242 6.535 7.044 l -3.137 30.267 C 48.319 56.036 46.821 57.469 45 57.469 z"
+   style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;"
+   transform=" matrix(1 0 0 1 0 0) "
+   stroke-linecap="round"
+   id="path6" />
+	<circle
+   cx="45"
+   cy="67.67"
+   r="5.42"
+   style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;"
+   transform="  matrix(1 0 0 1 0 0) "
+   id="circle8" />
+</g>
+</svg>

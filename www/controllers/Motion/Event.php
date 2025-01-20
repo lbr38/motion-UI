@@ -143,7 +143,7 @@ class Event
                     /**
                      *  Create thumbnail at the middle of the movie
                      */
-                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $totalSeconds / 2) . ' -i ' . $file . " -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 " . $file . '.thumbnail.jpg');
+                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $totalSeconds / 2) . ' -i ' . $file . " -vf 'scale=320:320:force_original_aspect_ratio=decrease' -frames:v 1 -q:v 2 " . $file . '.thumbnail.jpg');
                     $myprocess->execute();
                     $output = $myprocess->getOutput();
                     $myprocess->close();

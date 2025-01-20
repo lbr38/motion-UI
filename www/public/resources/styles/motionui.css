@@ -81,6 +81,7 @@ h3 {
 
 /* Size of the icons in the square buttons */
 [class^="btn-round"] img.icon {
+    max-height: inherit;
     width: 30%;
     height: 30%;
 }
@@ -124,6 +125,7 @@ h3 {
 }
 
 [class^="btn-semi-circle"] img.icon {
+    max-height: inherit;
     width: 45%;
     height: 45%;
 }
@@ -626,7 +628,7 @@ footer #github img { width: 25px; }
     position: relative;
 }
 
-.event-media img {
+.event-media img.media-thumbnail {
     width: 100%;
     max-height: 180px;
     border-radius: 8px;

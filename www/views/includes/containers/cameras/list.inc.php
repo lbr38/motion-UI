@@ -65,14 +65,14 @@
                             </div>
 
                             <!-- Unavailable image div -->
-                            <div class="camera-unavailable flex align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $camera['Id'] ?>">
+                            <div class="camera-unavailable align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $camera['Id'] ?>">
                                 <button class="btn-round-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
                                 <p class="block center lowopacity-cst">Unavailable</p>
                             </div>
 
                             <!-- Camera image -->
                             <div class="camera-image relative hide" camera-id="<?= $camera['Id'] ?>">
-                                <img loading="lazy" src="/assets/icons/photo-camera.svg" data-src="<?= __SERVER_URL__ ?>/api/stream.mjpeg?src=camera_<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                                <img loading="lazy" src="/assets/icons/camera.svg" data-src="<?= __SERVER_URL__ ?>/api/stream.mjpeg?src=camera_<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
 
                                 <!-- Left and right text / timestamp -->
                                 <div class="camera-image-text-left">
@@ -100,20 +100,53 @@
                     </div>
 
                     <div class="camera-btn-div flex">
-                        <div class="flex justify-space-between column-gap-20">
-                            <div>
+                        <div class="flex justify-space-between align-item-center column-gap-20">
+                            <div class="flex flex-direction-column row-gap-2">
                                 <p class="wordbreakall font-size-13"><b><?= strtoupper($camera['Name']) ?></b></p>
-                                <?php
-                                if ($eventsCount > 0) {
-                                    if ($eventsCount == 1) {
-                                        $eventsCount = '1 new event';
-                                    } else {
-                                        $eventsCount = $eventsCount . ' new events';
+                                <p class="mediumopacity-cst font-size-13">
+                                    <?php
+                                    $type = 'Unknown';
+                                    $resolution = $camera['Output_resolution'];
+
+                                    if (str_contains($camera['Url'], 'rtsp://')) {
+                                        $type = 'RTSP';
+                                    }
+                                    if (str_contains($camera['Url'], 'http://') or str_contains($camera['Url'], 'https://')) {
+                                        $type = 'HTTP';
+                                    }
+                                    if (str_contains($camera['Url'], 'mjpeg://')) {
+                                        $type = 'MJPEG';
+                                    }
+                                    if (str_contains($camera['Url'], '/dev/video')) {
+                                        $type = 'Local device';
                                     }
 
-                                    echo '<p class="note"><a href="/events" class="font-size-13">' . $eventsCount . '</a></p>';
-                                } ?>
+                                    if ($resolution == '1280x720') {
+                                        $resolution = '720p';
+                                    } else if ($resolution == '1920x1080') {
+                                        $resolution = '1080p';
+                                    } else if ($resolution == '2560x1440') {
+                                        $resolution = '1440p';
+                                    } else if ($resolution == '3840x2160') {
+                                        $resolution = '2160p';
+                                    } else if ($resolution == '7680x4320') {
+                                        $resolution = '4320p';
+                                    }
+
+                                    echo $type . ' ● ' . $resolution;
+
+                                    if ($eventsCount > 0) {
+                                        if ($eventsCount == 1) {
+                                            $eventsCount = '1 new event';
+                                        } else {
+                                            $eventsCount = $eventsCount . ' new events';
+                                        }
+
+                                        echo ' ● <a href="/events" class="font-size-13 yellowtext">' . $eventsCount . '</a>';
+                                    } ?>
+                                </p>
                             </div>
+
                             <div class="flex column-gap-10">
                                 <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $camera['Id'] ?>">
                                     <img src="/assets/icons/picture.svg" />
