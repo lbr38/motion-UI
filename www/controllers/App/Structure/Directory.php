@@ -24,7 +24,7 @@ class Directory
         if (!is_dir(CAMERAS_DIR)) {
             mkdir(CAMERAS_DIR, 0770, true);
 
-            chgrp(CAMERAS_DIR, 'motion');
+            chgrp(CAMERAS_DIR, 'motionui');
             chmod(CAMERAS_DIR, octdec('0770'));
         }
 
@@ -44,7 +44,7 @@ class Directory
             mkdir(CAPTURES_DIR, 0770, true);
 
             chmod(CAPTURES_DIR, octdec('0770'));
-            chgrp(CAPTURES_DIR, 'motion');
+            chgrp(CAPTURES_DIR, 'motionui');
         }
 
         if (!is_dir(GO2RTC_DIR)) {

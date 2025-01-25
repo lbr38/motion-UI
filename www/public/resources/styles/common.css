@@ -880,8 +880,10 @@ textarea {
     margin-bottom: 20px;
 }
 
-.slide-panel-close-btn {
-    width: 26px;
+.slide-panel-close-btn, .confirm-box-cancel-btn {
+    width: 26px !important;
+    height: 26px !important;
+    max-height: initial !important;
     cursor: pointer;
 }
 
@@ -1023,7 +1025,7 @@ textarea {
     max-height: 80%;
     padding: 15px 15px 15px 15px;
     border-radius: 8px;
-    background-color: #112334;
+    background-color: #102232;
     overflow: auto;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }

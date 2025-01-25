@@ -40,15 +40,15 @@
     <p class="note">Set to 0 to use the default frame rate of the camera.</p>
     <input type="number" class="form-param" param-name="framerate" value="0" min="0" />
 
-    <h6>HTTP AUTHENTICATION</h6>
-    <p class="note">Enable this option if the camera requires HTTP authentication.</p>
+    <h6>AUTHENTICATION</h6>
+    <p class="note">Enable this option if the camera requires authentication.</p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input basic-auth-switch" type="checkbox">
         <span class="onoff-switch-slider"></span>
     </label>
     
     <div class="basic-auth-fields hide">
-        <p class="note">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP Authentication.</p>
+        <p class="note">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP/RTSP Authentication.</p>
 
         <h6>USERNAME</h6>
         <input type="text" class="form-param" param-name="basic-auth-username" />
@@ -70,7 +70,7 @@
 
 <?php
 $content = ob_get_clean();
-$slidePanelName = 'new-camera';
+$slidePanelName = 'camera/add';
 $slidePanelTitle = 'NEW CAMERA';
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

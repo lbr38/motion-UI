@@ -18,22 +18,24 @@
      *  If username and password have been sent
      */
     if (!empty($_POST['username']) and !empty($_POST['password'])) {
-        /**
-         *  Continue if there is no error
-         */
         $username = \Controllers\Common::validateData($_POST['username']);
-        $mylogin = new \Controllers\Login();
+        $myuser = new \Controllers\User\User();
 
-        /**
-         *  Checking in database that username/password couple is matching
-         */
         try {
-            $mylogin->checkUsernamePwd($username, $_POST['password']);
+            /**
+             *  Get user Id from username
+             */
+            $id = $myuser->getIdByUsername($username);
+
+            /**
+             *  Checking in database that username/password couple is matching
+             */
+            $myuser->checkUsernamePwd($id, $_POST['password']);
 
             /**
              *  Getting all user informations in datbase
              */
-            $mylogin->getAll($username);
+            $informations = $myuser->get($id);
 
             /**
              *  Starting session
@@ -44,10 +46,11 @@
              *  Saving user informations in session variable
              */
             $_SESSION['username']   = $username;
-            $_SESSION['role']       = $mylogin->getRole();
-            $_SESSION['first_name'] = $mylogin->getFirstName();
-            $_SESSION['last_name']  = $mylogin->getLastName();
-            $_SESSION['email']      = $mylogin->getEmail();
+            $_SESSION['id']         = $informations['userId'];
+            $_SESSION['role']       = $informations['Role_name'];
+            $_SESSION['first_name'] = $informations['First_name'];
+            $_SESSION['last_name']  = $informations['Last_name'];
+            $_SESSION['email']      = $informations['Email'];
             $_SESSION['type']       = 'local';
 
             /**
@@ -77,6 +80,7 @@
             $loginErrors[] = $e->getMessage();
         }
     } ?>
+
     <head>
         <meta charset="utf-8">
         <!-- CSS -->

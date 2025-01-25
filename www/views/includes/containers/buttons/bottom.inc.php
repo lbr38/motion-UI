@@ -1,23 +1,39 @@
 <section class="bottom-buttons reloadable-container" container="buttons/bottom">
     <?php
-    $buttons = array(
-        'live' => array(
-            'icon' => 'camera.svg',
-            'title' => 'Cameras and stream'
-        ),
-        'motion' => array(
-            'icon' => 'motion.svg',
-            'title' => 'Motion'
-        ),
-        'events' => array(
-            'icon' => 'video.svg',
-            'title' => 'Motion events and medias'
-        ),
-        'stats' => array(
-            'icon' => 'stats.svg',
-            'title' => 'Motion stats'
-        )
-    );
+    // If user is not admin, display only 'live' and 'events' buttons
+    if (!IS_ADMIN) {
+        $buttons = array(
+            'live' => array(
+                'icon' => 'camera.svg',
+                'title' => 'Cameras and stream'
+            ),
+            'events' => array(
+                'icon' => 'video.svg',
+                'title' => 'Motion events and medias'
+            ),
+        );
+
+    // If user is admin, display all buttons
+    } else {
+        $buttons = array(
+            'live' => array(
+                'icon' => 'camera.svg',
+                'title' => 'Cameras and stream'
+            ),
+            'motion' => array(
+                'icon' => 'motion.svg',
+                'title' => 'Motion'
+            ),
+            'events' => array(
+                'icon' => 'video.svg',
+                'title' => 'Motion events and medias'
+            ),
+            'stats' => array(
+                'icon' => 'stats.svg',
+                'title' => 'Motion stats'
+            )
+        );
+    }
 
     foreach ($buttons as $uri => $properties) :
         $class = '';

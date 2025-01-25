@@ -35,19 +35,43 @@
 
             foreach ($camerasIds as $cameraId) :
                 /**
+                 *  Check if current user is allowed to see this camera (only if not admin)
+                 */
+                if (!IS_ADMIN) {
+                    // If the user has no camera access permissions, skip this camera
+                    if (empty($permissions['cameras_access'])) {
+                        continue;
+                    }
+
+                    // If the user has camera access permissions, but not for this camera, skip this camera
+                    if (!in_array($cameraId, $permissions['cameras_access'])) {
+                        continue;
+                    }
+                }
+
+                /**
                  *  Get camera configuration
                  */
                 $camera = $mycamera->getConfiguration($cameraId);
+
+                /**
+                 *  Get cameras raw params
+                 */
+                try {
+                    $cameraRawParams = json_decode($camera['Configuration'], true, 512, JSON_THROW_ON_ERROR);
+                } catch (JsonException $e) {
+                    throw new Exception('Error: could not retrieve camera #' . $cameraId . ' configuration: ' . $e->getMessage());
+                }
 
                 /**
                  *  Get unseen events count
                  */
                 $eventsCount = $mymotionEvent->getUnseenCount($cameraId); ?>
 
-                <div class="camera-container" camera-id="<?= $camera['Id'] ?>">
+                <div class="camera-container" camera-id="<?= $cameraId ?>">
                     <div class="camera-output">
                         <?php
-                        if ($camera['Live_enabled'] == 'false') : ?>
+                        if ($cameraRawParams['stream-enable'] == 'false') : ?>
                             <div class="height-100 flex align-item-center justify-center margin-bottom-30">
                                 <div>
                                     <button class="btn-round-none lowopacity-cst"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
@@ -57,40 +81,40 @@
                             <?php
                         endif;
 
-                        if ($camera['Live_enabled'] == 'true') : ?>
+                        if ($cameraRawParams['stream-enable'] == 'true') : ?>
                             <!-- Loading image -->
-                            <div class="camera-loading" camera-id="<?= $camera['Id'] ?>">
+                            <div class="camera-loading" camera-id="<?= $cameraId ?>">
                                 <button class="btn-round-none"><img src="/assets/icons/loading.svg" class="icon" title="Loading image" /></button>
                                 <p class="block center lowopacity-cst">Loading image</p>
                             </div>
 
                             <!-- Unavailable image div -->
-                            <div class="camera-unavailable align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $camera['Id'] ?>">
+                            <div class="camera-unavailable align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $cameraId ?>">
                                 <button class="btn-round-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
                                 <p class="block center lowopacity-cst">Unavailable</p>
                             </div>
 
-                            <!-- Camera image -->
-                            <div class="camera-image relative hide" camera-id="<?= $camera['Id'] ?>">
-                                <img loading="lazy" src="/assets/icons/camera.svg" data-src="<?= __SERVER_URL__ ?>/api/stream.mjpeg?src=camera_<?= $camera['Id'] ?>" camera-type="video" camera-id="<?= $camera['Id'] ?>" class="full-screen-camera-btn pointer" title="Click to full screen" onerror="setUnavailable(<?= $camera['Id'] ?>)">
+                            <!-- Camera stream -->
+                            <div class="camera-image relative" camera-id="<?= $cameraId ?>">
+                                <video camera-id="<?= $cameraId ?>" autoplay controls playsinline muted poster="/assets/images/motionui-video-poster.png"></video>
 
                                 <!-- Left and right text / timestamp -->
                                 <div class="camera-image-text-left">
-                                    <p><b><?= $camera['Text_left'] ?></b></p>
+                                    <p><b><?= $cameraRawParams['text-left'] ?></b></p>
 
                                     <?php
                                     // Print timestamp on the right if enabled
-                                    if ($camera['Timestamp_left'] == 'true') {
+                                    if ($cameraRawParams['timestamp-left'] == 'true') {
                                         echo '<p class="camera-image-timestamp font-size-12"></p>';
                                     } ?>
                                 </div>
 
                                 <div class="camera-image-text-right">
-                                    <p class="text-right"><b><?= $camera['Text_right'] ?></b></p>
+                                    <p class="text-right"><b><?= $cameraRawParams['text-right'] ?></b></p>
 
                                     <?php
                                     // Print timestamp on the right if enabled
-                                    if ($camera['Timestamp_right'] == 'true') {
+                                    if ($cameraRawParams['timestamp-right'] == 'true') {
                                         echo '<p class="camera-image-timestamp font-size-12"></p>';
                                     } ?>
                                 </div>
@@ -102,22 +126,24 @@
                     <div class="camera-btn-div flex">
                         <div class="flex justify-space-between align-item-center column-gap-20">
                             <div class="flex flex-direction-column row-gap-2">
-                                <p class="wordbreakall font-size-13"><b><?= strtoupper($camera['Name']) ?></b></p>
+                                <p class="wordbreakall font-size-13"><b><?= strtoupper($cameraRawParams['name']) ?></b></p>
                                 <p class="mediumopacity-cst font-size-13">
                                     <?php
                                     $type = 'Unknown';
-                                    $resolution = $camera['Output_resolution'];
+                                    $width = $cameraRawParams['width'];
+                                    $height = $cameraRawParams['height'];
+                                    $resolution = $width . 'x' . $height;
 
-                                    if (str_contains($camera['Url'], 'rtsp://')) {
+                                    if (str_contains($cameraRawParams['url'], 'rtsp://')) {
                                         $type = 'RTSP';
                                     }
-                                    if (str_contains($camera['Url'], 'http://') or str_contains($camera['Url'], 'https://')) {
+                                    if (str_contains($cameraRawParams['url'], 'http://') or str_contains($cameraRawParams['url'], 'https://')) {
                                         $type = 'HTTP';
                                     }
-                                    if (str_contains($camera['Url'], 'mjpeg://')) {
+                                    if (str_contains($cameraRawParams['url'], 'mjpeg://')) {
                                         $type = 'MJPEG';
                                     }
-                                    if (str_contains($camera['Url'], '/dev/video')) {
+                                    if (str_contains($cameraRawParams['url'], '/dev/video')) {
                                         $type = 'Local device';
                                     }
 
@@ -148,15 +174,19 @@
                             </div>
 
                             <div class="flex column-gap-10">
-                                <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $camera['Id'] ?>">
+                                <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $cameraId ?>">
                                     <img src="/assets/icons/picture.svg" />
                                     <span>Timelapse</span>
                                 </div>
 
-                                <div class="slide-btn-medium-tr configure-camera-btn" title="Configure" camera-id="<?= $camera['Id'] ?>">
-                                    <img src="/assets/icons/cog.svg" />
-                                    <span>Configure</span>
-                                </div>
+                                <?php
+                                if (IS_ADMIN) : ?>
+                                    <div class="slide-btn-medium-tr configure-camera-btn" title="Configure" camera-id="<?= $cameraId ?>">
+                                        <img src="/assets/icons/cog.svg" />
+                                        <span>Configure</span>
+                                    </div>
+                                    <?php
+                                endif ?>
                             </div>
                         </div>
                     </div>
@@ -165,9 +195,13 @@
             endforeach;
         endif ?>
 
-        <div class="add-camera-container pointer lowopacity slide-panel-btn" slide-panel="new-camera" title="Add a camera">
-            <img src="/assets/icons/plus.svg" />
-            <p class="font-size-18 margin-top-20">Add camera</p>
-        </div>
+        <?php
+        if (IS_ADMIN) : ?>
+            <div class="add-camera-container pointer lowopacity get-panel-btn" panel="camera/add" title="Add a camera">
+                <img src="/assets/icons/plus.svg" />
+                <p class="font-size-18 margin-top-20">Add camera</p>
+            </div>
+            <?php
+        endif ?>
     </div>
 </section>

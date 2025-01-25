@@ -1,4 +1,9 @@
 # Go2rtc configuration file
+webrtc:
+  listen: :8555
+  candidates:
+    - __FQDN__:8555
+
 streams:
 
 api:

@@ -11,12 +11,5 @@ class Events
         \Controllers\Layout\Container\Render::render('header/general-log-messages');
         \Controllers\Layout\Container\Render::render('buttons/bottom');
         \Controllers\Layout\Container\Render::render('motion/events/list');
-
-        /**
-         *  Panels
-         */
-        \Controllers\Layout\Panel\Notification::render();
-        \Controllers\Layout\Panel\Userspace::render();
-        \Controllers\Layout\Panel\Settings::render();
     }
 }
