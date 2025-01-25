@@ -15,14 +15,14 @@
 
     /**
      *  Check if event registering can be set up for this file.
-     *  The params must at least contain the 'camera_id' parameter.
+     *  The params must at least contain the 'device_id' parameter.
      */
-    if (!empty($params['camera_id'])) {
+    if (!empty($params['device_id'])) {
         $eventRegistering = true;
     }
 
     if ($eventRegistering !== true) {
-        echo '<div class="flex column-gap-5"><img src="/assets/icons/warning.svg" class="icon-np" /><p class="note">Cannot set up event registering because there is no <b>camera_id</b> parameter in this file.</p></div>';
+        echo '<div class="flex column-gap-5"><img src="/assets/icons/warning.svg" class="icon-np" /><p class="note">Cannot set up event registering because there is no <b>device_id</b> parameter in this file.</p></div>';
     } ?>
 
     <br>
@@ -52,7 +52,12 @@
             <div class="motion-param-div details-div margin-bottom-10 hide" param-id="<?= $i ?>">
                 <!-- Param name -->
                 <h6 class="margin-top-0">NAME</h6>
-                <span name="param-name" param-id="<?= $i ?>" value="<?= $param ?>"><code><?= $param ?></code></span>
+                <div class="flex align-item-center column-gap-2">
+                    <span name="param-name" param-id="<?= $i ?>" value="<?= $param ?>"><code><?= $param ?></code></span>
+                    <a href="https://motion-project.github.io/motion_config.html#<?= $param ?>" target="_blank">
+                        <img src="/assets/icons/external-link.svg" class="icon-small" title="See documentation" />
+                    </a>
+                </div>
 
                 <!-- Param value -->
                 <h6 class="required">VALUE</h6>

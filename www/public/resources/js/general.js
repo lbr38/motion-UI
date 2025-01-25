@@ -24,22 +24,6 @@ $(document).keyup(function (e) {
 });
 
 /**
- *  Slide panel opening
- */
-$(document).on('click','.slide-panel-btn',function () {
-    var name = $(this).attr('slide-panel');
-    openPanel(name);
-});
-
-/**
- *  Slide panel closing
- */
-$(document).on('click','.slide-panel-close-btn',function () {
-    var name = $(this).attr('slide-panel');
-    closePanel(name);
-});
-
-/**
  *  Event: mark log as read
  */
 $(document).on('click','.acquit-log-btn',function () {
@@ -148,15 +132,11 @@ function reloadTable(table, offset)
         // Print success alert:
         false,
         // Print error alert:
-        true,
-        // Reload container:
-        [],
-        // Execute functions on success:
-        [
-            // Replace table with itself, with new content
-            "$('.reloadable-table[table=\"" + table + "\"]').replaceWith(jsonValue.message)"
-        ]
-    );
+        true
+    ).then(function () {
+        // Replace table with itself, with new content
+        $('.reloadable-table[table="' + table + '"]').replaceWith(jsonValue.message);
+    });
 
     /**
      *  Hide loading icon

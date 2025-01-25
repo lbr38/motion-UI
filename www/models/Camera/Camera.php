@@ -14,11 +14,15 @@ class Camera extends \Models\Model
     /**
      *  Get all cameras
      */
-    public function get()
+    public function get() : array
     {
         $cameras = array();
 
-        $result = $this->db->query("SELECT * FROM cameras");
+        try {
+            $result = $this->db->query("SELECT * FROM cameras");
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $cameras[] = $row;
@@ -28,33 +32,19 @@ class Camera extends \Models\Model
     }
 
     /**
-     *  Get camera Id by its name
-     */
-    public function getIdByName(string $name)
-    {
-        $id = '';
-
-        $stmt = $this->db->prepare("SELECT Id FROM cameras WHERE Name = :name");
-        $stmt->bindValue(':name', $name);
-        $result = $stmt->execute();
-
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $id = $row['Id'];
-        }
-
-        return $id;
-    }
-
-    /**
      *  Get camera name by its Id
      */
-    public function getNameById(string $id)
+    public function getNameById(string $id) : string
     {
         $name = '';
 
-        $stmt = $this->db->prepare("SELECT Name FROM cameras WHERE Id = :id");
-        $stmt->bindValue(':id', $id);
-        $result = $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("SELECT json_extract(COALESCE(Configuration, '{}'), '$.name') as Name FROM cameras WHERE Id = :id");
+            $stmt->bindValue(':id', $id);
+            $result = $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $name = $row['Name'];
@@ -66,15 +56,19 @@ class Camera extends \Models\Model
     /**
      *  Get camera name by motion event Id
      */
-    public function getNameByEventId(string $motionEventId)
+    public function getNameByEventId(string $motionEventId) : string
     {
         $name = '';
 
-        $stmt = $this->db->prepare("SELECT Name FROM cameras
-        LEFT JOIN motion_events ON motion_events.Camera_id = cameras.Id
-        WHERE motion_events.Motion_id_event = :motionEventId");
-        $stmt->bindValue(':motionEventId', $motionEventId);
-        $result = $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("SELECT json_extract(COALESCE(Configuration, '{}'), '$.name') as Name FROM cameras
+            LEFT JOIN motion_events ON motion_events.Camera_id = cameras.Id
+            WHERE motion_events.Motion_id_event = :motionEventId");
+            $stmt->bindValue(':motionEventId', $motionEventId);
+            $result = $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $name = $row['Name'];
@@ -86,15 +80,20 @@ class Camera extends \Models\Model
     /**
      *  Returns all camera Id
      */
-    public function getCamerasIds()
+    public function getCamerasIds() : array
     {
         $id = array();
 
-        $result = $this->db->query("SELECT Id FROM cameras");
+        try {
+            $result = $this->db->query("SELECT Id FROM cameras");
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $id[] = $row['Id'];
         }
+
 
         return $id;
     }
@@ -102,13 +101,17 @@ class Camera extends \Models\Model
     /**
      *  Get camera's configuration
      */
-    public function getConfiguration(string $id)
+    public function getConfiguration(string $id) : array
     {
-        $configuration = '';
+        $configuration = array();
 
-        $stmt = $this->db->prepare("SELECT * FROM cameras WHERE Id = :id");
-        $stmt->bindValue(':id', $id);
-        $result = $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM cameras WHERE Id = :id");
+            $stmt->bindValue(':id', $id);
+            $result = $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $configuration = $row;
@@ -120,65 +123,61 @@ class Camera extends \Models\Model
     /**
      *  Add a new camera
      */
-    public function add(string $name, string $url, string $resolution, int $framerate, string $basicAuthUsername, string $basicAuthPassword, string $motionEnabled)
+    public function add(string $configuration) : void
     {
-        $stmt = $this->db->prepare("INSERT INTO cameras ('Name', 'Url', 'Output_resolution', 'Framerate', 'Username', 'Password', 'Live_enabled', 'Motion_enabled', 'Hardware_acceleration') VALUES (:name, :url, :resolution, :framerate, :username, :password, 'true', :motionEnabled, 'false')");
-        $stmt->bindValue(':name', $name);
-        $stmt->bindValue(':url', $url);
-        $stmt->bindValue(':resolution', $resolution);
-        $stmt->bindValue(':framerate', $framerate);
-        $stmt->bindValue(':username', $basicAuthUsername);
-        $stmt->bindValue(':password', $basicAuthPassword);
-        $stmt->bindValue(':motionEnabled', $motionEnabled);
-        $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("INSERT INTO cameras ('Configuration') VALUES (:configuration)");
+            $stmt->bindValue(':configuration', $configuration);
+            $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
     }
 
     /**
      *  Edit camera global settings
      */
-    public function editGlobalSettings(int $id, string $name, string $url, string $resolution, int $framerate, string $rotate, string $textLeft, string $textRight, string $basicAuthUsername, string $basicAuthPassword, string $liveEnabled, string $timestampLeft, string $timestampRight, string $motionEnabled, string $timelapseEnabled, string $hardwareAcceleration)
+    public function edit(int $id, string $configuration) : void
     {
-        $stmt = $this->db->prepare("UPDATE cameras SET Name = :name, Url = :url, Output_resolution = :outputResolution, Framerate = :framerate, Rotate = :rotate, Text_left = :textLeft, Text_right = :textRight, Username = :username, Password = :password, Live_enabled = :liveEnabled, Timestamp_left = :timestampLeft, Timestamp_right = :timestampRight, Motion_enabled = :motionEnabled, 'Timelapse_enabled' = :timelapseEnabled, 'Hardware_acceleration' = :hardwareAcceleration WHERE Id = :id");
-        $stmt->bindValue(':id', $id);
-        $stmt->bindValue(':name', $name);
-        $stmt->bindValue(':url', $url);
-        $stmt->bindValue(':outputResolution', $resolution);
-        $stmt->bindValue(':framerate', $framerate);
-        $stmt->bindValue(':rotate', $rotate);
-        $stmt->bindValue(':textLeft', $textLeft);
-        $stmt->bindValue(':textRight', $textRight);
-        $stmt->bindValue(':username', $basicAuthUsername);
-        $stmt->bindValue(':password', $basicAuthPassword);
-        $stmt->bindValue(':liveEnabled', $liveEnabled);
-        $stmt->bindValue(':timestampLeft', $timestampLeft);
-        $stmt->bindValue(':timestampRight', $timestampRight);
-        $stmt->bindValue(':motionEnabled', $motionEnabled);
-        $stmt->bindValue(':timelapseEnabled', $timelapseEnabled);
-        $stmt->bindValue(':hardwareAcceleration', $hardwareAcceleration);
-        $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("UPDATE cameras SET Configuration = :configuration WHERE Id = :id");
+            $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':configuration', $configuration);
+            $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
     }
 
     /**
      *  Delete camera
      */
-    public function delete(string $id)
+    public function delete(string $id) : void
     {
-        $stmt = $this->db->prepare("DELETE FROM cameras WHERE Id = :id");
-        $stmt->bindValue(':id', $id);
-        $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("DELETE FROM cameras WHERE Id = :id");
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
     }
 
     /**
      *  Check if camera Id exist
      */
-    public function existId(string $id)
+    public function existId(string $id) : bool
     {
-        $stmt = $this->db->prepare("SELECT Id FROM cameras WHERE Id = :id");
-        $stmt->bindValue(':id', $id);
-        $result = $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("SELECT Id FROM cameras WHERE Id = :id");
+            $stmt->bindValue(':id', $id);
+            $result = $stmt->execute();
 
-        if ($this->db->isempty($result)) {
-            return false;
+            if ($this->db->isempty($result)) {
+                return false;
+            }
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
         }
 
         return true;

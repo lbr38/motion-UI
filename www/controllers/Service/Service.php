@@ -193,22 +193,37 @@ class Service
     }
 
     /**
-     *  Check if a service restart is needed
+     *  Check if a motion service restart is needed
      */
-    private function checkRestartNeeded(string $service)
+    private function restartMotion(string $service)
     {
-        if (file_exists(DATA_DIR . '/' . $service . '.restart')) {
-            echo $this->getDate() . ' A restart of ' . $service . ' service is required. Restarting...' . PHP_EOL;
-            unlink(DATA_DIR . '/' . $service . '.restart');
-
-            $myprocess = new \Controllers\Process('/usr/sbin/service ' . $service . ' restart');
-            $myprocess->execute();
-            $myprocess->close();
-
-            if ($myprocess->getExitCode() != 0) {
-                echo $this->getDate() . ' Error restarting ' . $service . ' service';
-            }
+        if (!file_exists(DATA_DIR . '/motion.restart')) {
+            return;
         }
+
+        echo $this->getDate() . ' A restart of motion service is required. Restarting...' . PHP_EOL;
+
+        /**
+         *  Stop motion service
+         */
+        if (!$this->motionServiceController->stop()) {
+            echo $this->getDate() . ' Error while stopping motion service.' . PHP_EOL;
+            return;
+        }
+
+        echo $this->getDate() . ' Motion service successfully stopped.' . PHP_EOL;
+
+        /**
+         *  Start motion service
+         */
+        if (!$this->motionServiceController->start()) {
+            echo $this->getDate() . ' Error while starting motion service.' . PHP_EOL;
+            return;
+        }
+
+        unlink(DATA_DIR . '/motion.restart');
+
+        echo $this->getDate() . ' Motion service successfully restarted.' . PHP_EOL;
     }
 
     /**
@@ -302,10 +317,9 @@ class Service
 
         while (true) {
             /**
-             *  Check if a motion or motionui service restart is needed
+             *  Check if a motion service restart is needed
              */
-            $this->checkRestartNeeded('motion');
-            $this->checkRestartNeeded('motionui');
+            $this->restartMotion('motion');
 
             /**
              *  Check if a start/stop of motion service is needed
@@ -337,11 +351,6 @@ class Service
             $this->runService('websocket server', 'wss');
 
             /**
-             *  Clean timelapse and events depending on retention
-             */
-            $this->cleanTimelapseAndMotionEvents();
-
-            /**
              *  Execute actions on service start (counter = 0) and then every hour (counter = 720)
              *  3600 / 5sec (sleep 5) = 720
              */
@@ -360,6 +369,11 @@ class Service
                  *  Every hour, check motion service and add its status in database
                  */
                 $this->monitorMotionStatus();
+
+                /**
+                 *  Clean timelapse and events depending on retention (at midnight)
+                 */
+                $this->cleanTimelapseAndMotionEvents();
 
                 /**
                  *  Reset counter

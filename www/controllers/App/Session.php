@@ -38,5 +38,24 @@ class Session
          *  Define the new session start time (or renew the current session)
          */
         $_SESSION['start_time'] = time();
+
+        if (!defined('IS_ADMIN')) {
+            if ($_SESSION['role'] === 'super-administrator' or $_SESSION['role'] === 'administrator') {
+                define('IS_ADMIN', true);
+            } else {
+                define('IS_ADMIN', false);
+            }
+        }
+
+        /**
+         *  Define IS_SUPERADMIN
+         */
+        if (!defined('IS_SUPERADMIN')) {
+            if ($_SESSION['role'] === 'super-administrator') {
+                define('IS_SUPERADMIN', true);
+            } else {
+                define('IS_SUPERADMIN', false);
+            }
+        }
     }
 }

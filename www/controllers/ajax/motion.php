@@ -1,35 +1,5 @@
 <?php
 /**
- *  Get motion configuration edit form
- */
-if ($_POST['action'] == "get-motion-config-form" and !empty($_POST['id'])) {
-    try {
-        $mymotionConfig = new \Controllers\Motion\Config();
-        $mycamera = new \Controllers\Camera\Camera();
-
-        /**
-         *  Check if camera exists
-         */
-        if ($mycamera->existId($_POST['id']) === false) {
-            throw new Exception('Camera does not exist');
-        }
-
-        $id = $_POST['id'];
-
-        /**
-         *  Generate configuration form for this camera
-         */
-        ob_start();
-        include_once(ROOT . '/views/includes/camera/edit/motion-config-form.inc.php');
-        $form = ob_get_clean();
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, $form);
-}
-
-/**
  *  Send a test email
  */
 if ($_POST['action'] == "sendTestEmail" and !empty($_POST['mailRecipient'])) {
@@ -295,6 +265,19 @@ if ($_POST['action'] == 'delete-param-from-config' and !empty($_POST['cameraId']
     }
 
     response(HTTP_OK, 'Parameter deleted');
+}
+
+/**
+ *  Get motion log
+ */
+if ($_POST['action'] == 'get-log') {
+    $content = file_get_contents('/var/log/motion/motion.log');
+
+    if ($content === false) {
+        response(HTTP_BAD_REQUEST, 'Failed to read log file');
+    }
+
+    response(HTTP_OK, $content);
 }
 
 response(HTTP_BAD_REQUEST, 'Invalid action');

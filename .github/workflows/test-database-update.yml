@@ -1,0 +1,136 @@
+name: Database update tests
+
+on:
+  push:
+    branches: [ devel ]
+  pull_request:
+    push:
+      branches: [ main ]
+jobs:
+  test-database-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install docker-compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      # Get all releases
+      # Format them to a key-value array
+      # Start from release index 5.0.0
+      # Pull images starting from release 5.0.0
+      # Ignore releases which contain "android"
+      # Then pull the next image of the index, etc..
+      - name: Test all releases update from lbr38/motionui
+        run: |
+          RELEASES=$(curl -s https://api.github.com/repos/lbr38/motion-ui/releases?per_page=10000 | jq -r '.[].name' | tac)
+
+          index="0"
+          declare -A RELEASES_ARRAY
+          for release in $RELEASES; do
+              RELEASES_ARRAY["$index"]="$release"
+              index=$((index+1))
+          done
+
+          for i in "${!RELEASES_ARRAY[@]}"; do
+              if [[ "${RELEASES_ARRAY[$i]}" == "5.0.0" ]]; then
+                  start_index="$i"
+                  break
+              fi
+          done
+
+          for ((i=start_index; i<${#RELEASES_ARRAY[@]}; i++)); do
+              release="${RELEASES_ARRAY[$i]}"
+
+              if [[ "$release" == *"android"* ]]; then
+                  continue
+              fi
+
+              docker rm -f motionui
+              docker system prune -a -f
+
+              echo -e "\nPulling image for release $release\n"
+
+              docker run -d --restart always --name motionui \
+              -e FQDN=motionui.test.com \
+              -p 8080:8080 \
+              -p 8555:8555 \
+              -v /etc/localtime:/etc/localtime:ro \
+              -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
+              -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
+              lbr38/motionui:$release
+
+              if [ $? -ne 0 ]; then
+                  echo "Failed to pull image for release $release"
+                  exit 1
+              fi
+
+              echo -e "\nNow checking for errors in container logs\n"
+
+              # Wait 20sec for the container to start
+              sleep 20
+
+              # Retrieve and check errors in container logs
+              OUTPUT=$(docker logs motionui -n10000)
+
+              # Check if the logs contains error or failed message
+              if echo "$OUTPUT" | grep -q -i -E "error|failed|unknown|uncaught|warning"; then
+                  echo "Database update seems to have failed: $OUTPUT"
+                  exit 1
+              fi
+
+              # Quit the loop if the maintenance page is disabled (meaning the update is done) => no maintenance page in oldest releases, looping forever
+              #if echo "$OUTPUT" | grep -q "Disabling maintenance page"; then
+              #    break
+              #fi
+          done
+
+      # Finally, test the devel image
+      - name: Test devel image from lbr38/motionui
+        run: |
+          docker rm -f motionui
+          docker system prune -a -f
+
+          echo -e "\Build devel image\n"
+
+          cd ${GITHUB_WORKSPACE}/docker
+
+          sed -i 's/env:.*/env: devel/g' docker-compose.yml
+          sed -i 's/fqdn:.*/fqdn: motionui.test.com/g' docker-compose.yml
+
+          docker-compose -f docker-compose.yml up -d
+
+          if [ $? -ne 0 ]; then
+              echo "Failed to build devel image"
+              exit 1
+          fi
+
+          # Retrieve and check errors in container logs
+          while true; do
+              OUTPUT=$(docker logs motionui -n10000)
+
+              # Check if the logs contains failed message
+              if echo "$OUTPUT" | grep -q -i "failed"; then
+                  echo "Database update seems to have failed: $OUTPUT"
+                  exit 1
+              fi
+
+              # Check if the logs contains error message
+              if echo "$OUTPUT" | grep -q -i "error"; then
+                  echo "Database update seems to have failed: $OUTPUT"
+                  exit 1
+              fi
+
+              # Quit the loop if the maintenance page is disabled (meaning the update is done)
+              if echo "$OUTPUT" | grep -q "Disabling maintenance page"; then
+                  break
+              fi
+
+              sleep 2
+          done
+
+          # Print final container logs output
+          echo "$OUTPUT"

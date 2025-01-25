@@ -1,6 +1,7 @@
 <?php
 $mymotionEvent = new \Controllers\Motion\Event();
 $mycamera = new \Controllers\Camera\Camera();
+$mypermission = new \Controllers\User\Permission();
 $reloadableTableOffset = 0;
 
 /**
@@ -40,3 +41,10 @@ $reloadableTableTotalPages = ceil($reloadableTableTotalItems / 10);
  *  Calculate current page number
  */
 $reloadableTableCurrentPage = ceil($reloadableTableOffset / 10) + 1;
+
+/**
+ *  If the user is not an admin, get user permissions
+ */
+if (!IS_ADMIN) {
+    $permissions = $mypermission->get($_SESSION['id']);
+}

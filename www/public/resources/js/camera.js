@@ -13,68 +13,62 @@ $(document).ready(function () {
 /**
  *  Load stream page (cameras image and timestamp)
  */
-function loadStream(reload = false)
+async function loadStream()
 {
-    loadCameras(reload);
+    await loadCameras();
     reloadTimestamp();
 }
-
-/**
- *  Load cameras image and hide loading div
- */
-function loadCameras(reload = false)
+async function loadCameras()
 {
-    timeout = 0;
-
-    // If reload is true, set timeout to 2000ms, to wait for the DOM to be fully reloaded
-    if (reload) {
-        timeout = 2000;
+    /**
+     *  Quit if there is no camera to load
+     */
+    if ($('.camera-container').length == 0) {
+        return;
     }
 
-    // Wait for the DOM to be fully reloaded
-    setTimeout(function () {
+    /**
+     *  For each camera container, load the camera image and hide the loading div
+     */
+    const cameraContainers = $('.camera-container').toArray();
+    await Promise.all(cameraContainers.map(async(container) => {
         /**
-         *  Quit if there is no camera to load
+         *  If there is no camera-image div (case where the stream is disabled), then ignore it
          */
-        if ($('.camera-container').length == 0) {
+        if ($(container).find('div.camera-image').length == 0) {
             return;
         }
 
         /**
-         *  For each camera container, load the camera image and hide the loading div
+         *  Retrieve camera loading div and camera image div
          */
-        $('.camera-container').each(function () {
-            /**
-             *  Retrieve camera loading div and camera image div
-             */
-            const cameraLoadingDiv = $(this).find('div.camera-loading');
-            const cameraImageDiv = $(this).find('div.camera-image');
+        const cameraLoadingDiv = $(container).find('div.camera-loading');
+        const cameraImageDiv   = $(container).find('div.camera-image');
 
-            /**
-             *  Retrieve camera 'img' tag and its 'data-src' attribute
-             */
-            const cameraImageImg = cameraImageDiv.find('img');
-            const cameraImageSrc = cameraImageImg.attr('data-src');
+        /**
+         *  Retrieve camera Id
+         */
+        const cameraId = $(cameraImageDiv).attr('camera-id');
 
-            /**
-             *  Find 'img' tag inside camera image div and set its 'src' attribute to the 'data-src' attribute
-             */
-            cameraImageDiv.find('img').on('load', function () {
-                /**
-                 *  Print log message
-                 */
-                console.log('Camera(s) loaded');
+        /**
+         *  Connect to the camera using WebRTC
+         *  See js/webrtc/webrtc.js
+         */
+        const media = 'video+audio';
+        connect(media, cameraId);
 
-                /**
-                 *  Once the image is loaded, hide the loading div and show the image div
-                 */
-                cameraLoadingDiv.hide();
-                cameraImageDiv.show();
-            }).attr('src', cameraImageSrc + '&' + new Date().getTime());
-        });
-    }, timeout);
+        /**
+         *  Remove the loading div and show the camera image div
+         */
+        cameraLoadingDiv.remove();
+        cameraImageDiv.show();
+    }));
 }
 
+/**
+ * Update camera timestamp
+ * @returns
+ */
 function reloadTimestamp()
 {
     /**
@@ -214,12 +208,14 @@ $(document).on('submit','#new-camera-form',function () {
         // Print success alert:
         true,
         // Print error alert:
-        true,
-        // Reload containers:
-        [ 'cameras/list' ],
-        // Execute functions :
-        [ 'loadStream(true)' ]
-    );
+        true
+    ).then(function () {
+        reloadContainer('cameras/list');
+
+        setTimeout(function () {
+            loadStream();
+        }, 1000);
+    });
 
     return false;
 });
@@ -250,13 +246,13 @@ $(document).on('submit','#edit-global-settings-form',function () {
         // Print error alert:
         true,
         // Reload containers:
-        [ 'cameras/list' ],
-        // Execute functions :
-        [
-            'loadStream(true)',
-            'reloadEditForm(' + id + ')'
-        ]
-    );
+        [ 'cameras/list' ]
+    ).then(function () {
+        reloadEditForm(id);
+        setTimeout(function () {
+            loadStream();
+        }, 1000);
+    });
 
     return false;
 });
@@ -265,31 +261,43 @@ $(document).on('submit','#edit-global-settings-form',function () {
  *  Event: Delete a camera
  */
 $(document).on('click','.delete-camera-btn',function () {
+    console.log('test');
     var cameraId = $(this).attr('camera-id');
 
-    confirmBox('Are you sure you want to delete this camera?', function () {
-        ajaxRequest(
-            // Controller:
-            'camera',
-            // Action:
-            'delete',
-            // Data:
+    confirmBox(
+        {
+            'title': 'Delete camera',
+            'message': 'Are you sure you want to delete this camera?',
+            'buttons': [
             {
-                cameraId: cameraId,
-            },
-            // Print success alert:
-            true,
-            // Print error alert:
-            true,
-            // Reload containers:
-            [ 'cameras/list' ],
-            // Execute functions :
-            [
-                "closePanel('edit-camera')",
-                "loadStream(true)"
-            ]
-        );
-    });
+                'text': 'Delete',
+                'color': 'red',
+                'callback': function () {
+                    ajaxRequest(
+                        // Controller:
+                        'camera',
+                        // Action:
+                        'delete',
+                        // Data:
+                        {
+                            cameraId: cameraId,
+                        },
+                        // Print success alert:
+                        true,
+                        // Print error alert:
+                        true,
+                        // Reload containers:
+                        [ 'cameras/list' ]
+                    ).then(function () {
+                        closePanel('camera/edit');
+                        setTimeout(function () {
+                            loadStream();
+                        }, 1000);
+                    });
+                }
+            }]
+        }
+    );
 });
 
 /**
@@ -298,10 +306,7 @@ $(document).on('click','.delete-camera-btn',function () {
 $(document).on('click','.configure-camera-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
-    /**
-     *  Ask the server to generate the configuration form
-     */
-    getEditForm(cameraId);
+    getPanel('camera/edit', {'id': cameraId});
 });
 
 /**
@@ -322,15 +327,13 @@ $(document).on('click','.timelapse-camera-btn',function () {
         // Print success alert:
         false,
         // Print error alert:
-        true,
-        // Reload containers:
-        null,
-        // Execute functions :
-        [ "$('footer').append(jsonValue.message)" ]
-    );
+        true
+    ).then(function () {
+        $('footer').append(jsonValue.message);
 
-    // Temporary hide all other stream images to avoid CPU loads
-    $('.camera-image').hide();
+        // Temporary hide all other stream images to avoid CPU loads
+        $('.camera-image').hide();
+    });
 });
 
 /**
@@ -361,14 +364,13 @@ $(document).on('change','#timelapse-date-input',function () {
         // Print success alert:
         false,
         // Print error alert:
-        true,
-        // Reload containers:
-        null,
-        // Execute functions :
-        [
-            "$('#timelapse').replaceWith(jsonValue.message);"
-        ]
-    );
+        true
+    ).then(function () {
+        /**
+         *  Replace with new content
+         */
+        morphdom(document.getElementById('timelapse'), jsonValue.message);
+    });
 });
 
 /**
@@ -629,56 +631,34 @@ $(document).on('click','.close-fullscreen-btn',function () {
 });
 
 /**
- * Ajax: get camera configuration form
- * @param {*} id
- */
-function getEditForm(id)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "camera",
-            action: "getEditForm",
-            id: id
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            $('#camera-edit-form-container').html(jsonValue.message);
-            openPanel('edit-camera');
-        },
-        error: function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
  * Ajax: reload camera configuration form
  * @param {*} id
  */
 function reloadEditForm(id)
 {
     setTimeout(function () {
-        $.ajax({
-            type: "POST",
-            url: "ajax/controller.php",
-            data: {
-                controller: "camera",
-                action: "getEditForm",
-                id: id
+        ajaxRequest(
+            // Controller:
+            'general',
+            // Action:
+            'get-panel',
+            // Data:
+            {
+                name: 'camera/edit',
+                params: {
+                    'id': id
+                }
             },
-            dataType: "json",
-            success: function (data, textStatus, jqXHR) {
-                jsonValue = jQuery.parseJSON(jqXHR.responseText);
-                $('#camera-edit-form-container').html(jsonValue.message);
-            },
-            error: function (jqXHR, ajaxOptions, thrownError) {
-                jsonValue = jQuery.parseJSON(jqXHR.responseText);
-                printAlert(jsonValue.message, 'error');
-            },
+            // Print success alert:
+            false,
+            // Print error alert:
+            true
+        ).then(function () {
+            // Get the #camera-edit-form-container from jsonValue.message
+            content = $(jsonValue.message).find('#camera-edit-form-container').html();
+
+            // Replace the content
+            $('#camera-edit-form-container').html(content);
         });
     }, 50);
 }

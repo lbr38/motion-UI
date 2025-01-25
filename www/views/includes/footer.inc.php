@@ -27,12 +27,34 @@
     </div>
 </footer>
 
+<script src="/resources/js/functions.js?<?= VERSION ?>"></script>
+<script src="/resources/js/general.js?<?= VERSION ?>"></script>
+<script src="/resources/js/events/settings.js?<?= VERSION ?>"></script>
+<script src="/resources/js/events/user/userspace.js?<?= VERSION ?>"></script>
+<script src="/resources/js/events/user/permissions.js?<?= VERSION ?>"></script>
+<script src="/resources/js/notification.js?<?= VERSION ?>"></script>
+
 <?php
 /**
- *  Load scripts if any
+ *  Additional JS files
  */
-if (is_dir(ROOT . '/public/resources/js')) {
-    foreach (glob(ROOT . '/public/resources/js/*.js') as $file) {
-        echo '<script type="text/javascript" src="/resources/js/' . basename($file) . '?' . VERSION . '"></script>';
+if (__ACTUAL_URI__[1] == '' or __ACTUAL_URI__[1] == 'live') {
+    $jsFiles = ['events/general', 'camera', 'motion', 'webrtc/webrtc'];
+}
+if (__ACTUAL_URI__[1] == 'motion') {
+    $jsFiles = ['events/general', 'camera', 'events/motion/motion', 'motion'];
+}
+if (__ACTUAL_URI__[1] == 'events') {
+    $jsFiles = ['events/general', 'camera', 'events/motion/event', 'motion'];
+}
+if (__ACTUAL_URI__[1] == 'stats') {
+    $jsFiles = ['events/general', 'functions/motion-charts', 'events/motion/charts'];
+}
+
+if (!empty($jsFiles)) {
+    foreach ($jsFiles as $jsFile) {
+        if (is_file(ROOT . '/public/resources/js/' . $jsFile . '.js')) {
+            echo '<script src="/resources/js/' . $jsFile . '.js?' . VERSION . '"></script>';
+        }
     }
 } ?>

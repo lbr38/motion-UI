@@ -16,7 +16,7 @@ class Config
     /**
      *  Return motion configuration params from a file
      */
-    public function getConfig(string $file)
+    public function getConfig(string $file) : array
     {
         $currentParams = [];
 
@@ -89,7 +89,7 @@ class Config
     /**
      *  Generate motion configuration file
      */
-    private function generateMainConfig()
+    private function generateMainConfig() : void
     {
         /**
          *  If /etc/motion/motion.conf already exist, then quit
@@ -112,13 +112,13 @@ class Config
          *  Set permissions
          */
         chmod('/etc/motion/motion.conf', octdec("0660"));
-        chgrp('/etc/motion/motion.conf', 'motion');
+        chgrp('/etc/motion/motion.conf', 'motionui');
     }
 
     /**
      *  Generate motion camera configuration file
      */
-    public function generateCameraConfig(string $id)
+    public function generateCameraConfig(string $id) : void
     {
         /**
          *  Generate /etc/motion/motion.conf if not exist
@@ -148,7 +148,7 @@ class Config
         if (!chmod(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf', octdec("0660"))) {
             throw new Exception('Could not set permissions on configuration file: ' . CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf');
         }
-        if (!chgrp(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf', 'motion')) {
+        if (!chgrp(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf', 'motionui')) {
             throw new Exception('Could not set group on configuration file: ' . CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf');
         }
     }
@@ -156,7 +156,7 @@ class Config
     /**
      *  Edit motion configuration file
      */
-    public function edit(string $file, array $params)
+    public function edit(string $file, array $params) : void
     {
         /**
          *  First get current params
@@ -172,13 +172,22 @@ class Config
                 continue;
             }
 
-            // Ignore if param value is empty
-            if (empty($details['value'])) {
+            // Ignore if param value is not set
+            if (!isset($details['value'])) {
                 continue;
             }
 
             $status = $details['status'];
             $value  = $details['value'];
+
+            // If status is 'removed', then remove the param from current params
+            if ($status == 'removed') {
+                if (isset($currentParams[$param])) {
+                    unset($currentParams[$param]);
+                }
+
+                continue;
+            }
 
             $currentParams[$param] = [
                 'status' => $status,
@@ -200,7 +209,7 @@ class Config
     /**
      *  Write motion configuration to file
      */
-    private function write(string $file, array $params)
+    public function write(string $file, array $params) : void
     {
         $content = '';
 
@@ -210,10 +219,10 @@ class Config
             $value  = $details['value'];
 
             /**
-             *  Check that parameter name is valid and does not contains invalid caracters
+             *  Check that parameter name is valid and does not contains invalid characters
              */
             if (\Controllers\Common::isAlphanumDash($name) === false) {
-                throw new Exception($name . ' parameter name contains invalid caracter(s)');
+                throw new Exception($name . ' parameter name contains invalid character(s)');
             }
 
             /**
@@ -226,17 +235,6 @@ class Config
                 if (!preg_match('#((^https?|rtsp)://)#', $value)) {
                     throw new Exception('<b>' . $name . '</b> parameter value must start with http:// or https:// or rtsp://');
                 }
-
-                if (\Controllers\Common::isAlphanumDash($value, array('.', '/', ':', '=', '?', '&', '@')) === false) {
-                    throw new Exception('<b>' . $name . '</b> parameter value contains invalid caracter(s)');
-                }
-            /**
-             *  All other options
-             */
-            } else {
-                if (\Controllers\Common::isAlphanumDash($value, array('.', ' ', ',', ':', '/', '%Y', '%m', '%d', '%H', '%M', '%S', '%q', '%v', '%t', '%w', '%h', '%D', '%f', '%{eventid}', '%{fps}', '(', ')', '=', '\'', '[', ']', '@')) === false) {
-                    throw new Exception('<b>' . $name . '</b> parameter value contains invalid caracter(s)');
-                }
             }
 
             if ($status == 'enabled') {
@@ -245,7 +243,7 @@ class Config
                 $status = ';';
             }
 
-            $content .= $status . $name . " " . $value . PHP_EOL . PHP_EOL;
+            $content .= $status . htmlspecialchars_decode($name) . " " . htmlspecialchars_decode($value) . PHP_EOL . PHP_EOL;
         }
 
         /**
@@ -261,7 +259,7 @@ class Config
     /**
      *  Edit motion configuration file (in /var/lib/motionui/cameras/)
      */
-    public function configure(string $cameraId, array $params)
+    public function configure(string $cameraId, array $params) : void
     {
         $file = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $cameraId . '.conf';
 
@@ -277,17 +275,13 @@ class Config
         /**
          *  Restart motion service if running
          */
-        if ($this->motionServiceController->isRunning()) {
-            if (!file_exists(DATA_DIR . '/motion.restart')) {
-                touch(DATA_DIR . '/motion.restart');
-            }
-        }
+        $this->motionServiceController->restart();
     }
 
     /**
      *  Delete parameter from motion configuration file
      */
-    public function deleteParameter(int $id, string $param)
+    public function deleteParameter(int $id, string $param) : void
     {
         $file = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
 
@@ -299,7 +293,9 @@ class Config
         /**
          *  Delete param from current params
          */
-        unset($currentParams[$param]);
+        if (isset($currentParams[$param])) {
+            unset($currentParams[$param]);
+        }
 
         /**
          *  Order params
@@ -314,17 +310,13 @@ class Config
         /**
          *  Restart motion service if running
          */
-        if ($this->motionServiceController->isRunning()) {
-            if (!file_exists(DATA_DIR . '/motion.restart')) {
-                touch(DATA_DIR . '/motion.restart');
-            }
-        }
+        $this->motionServiceController->restart();
     }
 
     /**
      *  Enable motion camera configuration file
      */
-    public function enable(int $id, bool $forceRestart = false)
+    public function enable(int $id) : void
     {
         $filename_available = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
         $filename_enabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
@@ -334,43 +326,24 @@ class Config
         }
 
         /**
-         *  Ignore and quit if camera configuration file is already enabled
-         */
-        if (file_exists($filename_enabled)) {
-            /**
-             *  But if forceRestart is true, then we need to restart motion service before quitting,
-             *  even if the camera configuration file is already enabled, to take some changes into account
-             */
-            if ($forceRestart) {
-                if (!file_exists(DATA_DIR . '/motion.restart')) {
-                    touch(DATA_DIR . '/motion.restart');
-                }
-            }
-
-            return;
-        }
-
-        /**
          *  Enable camera configuration file
          */
-        if (!symlink($filename_available, $filename_enabled)) {
-            throw new Exception('Could not enable camera configuration file');
+        if (!file_exists($filename_enabled)) {
+            if (!symlink($filename_available, $filename_enabled)) {
+                throw new Exception('Could not enable camera configuration file');
+            }
         }
 
         /**
          *  Restart motion service if running
          */
-        if ($this->motionServiceController->isRunning()) {
-            if (!file_exists(DATA_DIR . '/motion.restart')) {
-                touch(DATA_DIR . '/motion.restart');
-            }
-        }
+        $this->motionServiceController->restart();
     }
 
     /**
      *  Disable motion camera configuration file
      */
-    public function disable(int $id)
+    public function disable(int $id) : void
     {
         $filename_available = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
         $filename_enabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
@@ -396,10 +369,6 @@ class Config
         /**
          *  Restart motion service if running
          */
-        if ($this->motionServiceController->isRunning()) {
-            if (!file_exists(DATA_DIR . '/motion.restart')) {
-                touch(DATA_DIR . '/motion.restart');
-            }
-        }
+        $this->motionServiceController->restart();
     }
 }

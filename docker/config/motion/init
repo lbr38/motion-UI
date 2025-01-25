@@ -1,7 +1,7 @@
-#! /bin/bash
+#!/bin/bash
 #
-# motion 4.5	
-# Start the motion detection .
+# motion
+# Start the motion detection
 #
 
 NAME=motion
@@ -9,67 +9,74 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/motion
 PIDFILE=/run/motion/motion.pid
 
-
 trap "" 1
 export LANG=C
 export PATH
 
 test -f $DAEMON || exit 0
 
-
 case "$1" in
   start)
     echo "Starting motion detection : $NAME"
-    # start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid motion --umask 002
     start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
     ;;
 
   stop)
     echo "Stopping motion detection : $NAME"
-    start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
+    # start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
+    if [ -f "$PIDFILE" ]; then
+        PID=$(cat "$PIDFILE")
 
-    # If the process is still running, kill it
-    if /usr/bin/ps ax | grep "/usr/bin/motion" | grep -v "grep"; then
-        echo "Force stopping motion detection (kill)"
-        killall motion
+        # If the PID is empty, the process is not running
+        if [ -z "$PID" ]; then
+            exit 0
+        fi
+
+        # Check if a process with this PID is still running
+        if /usr/bin/ps -p "$PID" > /dev/null; then
+            echo "Force stopping motion detection (kill)"
+            kill "$PID"
+        fi
+
+        # Wait for the process to stop (timeout 10s)
+        i="0"
+        while true; do
+            # Check if the process is still running, quit if not
+            if ! ps aux | grep -q "/usr/bin/motion" | grep -v "grep"; then
+                break
+            fi
+
+            if [ "$i" -gt "10" ]; then
+                echo "Could not stop motion detection (timeout 10s)"
+                exit 1
+            fi
+
+            (( i++ ))
+            sleep 1
+        done
+
+        # Wait 8sec to make sure motion is truly stopped even if there is no more process
+        sleep 8
+        echo "End"
     fi
     ;;
 
   status)
     echo "Status motion detection : $NAME"
-    if (test -f $PIDFILE); then
+    if [ -f $PIDFILE ]; then
         echo -n "Running process for $NAME : "
     	pidof $NAME  
     else
     	echo "Stopped"
     fi
     ;;
-    
-  reload-config)
-    echo "Reloading $NAME configuration"
-    start-stop-daemon --stop --pidfile $PIDFILE --signal HUP --exec $DAEMON
-    ;;
-
-  restart-motion)
-    echo "Restarting $NAME"
-    start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
-    # start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid motion --umask 002
-    start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
-    ;;
-
-  restart)
-    $0 restart-motion
-    exit $?
-    ;;
-
   *)
-    echo "Usage: /etc/init.d/$NAME {start|stop|status|reload-config|restart}"
+    echo "Usage: /etc/init.d/$NAME {start|stop|status|restart}"
     exit 1
     ;;
 esac
 
 if [ $? == 0 ]; then
-	echo .
 	exit 0
 else
 	echo failed

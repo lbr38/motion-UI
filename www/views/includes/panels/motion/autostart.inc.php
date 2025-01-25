@@ -144,7 +144,7 @@ endif ?>
 
 <?php
 $content = ob_get_clean();
-$slidePanelName = 'autostart';
+$slidePanelName = 'motion/autostart';
 $slidePanelTitle = 'CONFIGURE AUTOSTART';
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

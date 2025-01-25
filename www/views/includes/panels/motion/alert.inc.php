@@ -103,7 +103,7 @@
 
 <?php
 $content = ob_get_clean();
-$slidePanelName = 'alert';
+$slidePanelName = 'motion/alert';
 $slidePanelTitle = 'CONFIGURE ALERTS';
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

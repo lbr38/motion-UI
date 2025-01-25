@@ -59,21 +59,7 @@ class Connection extends SQLite3
          */
         $this->exec("CREATE TABLE IF NOT EXISTS cameras (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        Name VARCHAR(255) NOT NULL,
-        Url VARCHAR(255) NOT NULL,
-        Output_resolution VARCHAR(255),
-        Framerate INTEGER,
-        Username VARCHAR(255),
-        Password VARCHAR(255),
-        Live_enabled CHAR(5),
-        Rotate INTEGER,
-        Text_left VARCHAR(255),
-        Text_right VARCHAR(255),
-        Timestamp_left CHAR(5),
-        Timestamp_right CHAR(5),
-        Motion_enabled CHAR(5),
-        Timelapse_enabled CHAR(5),
-        Hardware_acceleration CHAR(5))");
+        Configuration TEXT)");
 
         /**
          *  Create alerts table
@@ -217,6 +203,13 @@ class Connection extends SQLite3
         $this->exec("CREATE TABLE IF NOT EXISTS user_role (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         Name CHAR(15) NOT NULL UNIQUE)");
+
+        /**
+         *  Create user_permissions table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS user_permissions (
+        Permissions VARCHAR(255),
+        User_id INTEGER NOT NULL)");
 
         /**
          *  If user_role table is empty, fill it with default values

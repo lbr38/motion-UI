@@ -5,22 +5,31 @@
             <div class="flex flex-direction-column justify-center row-gap-15">
                 <h6 class="center">MOTION</h6>
                 <?php
-                if ($motionActive === false) : ?>
-                    <button class="btn-round-green start-stop-service-btn" status="start" title="Start motion service now">
-                        <img src="/assets/icons/power.svg" class="icon" />
-                    </button>
-                    <span class="block center lowopacity-cst">Start capture</span>
-                    <?php
-                endif;
+                if (!$motionActive) {
+                    $status = 'start';
+                    $title = 'Start motion service now';
+                    $color = 'green';
+                }
+                if ($motionActive) {
+                    $status = 'stop';
+                    $title = 'Stop motion service';
+                    $color = 'red';
+                } ?>
 
-                if ($motionActive === true) : ?>
-                    <button class="btn-round-red start-stop-service-btn" status="stop" title="Stop motion service">
-                        <img src="/assets/icons/power.svg" class="icon" />
-                    </button>
-                    <span class="block center lowopacity-cst">Stop capture</span>
-                    <?php
-                endif ?>
+                <button class="btn-round-<?= $color ?> start-stop-service-btn relative" status="<?= $status ?>" title="<?= $title ?>">
+                    <img src="/assets/icons/power.svg" class="icon" />
+                </button>
+
+                <span class="block center lowopacity-cst"><?= ucfirst($status) ?> motion detection</span>
             </div>
+
+            <!-- <div class="flex flex-direction-column row-gap-10"> -->
+                <?php
+                // if ($motionActive) {
+                //     echo '<img src="/assets/icons/update.svg" class="icon" title="Restart motion" />';
+                // } ?>
+                <!-- <img id="view-motion-log-btn" src="/assets/icons/file.svg" class="icon" title="View motion log" /> -->
+            <!-- </div> -->
         </div>
 
         <div class="item">
@@ -43,7 +52,7 @@
                             <img src="/assets/icons/time.svg" class="icon">
                         </button>
 
-                        <button type="button" class="btn-semi-circle-blue-right slide-panel-btn" slide-panel="autostart" title="Configure autostart">
+                        <button type="button" class="btn-semi-circle-blue-right get-panel-btn" panel="motion/autostart" title="Configure autostart">
                             <img src="/assets/icons/cog.svg" class="icon">
                         </button>
                     </div>
@@ -75,7 +84,7 @@
                             <img src="/assets/icons/alarm.svg" class="icon">
                         </button>
 
-                        <button type="button" class="btn-semi-circle-blue-right slide-panel-btn" slide-panel="alert" title="Configure alerts">
+                        <button type="button" class="btn-semi-circle-blue-right get-panel-btn" panel="motion/alert" title="Configure alerts">
                             <img src="/assets/icons/cog.svg" class="icon">
                         </button>
                     </div>

@@ -159,24 +159,4 @@ if ($this->db->columnExist('cameras', 'Stream_url') === true) {
     $this->db->exec("VACUUM");
 }
 
-/**
- *  Copy new /etc/motion/motion.conf configuration file
- */
-if (file_exists('/etc/motion/motion.conf')) {
-    if (!unlink('/etc/motion/motion.conf')) {
-        throw new \Exception('Failed to remove /etc/motion/motion.conf');
-    }
-
-    if (!copy(ROOT . '/templates/motion/motion.conf', '/etc/motion/motion.conf')) {
-        throw new \Exception('Failed to copy /etc/motion/motion.conf');
-    }
-
-    // Trigger motion restart
-    if ($mymotionServiceController->isRunning() === true) {
-        if (!file_exists(DATA_DIR . '/motion.restart')) {
-            touch(DATA_DIR . '/motion.restart');
-        }
-    }
-}
-
 unset($mycameraController, $mygo2rtcController);

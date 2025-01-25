@@ -110,7 +110,7 @@ class Event
         /**
          *  If the file is a movie, then create a thumbnail image for it
          */
-        if (preg_match('/\.mp4$/', $file)) {
+        if (preg_match('/\.(mp4|mkv|mov)$/', $file)) {
             /**
              *  Get file directory location
              */
@@ -123,7 +123,7 @@ class Event
                 /**
                  *  First, get the duration of the movie
                  */
-                $myprocess = new \Controllers\Process("/usr/bin/ffmpeg -i " . $file . " 2>&1 | grep 'Duration' | awk '{print $2}' | tr -d ,");
+                $myprocess = new \Controllers\Process("/usr/bin/mediainfo --Output='General;%Duration%' " . $file);
                 $myprocess->execute();
                 $output = $myprocess->getOutput();
                 $myprocess->close();
@@ -131,14 +131,13 @@ class Event
                 /**
                  *  If duration has been found, then create thumbnail
                  */
-                if (!empty($output)) {
+                if (!empty(trim($output))) {
                     $duration = $output;
 
                     /**
-                     *  Convert duration to seconds
+                     *  Duration is in milliseconds, so convert it to seconds
                      */
-                    list($hours, $minutes, $seconds) = explode(":", $duration);
-                    $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+                    $totalSeconds = $duration / 1000;
 
                     /**
                      *  Create thumbnail at the middle of the movie
@@ -327,6 +326,11 @@ class Event
      */
     public function deleteFile(array $filesId)
     {
+        // TODO: add a permission for usage users to delete or not files
+        if (!IS_ADMIN) {
+            throw new Exception('You are not allowed to delete files');
+        }
+
         if (empty($filesId)) {
             throw new Exception('No file has been specified');
         }

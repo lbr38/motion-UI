@@ -52,7 +52,13 @@ class Timelapse
         $this->cameras = $this->cameraController->get();
 
         foreach ($this->cameras as $camera) {
-            if ($camera['Timelapse_enabled'] == 'true') {
+            try {
+                $configuration = json_decode($camera['Configuration'], true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $e) {
+                throw new Exception('Failed to decode camera #' . $camera['Id'] . ' configuration: ' . $e->getMessage());
+            }
+
+            if ($configuration['timelapse-enable'] == 'true') {
                 return true;
             }
         }
@@ -100,10 +106,16 @@ class Timelapse
              */
             foreach ($this->cameras as $camera) {
                 try {
+                    try {
+                        $configuration = json_decode($camera['Configuration'], true, 512, JSON_THROW_ON_ERROR);
+                    } catch (JsonException $e) {
+                        throw new Exception('failed to decode camera ' . $camera['Id'] . ' configuration: ' . $e->getMessage());
+                    }
+
                     /**
                      *  Skip camera if timelapse is not enabled
                      */
-                    if ($camera['Timelapse_enabled'] != 'true') {
+                    if ($configuration['timelapse-enable'] != 'true') {
                         continue;
                     }
 

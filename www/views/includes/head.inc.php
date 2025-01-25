@@ -7,13 +7,20 @@
     <link rel="stylesheet" href="/resources/styles/normalize.css?<?= VERSION ?>"/>
     <link rel="stylesheet" href="/resources/styles/common.css?<?= VERSION ?>"/>
     <link rel="stylesheet" href="/resources/styles/motionui.css?<?= VERSION ?>"/>
+    <link rel="stylesheet" type='text/css' href="/resources/styles/select2.css?<?= VERSION ?>">
 
     <!-- jQuery -->
     <script src="/resources/js/jquery/jquery-3.7.1.min.js?<?= VERSION ?>"></script>
     <!-- jQuery long press plugin -->
-    <script src="/resources/js/jquery/jquery.longpress.js?<?= VERSION ?>"></script>
+    <!-- <script src="/resources/js/jquery/jquery.longpress.js?<?= VERSION ?>"></script> -->
+    <!-- Select2 https://select2.org/ -->
+    <script src="/resources/js/select2/select2.js?<?= VERSION ?>"></script>
+    <!-- Morhpdom -->
+    <script src="/resources/js/morphdom/morphdom-umd.min.js?<?= VERSION ?>"></script>
     <!-- ChartJS -->
     <script src="/resources/js/chartjs/chart-3.7.1.min.js?<?= VERSION ?>"></script>
+    <!-- WebRTC -->
+    <script type="module" src="/resources/js/webrtc/video-rtc.js?<?= VERSION ?>"></script>
 
     <?php
     /**

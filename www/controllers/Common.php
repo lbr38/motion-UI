@@ -29,51 +29,24 @@ class Common
     }
 
     /**
-     *  Vérifie que la chaine passée ne contient que des chiffres ou des lettres
+     *  Check that the string passed contains only numbers or letters
      */
     public static function isAlphanum(string $data, array $additionalValidCaracters = [])
     {
         /**
-         *  Si on a passé en argument des caractères supplémentaires à autoriser alors on les ignore dans le test en les remplacant temporairement par du vide
-         */
-        if (!empty($additionalValidCaracters)) {
-            if (!ctype_alnum(str_replace($additionalValidCaracters, '', $data))) {
-                return false;
-            }
-
-        /**
-         *  Si on n'a pas passé de caractères supplémentaires alors on teste simplement la chaine avec ctype_alnum
-         */
-        } else {
-            if (!ctype_alnum($data)) {
-                ;
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     *  Vérifie que la chaine passée ne contient que des chiffres ou des lettres, un underscore ou un tiret
-     *  Retire temporairement les tirets et underscore de la chaine passée afin qu'elle soit ensuite testée par la fonction PHP ctype_alnum
-     */
-    public static function isAlphanumDash(string $data, array $additionalValidCaracters = [])
-    {
-        /**
-         *  Si une chaine vide a été transmise alors c'est valide
+         *  If a empty string has been passed then it's valid
          */
         if (empty($data)) {
             return true;
         }
 
         /**
-         *  array contenant quelques exceptions de caractères valides
+         *  Array containing some exceptions of valid characters
          */
-        $validCaracters = array('-', '_');
+        $validCaracters = array('é', 'è', 'ê', 'à', 'â', 'ù', 'û', 'ç', 'ô', 'î', 'ï', 'ë', 'ü', 'ö', 'ä', 'ÿ', 'œ', 'æ');
 
         /**
-         *  Si on a passé en argument des caractères supplémentaires à autoriser alors on les ajoute à l'array $validCaracters
+         *  If we passed additional valid characters as argument then we add them to the $validCaracters array
          */
         if (!empty($additionalValidCaracters)) {
             $validCaracters = array_merge($validCaracters, $additionalValidCaracters);
@@ -84,6 +57,14 @@ class Common
         }
 
         return true;
+    }
+
+    /**
+     *  Check that the string passed contains only numbers, letters, an underscore or a dash
+     */
+    public static function isAlphanumDash(string $data, array $additionalValidCaracters = [])
+    {
+        return self::isAlphanum($data, array_merge($additionalValidCaracters, array('-', '_')));
     }
 
     /**
