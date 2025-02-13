@@ -87,6 +87,20 @@ class Service
     }
 
     /**
+     *  Restart motion service if it is running
+     */
+    public function restart() : void
+    {
+        if (!$this->isRunning()) {
+            return;
+        }
+
+        if (!file_exists(DATA_DIR . '/motion.restart')) {
+            touch(DATA_DIR . '/motion.restart');
+        }
+    }
+
+    /**
      *  Returns true if motionui service is running
      */
     public function motionuiServiceRunning() : bool

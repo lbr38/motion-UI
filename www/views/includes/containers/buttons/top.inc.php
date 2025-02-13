@@ -34,21 +34,25 @@
     </div>
    
     <div class="flex column-gap-30 margin-right-15">
-        <div class="relative">
-            <img src="/assets/icons/alarm.svg" class="pointer lowopacity slide-panel-btn" slide-panel="notification" title="Show notifications" />
-            <?php
-            if (NOTIFICATION != 0) : ?>
-                <span class="notification-count"><?= NOTIFICATION ?></span>
+        <?php
+        if (IS_ADMIN) : ?>
+            <div>
+                <img src="/assets/icons/cog.svg" class="pointer lowopacity get-panel-btn" panel="general/settings" title="Show settings" />
+            </div>
+
+            <div class="relative">
+                <img src="/assets/icons/alarm.svg" class="pointer lowopacity get-panel-btn" panel="general/notification" title="Show notifications" />
                 <?php
-            endif ?>
-        </div>
+                if (NOTIFICATION != 0) : ?>
+                    <span class="notification-count"><?= NOTIFICATION ?></span>
+                    <?php
+                endif ?>
+            </div>
+            <?php
+        endif ?>
 
         <div>
-            <img src="/assets/icons/user.svg" class="pointer lowopacity slide-panel-btn" slide-panel="userspace" title="Show userspace" />
-        </div>
-
-        <div>
-            <img src="/assets/icons/cog.svg" class="pointer lowopacity slide-panel-btn" slide-panel="settings" title="Show settings" />
+            <img src="/assets/icons/user.svg" class="pointer lowopacity get-panel-btn" panel="general/user/userspace" title="Show userspace" />
         </div>
     </div>
 </section>

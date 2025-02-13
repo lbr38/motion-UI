@@ -1,15 +1,12 @@
-<?php
-/**
- *  Pseudo slide panel
- *  Content is filled with JS
- */
-ob_start(); ?> 
+<?php ob_start(); ?>
 
-<div id="camera-edit-form-container"></div>
+<div id="camera-edit-form-container">
+    <?php include_once(ROOT . '/views/includes/camera/edit/form.inc.php'); ?>
+</div>
 
 <?php
 $content = ob_get_clean();
-$slidePanelName = 'edit-camera';
+$slidePanelName = 'camera/edit';
 $slidePanelTitle = 'EDIT CAMERA';
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

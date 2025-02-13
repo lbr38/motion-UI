@@ -40,97 +40,20 @@ class Go2rtc
     /**
      *  Add a new stream to go2rtc
      */
-    public function addStream(int $id, array $params)
+    public function addStream(int $id, array $streamUrls)
     {
-        $id = $params['id'];
-        $urlOrDevice = htmlspecialchars_decode($params['url']);
-        $basicAuthUsername = $params['basicAuthUsername'];
-        $basicAuthPassword = $params['basicAuthPassword'];
-        $rotate = $params['rotate'];
-        $resolution = $params['resolution'];
-        $frameRate = $params['framerate'];
-        $hardwareAcceleration = $params['hardware_acceleration'];
-        $ffmpegParams = '#video=mjpeg';
-
-        /**
-         *  Rotate filter
-         */
-        if ($rotate == 90) {
-            $ffmpegParams .= '#rotate=90';
-        } else if ($rotate == 180) {
-            $ffmpegParams .= '#rotate=180';
-        } else if ($rotate == 270) {
-            $ffmpegParams .= '#rotate=270';
-        }
-
-        /**
-         *  Frame rate
-         *  If framerate is 0, then we use the default frame rate of the camera, otherwise we set it
-         */
-        if ($params['framerate'] > 0) {
-            $ffmpegParams .= '#raw=-r ' . $params['framerate'];
-        }
-
-        /**
-         *  Enable hardware acceleration
-         */
-        if ($hardwareAcceleration == 'true') {
-            $ffmpegParams .= '#hardware';
-        }
-
-        /**
-         *  Trim ffmpeg params
-         */
-        $ffmpegParams = trim($ffmpegParams);
-
         /**
          *  First, get actual config
          */
         $config = $this->getConfig();
 
         /**
-         *  Detect stream type, from url / device
-         */
-        if (preg_match('#^rtsps?://#', $urlOrDevice)) {
-            /**
-             *  If camera has username and password, add it to the URL (format is http://username:password@url)
-             */
-            if (!empty($basicAuthUsername) and !empty($basicAuthPassword)) {
-                $urlOrDevice = preg_replace('#://#i', '://' . $basicAuthUsername . ':' . $basicAuthPassword . '@', $urlOrDevice);
-            }
-
-            // Define go2rtc stream command
-            $stream = 'ffmpeg:' . $urlOrDevice . $ffmpegParams;
-        } else if (preg_match('#^https?://#', $urlOrDevice)) {
-            /**
-             *  If camera has username and password, add it to the URL (format is http://username:password@url)
-             */
-            if (!empty($basicAuthUsername) and !empty($basicAuthPassword)) {
-                $urlOrDevice = preg_replace('#://#i', '://' . $basicAuthUsername . ':' . $basicAuthPassword . '@', $urlOrDevice);
-            }
-
-            /**
-             *  If a rotate > 0, then we need to use ffmpeg to rotate the stream
-             *  If framerate > 0, then we need to use ffmpeg to set the frame rate
-             *  Otherwise, we could use the stream directly with no modifications
-             */
-            if ($rotate > 0 or $frameRate > 0) {
-                $stream = 'ffmpeg:' . $urlOrDevice . $ffmpegParams;
-            } else {
-                $stream = $urlOrDevice;
-            }
-        } else if (preg_match('#^/dev/video#', $urlOrDevice)) {
-            // Define go2rtc stream command
-            $stream = 'ffmpeg:' . $urlOrDevice . $ffmpegParams;
-        } else {
-            throw new Exception('Unknown stream type for URL or device ' . $urlOrDevice);
-        }
-
-        /**
          *  Add stream in config
          */
-        $config['streams']['camera_' . $id] = $stream;
-        $config['api']['mjpeg'][] = 'camera_' . $id;
+        foreach ($streamUrls as $url) {
+            $config['streams']['camera_' . $id][] = htmlspecialchars_decode($url);
+            // $config['api']['mjpeg'][] = 'camera_' . $id;
+        }
 
         /**
          *  Save config
@@ -159,7 +82,13 @@ class Go2rtc
          *  Remove stream from config
          */
         unset($config['streams']['camera_' . $id]);
-        $config['api']['mjpeg'] = array_diff($config['api']['mjpeg'], ['camera_' . $id]);
+
+        /**
+         *  Remove stream from api mjpeg
+         */
+        if (isset($config['api']['mjpeg'])) {
+            $config['api']['mjpeg'] = array_diff($config['api']['mjpeg'], ['camera_' . $id]);
+        }
 
         /**
          *  Save config
@@ -179,14 +108,14 @@ class Go2rtc
     /**
      *  Edit a stream in go2rtc
      */
-    public function editStream(int $id, array $params)
+    public function editStream(int $id, array $streamUrls)
     {
         /**
          *  Remove and add stream
          *  Restart go2rtc only once
          */
         $this->removeStream($id, false);
-        $this->addStream($id, $params);
+        $this->addStream($id, $streamUrls);
     }
 
     /**
@@ -217,7 +146,7 @@ class Go2rtc
         /**
          *  Start go2rtc in background
          */
-        $myprocess = new \Controllers\Process('/usr/local/bin/go2rtc -c ' . GO2RTC_DIR . '/go2rtc.yml >/dev/null 2>/dev/null &');
+        $myprocess = new \Controllers\Process('/usr/local/bin/go2rtc -c ' . GO2RTC_DIR . '/go2rtc.yml > /var/lib/motionui/go2rtc/go2rtc.log 2>&1 &');
         $myprocess->execute();
         $myprocess->close();
 

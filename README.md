@@ -22,12 +22,12 @@ A dockerized web responsive interface to manage <a href="https://github.com/Moti
 
 ## 🚀 Features
 
-- Visualize camera stream.
-- Start and stop motion detection from the web interface.
+- Visualize cameras stream (sound supported).
+- Record motion detection (sound supported).
 - Enable **autostart and stop** of the motion detection, based on time slots or on device presence on the local network. If none of the known devices are connected to the local network then motion detection will be automatically started as nobody is at home.
 - Receive email alerts on motion detection.
-- Visualize captured images and videos and/or download them.
-- Create timelapses.
+- Visualize recorded images and videos and download them.
+- Record timelapses.
 
 ## 📷 Supported cameras
 
@@ -39,7 +39,7 @@ A dockerized web responsive interface to manage <a href="https://github.com/Moti
 
 ### Hardware
 
-- CPU and RAM can be very sollicitated when motion service is running depending on the number of cameras and the resolution of the stream.
+- CPU and RAM can be very sollicitated when motion detection is running depending on the number of cameras and the resolution of the stream.
 - Disk space depends on the number of cameras and the number of days you want to keep images and videos.
 
 ### Software and configuration

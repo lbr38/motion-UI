@@ -1,4 +1,7 @@
 <?php
+if (!IS_ADMIN) {
+    throw new Exception('You are not allowed to access this page.');
+}
 
 $mycamera = new \Controllers\Camera\Camera();
 $mymotionService = new \Controllers\Motion\Service();

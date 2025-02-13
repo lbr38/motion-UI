@@ -35,6 +35,21 @@
             $lastCameraId = '';
             $lastMotionEventId = '';
 
+            /**
+             *  Check if current user is allowed to see this camera (only if not admin)
+             */
+            if (!IS_ADMIN) {
+                // If the user has no camera access permissions, skip this camera
+                if (empty($permissions['cameras_access'])) {
+                    continue;
+                }
+
+                // If the user has camera access permissions, but not for this camera, skip this camera
+                if (!in_array($cameraId, $permissions['cameras_access'])) {
+                    continue;
+                }
+            }
+
             // Get camera name
             $cameraName = $mycamera->getNameById($cameraId);
 
@@ -133,16 +148,26 @@
                                     <div class="event-media-row">
                                         <div class="event-media">
                                             <?php
-                                            if (file_exists($filepath) and is_readable($filepath)) : ?>
+                                            if (!file_exists($filepath)) { ?>
+                                                <div class="file-unavailable">
+                                                    <div class="flex flex-direction-column align-item-center row-gap-10">
+                                                        <img src="/assets/icons/warning-red.svg" class="icon" />
+                                                        <p class="redtext">File deleted</p>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            } elseif (!is_readable($filepath)) { ?>
+                                                <div class="file-unavailable">
+                                                    <div class="flex flex-direction-column align-item-center row-gap-10">
+                                                        <img src="/assets/icons/warning.svg" class="icon" />
+                                                        <p class="yellowtext">File is unreadable</p>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            } else { ?>
                                                 <img src="/media?id=<?= $fileId ?>" class="play-picture-btn pointer" file-id="<?= $fileId ?>" title="Visualize picture" />
                                                 <?php
-                                            else :
-                                                if (!file_exists($filepath)) {
-                                                    echo '<div class="file-unavailable"><p class="redtext">File deleted</p></div>';
-                                                } elseif (!is_readable($filepath)) {
-                                                    echo '<div class="file-unavailable pointer"><p class="yellowtext">File not readable</p></div>';
-                                                }
-                                            endif ?>
+                                            } ?>
 
                                             <div class="event-media-file-number">
                                                 <p class="font-size-11">#<?= $fileNumberCounter ?></p>
@@ -187,18 +212,29 @@
                                         <div>
                                             <div class="event-media">
                                                 <?php
-                                                if (file_exists($filepath) and is_readable($filepath) and file_exists($filepath . '.thumbnail.jpg') and is_readable($filepath . '.thumbnail.jpg')) : ?>
-                                                    <img src="/media?thumbnail&id=<?= $fileId ?>" class="play-video-btn media-thumbnail pointer" file-id="<?= $fileId ?>" title="Play video" onerror="setVideoThumbnailUnavailable(<?= $fileId ?>)" />
+                                                if (!file_exists($filepath)) { ?>
+                                                    <div class="file-unavailable">
+                                                        <div class="flex flex-direction-column align-item-center row-gap-10">
+                                                            <img src="/assets/icons/warning-red.svg" class="icon" />
+                                                            <p class="redtext">File deleted</p>
+                                                        </div>
+                                                    </div>
                                                     <?php
-                                                else :
-                                                    if (!file_exists($filepath)) {
-                                                        echo '<div class="file-unavailable"><p class="redtext">File deleted</p></div>';
-                                                    } elseif (!is_readable($filepath)) {
-                                                        echo '<div class="file-unavailable pointer"><p class="yellowtext">File not readable</p></div>';
-                                                    } elseif (!file_exists($filepath . '.thumbnail.jpg') or !is_readable($filepath . '.thumbnail.jpg')) {
-                                                        echo '<div class="file-unavailable play-video-btn pointer" file-id="' . $fileId . '"><p>Preview unavailable</p></div>';
-                                                    }
-                                                endif ?>
+                                                } elseif (!is_readable($filepath)) { ?>
+                                                    <div class="file-unavailable">
+                                                        <div class="flex flex-direction-column align-item-center row-gap-10">
+                                                            <img src="/assets/icons/warning.svg" class="icon" />
+                                                            <p class="yellowtext">File is unreadable</p>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                } else { ?>
+                                                    <video controls preload="metadata" poster="/media?thumbnail&id=<?= $fileId ?>">
+                                                        <source data-src="/media?id=<?= $fileId ?>">
+                                                        <p>Your browser does not support the video.</p>
+                                                    </video>
+                                                    <?php
+                                                } ?>
 
                                                 <div class="event-media-file-number">
                                                     <p class="font-size-13">#<?= $fileNumberCounter ?></p>

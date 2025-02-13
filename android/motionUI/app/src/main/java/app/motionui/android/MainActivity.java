@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Bundle;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.DownloadListener;
@@ -15,10 +18,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.os.Build;
 import android.webkit.CookieManager;
 import android.Manifest;
-import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 1001;
     private WebView webView;
     private String url;
+    private boolean isFullScreen = false;
     // private Integer authTry = 0;
 
     /**
@@ -97,8 +99,10 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
 
-        // For debugging:
-        webView.setWebChromeClient(new WebChromeClient());
+        /**
+         *  Use custom WebChromeClient to enable features like full-screen video
+         */
+        webView.setWebChromeClient(new FullScreenWebChromeClient(this, webView));
 
         /**
          *  Enable JavaScript interface "MyJavaScriptInterface()" to retrieve username and password from the login form when the user submits it and save them in SharedPreferences
@@ -247,8 +251,16 @@ public class MainActivity extends AppCompatActivity {
      
         /**
          *  Load motionUI URL in the WebView
+         *  Restore webview state if it was saved (e.g. when the device is rotated)
+         *  Otherwise, load the URL
          */
-        webView.loadUrl(url);
+        if (savedInstanceState != null) {
+            webView.restoreState(savedInstanceState);
+            isFullScreen = savedInstanceState.getBoolean("isFullScreen", false);
+        } else {
+            // Load the URL
+            webView.loadUrl(url);
+        }
     }
 
     /**
@@ -263,6 +275,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
+        outState.putBoolean("isFullScreen", isFullScreen);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    public void setFullScreen(boolean isFullScreen) {
+        this.isFullScreen = isFullScreen;
     }
 
     /**

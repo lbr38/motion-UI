@@ -17,9 +17,35 @@ function deleteMedia()
      *  Wait for previous confirm box to be removed
      */
     setTimeout(function () {
-        confirmBox('Are you sure you want to delete the selected media(s)?', function () {
-            deleteMediaAjax(mediaId);
-        });
+        confirmBox(
+            {
+                'title': 'Delete medias',
+                'message': 'Are you sure you want to delete the selected media(s)?',
+                'buttons': [
+                {
+                    'text': 'Delete',
+                    'color': 'red',
+                    'callback': function () {
+                        ajaxRequest(
+                            // Controller:
+                            'motion',
+                            // Action:
+                            'deleteFile',
+                            // Data:
+                            {
+                                mediaId: mediaId
+                            },
+                            // Print success alert:
+                            true,
+                            // Print error alert:
+                            true,
+                            // Reload containers:
+                            ['motion/events/list']
+                        );
+                    }
+                }]
+            }
+        );
     }, 10);
 }
 
@@ -66,26 +92,31 @@ function downloadMedia()
 
 function reloadMotionConfigEditForm(id)
 {
-    ajaxRequest(
-        // Controller:
-        'motion',
-        // Action:
-        'get-motion-config-form',
-        // Data:
-        {
-            id: id
-        },
-        // Print success alert:
-        false,
-        // Print error alert:
-        true,
-        // Reload containers:
-        [],
-        // Execute function on success:
-        [
-            "$('#camera-edit-motion-config-form-container').html(jsonValue.message);",
-        ]
-    );
+    setTimeout(function () {
+        ajaxRequest(
+            // Controller:
+            'general',
+            // Action:
+            'get-panel',
+            // Data:
+            {
+                name: 'motion/edit',
+                params: {
+                    'id': id
+                }
+            },
+            // Print success alert:
+            false,
+            // Print error alert:
+            true
+        ).then(function () {
+            // Get the #camera-edit-motion-config-form-container from jsonValue.message
+            content = $(jsonValue.message).find('#camera-edit-motion-config-form-container').html();
+
+            // Replace the content
+            $('#camera-edit-motion-config-form-container').html(content);
+        });
+    }, 50);
 }
 
 /**
@@ -173,19 +204,11 @@ $(document).on('click','#send-test-email-btn',function () {
 });
 
 /**
- *  Event: select stats dates
- */
-$(document).on('change','.stats-date-input',function () {
-    var dateStart = $('.stats-date-input[name=dateStart]').val();
-    var dateEnd = $('.stats-date-input[name=dateEnd]').val();
-
-    statsDateSelect(dateStart, dateEnd);
-});
-
-/**
  *  Event: acquit all events
  */
 $(document).on('click','.acquit-events-btn',function () {
+    printAlert('Acquitting all events, please wait...');
+
     ajaxRequest(
         // Controller:
         'motion',
@@ -252,25 +275,6 @@ $(document).on('click','.play-picture-btn',function () {
 });
 
 /**
- *  Event: vizualize event video
- */
-$(document).on('click','.play-video-btn',function () {
-    var fileId = $(this).attr('file-id');
-
-    html = '<div id="fullscreen">'
-    + '<div class="flex align-item-center">'
-    + '<video controls title="Full screen event video"><source src="/media?id=' + fileId + '"><p>You browser does not support embedded videos.</p></video>'
-    + '</div>'
-    + '<div class="flex align-item-center justify-center">'
-    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'
-    + '</div>'
-    + '</div>';
-
-    // Append the fullscreen div to the body
-    $('body').append(html);
-});
-
-/**
  *  Event: close event picture or video
  */
 $(document).on('click','.event-print-file-close-btn',function () {
@@ -313,14 +317,26 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
      *  Print confirm box to delete selected medias
      */
     confirmBox(
-        'Delete or download selected media(s)',
-        function () {
-            deleteMedia(); },
-        'Delete',
-        function () {
-            downloadMedia(); },
-        'Download',
-        'select-media-confirm'
+        {
+            'id': 'download-delete-media',
+            'title': 'Download or delete selected media(s)',
+            'message': '',
+            'buttons': [
+            {
+                'text': 'Download',
+                'color': 'blue',
+                'callback': function () {
+                    downloadMedia();
+                }
+            },
+            {
+                'text': 'Delete',
+                'color': 'red',
+                'callback': function () {
+                    deleteMedia();
+                }
+            }]
+        }
     );
 
     /**
@@ -368,30 +384,7 @@ $(document).on('click',".select-all-media-checkbox",function () {
 $(document).on('click','.get-motion-config-form-btn',function () {
     var id = $(this).attr('camera-id');
 
-    /**
-     *  Ask the server to generate the configuration form
-     */
-    ajaxRequest(
-        // Controller:
-        'motion',
-        // Action:
-        'get-motion-config-form',
-        // Data:
-        {
-            id: id
-        },
-        // Print success alert:
-        false,
-        // Print error alert:
-        true,
-        // Reload containers:
-        [],
-        // Execute function on success:
-        [
-            "$('#camera-edit-motion-config-form-container').html(jsonValue.message);",
-            "openPanel('edit-motion-config');"
-        ]
-    );
+    getPanel('motion/edit', {'id': id});
 });
 
 /**
@@ -413,29 +406,38 @@ $(document).on('click','.motion-param-delete-btn',function (e) {
     var cameraId = $(this).attr('camera-id');
     var name = $(this).attr('param-name');
 
-    confirmBox('Are you sure you want to delete ' + name + ' parameter?', function () {
-        ajaxRequest(
-            // Controller:
-            'motion',
-            // Action:
-            'delete-param-from-config',
-            // Data:
+    confirmBox(
+        {
+            'title': 'Delete parameter',
+            'message': 'Are you sure you want to delete ' + name + ' parameter?',
+            'buttons': [
             {
-                cameraId: cameraId,
-                name: name
-            },
-            // Print success alert:
-            true,
-            // Print error alert:
-            true,
-            // Reload containers:
-            [],
-            // Execute function on success:
-            [
-                "reloadMotionConfigEditForm(" + cameraId + ");"
-            ]
-        );
-    }, 'Delete');
+                'text': 'Delete',
+                'color': 'red',
+                'callback': function () {
+                    ajaxRequest(
+                        // Controller:
+                        'motion',
+                        // Action:
+                        'delete-param-from-config',
+                        // Data:
+                        {
+                            cameraId: cameraId,
+                            name: name
+                        },
+                        // Print success alert:
+                        true,
+                        // Print error alert:
+                        true,
+                        // Reload containers:
+                        ['motion/events/list']
+                    ).then(function () {
+                        reloadMotionConfigEditForm(cameraId);
+                    });
+                }
+            }]
+        }
+    );
 });
 
 /**
@@ -515,14 +517,10 @@ $(document).on('submit','#camera-motion-settings-form',function () {
         // Print success alert:
         true,
         // Print error alert:
-        true,
-        // Reload containers:
-        [],
-        // Execute functions :
-        [
-            "reloadMotionConfigEditForm(" + cameraId + ");"
-        ]
-    );
+        true
+    ).then(function () {
+        reloadMotionConfigEditForm(cameraId);
+    });
 
     return false;
 });
@@ -698,7 +696,7 @@ function enableDevicePresence(status)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('autostart');
+            reloadPanel('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -727,7 +725,7 @@ function addDevice(name, ip)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('autostart');
+            reloadPanel('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -754,7 +752,7 @@ function removeDevice(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('autostart');
+            reloadPanel('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -860,34 +858,7 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('alert');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
-        },
-    });
-}
-
-/**
- * Ajax: delete event media file
- * @param {*} mediaId
- */
-function deleteMediaAjax(mediaId)
-{
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "deleteFile",
-            mediaId: mediaId
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
-            reloadContainer('motion/events/list');
+            reloadPanel('motion/alert');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

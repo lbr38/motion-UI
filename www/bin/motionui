@@ -52,16 +52,16 @@ function permissions
 
     # Set permissions on motion captures dir
     mkdir -p /var/lib/motion
-    chown -R motion:motion /var/lib/motion
+    chown -R www-data:motionui /var/lib/motion
     find "/var/lib/motion" -type f -exec chmod 0660 {} \;
     find "/var/lib/motion" -type d -exec chmod 0770 {} \;
 
     chmod 550 ${WWW_DIR}/bin/motionui
 
-    find "/etc/motion" -type f -exec chmod 0660 {} \;
-    find "/etc/motion" -type d -exec chmod 0770 {} \;
-    chown -R ${WWW_USER}:motion /etc/motion
-    chmod 770 /etc/motion
+    find "/usr/var/lib/motion" -type f -exec chmod 0660 {} \;
+    find "/usr/var/lib/motion" -type d -exec chmod 0770 {} \;
+    chown -R ${WWW_USER}:motionui /usr/var/lib/motion
+    chmod 770 /usr/var/lib/motion
 }
 
 echo '

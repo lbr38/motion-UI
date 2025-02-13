@@ -17,11 +17,13 @@ ARG env
 
 # Install dependencies, postfix
 RUN apt-get update -y
-RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transport-https dnsutils vim gnupg2 ffmpeg postfix -y
+RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transport-https dnsutils vim gnupg2 ffmpeg mediainfo postfix -y
 
-# Add motion 4.5.x repository
+# Add motion repository
 RUN curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.net.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.repomanager.net.gpg
-RUN echo "deb https://packages.repomanager.net/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
+# Standby until motion project is releasing a package for version 5.0.0
+# TODO: when motion is releasing a new package, use the deb package instead
+# RUN echo "deb https://packages.repomanager.net/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
 
 # Add nginx and PHP repositories
 RUN echo "deb https://packages.repomanager.net/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
@@ -31,8 +33,13 @@ RUN apt-get update -y
 # Install nginx and PHP 8.3
 RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-curl php8.3-yaml sqlite3 -y
 
-# Install motion
-RUN apt-get install motion -y
+# Install motion (standby until motion is releasing a package for version 5.0.0)
+# RUN apt-get install motion -y
+# Build motion from sources
+# TODO: when motion is releasing a new package, use the deb package instead
+RUN apt-get install -y autoconf automake autopoint build-essential pkgconf libtool libzip-dev libjpeg-dev git libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libavdevice-dev libwebp-dev gettext libmicrohttpd-dev libcamera-tools libcamera-dev libcamera-v4l2
+RUN git clone https://github.com/Motion-Project/motion.git && cd motion && autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && make && make install
+RUN rm -rf motion
 
 # Clone project in the container
 RUN git clone https://github.com/lbr38/motion-ui.git /tmp/motionui
@@ -70,25 +77,29 @@ RUN echo "$fqdn" > $WWW_DIR/.fqdn
 # Create motionui group and set basic permissions
 RUN groupadd motionui
 RUN usermod -a -G motionui www-data
-RUN usermod -a -G motion www-data
-RUN usermod -a -G motionui motion
 RUN chown -R www-data:motionui $WWW_DIR $DATA_DIR
 
 # Configure motion
 RUN mkdir -p /var/log/motion /var/run/motion
 RUN touch /var/run/motion/motion.pid
-RUN chown -R motion:motion /var/log/motion /var/run/motion
+RUN chown -R www-data:motionui /var/log/motion /var/run/motion
 RUN chmod 775 /var/log/motion /var/run/motion
 
+# New main directory is /usr/var/lib/motion
+RUN rm /usr/var/lib/motion/* -fr
+RUN mkdir -p /usr/var/lib/motion
+RUN chown -R www-data:motionui /usr/var/lib/motion
+RUN chmod 770 /usr/var/lib/motion
+# Create a symbolic link to /etc/motion to keep compatibility
+RUN ln -s /usr/var/lib/motion /etc/motion
+
 # Copy motion main config file
-RUN rm /etc/motion/* -fr
 RUN cp /tmp/motionui/www/templates/motion/motion.conf /etc/motion/motion.conf
-RUN chown -R www-data:motion /etc/motion
 
 # Copy motion event bin files
 RUN mkdir -p /usr/lib/motion
 RUN cp /tmp/motionui/www/bin/on_event* /usr/lib/motion/
-RUN chown -R motion:motion /usr/lib/motion
+RUN chown -R www-data:motionui /usr/lib/motion
 
 # Copy motion init script
 RUN cp /tmp/motionui/docker/config/motion/init /etc/init.d/motion
@@ -115,6 +126,7 @@ RUN chmod 750 /usr/local/bin/go2rtc
 RUN if [ ! -f "${DATA_DIR}/go2rtc/go2rtc.yml" ]; then \
         mkdir -p ${DATA_DIR}/go2rtc; \
         cp ${WWW_DIR}/templates/go2rtc/go2rtc.yml ${DATA_DIR}/go2rtc/go2rtc.yml; \
+        sed -i "s/__FQDN__/$fqdn/g" ${DATA_DIR}/go2rtc/go2rtc.yml; \
         chown www-data:motionui ${DATA_DIR}/go2rtc/go2rtc.yml; \
     fi
 
