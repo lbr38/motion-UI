@@ -6,6 +6,7 @@ services:
     container_name: motionui-dev
     image: motionui-image
     privileged: true
+    network_mode: host
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,10 +14,6 @@ services:
         env: devel
         fqdn: motionui-dev.localhost
     restart: unless-stopped
-    ports:
-      - "8888:8080"
-      - "8555:8555"
-      - "1984:1984" # To access go2rtc web interface
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/lib/docker/volumes/motionui-dev-data:/var/lib/motionui

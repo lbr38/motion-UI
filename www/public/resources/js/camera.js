@@ -18,6 +18,7 @@ async function loadStream()
     await loadCameras();
     reloadTimestamp();
 }
+
 async function loadCameras()
 {
     /**
@@ -40,28 +41,15 @@ async function loadCameras()
         }
 
         /**
-         *  Retrieve camera loading div and camera image div
-         */
-        const cameraLoadingDiv = $(container).find('div.camera-loading');
-        const cameraImageDiv   = $(container).find('div.camera-image');
-
-        /**
          *  Retrieve camera Id
          */
-        const cameraId = $(cameraImageDiv).attr('camera-id');
+        const cameraId = $(container).find('div.camera-image').attr('camera-id');
 
         /**
          *  Connect to the camera using WebRTC
          *  See js/webrtc/webrtc.js
          */
-        const media = 'video+audio';
-        connect(media, cameraId);
-
-        /**
-         *  Remove the loading div and show the camera image div
-         */
-        cameraLoadingDiv.remove();
-        cameraImageDiv.show();
+        connect(cameraId);
     }));
 }
 

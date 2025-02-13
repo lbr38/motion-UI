@@ -83,10 +83,10 @@
 
                         if ($cameraRawParams['stream-enable'] == 'true') : ?>
                             <!-- Loading image -->
-                            <div class="camera-loading" camera-id="<?= $cameraId ?>">
+                            <!-- <div class="camera-loading" camera-id="<?= $cameraId ?>">
                                 <button class="btn-round-none"><img src="/assets/icons/loading.svg" class="icon" title="Loading image" /></button>
                                 <p class="block center lowopacity-cst">Loading image</p>
-                            </div>
+                            </div> -->
 
                             <!-- Unavailable image div -->
                             <div class="camera-unavailable align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $cameraId ?>">

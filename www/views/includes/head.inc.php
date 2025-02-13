@@ -19,8 +19,6 @@
     <script src="/resources/js/morphdom/morphdom-umd.min.js?<?= VERSION ?>"></script>
     <!-- ChartJS -->
     <script src="/resources/js/chartjs/chart-3.7.1.min.js?<?= VERSION ?>"></script>
-    <!-- WebRTC -->
-    <script type="module" src="/resources/js/webrtc/video-rtc.js?<?= VERSION ?>"></script>
 
     <?php
     /**

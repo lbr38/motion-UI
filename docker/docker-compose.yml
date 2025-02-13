@@ -5,6 +5,7 @@ services:
     container_name: motionui
     image: motionui-image
     privileged: true
+    network_mode: host
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,9 +13,6 @@ services:
         env: prod
         fqdn: motionui.example.com
     restart: unless-stopped
-    ports:
-      - "8080:8080"
-      - "8555:8555"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/lib/docker/volumes/motionui-data:/var/lib/motionui

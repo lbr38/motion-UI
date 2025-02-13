@@ -1,4 +1,6 @@
-async function PeerConnection(media, cameraId) {
+async function PeerConnection(cameraId) {
+    const media = 'video+audio';
+
     const pc = new RTCPeerConnection({
         iceServers: [{urls: 'stun:stun.l.google.com:19302'}]
     });
@@ -55,8 +57,8 @@ async function getMediaTracks(media, constraints) {
     }
 }
 
-async function connect(media, cameraId) {
-    const pc = await PeerConnection(media, cameraId);
+async function connect(cameraId) {
+    const pc = await PeerConnection(cameraId);
     
     /**
      *  Connect to go2rtc server using WebSocket
