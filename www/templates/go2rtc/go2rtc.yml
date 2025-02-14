@@ -2,7 +2,7 @@
 webrtc:
   listen: :8555
   candidates:
-    - __FQDN__:8555
+    - stun:8555
 
 streams:
 

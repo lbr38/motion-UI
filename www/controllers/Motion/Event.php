@@ -103,6 +103,27 @@ class Event
         $time = date('H:i');
 
         /**
+         *  Check that provided file is valid (must be in captures directory)
+         */
+        if (!preg_match('#^' . CAPTURES_DIR . '#', realpath($file))) {
+            throw new Exception('The specified file is invalid.');
+        }
+
+        /**
+         *  File must be a picture or a movie
+         */
+        if (!preg_match('/\.(jpg|jpeg|mp4|)$/', $file)) {
+            throw new Exception('The specified file extension is not allowed.');
+        }
+
+        /**
+         *  Check that MIME type is valid
+         */
+        if (!in_array(mime_content_type($file), ['image/jpeg', 'video/mp4'])) {
+            throw new Exception('The specified file MIME type is not allowed.');
+        }
+
+        /**
          *  Attach file to event
          */
         $this->model->attachFile($motionEventId, $file, \Controllers\Common::sizeFormat(filesize($file), true), $width, $height, $fps, $changed_pixels);
@@ -110,7 +131,7 @@ class Event
         /**
          *  If the file is a movie, then create a thumbnail image for it
          */
-        if (preg_match('/\.(mp4|mkv|mov)$/', $file)) {
+        if (preg_match('/\.mp4$/', $file)) {
             /**
              *  Get file directory location
              */

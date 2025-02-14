@@ -41,7 +41,7 @@ try {
             $config['webrtc'] = [
                 'listen' => ':8555',
                 'candidates' => [
-                    WWW_HOSTNAME . ':8555'
+                    'stun:8555'
                 ]
             ];
         }

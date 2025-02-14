@@ -476,10 +476,6 @@ h3 {
     margin: 15px;
 }
 
-.camera-image {
-    display: none;
-}
-
 .camera-image > img {
     max-width: 100%;
     margin-left: auto;
@@ -492,7 +488,6 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     border-radius: 4px;
-    object-fit: cover;
 }
 .camera-image-text-left, .camera-image-text-right {
     position: absolute;

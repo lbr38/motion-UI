@@ -54,10 +54,8 @@ jobs:
 
               echo -e "\nPulling image for release $release\n"
 
-              docker run -d --restart always --name motionui \
+              docker run -d --restart always --name motionui --network=host \
               -e FQDN=motionui.test.com \
-              -p 8080:8080 \
-              -p 8555:8555 \
               -v /etc/localtime:/etc/localtime:ro \
               -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
               -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \

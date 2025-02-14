@@ -5,12 +5,7 @@ $mymotionEvent = new \Controllers\Motion\Event();
 /**
  *  Check that specified media Id is valid
  */
-if (empty($_GET['id'])) {
-    http_response_code(400);
-    error_log("Invalid media ID.");
-    return;
-}
-if (!is_numeric($_GET['id'])) {
+if (empty($_GET['id']) or !is_numeric($_GET['id'])) {
     http_response_code(400);
     error_log("Invalid media ID.");
     return;
@@ -24,6 +19,15 @@ $filePath = $mymotionEvent->getFilePath($_GET['id']);
 if (empty($filePath)) {
     http_response_code(404);
     error_log("File not found: " . $_GET['id']);
+    return;
+}
+
+/**
+ *  If filepath is not valid
+ */
+if (!preg_match('#^' . CAPTURES_DIR . '#', realpath($filePath))) {
+    http_response_code(400);
+    error_log("Invalid file path: " . $filePath);
     return;
 }
 
