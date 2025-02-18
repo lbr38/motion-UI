@@ -207,7 +207,7 @@
                                 /**
                                  *  Case it a movie
                                  */
-                                if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
+                                if (preg_match('/\.(mp4|mkv|mov)$/', $filepath)) : ?>
                                     <div class="event-media-row">
                                         <div>
                                             <div class="event-media">

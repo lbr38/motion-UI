@@ -16,13 +16,35 @@ export PATH
 test -f $DAEMON || exit 0
 
 case "$1" in
-  start)
-    echo "Starting motion detection : $NAME"
-    start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
+    start)
+        LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')-motion.log"
+
+        echo "Starting motion detection"
+
+        # If /var/log/motion/motion.log is a file, remove it
+        if [ -f "/var/log/motion/motion.log" ]; then
+            rm -f /var/log/motion/motion.log
+        fi
+
+        # Create log file with date and time
+        if ! touch "$LOGFILE" > /dev/null 2>&1; then
+            echo "Could not create log file"
+            exit 1
+        fi
+
+        chown www-data:www-data "$LOGFILE"
+        
+        if ! ln -sf "$LOGFILE" /var/log/motion/motion.log; then
+            echo "Could not create symlink to log file"
+            exit 1
+        fi
+
+        # Start motion detection
+        start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
     ;;
 
   stop)
-    echo "Stopping motion detection : $NAME"
+    echo "Stopping motion detection"
     # start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
     if [ -f "$PIDFILE" ]; then
         PID=$(cat "$PIDFILE")
@@ -38,7 +60,7 @@ case "$1" in
             kill "$PID"
         fi
 
-        # Wait for the process to stop (timeout 10s)
+        # Wait for the process to stop (timeout 10s)
         i="0"
         while true; do
             # Check if the process is still running, quit if not
@@ -62,7 +84,7 @@ case "$1" in
     ;;
 
   status)
-    echo "Status motion detection : $NAME"
+    echo "Status motion detection"
     if [ -f $PIDFILE ]; then
         echo -n "Running process for $NAME : "
     	pidof $NAME  
@@ -71,7 +93,7 @@ case "$1" in
     fi
     ;;
   *)
-    echo "Usage: /etc/init.d/$NAME {start|stop|status|restart}"
+    echo "Usage: /etc/init.d/$NAME {start|stop|status}"
     exit 1
     ;;
 esac

@@ -26,9 +26,13 @@ class Settings
      */
     public function edit($settings)
     {
+        /**
+         *  Set default values
+         */
         $homePage = 'live'; // Default home page is '/live'
-        $timelapseInterval = '300'; // Default timelapse interval is 300 seconds
-        $timelapseRetention = '30'; // Default timelapse retention is 30 days
+        $streamDefaultTechnology = 'mse';
+        $timelapseInterval = '300';
+        $timelapseRetention = '30';
         $motionEventsRetention = '30';
 
         /**
@@ -50,6 +54,9 @@ class Settings
             throw new Exception('Unable to save Home page settings');
         }
 
+        if (!empty($settings['stream-default-technology']) and in_array($settings['stream-default-technology'], ['mse', 'webrtc'])) {
+            $streamDefaultTechnology = $settings['stream-default-technology'];
+        }
         if (!empty($settings['timelapse-interval']) and is_numeric($settings['timelapse-interval']) and $settings['timelapse-interval'] > 0) {
             $timelapseInterval = $settings['timelapse-interval'];
         }
@@ -60,6 +67,6 @@ class Settings
             $motionEventsRetention = $settings['motion-events-retention'];
         }
 
-        $this->model->edit($timelapseInterval, $timelapseRetention, $motionEventsRetention);
+        $this->model->edit($streamDefaultTechnology, $timelapseInterval, $timelapseRetention, $motionEventsRetention);
     }
 }

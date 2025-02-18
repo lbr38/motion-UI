@@ -62,6 +62,8 @@ class Service
             return false;
         }
 
+        // Set motion status to inactive in database
+        $this->setStatusInDb('inactive');
         $this->layoutContainerReloadController->reload('motion/buttons/main');
 
         return true;
@@ -81,6 +83,8 @@ class Service
             return false;
         }
 
+        // Set motion status to active in database
+        $this->setStatusInDb('active');
         $this->layoutContainerReloadController->reload('motion/buttons/main');
 
         return true;

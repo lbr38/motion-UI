@@ -15,6 +15,15 @@ $(document).on('submit','#settings-form',function () {
             } else {
                 var value = 'false';
             }
+        /**
+         *  If the input is a radio button then we only retrieve its value if it is checked, otherwise we move on to the next parameter
+         */
+        } else if ($(this).attr('type') == 'radio') {
+            if ($(this).is(":checked")) {
+                var value = $(this).val();
+            } else {
+                return; // return is the equivalent of 'continue' for jquery loops .each()
+            }
         } else {
             var value = $(this).val();
         }

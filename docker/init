@@ -44,7 +44,7 @@ fi
 
 # Start go2rtc in background, if not already running (database update may haved started it)
 if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -v -q "grep"; then
-    /bin/su -s /bin/bash -c "/usr/local/bin/go2rtc -c $GO2RTC_DIR/go2rtc.yml >/var/lib/motionui/go2rtc/go2rtc.log &" www-data
+    service go2rtc start
 fi
 
 # Start shell service in background

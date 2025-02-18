@@ -71,7 +71,7 @@ async function connect(cameraId) {
     const wsUrl = window.location.origin.replace('http', 'ws') + '/api/ws?src=camera_' + cameraId + '&media=video+audio';
 
     // For debug purpose
-    // console.log('Connecting to WebSocket:', wsUrl);
+    console.log('Connecting to WebSocket:', wsUrl);
 
     const ws = new WebSocket(wsUrl);
 
@@ -81,18 +81,18 @@ async function connect(cameraId) {
             if (!ev.candidate) return;
             const msg = {type: 'webrtc/candidate', value: ev.candidate.candidate};
             // For debug purpose
-            // console.log('Sending ICE candidate:', msg);
+            console.log('Sending ICE candidate:', msg);
             ws.send(JSON.stringify(msg));
         });
 
         pc.createOffer().then(offer => {
             // For debug purpose
-            // console.log('Created offer:', offer);
+            console.log('Created offer:', offer);
             return pc.setLocalDescription(offer);
         }).then(() => {
             const msg = {type: 'webrtc/offer', value: pc.localDescription.sdp};
             // For debug purpose
-            // console.log('Sending offer:', msg);
+            console.log('Sending offer:', msg);
             ws.send(JSON.stringify(msg));
         }).catch(error => {
             console.error('Error creating or sending offer:', error);
@@ -104,7 +104,7 @@ async function connect(cameraId) {
         const msg = JSON.parse(ev.data);
 
         // For debug purpose
-        // console.log('Received message:', msg);
+        console.log('Received message:', msg);
 
         if (msg.type === 'webrtc/candidate') {
             // Try to add the ICE candidate, if an error is caught, close the WebSocket connection

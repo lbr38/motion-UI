@@ -14,15 +14,19 @@ class Service extends \Models\Model
     /**
      *  Get daily motion service status (for stats)
      */
-    public function getMotionServiceStatusStats()
+    public function getMotionServiceStatusStats() : array
     {
         $status = array();
 
-        $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE (Date = :dateYesterday AND Time >= :timeNow) OR (Date = :dateToday)");
-        $stmt->bindValue(':dateYesterday', date('Y-m-d', strtotime('-1 day', strtotime(DATE_YMD))));
-        $stmt->bindValue(':timeNow', date('H:i:s'));
-        $stmt->bindValue(':dateToday', DATE_YMD);
-        $result = $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE (Date = :dateYesterday AND Time >= :timeNow) OR (Date = :dateToday)");
+            $stmt->bindValue(':dateYesterday', date('Y-m-d', strtotime('-1 day', strtotime(DATE_YMD))));
+            $stmt->bindValue(':timeNow', date('H:i:s'));
+            $stmt->bindValue(':dateToday', DATE_YMD);
+            $result = $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $status[] = $row;
@@ -34,12 +38,16 @@ class Service extends \Models\Model
     /**
      *  Set motion actual status in database
      */
-    public function setStatusInDb(string $status)
+    public function setStatusInDb(string $status) : void
     {
-        $stmt = $this->db->prepare("INSERT INTO motion_status (Date, Time, Status) VALUES (:date, :time, :status)");
-        $stmt->bindValue(':date', date('Y-m-d'));
-        $stmt->bindValue(':time', date('H:i:s'));
-        $stmt->bindValue(':status', $status);
-        $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("INSERT INTO motion_status (Date, Time, Status) VALUES (:date, :time, :status)");
+            $stmt->bindValue(':date', date('Y-m-d'));
+            $stmt->bindValue(':time', date('H:i:s'));
+            $stmt->bindValue(':status', $status);
+            $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
     }
 }
