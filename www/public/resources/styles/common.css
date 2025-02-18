@@ -201,7 +201,7 @@ pre.codeblock {
 .align-self-center{align-self: center}
 .align-self-end{align-self: flex-end}
 .column-gap-1{column-gap:1px!important}.column-gap-2{column-gap:2px!important}.column-gap-4{column-gap:4px!important}.column-gap-5{column-gap:5px!important}.column-gap-6{column-gap:6px!important}.column-gap-7{column-gap:7px!important}.column-gap-8{column-gap:8px!important}.column-gap-9{column-gap:9px!important}.column-gap-10{column-gap:10px!important}.column-gap-15{column-gap:15px!important}
-.column-gap-20{column-gap:20px!important}.column-gap-30{column-gap:30px!important}.column-gap-40{column-gap:40px!important}.column-gap-50{column-gap:50px!important}.column-gap-60{column-gap:60px!important}.column-gap-70{column-gap:70px!important}.column-gap-80{column-gap:80px!important}.column-gap-90{column-gap:90px!important}.column-gap-100{column-gap:100px!important}
+.column-gap-20{column-gap:20px!important}.column-gap-30{column-gap:30px!important}.column-gap-40{column-gap:40px!important}.column-gap-45{column-gap:45px!important}.column-gap-50{column-gap:50px!important}.column-gap-60{column-gap:60px!important}.column-gap-70{column-gap:70px!important}.column-gap-80{column-gap:80px!important}.column-gap-90{column-gap:90px!important}.column-gap-100{column-gap:100px!important}
 .row-gap-1 {row-gap: 1px}.row-gap-2 {row-gap: 2px}.row-gap-4 {row-gap: 4px}.row-gap-5 {row-gap: 5px}.row-gap-6 {row-gap: 6px}.row-gap-7 {row-gap: 7px}.row-gap-8 {row-gap: 8px}.row-gap-9{row-gap: 9px}.row-gap-10{row-gap: 10px}.row-gap-15{row-gap: 15px}.row-gap-20{row-gap: 20px}
 .padding-left-15{padding-left:15px !important}.padding-left-20{padding-left:20px !important}.padding-left-30{padding-left:30px !important}.padding-left-40{padding-left:40px !important}
 .padding-right-15{padding-right:15px !important}.padding-right-20{padding-right:20px !important}.padding-right-30{padding-right:30px !important}.padding-right-40{padding-right:40px !important}
@@ -311,18 +311,21 @@ td {
  *  Icons
  */
 .icon, .icon-small, .icon-medium, .icon-large, .icon-lowopacity, .icon-mediumopacity, .icon-nf, .icon-np {
-    max-height: 20px;
     width: 20px;
+    height: 20px;
     vertical-align: middle;
     cursor: pointer;
 }
 .icon-small {
+    width: 12px !important;
     height: 12px !important;
 }
 .icon-medium {
+    width: 18px !important;
     height: 18px !important;
 }
 .icon-large {
+    width: 25px !important;
     height: 25px !important;
 }
 .icon-lowopacity {
@@ -452,7 +455,8 @@ input[type=checkbox]:not(.onoff-switch-input):checked {
 .btn-auto-tr {
     background-color: initial;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
-    border: 1px solid #24405c;
+    /* border: 1px solid #24405c; */
+    border: 1px solid #ffffff30;
 }
 
 /* All blue buttons */
@@ -544,6 +548,7 @@ input[type=checkbox]:not(.onoff-switch-input):checked {
     text-decoration: none;
     width: 28px;
     height: 28px;
+    padding: 2px;
     -webkit-transition: max-width 0.7s;
     transition: max-width 0.7s;
     margin: 0 3px 0 3px;

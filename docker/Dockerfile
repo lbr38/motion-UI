@@ -31,7 +31,7 @@ RUN echo "deb https://packages.repomanager.net/repo/motionui-php/bookworm/main_p
 RUN apt-get update -y
 
 # Install nginx and PHP 8.3
-RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-curl php8.3-yaml sqlite3 -y
+RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-curl php8.3-yaml php8.3-xml sqlite3 -y
 
 # Install motion (standby until motion is releasing a package for version 5.0.0)
 # RUN apt-get install motion -y
@@ -83,7 +83,6 @@ RUN chown -R www-data:motionui $WWW_DIR $DATA_DIR
 
 # Configure motion
 RUN mkdir -p /var/log/motion /var/run/motion
-RUN touch /var/run/motion/motion.pid
 RUN chown -R www-data:motionui /var/log/motion /var/run/motion
 RUN chmod 775 /var/log/motion /var/run/motion
 
@@ -115,21 +114,31 @@ RUN echo "syntax on" >> /root/.vimrc
 RUN echo "set background=dark" >> /root/.vimrc
 
 # Setup go2rtc
+
+# Copy go2rtc init script
+RUN cp /tmp/motionui/docker/config/go2rtc/init /etc/init.d/go2rtc
+RUN chmod 755 /etc/init.d/go2rtc
+RUN mkdir -p /var/run/go2rtc
+RUN chown -R www-data:motionui /var/run/go2rtc
+RUN chmod 775 /var/run/go2rtc
+
 # First, check if a binary is available for the current architecture
 RUN ARCH=$(dpkg --print-architecture); \
     if [ ! -f "${WWW_DIR}/bin/go2rtc/go2rtc_linux_${ARCH}" ]; then \
         echo "No go2rtc binary available for this architecture (${ARCH})"; \
         exit 1; \
     fi
+
 # Then link go2rtc binary to /usr/local/bin/ and set permissions
 RUN ln -s ${WWW_DIR}/bin/go2rtc/go2rtc_linux_$(dpkg --print-architecture) /usr/local/bin/go2rtc
 RUN chmod 750 /usr/local/bin/go2rtc
-# Copy go2rtc template config file if not exists
-RUN if [ ! -f "${DATA_DIR}/go2rtc/go2rtc.yml" ]; then \
-        mkdir -p ${DATA_DIR}/go2rtc; \
-        cp ${WWW_DIR}/templates/go2rtc/go2rtc.yml ${DATA_DIR}/go2rtc/go2rtc.yml; \
-        chown www-data:motionui ${DATA_DIR}/go2rtc/go2rtc.yml; \
-    fi
+
+# Remove all other binaries for other architectures
+RUN for f in ${WWW_DIR}/bin/go2rtc/go2rtc_linux_*; do \
+        if [ "$f" != "${WWW_DIR}/bin/go2rtc/go2rtc_linux_$(dpkg --print-architecture)" ]; then \
+            rm -f "$f"; \
+        fi; \
+    done
 
 # Copy entrypoint script
 RUN cp /tmp/motionui/docker/init /init

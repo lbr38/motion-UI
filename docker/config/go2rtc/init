@@ -1,0 +1,134 @@
+#!/bin/bash
+#
+# go2rtc
+# Start the go2rtc stream server
+#
+
+NAME=go2rtc
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/bin/go2rtc
+DAEMON_OPTS="-c /var/lib/motionui/go2rtc/go2rtc.yml"
+PIDFILE=/run/go2rtc/go2rtc.pid
+
+trap "" 1
+export LANG=C
+export PATH
+
+test -f $DAEMON || exit 0
+
+#
+# Start the go2rtc stream server
+#
+function start()
+{
+    LOGFILE="/var/lib/motionui/go2rtc/logs/$(date +'%Y-%m-%d_%H-%M-%S')-go2rtc.log"
+
+    echo "Starting go2rtc"
+
+    # Create PID directory
+    mkdir -p /run/go2rtc -m 750
+    chown www-data:www-data /run/go2rtc
+
+    # Create log directory
+    mkdir -p /var/lib/motionui/go2rtc/logs -m 750
+    chown www-data:www-data /var/lib/motionui/go2rtc/logs
+
+    # If /var/lib/motionui/go2rtc/logs/go2rtc.log is a file, remove it
+    if [ -f "/var/lib/motionui/go2rtc/logs/go2rtc.log" ]; then
+        rm -f /var/lib/motionui/go2rtc/logs/go2rtc.log
+    fi
+
+    # Create log file with date and time
+    if ! touch "$LOGFILE" > /dev/null 2>&1; then
+        echo "Could not create log file"
+        exit 1
+    fi
+
+    # Set permissions on log file
+    if ! chown www-data:www-data "$LOGFILE"; then
+        echo "Could not properly set permissions on log file $LOGFILE"
+        exit 1
+    fi
+
+    # Create symlink to log file
+    if ! ln -sf "$LOGFILE" /var/lib/motionui/go2rtc/logs/go2rtc.log; then
+        echo "Could not create symlink to log file"
+        exit 1
+    fi
+
+    # Start go2rtc detection
+    # start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --exec $DAEMON -c /var/lib/motionui/go2rtc/config.yml --chuid www-data --umask 002 -- $DAEMON_OPTS
+    start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile \
+    --chuid www-data --umask 002 \
+    --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS > /var/lib/motionui/go2rtc/logs/go2rtc.log 2>&1"
+}
+
+#
+# Stop the go2rtc stream server
+#
+function stop()
+{
+    echo "Stopping go2rtc"
+
+    if [ -f "$PIDFILE" ]; then
+        PID=$(cat "$PIDFILE")
+
+        # If the PID is empty, the process is not running
+        if [ -z "$PID" ]; then
+            exit 0
+        fi
+
+        # Check if a process with this PID is still running
+        if /usr/bin/ps -p "$PID" > /dev/null; then
+            # echo "Force stopping go2rtc (kill)"
+            kill "$PID"
+        fi
+
+        # Wait for the process to stop (timeout 10s)
+        i="0"
+        while true; do
+            # Check if the process is still running, quit if not
+            if ! ps aux | grep -q "/usr/local/bin/go2rtc" | grep -v "grep"; then
+                break
+            fi
+
+            if [ "$i" -gt "10" ]; then
+                echo "Could not stop go2rtc (timeout 10s)"
+                exit 1
+            fi
+
+            (( i++ ))
+            sleep 1
+        done
+
+        # Remove PID file
+        rm -f "$PIDFILE"
+    fi
+}
+
+case "$1" in
+    start)
+        start
+    ;;
+
+    stop)
+        stop
+    ;;
+
+    restart)
+        stop && start
+    ;;
+    status)
+        echo "Status go2rtc"
+        if [ -f $PIDFILE ]; then
+            echo -n "Running process for $NAME : "
+            pidof $NAME  
+        else
+            echo "Stopped"
+        fi
+    ;;
+    *)
+        echo "Usage: /etc/init.d/$NAME {start|stop|restart|status}"
+        exit 1
+    ;;
+esac

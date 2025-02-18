@@ -60,8 +60,8 @@ class Template
             'text_scale' => ['status' => 'enabled', 'value' => '2'],
             // Capture settings
             'event_gap' => ['status' => 'enabled', 'value' => '30'],
-            'pre_capture' => ['status' => 'enabled', 'value' => '3'],
-            'post_capture' => ['status' => 'enabled', 'value' => '4'],
+            'pre_capture' => ['status' => 'enabled', 'value' => '1'],
+            'post_capture' => ['status' => 'enabled', 'value' => '5'],
             // Picture settings
             'picture_output' => ['status' => 'disabled', 'value' => 'off'],
             'picture_type' => ['status' => 'enabled', 'value' => 'jpeg'],

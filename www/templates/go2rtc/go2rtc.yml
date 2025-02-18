@@ -7,7 +7,15 @@ webrtc:
 streams:
 
 api:
+  username: go2rtc
+  password: __PASSWORD__
   mjpeg:
+
+rtsp:
+  listen: :8554
+  username: go2rtc
+  password: __PASSWORD__
+  default_query: "video&audio"
 
 ffmpeg:
   bin: /usr/bin/ffmpeg

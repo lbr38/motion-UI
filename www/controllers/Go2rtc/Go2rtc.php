@@ -6,23 +6,6 @@ use Exception;
 
 class Go2rtc
 {
-    public function __construct()
-    {
-        /**
-         *  Generate config file for go2rtc, if not exists
-         */
-        if (!file_exists(DATA_DIR . '/go2rtc/go2rtc.yml')) {
-            if (!copy(ROOT . '/templates/go2rtc/go2rtc.yml', GO2RTC_DIR . '/go2rtc.yml')) {
-                throw new Exception('Failed to generate go2rtc.yml config file');
-            }
-
-            /**
-             *  Restart go2rtc
-             */
-            $this->restart();
-        }
-    }
-
     /**
      *  Return go2rtc config as array
      */
@@ -126,43 +109,13 @@ class Go2rtc
         /**
          *  Check if go2rtc is running
          */
-        $myprocess = new \Controllers\Process('/usr/bin/ps aux | grep "go2rtc" | grep -v grep');
+        $myprocess = new \Controllers\Process('/usr/sbin/service go2rtc restart');
         $myprocess->execute();
-        $myprocess->close();
-
-        /**
-         *  If go2rtc is running, kill it
-         */
-        if ($myprocess->getExitCode() == 0) {
-            $myprocess = new \Controllers\Process('/usr/bin/killall go2rtc');
-            $myprocess->execute();
-            $myprocess->close();
-
-            if ($myprocess->getExitCode() != 0) {
-                throw new Exception('Failed to stop go2rtc');
-            }
-        }
-
-        /**
-         *  Start go2rtc in background
-         */
-        $myprocess = new \Controllers\Process('/usr/local/bin/go2rtc -c ' . GO2RTC_DIR . '/go2rtc.yml > /var/lib/motionui/go2rtc/go2rtc.log 2>&1 &');
-        $myprocess->execute();
+        $output = $myprocess->getOutput();
         $myprocess->close();
 
         if ($myprocess->getExitCode() != 0) {
-            throw new Exception('Failed to start go2rtc');
-        }
-
-        /**
-         *  Check if go2rtc is running
-         */
-        $myprocess = new \Controllers\Process('/usr/bin/ps aux | grep "go2rtc" | grep -v grep');
-        $myprocess->execute();
-        $myprocess->close();
-
-        if ($myprocess->getExitCode() != 0) {
-            throw new Exception('Failed to start go2rtc (no process found)');
+            throw new Exception('Failed to restart go2rtc:<br><pre class="codeblock">' . $output . '</pre>');
         }
     }
 }

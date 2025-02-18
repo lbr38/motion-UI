@@ -82,12 +82,6 @@
                         endif;
 
                         if ($cameraRawParams['stream-enable'] == 'true') : ?>
-                            <!-- Loading image -->
-                            <!-- <div class="camera-loading" camera-id="<?= $cameraId ?>">
-                                <button class="btn-round-none"><img src="/assets/icons/loading.svg" class="icon" title="Loading image" /></button>
-                                <p class="block center lowopacity-cst">Loading image</p>
-                            </div> -->
-
                             <!-- Unavailable image div -->
                             <div class="camera-unavailable align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $cameraId ?>">
                                 <button class="btn-round-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
@@ -95,7 +89,7 @@
                             </div>
 
                             <!-- Camera stream -->
-                            <div class="camera-image relative" camera-id="<?= $cameraId ?>">
+                            <div class="camera-image relative" camera-id="<?= $cameraId ?>" stream-technology="<?= STREAM_DEFAULT_TECHNOLOGY ?>">
                                 <video camera-id="<?= $cameraId ?>" autoplay controls playsinline muted poster="/assets/images/motionui-video-poster.png"></video>
 
                                 <!-- Left and right text / timestamp -->
@@ -173,22 +167,61 @@
                                 </p>
                             </div>
 
-                            <div class="flex column-gap-10">
-                                <div class="slide-btn-medium-tr timelapse-camera-btn" title="See timelapse" camera-id="<?= $cameraId ?>">
-                                    <img src="/assets/icons/picture.svg" />
-                                    <span>Timelapse</span>
-                                </div>
+                            <div class="flex align-item-center column-gap-10">
+                                <!-- <span class="round-btn-tr display-ptz-btns" title="Camera PTZ buttons" camera-id="<?= $cameraId ?>">
+                                    <img src="/assets/icons/move.svg" />
+                                </span> -->
 
                                 <?php
+                                if ($cameraRawParams['timelapse-enable'] == 'true') : ?>
+                                    <span class="round-btn-tr timelapse-camera-btn" title="Camera timelapse" camera-id="<?= $cameraId ?>">
+                                        <img src="/assets/icons/picture.svg" />
+                                    </span>
+                                    <?php
+                                endif;
+
                                 if (IS_ADMIN) : ?>
-                                    <div class="slide-btn-medium-tr configure-camera-btn" title="Configure" camera-id="<?= $cameraId ?>">
+                                    <span class="round-btn-tr configure-camera-btn" title="Configure camera" camera-id="<?= $cameraId ?>">
                                         <img src="/assets/icons/cog.svg" />
-                                        <span>Configure</span>
-                                    </div>
+                                    </span>
                                     <?php
                                 endif ?>
                             </div>
                         </div>
+
+                        <div class="camera-ptz-btn-container flex-direction-column margin-top-20 hide" camera-id="<?= $cameraId ?>">
+                            <div class="flex column-gap-10 align-item-center justify-space-around">
+                                <!-- PTZ Continuous move buttons -->
+                                <div class="flex flex-direction-column align-item-center justify-center column-gap-10 row-gap-10">
+                                    <img src="/assets/icons/top.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move to the top" camera-id="<?= $cameraId ?>" direction="up" move-type="continuous" />
+                                    
+                                    <div class="flex align-item-center column-gap-10">
+                                        <img src="/assets/icons/left.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move to the left" camera-id="<?= $cameraId ?>" direction="left" move-type="continuous" />
+                                        <img src="/assets/icons/stop.svg" class="camera-ptz-stop-btn icon-mediumopacity icon-large" title="Stop movement" camera-id="<?= $cameraId ?>" />
+                                        <img src="/assets/icons/right.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move to the  right" camera-id="<?= $cameraId ?>" direction="right" move-type="continuous" />
+                                    </div>
+
+                                    <img src="/assets/icons/bottom.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move to the bottom" camera-id="<?= $cameraId ?>" direction="down" move-type="continuous" />
+                                </div>
+
+                                <!-- PTZ Discontinuous move buttons -->
+                                <div class="flex flex-direction-column align-item-center justify-center column-gap-10 row-gap-10">
+                                    <img src="/assets/icons/up.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move up" camera-id="<?= $cameraId ?>" direction="up" move-type="discontinuous" />
+                                    
+                                    <div class="flex align-item-center column-gap-45">
+                                        <img src="/assets/icons/previous.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move left" camera-id="<?= $cameraId ?>" direction="left" move-type="discontinuous" />
+                                        <img src="/assets/icons/next.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move right" camera-id="<?= $cameraId ?>" direction="right" move-type="discontinuous" />
+                                    </div>
+
+                                    <img src="/assets/icons/down.svg" class="camera-ptz-btn icon-mediumopacity icon-large" title="Move down" camera-id="<?= $cameraId ?>" direction="down" move-type="discontinuous" />
+                                </div>
+                            </div>
+
+                            <div class="flex flex-direction-column align-item-center justify-center margin-top-20">
+                                <p class="note">Camera move speed</p>
+                                <input type="range" class="camera-ptz-move-speed" min="0.1" max="1" step="0.1" value="0.5" camera-id="<?= $cameraId ?>" />
+                            </div>
+                        </div>                        
                     </div>
                 </div>
                 <?php

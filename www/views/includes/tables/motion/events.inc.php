@@ -79,7 +79,7 @@
                         <p class="lowopacity-cst font-size-11"><?= $eventTime ?></p>
                     </div>
 
-                    <div class="event-camera-name-id">
+                    <div class="event-camera-name">
                         <?php
                         if ($cameraId != $lastCameraId) : ?>                            
                             <p class="wordbreakall font-size-13">
@@ -88,19 +88,19 @@
                                     if (!empty($cameraName)) {
                                         echo strtoupper($cameraName);
                                     } else {
-                                        echo 'Camera Id #' . $cameraId;
+                                        echo 'Camera #' . $cameraId;
                                     } ?>
                                 </b>
                             </p>
                             <?php
                         endif ?>
+                    </div>
                     
+                    <div>
                         <div class="event-id flex align-item-center column-gap-5">
                             <?php
                             if ($motionEventId != $lastMotionEventId) : ?>
-                                <p class="" title="Full event ID #<?= $motionEventId ?>">
-                                    Event #<?= $motionEventIdShort ?>
-                                </p>
+                                <p class="font-size-13" title="Full event ID #<?= $motionEventId ?>">Event #<?= $motionEventIdShort ?></p>
 
                                 <?php
                                 if ($eventSeen != 'true') : ?>
@@ -111,44 +111,45 @@
                                 endif;
                             endif; ?>
                         </div>
+
+                        <div class="event-files-count margin-top-10">
+                            <p class="lowopacity-cst"><?= $totalFilesCount ?></p>
+                            <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="Total media files" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex flex-direction-column row-gap-10 width-100">
-                    <div class="flex flex-direction-column align-item-right column-gap-5 align-self-end">
-                        <p class="lowopacity-cst">
-                            <?php
-                            if ($totalFilesCount == 1) {
-                                echo '1 file';
-                            } else {
-                                echo $totalFilesCount . ' files';
-                            } ?>
-                        </p>
-
+                    <div class="flex align-self-end">
                         <input type="checkbox" class="select-all-media-checkbox hide" event-id="<?= $eventId ?>" title="Select all media files" />
                     </div>
 
                     <div class="event-camera">
                         <?php
                         foreach ($eventFiles as $eventDetails) :
-                            $fileId = $eventDetails['Id'];
-                            $filepath = $eventDetails['File'];
-                            $filesize = $eventDetails['Size'];
-                            $imageWidth = $eventDetails['Width'];
-                            $imageHeight = $eventDetails['Height'];
-                            $imageFps = $eventDetails['Fps'];
-                            $imageChangedPixels = $eventDetails['Changed_pixels']; ?>
+                            $resolution = $eventDetails['Width'] . 'x' . $eventDetails['Height'];
+                            if ($resolution == '1280x720') {
+                                $resolution = '720p';
+                            } else if ($resolution == '1920x1080') {
+                                $resolution = '1080p';
+                            } else if ($resolution == '2560x1440') {
+                                $resolution = '1440p';
+                            } else if ($resolution == '3840x2160') {
+                                $resolution = '2160p';
+                            } else if ($resolution == '7680x4320') {
+                                $resolution = '4320p';
+                            } ?>
                         
                             <div class="event-row">
                                 <?php
                                 /**
                                  *  Case it's a picture
                                  */
-                                if (preg_match('#\b(.jpg|.webp|.ppm|.grey)\b#', $filepath)) : ?>
+                                if (preg_match('/\.(jpg|jpeg|png)$/', $eventDetails['File'])) : ?>
                                     <div class="event-media-row">
                                         <div class="event-media">
                                             <?php
-                                            if (!file_exists($filepath)) { ?>
+                                            if (!file_exists($eventDetails['File'])) { ?>
                                                 <div class="file-unavailable">
                                                     <div class="flex flex-direction-column align-item-center row-gap-10">
                                                         <img src="/assets/icons/warning-red.svg" class="icon" />
@@ -156,7 +157,7 @@
                                                     </div>
                                                 </div>
                                                 <?php
-                                            } elseif (!is_readable($filepath)) { ?>
+                                            } elseif (!is_readable($eventDetails['File'])) { ?>
                                                 <div class="file-unavailable">
                                                     <div class="flex flex-direction-column align-item-center row-gap-10">
                                                         <img src="/assets/icons/warning.svg" class="icon" />
@@ -165,7 +166,7 @@
                                                 </div>
                                                 <?php
                                             } else { ?>
-                                                <img src="/media?id=<?= $fileId ?>" class="play-picture-btn pointer" file-id="<?= $fileId ?>" title="Visualize picture" />
+                                                <img src="/media?id=<?= $eventDetails['Id'] ?>" class="play-picture-btn pointer" file-id="<?= $eventDetails['Id'] ?>" title="Visualize picture" />
                                                 <?php
                                             } ?>
 
@@ -173,16 +174,11 @@
                                                 <p class="font-size-11">#<?= $fileNumberCounter ?></p>
                                             </div>
 
-                                            <div class="event-media-file-type flex align-item-center">
-                                                <img src="/assets/icons/picture.svg" class="icon margin-left-5 margin-right-5" />
-                                                <span class="font-size-12">(<?= $filesize ?>)</span>
-                                            </div>
-
                                             <div class="event-media-checkbox-container">
                                                 <?php
-                                                if (file_exists($filepath)) {
-                                                    if (is_writeable($filepath)) {
-                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" title="Select media file" />';
+                                                if (file_exists($eventDetails['File'])) {
+                                                    if (is_writeable($eventDetails['File'])) {
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($eventDetails['File']) . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
                                                     } else {
                                                         echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
                                                     }
@@ -190,14 +186,15 @@
                                             </div>
                                         </div>
 
-                                        <div class="lowopacity-cst flex justify-space-between margin-left-5 margin-right-5 margin-bottom-5 margin-top-5">
-                                            <div>
-                                                <p class="font-size-12">Width: <?= $imageWidth ?>px</p>
-                                                <p class="font-size-12">Height: <?= $imageHeight ?>px</p>
+                                        <div class="flex align-item-center justify-space-between column-gap-5 lowopacity-cst margin-left-5 margin-right-5 margin-bottom-5 margin-top-5">
+                                            <div class="flex align-item-center column-gap-5">
+                                                <img src="/assets/icons/picture.svg" class="icon-np" />
+                                                <p class="font-size-12" title="Picture file size">(<?= $eventDetails['Size'] ?>)</p>
                                             </div>
-                                            <div>
-                                                <p class="font-size-12 text-right">FPS: <?= $imageFps ?></p>
-                                                <p class="font-size-12 text-right">Changed pixels: <?= $imageChangedPixels ?></p>
+
+                                            <div class="flex flex-wrap align-item-center column-gap-5">
+                                                <p class="font-size-12" title="Picture resolution">● <?= $resolution ?></p>
+                                                <p class="font-size-12">● <?= $eventDetails['Changed_pixels'] ?> changed pixels</p>
                                             </div>
                                         </div>
                                     </div>
@@ -207,65 +204,60 @@
                                 /**
                                  *  Case it a movie
                                  */
-                                if (preg_match('#\b(.avi|.mp4|.swf|.flv|.mov|.mkv)\b#', $filepath)) : ?>
+                                if (preg_match('/\.(mp4|mkv|mov)$/', $eventDetails['File'])) : ?>
                                     <div class="event-media-row">
-                                        <div>
-                                            <div class="event-media">
+                                        <div class="event-media">
+                                            <?php
+                                            if (!file_exists($eventDetails['File'])) { ?>
+                                                <div class="file-unavailable">
+                                                    <div class="flex flex-direction-column align-item-center row-gap-10">
+                                                        <img src="/assets/icons/warning-red.svg" class="icon" />
+                                                        <p class="redtext">File deleted</p>
+                                                    </div>
+                                                </div>
                                                 <?php
-                                                if (!file_exists($filepath)) { ?>
-                                                    <div class="file-unavailable">
-                                                        <div class="flex flex-direction-column align-item-center row-gap-10">
-                                                            <img src="/assets/icons/warning-red.svg" class="icon" />
-                                                            <p class="redtext">File deleted</p>
-                                                        </div>
+                                            } elseif (!is_readable($eventDetails['File'])) { ?>
+                                                <div class="file-unavailable">
+                                                    <div class="flex flex-direction-column align-item-center row-gap-10">
+                                                        <img src="/assets/icons/warning.svg" class="icon" />
+                                                        <p class="yellowtext">File is unreadable</p>
                                                     </div>
-                                                    <?php
-                                                } elseif (!is_readable($filepath)) { ?>
-                                                    <div class="file-unavailable">
-                                                        <div class="flex flex-direction-column align-item-center row-gap-10">
-                                                            <img src="/assets/icons/warning.svg" class="icon" />
-                                                            <p class="yellowtext">File is unreadable</p>
-                                                        </div>
-                                                    </div>
-                                                    <?php
-                                                } else { ?>
-                                                    <video controls preload="metadata" poster="/media?thumbnail&id=<?= $fileId ?>">
-                                                        <source data-src="/media?id=<?= $fileId ?>">
-                                                        <p>Your browser does not support the video.</p>
-                                                    </video>
-                                                    <?php
-                                                } ?>
-
-                                                <div class="event-media-file-number">
-                                                    <p class="font-size-13">#<?= $fileNumberCounter ?></p>
                                                 </div>
+                                                <?php
+                                            } else { ?>
+                                                <video controls preload="metadata" poster="/media?thumbnail&id=<?= $eventDetails['Id'] ?>">
+                                                    <source data-src="/media?id=<?= $eventDetails['Id'] ?>">
+                                                    <p>Your browser does not support the video.</p>
+                                                </video>
+                                                <?php
+                                            } ?>
 
-                                                <div class="event-media-file-type flex align-item-center">
-                                                    <img src="/assets/icons/video.svg" class="icon margin-left-5 margin-right-5" />
-                                                    <span class="font-size-13">(<?= $filesize ?>)</span>
-                                                </div>
-
-                                                <div class="event-media-checkbox-container">
-                                                    <?php
-                                                    if (file_exists($filepath)) {
-                                                        if (is_writeable($filepath)) {
-                                                            echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($filepath) . '" file-id="' . $fileId . '" event-id="' . $eventId . '" title="Select media file" />';
-                                                        } else {
-                                                            echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
-                                                        }
-                                                    } ?>
-                                                </div>
+                                            <div class="event-media-file-number">
+                                                <p class="font-size-13">#<?= $fileNumberCounter ?></p>
                                             </div>
 
-                                            <div class="lowopacity-cst flex justify-space-between margin-left-5 margin-right-5 margin-bottom-5 margin-top-5">
-                                                <div>
-                                                    <p class="font-size-12">Width: <?= $imageWidth ?>px</p>
-                                                    <p class="font-size-12">Height: <?= $imageHeight ?>px</p>
-                                                </div>
-                                                <div>
-                                                    <p class="font-size-12 text-right">FPS: <?= $imageFps ?></p>
-                                                    <p class="font-size-12 text-right">Changed pixels: <?= $imageChangedPixels ?></p>
-                                                </div>
+                                            <div class="event-media-checkbox-container">
+                                                <?php
+                                                if (file_exists($eventDetails['File'])) {
+                                                    if (is_writeable($eventDetails['File'])) {
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($eventDetails['File']) . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
+                                                    } else {
+                                                        echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
+                                                    }
+                                                } ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex align-item-center column-gap-5 justify-space-between lowopacity-cst margin-left-5 margin-right-5 margin-bottom-5 margin-top-5">
+                                            <div class="flex align-item-center column-gap-5">
+                                                <img src="/assets/icons/video.svg" class="icon-np" />
+                                                <p class="font-size-12" title="Video file size">(<?= $eventDetails['Size'] ?>)</p>
+                                            </div>
+
+                                            <div class="flex flex-wrap align-item-center column-gap-5">
+                                                <p class="font-size-12" title="Video resolution"><?= $resolution ?></p>
+                                                <p class="font-size-12">● <?= $eventDetails['Fps'] ?> FPS</p>
+                                                <p class="font-size-12">● <?= $eventDetails['Changed_pixels'] ?> changed pixels</p>
                                             </div>
                                         </div>
                                     </div>

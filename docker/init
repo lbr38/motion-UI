@@ -3,22 +3,30 @@
 WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
 GO2RTC_DIR="/var/lib/motionui/go2rtc"
-GO2RTC_LOG=""
 
 # Make sure motion service is stopped
 /usr/sbin/service motion stop
-
-/bin/bash $WWW_DIR/bin/motionui -p &
-chown -R www-data:motionui $DATA_DIR
 
 if [ -f /run/motion/motion.pid ]; then
     rm -f /run/motion/motion.pid
 fi
 
-# Set permissions for video devices, if any
-if ls /dev/video* > /dev/null 2>&1; then
-    chown root:motionui /dev/video*
+# Copy go2rtc template config file if not exists
+if [ ! -f "$GO2RTC_DIR/go2rtc.yml" ]; then
+    mkdir -p "$DATA_DIR/go2rtc"
+    cp "$WWW_DIR/templates/go2rtc/go2rtc.yml" "$GO2RTC_DIR/go2rtc.yml"
+
+    # Generate random password to protect go2rtc streams
+    GO2RTC_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    sed -i "s#__PASSWORD__#$GO2RTC_PASSWORD#" "$GO2RTC_DIR/go2rtc.yml"
+
+    # Set permissions
+    chown www-data:motionui "$GO2RTC_DIR/go2rtc.yml"
 fi
+
+# Set permissions
+/bin/bash $WWW_DIR/bin/motionui -p &
+chown -R www-data:motionui $DATA_DIR
 
 # Docker run options
 # when
@@ -44,7 +52,7 @@ fi
 
 # Start go2rtc in background, if not already running (database update may haved started it)
 if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -v -q "grep"; then
-    /bin/su -s /bin/bash -c "/usr/local/bin/go2rtc -c $GO2RTC_DIR/go2rtc.yml >/var/lib/motionui/go2rtc/go2rtc.log &" www-data
+    /usr/sbin/service go2rtc start
 fi
 
 # Start shell service in background
