@@ -17,8 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadVideo = (video) => {
         const sources = video.querySelectorAll('source[data-src]');
         sources.forEach(source => {
-            source.src = source.dataset.src; // Set the source URL
-            source.removeAttribute('data-src'); // Remove data attribute to avoid reloading
+            if (source.dataset.src) {
+                source.src = source.dataset.src; // Set the source URL
+                source.removeAttribute('data-src'); // Remove data attribute to avoid reloading
+            } else {
+                console.error('data-src attribute is missing for source element', source);
+            }
         });
         video.load(); // Trigger video loading
     };
@@ -27,8 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const unloadVideo = (video) => {
         const sources = video.querySelectorAll('source');
         sources.forEach(source => {
-            source.dataset.src = source.src; // Save the source URL in data attribute
-            source.removeAttribute('src'); // Remove the source URL
+            if (source.src) {
+                source.dataset.src = source.src; // Save the source URL in data attribute
+                source.removeAttribute('src'); // Remove the source URL
+            }
         });
         video.pause(); // Pause the video
         video.load(); // Trigger video unloading

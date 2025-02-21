@@ -169,6 +169,7 @@ class Connection extends SQLite3
          *  Create settings table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS settings (
+        Stream_default_technology VARCHAR(255),
         Timelapse_interval INTEGER NOT NULL,
         Timelapse_retention INTEGER NOT NULL,
         Motion_events_retention INTEGER NOT NULL)");

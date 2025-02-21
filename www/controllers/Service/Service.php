@@ -238,12 +238,7 @@ class Service
             echo $this->getDate() . ' A start of motion service is required. Starting...' . PHP_EOL;
             unlink(DATA_DIR . '/start-motion.request');
 
-            if ($this->motionServiceController->start()) {
-                /**
-                 *  Add service status in database
-                 */
-                $this->motionServiceController->setStatusInDb('active');
-            } else {
+            if (!$this->motionServiceController->start()) {
                 $this->logController->log('error', 'Service', 'Error while starting motion service.');
             }
         }
@@ -255,12 +250,7 @@ class Service
             echo $this->getDate() . ' A stop of motion service is required. Stopping...' . PHP_EOL;
             unlink(DATA_DIR . '/stop-motion.request');
 
-            if ($this->motionServiceController->stop()) {
-                /**
-                 *  Add service status in database
-                 */
-                $this->motionServiceController->setStatusInDb('inactive');
-            } else {
+            if (!$this->motionServiceController->stop()) {
                 $this->logController->log('error', 'Service', 'Error while stopping motion service.');
             }
         }

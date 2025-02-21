@@ -48,7 +48,6 @@ class Event
          *  Refresh page
          */
         $this->layoutContainerReloadController->reload('motion/events/list');
-        $this->layoutContainerReloadController->reload('motion/stats/list');
         $this->layoutContainerReloadController->reload('buttons/bottom');
     }
 
@@ -63,7 +62,6 @@ class Event
          *  Refresh page
          */
         $this->layoutContainerReloadController->reload('motion/events/list');
-        $this->layoutContainerReloadController->reload('motion/stats/list');
         $this->layoutContainerReloadController->reload('buttons/bottom');
     }
 
@@ -112,14 +110,14 @@ class Event
         /**
          *  File must be a picture or a movie
          */
-        if (!preg_match('/\.(jpg|jpeg|mp4|)$/', $file)) {
+        if (!preg_match('/\.(jpg|jpeg|mp4|mov|mkv)$/', $file)) {
             throw new Exception('The specified file extension is not allowed.');
         }
 
         /**
          *  Check that MIME type is valid
          */
-        if (!in_array(mime_content_type($file), ['image/jpeg', 'video/mp4'])) {
+        if (!in_array(mime_content_type($file), ['image/jpeg', 'video/mp4', 'video/quicktime', 'video/x-matroska'])) {
             throw new Exception('The specified file MIME type is not allowed.');
         }
 
@@ -131,7 +129,7 @@ class Event
         /**
          *  If the file is a movie, then create a thumbnail image for it
          */
-        if (preg_match('/\.mp4$/', $file)) {
+        if (preg_match('/\.(mp4|mkv|mov)$/', $file)) {
             /**
              *  Get file directory location
              */
@@ -182,7 +180,6 @@ class Event
          *  Refresh page
          */
         $this->layoutContainerReloadController->reload('motion/events/list');
-        $this->layoutContainerReloadController->reload('motion/stats/list');
     }
 
     /**

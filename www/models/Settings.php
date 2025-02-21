@@ -30,13 +30,15 @@ class Settings extends Model
     /**
      *  Edit global settings
      */
-    public function edit(string $timelapseInterval, string $timelapseRetention, int $motionEventsRetention)
+    public function edit(string $streamDefaultTechnology, string $timelapseInterval, string $timelapseRetention, int $motionEventsRetention)
     {
         $stmt = $this->db->prepare("UPDATE Settings SET
+        Stream_default_technology = :streamDefaultTechnology,
         Timelapse_interval = :timelapseInterval,
         Timelapse_retention = :timelapseRetention,
         Motion_events_retention = :motionEventsRetention");
 
+        $stmt->bindValue(':streamDefaultTechnology', $streamDefaultTechnology);
         $stmt->bindValue(':timelapseInterval', $timelapseInterval);
         $stmt->bindValue(':timelapseRetention', $timelapseRetention);
         $stmt->bindValue(':motionEventsRetention', $motionEventsRetention);

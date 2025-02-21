@@ -33,6 +33,14 @@ class Settings
             }
         }
 
+        if (!defined('STREAM_DEFAULT_TECHNOLOGY')) {
+            if (!empty($settings['Stream_default_technology'])) {
+                define('STREAM_DEFAULT_TECHNOLOGY', $settings['Stream_default_technology']);
+            } else {
+                define('STREAM_DEFAULT_TECHNOLOGY', 'mse');
+            }
+        }
+
         if (!defined('TIMELAPSE_INTERVAL')) {
             if (!empty($settings['Timelapse_interval'])) {
                 define('TIMELAPSE_INTERVAL', $settings['Timelapse_interval']);
