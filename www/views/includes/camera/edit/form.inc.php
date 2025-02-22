@@ -73,7 +73,7 @@
 
     <h6>AUTHENTICATION</h6>   
     <div class="basic-auth-fields">
-        <p class="note">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP/RTSP Authentication.</p>
+        <p class="note">If your camera requires authentication to access the video stream</p>
 
         <h6>USERNAME</h6>
         <input type="text" class="form-param" param-name="basic-auth-username" value="<?= $cameraRawParams['basic-auth-username'] ?>" />

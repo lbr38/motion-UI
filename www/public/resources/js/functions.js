@@ -477,82 +477,97 @@ function reloadPanel(panel)
  * Ajax: Get and reload container
  * @param {*} container
  */
-function reloadContainer(container)
+function reloadContainer(container, useMorphdom = true)
 {
-    /**
-     *  Check if container exists on the current page, else do nothing
-     */
-    if (!$('.reloadable-container[container="' + container + '"]').length) {
-        return;
-    }
-
-    /**
-     *  Print a loading icon on the bottom of the page
-     */
-    // printLoading();
-
-    /**
-     *  Check if container has children with class .veil-on-reload
-     *  If so print a veil on them
-     */
-    if ($('.reloadable-container[container="' + container + '"]').find('.veil-on-reload').length) {
-        printLoadingVeilByClass('veil-on-reload');
-    }
-
-    ajaxRequest(
-        // Controller:
-        'general',
-        // Action:
-        'getContainer',
-        // Data:
-        {
-            sourceUrl: window.location.href,
-            sourceUri: window.location.pathname,
-            controller: "general",
-            action: "getContainer",
-            container: container
-        },
-        // Print success alert:
-        false,
-        // Print error alert:
-        true
-    ).then(function () {
-        /**
-         *  Replace with new content
-         */
-        morphdom($('.reloadable-container[container="' + container + '"]')[0], jsonValue.message, {
+    return new Promise((resolve, reject) => {
+        try {
             /**
-             * Avoid some elements to be updated if they are currently used (e.g. video playing)
+             *  If the container to reload does not exist, return
              */
-            onBeforeElUpdated: function (fromEl, toEl) {
-                /**
-                 *  Case the element is a video and it is currently playing, do not update it
-                 */
-                if (fromEl.tagName === 'VIDEO' && !fromEl.paused) {
-                    return false;
-                }
-
-                /**
-                 *  Case the element is a checkbox and it is currently checked, do not update it
-                 */
-                if (fromEl.tagName === 'INPUT' && fromEl.type === 'checkbox' && fromEl.checked) {
-                    return false;
-                }
-
-                return true;
+            if (!$('.reloadable-container[container="' + container + '"]').length) {
+                return;
             }
-        });
 
-        /**
-         *  Reload opened or closed elements that were opened/closed before reloading
-         */
-        reloadOpenedClosedElements();
+            /**
+             *  Print a loading icon on the bottom of the page
+             */
+            // printLoading();
+
+            /**
+             *  Check if container has children with class .veil-on-reload
+             *  If so print a veil on them
+             */
+            printLoadingVeilByParentClass('reloadable-container[container="' + container + '"]');
+
+            ajaxRequest(
+                // Controller:
+                'general',
+                // Action:
+                'getContainer',
+                // Data:
+                {
+                    sourceUrl: window.location.href,
+                    sourceUri: window.location.pathname,
+                    container: container
+                },
+                // Print success alert:
+                false,
+                // Print error alert:
+                true,
+                // Reload container:
+                [],
+                // Execute functions on success:
+                [
+                    // Replace container with itself, with new content
+                    "$('.reloadable-container[container=\"" + container + "\"]').replaceWith(jsonValue.message)",
+                    // Reload opened or closed elements that were opened/closed before reloading
+                    "reloadOpenedClosedElements()"
+                ]
+            ).then(() => {
+                if (useMorphdom) {
+                    /**
+                     *  Replace with new content using morphdom
+                     */
+                    morphdom($('.reloadable-container[container="' + container + '"]')[0], jsonValue.message, {
+                        /**
+                         * Avoid some elements to be updated if they are currently used (e.g. video playing)
+                         */
+                        onBeforeElUpdated: function (fromEl, toEl) {
+                            /**
+                             *  Case the element is a video and it is currently playing, do not update it
+                             */
+                            if (fromEl.tagName === 'VIDEO' && !fromEl.paused) {
+                                return false;
+                            }
+
+                            /**
+                             *  Case the element is a checkbox and it is currently checked, do not update it
+                             */
+                            if (fromEl.tagName === 'INPUT' && fromEl.type === 'checkbox' && fromEl.checked) {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    });
+                } else {
+                    /**
+                     *  Replace with new content
+                     */
+                    $('.reloadable-container[container="' + container + '"]').replaceWith(jsonValue.message);
+                }
+
+                // Hide loading icon
+                // hideLoading();
+
+                // Resolve promise
+                resolve('Container reloaded');
+            });
+        } catch (error) {
+            // Reject promise
+            reject('Failed to reload container');
+        }
     });
-
-    /**
-     *  Hide loading icon
-     */
-    // hideLoading();
 }
 
 /**

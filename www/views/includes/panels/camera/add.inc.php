@@ -48,8 +48,6 @@
     </label>
     
     <div class="basic-auth-fields hide">
-        <p class="note">Be aware that credentials will be stored in plain text in the database as camera authentication is using <code>Basic</code> HTTP/RTSP Authentication.</p>
-
         <h6>USERNAME</h6>
         <input type="text" class="form-param" param-name="basic-auth-username" />
 

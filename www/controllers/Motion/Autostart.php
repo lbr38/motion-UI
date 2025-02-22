@@ -149,7 +149,7 @@ class Autostart
 
                     if (!empty($devices)) {
                         foreach ($devices as $device) {
-                            $deviceIp = $device['Ip'];
+                            echo 'Trying to ping device ' . $device['Name'] . ' (' . $device['Ip'] . ')' . PHP_EOL;
 
                             /**
                              *  Try to ping the first device of the loop
@@ -161,7 +161,7 @@ class Autostart
                             $try = 0;
 
                             while ($try != 2) {
-                                $myprocess = new \Controllers\Process('ping -q -c1 -W2 -n "' . $deviceIp . '" > /dev/null');
+                                $myprocess = new \Controllers\Process('ping -q -c1 -W2 -n "' . $device['Ip'] . '" > /dev/null');
                                 $myprocess->execute();
                                 $myprocess->close();
 
@@ -175,22 +175,24 @@ class Autostart
                                             $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
                                         }
                                     }
+
                                     // Break this 'while' loop and go back to the 'while true' loop
-                                    break 2;
+                                    sleep(5);
+                                    continue 3;
                                 }
 
                                 $try++;
                             }
+                        }
 
-                            /**
-                             *  If all the devices are absent from the local network, then start motion
-                             *  Start motion only if not already running
-                             */
-                            if (!$this->motionService->isRunning()) {
-                                echo 'No active device found on the network - nobody is home - starting motion' . PHP_EOL;
-                                if (!$this->motionService->start()) {
-                                    $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
-                                }
+                        /**
+                         *  If all the devices are absent from the local network, then start motion
+                         *  Start motion only if not already running
+                         */
+                        if (!$this->motionService->isRunning()) {
+                            echo 'No active device found on the network - nobody is home - starting motion' . PHP_EOL;
+                            if (!$this->motionService->start()) {
+                                $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
                             }
                         }
                     }

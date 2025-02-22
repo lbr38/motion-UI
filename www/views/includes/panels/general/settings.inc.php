@@ -5,11 +5,24 @@
 <form id="settings-form">
     <p class="note">Motion-UI start page.</p>
     <select class="settings-param" setting-name="home-page">
-        <option value="live" <?php echo (HOME_PAGE === 'live') ? 'selected' : ''?>>Cameras and stream page</option>
-        <option value="motion" <?php echo (HOME_PAGE === 'motion') ? 'selected' : ''?>>Motion buttons page</option>
-        <option value="events" <?php echo (HOME_PAGE === 'events') ? 'selected' : ''?>>Motion events page</option>
-        <option value="stats" <?php echo (HOME_PAGE === 'stats') ? 'selected' : ''?>>Motion stats page</option>
+        <option value="live" <?php echo (HOME_PAGE === 'live') ? 'selected' : '' ?>>Cameras and stream page</option>
+        <option value="motion" <?php echo (HOME_PAGE === 'motion') ? 'selected' : '' ?>>Motion buttons page</option>
+        <option value="events" <?php echo (HOME_PAGE === 'events') ? 'selected' : '' ?>>Motion events page</option>
+        <option value="stats" <?php echo (HOME_PAGE === 'stats') ? 'selected' : '' ?>>Motion stats page</option>
     </select>
+
+    <h5>LIVE STREAM</h5>
+
+    <h6>STREAM TECHNOLOGY</h6>
+    <p class="note">MSE should work without any additional configuration.</p>
+    <p class="note">WebRTC is more efficient and offer less latency but may not work in some cases.</p>
+
+    <div class="switch-field margin-top-5">
+        <input type="radio" id="stream-default-technology-mse" class="settings-param" setting-name="stream-default-technology" name="stream-default-technology" value="mse" <?php echo (STREAM_DEFAULT_TECHNOLOGY === 'mse') ? 'checked' : '' ?> />
+        <label for="stream-default-technology-mse">MSE</label>
+        <input type="radio" id="stream-default-technology-webrtc" class="settings-param" setting-name="stream-default-technology" name="stream-default-technology" value="webrtc" <?php echo (STREAM_DEFAULT_TECHNOLOGY === 'webrtc') ? 'checked' : '' ?> />
+        <label for="stream-default-technology-webrtc">WebRTC</label>
+    </div>
 
     <h5>TIMELAPSE</h5>
 

@@ -46,10 +46,42 @@ async function loadCameras()
         const cameraId = $(container).find('div.camera-image').attr('camera-id');
 
         /**
-         *  Connect to the camera using WebRTC
-         *  See js/webrtc/webrtc.js
+         *  Get camera stream technology
          */
-        connect(cameraId);
+        const streamTechnology = $(container).find('div.camera-image').attr('stream-technology');
+
+        /**
+         *  Connect to the camera using WebRTC
+         *  See js/stream/webrtc.js
+         */
+        if (streamTechnology == 'webrtc') {
+            connect(cameraId);
+        }
+
+        /**
+         *  Connect to the camera using MSE
+         *  See js/stream/video-stream.js
+         */
+        if (streamTechnology == 'mse') {
+            const params = new URLSearchParams(location.search);
+
+            // support multiple streams and multiple modes
+            const background = params.get('background') !== 'false';
+            const width = '1 0 ' + (params.get('width') || '320px');
+
+            // videoElement doit être la <video> avec l'attribut camera-id
+            const video = document.querySelector('video[camera-id="' + cameraId + '"]');
+
+            /** @type {VideoStream} */
+            const videoElement = document.createElement('video-stream');
+            videoElement.background = "/assets/images/motionui-video-poster.png";
+            videoElement.mode = 'mse'
+            videoElement.style.flex = width;
+            videoElement.src = new URL('api/ws?src=camera_' + cameraId, location.href);
+
+            // Replace existing video with videoElement
+            video.replaceWith(videoElement);
+        }
     }));
 }
 

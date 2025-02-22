@@ -132,10 +132,9 @@ class Camera
             $ffmpeg = true;
             $ffmpegParams .= '#video=h264';
         // Case the URL is rtsp://
-        // AAC audio will be used for motion capture, copy audio for live stream
         } else if (preg_match('#^rtsp?://#', $url)) {
             $ffmpeg = true;
-            $ffmpegParams .= '#video=h264#audio=aac#audio=copy';
+            $ffmpegParams .= '#video=h264#audio=opus';
         // Case the URL is /dev/video
         } else if (preg_match('#^/dev/video#', $url)) {
             $ffmpeg = true;
@@ -191,7 +190,7 @@ class Camera
             $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         // Case the URL is rtsp://
         } else if (preg_match('#^rtsp?://#', $url)) {
-            $motionParams['netcam_url'] = ['status' => 'enabled', 'value' => 'rtsp://127.0.0.1:8554/camera_' . $id . '?video=h264&audio=aac'];
+            $motionParams['netcam_url'] = ['status' => 'enabled', 'value' => 'rtsp://127.0.0.1:8554/camera_' . $id . '?video=h264&audio=opus'];
             $motionParams['movie_passthrough'] = ['status' => 'enabled', 'value' => 'on'];
             $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         // Case the URL is /dev/video
@@ -354,10 +353,9 @@ class Camera
             $ffmpeg = true;
             $ffmpegParams .= '#video=h264';
         // Case the URL is rtsp://
-        // AAC audio will be used for motion capture, copy audio for live stream
         } else if (preg_match('#^rtsp?://#', $url)) {
             $ffmpeg = true;
-            $ffmpegParams .= '#video=h264#audio=aac#audio=copy';
+            $ffmpegParams .= '#video=h264#audio=opus';
         // Case the URL is /dev/video
         } else if (preg_match('#^/dev/video#', $url)) {
             $ffmpeg = true;
@@ -431,7 +429,7 @@ class Camera
             $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         // Case the URL is rtsp://
         } else if (preg_match('#^rtsp?://#', $url)) {
-            $motionParams['netcam_url'] = ['status' => 'enabled', 'value' => 'rtsp://127.0.0.1:8554/camera_' . $id . '?video=h264&audio=aac'];
+            $motionParams['netcam_url'] = ['status' => 'enabled', 'value' => 'rtsp://127.0.0.1:8554/camera_' . $id . '?video=h264&audio=opus'];
             $motionParams['movie_passthrough'] = ['status' => 'enabled', 'value' => 'on'];
             $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         // Case the URL is /dev/video

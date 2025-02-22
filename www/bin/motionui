@@ -33,22 +33,27 @@ function permissions
 {
     echo -e "\n${YELLOW} Setting permissions... ${RESET}"
 
+    # Set permissions for video devices, if any
+    if ls /dev/video* > /dev/null 2>&1; then
+        chown root:motionui /dev/video*
+    fi
+
     # Permissions on web directory
     chmod 750 "$WWW_DIR/bin/motionui"
     chmod 750 "$WWW_DIR/bin/on_event"*
     chmod 750 "$WWW_DIR/bin/go2rtc/"*
-    # Set 660 permissions on all files and directories except scripts in bin:
-    find "$WWW_DIR" -type f -not -not \( -path bin -prune \) -exec chmod 0660 {} \;
-    find "$WWW_DIR" -type d -exec chmod 0770 {} \;
+    chmod 750 "$WWW_DIR"
     chown -R $WWW_USER "$WWW_DIR"
     chgrp -R $WWW_USER "$WWW_DIR"
-    chmod 750 "$WWW_DIR"
+    # Set 660 permissions on all files and directories except scripts in bin:
+    find "$WWW_DIR" -type f -not -not \( -path bin -prune \) -exec chmod 0660 {} \;
+    find "$WWW_DIR" -type d -exec chmod 0750 {} \;
 
     # Permissions on data directory
+    chown -R ${WWW_USER}:motionui "$DATA_DIR"
     find "$DATA_DIR" -type f -exec chmod 0660 {} \;
     find "$DATA_DIR" -type d -exec chmod 0770 {} \;
-    chown -R ${WWW_USER}:motionui "$DATA_DIR"
-    chmod 750 "$DATA_DIR"
+    chmod 770 "$DATA_DIR"
 
     # Set permissions on motion captures dir
     mkdir -p /var/lib/motion
