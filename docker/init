@@ -50,10 +50,8 @@ fi
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/database/initialize.php" www-data
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/database/update.php" www-data
 
-# Start go2rtc in background, if not already running (database update may haved started it)
-if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -v -q "grep"; then
-    /usr/sbin/service go2rtc start
-fi
+# Make sure go2rtc service is started
+/usr/sbin/service go2rtc start
 
 # Start shell service in background
 /bin/bash "$WWW_DIR/bin/service.sh" &

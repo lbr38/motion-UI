@@ -28,6 +28,12 @@ class Config
             'motion-detection-enable' => 'true',
             'timelapse-enable' => 'false',
             'hardware-acceleration' => 'false',
+            'onvif' => [
+                'enable' => 'false',
+                'port' => '80',
+                'uri' => '',
+                'url' => '',
+            ],
         ];
     }
 }

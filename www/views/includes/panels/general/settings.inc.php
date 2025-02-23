@@ -24,6 +24,10 @@
         <label for="stream-default-technology-webrtc">WebRTC</label>
     </div>
 
+    <h6>GO2RTC LOGS</h6>
+    <p class="note">View go2rtc streaming server logs.</p>
+    <img id="view-go2rtc-log-btn" src="/assets/icons/file.svg" class="icon" title="View go2rtc log" />
+
     <h5>TIMELAPSE</h5>
 
     <h6>INTERVAL</h6>
@@ -45,11 +49,15 @@
     <p class="note">Number of days to keep timelapse images before automatic deletion.</p>
     <input type="number" min="1" class="settings-param" setting-name="timelapse-retention" value="<?= TIMELAPSE_RETENTION ?>">
 
-    <h5>MOTION EVENTS</h5>
+    <h5>MOTION</h5>
 
-    <h6>MEDIAS RETENTION</h6>
+    <h6>EVENTS MEDIAS RETENTION</h6>
     <p class="note">Number of days to keep event pictures & videos before automatic deletion</p>
     <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
+
+    <h6>SERVICE LOGS</h6>
+    <p class="note">View motion service logs.</p>
+    <img id="view-motion-log-btn" src="/assets/icons/file.svg" class="icon" title="View motion log" />
 
     <br>
     <br>

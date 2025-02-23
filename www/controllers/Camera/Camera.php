@@ -195,9 +195,9 @@ class Camera
             $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         // Case the URL is /dev/video
         } else if (preg_match('#^/dev/video#', $url)) {
-            $motionParams['v4l2_device'] = ['status' => 'enabled', 'value' => $url];
-            $motionParams['netcam_url'] = ['status' => 'disabled', 'value' => ''];
+            $motionParams['netcam_url'] = ['status' => 'enabled', 'value' => 'rtsp://127.0.0.1:8554/camera_' . $id . '?mp4'];
             $motionParams['movie_passthrough'] = ['status' => 'enabled', 'value' => 'off'];
+            $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         }
 
         /**
@@ -314,6 +314,9 @@ class Camera
         Param\Rotate::check($params['rotate']);
         Param\BasicAuthUsername::check($params['basic-auth-username']);
         Param\BasicAuthPassword::check($params['basic-auth-password']);
+        Param\OnvifEnable::check($params['onvif-enable']);
+        Param\OnvifPort::check($params['onvif-port']);
+        // Param\OnvifUri::check($params['onvif-uri']);
 
         /**
          *  Set camera configuration
@@ -334,6 +337,47 @@ class Camera
         $configuration['motion-detection-enable'] = $params['motion-detection-enable'];
         $configuration['timelapse-enable']        = $params['timelapse-enable'];
         $configuration['hardware-acceleration']   = $params['hardware-acceleration'];
+        $configuration['onvif']['enable']         = $params['onvif-enable'];
+        $configuration['onvif']['port']           = $params['onvif-port'];
+        // $configuration['onvif']['uri']            = $params['onvif-uri'];
+
+        /**
+         *  Try to generate Onvif Url
+         */
+        if ($params['onvif-enable'] == 'true') {
+            // If the Url is a device, it cannot be moved
+            if (preg_match('#/dev/video#', $params['url'])) {
+                throw new Exception('Device camera are not movable');
+            }
+
+            // Parse camera URL to extract IP/hostname
+            $parsedUrl = parse_url($params['url']);
+
+            if ($parsedUrl === false or empty($parsedUrl)) {
+                throw new Exception('Could not retrieve camera IP from URL');
+            }
+
+            if (empty($parsedUrl['host'])) {
+                throw new Exception('Could not determine camera IP from URL');
+            }
+
+            $cameraIp = $parsedUrl['host'];
+
+            // Build Onvif URL
+            $onvifUrl = 'http://' . $cameraIp;
+
+            // If a port is set, add it to the URL
+            if (isset($params['onvif-port']) and $params['onvif-port'] > 0) {
+                $onvifUrl .= ':' . $params['onvif-port'];
+            }
+
+            // If a URI is set, add it to the URL
+            // if (!empty($params['onvif-uri'])) {
+            //     $onvifUrl .= $params['onvif-uri'];
+            // }
+
+            $configuration['onvif']['url'] = $onvifUrl;
+        }
 
         /**
          *  Define proper URL for go2rtc and motion
@@ -344,9 +388,6 @@ class Camera
         if (!empty($configuration['basic-auth-username']) and !empty($configuration['basic-auth-password'])) {
             $url = preg_replace('#://#i', '://' . $configuration['basic-auth-username'] . ':' . $configuration['basic-auth-password'] . '@', $url);
         }
-
-        // First, add URL without filter to go2rtc
-        // $go2rtcStreams[] = $url;
 
         // Case the URL is http(s)://
         if (preg_match('#^https?://#', $url)) {
@@ -434,9 +475,9 @@ class Camera
             $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         // Case the URL is /dev/video
         } else if (preg_match('#^/dev/video#', $url)) {
-            $motionParams['v4l2_device'] = ['status' => 'enabled', 'value' => $url];
-            $motionParams['netcam_url'] = ['status' => 'disabled', 'value' => ''];
+            $motionParams['netcam_url'] = ['status' => 'enabled', 'value' => 'rtsp://127.0.0.1:8554/camera_' . $id . '?mp4'];
             $motionParams['movie_passthrough'] = ['status' => 'enabled', 'value' => 'off'];
+            $motionParams['v4l2_device'] = ['status' => 'disabled', 'value' => ''];
         }
 
         /**

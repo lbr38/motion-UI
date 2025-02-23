@@ -885,7 +885,7 @@ textarea {
     margin-bottom: 20px;
 }
 
-.slide-panel-close-btn, .confirm-box-cancel-btn {
+.slide-panel-close-btn, .confirm-box-cancel-btn, .close-btn {
     width: 26px !important;
     height: 26px !important;
     max-height: initial !important;
@@ -1026,8 +1026,7 @@ textarea {
 .modal-window {
     display: flex;
     flex-direction: column;
-    width: 70%;
-    max-height: 80%;
+    max-height: 90%;
     padding: 15px 15px 15px 15px;
     border-radius: 8px;
     background-color: #102232;
@@ -1043,6 +1042,7 @@ textarea {
     border-radius: 8px;
     line-height: 1.5;
     text-wrap: wrap;
+    word-break: break-word;
 }
 
 /**
@@ -1097,5 +1097,10 @@ textarea {
 
     .confirm-box {
         width: 29%;
+    }
+
+    .modal-window {
+        width: 70%;
+        max-height: 80%;
     }
 }

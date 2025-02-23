@@ -168,11 +168,14 @@
                             </div>
 
                             <div class="flex align-item-center column-gap-10">
-                                <!-- <span class="round-btn-tr display-ptz-btns" title="Camera PTZ buttons" camera-id="<?= $cameraId ?>">
-                                    <img src="/assets/icons/move.svg" />
-                                </span> -->
-
                                 <?php
+                                if ($cameraRawParams['onvif']['enable'] == 'true' and isset($cameraRawParams['onvif']['url'])) : ?>
+                                    <span class="round-btn-tr display-ptz-btns" title="Camera PTZ buttons" camera-id="<?= $cameraId ?>">
+                                        <img src="/assets/icons/move.svg" />
+                                    </span>
+                                    <?php
+                                endif;
+
                                 if ($cameraRawParams['timelapse-enable'] == 'true') : ?>
                                     <span class="round-btn-tr timelapse-camera-btn" title="Camera timelapse" camera-id="<?= $cameraId ?>">
                                         <img src="/assets/icons/picture.svg" />
@@ -221,6 +224,14 @@
                                 <p class="note">Camera move speed</p>
                                 <input type="range" class="camera-ptz-move-speed" min="0.1" max="1" step="0.1" value="0.5" camera-id="<?= $cameraId ?>" />
                             </div>
+
+                            <?php
+                            if (STREAM_DEFAULT_TECHNOLOGY != 'webrtc') : ?>
+                                <div class="margin-top-15">
+                                    <p class="note">For lower latency in movement control, please use WebRTC stream technology</p>
+                                </div>
+                                <?php
+                            endif ?>
                         </div>                        
                     </div>
                 </div>

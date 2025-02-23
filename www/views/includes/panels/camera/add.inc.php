@@ -41,7 +41,7 @@
     <input type="number" class="form-param" param-name="framerate" value="0" min="0" />
 
     <h6>AUTHENTICATION</h6>
-    <p class="note">Enable this option if the camera requires authentication.</p>
+    <p class="note">If your camera requires authentication (to access the video stream or ONVIF service).</p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input basic-auth-switch" type="checkbox">
         <span class="onoff-switch-slider"></span>

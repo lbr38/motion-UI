@@ -71,15 +71,36 @@
         <span class="onoff-switch-slider"></span>
     </label>
 
-    <h6>AUTHENTICATION</h6>   
+    <h6>AUTHENTICATION</h6>
     <div class="basic-auth-fields">
-        <p class="note">If your camera requires authentication to access the video stream</p>
+        <p class="note">If your camera requires authentication (to access the video stream or ONVIF service).</p>
 
         <h6>USERNAME</h6>
         <input type="text" class="form-param" param-name="basic-auth-username" value="<?= $cameraRawParams['basic-auth-username'] ?>" />
 
         <h6>PASSWORD</h6>
         <input type="password" class="form-param" param-name="basic-auth-password" value="<?= $cameraRawParams['basic-auth-password'] ?>" />
+    </div>
+
+    <h6>ONVIF ENABLED</h6>
+    <p class="note">If camera supports ONVIF protocol. This will allow you to move the camera using the PTZ controls.</p>
+    <label class="onoff-switch-label">
+        <input type="checkbox" class="onoff-switch-input form-param" param-name="onvif-enable" <?php echo ($cameraRawParams['onvif']['enable'] == 'true') ? 'checked' : ''; ?> >
+        <span class="onoff-switch-slider"></span>
+    </label>
+
+    <div id="onvif-fields" class="<?= $onvifFieldsClass ?>">
+        <h6>ONVIF PORT</h6>
+        <p class="note">Port number of the ONVIF service. Default is 80.</p>
+        <input type="number" class="form-param" param-name="onvif-port" value="<?= $cameraRawParams['onvif']['port'] ?>" />
+
+        <!-- <h6>ONVIF URI</h6>
+        <input type="text" class="form-param" param-name="onvif-uri" value="<?= $cameraRawParams['onvif']['uri'] ?>" placeholder="e.g. /onvif/device_service" /> -->
+
+        <?php
+        if (!empty($cameraRawParams['onvif']['url'])) {
+            echo '<p class="note">Target URL: ' . $cameraRawParams['onvif']['url'] . '</p>';
+        } ?>
     </div>
 
     <h6>DISPLAY LIVE STREAM</h6>

@@ -17,7 +17,7 @@ class Template
             'pid_file'              => ['status' => 'enabled', 'value' => '/run/motion/motion.pid'],
             // Log settings
             'log_file'              => ['status' => 'enabled', 'value' => '/var/log/motion/motion.log'],
-            'log_level'             => ['status' => 'enabled', 'value' => '4'],
+            'log_level'             => ['status' => 'enabled', 'value' => '6'],
             // Target directory for pictures and videos
             'target_dir'            => ['status' => 'enabled', 'value' => '/var/lib/motion'],
             // Motion emulation (for debug purpose)
