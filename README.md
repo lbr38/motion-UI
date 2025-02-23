@@ -3,19 +3,19 @@
 A dockerized web responsive interface to manage <a href="https://github.com/Motion-Project/motion"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
 
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/bdae2550-819d-40c4-895b-541ee64bdc03" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/964f1307-c295-49f6-82e5-db6326f909b4" width=25% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/afe3e48a-3a26-4e75-a6a7-a97b2ac2bf9e" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/caa8944d-5d8e-4b4b-a706-5a2e469dac7e" width=25% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/a2472f8b-24fc-4967-bb6a-f8ad8af95270" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/7a9f1efd-bef0-42b9-ba8f-6c7bde8be028" width=25% align="top">
 </div>
 <br>
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/cb9137c7-484a-4c2c-ad0f-c33ef7a602bd" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/0c3876f5-dfa6-45bd-a750-ca8b4cfe1133" width=25% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/81c05e3f-599d-4cc1-9d9a-9748fce54763" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/68cd77fd-69cf-46f4-aca2-528d5d42077f" width=25% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/04b18116-2af0-4bd3-8438-e9f1fed8c7ed" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/ba3352ea-4174-4707-9f4c-9f6bf2074968" width=25% align="top">
 </div>
 
 <br>

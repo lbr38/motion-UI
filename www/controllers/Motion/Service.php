@@ -119,4 +119,26 @@ class Service
 
         return true;
     }
+
+    /**
+     *  Return motion service log content
+     */
+    public function getLog() : string
+    {
+        if (!IS_ADMIN) {
+            throw new Exception('You are not allowed to view motion service logs');
+        }
+
+        if (!file_exists('/var/log/motion/motion.log')) {
+            throw new Exception('No log for motion service yet');
+        }
+
+        $content = file_get_contents('/var/log/motion/motion.log');
+
+        if ($content === false) {
+            throw new Exception('Failed to read log file');
+        }
+
+        return $content;
+    }
 }

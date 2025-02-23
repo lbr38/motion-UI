@@ -186,12 +186,6 @@ h3 {
     height: 30px;
 }
 
-.close-btn {
-    height: 20px;
-    float: right;
-    cursor: pointer;
-}
-
 .main-buttons {
     display: grid;
     grid-template-columns: repeat(1, 100%);

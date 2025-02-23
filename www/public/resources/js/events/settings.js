@@ -50,3 +50,43 @@ $(document).on('submit','#settings-form',function () {
 
     return false;
 });
+
+/**
+ *  Event: view motion process log
+ */
+$(document).on('click', '#view-motion-log-btn', function () {
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'get-log',
+        // Data:
+        {},
+        // Print success alert:
+        false,
+        // Print error alert:
+        true
+    ).then(function () {
+        printModalWindow(jsonValue.message, 'MOTION LOG');
+    });
+});
+
+/**
+ *  Event: view go2rtc process log
+ */
+$(document).on('click', '#view-go2rtc-log-btn', function () {
+    ajaxRequest(
+        // Controller:
+        'go2rtc',
+        // Action:
+        'get-log',
+        // Data:
+        {},
+        // Print success alert:
+        false,
+        // Print error alert:
+        true
+    ).then(function () {
+        printModalWindow(jsonValue.message, 'GO2RTC LOG');
+    });
+});

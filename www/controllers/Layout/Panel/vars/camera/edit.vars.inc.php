@@ -4,8 +4,8 @@ if (!IS_ADMIN) {
 }
 
 $mycamera = new \Controllers\Camera\Camera();
-
 $cameraId = $item['id'];
+$onvifFieldsClass = '';
 
 /**
  *  Get camera configuration
@@ -19,4 +19,11 @@ try {
     $cameraRawParams = json_decode($camera['Configuration'], true, 512, JSON_THROW_ON_ERROR);
 } catch (JsonException $e) {
     throw new Exception('Error: could not retrieve camera #' . $cameraId . ' configuration: ' . $e->getMessage());
+}
+
+/**
+ *  If ONVIF is not enabled, hide ONVIF fields
+ */
+if (empty($cameraRawParams['onvif']['enable']) or $cameraRawParams['onvif']['enable'] != "true") {
+    $onvifFieldsClass = 'hide';
 }

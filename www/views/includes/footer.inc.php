@@ -39,7 +39,7 @@
  *  Additional JS files
  */
 if (__ACTUAL_URI__[1] == '' or __ACTUAL_URI__[1] == 'live') {
-    $jsFiles = ['events/general', 'events/camera/ptz', 'camera', 'motion', 'stream/webrtc'];
+    $jsFiles = ['events/general', 'events/camera/edit', 'events/camera/ptz', 'camera', 'motion', 'stream/webrtc'];
 }
 if (__ACTUAL_URI__[1] == 'motion') {
     $jsFiles = ['events/general', 'camera', 'events/motion/motion', 'motion'];

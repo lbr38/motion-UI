@@ -23,13 +23,12 @@
                 <span class="block center lowopacity-cst"><?= ucfirst($status) ?> motion detection</span>
             </div>
 
-            <!-- <div class="flex flex-direction-column row-gap-10"> -->
+            <div class="flex flex-direction-column row-gap-10">
                 <?php
                 // if ($motionActive) {
                 //     echo '<img src="/assets/icons/update.svg" class="icon" title="Restart motion" />';
                 // } ?>
-                <!-- <img id="view-motion-log-btn" src="/assets/icons/file.svg" class="icon" title="View motion log" /> -->
-            <!-- </div> -->
+            </div>
         </div>
 
         <div class="item">

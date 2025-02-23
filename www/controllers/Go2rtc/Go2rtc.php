@@ -118,4 +118,26 @@ class Go2rtc
             throw new Exception('Failed to restart go2rtc:<br><pre class="codeblock">' . $output . '</pre>');
         }
     }
+
+    /**
+     *  Return go2rtc log content
+     */
+    public function getLog() : string
+    {
+        if (!IS_ADMIN) {
+            throw new Exception('You are not allowed to view go2rtc logs');
+        }
+
+        if (!file_exists(GO2RTC_DIR . '/logs/go2rtc.log')) {
+            throw new Exception('No log for go2rtc service yet');
+        }
+
+        $content = file_get_contents(GO2RTC_DIR . '/logs/go2rtc.log');
+
+        if ($content === false) {
+            throw new Exception('Failed to read log file');
+        }
+
+        return $content;
+    }
 }

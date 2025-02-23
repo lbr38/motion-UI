@@ -21,12 +21,20 @@ test -f $DAEMON || exit 0
 #
 function start()
 {
+    # If go2rtc is running
+    if ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+        echo "go2rtc is already running"
+        exit 0
+    fi
+
+    # Clean any existing PID file
+    rm -f "$PIDFILE"
+
     LOGFILE="/var/lib/motionui/go2rtc/logs/$(date +'%Y-%m-%d_%H-%M-%S')-go2rtc.log"
 
-    echo "Starting go2rtc"
-
     # Create PID directory
-    mkdir -p /run/go2rtc -m 750
+    mkdir -p /run/go2rtc
+    chmod 755 /run/go2rtc
     chown www-data:www-data /run/go2rtc
 
     # Create log directory
@@ -61,6 +69,25 @@ function start()
     start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile \
     --chuid www-data --umask 002 \
     --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS > /var/lib/motionui/go2rtc/logs/go2rtc.log 2>&1"
+
+    # If no PID file was created, the process did not start properly
+    if [ ! -f "$PIDFILE" ]; then
+        echo "Error starting go2rtc: PID file is missing"
+        exit 1
+    fi
+
+    chmod 600 "$PIDFILE"
+    chown www-data:www-data /run/go2rtc/go2rtc.pid
+
+    PID=$(cat "$PIDFILE")
+
+    # If the PID is empty, the process is not running
+    if [ -z "$PID" ]; then
+        echo "Error starting go2rtc: PID file is empty"
+        exit 1
+    fi
+
+    echo "go2rtc started, PID: $PID"
 }
 
 #
@@ -68,27 +95,32 @@ function start()
 #
 function stop()
 {
-    echo "Stopping go2rtc"
+    i="0"
 
-    if [ -f "$PIDFILE" ]; then
-        PID=$(cat "$PIDFILE")
+    # If go2rtc is running
+    if ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+        echo "Stopping go2rtc"
 
-        # If the PID is empty, the process is not running
-        if [ -z "$PID" ]; then
-            exit 0
-        fi
+        # If a PID file exists, get the PID and kill the process
+        if [ -f "$PIDFILE" ]; then
+            PID=$(cat "$PIDFILE")
 
-        # Check if a process with this PID is still running
-        if /usr/bin/ps -p "$PID" > /dev/null; then
-            # echo "Force stopping go2rtc (kill)"
-            kill "$PID"
+            # If the PID is empty, the process is not running
+            if [ -z "$PID" ]; then
+                exit 0
+            fi
+
+            # Check if a process with this PID is still running
+            if /usr/bin/ps -p "$PID" > /dev/null; then
+                # echo "Force stopping go2rtc (kill)"
+                kill "$PID"
+            fi
         fi
 
         # Wait for the process to stop (timeout 10s)
-        i="0"
         while true; do
             # Check if the process is still running, quit if not
-            if ! ps aux | grep -q "/usr/local/bin/go2rtc" | grep -v "grep"; then
+            if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
                 break
             fi
 
@@ -100,10 +132,40 @@ function stop()
             (( i++ ))
             sleep 1
         done
-
-        # Remove PID file
-        rm -f "$PIDFILE"
     fi
+
+    # Remove PID file
+    rm -f "$PIDFILE"
+}
+
+#
+# Get go2rtc service status
+#
+function status()
+{
+    # If go2rtc is not running, exit
+    if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+        echo "go2rtc is not running"
+        exit 1
+    fi
+
+    # If the process is running with no PID file, exit with an error
+    if [ ! -f "$PIDFILE" ]; then
+        echo "go2rtc is running but PID file is missing"
+        exit 1
+    fi
+
+    # Get PID from PID file
+    PID=$(cat "$PIDFILE")
+
+    # If the PID is empty, exit with an error
+    if [ -z "$PID" ]; then
+        echo "go2rtc is running but PID file is empty"
+        exit 1
+    fi
+
+    echo "go2rtc is running, PID: $PID"
+    exit 0
 }
 
 case "$1" in
@@ -119,6 +181,10 @@ case "$1" in
         stop && start
     ;;
     status)
+        status
+
+
+
         echo "Status go2rtc"
         if [ -f $PIDFILE ]; then
             echo -n "Running process for $NAME : "

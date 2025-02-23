@@ -20,6 +20,7 @@ $(document).keyup(function (e) {
         closePanel();
         closeAlert();
         closeConfirmBox();
+        $('.modal-window-container').remove();
     }
 });
 

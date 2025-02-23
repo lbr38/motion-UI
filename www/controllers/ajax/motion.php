@@ -271,10 +271,12 @@ if ($_POST['action'] == 'delete-param-from-config' and !empty($_POST['cameraId']
  *  Get motion log
  */
 if ($_POST['action'] == 'get-log') {
-    $content = file_get_contents('/var/log/motion/motion.log');
+    $motionServiceController = new \Controllers\Motion\Service();
 
-    if ($content === false) {
-        response(HTTP_BAD_REQUEST, 'Failed to read log file');
+    try {
+        $content = $motionServiceController->getLog();
+    } catch (\Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
     response(HTTP_OK, $content);

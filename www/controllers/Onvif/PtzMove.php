@@ -37,29 +37,13 @@ class PtzMove extends Ptz
             }
 
             /**
-             *  Parse camera URL to extract IP/hostname
+             *  Get camera Onvif url
              */
-            $parsedUrl = parse_url($configuration['url']);
-
-            if ($parsedUrl === false or empty($parsedUrl)) {
-                throw new Exception('Could not parse camera URL');
+            if (empty($configuration['onvif']['url'])) {
+                throw new Exception('Camera URL is not set');
             }
 
-            // Get camera IP/hostname
-            if (empty($parsedUrl['host'])) {
-                throw new Exception('Could not determine camera IP');
-            }
-            $cameraIp = $parsedUrl['host'];
-
-            /**
-             *  Get Onvif port from configuration
-             */
-            // TODO
-
-            /**
-             *  Get Onvif PTZ URI from configuration
-             */
-            // TODO
+            $url = $configuration['onvif']['url'];
 
             if (empty($configuration['basic-auth-username'])) {
                 throw new Exception('Username is not set');
@@ -70,18 +54,15 @@ class PtzMove extends Ptz
             }
 
             /**
-             *  Build URI
+             *  Construct parent class
              */
-            // TODO
-            $uri = 'http://' . $cameraIp . ':888/onvif/device_service';
-
-            parent::__construct($uri, $configuration['basic-auth-username'], $configuration['basic-auth-password']);
+            parent::__construct($url, $configuration['basic-auth-username'], $configuration['basic-auth-password']);
 
             if (empty($this->ptzUri)) {
                 throw new Exception('PTZ URI is not set');
             }
 
-            unset($cameraController, $configuration, $parsedUrl, $cameraIp);
+            unset($cameraController, $configuration);
         } catch (Exception $e) {
             throw new Exception('Could not move camera: ' . $e->getMessage());
         }
