@@ -20,3 +20,10 @@ $(document).on('click','.slide-panel-close-btn',function () {
 $(document).on('click','.modal-window-close-btn',function () {
     $(".modal-window-container").remove();
 });
+
+/**
+ *  Event: click on a toggle button
+ */
+$(document).on('click','.toggle-btn',function () {
+    $($(this).attr('target')).toggle();
+});

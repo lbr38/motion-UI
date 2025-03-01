@@ -21,7 +21,7 @@ class Framerate
         /**
          *  Check that frame rate is valid
          */
-        if (!is_numeric($framerate) or $framerate < 0) {
+        if (!is_numeric($framerate) or $framerate < 2) {
             throw new Exception('Frame rate value is invalid');
         }
     }

@@ -7,7 +7,8 @@ $mycamera = new \Controllers\Camera\Camera();
  */
 if ($_POST['action'] == "add" and !empty($_POST['params'])) {
     try {
-        $mycamera->add($_POST['params']);
+        $cameraAddController = new \Controllers\Camera\Add();
+        $cameraAddController->add($_POST['params']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -20,7 +21,8 @@ if ($_POST['action'] == "add" and !empty($_POST['params'])) {
  */
 if ($_POST['action'] == 'edit-global-settings' and !empty($_POST['id']) and !empty($_POST['params'])) {
     try {
-        $mycamera->edit($_POST['id'], $_POST['params']);
+        $cameraEditController = new \Controllers\Camera\Edit();
+        $cameraEditController->edit($_POST['id'], $_POST['params']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -33,7 +35,8 @@ if ($_POST['action'] == 'edit-global-settings' and !empty($_POST['id']) and !emp
  */
 if ($_POST['action'] == "delete" and !empty($_POST['cameraId'])) {
     try {
-        $mycamera->delete($_POST['cameraId']);
+        $cameraDeleteController = new \Controllers\Camera\Delete();
+        $cameraDeleteController->delete($_POST['cameraId']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }

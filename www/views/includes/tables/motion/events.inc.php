@@ -204,7 +204,7 @@
                                 /**
                                  *  Case it a movie
                                  */
-                                if (preg_match('/\.(mp4|mkv|mov)$/', $eventDetails['File'])) : ?>
+                                if (preg_match('/\.(mp4|mkv|mov|webm)$/', $eventDetails['File'])) : ?>
                                     <div class="event-media-row">
                                         <div class="event-media">
                                             <?php

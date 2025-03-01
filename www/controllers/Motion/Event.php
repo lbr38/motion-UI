@@ -110,14 +110,14 @@ class Event
         /**
          *  File must be a picture or a movie
          */
-        if (!preg_match('/\.(jpg|jpeg|mp4|mov|mkv)$/', $file)) {
+        if (!preg_match('/\.(jpg|jpeg|mp4|mov|mkv|webm)$/', $file)) {
             throw new Exception('The specified file extension is not allowed.');
         }
 
         /**
          *  Check that MIME type is valid
          */
-        if (!in_array(mime_content_type($file), ['image/jpeg', 'video/mp4', 'video/quicktime', 'video/x-matroska'])) {
+        if (!in_array(mime_content_type($file), ['image/jpeg', 'video/mp4', 'video/quicktime', 'video/x-matroska', 'video/webm'])) {
             throw new Exception('The specified file MIME type is not allowed.');
         }
 
@@ -129,7 +129,7 @@ class Event
         /**
          *  If the file is a movie, then create a thumbnail image for it
          */
-        if (preg_match('/\.(mp4|mkv|mov)$/', $file)) {
+        if (preg_match('/\.(mp4|mkv|mov|webm)$/', $file)) {
             /**
              *  Get file directory location
              */

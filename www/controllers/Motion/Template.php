@@ -7,80 +7,242 @@ use Exception;
 class Template
 {
     /**
-     *  Return main configuration params template
-     *  /etc/motion/motion.conf
-     */
-    public static function getMainParamsTemplate() : array
-    {
-        $params = [
-            'daemon'                => ['status' => 'enabled', 'value' => 'on'],
-            'pid_file'              => ['status' => 'enabled', 'value' => '/run/motion/motion.pid'],
-            // Log settings
-            'log_file'              => ['status' => 'enabled', 'value' => '/var/log/motion/motion.log'],
-            'log_level'             => ['status' => 'enabled', 'value' => '6'],
-            // Target directory for pictures and videos
-            'target_dir'            => ['status' => 'enabled', 'value' => '/var/lib/motion'],
-            // Motion emulation (for debug purpose)
-            'emulate_motion'        => ['status' => 'enabled', 'value' => 'off'],
-            // Noise reduction
-            'despeckle_filter'      => ['status' => 'enabled', 'value' => 'EedDl'],
-            // Minimum motion frames to trigger an event
-            'minimum_motion_frames' => ['status' => 'enabled', 'value' => '1'],
-            // Webcontrol settings
-            'webcontrol_localhost'  => ['status' => 'enabled', 'value' => 'on'],
-            'webcontrol_port'       => ['status' => 'enabled', 'value' => '8082'],
-            'webcontrol_parms'      => ['status' => 'enabled', 'value' => ''],
-            // Pause mode
-            'pause'                 => ['status' => 'enabled', 'value' => 'off'],
-            // Cameras dir
-            'config_dir'            => ['status' => 'enabled', 'value' => '/var/lib/motionui/cameras/motion/conf-enabled'],
-        ];
-
-        return $params;
-    }
-
-    /**
      *  Return camera configuration params template
-     *  /var/lib/motion/cameras/camera-<id>/camera-<id>.conf
+     *  Those are the minimal motion params for a camera, more are added by the form in the Motion UI
+     *  https://motion-project.github.io/motionplus_config.html
      */
-    public static function getCameraParamsTemplate(int $id) : array
+    public function get(int $id) : array
     {
         $params = [
-            'device_id' => ['status' => 'enabled', 'value' => $id],
-            'device_name' => ['status' => 'enabled', 'value' => ''],
-            'netcam_url' => ['status' => 'enabled', 'value' => 'http://'],
-            'netcam_params' => ['status' => 'enabled', 'value' => 'keepalive=on, tolerant_check=on'],
-            'width' => ['status' => 'enabled', 'value' => '640'],
-            'height' => ['status' => 'enabled', 'value' => '480'],
-            'framerate' => ['status' => 'enabled', 'value' => '25'],
-            'threshold' => ['status' => 'enabled', 'value' => '1500'],
-            // Text settings
-            'text_left' => ['status' => 'disabled', 'value' => ''],
-            'text_right' => ['status' => 'disabled', 'value' => ''],
-            'text_scale' => ['status' => 'enabled', 'value' => '2'],
-            // Capture settings
-            'event_gap' => ['status' => 'enabled', 'value' => '30'],
-            'pre_capture' => ['status' => 'enabled', 'value' => '1'],
-            'post_capture' => ['status' => 'enabled', 'value' => '5'],
-            // Picture settings
-            'picture_output' => ['status' => 'disabled', 'value' => 'off'],
-            'picture_type' => ['status' => 'enabled', 'value' => 'jpeg'],
-            'picture_quality' => ['status' => 'enabled', 'value' => '95'],
-            'picture_filename' => ['status' => 'enabled', 'value' => 'camera-' . $id . '/%Y-%m-%d/pictures/%v_%Y-%m-%d_%Hh%Mm%Ss_%q'],
-            // Movie settings
-            'movie_output' => ['status' => 'enabled', 'value' => 'on'],
-            'movie_container' => ['status' => 'enabled', 'value' => 'mp4'],
-            'movie_passthrough' => ['status' => 'disabled', 'value' => 'on'],
-            'movie_quality' => ['status' => 'enabled', 'value' => '60'],
-            'movie_max_time' => ['status' => 'enabled', 'value' => '15'],
-            'movie_filename' => ['status' => 'enabled', 'value' => 'camera-' . $id . '/%Y-%m-%d/movies/%v_%Y-%m-%d_%Hh%Mm%Ss_video'],
-            // Motion emulation (for debug purpose)
-            'emulate_motion' => ['status' => 'disabled', 'value' => 'on'],
-            // Event settings
-            'on_event_start' => ['status' => 'enabled', 'value' => '/bin/bash /usr/lib/motion/on_event_start %{eventid} %v %t'],
-            'on_event_end' => ['status' => 'enabled', 'value' => '/bin/bash /usr/lib/motion/on_event_end %{eventid}'],
-            'on_movie_end' => ['status' => 'enabled', 'value' => '/bin/bash /usr/lib/motion/on_event_file %{eventid} %f %w %h %{fps} %D'],
-            'on_picture_save' => ['status' => 'enabled', 'value' => '/bin/bash /usr/lib/motion/on_event_file %{eventid} %f %w %h %{fps} %D'],
+            // General settings
+            'device_id' => [
+                'value' => '',
+                'enabled' => true,
+                'editable' => false,
+                'locked' => false,
+            ],
+            'device_name' => [
+                'value' => '',
+                'enabled' => true,
+                'editable' => false,
+                'locked' => false,
+            ],
+            // Camera device settings
+            'v4l2_device' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'v4l2_params' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'netcam_url' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'netcam_params' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'netcam_userpass' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            // Image settings
+            'width' => [
+                'value' => '',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'height' => [
+                'value' => '',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'framerate' => [
+                'value' => '',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'rotate' => [
+                'value' => '0',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'text_left' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'text_right' => [
+                'value' => '',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'text_scale' => [
+                'value' => '2',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            // Motion detection
+            'emulate_motion' => [
+                'value' => 'on',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'threshold' => [
+                'value' => '1500',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'noise_level' => [
+                'value' => '32',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'noise_tune' => [
+                'value' => 'on',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'despeckle_filter' => [
+                'value' => 'EedDl',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'minimum_motion_frames' => [
+                'value' => '1',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'event_gap' => [
+                'value' => '30',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'pre_capture' => [
+                'value' => '1',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'post_capture' => [
+                'value' => '5',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            // Picture general info
+            'picture_output' => [
+                'value' => 'on',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'picture_type' => [
+                'value' => 'jpeg',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'picture_quality' => [
+                'value' => '95',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'picture_filename' => [
+                'value' => 'camera-' . $id . '/%Y-%m-%d/pictures/%v_%Y-%m-%d_%Hh%Mm%Ss_%q',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            // Movie general info
+            'movie_output' => [
+                'value' => 'on',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'movie_container' => [
+                'value' => 'mkv',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'movie_passthrough' => [
+                'value' => 'on',
+                'enabled' => false,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'movie_quality' => [
+                'value' => '40',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'movie_max_time' => [
+                'value' => '15',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'movie_filename' => [
+                'value' => 'camera-' . $id . '/%Y-%m-%d/movies/%v_%Y-%m-%d_%Hh%Mm%Ss_video',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            // Script execution
+            'on_event_start' => [
+                'value' => '/bin/bash /usr/lib/motion/on_event_start %{eventid} %v %t',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'on_event_end' => [
+                'value' => '/bin/bash /usr/lib/motion/on_event_end %{eventid}',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'on_movie_end' => [
+                'value' => '/bin/bash /usr/lib/motion/on_event_file %{eventid} %f %w %h %{fps} %D',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ],
+            'on_picture_save' => [
+                'value' => '/bin/bash /usr/lib/motion/on_event_file %{eventid} %f %w %h %{fps} %D',
+                'enabled' => true,
+                'editable' => true,
+                'locked' => false,
+            ]
         ];
 
         return $params;

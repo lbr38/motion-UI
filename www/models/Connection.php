@@ -59,7 +59,8 @@ class Connection extends SQLite3
          */
         $this->exec("CREATE TABLE IF NOT EXISTS cameras (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        Configuration TEXT)");
+        Configuration TEXT,
+        Motion_configuration TEXT)");
 
         /**
          *  Create alerts table

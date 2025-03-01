@@ -253,21 +253,6 @@ if ($_POST['action'] == "configure-motion" and !empty($_POST['cameraId']) and !e
 }
 
 /**
- *  Delete motion parameter from configuration file
- */
-if ($_POST['action'] == 'delete-param-from-config' and !empty($_POST['cameraId']) and !empty($_POST['name'])) {
-    $mymotionConfig = new \Controllers\Motion\Config();
-
-    try {
-        $mymotionConfig->deleteParameter($_POST['cameraId'], $_POST['name']);
-    } catch (\Exception $e) {
-        response(HTTP_BAD_REQUEST, $e->getMessage());
-    }
-
-    response(HTTP_OK, 'Parameter deleted');
-}
-
-/**
  *  Get motion log
  */
 if ($_POST['action'] == 'get-log') {

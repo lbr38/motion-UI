@@ -155,6 +155,7 @@ pre.codeblock {
     color: #8A99AA;
     filter: brightness(0) saturate(100%) invert(65%) sepia(17%) saturate(341%) hue-rotate(171deg) brightness(90%) contrast(88%);
 }
+.opacity-60,.opacity-60-cst{opacity: 0.60}
 .opacity-80,.opacity-80-cst{opacity: 0.80}
 .lowopacity:hover,.mediumopacity:hover{
     color: #ffffff;
@@ -165,7 +166,7 @@ pre.codeblock {
 .flex {display:flex!important;}
 .flex-div-15 { flex: 0 0 14%; }.flex-div-20 { flex: 0 0 19%; }.flex-div-25 { flex: 0 0 24%; }.flex-div-30 { flex: 0 0 29%; }
 .flex-div-33 { flex: 0 0 32%; }.flex-div-40 { flex: 0 0 39%; }.flex-div-50 { flex: 0 0 47%; }.flex-div-60 { flex: 0 0 59%; }
-.flex-div-65 { flex: 0 0 64%; }.flex-div-68 { flex: 0 0 67%; }.flex-div-80 { flex: 0 0 79%; }.flex-div-100 { flex: 0 0 98%; }
+.flex-div-65 { flex: 0 0 64%; }.flex-div-68 { flex: 0 0 67%; }.flex-div-80 { flex: 0 0 79%; }.flex-div-90 { flex: 0 0 90%; } .flex-div-100 { flex: 0 0 98%; }
 .flex-grow { flex-grow: 1; }
 .flex-wrap { flex-wrap: wrap; }
 .flex-nowrap { flex-wrap: nowrap; }
@@ -349,7 +350,7 @@ td {
  *  Forms, button, input, textarea
  */
 input {
-    accent-color: #15bf7f;
+    accent-color: #249b6e;
 }
 
 input[type=text], input[type=date], input[type=time], input[type=number], input[type=email], input[type=password], input[type=color], input[type=file], select {

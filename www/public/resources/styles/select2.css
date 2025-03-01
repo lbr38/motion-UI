@@ -21,11 +21,11 @@ https://github.com/select2/select2/issues/3278#issuecomment-258481272 : */
     -webkit-user-select: none; }
     .select2-container .select2-selection--single .select2-selection__rendered {
       display: block;
-      padding-left: 8px;
+      padding-left: 10px;
       padding-right: 20px;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap; }
+      /*white-space: nowrap;*/ }
     .select2-container .select2-selection--single .select2-selection__clear {
       background-color: transparent;
       border: none;
@@ -155,7 +155,7 @@ https://github.com/select2/select2/issues/3278#issuecomment-258481272 : */
   background-color: #25394b; /* modifié */
   /*background-color: #fff;*/
   /* border: 1px solid #aaa; */
-  border-radius: 2px; }
+  border-radius: 20px; }
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     /*color: #444;*/
     line-height: 28px; }
@@ -163,7 +163,7 @@ https://github.com/select2/select2/issues/3278#issuecomment-258481272 : */
     cursor: pointer;
     float: right;
     font-weight: bold;
-    height: 26px;
+    height: 18px;
     margin-right: 20px;
     padding-right: 0px; }
   .select2-container--default .select2-selection--single .select2-selection__placeholder {
@@ -300,15 +300,29 @@ https://github.com/select2/select2/issues/3278#issuecomment-258481272 : */
   display: none; }
 
 .select2-container--default.select2-container--open.select2-container--above .select2-selection--single, .select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px; }
+  border-radius: 20px;
+  /* border-top-left-radius: 20px; */
+  /* border-top-right-radius: 20px; } */
+}
 
 .select2-container--default.select2-container--open.select2-container--below .select2-selection--single, .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px; }
+  border-radius: 20px;
+  /* border-bottom-left-radius: 20px; */
+  /* border-bottom-right-radius: 20px; } */
+}
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
-  border: 1px solid #aaa; }
+  height: 35px;
+  border-radius: 20px;
+  border: 1px solid #ffffff38;
+  box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
+  background: #25394b;
+  color: white;
+  padding-left: 10px;
+  font-size: 14px;
+  margin-top: 2px;
+  margin-bottom: 5px;
+}
 
 .select2-container--default .select2-search--inline .select2-search__field {
   background: transparent;

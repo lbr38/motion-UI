@@ -12,6 +12,7 @@ class Service
     private $motionEventController;
     private $motionAutostartController;
     private $motionServiceController;
+    private $go2rtcController;
     private $timelapseController;
 
     private $curlHandle;
@@ -31,6 +32,7 @@ class Service
         $this->motionController = new \Controllers\Motion\Motion();
         $this->motionAutostartController = new \Controllers\Motion\Autostart();
         $this->motionServiceController = new \Controllers\Motion\Service();
+        $this->go2rtcController = new \Controllers\Go2rtc\Go2rtc();
         $this->timelapseController = new \Controllers\Camera\Timelapse();
     }
 
@@ -296,6 +298,20 @@ class Service
     }
 
     /**
+     *  Clean go2rtc files
+     */
+    private function cleanGo2rtc()
+    {
+        if (date('H:i') != '00:00') {
+            return;
+        }
+
+        echo $this->getDate() . ' Cleaning go2rtc files...' . PHP_EOL;
+
+        $this->go2rtcController->clean();
+    }
+
+    /**
      *  Main function
      */
     public function run()
@@ -361,9 +377,15 @@ class Service
                 $this->monitorMotionStatus();
 
                 /**
-                 *  Clean timelapse and events depending on retention (at midnight)
+                 *  Cleanup jobs (at midnight)
                  */
-                $this->cleanTimelapseAndMotionEvents();
+                if (date('H:i') == '00:00') {
+                    // Clean timelapse and events depending on retention
+                    $this->cleanTimelapseAndMotionEvents();
+
+                    // Clean go2rtc files (logs)
+                    $this->cleanGo2rtc();
+                }
 
                 /**
                  *  Reset counter

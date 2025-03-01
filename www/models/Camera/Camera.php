@@ -123,10 +123,24 @@ class Camera extends \Models\Model
     /**
      *  Add a new camera
      */
-    public function add(string $configuration) : void
+    public function add() : void
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO cameras ('Configuration') VALUES (:configuration)");
+            $stmt = $this->db->prepare("INSERT INTO cameras ('Configuration') VALUES ('')");
+            $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
+    }
+
+    /**
+     *  Save camera's global configuration
+     */
+    public function saveGlobalConfiguration(string $id, string $configuration) : void
+    {
+        try {
+            $stmt = $this->db->prepare("UPDATE cameras SET Configuration = :configuration WHERE Id = :id");
+            $stmt->bindValue(':id', $id);
             $stmt->bindValue(':configuration', $configuration);
             $stmt->execute();
         } catch (Exception $e) {
@@ -135,12 +149,12 @@ class Camera extends \Models\Model
     }
 
     /**
-     *  Edit camera global settings
+     *  Save camera's motion configuration
      */
-    public function edit(int $id, string $configuration) : void
+    public function saveMotionConfiguration(string $id, string $configuration) : void
     {
         try {
-            $stmt = $this->db->prepare("UPDATE cameras SET Configuration = :configuration WHERE Id = :id");
+            $stmt = $this->db->prepare("UPDATE cameras SET Motion_configuration = :configuration WHERE Id = :id");
             $stmt->bindValue(':id', $id);
             $stmt->bindValue(':configuration', $configuration);
             $stmt->execute();

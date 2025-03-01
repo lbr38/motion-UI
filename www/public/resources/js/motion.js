@@ -388,56 +388,82 @@ $(document).on('click','.get-motion-config-form-btn',function () {
 });
 
 /**
- *  Event: Collapse motion parameter div
+ *  Event: search for a motion parameter
  */
-$(document).on('click','.motion-param-collapse-btn',function () {
-    var id = $(this).attr('param-id');
+$(document).on('keyup','#camera-motion-settings-search',function () {
+    var search = $(this).val().toLowerCase();
 
-    $('.motion-param-div[param-id=' + id + ']').toggle();
+    // Ignore if search is empty
+    if (search.length == 0) {
+        // Make all sections and params visible
+        $('#camera-motion-settings-form').find('.camera-motion-settings-form-section').show();
+        $('#camera-motion-settings-form').find('.param-container').show();
+        return;
+    }
+
+    // First, hide all sections
+    $('#camera-motion-settings-form').find('.camera-motion-settings-form-section').hide();
+
+    // Hide all params
+    $('#camera-motion-settings-form').find('.param-container').hide();
+
+    // Then, show only the sections and params that contain the search
+    $('#camera-motion-settings-form').find('.param-container').each(function () {
+        // Get param name
+        var name = $(this).attr('param-name').toLowerCase();
+
+        // Get param description
+        var description = $(this).find('.param-description[param-name="' + name + '"]').text().toLowerCase();
+
+        // Show the param if its name or description contains the search
+        if (name.includes(search) || description.includes(search)) {
+            $(this).show();
+            $(this).parents('.camera-motion-settings-form-section').show();
+        }
+    });
 });
 
 /**
- *  Event: Delete motion parameter
+ *  Event: show/hide motion parameters section
  */
-$(document).on('click','.motion-param-delete-btn',function (e) {
-    // Prevent parent to be triggered
-    e.stopPropagation();
+$(document).on('click','.camera-motion-settings-form-section-toggle-btn',function () {
+    var section = $(this).attr('section');
 
-    var cameraId = $(this).attr('camera-id');
+    $('.camera-motion-settings-form-section[section=' + section + ']').toggle();
+});
+
+/**
+ *  Event: Enable/disable a motion parameter
+ */
+$(document).on('click','input.param-enable',function () {
     var name = $(this).attr('param-name');
+    var value = $(this).is(':checked');
 
-    confirmBox(
-        {
-            'title': 'Delete parameter',
-            'message': 'Are you sure you want to delete ' + name + ' parameter?',
-            'buttons': [
-            {
-                'text': 'Delete',
-                'color': 'red',
-                'callback': function () {
-                    ajaxRequest(
-                        // Controller:
-                        'motion',
-                        // Action:
-                        'delete-param-from-config',
-                        // Data:
-                        {
-                            cameraId: cameraId,
-                            name: name
-                        },
-                        // Print success alert:
-                        true,
-                        // Print error alert:
-                        true,
-                        // Reload containers:
-                        ['motion/events/list']
-                    ).then(function () {
-                        reloadMotionConfigEditForm(cameraId);
-                    });
-                }
-            }]
-        }
-    );
+    // If enabled, remove opacity on the container and  show the param value
+    if (value) {
+        $('div.param-container[param-name="' + name + '"]').css('opacity', '1');
+        $('div.param-value-container[param-name="' + name + '"]').addClass('flex');
+        $('div.param-value-container[param-name="' + name + '"]').removeClass('hide');
+    } else {
+        $('div.param-container[param-name="' + name + '"]').css('opacity', '0.60');
+        $('div.param-value-container[param-name="' + name + '"]').removeClass('flex');
+        $('div.param-value-container[param-name="' + name + '"]').addClass('hide');
+    }
+});
+
+/**
+ *  Event: lock/unlock a motion parameter
+ */
+$(document).on('click','img.param-lock',function () {
+    var value = $(this).attr('value');
+
+    if (value == "true") {
+        $(this).attr('value', 'false');
+        $(this).attr('src', '/assets/icons/unlocked.svg');
+    } else {
+        $(this).attr('value', 'true');
+        $(this).attr('src', '/assets/icons/locked.svg');
+    }
 });
 
 /**
@@ -455,54 +481,42 @@ $(document).on('submit','#camera-motion-settings-form',function () {
 
     /**
      *  Get all the parameters and their value in the form
+     *  Get all inputs (text, number and range, select)
      */
+    $(this).find('.param-input-value').each(function () {
+        var enabled = true;
+        var locked = false;
 
-    /**
-     *  First count all span that has name=param-name in the form
-     */
-    var countTotal = $(this).find('span[name=param-name]').length
+        // Input name
+        var name = $(this).attr('param-name');
 
-    /**
-     *  Every configuration param and its value have an Id
-     *  Getting param name and the value that have the same Id, then push it all into an array
-     */
-    if (countTotal > 0) {
-        for (let i = 0; i < countTotal; i++) {
-            var status = 'disabled';
+        // Input value
+        // If the input is a checkbox, get the value of the checkbox
+        if ($(this).attr('type') == 'checkbox') {
+            $(this).is(':checked') ? value = 'on' : value = 'off';
+        } else {
+            var value = $(this).val();
+        }
 
-            /**
-             *  Get parameter name and its value
-             */
-            var name = $(this).find('span[name=param-name][param-id=' + i + ']').attr('value');
-            var value = $(this).find('input[name=param-value][param-id=' + i + ']').val()
-            if ($(this).find('input[name=param-status][param-id=' + i + ']').is(':checked')) {
-                var status = 'enabled';
-            }
-
-            params[name] = {
-                status: status,
-                value: value
+        // Input enabled status
+        if ($('input[type="checkbox"][param-name="' + name + '"].onoff-switch-input.param-enable').length > 0) {
+            if (!$('input[type="checkbox"][param-name="' + name + '"].onoff-switch-input.param-enable').is(':checked')) {
+                var enabled = false;
             }
         }
-    }
 
-    /**
-     *  Add additional parameter if any
-     */
-    var status = 'disabled';
+        // Locked status
+        if ($('img.param-lock[param-name="' + name + '"]').attr('value') == 'true') {
+            locked = true;
+        }
 
-    var name = $(this).find('input[name=additional-param-name]').val();
-    var value = $(this).find('input[name=additional-param-value]').val();
-    if ($(this).find('input[name=additional-param-status]').is(':checked')) {
-        var status = 'enabled';
-    }
-
-    if (name != '' && value != '') {
+        // Add the parameter to the params array
         params[name] = {
-            status: status,
-            value: value
+            value: value,
+            enabled: enabled,
+            locked: locked
         }
-    }
+    });
 
     ajaxRequest(
         // Controller:
@@ -518,9 +532,7 @@ $(document).on('submit','#camera-motion-settings-form',function () {
         true,
         // Print error alert:
         true
-    ).then(function () {
-        reloadMotionConfigEditForm(cameraId);
-    });
+    );
 
     return false;
 });
