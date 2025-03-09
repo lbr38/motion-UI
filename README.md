@@ -32,7 +32,6 @@ A dockerized web responsive interface to manage <a href="https://github.com/Moti
 ## 📷 Supported cameras
 
 - **USB cameras**
-- **Raspberry Pi cameras**
 - **Network cameras** (RTSP, HTTP, etc.)
 
 ## 📦 Requirements

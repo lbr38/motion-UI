@@ -71,7 +71,7 @@
                 <div class="camera-container" camera-id="<?= $cameraId ?>">
                     <div class="camera-output">
                         <?php
-                        if ($cameraRawParams['stream-enable'] == 'false') : ?>
+                        if ($cameraRawParams['stream']['enable'] == 'false') : ?>
                             <div class="height-100 flex align-item-center justify-center margin-bottom-30">
                                 <div>
                                     <button class="btn-round-none lowopacity-cst"><img src="/assets/icons/close.svg" class="icon" title="Live stream is disabled" /></button>
@@ -81,7 +81,7 @@
                             <?php
                         endif;
 
-                        if ($cameraRawParams['stream-enable'] == 'true') : ?>
+                        if ($cameraRawParams['stream']['enable'] == 'true') : ?>
                             <!-- Unavailable image div -->
                             <div class="camera-unavailable align-item-center row-gap-10 margin-top-15 hide" camera-id="<?= $cameraId ?>">
                                 <button class="btn-round-red"><img src="/assets/icons/close.svg" class="icon" title="Unavailable" /></button>
@@ -89,26 +89,26 @@
                             </div>
 
                             <!-- Camera stream -->
-                            <div class="camera-image relative" camera-id="<?= $cameraId ?>" stream-technology="<?= STREAM_DEFAULT_TECHNOLOGY ?>">
+                            <div class="camera-image relative" camera-id="<?= $cameraId ?>" stream-technology="<?= $cameraRawParams['stream']['technology'] ?>" width="<?= $cameraRawParams['main-stream']['width'] ?>" height="<?= $cameraRawParams['main-stream']['height'] ?>">
                                 <video camera-id="<?= $cameraId ?>" autoplay controls playsinline muted poster="/assets/images/motionui-video-poster.png"></video>
-
+  
                                 <!-- Left and right text / timestamp -->
                                 <div class="camera-image-text-left">
-                                    <p><b><?= $cameraRawParams['text-left'] ?></b></p>
+                                    <p><b><?= $cameraRawParams['main-stream']['text-left'] ?></b></p>
 
                                     <?php
                                     // Print timestamp on the right if enabled
-                                    if ($cameraRawParams['timestamp-left'] == 'true') {
+                                    if ($cameraRawParams['main-stream']['timestamp-left'] == 'true') {
                                         echo '<p class="camera-image-timestamp font-size-12"></p>';
                                     } ?>
                                 </div>
 
                                 <div class="camera-image-text-right">
-                                    <p class="text-right"><b><?= $cameraRawParams['text-right'] ?></b></p>
+                                    <p class="text-right"><b><?= $cameraRawParams['main-stream']['text-right'] ?></b></p>
 
                                     <?php
                                     // Print timestamp on the right if enabled
-                                    if ($cameraRawParams['timestamp-right'] == 'true') {
+                                    if ($cameraRawParams['main-stream']['timestamp-right'] == 'true') {
                                         echo '<p class="camera-image-timestamp font-size-12"></p>';
                                     } ?>
                                 </div>
@@ -124,20 +124,20 @@
                                 <p class="mediumopacity-cst font-size-13">
                                     <?php
                                     $type = 'Unknown';
-                                    $width = $cameraRawParams['width'];
-                                    $height = $cameraRawParams['height'];
+                                    $width = $cameraRawParams['main-stream']['width'];
+                                    $height = $cameraRawParams['main-stream']['height'];
                                     $resolution = $width . 'x' . $height;
 
-                                    if (str_contains($cameraRawParams['url'], 'rtsp://')) {
+                                    if (str_contains($cameraRawParams['main-stream']['device'], 'rtsp://')) {
                                         $type = 'RTSP';
                                     }
-                                    if (str_contains($cameraRawParams['url'], 'http://') or str_contains($cameraRawParams['url'], 'https://')) {
+                                    if (str_contains($cameraRawParams['main-stream']['device'], 'http://') or str_contains($cameraRawParams['main-stream']['device'], 'https://')) {
                                         $type = 'HTTP';
                                     }
-                                    if (str_contains($cameraRawParams['url'], 'mjpeg://')) {
+                                    if (str_contains($cameraRawParams['main-stream']['device'], 'mjpeg://')) {
                                         $type = 'MJPEG';
                                     }
-                                    if (str_contains($cameraRawParams['url'], '/dev/video')) {
+                                    if (str_contains($cameraRawParams['main-stream']['device'], '/dev/video')) {
                                         $type = 'Local device';
                                     }
 
@@ -176,7 +176,7 @@
                                     <?php
                                 endif;
 
-                                if ($cameraRawParams['timelapse-enable'] == 'true') : ?>
+                                if ($cameraRawParams['timelapse']['enable'] == 'true') : ?>
                                     <span class="round-btn-tr timelapse-camera-btn" title="Camera timelapse" camera-id="<?= $cameraId ?>">
                                         <img src="/assets/icons/picture.svg" />
                                     </span>
@@ -226,7 +226,7 @@
                             </div>
 
                             <?php
-                            if (STREAM_DEFAULT_TECHNOLOGY != 'webrtc') : ?>
+                            if ($cameraRawParams['stream']['technology'] != 'webrtc') : ?>
                                 <div class="margin-top-15">
                                     <p class="note">For lower latency in movement control, please use WebRTC stream technology</p>
                                 </div>

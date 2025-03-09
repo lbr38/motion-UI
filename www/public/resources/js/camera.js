@@ -32,6 +32,7 @@ async function loadCameras()
      *  For each camera container, load the camera image and hide the loading div
      */
     const cameraContainers = $('.camera-container').toArray();
+
     await Promise.all(cameraContainers.map(async(container) => {
         /**
          *  If there is no camera-image div (case where the stream is disabled), then ignore it
@@ -51,6 +52,11 @@ async function loadCameras()
         const streamTechnology = $(container).find('div.camera-image').attr('stream-technology');
 
         /**
+         *  Get camera width
+         */
+        const cameraWidth = $(container).find('div.camera-image').attr('width');
+
+        /**
          *  Connect to the camera using WebRTC
          *  See js/stream/webrtc.js
          */
@@ -59,15 +65,14 @@ async function loadCameras()
         }
 
         /**
-         *  Connect to the camera using MSE
+         *  Connect to the camera using MSE or MJPEG
          *  See js/stream/video-stream.js
          */
-        if (streamTechnology == 'mse') {
-            const params = new URLSearchParams(location.search);
+        if (streamTechnology == 'mse' || streamTechnology == 'mjpeg') {
+            // const params = new URLSearchParams(location.search);
 
             // support multiple streams and multiple modes
-            const background = params.get('background') !== 'false';
-            const width = '1 0 ' + (params.get('width') || '320px');
+            const width = '1 0 ' + cameraWidth;
 
             // videoElement doit être la <video> avec l'attribut camera-id
             const video = document.querySelector('video[camera-id="' + cameraId + '"]');
@@ -75,7 +80,7 @@ async function loadCameras()
             /** @type {VideoStream} */
             const videoElement = document.createElement('video-stream');
             videoElement.background = "/assets/images/motionui-video-poster.png";
-            videoElement.mode = 'mse'
+            videoElement.mode = streamTechnology;
             videoElement.style.flex = width;
             videoElement.src = new URL('api/ws?src=camera_' + cameraId, location.href);
 
@@ -131,17 +136,6 @@ $(document).on('click','.live-layout-btn',function () {
     $('#camera-grid-container').css('grid-template-columns', 'repeat(' + gridLayout + ', 1fr)');
 
     document.cookie = "liveGridLayout=" + gridLayout + "; Secure";
-});
-
-/**
- *  Event: show / hide http basic auth fields
- */
-$(document).on('click','.basic-auth-switch',function () {
-    if ($(this).is(':checked')) {
-        $('.basic-auth-fields').show();
-    } else {
-        $('.basic-auth-fields').hide();
-    }
 });
 
 /**
@@ -281,7 +275,6 @@ $(document).on('submit','#edit-global-settings-form',function () {
  *  Event: Delete a camera
  */
 $(document).on('click','.delete-camera-btn',function () {
-    console.log('test');
     var cameraId = $(this).attr('camera-id');
 
     confirmBox(
@@ -305,14 +298,12 @@ $(document).on('click','.delete-camera-btn',function () {
                         // Print success alert:
                         true,
                         // Print error alert:
-                        true,
-                        // Reload containers:
-                        [ 'cameras/list' ]
+                        true
                     ).then(function () {
                         closePanel('camera/edit');
-                        setTimeout(function () {
-                            loadStream();
-                        }, 1000);
+
+                        // Remove camera container
+                        $('.camera-container[camera-id="' + cameraId + '"]').remove();
                     });
                 }
             }]

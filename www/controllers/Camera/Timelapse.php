@@ -58,7 +58,7 @@ class Timelapse
                 throw new Exception('Failed to decode camera #' . $camera['Id'] . ' configuration: ' . $e->getMessage());
             }
 
-            if ($configuration['timelapse-enable'] == 'true') {
+            if ($configuration['timelapse']['enable'] == 'true') {
                 return true;
             }
         }
@@ -115,7 +115,7 @@ class Timelapse
                     /**
                      *  Skip camera if timelapse is not enabled
                      */
-                    if ($configuration['timelapse-enable'] != 'true') {
+                    if ($configuration['timelapse']['enable'] != 'true') {
                         continue;
                     }
 

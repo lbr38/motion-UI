@@ -726,13 +726,19 @@ function empty(value)
  *  Convert select tag to a select2 by specified element
  *  @param {*} element
  */
-function selectToSelect2(element, placeholder = 'Select...', tags = false)
+function selectToSelect2(element, placeholder = 'Select...', tags = false, disableSearch = true)
 {
+    var minimumResultsForSearch = 0;
+
+    if (disableSearch) {
+        minimumResultsForSearch = Infinity;
+    }
+
     $(element).select2({
         closeOnSelect: false,
         placeholder: placeholder,
         tags: tags,
-        minimumResultsForSearch: Infinity, /* disable search box */
+        minimumResultsForSearch: 0,
         allowClear: true /* add a clear button */
     });
 }

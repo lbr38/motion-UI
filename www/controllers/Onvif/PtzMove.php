@@ -32,7 +32,7 @@ class PtzMove extends Ptz
             /**
              *  If camera is a device, it cannot be moved
              */
-            if (preg_match('#/dev/video#', $configuration['url'])) {
+            if (preg_match('#/dev/video#', $configuration['main-stream']['device'])) {
                 throw new Exception('Device camera are not movable');
             }
 
@@ -45,18 +45,18 @@ class PtzMove extends Ptz
 
             $url = $configuration['onvif']['url'];
 
-            if (empty($configuration['basic-auth-username'])) {
+            if (empty($configuration['authentication']['username'])) {
                 throw new Exception('Username is not set');
             }
 
-            if (empty($configuration['basic-auth-password'])) {
+            if (empty($configuration['authentication']['password'])) {
                 throw new Exception('Password is not set');
             }
 
             /**
              *  Construct parent class
              */
-            parent::__construct($url, $configuration['basic-auth-username'], $configuration['basic-auth-password']);
+            parent::__construct($url, $configuration['authentication']['username'], $configuration['authentication']['password']);
 
             if (empty($this->ptzUri)) {
                 throw new Exception('PTZ URI is not set');

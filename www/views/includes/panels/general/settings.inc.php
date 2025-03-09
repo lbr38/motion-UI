@@ -13,17 +13,6 @@
 
     <h5>LIVE STREAM</h5>
 
-    <h6>STREAM TECHNOLOGY</h6>
-    <p class="note">MSE should work without any additional configuration.</p>
-    <p class="note">WebRTC is more efficient and offer less latency but may not work in some cases.</p>
-
-    <div class="switch-field margin-top-5">
-        <input type="radio" id="stream-default-technology-mse" class="settings-param" setting-name="stream-default-technology" name="stream-default-technology" value="mse" <?php echo (STREAM_DEFAULT_TECHNOLOGY === 'mse') ? 'checked' : '' ?> />
-        <label for="stream-default-technology-mse">MSE</label>
-        <input type="radio" id="stream-default-technology-webrtc" class="settings-param" setting-name="stream-default-technology" name="stream-default-technology" value="webrtc" <?php echo (STREAM_DEFAULT_TECHNOLOGY === 'webrtc') ? 'checked' : '' ?> />
-        <label for="stream-default-technology-webrtc">WebRTC</label>
-    </div>
-
     <h6>GO2RTC LOGS</h6>
     <p class="note">View go2rtc streaming server logs.</p>
     <img id="view-go2rtc-log-btn" src="/assets/icons/file.svg" class="icon" title="View go2rtc log" />

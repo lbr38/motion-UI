@@ -24,6 +24,18 @@ if [ ! -f "$GO2RTC_DIR/go2rtc.yml" ]; then
     chown www-data:motionui "$GO2RTC_DIR/go2rtc.yml"
 fi
 
+# Generate go2rtc .htpasswd file if not exists
+if [ ! -f "$GO2RTC_DIR/.htpasswd" ]; then
+    PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    printf "go2rtc:$(openssl passwd -5 $PASSWORD)\n" >> "$GO2RTC_DIR/.htpasswd"
+    chown www-data:www-data "$GO2RTC_DIR/.htpasswd"
+    chmod 600 "$GO2RTC_DIR/.htpasswd"
+
+    echo "Generated password for /go2rtc web interface:"
+    echo "Username: go2rtc"
+    echo "Password: $PASSWORD"
+fi
+
 # Set permissions
 /bin/bash $WWW_DIR/bin/motionui -p &
 chown -R www-data:motionui $DATA_DIR
