@@ -44,37 +44,51 @@ class Layout
 
     /**
      *  Logout
+     *  Destroy the current session and redirect to the login page
      */
     private function logout()
     {
         /**
-         *  Destruction de la session en cours et redirection vers la page de login
-         */
-
-        /**
-         *  On démarre la session
+         *  Start the session
          */
         session_start();
 
-        // Réinitialisation du tableau de session
-        // On le vide intégralement
+        /**
+         *  Reset the session array
+         *  We empty it completely
+         */
         $_SESSION = array();
 
-        // If it's desired to kill the session, also delete the session cookie.
-        // Note: This will destroy the session, and not just the session data!
+        /**
+         *  If it's desired to kill the session, also delete the session cookie.
+         *  Note: This will destroy the session, and not just the session data
+         */
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
         }
 
-        // Destruction de la session
+        /**
+         *  Destroy the session
+         */
         session_destroy();
 
-        // Destruction du tableau de session
+        /**
+         *  Destroy the session array
+         */
         unset($_SESSION);
 
         /**
-         *  On redirige vers login
+         *  If logout is initiated by the user itself (Logout button)
+         *  Set a cookie to indicate that the user has logged out
+         *  This is useful for the Android app to avoid it to autologin the user back
+         */
+        if (isset($_GET['user'])) {
+            setcookie('logout', '1', time() + 3600, '/');
+        }
+
+        /**
+         *  Redirect to login
          */
         header('Location: /login');
 

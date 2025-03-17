@@ -19,7 +19,7 @@ case "$1" in
     start)
         LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')-motion.log"
 
-        echo "Starting motion detection"
+        echo -n "Starting motion detection: "
 
         # If /var/log/motion/motion.log is a file, remove it
         if [ -f "/var/log/motion/motion.log" ]; then
@@ -28,23 +28,30 @@ case "$1" in
 
         # Create log file with date and time
         if ! touch "$LOGFILE" > /dev/null 2>&1; then
-            echo "Could not create log file"
+            echo "could not create log file"
             exit 1
         fi
 
         chown www-data:www-data "$LOGFILE"
         
         if ! ln -sf "$LOGFILE" /var/log/motion/motion.log; then
-            echo "Could not create symlink to log file"
+            echo "could not create symlink to log file"
             exit 1
         fi
 
         # Start motion detection
         start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid www-data --umask 002
+
+        if [ $? -ne 0 ]; then
+            echo "failed"
+            exit 1
+        fi
+
+        echo "done"
     ;;
 
   stop)
-    echo "Stopping motion detection"
+    echo -n "Stopping motion detection: "
     # start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
     if [ -f "$PIDFILE" ]; then
         PID=$(cat "$PIDFILE")
@@ -56,7 +63,6 @@ case "$1" in
 
         # Check if a process with this PID is still running
         if /usr/bin/ps -p "$PID" > /dev/null; then
-            echo "Force stopping motion detection (kill)"
             kill "$PID"
         fi
 
@@ -68,9 +74,18 @@ case "$1" in
                 break
             fi
 
+            # If timeout is reached, force kill the process
             if [ "$i" -gt "10" ]; then
-                echo "Could not stop motion detection (timeout 10s)"
-                exit 1
+                echo "forcing the process to stop (kill -9)"
+
+                # Process name is "mo00"
+                killall -9 mo00
+
+                # Check if the process is still running
+                if ps aux | grep "/usr/bin/motion" | grep -q -v "grep"; then
+                    echo "could not stop motion detection (timeout 10s)"
+                    exit 1
+                fi
             fi
 
             (( i++ ))
@@ -79,17 +94,17 @@ case "$1" in
 
         # Wait 8sec to make sure motion is truly stopped even if there is no more process
         sleep 8
-        echo "End"
+
+        echo "done"
     fi
     ;;
 
   status)
-    echo "Status motion detection"
+    echo -n "Status motion detection: "
     if [ -f $PIDFILE ]; then
-        echo -n "Running process for $NAME : "
-    	pidof $NAME  
+        echo "process is running with PID $(pidof $NAME)"
     else
-    	echo "Stopped"
+    	echo "stopped"
     fi
     ;;
   *)
@@ -97,10 +112,3 @@ case "$1" in
     exit 1
     ;;
 esac
-
-if [ $? == 0 ]; then
-	exit 0
-else
-	echo failed
-	exit 1
-fi

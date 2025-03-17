@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private String url;
     private boolean isFullScreen = false;
-    // private Integer authTry = 0;
 
     /**
      *  JavaScript interface to retrieve username and password from the login form when the user submits it and save them in SharedPreferences
@@ -130,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 String username = "";
                 String password = "";
-                // Integer authTry = 0;
 
                 /**
                  *  Instanciate encrypted shared preferences
@@ -156,12 +154,19 @@ public class MainActivity extends AppCompatActivity {
 
                     /**
                      *  Autologin if this is the first time the user logs in (click on the login button)
+                     *  Only do this if:
+                     *  - there is no <div> with id="login-error" on the login page, which indicates that the login was already attempted and failed
+                     *  - there is no cookie 'logout' (which means that the user as logout on purpose and may not want to login automatically again)
                      */
-                    // if (this.authTry == 0) {
-                    //     view.evaluateJavascript("document.querySelector('[type=submit]').click();", null);
-                    //     this.authTry++;
-                    // }
-                }
+                    view.evaluateJavascript("if (document.querySelector('#login-form') != null) {"
+                        + "if (document.querySelector('#login-error') == null) {"
+                        + "var logoutCookie = document.cookie.split('; ').find(row => row.startsWith('logout='));"
+                        + "if (logoutCookie == null) {"
+                        + "document.querySelector('form[method=post]').submit();"
+                        + "}"
+                        + "}"
+                        + "}" , null);
+                    }
 
                 /**
                  *  Inject JavaScript submit listener on the page, to retrieve the username and password when the login form is submitted

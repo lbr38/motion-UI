@@ -328,7 +328,6 @@ class Onvif
     }
 
     /**
-     *  TODO debug
      *  TODO : à améliorer
      */
     protected function xmlToArray($response)

@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+        with:
+          ref: 'main'
         # Debug only
         # with:
         #   ref: 'devel'
@@ -44,11 +46,10 @@ jobs:
           file: ./docker/Dockerfile
           # Debug only
           # push: true
-          # tags: lbr38/motionui:${{ env.VERSION }}-test
+          # tags: lbr38/motionui:${{ env.VERSION }}-devel
           # platforms: linux/amd64,linux/i386,linux/arm/v7,linux/arm64
 
           # Production
           push: true
           tags: lbr38/motionui:latest, lbr38/motionui:${{ env.VERSION }}
           platforms: linux/amd64,linux/i386,linux/arm/v7,linux/arm64
-      

@@ -182,6 +182,26 @@ $(document).on('click','#enable-device-presence-btn',function () {
 });
 
 /**
+ *  Event: view motion autostart log
+ */
+$(document).on('click', '#view-motion-autostart-log-btn', function () {
+    ajaxRequest(
+        // Controller:
+        'motion/autostart',
+        // Action:
+        'get-log',
+        // Data:
+        {},
+        // Print success alert:
+        false,
+        // Print error alert:
+        true
+    ).then(function () {
+        printModalWindow(jsonValue.message, 'MOTION AUTOSTART LOG');
+    });
+});
+
+/**
  *  Event: Enable alerts
  */
 $(document).on('click','#enable-alert-btn',function () {
@@ -384,7 +404,7 @@ $(document).on('click',".select-all-media-checkbox",function () {
 $(document).on('click','.get-motion-config-form-btn',function () {
     var id = $(this).attr('camera-id');
 
-    getPanel('motion/edit', {'id': id});
+    mypanel.get('motion/edit', {'id': id});
 });
 
 /**
@@ -708,7 +728,7 @@ function enableDevicePresence(status)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('motion/autostart');
+            mypanel.reload('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -737,7 +757,7 @@ function addDevice(name, ip)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('motion/autostart');
+            mypanel.reload('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -764,7 +784,7 @@ function removeDevice(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('motion/autostart');
+            mypanel.reload('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
@@ -870,7 +890,7 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('motion/alert');
+            mypanel.reload('motion/alert');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);

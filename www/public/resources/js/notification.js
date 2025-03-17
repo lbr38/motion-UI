@@ -25,7 +25,7 @@ function acquitNotification(id)
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
             printAlert(jsonValue.message, 'success');
-            reloadPanel('general/notification');
+            mypanel.reload('general/notification');
             reloadContainer('buttons/bottom');
         },
         error : function (jqXHR, textStatus, thrownError) {

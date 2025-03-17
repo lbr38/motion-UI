@@ -41,7 +41,6 @@ function permissions
     # Permissions on web directory
     chmod 750 "$WWW_DIR/bin/motionui"
     chmod 750 "$WWW_DIR/bin/on_event"*
-    chmod 750 "$WWW_DIR/bin/go2rtc/"*
     chmod 750 "$WWW_DIR"
     chown -R $WWW_USER "$WWW_DIR"
     chgrp -R $WWW_USER "$WWW_DIR"

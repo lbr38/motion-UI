@@ -6,7 +6,7 @@
 
 NAME=go2rtc
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/local/bin/go2rtc
+DAEMON=/usr/bin/go2rtc
 DAEMON_OPTS="-c /var/lib/motionui/go2rtc/go2rtc.yml"
 PIDFILE=/run/go2rtc/go2rtc.pid
 
@@ -22,7 +22,7 @@ test -f $DAEMON || exit 0
 function start()
 {
     # If go2rtc is running
-    if ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+    if ps aux | grep "$DAEMON" | grep -q -v "grep"; then
         echo "go2rtc is already running"
         exit 0
     fi
@@ -98,7 +98,7 @@ function stop()
     i="0"
 
     # If go2rtc is running
-    if ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+    if ps aux | grep "$DAEMON" | grep -q -v "grep"; then
         echo "Stopping go2rtc"
 
         # If a PID file exists, get the PID and kill the process
@@ -111,7 +111,7 @@ function stop()
             fi
 
             # Check if a process with this PID is still running
-            if /usr/bin/ps -p "$PID" > /dev/null; then
+            if ps -p "$PID" > /dev/null; then
                 # echo "Force stopping go2rtc (kill)"
                 kill "$PID"
             fi
@@ -120,7 +120,7 @@ function stop()
         # Wait for the process to stop (timeout 10s)
         while true; do
             # Check if the process is still running, quit if not
-            if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+            if ! ps aux | grep "$DAEMON" | grep -q -v "grep"; then
                 break
             fi
 
@@ -144,7 +144,7 @@ function stop()
 function status()
 {
     # If go2rtc is not running, exit
-    if ! ps aux | grep "/usr/local/bin/go2rtc" | grep -q -v "grep"; then
+    if ! ps aux | grep "$DAEMON" | grep -q -v "grep"; then
         echo "go2rtc is not running"
         exit 1
     fi

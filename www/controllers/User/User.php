@@ -50,7 +50,7 @@ class User
     /**
      *  Get user Id by username
      */
-    public function getIdByUsername(string $username) : int
+    public function getIdByUsername(string $username) : int|null
     {
         return $this->model->getIdByUsername($username);
     }
@@ -296,7 +296,7 @@ class User
     /**
      *  Check that specified username / password couple matches with database
      */
-    public function checkUsernamePwd(int $id, string $password) : void
+    protected function checkUsernamePwd(int $id, string $password) : void
     {
         /**
          *  Check that the user exists
@@ -321,7 +321,7 @@ class User
          *  If specified password does not matche database passord, then it is invalid
          */
         if (!password_verify($password, $hashedPassword)) {
-            throw new Exception('Invalid login and/or password');
+            throw new Exception('Bad password');
         }
     }
 

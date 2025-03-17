@@ -55,7 +55,7 @@ $(document).on('submit','#new-user-form',function () {
         true
     ).then(function () {
         // Reload userspace panel
-        reloadPanel('general/user/userspace');
+        mypanel.reload('general/user/userspace');
     });
 
     return false;
@@ -131,7 +131,7 @@ $(document).on('click','.delete-user-btn',function () {
                         true
                     ).then(function () {
                         // Reload userspace panel
-                        reloadPanel('general/user/userspace');
+                        mypanel.reload('general/user/userspace');
                     });
                 }
             }]

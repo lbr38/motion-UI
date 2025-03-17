@@ -17,7 +17,7 @@
 </form>
 
 <h5 class="margin-bottom-5">LOGOUT</h5>
-<a href="/logout">
+<a href="/logout?user">
     <button type="button" class="btn-small-red" title="Logout">Logout</button>
 </a>
 

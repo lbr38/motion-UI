@@ -5,7 +5,7 @@
 $(document).on('click','.user-permissions-edit-btn',function () {
     var id = $(this).attr('user-id');
 
-    getPanel('general/user/permissions', {'Id': id});
+    mypanel.get('general/user/permissions', {'Id': id});
 });
 
 /**

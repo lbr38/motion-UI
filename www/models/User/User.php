@@ -104,9 +104,9 @@ class User extends \Models\Model
     /**
      *  Get user Id by username
      */
-    public function getIdByUsername(string $username) : int
+    public function getIdByUsername(string $username) : int|null
     {
-        $data = '';
+        $data = null;
 
         try {
             $stmt = $this->db->prepare("SELECT Id FROM users WHERE Username = :username");

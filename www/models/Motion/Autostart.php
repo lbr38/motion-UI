@@ -12,7 +12,7 @@ class Autostart extends \Models\Model
     }
 
     /**
-     *  Returns actual autostart time slots configuration
+     *  Returns actual autostart time period configuration
      */
     public function getConfiguration()
     {
