@@ -41,7 +41,7 @@ class Service
         $content = $myprocess->getOutput();
         $myprocess->close();
 
-        if (preg_match('/.*Running process for motion : [1-9]\d*/', $content)) {
+        if (preg_match('/.*process is running with PID [1-9]\d*/', $content)) {
             return true;
         }
 

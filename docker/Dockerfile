@@ -25,13 +25,17 @@ RUN curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.
 # TODO: when motion is releasing a new package, use the deb package instead
 # RUN echo "deb https://packages.repomanager.net/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
 
-# Add nginx and PHP repositories
+# Add nginx, PHP and go2rtc repositories
 RUN echo "deb https://packages.repomanager.net/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
 RUN echo "deb https://packages.repomanager.net/repo/motionui-php/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.repomanager.net/repo/go2rtc/all/main_prod all main" > /etc/apt/sources.list.d/go2rtc.list
 RUN apt-get update -y
 
 # Install nginx and PHP 8.3
 RUN apt-get install nginx php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-curl php8.3-yaml php8.3-xml sqlite3 -y
+
+# Install go2rtc
+RUN apt-get install go2rtc -y
 
 # Install motion (standby until motion is releasing a package for version 5.0.0)
 # RUN apt-get install motion -y
@@ -121,24 +125,6 @@ RUN chmod 755 /etc/init.d/go2rtc
 RUN mkdir -p /var/run/go2rtc
 RUN chown -R www-data:motionui /var/run/go2rtc
 RUN chmod 775 /var/run/go2rtc
-
-# First, check if a binary is available for the current architecture
-RUN ARCH=$(dpkg --print-architecture); \
-    if [ ! -f "${WWW_DIR}/bin/go2rtc/go2rtc_linux_${ARCH}" ]; then \
-        echo "No go2rtc binary available for this architecture (${ARCH})"; \
-        exit 1; \
-    fi
-
-# Then link go2rtc binary to /usr/local/bin/ and set permissions
-RUN ln -s ${WWW_DIR}/bin/go2rtc/go2rtc_linux_$(dpkg --print-architecture) /usr/local/bin/go2rtc
-RUN chmod 750 /usr/local/bin/go2rtc
-
-# Remove all other binaries for other architectures
-RUN for f in ${WWW_DIR}/bin/go2rtc/go2rtc_linux_*; do \
-        if [ "$f" != "${WWW_DIR}/bin/go2rtc/go2rtc_linux_$(dpkg --print-architecture)" ]; then \
-            rm -f "$f"; \
-        fi; \
-    done
 
 # Copy entrypoint script
 RUN cp /tmp/motionui/docker/init /init

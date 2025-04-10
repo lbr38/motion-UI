@@ -34,6 +34,14 @@
 <script src="/resources/js/events/user/permissions.js?<?= VERSION ?>"></script>
 <script src="/resources/js/notification.js?<?= VERSION ?>"></script>
 
+<!-- Import some classes -->
+<script src="/resources/js/classes/Panel.js?<?= VERSION ?>"></script>
+
+<script>
+    // I will gradually regroup some functions in classes
+    const mypanel = new Panel();
+</script>
+
 <?php
 /**
  *  Additional JS files

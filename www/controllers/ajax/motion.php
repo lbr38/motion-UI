@@ -238,6 +238,20 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
 }
 
 /**
+ *  Get event media total size for the specified date
+ */
+if ($_POST['action'] == 'get-event-date-total-media-size' and !empty($_POST['date'])) {
+    try {
+        $mymotionEvent = new \Controllers\Motion\Event();
+        $size = $mymotionEvent->getTotalMediaSizeByDate($_POST['date']);
+    } catch (\Exception $e) {
+        response(HTTP_BAD_REQUEST, $e->getMessage());
+    }
+
+    response(HTTP_OK, $size);
+}
+
+/**
  *  Configure motion
  */
 if ($_POST['action'] == "configure-motion" and !empty($_POST['cameraId']) and !empty($_POST['params'])) {

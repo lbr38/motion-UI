@@ -2,20 +2,18 @@
  *  Event: get panel
  */
 $(document).on('click','.get-panel-btn',function () {
-    var name = $(this).attr('panel');
-    getPanel(name);
+    mypanel.get($(this).attr('panel'));
 });
 
 /**
- *  Slide panel closing
+ *  Event: close panel
  */
 $(document).on('click','.slide-panel-close-btn',function () {
-    var name = $(this).attr('slide-panel');
-    closePanel(name);
+    mypanel.close($(this).attr('slide-panel'));
 });
 
 /**
- *  Event: close request log details
+ *  Event: close modal window
  */
 $(document).on('click','.modal-window-close-btn',function () {
     $(".modal-window-container").remove();

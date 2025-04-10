@@ -1,21 +1,31 @@
-<div class="reloadable-table" table="<?= $table ?>" offset="<?= $reloadableTableOffset ?>">
+<div class="reloadable-table margin-top-30" table="<?= $table ?>" offset="<?= $reloadableTableOffset ?>">
     <?php
     if ($reloadableTableTotalItems == 0) {
-        echo '<p class="note">No events found for this date.</p>';
+        echo '<p class="note margin-top-30">No events found for this date.</p>';
     }
 
     if (!empty($reloadableTableContent)) : ?>
-        <div class="flex align-item-center column-gap-10 margin-top-15 margin-bottom-5">
+        <div class="flex align-item-center column-gap-10 margin-bottom-5">
             <p class="font-size-18"><b><?= $eventDateTitle ?></b></p>
+
+            <p class="lowopacity-cst">●</p>
 
             <p class="lowopacity-cst">
                 <?php
                 if ($reloadableTableTotalItems == 1) {
-                    echo '(1 event)';
+                    echo '1 event';
                 } else {
-                    echo '(' . $reloadableTableTotalItems . ' events)';
+                    echo $reloadableTableTotalItems . ' events';
                 } ?>
             </p>
+
+            <p class="lowopacity-cst">●</p>
+
+            <div class="flex align-item-center column-gap-5" title="Total media files">
+                <p class="lowopacity-cst"><?= $totalFilesCount ?></p>
+                <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="Total media files">
+                <p id="event-date-total-size" class="lowopacity-cst" event-date="<?= $eventDate ?>"><img src="/assets/icons/loading.svg" class="icon-np" /></p>
+            </div>
         </div>
 
         <?php
@@ -294,3 +304,7 @@
         <?php
     endif ?>
 </div>
+
+<script>
+    loadEventDateTotalMediaSize();
+</script>

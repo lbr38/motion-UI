@@ -31,6 +31,10 @@ class Main
         if (!defined('WS_LOGS_DIR')) {
             define('WS_LOGS_DIR', LOGS_DIR . '/websocket');
         }
+        // Autostart logs dir
+        if (!defined('AUTOSTART_LOGS_DIR')) {
+            define('AUTOSTART_LOGS_DIR', LOGS_DIR . '/autostart');
+        }
         if (!defined('CAMERAS_DIR')) {
             define('CAMERAS_DIR', DATA_DIR . '/cameras');
         }

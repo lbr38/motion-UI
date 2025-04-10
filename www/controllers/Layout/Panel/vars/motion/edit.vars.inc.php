@@ -250,6 +250,49 @@ $formParams = [
                 'type' => 'range',
                 'default' => 1,
             ],
+            'area_detect' => [
+                'title' => 'AREA DETECT',
+                'description' => 'Detect motion in predefined areas (1 - 9) and when Motion is detected in the area, execute the script. This option is only to execute the on_area_detect script.',
+                'type' => 'text',
+            ],
+            'mask_file' => [
+                'title' => 'MASK FILE',
+                'description' => 'The full path and filename for the masking pgm file. If needed, the mask will be resized to match the width and height of the image. The areas in the mask file colored black will be excluded from motion detection. Shades of grey on the mask will diminish the detection while areas of white will not have any impact on motion detection.',
+                'type' => 'text',
+            ],
+            'mask_privacy' => [
+                'title' => 'MASK PRIVACY',
+                'description' => 'The full path and filename for the privacy masking pgm file. This mask completely removes the indicated sections of the image.',
+                'type' => 'text',
+            ],
+            'smart_mask_speed' => [
+                'title' => 'SMART MASK SPEED',
+                'description' => 'The smartmask is intended to be a dynamic, self-learning mask to decrease sensitivity in areas with frequent motion. The speed specified by this parameter is how quickly the mask gets adjusted. Zero disables the smart mask.',
+                'type' => 'range',
+                'default' => 0,
+                'min' => 0,
+                'max' => 10,
+            ],
+            'lightswitch_percent' => [
+                'title' => 'LIGHTSWITCH PERCENT',
+                'description' => 'The minimum change in the portion of the image that will trigger a lightswitch condition.',
+                'type' => 'range',
+                'default' => 0,
+                'min' => 0,
+                'max' => 100,
+            ],
+            'lightswitch_frames' => [
+                'title' => 'LIGHTSWITCH FRAMES',
+                'description' => 'The number of frames to ignore when the lightswitch condition is triggered (see above).',
+                'type' => 'number',
+                'default' => 5
+            ],
+            'static_object_time' => [
+                'title' => 'STATIC OBJECT TIME',
+                'description' => 'Number of seconds before a new object is included in the reference image.',
+                'type' => 'number',
+                'default' => 0
+            ]
         ]
     ],
     'movies-general-settings' => [
@@ -298,6 +341,12 @@ $formParams = [
                 'default' => 'mkv',
                 'enabled' => true
             ],
+            'movie_retain' => [
+                'title' => 'MOVIE RETAIN',
+                'description' => 'Retain movie only if the secondary detection occurred.',
+                'type' => 'switch',
+                'default' => 'off'
+            ],
             'movie_passthrough' => [
                 'title' => 'MOVIE PASSTHROUGH',
                 'description' => 'When using a RTSP, RTMP, mjpeg and some V4l2 cameras, create movie files with the packets obtained directly from the camera.',
@@ -312,6 +361,27 @@ $formParams = [
                 'editable' => false,
                 'enabled' => true
             ],
+            'movie_extpipe_use' => [
+                'title' => 'MOVIE EXTPIPE USE',
+                'description' => 'Specifies whether to send the pictures to pipe for external encoding into a movie.',
+                'type' => 'switch',
+                'default' => 'off'
+            ],
+            'movie_extpipe' => [
+                'title' => 'MOVIE EXTPIPE',
+                'description' => 'The program name and options for processing the images.',
+                'type' => 'text'
+            ],
+            'video_pipe' => [
+                'title' => 'VIDEO PIPE',
+                'description' => 'The video4linux video loopback device for normal images. The device would be specified in the format like /dev/video1',
+                'type' => 'text'
+            ],
+            'video_pipe_motion' => [
+                'title' => 'VIDEO PIPE MOTION',
+                'description' => 'The video4linux video loopback device for motion images. The device would be specified in the format like /dev/video1',
+                'type' => 'text'
+            ]
         ]
     ],
     'pictures-general-settings' => [

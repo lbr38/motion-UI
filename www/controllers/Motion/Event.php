@@ -332,6 +332,33 @@ class Event
     }
 
     /**
+     *  Get total media size for the specified date
+     */
+    public function getTotalMediaSizeByDate(string $date)
+    {
+        if (!file_exists(CAPTURES_DIR)) {
+            throw new \Exception('No captures directory found');
+        }
+
+        /**
+         *  Loop through each camera directory to get the total size of the capture directory for the specified date
+         */
+        $camerasDirs = glob(CAPTURES_DIR . '/*', GLOB_ONLYDIR);
+        $totalSize = 0;
+
+        foreach ($camerasDirs as $cameraDir) {
+            if (is_dir($cameraDir . '/' . $_POST['date'])) {
+                $totalSize += \Controllers\Filesystem\Directory::getSize($cameraDir . '/' . $_POST['date']);
+            }
+        }
+
+        /**
+         *  Format and return the size
+         */
+        return \Controllers\Common::sizeFormat($totalSize);
+    }
+
+    /**
      *  Check if event exists
      */
     public function exists(string $motionEventId)

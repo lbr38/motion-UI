@@ -22,12 +22,7 @@ class Autostart
      */
     public function getConfiguration()
     {
-        /**
-         *  Get actual configuration
-         */
-        $configuration = $this->model->getConfiguration();
-
-        return $configuration;
+        return $this->model->getConfiguration();
     }
 
     /**
@@ -110,8 +105,16 @@ class Autostart
      */
     public function autostart()
     {
+        $this->log('Running autostart');
+
         while (true) {
             pcntl_signal_dispatch();
+            sleep(5);
+
+            // Set default value for priority
+            $priority = false;
+            $priorityIs = 'devices';
+            $startService = null;
 
             /**
              *  Stop autostart if stop file exists
@@ -126,30 +129,161 @@ class Autostart
              *  can be disabled at any moment by the user from the web ui
              */
             if ($this->getStatus() != 'enabled') {
-                echo 'Autostart is disabled' . PHP_EOL;
+                $this->log('Autostart is disabled');
                 exit;
             }
+
+            /**
+             *  Get actual day and time
+             */
+            $day = date('l');
+            $time = time();
+            $today = date('Y-m-d');
+            $previousDay = date('l', strtotime('yesterday'));
+            $yesterday = date('Y-m-d', strtotime('yesterday'));
 
             /**
              *  Get device presence status
              */
             $devicePresenceStatus = $this->getDevicePresenceStatus();
 
-            echo 'Running autostart' . PHP_EOL;
+            /**
+             *  If device presence is enabled, a priority have to be set between time period and device presence
+             *  Set it to 'devices' then if time period is set, a check will have to be done to see if the time period is prioritary
+             */
+            if ($devicePresenceStatus == 'enabled') {
+                $priority = true;
+                $priorityIs = 'devices';
+            }
+
+            /**
+             *  Get autostart time period configuration for the actual day and for yesterday
+             */
+            $timeSlots = $this->getConfiguration();
+            $autostartTodayStart = $timeSlots[$day . '_start'];
+            $autostartTodayEnd = $timeSlots[$day . '_end'];
+            $autostartYesterdayStart = $timeSlots[$previousDay . '_start'];
+            $autostartYesterdayEnd = $timeSlots[$previousDay . '_end'];
+
+            /**
+             *  If today's time period end is 00:00, then set it to 23:59:59 to be able to compare it with the current time
+             */
+            if ($autostartTodayEnd == '00:00') {
+                $autostartTodayEnd = '23:59:59';
+            }
+
+            /**
+             *  If yesterday's time period is set (meaning it's not --:--)
+             */
+            if (!empty($autostartYesterdayStart) and !empty($autostartYesterdayEnd)) {
+                $autostartYesterdayStartTime = strtotime("$yesterday $autostartYesterdayStart");
+                $autostartYesterdayEndTime   = strtotime("$yesterday $autostartYesterdayEnd");
+
+                // If yesterday's ending time period ends after 00:00, meaning it spills over into today
+                if ($autostartYesterdayStart > $autostartYesterdayEnd) {
+                    $autostartYesterdayEndTime   = strtotime("$today $autostartYesterdayEnd");
+
+                    // Check if current time falls within yesterday's time period
+                    if ($time >= $autostartYesterdayStartTime && $time < $autostartYesterdayEndTime) {
+                        $priorityIs = 'time-period';
+                        $startService = true;
+                    } else {
+                        $startService = false;
+                    }
+                }
+            }
+
+            /**
+             *  If today's time period is set (meaning it's not --:--)
+             */
+            if (!empty($autostartTodayStart) and !empty($autostartTodayEnd)) {
+                $autostartTodayStartTime = strtotime("$today $autostartTodayStart");
+                $autostartTodayEndTime   = strtotime("$today $autostartTodayEnd");
+
+                /**
+                 *  Handle case where end time is past midnight
+                 */
+                if ($autostartTodayStartTime > $autostartTodayEndTime) {
+                    $autostartTodayEndTime = strtotime("$today $autostartTodayEnd +1 day");
+                }
+
+                /**
+                 *  If autostart slots are set to 00:00, then the service must run all the time
+                 */
+                if ($autostartTodayStart == '00:00' and $autostartTodayEnd == '00:00') {
+                    $priorityIs = 'time-period';
+                    $startService = true;
+
+                /**
+                 *  Otherwise, some checks are needed to check if the service must be started or stopped
+                 */
+                } else {
+                    if (!empty($autostartYesterdayStart) and !empty($autostartYesterdayEnd)) {
+                        if (($time >= $autostartTodayStartTime && $time < $autostartTodayEndTime) || ($time >= $autostartYesterdayStartTime && $time < $autostartYesterdayEndTime)) {
+                            $priorityIs = 'time-period';
+                            $startService = true;
+                        } else {
+                            $startService = false;
+                        }
+                    } else {
+                        // Check if current time falls within today's or yesterday's time period
+                        if ($time >= $autostartTodayStartTime && $time < $autostartTodayEndTime) {
+                            $priorityIs = 'time-period';
+                            $startService = true;
+                        } else {
+                            $startService = false;
+                        }
+                    }
+                }
+            }
+
+            /**
+             *  Print priority, if there is one
+             */
+            if ($priority) {
+                $this->log('Current autostart priority is: ' . $priorityIs);
+            }
+
+            /**
+             *  If there is no priority (meaning device presence is disabled) or if there is a priority and the priority is the time period
+             *  then check if current time is between autostart time period
+             */
+            if (!$priority or ($priority and $priorityIs == 'time-period')) {
+                // If motion service has to be started
+                if ($startService === true) {
+                    if (!$this->motionService->isRunning()) {
+                        $this->log('Starting motion according to autostart time configuration');
+                        if (!$this->motionService->start()) {
+                            $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
+                        }
+                    }
+                }
+
+                // If motion service has to be stopped
+                if ($startService === false) {
+                    if ($this->motionService->isRunning()) {
+                        $this->log('Stopping motion according to autostart time configuration');
+                        if (!$this->motionService->stop()) {
+                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
+                        }
+                    }
+                }
+
+                // If time period is the priority, then skip device presence check (skip next step)
+                continue;
+            }
 
             /**
              *  If device presence is enabled, check that at least one device is present
              */
             if ($devicePresenceStatus == 'enabled') {
                 try {
-                    /**
-                     *  Get known devices
-                     */
+                    // Get known devices
                     $devices = $this->getDevices();
 
                     if (!empty($devices)) {
                         foreach ($devices as $device) {
-                            echo 'Trying to ping device ' . $device['Name'] . ' (' . $device['Ip'] . ')' . PHP_EOL;
+                            $this->log('Trying to ping device ' . $device['Name'] . ' (' . $device['Ip'] . ')');
 
                             /**
                              *  Try to ping the first device of the loop
@@ -169,8 +303,9 @@ class Autostart
                                  *  If ping is successful, stop motion
                                  */
                                 if ($myprocess->getExitCode() == 0) {
+                                    $this->log('At least 1 active device has been found on the network - someone is home');
                                     if ($this->motionService->isRunning()) {
-                                        echo 'At least 1 active device has been found on the network - someone is home - stopping motion' . PHP_EOL;
+                                        $this->log('Stopping motion according to autostart device presence configuration');
                                         if (!$this->motionService->stop()) {
                                             $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
                                         }
@@ -189,126 +324,82 @@ class Autostart
                          *  If all the devices are absent from the local network, then start motion
                          *  Start motion only if not already running
                          */
+                        $this->log('No active device found on the network - nobody is home');
                         if (!$this->motionService->isRunning()) {
-                            echo 'No active device found on the network - nobody is home - starting motion' . PHP_EOL;
+                            $this->log('Starting motion according to autostart device presence configuration');
                             if (!$this->motionService->start()) {
                                 $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
                             }
                         }
                     }
                 } catch (Exception $e) {
-                    $this->logController->log('error', 'Motion autostart', 'Errow while executing autostart: ' . $e->getMessage());
+                    $this->logController->log('error', 'Motion autostart', 'Error while executing autostart: ' . $e->getMessage());
                 }
             }
+        }
+    }
 
-            if ($devicePresenceStatus != 'enabled') {
-                /**
-                 *  If device presence is not enabled, start/stop motion on configured time slots
-                 */
+    /**
+     *  Return autostart log
+     */
+    public function getLog() : string
+    {
+        if (!IS_ADMIN) {
+            throw new Exception('You are not allowed to view motion autostart logs');
+        }
 
-                /**
-                 *  Get actual day and time
-                 */
-                $day = date('l');
+        if (!file_exists(AUTOSTART_LOGS_DIR . '/' . date('Y-m-d') . '_autostart.log')) {
+            throw new Exception('No log for motion autostart yet');
+        }
 
-                /**
-                 *  Get autostart time slots configuration for actual day
-                 */
-                $timeSlots = $this->getConfiguration();
-                $autostartTodayStart = $timeSlots[$day . '_start'];
-                $autostartTodayEnd = $timeSlots[$day . '_end'];
+        $content = file_get_contents(AUTOSTART_LOGS_DIR . '/' . date('Y-m-d') . '_autostart.log');
 
-                /**
-                 *  If autostart time slot end is 00:00, then set it to 23:59:59 to be able to compare it with actual time
-                 */
-                if ($autostartTodayEnd == '00:00') {
-                    $autostartTodayEnd = '23:59:59';
-                }
+        if ($content === false) {
+            throw new Exception('Failed to read log file');
+        }
 
-                /**
-                 *  If no autostart is configured for the actual day, then stop motion and quit
-                 *  (no autostart configured means motion should not be started)
-                 */
-                if (empty($autostartTodayStart) || empty($autostartTodayEnd)) {
-                    echo 'No autostart configured for today' . PHP_EOL;
+        return $content;
+    }
 
-                    if ($this->motionService->isRunning()) {
-                        echo 'Stopping motion' . PHP_EOL;
-                        if (!$this->motionService->stop()) {
-                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
-                        }
-                    }
+    /**
+     *  Log to console and to autostart log file
+     */
+    private function log(string $message) : void
+    {
+        $log = '[' . date('D M j H:i:s') . ']' . ' ' . $message;
 
-                    sleep(5);
-                    continue;
-                }
+        // Log to autostart log file
+        file_put_contents(AUTOSTART_LOGS_DIR . '/' . date('Y-m-d') . '_autostart.log', $log . PHP_EOL, FILE_APPEND);
 
-                /**
-                 *  If actual time is between autostart time slot, then start motion
-                 */
-                $time = time();
+        // Log to console
+        echo $log . PHP_EOL;
+    }
 
-                // Today and yesterday's dates
-                $today = date('Y-m-d');
-                $yesterday = date('Y-m-d', strtotime('yesterday'));
+    /**
+     *  Clean autostart logs
+     */
+    public function clean() : void
+    {
+        if (!is_dir(AUTOSTART_LOGS_DIR)) {
+            return;
+        }
 
-                // Today's autostart times
-                $autostartTodayStart = $timeSlots[date('l') . '_start'];
-                $autostartTodayEnd = $timeSlots[date('l') . '_end'];
+        /**
+         *  Get all log files
+         */
+        $logFiles = glob(AUTOSTART_LOGS_DIR . '/*.log');
 
-                // Yesterday's autostart times
-                $previousDay = date('l', strtotime('yesterday'));
-                $autostartYesterdayStart = $timeSlots[$previousDay . '_start'];
-                $autostartYesterdayEnd = $timeSlots[$previousDay . '_end'];
+        if (empty($logFiles)) {
+            return;
+        }
 
-                // Adjust yesterday's end time if it's '00:00'
-                if ($autostartYesterdayEnd == '00:00') {
-                    $autostartYesterdayEnd = '23:59:59';
-                }
-
-                // Calculate timestamps
-                $autostartTodayStartTime = strtotime("$today $autostartTodayStart");
-                $autostartTodayEndTime = strtotime("$today $autostartTodayEnd");
-
-                // Handle case where end time is past midnight
-                if ($autostartTodayStartTime > $autostartTodayEndTime) {
-                    $autostartTodayEndTime = strtotime("$today $autostartTodayEnd +1 day");
-                }
-
-                $autostartYesterdayStartTime = strtotime("$yesterday $autostartYesterdayStart");
-                $autostartYesterdayEndTime = strtotime("$yesterday $autostartYesterdayEnd");
-
-                // Handle case where end time is past midnight
-                if ($autostartYesterdayStartTime > $autostartYesterdayEndTime) {
-                    $autostartYesterdayEndTime = strtotime("$yesterday $autostartYesterdayEnd +1 day");
-                }
-
-                // Check if current time falls within today's or yesterday's time slots
-                if (($time >= $autostartTodayStartTime && $time < $autostartTodayEndTime) ||
-                ($time >= $autostartYesterdayStartTime && $time < $autostartYesterdayEndTime)) {
-                    /**
-                     *  Start motion only if not already running
-                     */
-                    if (!$this->motionService->isRunning()) {
-                        echo 'Starting motion according to autostart time configuration' . PHP_EOL;
-                        if (!$this->motionService->start()) {
-                            $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
-                        }
-                    }
-                } else {
-                    /**
-                     *  Else stop motion if running
-                     */
-                    if ($this->motionService->isRunning()) {
-                        echo 'Stopping motion according to autostart time configuration' . PHP_EOL;
-                        if (!$this->motionService->stop()) {
-                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
-                        }
-                    }
-                }
+        /**
+         *  Remove logs older than 7 days
+         */
+        foreach ($logFiles as $logFile) {
+            if (filemtime($logFile) < strtotime('-7 days')) {
+                unlink($logFile);
             }
-
-            sleep(5);
         }
     }
 }

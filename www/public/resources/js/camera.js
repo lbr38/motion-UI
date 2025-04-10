@@ -300,7 +300,7 @@ $(document).on('click','.delete-camera-btn',function () {
                         // Print error alert:
                         true
                     ).then(function () {
-                        closePanel('camera/edit');
+                        mypanel.close('camera/edit');
 
                         // Remove camera container
                         $('.camera-container[camera-id="' + cameraId + '"]').remove();
@@ -317,7 +317,7 @@ $(document).on('click','.delete-camera-btn',function () {
 $(document).on('click','.configure-camera-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
-    getPanel('camera/edit', {'id': cameraId});
+    mypanel.get('camera/edit', {'id': cameraId});
 });
 
 /**
@@ -595,7 +595,7 @@ $(document).on('click','#timelapse-pause-btn',function () {
 $(document).on('click','.hide-camera-configuration-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
-    closePanel('.camera-configuration-div[camera-id='+cameraId+']');
+    mypanel.close('.camera-configuration-div[camera-id='+cameraId+']');
 });
 
 /**

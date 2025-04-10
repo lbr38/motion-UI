@@ -273,55 +273,19 @@ class Service
     }
 
     /**
-     *  Clean timelapse images and motion events depending on retention
-     */
-    private function cleanTimelapseAndMotionEvents()
-    {
-        /**
-         *  Clean events every day at midnight only
-         */
-        if (date('H:i') != '00:00') {
-            return;
-        }
-
-        echo $this->getDate() . ' Cleaning timelapse images and motion events...' . PHP_EOL;
-
-        /**
-         *  Clean timelapse images
-         */
-        $this->timelapseController->clean($this->timelapseRetention);
-
-        /**
-         *  Clean events
-         */
-        $this->motionEventController->clean($this->eventRetention);
-    }
-
-    /**
-     *  Clean go2rtc files
-     */
-    private function cleanGo2rtc()
-    {
-        if (date('H:i') != '00:00') {
-            return;
-        }
-
-        echo $this->getDate() . ' Cleaning go2rtc files...' . PHP_EOL;
-
-        $this->go2rtcController->clean();
-    }
-
-    /**
      *  Main function
      */
     public function run()
     {
         $this->logController = new \Controllers\Log\Log();
         $this->curlHandle = curl_init();
+        $lastTime = date('H:i');
 
         $counter = 0;
 
         while (true) {
+            $currentTime = date('H:i');
+
             /**
              *  Check if a motion service restart is needed
              */
@@ -377,25 +341,35 @@ class Service
                 $this->monitorMotionStatus();
 
                 /**
-                 *  Cleanup jobs (at midnight)
-                 */
-                if (date('H:i') == '00:00') {
-                    // Clean timelapse and events depending on retention
-                    $this->cleanTimelapseAndMotionEvents();
-
-                    // Clean go2rtc files (logs)
-                    $this->cleanGo2rtc();
-                }
-
-                /**
                  *  Reset counter
                  */
                 $counter = 0;
             }
 
+            /**
+             *  Clean up tasks (at midnight)
+             */
+            if ($currentTime != $lastTime) {
+                if ($currentTime == '00:00') {
+                    // Clean timelapse and motion events depending on retention
+                    echo $this->getDate() . ' Cleaning timelapse images and motion events...' . PHP_EOL;
+                    $this->timelapseController->clean($this->timelapseRetention);
+                    $this->motionEventController->clean($this->eventRetention);
+
+                    // Clean go2rtc files (logs)
+                    echo $this->getDate() . ' Cleaning go2rtc files...' . PHP_EOL;
+                    $this->go2rtcController->clean();
+
+                    // Clean autostart logs
+                    echo $this->getDate() . ' Cleaning autostart logs...' . PHP_EOL;
+                    $this->motionAutostartController->clean();
+                }
+            }
+
             pcntl_signal_dispatch();
             sleep(5);
 
+            $lastTime = $currentTime;
             $counter++;
         }
     }
