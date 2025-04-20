@@ -98,6 +98,7 @@ h6 {
     font-style: italic;
     color: #8A99AA;
     margin-bottom: 2px;
+    word-break: break-all;
 }
 
 .required::after {
@@ -407,6 +408,7 @@ input[type="color"] {
     width: 150%;
     height: 150%;
     margin: -25%;
+    cursor: pointer;
 }
 
 .input-color-wrapper {
@@ -522,6 +524,7 @@ input[type=checkbox]:not(.onoff-switch-input):checked {
 .btn-xxsmall, .btn-xxsmall-blue, .btn-xxsmall-green, .btn-xxsmall-red, .btn-xxsmall-tr {
     margin: 2px;
     width: 34px;
+    height: 34px;
 }
 
 /* All transparent buttons (hover) */
@@ -1044,7 +1047,7 @@ textarea {
 .modal-window {
     display: flex;
     flex-direction: column;
-    max-height: 100%;
+    max-height: 100vh;
     box-sizing: border-box;
     padding: 15px 15px 15px 15px;
     border-radius: 8px;
@@ -1052,7 +1055,20 @@ textarea {
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 
-.modal-window pre {
+.modal-window-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-window-content {
+    padding: 20px;
+    text-wrap: wrap;
+    word-break: break-word;
+    overflow-y: auto;
+}
+
+.modal-window-content pre {
     min-height: 200px;
     padding: 20px;
     margin-top: 20px;
@@ -1119,7 +1135,7 @@ textarea {
     }
 
     .modal-window {
-        width: 70%;
+        width: 80%;
         max-height: 80%;
     }
 }

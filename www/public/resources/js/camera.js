@@ -380,7 +380,7 @@ $(document).on('change','#timelapse-date-input',function () {
         /**
          *  Replace with new content
          */
-        morphdom(document.getElementById('timelapse'), jsonValue.message);
+        $('#timelapse').html(jsonValue.message);
     });
 });
 
