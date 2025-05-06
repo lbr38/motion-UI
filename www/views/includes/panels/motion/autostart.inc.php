@@ -150,12 +150,6 @@ if ($autostartDevicePresenceEnabled == 'enabled') {
 <br>
 <br>
 
-<h6>LOGS</h6>
-<p class="note">View autostart logs.</p>
-<img id="view-motion-autostart-log-btn" src="/assets/icons/file.svg" class="icon" title="View motion log" />
-
-<br><br>
-
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'motion/autostart';

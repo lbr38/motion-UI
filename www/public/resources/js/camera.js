@@ -19,7 +19,7 @@ async function loadStream()
     reloadTimestamp();
 }
 
-async function loadCameras()
+async function loadCameras(cameraId = null)
 {
     /**
      *  Quit if there is no camera to load
@@ -29,15 +29,30 @@ async function loadCameras()
     }
 
     /**
-     *  For each camera container, load the camera image and hide the loading div
+     *  If a camera id is provided, then load only this camera
+     *  Otherwise, load all cameras
      */
-    const cameraContainers = $('.camera-container').toArray();
+    if (cameraId != null) {
+        var cameraContainers = $('.camera-container[camera-id="' + cameraId + '"]').toArray();
+    } else {
+        /**
+         *  For each camera container, load the camera image and hide the loading div
+         */
+        var cameraContainers = $('.camera-container').toArray();
+    }
 
     await Promise.all(cameraContainers.map(async(container) => {
         /**
          *  If there is no camera-image div (case where the stream is disabled), then ignore it
          */
-        if ($(container).find('div.camera-image').length == 0) {
+        if ($(container).find('div.camera-image').find('video').length == 0) {
+            return;
+        }
+
+        /**
+         *  If the video stream is disabled for this camera (has attribute "disabled"), then ignore it
+         */
+        if ($(container).find('div.camera-image').find('video').attr('disabled')) {
             return;
         }
 
@@ -61,7 +76,44 @@ async function loadCameras()
          *  See js/stream/webrtc.js
          */
         if (streamTechnology == 'webrtc') {
+            const video = document.querySelector('video[camera-id="' + cameraId + '"]');
+
+            // Open connection to the camera
             connect(cameraId);
+
+            if (video) {
+                let videoTimeout = null;
+
+                /**
+                 *  Custom timeout check to pint a timeout error message if the camera is not available
+                 *  The setTimeout() function will be canceled if the connection is successful (video is playing)
+                 */
+                function setVideoTimeout()
+                {
+                    clearVideoTimeout();
+                    videoTimeout = setTimeout(() => {
+                        console.warn('Camera #' + cameraId + ' connection timeout');
+                        setUnavailable(cameraId, 'Connection timeout');
+                    }, 30000);
+                }
+
+                function clearVideoTimeout()
+                {
+                    if (videoTimeout) {
+                        clearTimeout(videoTimeout);
+                        videoTimeout = null;
+                    }
+                }
+
+                // Restart the timeout when the video is playing
+                video.addEventListener('playing', setVideoTimeout);
+
+                // Restart the timeout when the video is updated (frame is changed)
+                video.addEventListener('timeupdate', setVideoTimeout);
+
+                // Start the timeout check
+                setVideoTimeout();
+            }
         }
 
         /**
@@ -74,12 +126,11 @@ async function loadCameras()
             // support multiple streams and multiple modes
             const width = '1 0 ' + cameraWidth;
 
-            // videoElement doit être la <video> avec l'attribut camera-id
+            // videoElement must be the <video> with the camera-id attribute
             const video = document.querySelector('video[camera-id="' + cameraId + '"]');
 
             /** @type {VideoStream} */
             const videoElement = document.createElement('video-stream');
-            videoElement.background = "/assets/images/motionui-video-poster.png";
             videoElement.mode = streamTechnology;
             videoElement.style.flex = width;
             videoElement.src = new URL('api/ws?src=camera_' + cameraId, location.href);
@@ -323,7 +374,10 @@ $(document).on('click','.configure-camera-btn',function () {
 /**
  *  Event: show camera timelapse
  */
-$(document).on('click','.timelapse-camera-btn',function () {
+$(document).on('click','.timelapse-camera-btn',function (e) {
+    // Prevent parent to be triggered
+    e.stopPropagation();
+
     var cameraId = $(this).attr('camera-id');
 
     ajaxRequest(
@@ -340,7 +394,22 @@ $(document).on('click','.timelapse-camera-btn',function () {
         // Print error alert:
         true
     ).then(function () {
-        $('footer').append(jsonValue.message);
+        $('body').append(jsonValue.message);
+
+        // Set timelapse on fullscreen
+        const timelapseContainer = document.querySelector('div#timelapse');
+
+        if (timelapseContainer.requestFullscreen) {
+            timelapseContainer.requestFullscreen();
+        } else if (timelapseContainer.webkitRequestFullscreen) { // Safari
+            timelapseContainer.webkitRequestFullscreen();
+        } else if (timelapseContainer.msRequestFullscreen) { // IE/Edge
+            timelapseContainer.msRequestFullscreen();
+        } else {
+            // Fallback for browsers that don't support fullscreen API
+            alert('Your browser does not support fullscreen mode.');
+            return;
+        }
 
         // Temporary hide all other stream images to avoid CPU loads
         $('.camera-image').hide();
@@ -590,15 +659,6 @@ $(document).on('click','#timelapse-pause-btn',function () {
 });
 
 /**
- *  Event: hide camera configuration form
- */
-$(document).on('click','.hide-camera-configuration-btn',function () {
-    var cameraId = $(this).attr('camera-id');
-
-    mypanel.close('.camera-configuration-div[camera-id='+cameraId+']');
-});
-
-/**
  *  Event: close timelapse screen
  */
 $(document).on('click','.close-timelapse-btn',function () {
@@ -606,28 +666,6 @@ $(document).on('click','.close-timelapse-btn',function () {
     $('.camera-image').show();
 
     $('#timelapse').remove();
-});
-
-/**
- *  Event: set a camera on full screen
- */
-$(document).on('click','.full-screen-camera-btn',function () {
-    var img = $(this);
-
-    html = '<div id="fullscreen">'
-    + '<div class="flex align-item-center">'
-    + '<img src="' + img.attr('src') + '" class="fullscreen-image" alt="Camera Image" />'
-    + '</div>'
-    + '<div class="flex align-item-center justify-center">'
-    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'
-    + '</div>'
-    + '</div>';
-
-    // Append the fullscreen div to the body
-    $('body').append(html);
-
-    // Temporary hide all other stream images to avoid CPU loads
-    $('.camera-image').hide();
 });
 
 /**

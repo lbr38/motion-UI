@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-body { background-color: #102232; }
+body { background-color: #0e1e2f; }
 
 #errorDiv-container {
     width: 98vw;
@@ -24,9 +24,8 @@ body { background-color: #102232; }
     font-family: 'Roboto', sans-serif;
     color: white;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 20px;
     background-color: #182b3e;
-    -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 

@@ -241,6 +241,7 @@ export class VideoRTC extends HTMLElement {
         this.video.controls = true;
         this.video.playsInline = true;
         this.video.preload = 'auto';
+        this.video.poster = '/assets/images/motionui-video-poster.png';
 
         this.video.style.display = 'block'; // fix bottom margin 4px
         this.video.style.width = '100%';

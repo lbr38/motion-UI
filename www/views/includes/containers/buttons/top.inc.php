@@ -24,7 +24,7 @@
         }
         if ($serviceStatus == 'stopped') {
             $iconColor = 'gray';
-            $title = 'Motion service is stopped';
+            $title = 'Motion detection is stopped';
         } ?>
 
         <div class="flex column-gap-10 align-item-center" title="<?= $title ?>">
@@ -33,26 +33,15 @@
         </div>
     </div>
    
-    <div class="flex column-gap-30 margin-right-15">
-        <?php
-        if (IS_ADMIN) : ?>
-            <div>
-                <img src="/assets/icons/cog.svg" class="pointer lowopacity get-panel-btn" panel="general/settings" title="Show settings" />
-            </div>
-
-            <div class="relative">
-                <img src="/assets/icons/alarm.svg" class="pointer lowopacity get-panel-btn" panel="general/notification" title="Show notifications" />
-                <?php
-                if (NOTIFICATION != 0) : ?>
-                    <span class="notification-count"><?= NOTIFICATION ?></span>
-                    <?php
-                endif ?>
-            </div>
+    <div class="margin-right-20">
+        <div class="relative">
             <?php
-        endif ?>
+            if (IS_ADMIN and NOTIFICATION > 0) : ?>
+                <span class="notification-count"><?= NOTIFICATION ?></span>
+                <?php
+            endif ?>
 
-        <div>
-            <img src="/assets/icons/user.svg" class="pointer lowopacity get-panel-btn" panel="general/user/userspace" title="Show userspace" />
+            <img src="/assets/icons/menu.svg" class="pointer lowopacity get-panel-btn" panel="buttons/menu" title="Open menu" />
         </div>
     </div>
 </section>

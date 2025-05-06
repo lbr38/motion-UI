@@ -7,6 +7,6 @@
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'camera/edit';
-$slidePanelTitle = 'CONFIGURE ' . strtoupper($cameraRawParams['name']) . ' CAMERA';
+$slidePanelTitle = strtoupper($cameraRawParams['name']) . ' SETTINGS';
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

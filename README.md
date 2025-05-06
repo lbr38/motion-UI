@@ -24,10 +24,11 @@ A dockerized web responsive interface to manage <a href="https://github.com/Moti
 
 - Visualize cameras stream (sound supported).
 - Record motion detection (sound supported).
-- Enable **autostart and stop** of the motion detection, based on time period or on device presence on the local network. If none of the known devices are connected to the local network then motion detection will be automatically started as nobody is at home.
-- Receive email alerts on motion detection.
+- Motion detection autostart based on time period.
+- Motion detection autostart based on device presence on the local network. If none of the known devices are connected to the local network then motion detection will be automatically started as nobody is at home.
+- Email alerts on motion detection.
 - Visualize recorded images and videos and download them.
-- Record timelapses.
+- Create timelapses.
 
 ## 📷 Supported cameras
 

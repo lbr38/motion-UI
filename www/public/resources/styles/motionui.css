@@ -4,18 +4,6 @@
     }
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0px;
-    padding: 0px;
-    background-color: #102232;
-    color: white;
-    overflow-y: auto;
-    font-size: 13px;
-}
-
 article {
     min-height: 100vh;
 }
@@ -49,7 +37,8 @@ h3 {
 }
 
 .unseen-events-count {
-    top: 1px;
+    top: 3px;
+    left: 25px;
 }
 
 .param-slide {
@@ -163,7 +152,7 @@ h3 {
     z-index: 99;
     width: 100%;
     height: 50px;
-    background-color: #102232;
+    background-color: #0e1e2f;
     box-shadow: 0px -2px 10px 1px rgba(0, 0, 0, 0.394);
 }
 
@@ -189,7 +178,7 @@ h3 {
 .main-buttons {
     display: grid;
     grid-template-columns: repeat(1, 100%);
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
 .item {
@@ -214,6 +203,7 @@ h3 {
     margin: 15px auto 15px auto;
     display: grid;
     grid-template-columns: repeat(1, 100%);
+    row-gap: 10px;
     align-items: center;
 }
 
@@ -313,7 +303,7 @@ h3 {
 
 .event-loading {
     background-color: #152637;
-    border-radius: 8px;
+    border-radius: 20px;
     min-height: 150px;
 }
 
@@ -398,8 +388,8 @@ h3 {
     grid-template-columns: 100%;
     justify-content: space-evenly;
     margin: 0px 0px 50px 0px;
-    column-gap: 20px;
-    row-gap: 20px;
+    column-gap: 30px;
+    row-gap: 30px;
 }
 
 [class^="grid-icon"] {
@@ -440,7 +430,7 @@ h3 {
     align-items: center;
     justify-content: center;
     min-height: 200px;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 .add-camera-container:hover {
@@ -457,9 +447,9 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-radius: 8px;
+    border-radius: 20px;
     background-color: #182b3e;
-    box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
+    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 
 .camera-output {
@@ -471,7 +461,8 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 15px;
+    padding: 15px;
+    border-top: 0.5px solid #9fafbf24;
 }
 
 .camera-image > img {
@@ -482,10 +473,66 @@ h3 {
 }
 .camera-image video {
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 8px;
+    border-radius: 20px 20px 0 0;
+}
+
+.camera-motion-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.camera-controls-container, #timelapse-controls-container {
+    width: 100%;
+    display: flex;
+    column-gap: 10px;
+    position: absolute;
+    top: 0;
+    margin: auto;
+    box-sizing: border-box;
+    padding: 10px 10px 0px 10px;
+}
+.camera-controls-container {
+    display: grid;
+}
+#timelapse-controls-container {
+    justify-content: end;
+}
+.camera-controls-container .round-btn-tr, #timelapse .round-btn-tr {
+    width: 32px;
+    height: 32px;
+    opacity: 0.8;
+    cursor: pointer;
+    background-color: #00000030;
+}
+.camera-controls-container .round-btn-tr:hover, #timelapse .round-btn-tr:hover {
+    opacity: 1;
+}
+.camera-controls-container .round-btn-tr img, #timelapse .round-btn-tr img {
+    width: 22px;
+    height: 22px;
+}
+.camera-ptz-btn-container {
+    width: 100%;
+    max-width: 100vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #0000007a;
+    padding: 10px 0 10px 0;
+}
+.camera-ptz-btn-container img {
+    width: 24px !important;
+    height: 24px !important;
+}
+.camera-ptz-move-speed {
+    max-height: 100px;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
 }
 .camera-image-text-left, .camera-image-text-right {
     position: absolute;
@@ -501,22 +548,31 @@ h3 {
     right: 5px;
     bottom: 5px;
 }
-.camera-loading, .camera-image, .camera-unavailable {
+.camera-image {
     width: 100%;
     min-height: 150px;
 }
-.camera-unavailable, .camera-loading {
+
+.video-container {
     display: flex;
+    justify-content: center;
+    height: 100%;
+}
+.camera-disabled, .camera-unavailable {
     flex-direction: column;
     justify-content: center;
-    background-color: #182b3e;
+    align-items: center;
+    row-gap: 15px;
+    min-height: 250px;
+    height: 100%;
+    max-height: 100vh;
 }
-.camera-loading img {
-    width: 30%;
-    height: 30%;
+.camera-disabled img, .camera-unavailable img {
+    width: 64px;
+    height: 64px;
 }
 
-#fullscreen, #timelapse {
+#fullscreen {
     display: grid;
     row-gap: 15px;
     justify-content: center;
@@ -528,34 +584,41 @@ h3 {
     height: 100vh;
     max-height: 100vh;
     background-color: #182b3e;
-    -webkit-box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
     box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
 }
 #fullscreen {
     grid-template-rows: 80% 20%;
 }
 #timelapse {
-    grid-template-rows: 40% 40% 20%;
-}
-#timelapse-picture-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    row-gap: 15px;
-    height: 100% !important;
-    max-height: 100% !important;
-}
-#timelapse-picture-container div:nth-child(1) {
-    max-height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
 }
 #timelapse-picture {
-    max-height: 100%;
-    width: auto;
-    max-width: 100%;
-    margin: auto;
-    border-radius: 2px;
-    box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
+    width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+#timelapse-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+}
+#timelapse input, #timelapse select {
+    background: none;
+    border: 1px solid #ffffff30;
+    opacity: 0.8;
+    cursor: pointer;
+    background-color: #00000030;
+}
+#timelapse input:hover, #timelapse select:hover {
+    opacity: 1;
 }
 #timelapse #picture-slider {
     width: 85vw;
@@ -601,7 +664,7 @@ footer #github img { width: 25px; }
     display: none;
     width: 100%;
     height: 100%;
-    background-color: #102232;
+    background-color: #0e1e2f;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -619,11 +682,10 @@ footer #github img { width: 25px; }
 }
 
 .event-media-row {
-    /* background-color: #1d3349; */
-    background-color: #1c334a;
-    border: 1px solid #1d3349;
-    border-radius: 8px;
+    background-color: #22384F;
+    border-radius: 20px;
     box-shadow: 0px 1px 5px 0px rgb(13 13 13 / 50%);
+    margin-bottom: 4px;
 }
 
 .event-media-row > div:first-child {
@@ -640,14 +702,14 @@ footer #github img { width: 25px; }
     width: 100%;
     max-width: 100%;
     max-height: 100%;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 /* Event media full time */
 .event-media-file-number {
     position: absolute;
-    top: 2px;
-    left: 3px;
+    top: 4px;
+    left: 7px;
 }
 
 .event-media-checkbox-container {
@@ -677,7 +739,7 @@ footer #github img { width: 25px; }
     column-gap: 5px;
     min-height: 180px;
     background: #181818de;
-    border-radius: 8px;
+    border-radius: 20px 20px 2px 2px;
 }
 
 .file-unavailable p {
@@ -717,8 +779,8 @@ footer #github img { width: 25px; }
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: #102232;
-    border-radius: 8px;
+    background-color: #0e1e2f;
+    border-radius: 20px;
     z-index: 90;
 }
 
@@ -755,13 +817,13 @@ footer #github img { width: 25px; }
     }
 
     [class^="btn-round"] {
-        width: 250px;
-        height: 250px;
+        width: 230px;
+        height: 230px;
     }
 
     [class^="btn-semi-circle"] {
-        width: 125px;
-        height: 250px;
+        width: 115px;
+        height: 230px;
     }
 
     .btn-semi-circle-red-left {
@@ -872,8 +934,9 @@ footer #github img { width: 25px; }
         grid-template-columns: repeat(3, 1fr);
     }
 
-    #timelapse {
-        grid-template-rows: 65% 20% 15%;
+    .camera-ptz-btn-container img {
+        width: 30px !important;
+        height: 30px !important;
     }
 
     #fullscreen {
@@ -883,6 +946,11 @@ footer #github img { width: 25px; }
     .bottom-buttons {
         justify-content: center;
         align-items: center;
-        column-gap: 80px;
+        column-gap: 60px;
+        padding-left: 15px;
+    }
+
+    .bottom-buttons-title {
+        display: block;
     }
 }

@@ -4,12 +4,12 @@
     if (!IS_ADMIN) {
         $buttons = array(
             'live' => array(
-                'icon' => 'camera.svg',
+                'icon' => 'videocam.svg',
                 'title' => 'Cameras and stream'
             ),
             'events' => array(
                 'icon' => 'video.svg',
-                'title' => 'Motion events and medias'
+                'title' => 'Motion events'
             ),
         );
 
@@ -17,20 +17,20 @@
     } else {
         $buttons = array(
             'live' => array(
-                'icon' => 'camera.svg',
+                'icon' => 'videocam.svg',
                 'title' => 'Cameras and stream'
             ),
             'motion' => array(
                 'icon' => 'motion.svg',
-                'title' => 'Motion'
+                'title' => 'Motion detection'
             ),
             'events' => array(
                 'icon' => 'video.svg',
-                'title' => 'Motion events and medias'
+                'title' => 'Motion events'
             ),
             'stats' => array(
                 'icon' => 'stats.svg',
-                'title' => 'Motion stats'
+                'title' => 'Stats'
             )
         );
     }
@@ -63,7 +63,10 @@
             endif ?>
 
             <a href="/<?= $uri ?>" onclick="veilBody()">
-                <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer <?= $class ?>" title="<?= $properties['title'] ?>" />
+                <div class="flex align-item-center column-gap-10 <?= $class ?>" title="<?= $properties['title'] ?>">
+                    <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer" title="<?= $properties['title'] ?>" />
+                    <p class="bottom-buttons-title hide font-size-13"><b><?= strtoupper($properties['title']) ?></b></p>
+                </div>
             </a>
         </div>
         <?php

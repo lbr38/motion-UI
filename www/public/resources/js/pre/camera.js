@@ -2,9 +2,17 @@
  *  Set camera as unavailable
  *  @param {*} cameraId
  */
-function setUnavailable(cameraId)
+function setUnavailable(cameraId, message = null)
 {
-    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-loading').remove();
-    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-image').remove();
-    $('.camera-container[camera-id=' + cameraId + ']').find('.camera-unavailable').css('display', 'flex');
+    // If the stream is already unavailable, do nothing
+    if ($('.camera-unavailable[camera-id=' + cameraId + ']').css('display') == 'flex') {
+        return;
+    }
+
+    $('.video-container[camera-id=' + cameraId + ']').css('display', 'none');
+    $('.camera-unavailable[camera-id=' + cameraId + ']').css('display', 'flex');
+
+    if (message != null) {
+        $('.camera-unavailable[camera-id=' + cameraId + ']').find('p.note').text(message);
+    }
 }

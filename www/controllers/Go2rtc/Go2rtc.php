@@ -124,17 +124,23 @@ class Go2rtc
     /**
      *  Return go2rtc log content
      */
-    public function getLog() : string
+    public function getLog(string $log) : string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to view go2rtc logs');
         }
 
-        if (!file_exists(GO2RTC_DIR . '/logs/go2rtc.log')) {
-            throw new Exception('No log for go2rtc service yet');
+        $log = realpath(GO2RTC_DIR . '/logs/' . $log);
+
+        if (!preg_match('#^' . GO2RTC_DIR . '/logs/.*log#', $log)) {
+            throw new Exception('Invalid log file');
         }
 
-        $content = file_get_contents(GO2RTC_DIR . '/logs/go2rtc.log');
+        if (!file_exists($log)) {
+            throw new Exception('Log file does not exist');
+        }
+
+        $content = file_get_contents($log);
 
         if ($content === false) {
             throw new Exception('Failed to read log file');
