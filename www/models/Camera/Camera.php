@@ -101,7 +101,7 @@ class Camera extends \Models\Model
     /**
      *  Get camera's configuration
      */
-    public function getConfiguration(string $id) : array
+    public function getConfiguration(int $id) : array
     {
         $configuration = array();
 

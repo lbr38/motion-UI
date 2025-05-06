@@ -24,7 +24,6 @@ function loadEventDateTotalMediaSize()
         // Print error alert:
         true
     ).then(function () {
-        console.log('size : ' + jsonValue.message)
         $('#event-date-total-size').html('(' + jsonValue.message + ')');
     }).catch(function () {
         $('#event-date-total-size').html();

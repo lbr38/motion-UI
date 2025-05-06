@@ -269,11 +269,11 @@ if ($_POST['action'] == "configure-motion" and !empty($_POST['cameraId']) and !e
 /**
  *  Get motion log
  */
-if ($_POST['action'] == 'get-log') {
+if ($_POST['action'] == 'get-log' and !empty($_POST['log'])) {
     $motionServiceController = new \Controllers\Motion\Service();
 
     try {
-        $content = $motionServiceController->getLog();
+        $content = $motionServiceController->getLog($_POST['log']);
     } catch (\Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }

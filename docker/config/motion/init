@@ -17,7 +17,7 @@ test -f $DAEMON || exit 0
 
 case "$1" in
     start)
-        LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')-motion.log"
+        LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')_motion.log"
 
         echo -n "Starting motion detection: "
 

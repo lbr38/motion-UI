@@ -126,10 +126,10 @@ $(document).on('click','.start-stop-service-btn',function () {
     var status = $(this).attr('status');
 
     if (status == 'start') {
-        printAlert('Starting motion capture, please wait...');
+        printAlert('Starting motion detection, please wait...');
     }
     if (status == 'stop') {
-        printAlert('Stopping motion capture, please wait...');
+        printAlert('Stopping motion detection, please wait...');
     }
 
     ajaxRequest(
@@ -184,14 +184,18 @@ $(document).on('click','#enable-device-presence-btn',function () {
 /**
  *  Event: view motion autostart log
  */
-$(document).on('click', '#view-motion-autostart-log-btn', function () {
+$(document).on('click', '#motion-autostart-log-btn', function () {
+    var log = $('#motion-autostart-log-select').val();
+
     ajaxRequest(
         // Controller:
         'motion/autostart',
         // Action:
         'get-log',
         // Data:
-        {},
+        {
+            log: log
+        },
         // Print success alert:
         false,
         // Print error alert:

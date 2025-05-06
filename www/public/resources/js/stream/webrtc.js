@@ -59,7 +59,19 @@ async function getMediaTracks(media, constraints) {
 
 async function connect(cameraId) {
     const pc = await PeerConnection(cameraId);
-    
+    const TIMEOUT_MS = 30000; // 30 seconds
+
+    /**
+     *  Custom timeout check to close the connection if the camera is not available
+     *  The setTimeout() function will be canceled if the connection is successful
+     */
+    let webrtcTimeout = setTimeout(() => {
+        console.error('WebRTC connection timeout for camera #' + cameraId);
+        ws.close();
+        pc.close();
+        setUnavailable(cameraId, 'Connection timeout');
+    }, TIMEOUT_MS);
+
     /**
      *  Connect to go2rtc server using WebSocket
      */
@@ -71,31 +83,32 @@ async function connect(cameraId) {
     const wsUrl = window.location.origin.replace('http', 'ws') + '/api/ws?src=camera_' + cameraId + '&media=video+audio';
 
     // For debug purpose
-    console.log('Connecting to WebSocket:', wsUrl);
+    console.info('Connecting to WebSocket:', wsUrl);
 
     const ws = new WebSocket(wsUrl);
 
     ws.addEventListener('open', () => {
-        console.log('WebSocket connection opened at ' + wsUrl);
+        console.info('WebSocket connection opened at ' + wsUrl);
         pc.addEventListener('icecandidate', ev => {
             if (!ev.candidate) return;
             const msg = {type: 'webrtc/candidate', value: ev.candidate.candidate};
             // For debug purpose
-            console.log('Sending ICE candidate:', msg);
+            console.info('Sending ICE candidate:', msg);
             ws.send(JSON.stringify(msg));
         });
 
         pc.createOffer().then(offer => {
             // For debug purpose
-            console.log('Created offer:', offer);
+            console.info('Created offer:', offer);
             return pc.setLocalDescription(offer);
         }).then(() => {
             const msg = {type: 'webrtc/offer', value: pc.localDescription.sdp};
             // For debug purpose
-            console.log('Sending offer:', msg);
+            console.info('Sending offer:', msg);
             ws.send(JSON.stringify(msg));
         }).catch(error => {
             console.error('Error creating or sending offer:', error);
+            clearWebrtcTimeout();
         });
     });
 
@@ -104,24 +117,27 @@ async function connect(cameraId) {
         const msg = JSON.parse(ev.data);
 
         // For debug purpose
-        console.log('Received message:', msg);
+        console.info('Received message:', msg);
 
         if (msg.type === 'webrtc/candidate') {
             // Try to add the ICE candidate, if an error is caught, close the WebSocket connection
             pc.addIceCandidate({candidate: msg.value, sdpMid: '0'}).catch(error => {
                 console.error('Camera #' + cameraId + ': Error adding ICE candidate:', error);
                 ws.close();
+                clearWebrtcTimeout();
             });
         } else if (msg.type === 'webrtc/answer') {
             // Try to set the remote description, if an error is caught, close the WebSocket connection
             pc.setRemoteDescription({type: 'answer', sdp: msg.value}).catch(error => {
                 console.error('Camera #' + cameraId + ': Error setting remote description:', error);
                 ws.close();
+                clearWebrtcTimeout();
             });
         // If the message type is 'error', close the WebSocket connection
         } else if (msg.type === 'error') {
             console.error('Camera #' + cameraId + ' Error:', msg.value);
             ws.close();
+            clearWebrtcTimeout();
         }
     });
 
@@ -129,16 +145,28 @@ async function connect(cameraId) {
     ws.addEventListener('error', error => {
         console.error('WebSocket error:', error);
         ws.close();
+        clearWebrtcTimeout();
     });
 
     // When the WebSocket connection is closed, set the camera as unavailable and close the PeerConnection
     ws.addEventListener('close', () => {
-        console.log('WebSocket connection closed for camera #' + cameraId);
+        console.error('WebSocket connection closed for camera #' + cameraId);
 
         // Set the camera as unavailable
         setUnavailable(cameraId);
 
         // Close the PeerConnection
         pc.close();
+        clearWebrtcTimeout();
     });
+
+    /**
+     *  Custom function to stop the timeout check if the connection is successful
+     */
+    function clearWebrtcTimeout() {
+        if (webrtcTimeout) {
+            clearTimeout(webrtcTimeout);
+            webrtcTimeout = null;
+        }
+    }
 }

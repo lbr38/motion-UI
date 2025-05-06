@@ -1,94 +1,76 @@
-<div id="timelapse" class="grid justify-items-center row-gap-10">
-    <div id="timelapse-picture-container">
-        <div class="flex align-item-center">
-            <?php
-            if (empty($date)) {
-                $date = date('Y-m-d');
-            }
-
-            if (!empty($picture)) {
-                $picture = $date . '/' . $picture;
-            }
-
-            /**
-             *  Retrieve timelapse pictures for the specified date
-             */
-            try {
-                /**
-                 *  Timelapse pictures root directory
-                 */
-                $timelapseDir = CAMERAS_TIMELAPSE_DIR . '/camera-' . $cameraId;
-
-                /**
-                 *  Check if specified date directory exists
-                 */
-                if (!file_exists($timelapseDir . '/' . $date)) {
-                    throw new Exception('No timelapse images for this date yet');
-                }
-
-                /**
-                 *  Retrieve pictures name for the specified date
-                 */
-                $pictures = array();
-                $picturesGlob = glob($timelapseDir . '/' . $date . '/*.jpg');
-
-                foreach ($picturesGlob as $pictureGlob) {
-                    $pictures[] = basename($pictureGlob);
-                }
-
-                /**
-                 *  If there are no pictures, throw an exception
-                 */
-                if (empty($pictures)) {
-                    throw new Exception('No timelapse images for this date yet');
-                }
-
-                /**
-                 *  Print first image first
-                 */
-                if (empty($picture)) {
-                    $picture = $date . '/' . $pictures[0];
-                }
-
-                /**
-                 *  Print all pictures in a hidden element
-                 */
-                echo '<timelapse-data pictures="' . implode(',', $pictures) . '"></timelapse-data>';
-
-                /**
-                 *  Print picture
-                 */
-                echo '<img id="timelapse-picture" src="/timelapse?id=' . $cameraId . '&picture=' . $picture . '" />';
-            } catch (Exception $e) {
-                echo '<p>' . $e->getMessage() . '</p>';
-            } ?>
-        </div>
+<div id="timelapse">
+    <div id="timelapse-controls-container">
+        <span class="round-btn-tr close-timelapse-btn" title="Close timelapse">
+            <img src="/assets/icons/close.svg" />
+        </span>
     </div>
 
-    <div class="flex flex-direction-column row-gap-10 padding-left-15 padding-right-15">
+    <?php
+    if (empty($date)) {
+        $date = date('Y-m-d');
+    }
+
+    if (!empty($picture)) {
+        $picture = $date . '/' . $picture;
+    }
+
+    /**
+     *  Retrieve timelapse pictures for the specified date
+     */
+    try {
+        /**
+         *  Timelapse pictures root directory
+         */
+        $timelapseDir = CAMERAS_TIMELAPSE_DIR . '/camera-' . $cameraId;
+
+        /**
+         *  Check if specified date directory exists
+         */
+        if (!file_exists($timelapseDir . '/' . $date)) {
+            throw new Exception('No timelapse images for this date yet');
+        }
+
+        /**
+         *  Retrieve pictures name for the specified date
+         */
+        $pictures = array();
+        $picturesGlob = glob($timelapseDir . '/' . $date . '/*.jpg');
+
+        foreach ($picturesGlob as $pictureGlob) {
+            $pictures[] = basename($pictureGlob);
+        }
+
+        /**
+         *  If there are no pictures, throw an exception
+         */
+        if (empty($pictures)) {
+            throw new Exception('No timelapse images for this date yet');
+        }
+
+        /**
+         *  Print first image first
+         */
+        if (empty($picture)) {
+            $picture = $date . '/' . $pictures[0];
+        }
+
+        /**
+         *  Print all pictures in a hidden element
+         */
+        echo '<timelapse-data pictures="' . implode(',', $pictures) . '"></timelapse-data>';
+
+        /**
+         *  Print picture
+         */
+        echo '<div><img id="timelapse-picture" src="/timelapse?id=' . $cameraId . '&picture=' . $picture . '" /></div>';
+    } catch (Exception $e) {
+        echo '<p>' . $e->getMessage() . '</p>';
+    } ?>
+
+    <div id="timelapse-controls" class="flex flex-direction-column row-gap-10 padding-left-15 padding-right-15">
         <div>
-            <?php
-            if (!empty($picture)) {
-                /**
-                 *  Print current picture time
-                 */
-                $pictureTime = str_replace('.jpg', '', explode('_', $picture)[1]);
-                $pictureHour = explode('-', $pictureTime)[0];
-                $pictureMin = explode('-', $pictureTime)[1];
-                $pictureSec = explode('-', $pictureTime)[2];
-
-                echo '<p id="picture-time" class="font-size-18 text-center lowopacity-cst">' . $pictureHour . ':' . $pictureMin . ':' . $pictureSec . '</p>';
-            } ?>
-        </div>
-
-        <div>
-            <div class="flex justify-center">
-                <!-- Slider -->
-                <input id="picture-slider" type="range" min="0" max="0" value="" date="<?= $date ?>" camera-id="<?= $cameraId ?>" />
-            </div>
-
             <!-- Slider start and end time -->
-            <div class="flex justify-space-between">
+            <div class="flex align-item-center justify-space-between">
                 <?php
                 if (!empty($pictures)) {
                     /**
@@ -102,6 +84,16 @@
                     echo '<div><p class="lowopacity-cst font-size-13">' . $firstPictureHour . ':' . $firstPictureMin . ':' . $firstPictureSec . '</p></div>';
 
                     /**
+                     *  Print current picture time
+                     */
+                    $pictureTime = str_replace('.jpg', '', explode('_', $picture)[1]);
+                    $pictureHour = explode('-', $pictureTime)[0];
+                    $pictureMin = explode('-', $pictureTime)[1];
+                    $pictureSec = explode('-', $pictureTime)[2];
+
+                    echo '<p id="picture-time" class="font-size-18 text-center lowopacity-cst">' . $pictureHour . ':' . $pictureMin . ':' . $pictureSec . '</p>';
+
+                    /**
                      *  Print last picture time
                      */
                     $lastPictureTime = str_replace('.jpg', '', explode('_', end($pictures))[1]);
@@ -113,8 +105,9 @@
                 } ?>
             </div>
 
-            <div class="margin-top-10">
-                <p class="note">Timelapse speed and fluidity will mainly depend on the bandwidth, the resolution of the images, the server performance and the ability of your device browser to display images quickly.</p>
+            <div class="flex justify-center">
+                <!-- Slider -->
+                <input id="picture-slider" type="range" min="0" max="0" value="" date="<?= $date ?>" camera-id="<?= $cameraId ?>" />
             </div>
 
             <script>
@@ -151,32 +144,24 @@
             </script>
         </div>
 
-        <div class="grid grid-2 align-item-center justify-space-between">
+        <div class="flex column-gap-10 align-item-center">
+            <div id="timelapse-play-btn" class="round-btn-tr" title="Play timelapse">
+                <img src="/assets/icons/play.svg" />
+            </div>
+
+            <div id="timelapse-pause-btn" class="round-btn-tr hide" title="Pause timelapse">
+                <img src="/assets/icons/pause.svg" />
+            </div>
+
             <div>
                 <input id="timelapse-date-input" type="date" class="input-medium" max="<?= date('Y-m-d') ?>" camera-id="<?= $cameraId ?>" value="<?= $date ?>" />
             </div>
 
-            <div class="flex column-gap-5 align-item-center justify-end">
-                <div id="timelapse-play-btn" class="slide-btn-medium-tr" title="Play timelapse">
-                    <img src="/assets/icons/play.svg" />
-                    <span>Play timelapse</span>
-                </div>
-
-                <div id="timelapse-pause-btn" class="slide-btn-medium-tr hide" title="Pause timelapse">
-                    <img src="/assets/icons/pause.svg" />
-                    <span>Pause timelapse</span>
-                </div>
-
-                <select id="timelapse-speed-input" class="select-small">
-                    <option value="500">slow</option>
-                    <option value="100">medium</option>
-                    <option value="10" selected>fast</option>
-                </select>
-            </div>
+            <select id="timelapse-speed-input" class="select-small">
+                <option value="500">slow</option>
+                <option value="100">medium</option>
+                <option value="10" selected>fast</option>
+            </select>
         </div>
-    </div>
-
-    <div class="flex align-item-center">
-        <img src="/assets/icons/close.svg" class="close-timelapse-btn pointer lowopacity" title="Close timelapse screen">
     </div>
 </div>

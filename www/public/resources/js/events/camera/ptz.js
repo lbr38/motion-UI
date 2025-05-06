@@ -1,7 +1,10 @@
 /**
  *  Event: display PTZ buttons
  */
-$(document).on('click','.display-ptz-btns',function () {
+$(document).on('click','.display-ptz-btns',function (e) {
+    // Prevent parent to be triggered
+    e.stopPropagation();
+
     var cameraId = $(this).attr('camera-id');
 
     if ($(this).hasClass('visible')) {
@@ -16,13 +19,14 @@ $(document).on('click','.display-ptz-btns',function () {
 /**
  *  Event: click on PTZ button
  */
-$(document).on('click','.camera-ptz-btn',function () {
+$(document).on('click','.camera-ptz-btn',function (e) {
+    // Prevent parent to be triggered
+    e.stopPropagation();
+
     var cameraId = $(this).attr('camera-id');
     var direction = $(this).attr('direction');
     var moveType = $(this).attr('move-type');
     var moveSpeed = $('input.camera-ptz-move-speed[camera-id="' + cameraId + '"]').val();
-
-    console.log(moveSpeed);
 
     ajaxRequest(
         // Controller:

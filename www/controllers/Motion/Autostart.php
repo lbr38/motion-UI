@@ -56,7 +56,7 @@ class Autostart
     /**
      *  Enable / disable motion autostart
      */
-    public function enable(string $status)
+    public function enable(string $status) : void
     {
         if ($status != 'enabled' and $status != 'disabled') {
             throw new Exception('Invalid parameter');
@@ -68,7 +68,7 @@ class Autostart
     /**
      *  Enable / disable autostart on device presence
      */
-    public function enableDevicePresence(string $status)
+    public function enableDevicePresence(string $status) : void
     {
         if ($status != 'enabled' and $status != 'disabled') {
             throw new Exception('Invalid parameter');
@@ -80,7 +80,7 @@ class Autostart
     /**
      *  Configure motion autostart
      */
-    public function configure(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd)
+    public function configure(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd) : void
     {
         $this->model->configure(
             \Controllers\Common::validateData($mondayStart),
@@ -103,7 +103,7 @@ class Autostart
     /**
      *  Execute autostart
      */
-    public function autostart()
+    public function autostart() : void
     {
         $this->log('Running autostart');
 
@@ -342,17 +342,23 @@ class Autostart
     /**
      *  Return autostart log
      */
-    public function getLog() : string
+    public function getLog(string $log) : string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to view motion autostart logs');
         }
 
-        if (!file_exists(AUTOSTART_LOGS_DIR . '/' . date('Y-m-d') . '_autostart.log')) {
-            throw new Exception('No log for motion autostart yet');
+        $log = realpath(AUTOSTART_LOGS_DIR . '/' . $log);
+
+        if (!preg_match('#^' . AUTOSTART_LOGS_DIR . '/.*log#', $log)) {
+            throw new Exception('Invalid log file');
         }
 
-        $content = file_get_contents(AUTOSTART_LOGS_DIR . '/' . date('Y-m-d') . '_autostart.log');
+        if (!file_exists($log)) {
+            throw new Exception('Log file does not exist');
+        }
+
+        $content = file_get_contents($log);
 
         if ($content === false) {
             throw new Exception('Failed to read log file');
