@@ -38,10 +38,10 @@ class Service
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion status');
         $myprocess->execute();
-        $content = $myprocess->getOutput();
+        $myprocess->getOutput();
         $myprocess->close();
 
-        if (preg_match('/.*process is running with PID [1-9]\d*/', $content)) {
+        if ($myprocess->getExitCode() == 0) {
             return true;
         }
 
