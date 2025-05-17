@@ -3,16 +3,16 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center">MOTION</h6>
+                <h6 class="center">MOTION DETECTION</h6>
                 <?php
                 if (!$motionActive) {
                     $status = 'start';
-                    $title = 'Start motion service now';
+                    $title = 'Start motion detection';
                     $color = 'green';
                 }
                 if ($motionActive) {
                     $status = 'stop';
-                    $title = 'Stop motion service';
+                    $title = 'Stop motion detection';
                     $color = 'red';
                 } ?>
 
@@ -20,7 +20,7 @@
                     <img src="/assets/icons/power.svg" class="icon" />
                 </button>
 
-                <span class="block center lowopacity-cst"><?= ucfirst($status) ?> motion detection</span>
+                <span class="block center lowopacity-cst"><?= ucfirst($status) ?></span>
             </div>
 
             <div class="flex flex-direction-column row-gap-10">
@@ -33,7 +33,7 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center">MOTION AUTOSTART</h6>
+                <h6 class="center">MOTION DETECTION AUTOSTART</h6>
                 <?php
                 if ($motionAutostartEnabled == "disabled") : ?>
                     <div class="flex justify-center">
@@ -42,7 +42,7 @@
                         </button>
                     </div>
 
-                    <span class="block center lowopacity-cst">Enable and configure autostart</span>
+                    <span class="block center lowopacity-cst">Enable & configure</span>
                     <?php
                 endif;
                 if ($motionAutostartEnabled == "enabled") : ?>
@@ -56,7 +56,7 @@
                         </button>
                     </div>
 
-                    <p class="block center lowopacity-cst">Disable or configure autostart</p>
+                    <p class="block center lowopacity-cst">Disable or configure</p>
                     <?php
                 endif ?>
             </div>
@@ -64,7 +64,7 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center">MOTION ALERTS</h6>
+                <h6 class="center">MOTION DETECTION ALERTS</h6>
                 <?php
                 if (ALERT_ENABLED == "disabled") : ?>
                     <div class="flex justify-center">
@@ -73,7 +73,7 @@
                         </button>
                     </div>
         
-                    <p class="block center lowopacity-cst">Enable and configure alerts</p>
+                    <p class="block center lowopacity-cst">Enable & configure</p>
                     <?php
                 endif;
 

@@ -30,21 +30,30 @@ class Edit extends Camera
         /**
          *  Get current configuration
          */
-        $currentConfiguration = $this->getConfiguration($id);
+        $configuration = $this->getConfiguration($id);
 
         /**
-         *  Get camera configuration template
+         *  Get current camera configuration
          */
-        $configuration = $this->cameraConfigController->getTemplate();
+        try {
+            $currentConfiguration = json_decode($configuration['Configuration'], true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new Exception('Could not decode camera configuration from JSON');
+        }
 
         /**
          *  Get current motion configuration
          */
         try {
-            $motionConfiguration = json_decode($currentConfiguration['Motion_configuration'], true, 512, JSON_THROW_ON_ERROR);
+            $motionConfiguration = json_decode($configuration['Motion_configuration'], true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw new Exception('Could not decode camera motion configuration from JSON');
         }
+
+        /**
+         *  Get camera configuration template
+         */
+        $configuration = $this->cameraConfigController->getTemplate();
 
         /**
          *  Get that minimal required parameters are set
@@ -89,7 +98,7 @@ class Edit extends Camera
         // Authentication
         $configuration['authentication']['username']           = \Controllers\Common::validateData($params['username']);
         $configuration['authentication']['password']           = \Controllers\Common::validateData($params['password']);
-        $configuration['stream']['enable']                     = $params['stream-enable'];
+        $configuration['stream']['enable']                     = $currentConfiguration['stream']['enable'];
         $configuration['stream']['technology']                 = $params['stream-technology'];
         $configuration['motion-detection']['enable']           = $params['motion-detection-enable'];
         $configuration['timelapse']['enable']                  = $params['timelapse-enable'];
@@ -132,17 +141,17 @@ class Edit extends Camera
         /**
          *  Define base motion configuration parameters
          */
-        $motionConfiguration['device_id']['value'] = $id;
-        $motionConfiguration['device_id']['enabled'] = true;
-        $motionConfiguration['device_name']['value'] = $params['name'];
-        $motionConfiguration['device_name']['enabled'] = true;
+        $motionConfiguration['device_id']['value']         = $id;
+        $motionConfiguration['device_id']['enabled']       = true;
+        $motionConfiguration['device_name']['value']       = $params['name'];
+        $motionConfiguration['device_name']['enabled']     = true;
         // Authentication: default none and disabled
-        $motionConfiguration['netcam_userpass']['value'] = '';
+        $motionConfiguration['netcam_userpass']['value']   = '';
         $motionConfiguration['netcam_userpass']['enabled'] = false;
 
         // If auth username and password are set
         if (!empty($configuration['authentication']['username']) and !empty($configuration['authentication']['password'])) {
-            $motionConfiguration['netcam_userpass']['value'] = $configuration['authentication']['username'] . ':' . $configuration['authentication']['password'];
+            $motionConfiguration['netcam_userpass']['value']   = $configuration['authentication']['username'] . ':' . $configuration['authentication']['password'];
             $motionConfiguration['netcam_userpass']['enabled'] = true;
         }
 
@@ -276,6 +285,16 @@ class Edit extends Camera
         $this->saveMotionConfiguration($id, $motionConfigurationJson);
 
         /**
+         *  Define proper stream URLs for go2rtc
+         */
+        $go2rtcStreams = $this->generateGo2rtcStreams($id, $configuration);
+
+        /**
+         *  Update go2rtc configuration for this stream
+         */
+        $this->go2rtcController->editStream($id, $go2rtcStreams);
+
+        /**
          *  Edit camera motion configuration file
          */
         $this->motionConfigController->write(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf', $motionConfiguration);
@@ -288,16 +307,6 @@ class Edit extends Camera
         } else {
             $this->motionConfigController->disable($id);
         }
-
-        /**
-         *  Define proper stream URLs for go2rtc
-         */
-        $go2rtcStreams = $this->generateGo2rtcStreams($id, $configuration);
-
-        /**
-         *  Update go2rtc configuration for this stream
-         */
-        $this->go2rtcController->editStream($id, $go2rtcStreams);
 
         unset($configuration, $configurationJson, $motionConfiguration, $motionConfigurationJson);
     }

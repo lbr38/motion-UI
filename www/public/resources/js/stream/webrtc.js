@@ -57,12 +57,11 @@ async function getMediaTracks(media, constraints) {
     }
 }
 
+/**
+ *  Connect to go2rtc server using WebSocket
+ */
 async function connect(cameraId) {
     const pc = await PeerConnection(cameraId);
-    
-    /**
-     *  Connect to go2rtc server using WebSocket
-     */
 
     /**
      *  Get current origin (http://xxxx:port) then replace 'http' with 'ws'
@@ -71,28 +70,28 @@ async function connect(cameraId) {
     const wsUrl = window.location.origin.replace('http', 'ws') + '/api/ws?src=camera_' + cameraId + '&media=video+audio';
 
     // For debug purpose
-    console.log('Connecting to WebSocket:', wsUrl);
+    console.info('Connecting to WebSocket:', wsUrl);
 
     const ws = new WebSocket(wsUrl);
 
     ws.addEventListener('open', () => {
-        console.log('WebSocket connection opened at ' + wsUrl);
+        console.info('WebSocket connection opened at ' + wsUrl);
         pc.addEventListener('icecandidate', ev => {
             if (!ev.candidate) return;
             const msg = {type: 'webrtc/candidate', value: ev.candidate.candidate};
             // For debug purpose
-            console.log('Sending ICE candidate:', msg);
+            console.info('Sending ICE candidate:', msg);
             ws.send(JSON.stringify(msg));
         });
 
         pc.createOffer().then(offer => {
             // For debug purpose
-            console.log('Created offer:', offer);
+            console.info('Created offer:', offer);
             return pc.setLocalDescription(offer);
         }).then(() => {
             const msg = {type: 'webrtc/offer', value: pc.localDescription.sdp};
             // For debug purpose
-            console.log('Sending offer:', msg);
+            console.info('Sending offer:', msg);
             ws.send(JSON.stringify(msg));
         }).catch(error => {
             console.error('Error creating or sending offer:', error);
@@ -104,7 +103,7 @@ async function connect(cameraId) {
         const msg = JSON.parse(ev.data);
 
         // For debug purpose
-        console.log('Received message:', msg);
+        console.info('Received message:', msg);
 
         if (msg.type === 'webrtc/candidate') {
             // Try to add the ICE candidate, if an error is caught, close the WebSocket connection
@@ -133,10 +132,10 @@ async function connect(cameraId) {
 
     // When the WebSocket connection is closed, set the camera as unavailable and close the PeerConnection
     ws.addEventListener('close', () => {
-        console.log('WebSocket connection closed for camera #' + cameraId);
+        console.error('WebSocket connection closed for camera #' + cameraId);
 
         // Set the camera as unavailable
-        setUnavailable(cameraId);
+        setUnavailable(cameraId, 'Stream error');
 
         // Close the PeerConnection
         pc.close();

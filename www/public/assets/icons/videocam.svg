@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="videocam.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4199219"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1920"
+     inkscape:window-height="977"
+     inkscape:window-x="598"
+     inkscape:window-y="1111"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <g
+     id="g829"
+     transform="matrix(1.0599039,0,0,1.11629,-15.335398,-29.77024)"
+     style="fill:#ffffff;fill-opacity:1">
+    <path
+       d="m 464,384.39 a 32,32 0 0 1 -13,-2.77 15.77,15.77 0 0 1 -2.71,-1.54 l -82.71,-58.22 v 0 A 32,32 0 0 1 352,295.7 v -79.4 a 32,32 0 0 1 13.58,-26.16 l 82.71,-58.22 a 15.77,15.77 0 0 1 2.71,-1.54 32,32 0 0 1 45,29.24 v 192.76 a 32,32 0 0 1 -32,32 z"
+       id="path2"
+       style="fill:#ffffff;fill-opacity:1" />
+    <path
+       d="M 268,400 H 84 A 68.07,68.07 0 0 1 16,332 V 180 A 68.07,68.07 0 0 1 84,112 H 268.48 A 67.6,67.6 0 0 1 336,179.52 V 332 a 68.07,68.07 0 0 1 -68,68 z"
+       id="path4"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+</svg>

@@ -199,18 +199,18 @@ class Config
      */
     public function enable(int $id) : void
     {
-        $filename_available = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
-        $filename_enabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
+        $filenameAvailable = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
+        $filenameEnabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
 
-        if (!file_exists($filename_available)) {
+        if (!file_exists($filenameAvailable)) {
             throw new Exception('Camera configuration file does not exist');
         }
 
         /**
          *  Enable camera configuration file
          */
-        if (!file_exists($filename_enabled)) {
-            if (!symlink($filename_available, $filename_enabled)) {
+        if (!file_exists($filenameEnabled)) {
+            if (!symlink($filenameAvailable, $filenameEnabled)) {
                 throw new Exception('Could not enable camera configuration file');
             }
         }
@@ -226,24 +226,24 @@ class Config
      */
     public function disable(int $id) : void
     {
-        $filename_available = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
-        $filename_enabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
+        $filenameAvailable = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
+        $filenameEnabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
 
-        if (!file_exists($filename_available)) {
+        if (!file_exists($filenameAvailable)) {
             throw new Exception('Camera configuration file does not exist');
         }
 
         /**
          *  Ignore if camera configuration file is already disabled
          */
-        if (!file_exists($filename_enabled)) {
+        if (!file_exists($filenameEnabled)) {
             return;
         }
 
         /**
          *  Disable camera configuration file
          */
-        if (!unlink($filename_enabled)) {
+        if (!unlink($filenameEnabled)) {
             throw new Exception('Could not disable camera configuration file');
         }
 

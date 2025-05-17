@@ -38,10 +38,10 @@ class Service
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion status');
         $myprocess->execute();
-        $content = $myprocess->getOutput();
+        $myprocess->getOutput();
         $myprocess->close();
 
-        if (preg_match('/.*process is running with PID [1-9]\d*/', $content)) {
+        if ($myprocess->getExitCode() == 0) {
             return true;
         }
 
@@ -123,17 +123,23 @@ class Service
     /**
      *  Return motion service log content
      */
-    public function getLog() : string
+    public function getLog(string $log) : string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to view motion service logs');
         }
 
-        if (!file_exists('/var/log/motion/motion.log')) {
-            throw new Exception('No log for motion service yet');
+        $log = realpath('/var/log/motion/' . $log);
+
+        if (!preg_match('#^/var/log/motion/.*log#', $log)) {
+            throw new Exception('Invalid log file');
         }
 
-        $content = file_get_contents('/var/log/motion/motion.log');
+        if (!file_exists($log)) {
+            throw new Exception('Log file does not exist');
+        }
+
+        $content = file_get_contents($log);
 
         if ($content === false) {
             throw new Exception('Failed to read log file');
