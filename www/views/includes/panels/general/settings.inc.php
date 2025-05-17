@@ -11,6 +11,12 @@
         <option value="stats" <?php echo (HOME_PAGE === 'stats') ? 'selected' : '' ?>>Motion stats page</option>
     </select>
 
+    <h5>MOTION DETECTION</h5>
+
+    <h6>EVENTS MEDIAS RETENTION</h6>
+    <p class="note">Number of days to keep event pictures & videos before automatic deletion.</p>
+    <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
+
     <h5>TIMELAPSE</h5>
 
     <h6>INTERVAL</h6>
@@ -31,12 +37,6 @@
     <h6>IMAGES RETENTION</h6>
     <p class="note">Number of days to keep timelapse images before automatic deletion.</p>
     <input type="number" min="1" class="settings-param" setting-name="timelapse-retention" value="<?= TIMELAPSE_RETENTION ?>">
-
-    <h5>MOTION</h5>
-
-    <h6>EVENTS MEDIAS RETENTION</h6>
-    <p class="note">Number of days to keep event pictures & videos before automatic deletion.</p>
-    <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
 
     <br>
     <br>

@@ -57,24 +57,11 @@ async function getMediaTracks(media, constraints) {
     }
 }
 
+/**
+ *  Connect to go2rtc server using WebSocket
+ */
 async function connect(cameraId) {
     const pc = await PeerConnection(cameraId);
-    const TIMEOUT_MS = 30000; // 30 seconds
-
-    /**
-     *  Custom timeout check to close the connection if the camera is not available
-     *  The setTimeout() function will be canceled if the connection is successful
-     */
-    let webrtcTimeout = setTimeout(() => {
-        console.error('WebRTC connection timeout for camera #' + cameraId);
-        ws.close();
-        pc.close();
-        setUnavailable(cameraId, 'Connection timeout');
-    }, TIMEOUT_MS);
-
-    /**
-     *  Connect to go2rtc server using WebSocket
-     */
 
     /**
      *  Get current origin (http://xxxx:port) then replace 'http' with 'ws'
@@ -108,7 +95,6 @@ async function connect(cameraId) {
             ws.send(JSON.stringify(msg));
         }).catch(error => {
             console.error('Error creating or sending offer:', error);
-            clearWebrtcTimeout();
         });
     });
 
@@ -124,20 +110,17 @@ async function connect(cameraId) {
             pc.addIceCandidate({candidate: msg.value, sdpMid: '0'}).catch(error => {
                 console.error('Camera #' + cameraId + ': Error adding ICE candidate:', error);
                 ws.close();
-                clearWebrtcTimeout();
             });
         } else if (msg.type === 'webrtc/answer') {
             // Try to set the remote description, if an error is caught, close the WebSocket connection
             pc.setRemoteDescription({type: 'answer', sdp: msg.value}).catch(error => {
                 console.error('Camera #' + cameraId + ': Error setting remote description:', error);
                 ws.close();
-                clearWebrtcTimeout();
             });
         // If the message type is 'error', close the WebSocket connection
         } else if (msg.type === 'error') {
             console.error('Camera #' + cameraId + ' Error:', msg.value);
             ws.close();
-            clearWebrtcTimeout();
         }
     });
 
@@ -145,7 +128,6 @@ async function connect(cameraId) {
     ws.addEventListener('error', error => {
         console.error('WebSocket error:', error);
         ws.close();
-        clearWebrtcTimeout();
     });
 
     // When the WebSocket connection is closed, set the camera as unavailable and close the PeerConnection
@@ -153,20 +135,9 @@ async function connect(cameraId) {
         console.error('WebSocket connection closed for camera #' + cameraId);
 
         // Set the camera as unavailable
-        setUnavailable(cameraId);
+        setUnavailable(cameraId, 'Stream error');
 
         // Close the PeerConnection
         pc.close();
-        clearWebrtcTimeout();
     });
-
-    /**
-     *  Custom function to stop the timeout check if the connection is successful
-     */
-    function clearWebrtcTimeout() {
-        if (webrtcTimeout) {
-            clearTimeout(webrtcTimeout);
-            webrtcTimeout = null;
-        }
-    }
 }

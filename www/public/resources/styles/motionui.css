@@ -569,7 +569,7 @@ h3 {
     justify-content: center;
     height: 100%;
 }
-.camera-disabled, .camera-unavailable {
+.camera-disabled, .camera-loading, .camera-unavailable {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -578,7 +578,7 @@ h3 {
     height: 100%;
     max-height: 100vh;
 }
-.camera-disabled img, .camera-unavailable img {
+.camera-disabled img, .camera-loading img, .camera-unavailable img {
     width: 64px;
     height: 64px;
 }
