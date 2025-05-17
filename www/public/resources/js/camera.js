@@ -135,9 +135,6 @@ async function loadCameras(cameraId = null)
 
             // Replace existing video with videoElement
             video.replaceWith(videoElement);
-
-            // Hide camera loading div
-            $(container).find('div.camera-loading[camera-id="' + cameraId + '"]').hide();
         }
     }));
 }
