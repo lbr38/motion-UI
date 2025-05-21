@@ -11,11 +11,11 @@
         <option value="stats" <?php echo (HOME_PAGE === 'stats') ? 'selected' : '' ?>>Motion stats page</option>
     </select>
 
-    <h5>LIVE STREAM</h5>
+    <h5>MOTION DETECTION</h5>
 
-    <h6>GO2RTC LOGS</h6>
-    <p class="note">View go2rtc streaming server logs.</p>
-    <img id="view-go2rtc-log-btn" src="/assets/icons/file.svg" class="icon" title="View go2rtc log" />
+    <h6>EVENTS MEDIAS RETENTION</h6>
+    <p class="note">Number of days to keep event pictures & videos before automatic deletion.</p>
+    <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
 
     <h5>TIMELAPSE</h5>
 
@@ -37,16 +37,6 @@
     <h6>IMAGES RETENTION</h6>
     <p class="note">Number of days to keep timelapse images before automatic deletion.</p>
     <input type="number" min="1" class="settings-param" setting-name="timelapse-retention" value="<?= TIMELAPSE_RETENTION ?>">
-
-    <h5>MOTION</h5>
-
-    <h6>EVENTS MEDIAS RETENTION</h6>
-    <p class="note">Number of days to keep event pictures & videos before automatic deletion</p>
-    <input type="number" min="1" class="settings-param" setting-name="motion-events-retention" value="<?= MOTION_EVENTS_RETENTION ?>">
-
-    <h6>SERVICE LOGS</h6>
-    <p class="note">View motion service logs.</p>
-    <img id="view-motion-log-btn" src="/assets/icons/file.svg" class="icon" title="View motion log" />
 
     <br>
     <br>

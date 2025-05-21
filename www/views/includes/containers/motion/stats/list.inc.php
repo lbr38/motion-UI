@@ -124,7 +124,7 @@
             </div>
         </div>
 
-        <div id="motion-stats-container">
+        <div id="motion-stats-container" class="margin-top-30">
             <div class="div-generic-blue">
                 <canvas id="motion-event-chart"></canvas>
             </div>
@@ -145,32 +145,69 @@
             data: {
                 labels: [],
                 datasets: [
-                {
-                    data: [],
-                    label: "Motion events",
-                    borderColor: '#15bf7f',
-                    fill: false
-                },
-                {
-                    data: [],
-                    label: "Motion files recorded",
-                    borderColor: '#ffb536',
-                    fill: false
-                }
+                    {
+                        data: [],
+                        label: "Events",
+                        borderColor: '#15bf7f',
+                        fill: false
+                    },
+                    {
+                        data: [],
+                        label: "Media files recorded",
+                        borderColor: '#ffb536',
+                        fill: false
+                    }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 tension: 0.2,
+                plugins: {
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: "Motion detection",
+                        color: '#8A99AA',
+                        font: {
+                            size: 14,
+                            family: 'Roboto',
+                        },
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: 'Roboto',
+                            },
+                            color: '#8A99AA',
+                            useBorderRadius: true,
+                            borderRadius: 5,
+                        },
+                    }
+                },
                 scales: {
                     x: {
                         display: true,
+                        ticks: {
+                            color: '#8A99AA',
+                            font: {
+                                size: 13,
+                                family: 'Roboto'
+                            }
+                        }
                     },
                     y: {
                         beginAtZero: true,
                         display: true,
                         ticks: {
+                            color: '#8A99AA',
+                            font: {
+                                size: 13,
+                                family: 'Roboto'
+                            },
                             stepSize: 1
                         }
                     }
@@ -188,7 +225,7 @@
                 labels: [],
                 datasets: [{
                     data: [],
-                    label: "Motion service activity (24h)",
+                    label: "Motion detection activity",
                     borderColor: '#F32F63',
                     fill: false
                 }]
@@ -196,15 +233,42 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: "Motion detection activity (24h)",
+                        color: '#8A99AA',
+                        font: {
+                            size: 14,
+                            family: 'Roboto',
+                        },
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
                 tension: 0.2,
                 scales: {
                     x: {
                         display: true,
+                        ticks: {
+                            color: '#8A99AA',
+                            font: {
+                                size: 13,
+                                family: 'Roboto'
+                            }
+                        }
                     },
                     y: {
                         beginAtZero: true,
                         display: true,
                         ticks: {
+                            color: '#8A99AA',
+                            font: {
+                                size: 13,
+                                family: 'Roboto'
+                            },
                             stepSize: 1,
                             callback: function (value, index, values) {
                                 return yLabels[value];

@@ -17,7 +17,7 @@ test -f $DAEMON || exit 0
 
 case "$1" in
     start)
-        LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')-motion.log"
+        LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')_motion.log"
 
         echo -n "Starting motion detection: "
 
@@ -101,11 +101,21 @@ case "$1" in
 
   status)
     echo -n "Status motion detection: "
+
+    # Check if a pid file exists
     if [ -f $PIDFILE ]; then
         echo "process is running with PID $(pidof $NAME)"
-    else
-    	echo "stopped"
+        exit 0
     fi
+
+    # Also check if a motion process is running
+    if ps aux | grep "/usr/bin/motion" | grep -q -v "grep"; then
+        echo "process is running but no pid file found"
+        exit 0
+    fi
+
+    echo "stopped"
+    exit 1
     ;;
   *)
     echo "Usage: /etc/init.d/$NAME {start|stop|status}"

@@ -54,14 +54,18 @@ $(document).on('submit','#settings-form',function () {
 /**
  *  Event: view motion process log
  */
-$(document).on('click', '#view-motion-log-btn', function () {
+$(document).on('click', '#motion-log-btn', function () {
+    var log = $('#motion-log-select').val();
+
     ajaxRequest(
         // Controller:
         'motion',
         // Action:
         'get-log',
         // Data:
-        {},
+        {
+            log: log
+        },
         // Print success alert:
         false,
         // Print error alert:
@@ -74,14 +78,18 @@ $(document).on('click', '#view-motion-log-btn', function () {
 /**
  *  Event: view go2rtc process log
  */
-$(document).on('click', '#view-go2rtc-log-btn', function () {
+$(document).on('click', '#go2rtc-log-btn', function () {
+    var log = $('#go2rtc-log-select').val();
+
     ajaxRequest(
         // Controller:
         'go2rtc',
         // Action:
         'get-log',
         // Data:
-        {},
+        {
+            log: log
+        },
         // Print success alert:
         false,
         // Print error alert:

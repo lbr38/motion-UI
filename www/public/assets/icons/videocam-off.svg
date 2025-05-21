@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="videocam-off.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4199219"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1920"
+     inkscape:window-height="977"
+     inkscape:window-x="598"
+     inkscape:window-y="1111"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <path
+     d="m 340.85806,183.3615 a 71.620206,71.620206 0 0 0 -71.6202,-71.62021 h -84.00949 a 4.2429032,4.2429032 0 0 0 -2.99124,7.24476 l 151.37618,151.37618 a 4.2429032,4.2429032 0 0 0 7.24475,-2.99125 z"
+     id="path2"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:1.06073" />
+  <path
+     d="M 1.4258078,183.87065 V 345.10097 A 72.129354,72.129354 0 0 0 73.555162,417.23032 H 268.72871 a 71.768708,71.768708 0 0 0 45.44149,-16.16546 4.2429032,4.2429032 0 0 0 0.35004,-6.36435 L 42.168286,122.34855 A 4.2429032,4.2429032 0 0 0 37.002551,121.6909 72.129354,72.129354 0 0 0 1.4258078,183.87065 Z"
+     id="path4"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:1.06073" />
+  <path
+     d="m 476.63097,400.67239 a 33.943226,33.943226 0 0 1 -13.78944,-2.93821 16.727646,16.727646 0 0 1 -2.87457,-1.63352 l -87.73263,-61.75545 v 0 a 33.943226,33.943226 0 0 1 -14.40465,-27.74859 v -84.22163 a 33.943226,33.943226 0 0 1 14.40465,-27.74858 l 87.73263,-61.75546 a 16.727646,16.727646 0 0 1 2.87457,-1.63352 33.943226,33.943226 0 0 1 47.73266,31.01562 v 204.46551 a 33.943226,33.943226 0 0 1 -33.94322,33.94322 z"
+     id="path6"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:1.06073" />
+  <line
+     fill="none"
+     stroke="#000000"
+     stroke-linecap="round"
+     stroke-miterlimit="10"
+     stroke-width="33.9432"
+     x1="425.71613"
+     y1="434.20193"
+     x2="69.312256"
+     y2="77.798065"
+     id="line8"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+</svg>

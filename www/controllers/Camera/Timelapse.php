@@ -29,13 +29,10 @@ class Timelapse
     }
 
     /**
-     *  Display timelapse section
+     *  Return timelapse container
      */
-    public function display(int $cameraId, string|null $date = null, string|null $picture = null)
+    public function display(int $cameraId, string|null $date = null, string|null $picture = null) : string
     {
-        /**
-         *  Get timelapse form
-         */
         ob_start();
         include(ROOT . '/views/includes/camera/timelapse.inc.php');
         $form = ob_get_clean();

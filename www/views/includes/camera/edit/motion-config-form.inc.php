@@ -120,8 +120,13 @@
                                     <select class="param-input-value" param-name="<?= $param ?>" <?= $editable ?>>
                                         <?php
                                         // Print each possible options, and if the current value is in the list, select it
-                                        foreach ($attributes['options'] as $option) : ?>
-                                            <option value="<?= $option['value'] ?>" <?= $value == $option['value'] ? 'selected' : '' ?>><?= $option['description'] . ' (' . $option['value'] . ')' ?></option>
+                                        foreach ($attributes['options'] as $option) :
+                                            if (isset($option['description']) and isset($option['value'])) {
+                                                $text = $option['description'] . ' (' . $option['value'] . ')';
+                                            } else {
+                                                $text = $option['value'];
+                                            } ?>
+                                            <option value="<?= $option['value'] ?>" <?= $value == $option['value'] ? 'selected' : '' ?>><?= $text ?></option>
                                             <?php
                                         endforeach;
 

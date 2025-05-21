@@ -189,13 +189,6 @@
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6>DISPLAY LIVE STREAM</h6>
-    <p class="note">Display camera output on the live stream page.</p>
-    <label class="onoff-switch-label">
-        <input type="checkbox" class="onoff-switch-input form-param" param-name="stream-enable" <?php echo $cameraRawParams['stream']['enable'] == "true" ? 'checked' : '' ?>>
-        <span class="onoff-switch-slider"></span>
-    </label>
-
     <h6>STREAM TECHNOLOGY</h6>
     <p class="note">MSE should work without any additional configuration.</p>
     <p class="note">WebRTC is more efficient and offer less latency but may not work in some cases.</p>

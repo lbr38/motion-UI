@@ -149,6 +149,24 @@ $formParams = [
                 'max' => 270,
                 'default' => 0
             ],
+            'device_tmo' => [
+                'title' => 'DEVICE TIMEOUT',
+                'description' => 'Number of seconds that elapse before the device is deemed to be lost.',
+                'type' => 'number',
+                'default' => 30
+            ],
+            'watchdog_tmo' => [
+                'title' => 'WATCHDOG TIMEOUT',
+                'description' => 'Number of seconds that elapse before a camera is deemed to be unresponsive and Motion triggers a watchdog timeout and begins to force the camera to shut down.',
+                'type' => 'number',
+                'default' => 30
+            ],
+            'watchdog_kill' => [
+                'title' => 'WATCHDOG KILL',
+                'description' => 'Number of seconds that elapse after the watchdog_tmo that Motion waits until the kill processes begin to force the camera to shut down.',
+                'type' => 'number',
+                'default' => 10
+            ]
         ]
     ],
     'motion-detection' => [
@@ -156,8 +174,14 @@ $formParams = [
         'icon' => 'motion',
         'params' => [
             'emulate_motion' => [
-                'title' => 'EMULATE MOTION',
+                'title' => 'EMULATE MOTION DETECTION',
                 'description' => 'Always save images even if there was no motion (motion emulation).',
+                'type' => 'switch',
+                'default' => 'off'
+            ],
+            'pause' => [
+                'title' => 'PAUSE MOTION DETECTION',
+                'description' => 'Pause detection at start up.',
                 'type' => 'switch',
                 'default' => 'off'
             ],
@@ -183,6 +207,41 @@ $formParams = [
                 'description' => 'Continuously adjust the threshold for triggering an event.',
                 'type' => 'switch',
                 'default' => 'off'
+            ],
+            'threshold_sdevx' => [
+                'title' => 'THRESHOLD SDEVX',
+                'description' => 'The maximum standard deviation of the changed pixels in the x (width) axis.',
+                'type' => 'number',
+                'min' => 0,
+                'default' => 0
+            ],
+            'threshold_sdevy' => [
+                'title' => 'THRESHOLD SDEVY',
+                'description' => 'The maximum standard deviation of the changed pixels in the y (height) axis.',
+                'type' => 'number',
+                'min' => 0,
+                'default' => 0
+            ],
+            'threshold_sdevxy' => [
+                'title' => 'THRESHOLD SDEVXY',
+                'description' => 'The maximum standard deviation of the changed pixels in the x (width) and y(height) axis.',
+                'type' => 'number',
+                'min' => 0,
+                'default' => 0
+            ],
+            'threshold_ratio' => [
+                'title' => 'THRESHOLD RATIO',
+                'description' => 'The maximum ratio comparing the pixels that went white to black and vice versa.',
+                'type' => 'number',
+                'min' => 0,
+                'default' => 0
+            ],
+            'threshold_ratio_change' => [
+                'title' => 'THRESHOLD RATIO CHANGE',
+                'description' => 'The minimum change in the ratio to trigger a event.',
+                'type' => 'number',
+                'min' => 0,
+                'default' => 0
             ],
             'noise_level' => [
                 'title' => 'NOISE LEVEL',
@@ -273,6 +332,43 @@ $formParams = [
                 'min' => 0,
                 'max' => 10,
             ],
+            'locate_motion_mode' => [
+                'title' => 'LOCATE MOTION MODE',
+                'description' => 'Locate and draw around/on the moving object. Preview only applies to pictures.',
+                'type' => 'select',
+                'options' => [
+                    [
+                        'value' => 'on',
+                    ],
+                    [
+                        'value' => 'off',
+                    ],
+                    [
+                        'value' => 'preview',
+                    ]
+                ],
+                'default' => 'off'
+            ],
+            'locate_motion_style' => [
+                'title' => 'LOCATE MOTION STYLE',
+                'description' => 'Set the look and style of the locate mode.',
+                'type' => 'select',
+                'options' => [
+                    [
+                        'value' => 'box',
+                    ],
+                    [
+                        'value' => 'redbox',
+                    ],
+                    [
+                        'value' => 'cross',
+                    ],
+                    [
+                        'value' => 'redcross',
+                    ]
+                ],
+                'default' => 'box'
+            ],
             'lightswitch_percent' => [
                 'title' => 'LIGHTSWITCH PERCENT',
                 'description' => 'The minimum change in the portion of the image that will trigger a lightswitch condition.',
@@ -358,7 +454,6 @@ $formParams = [
                 'description' => 'The file name and optionally the path for the movie relative to target_dir. The file extension is automatically added based upon the container.',
                 'type' => 'text',
                 'default' => 'camera-' . $id . '/%Y-%m-%d/movies/%v_%Y-%m-%d_%Hh%Mm%Ss_video',
-                'editable' => false,
                 'enabled' => true
             ],
             'movie_extpipe_use' => [
@@ -428,7 +523,6 @@ $formParams = [
                 'description' => 'The filename for the picture files. The default filename is %v-%Y%m%d%H%M%S-%q.',
                 'type' => 'text',
                 'default' => 'camera-' . $id . '/%Y-%m-%d/pictures/%v_%Y-%m-%d_%Hh%Mm%Ss_%q',
-                'editable' => false,
                 'enabled' => true
             ],
         ]
@@ -485,11 +579,6 @@ $formParams = [
             'on_secondary_detect' => [
                 'title' => 'ON SECONDARY DETECT',
                 'description' => 'The full path and file name of the program/script to be executed when secondary detection occurs.',
-                'type' => 'text',
-            ],
-            'on_action_user' => [
-                'title' => 'ON ACTION USER',
-                'description' => 'The full path and file name of the program/script to be executed when user selects the user action from the web interface.',
                 'type' => 'text',
             ],
             'on_sound_alert' => [

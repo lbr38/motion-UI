@@ -50,7 +50,7 @@ class Camera
     /**
      *  Get camera's configuration
      */
-    public function getConfiguration(string $id) : array
+    public function getConfiguration(int $id) : array
     {
         return $this->model->getConfiguration($id);
     }
@@ -118,23 +118,12 @@ class Camera
             $primaryStreamFFmpegParams[] = '#video=h264';
         }
 
-        // Frame rate
-        // if ($configuration['main-stream']['framerate'] > 0) {
-        //     $primaryStreamFFmpegParams[] = '#raw=-r ' . $configuration['main-stream']['framerate'];
-        // }
-
         // Rotate filter
         if ($configuration['main-stream']['rotate'] > 0) {
             // rotate requires cannot be used with the same video output as the source (aka #video=copy), so force the use of a video codec
             $primaryStreamFFmpegParams[] = '#video=h264';
             $primaryStreamFFmpegParams[] = '#rotate=' . $configuration['main-stream']['rotate'];
         }
-
-        // Hardware acceleration
-        // if ($configuration['hardware-acceleration'] == 'true') {
-        //     $primaryStreamFFmpeg = true;
-        //     $primaryStreamFFmpegParams .= '#hardware';
-        // }
 
         /**
          *  First, add native URL to streams

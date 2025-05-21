@@ -26,3 +26,5 @@ if ($_POST['action'] == 'stop' and !empty($_POST['cameraId'])) {
 
     response(HTTP_OK, '');
 }
+
+response(HTTP_BAD_REQUEST, 'Invalid action');

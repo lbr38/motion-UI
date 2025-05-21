@@ -5,12 +5,12 @@
     }
 
     if (!empty($reloadableTableContent)) : ?>
-        <div class="flex align-item-center column-gap-10 margin-bottom-5">
+        <div class="flex align-item-center column-gap-10 margin-bottom-15">
             <p class="font-size-18"><b><?= $eventDateTitle ?></b></p>
 
-            <p class="lowopacity-cst">●</p>
+            <p class="mediumopacity-cst">●</p>
 
-            <p class="lowopacity-cst">
+            <p class="mediumopacity-cst">
                 <?php
                 if ($reloadableTableTotalItems == 1) {
                     echo '1 event';
@@ -19,12 +19,12 @@
                 } ?>
             </p>
 
-            <p class="lowopacity-cst">●</p>
+            <p class="mediumopacity-cst">●</p>
 
             <div class="flex align-item-center column-gap-5" title="Total media files">
-                <p class="lowopacity-cst"><?= $totalFilesCount ?></p>
+                <p class="mediumopacity-cst"><?= $totalFilesCount ?></p>
                 <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="Total media files">
-                <p id="event-date-total-size" class="lowopacity-cst" event-date="<?= $eventDate ?>"><img src="/assets/icons/loading.svg" class="icon-np" /></p>
+                <p id="event-date-total-size" class="mediumopacity-cst" event-date="<?= $eventDate ?>"><img src="/assets/icons/loading.svg" class="icon-np" /></p>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
                 <div class="event-metadata">
                     <div class="flex flex-direction-column align-item-center" title="Event start time">
                         <p class="font-size-22"><?= $eventTimeShort ?></p>
-                        <p class="lowopacity-cst font-size-11"><?= $eventTime ?></p>
+                        <p class="mediumopacity-cst font-size-11"><?= $eventTime ?></p>
                     </div>
 
                     <div class="event-camera-name">
@@ -123,7 +123,7 @@
                         </div>
 
                         <div class="event-files-count margin-top-10">
-                            <p class="lowopacity-cst"><?= $totalFilesCount ?></p>
+                            <p class="mediumopacity-cst"><?= $totalFilesCount ?></p>
                             <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="Total media files" />
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex align-item-center justify-space-between column-gap-5 lowopacity-cst margin-left-5 margin-right-5 margin-bottom-5 margin-top-5">
+                                        <div class="flex align-item-center column-gap-5 justify-space-between mediumopacity-cst padding-10">
                                             <div class="flex align-item-center column-gap-5">
                                                 <img src="/assets/icons/picture.svg" class="icon-np" />
                                                 <p class="font-size-12" title="Picture file size">(<?= $eventDetails['Size'] ?>)</p>
@@ -258,7 +258,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex align-item-center column-gap-5 justify-space-between lowopacity-cst margin-left-5 margin-right-5 margin-bottom-5 margin-top-5">
+                                        <div class="flex align-item-center column-gap-5 justify-space-between mediumopacity-cst padding-10">
                                             <div class="flex align-item-center column-gap-5">
                                                 <img src="/assets/icons/video.svg" class="icon-np" />
                                                 <p class="font-size-12" title="Video file size">(<?= $eventDetails['Size'] ?>)</p>

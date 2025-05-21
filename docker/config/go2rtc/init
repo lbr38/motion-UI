@@ -30,7 +30,7 @@ function start()
     # Clean any existing PID file
     rm -f "$PIDFILE"
 
-    LOGFILE="/var/lib/motionui/go2rtc/logs/$(date +'%Y-%m-%d_%H-%M-%S')-go2rtc.log"
+    LOGFILE="/var/lib/motionui/go2rtc/logs/$(date +'%Y-%m-%d')_go2rtc.log"
 
     # Create PID directory
     mkdir -p /run/go2rtc
