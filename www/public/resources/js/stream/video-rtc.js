@@ -140,6 +140,12 @@ export class VideoRTC extends HTMLElement {
          * @type {Object.<string,Function>}
          */
         this.onmessage = null;
+
+        /**
+         * Custom: Camera Id
+         * @type {number}
+         */
+        this.cameraId = null;
     }
 
     /**
@@ -238,7 +244,7 @@ export class VideoRTC extends HTMLElement {
      */
     oninit() {
         this.video = document.createElement('video');
-        this.video.controls = true;
+        this.video.controls = false;
         this.video.playsInline = true;
         this.video.preload = 'auto';
         this.video.poster = '/assets/images/motionui-video-poster.png';
@@ -246,6 +252,9 @@ export class VideoRTC extends HTMLElement {
         this.video.style.display = 'block'; // fix bottom margin 4px
         this.video.style.width = '100%';
         this.video.style.height = '100%';
+
+        // Custom: add camera Id attribute to the video element
+        this.video.setAttribute('camera-id', this.cameraId);
 
         this.appendChild(this.video);
 

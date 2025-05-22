@@ -1,7 +1,7 @@
-<div class="reloadable-table margin-top-30" table="<?= $table ?>" offset="<?= $reloadableTableOffset ?>">
+<div class="reloadable-table margin-top-20" table="<?= $table ?>" offset="<?= $reloadableTableOffset ?>">
     <?php
     if ($reloadableTableTotalItems == 0) {
-        echo '<p class="note margin-top-30">No events found for this date.</p>';
+        echo '<p class="note">No events found for this date.</p>';
     }
 
     if (!empty($reloadableTableContent)) : ?>
