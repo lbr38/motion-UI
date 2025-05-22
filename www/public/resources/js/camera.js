@@ -134,6 +134,7 @@ async function loadCameras(cameraId = null)
             videoElement.mode = streamTechnology;
             videoElement.style.flex = width;
             videoElement.src = new URL('api/ws?src=camera_' + cameraId, location.href);
+            videoElement.cameraId = cameraId;
 
             // Replace existing video with videoElement
             video.replaceWith(videoElement);

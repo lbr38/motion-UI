@@ -66,6 +66,9 @@ $(document).on('click','.enable-camera-stream-btn', function (e) {
         $('.camera-disabled[camera-id="' + cameraId + '"]').hide();
         $('.camera-disabled[camera-id="' + cameraId + '"]').removeClass('flex');
 
+        // Hide the camera unavailable message
+        $('.camera-unavailable[camera-id="' + cameraId + '"]').hide();
+
         // Show video container and add video stream
         $('.video-container[camera-id="' + cameraId + '"]').css('display', 'flex');
         $('.video-container[camera-id="' + cameraId + '"]').html('<video camera-id="' + cameraId + '" autoplay playsinline muted poster="/assets/images/motionui-video-poster.png"></video>')
@@ -115,6 +118,9 @@ $(document).on('click','.disable-camera-stream-btn', function (e) {
         // Hide video container and remove video stream
         $('.video-container[camera-id="' + cameraId + '"]').css('display', 'none');
         $('.video-container[camera-id="' + cameraId + '"]').find('video-stream').remove();
+
+        // Hide the camera unavailable message
+        $('.camera-unavailable[camera-id="' + cameraId + '"]').hide();
 
         // Display the camera stream disabled message
         $('.camera-disabled[camera-id="' + cameraId + '"]').css('display', 'flex');
