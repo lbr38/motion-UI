@@ -129,7 +129,7 @@
                                         <?php
                                     endif;
 
-                                    if (str_contains($cameraRawParams['main-stream']['device'], 'rtsp://')) : ?>
+                                    if (str_contains($cameraRawParams['main-stream']['device'], 'rtsp://') and $cameraRawParams['stream']['technology'] != 'mjpeg') : ?>
                                         <span class="round-btn-tr audio-btn <?php echo ($cameraRawParams['stream']['enable'] == 'false') ? 'hide' : '' ?>" camera-id="<?= $cameraId ?>" title="Mute/Unmute">
                                             <img src="/assets/icons/volume-off.svg" class="icon" />
                                         </span>
