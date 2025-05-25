@@ -149,13 +149,15 @@
                         data: [],
                         label: "Events",
                         borderColor: '#15bf7f',
-                        fill: false
+                        backgroundColor: 'rgba(21,191,127,0.20)',
+                        fill: true
                     },
                     {
                         data: [],
                         label: "Media files recorded",
                         borderColor: '#ffb536',
-                        fill: false
+                        backgroundColor: 'rgba(255, 181, 54, 0.20)',
+                        fill: true
                     }
                 ]
             },
@@ -227,7 +229,8 @@
                     data: [],
                     label: "Motion detection activity",
                     borderColor: '#F32F63',
-                    fill: false
+                    backgroundColor: 'rgba(243, 47, 99, 0.20)',
+                    fill: true
                 }]
             },
             options: {

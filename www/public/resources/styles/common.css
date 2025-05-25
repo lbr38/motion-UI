@@ -1054,9 +1054,7 @@ textarea {
     max-width: 100%;
     box-sizing: border-box;
     padding: 20px;
-    /* border-radius: 20px; */
     background-color: #182b3e;
-    /* box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px; */
 }
 
 .modal-window-title {
@@ -1067,6 +1065,7 @@ textarea {
 }
 
 .modal-window-content {
+    padding: 0px 20px;
     text-wrap: wrap;
     word-break: break-word;
     overflow-y: auto;
