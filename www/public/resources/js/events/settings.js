@@ -71,7 +71,7 @@ $(document).on('click', '#motion-log-btn', function () {
         // Print error alert:
         true
     ).then(function () {
-        printModalWindow(jsonValue.message, 'MOTION LOG');
+        mymodal.print(jsonValue.message, 'MOTION LOG');
     });
 });
 
@@ -95,6 +95,6 @@ $(document).on('click', '#go2rtc-log-btn', function () {
         // Print error alert:
         true
     ).then(function () {
-        printModalWindow(jsonValue.message, 'GO2RTC LOG');
+        mymodal.print(jsonValue.message, 'GO2RTC LOG');
     });
 });

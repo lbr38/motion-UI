@@ -11,7 +11,7 @@
             $iconColor = 'red';
         } ?>
     
-        <div class="flex column-gap-10 align-item-center margin-left-15" title="CPU load">
+        <div id="cpu-load" class="flex column-gap-10 align-item-center margin-left-15" title="CPU load">
             <img src="/assets/icons/cpu.svg" class="icon-medium icon-np lowopacity-cst margin-right-0" />
             <span class="lowopacity-cst font-size-12"><?= $load ?></span>
             <span class="round-item bkg-<?= $iconColor ?>"></span>

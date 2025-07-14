@@ -68,41 +68,6 @@ class Common
     }
 
     /**
-     *  Print a message
-     */
-    public static function printAlert(string $message, string $alertType = null)
-    {
-        if ($alertType == "error") {
-            echo '<div class="alert-error">';
-        }
-        if ($alertType == "success") {
-            echo '<div class="alert-success">';
-        }
-        if (empty($alertType)) {
-            echo '<div class="alert">';
-        } ?>
-
-            <span><?= $message ?></span>
-        </div>
-
-        <script type="text/javascript">
-            $(document).ready(function () {
-                window.setTimeout(function() {
-                    <?php
-                    if ($alertType == "error" or $alertType == "success") {
-                        echo "$('.alert-$alertType').fadeTo(1000, 0).slideUp(1000, function(){";
-                    } else {
-                        echo "$('.alert').fadeTo(1000, 0).slideUp(1000, function(){";
-                    } ?>
-                    $(this).remove();
-                    });
-                }, 2500);
-            });
-        </script>
-        <?php
-    }
-
-    /**
      *  Reorder array to set desired value as first member or it
      */
     public static function arrayReorder(&$array, string $value)

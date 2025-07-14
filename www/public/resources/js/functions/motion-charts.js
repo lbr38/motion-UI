@@ -42,7 +42,7 @@ function statsDateSelect(dateStart, dateEnd)
     /**
      *  Then reload stats div
      */
-    reloadContainer('motion/stats/list', false);
+    mycontainer.reload('motion/stats/list', false);
 
     /**
      *  Wait for the div reload, then reload charts

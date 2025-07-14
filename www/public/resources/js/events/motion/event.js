@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to load video sources when visible
     const loadVideo = (video) => {
         const sources = video.querySelectorAll('source[data-src]');
+        const poster = video.getAttribute('poster-to-load') || video.getAttribute('poster');
         sources.forEach(source => {
             if (source.dataset.src) {
                 source.src = source.dataset.src; // Set the source URL
@@ -24,7 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('data-src attribute is missing for source element', source);
             }
         });
+        video.setAttribute('poster', poster); // Trigger poster loading
         video.load(); // Trigger video loading
+
     };
 
     // Function to unload video sources when not visible

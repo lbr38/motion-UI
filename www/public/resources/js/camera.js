@@ -4,7 +4,7 @@ $(document).ready(function () {
     /**
      *  Setting live grid layout
      */
-    var gridLayout = getCookie('liveGridLayout');
+    var gridLayout = mycookie.get('liveGridLayout');
     if (gridLayout != null) {
         $('#camera-grid-container').css('grid-template-columns', 'repeat('+gridLayout+', 1fr)');
     }
@@ -85,7 +85,7 @@ async function loadCameras(cameraId = null)
                 let videoTimeout = null;
 
                 /**
-                 *  Custom timeout check to pint a timeout error message if the camera is not available
+                 *  Custom timeout check to print a timeout error message if the camera is not available
                  *  The setTimeout() function will be canceled if the connection is successful (video is playing)
                  */
                 function setVideoTimeout()
@@ -93,7 +93,7 @@ async function loadCameras(cameraId = null)
                     clearVideoTimeout();
                     videoTimeout = setTimeout(() => {
                         console.warn('Camera #' + cameraId + ' connection timeout');
-                        setUnavailable(cameraId, 'Connection timeout');
+                        mycamera.setUnavailable(cameraId, 'Connection timeout');
                     }, 30000);
                 }
 
@@ -276,7 +276,7 @@ $(document).on('submit','#new-camera-form',function () {
         // Print error alert:
         true
     ).then(function () {
-        reloadContainer('cameras/list');
+        mycontainer.reload('cameras/list');
 
         setTimeout(function () {
             loadStream();
@@ -329,7 +329,7 @@ $(document).on('submit','#edit-global-settings-form',function () {
 $(document).on('click','.delete-camera-btn',function () {
     var cameraId = $(this).attr('camera-id');
 
-    confirmBox(
+    myconfirmbox.print(
         {
             'title': 'Delete camera',
             'message': 'Are you sure you want to delete this camera?',
@@ -482,7 +482,7 @@ function playTimelapse()
      *  Quit if no date was found
      */
     if (!date) {
-        printAlert('No timelapse date found', 'error');
+        myalert.print('No timelapse date found', 'error');
         return;
     }
 
@@ -490,7 +490,7 @@ function playTimelapse()
      *  Quit if no max range was found
      */
     if (!max) {
-        printAlert('No timelapse max range found', 'error');
+        myalert.print('No timelapse max range found', 'error');
         return;
     }
 
@@ -498,7 +498,7 @@ function playTimelapse()
      *  Quit if no pictures were found
      */
     if (!pictures) {
-        printAlert('No timelapse images to play', 'error');
+        myalert.print('No timelapse images to play', 'error');
         return;
     }
 
@@ -506,7 +506,7 @@ function playTimelapse()
      *  Quit if max = 0
      */
     if (max == 0) {
-        printAlert('No timelapse images to play', 'error');
+        myalert.print('No timelapse images to play', 'error');
         return;
     }
 

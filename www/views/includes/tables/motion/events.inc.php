@@ -232,10 +232,10 @@
                                                         <img src="/assets/icons/warning.svg" class="icon" />
                                                         <p class="yellowtext">File is unreadable</p>
                                                     </div>
-                                                </div>
+                                                </div> 
                                                 <?php
                                             } else { ?>
-                                                <video controls preload="metadata" poster="/media?thumbnail&id=<?= $eventDetails['Id'] ?>">
+                                                <video controls preload="metadata" poster="/assets/images/motionui-video-poster.png" poster-to-load="/media?thumbnail&id=<?= $eventDetails['Id'] ?>">
                                                     <source data-src="/media?id=<?= $eventDetails['Id'] ?>">
                                                     <p>Your browser does not support the video.</p>
                                                 </video>

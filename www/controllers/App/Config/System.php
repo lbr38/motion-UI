@@ -75,7 +75,7 @@ class System
                 if (!empty($_SERVER["REQUEST_URI"])) {
                     define('__ACTUAL_URI__', explode('/', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)));
                 } else {
-                    define('__ACTUAL_URI__', '');
+                    define('__ACTUAL_URI__', ['']);
                 }
             }
         }
@@ -94,7 +94,7 @@ class System
         /**
          *  Clear cookies starting with 'tables/' or 'temp/' when the page has been reloaded by the user (not AJAX)
          */
-        if (AJAX === false) {
+        if (AJAX === false and (isset(__ACTUAL_URI__[1]) and in_array(__ACTUAL_URI__[1], ['', 'motion', 'events', 'stats']))) {
             foreach ($_COOKIE as $key => $value) {
                 if (strpos($key, 'tables/') === 0 or strpos($key, 'tmp/') === 0) {
                     setcookie($key, '', time() - 3600, '/');

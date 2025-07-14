@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html>
     <?php
-    if (!defined('ROOT')) {
-        define('ROOT', '/var/www/motionui');
-    }
-
-    require_once(ROOT . '/controllers/Autoloader.php');
-    new \Controllers\Autoloader('minimal');
     include_once(ROOT . '/views/includes/head.inc.php');
 
     $userLoginController = new \Controllers\User\Login();
@@ -23,14 +17,7 @@
     } ?>
 
     <head>
-        <meta charset="utf-8">
-        <!-- CSS -->
-        <link rel="stylesheet" type="text/css" href="/resources/styles/common.css">
-        <link rel="stylesheet" type="text/css" href="/resources/styles/motionui.css">
-
-        <!-- Favicon -->
-        <link rel="icon" href="/assets/favicon.ico" />
-        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="/resources/styles/login.css">
     </head>
 
     <body>

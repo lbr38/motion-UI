@@ -184,6 +184,7 @@
                                 size: 14,
                                 family: 'Roboto',
                             },
+                            usePointStyle: true,
                             color: '#8A99AA',
                             useBorderRadius: true,
                             borderRadius: 5,
@@ -249,6 +250,14 @@
                     },
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var value = context.raw;
+                                return value == '1' ? 'active' : 'inactive';
+                            }
+                        }
                     }
                 },
                 tension: 0.2,

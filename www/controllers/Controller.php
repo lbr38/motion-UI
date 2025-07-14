@@ -20,7 +20,7 @@ class Controller
         /**
          *  If target URI is login or logout then load minimal necessary
          */
-        if ($targetUri == 'login' or $targetUri == 'logout' or $targetUri == 'stream') {
+        if ($targetUri == 'login' or $targetUri == 'logout' or $targetUri == 'media') {
             new Autoloader('minimal');
         } else {
             new Autoloader();

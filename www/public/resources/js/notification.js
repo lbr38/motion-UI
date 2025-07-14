@@ -24,13 +24,13 @@ function acquitNotification(id)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
             mypanel.reload('general/notification');
-            reloadContainer('buttons/bottom');
+            mycontainer.reload('buttons/bottom');
         },
         error : function (jqXHR, textStatus, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }

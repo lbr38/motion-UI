@@ -152,11 +152,6 @@ class User extends \Models\Model
     public function delete(string $id) : void
     {
         try {
-            // Set user status on 'deleted' in database (keep the user for history purpose)
-            // $stmt = $this->db->prepare("UPDATE users SET State = 'deleted', Password = null WHERE Id = :id");
-            // $stmt->bindValue(':id', $id);
-            // $result = $stmt->execute();
-
             // Delete user
             $stmt = $this->db->prepare("DELETE FROM users WHERE Id = :id");
             $stmt->bindValue(':id', $id);
