@@ -22,7 +22,7 @@ class WebsocketServer extends \Models\Model
         try {
             $stmt = $this->db->prepare("DELETE FROM ws_connections");
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e);
         }
     }
@@ -36,7 +36,7 @@ class WebsocketServer extends \Models\Model
             $stmt = $this->db->prepare("INSERT INTO ws_connections ('Connection_id', 'Authenticated') VALUES (:id, 'false')");
             $stmt->bindValue(':id', $connectionId);
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e);
         }
     }
@@ -51,7 +51,7 @@ class WebsocketServer extends \Models\Model
             $stmt->bindValue(':id', $connectionId);
             $stmt->bindValue(':type', $type);
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e);
         }
     }
@@ -66,7 +66,7 @@ class WebsocketServer extends \Models\Model
         try {
             $stmt = $this->db->prepare("SELECT * FROM ws_connections WHERE Authenticated = 'true'");
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e);
         }
 
@@ -94,7 +94,7 @@ class WebsocketServer extends \Models\Model
             }
 
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e);
         }
 
@@ -114,7 +114,7 @@ class WebsocketServer extends \Models\Model
             $stmt = $this->db->prepare("DELETE FROM ws_connections WHERE Connection_id = :id");
             $stmt->bindValue(':id', $connectionId);
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e);
         }
     }

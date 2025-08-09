@@ -4,3 +4,5 @@ WIP
 android/.idea/*
 keystore.properties
 app-release.aab
+local.properties
+.gradle

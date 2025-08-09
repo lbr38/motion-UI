@@ -75,34 +75,11 @@ async function connect(cameraId) {
 
     const ws = new WebSocket(wsUrl);
 
-    /**
-     *  Keep-alive for the WebRTC WebSocket connection
-     *  This is useful for Android devices that close the connection after 60 seconds
-     *  The client sends a ping every 30 seconds to keep the connection alive
-     */
-    function startPing() {
-        // Send a ping every 30 seconds
-        pingInterval = setInterval(() => {
-            if (ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({type: 'ping'}));
-                // For debug purpose
-                // console.info('WebSocket ping sent');
-            }
-        }, 30000);
-    }
-
-    function stopPing() {
-        if (pingInterval) {
-            clearInterval(pingInterval);
-            pingInterval = null;
-        }
-    }
-
     ws.addEventListener('open', () => {
         console.info('WebRTC websocket connection opened at ' + wsUrl);
 
         // Start the ping interval for keep-alive
-        startPing();
+        mycamera.ping(ws);
 
         pc.addEventListener('icecandidate', ev => {
             if (!ev.candidate) return;
@@ -163,10 +140,10 @@ async function connect(cameraId) {
         console.error('WebRTC websocket connection closed for camera #' + cameraId);
 
         // Stop the ping interval
-        stopPing();
+        mycamera.stopPing();
 
-        // Set the camera as unavailable
-        setUnavailable(cameraId, 'Stream error');
+        // Set the camera as unavailable (unless the stream is disabled)
+        mycamera.setUnavailable(cameraId, 'Stream error');
 
         // Close the PeerConnection
         pc.close();

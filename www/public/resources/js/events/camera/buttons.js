@@ -117,7 +117,7 @@ $(document).on('click','.disable-camera-stream-btn', function (e) {
     ).then(function () {
         // Hide video container and remove video stream
         $('.video-container[camera-id="' + cameraId + '"]').css('display', 'none');
-        $('.video-container[camera-id="' + cameraId + '"]').find('video-stream').remove();
+        $('.video-container[camera-id="' + cameraId + '"]').find('video').attr('disabled', 'disabled');
 
         // Hide the camera unavailable message
         $('.camera-unavailable[camera-id="' + cameraId + '"]').hide();

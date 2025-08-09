@@ -3,12 +3,6 @@
         <h6 class="margin-top-0">ID</h6>
         <p>#<?= $cameraId ?></p>
     </div>
-
-    <!-- <div class="flex align-item-center column-gap-20 margin-right-20">
-        <img src="/assets/icons/camera.svg" class="icon-large" title="Enable/Disable live stream" enabled="<?= $cameraRawParams['stream']['enable'] ?>" />
-        <img src="/assets/icons/motion.svg" class="icon-large" title="Enable/Disable motion detection" enabled="<?= $cameraRawParams['motion-detection']['enable'] ?>" />
-        <img src="/assets/icons/picture.svg" class="icon-large" title="Enable/Disable timelapse" enabled="<?= $cameraRawParams['timelapse']['enable'] ?>" />
-    </div> -->
 </div>
 
 <form id="edit-global-settings-form" camera-id="<?= $cameraId ?>" autocomplete="off">

@@ -2,12 +2,23 @@
     <title>Motion-UI</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- To tell mobile browsers to adjust the width of the window to the width of the device's screen, and set the document scale to 100% of its intended size -->
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="/resources/styles/reset.css?<?= VERSION ?>"/>
-    <link rel="stylesheet" href="/resources/styles/normalize.css?<?= VERSION ?>"/>
-    <link rel="stylesheet" href="/resources/styles/common.css?<?= VERSION ?>"/>
-    <link rel="stylesheet" href="/resources/styles/motionui.css?<?= VERSION ?>"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
+
+    <!-- CSS for all pages -->
+    <link rel="stylesheet" type="text/css" href="/resources/styles/reset.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/normalize.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/common.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/layout.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/alert.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/icon.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/input.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/button.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/label.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/confirmbox.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/modal.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/tooltip.css?<?= VERSION ?>">
     <link rel="stylesheet" type='text/css' href="/resources/styles/select2.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/motionui.css?<?= VERSION ?>">
 
     <!-- jQuery -->
     <script src="/resources/js/libs/jquery-3.7.1.min.js?<?= VERSION ?>"></script>

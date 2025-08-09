@@ -68,7 +68,7 @@ $(document).on('click','.reset-password-btn',function () {
     var username = $(this).attr('username');
     var id = $(this).attr('user-id');
 
-    confirmBox(
+    myconfirmbox.print(
         {
             'title': 'Reset password',
             'message': 'Reset password of user ' + username + '?',
@@ -107,7 +107,7 @@ $(document).on('click','.delete-user-btn',function () {
     var username = $(this).attr('username');
     var id = $(this).attr('user-id');
 
-    confirmBox(
+    myconfirmbox.print(
         {
             'title': 'Delete user',
             'message': 'Delete user ' + username + '?',

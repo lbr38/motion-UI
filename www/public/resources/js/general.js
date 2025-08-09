@@ -8,7 +8,7 @@ $(document).ready(function () {
      *  Reload top and bottoms buttons to reload CPU load
      */
     setInterval(function () {
-        reloadContainer('buttons/top');
+        mylayout.reloadContentById('cpu-load');
     }, 5000);
 });
 
@@ -18,9 +18,9 @@ $(document).ready(function () {
 $(document).keyup(function (e) {
     if (e.key === "Escape") {
         mypanel.close();
-        closeAlert();
-        closeConfirmBox();
-        $('.modal-window-container').remove();
+        myalert.close();
+        myconfirmbox.close();
+        $(".modal-window-container").remove();
     }
 });
 
@@ -70,9 +70,9 @@ $(document).on('click','.icon-copy, .icon-copy-top-right',function (e) {
     var text = $(this).parent().text().trim();
 
     navigator.clipboard.writeText(text).then(() => {
-        printAlert('Copied to clipboard', 'success');
+        myalert.print('Copied to clipboard', 'success');
     },() => {
-        printAlert('Failed to copy', 'error');
+        myalert.print('Failed to copy', 'error');
     });
 });
 
@@ -83,9 +83,9 @@ $(document).on('click','.copy-input-onclick',function (e) {
     var text = $(this).val().trim();
 
     navigator.clipboard.writeText(text).then(() => {
-        printAlert('Copied to clipboard', 'success');
+        myalert.print('Copied to clipboard', 'success');
     },() => {
-        printAlert('Failed to copy', 'error');
+        myalert.print('Failed to copy', 'error');
     });
 });
 
@@ -106,11 +106,11 @@ $(document).on('click','.acquit-log-btn',function () {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContainer('header/general-log-messages');
+            mycontainer.reload('header/general-log-messages');
         },
         error : function (jqXHR, textStatus, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 });
@@ -141,68 +141,7 @@ $(document).on('click','.reloadable-table-page-btn',function () {
      *  Set cookie for PHP to load the right content
      *  e.g tables/tasks/list-done/offset
      */
-    setCookie('tables/' + table + '/offset', offset, 1);
+    mycookie.set('tables/' + table + '/offset', offset, 1);
 
-    reloadTable(table, offset);
+    mytable.reload(table, offset);
 });
-
-/**
- *  Reload opened or closed elements that where opened/closed before reloading
- */
-function reloadOpenedClosedElements()
-{
-    /**
-     *  Retrieve sessionStorage with key finishing by /opened (<element>/opened)
-     */
-    var openedElements = Object.keys(sessionStorage).filter(function (key) {
-        return key.endsWith('/opened');
-    });
-
-    /**
-     *  If there are /opened elements set to true, open them
-     */
-    openedElements.forEach(function (element) {
-        if (sessionStorage.getItem(element) == 'true') {
-            var element = element.replace('/opened', '');
-            $(element).show();
-        }
-        if (sessionStorage.getItem(element) == 'false') {
-            var element = element.replace('/opened', '');
-            $(element).hide();
-        }
-    });
-}
-
-/**
- * Ajax: Get and reload table
- * @param {*} table
- * @param {*} offset
- */
-function reloadTable(table, offset)
-{
-    printLoading();
-
-    ajaxRequest(
-        // Controller:
-        'general',
-        // Action:
-        'getTable',
-        // Data:
-        {
-            table: table,
-            offset: offset,
-            sourceUrl: window.location.href,
-            sourceUri: window.location.pathname,
-            sourceGetParameters: getGetParams()
-        },
-        // Print success alert:
-        false,
-        // Print error alert:
-        true
-    ).then(function () {
-        // Replace table with itself, with new content
-        $('.reloadable-table[table="' + table + '"]').replaceWith(jsonValue.message);
-    });
-
-    hideLoading();
-}

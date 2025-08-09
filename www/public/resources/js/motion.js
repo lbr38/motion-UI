@@ -17,7 +17,7 @@ function deleteMedia()
      *  Wait for previous confirm box to be removed
      */
     setTimeout(function () {
-        confirmBox(
+        myconfirmbox.print(
             {
                 'title': 'Delete medias',
                 'message': 'Are you sure you want to delete the selected media(s)?',
@@ -126,10 +126,10 @@ $(document).on('click','.start-stop-service-btn',function () {
     var status = $(this).attr('status');
 
     if (status == 'start') {
-        printAlert('Starting motion detection, please wait...');
+        myalert.print('Starting motion detection, please wait...');
     }
     if (status == 'stop') {
-        printAlert('Stopping motion detection, please wait...');
+        myalert.print('Stopping motion detection, please wait...');
     }
 
     ajaxRequest(
@@ -152,7 +152,7 @@ $(document).on('click','.start-stop-service-btn',function () {
     );
 
     setTimeout(function () {
-        reloadContainer('motion/buttons/main');
+        mycontainer.reload('motion/buttons/main');
     }, 3500);
 });
 
@@ -201,7 +201,7 @@ $(document).on('click', '#motion-autostart-log-btn', function () {
         // Print error alert:
         true
     ).then(function () {
-        printModalWindow(jsonValue.message, 'MOTION AUTOSTART LOG');
+        mymodal.print(jsonValue.message, 'MOTION AUTOSTART LOG');
     });
 });
 
@@ -231,7 +231,7 @@ $(document).on('click','#send-test-email-btn',function () {
  *  Event: acquit all events
  */
 $(document).on('click','.acquit-events-btn',function () {
-    printAlert('Acquitting all events, please wait...');
+    myalert.print('Acquitting all events, please wait...');
 
     ajaxRequest(
         // Controller:
@@ -265,7 +265,7 @@ function eventDateSelect(dateStart, dateEnd)
     /**
      *  Then reload events div
      */
-    reloadContainer('motion/events/list');
+    mycontainer.reload('motion/events/list');
 }
 
 /**
@@ -276,7 +276,7 @@ $(document).on('change','.event-date-input',function () {
 
     document.cookie = "event-date=" + date + ";max-age=900;";
 
-    reloadContainer('motion/events/list');
+    mycontainer.reload('motion/events/list');
 });
 
 /**
@@ -331,7 +331,7 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
         /**
          *  Hide confirm box, checkboxes and 'Select all' button
          */
-        closeConfirmBox();
+        myconfirmbox.close();
         $('#events-captures-div').find('input[class=event-media-checkbox]').removeAttr('style');
         $('#events-captures-div').find('.select-all-media-checkbox').hide();
         return;
@@ -340,7 +340,7 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
     /**
      *  Print confirm box to delete selected medias
      */
-    confirmBox(
+    myconfirmbox.print(
         {
             'id': 'download-delete-media',
             'title': 'Download or delete selected media(s)',
@@ -396,7 +396,7 @@ $(document).on('click',".select-all-media-checkbox",function () {
         // Hide 'select all' button
         $(this).hide();
         // Hide confirm box
-        closeConfirmBox();
+        myconfirmbox.close();
     } else {
         $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', true);
     }
@@ -653,11 +653,11 @@ function enableAutostart(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContainer('motion/buttons/main');
+            mycontainer.reload('motion/buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -705,11 +705,11 @@ function configureAutostart(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, we
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -731,12 +731,12 @@ function enableDevicePresence(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
             mypanel.reload('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -760,12 +760,12 @@ function addDevice(name, ip)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
             mypanel.reload('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -787,12 +787,12 @@ function removeDevice(id)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
             mypanel.reload('motion/autostart');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -814,11 +814,11 @@ function enableAlert(status)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            reloadContainer('motion/buttons/main');
+            mycontainer.reload('motion/buttons/main');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -839,11 +839,11 @@ function sendTestEmail(mailRecipient)
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
         },
         error: function (jqXHR, textStatus, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }
@@ -893,12 +893,12 @@ function configureAlert(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, wednes
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'success');
+            myalert.print(jsonValue.message, 'success');
             mypanel.reload('motion/alert');
         },
         error : function (jqXHR, ajaxOptions, thrownError) {
             jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            printAlert(jsonValue.message, 'error');
+            myalert.print(jsonValue.message, 'error');
         },
     });
 }

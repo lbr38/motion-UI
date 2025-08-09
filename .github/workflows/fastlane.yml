@@ -1,0 +1,20 @@
+name: Android app - Fastlane metadata check
+
+on:
+  push:
+    branches: [ devel ]
+  pull_request:
+    push:
+      branches: [ main ]
+jobs:
+  fastlane:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2
+        with:
+          fastlaneDir: ./android/fastlane/metadata/android

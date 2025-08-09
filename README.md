@@ -1,21 +1,21 @@
 # motion-UI
 
-A dockerized web responsive interface to manage <a href="https://github.com/Motion-Project/motion"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
+A web interface to manage your own NVR with <a href="https://github.com/Motion-Project/motion"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
 
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/964f1307-c295-49f6-82e5-db6326f909b4" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/11c77616-a414-459a-928b-e46e3164ae3f" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/caa8944d-5d8e-4b4b-a706-5a2e469dac7e" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/438d4416-8510-452e-b31b-ac74811b75f0" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/7a9f1efd-bef0-42b9-ba8f-6c7bde8be028" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/9532c021-8f99-402d-81b0-dcbb47772e61" width=30% align="top">
 </div>
 <br>
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/0c3876f5-dfa6-45bd-a750-ca8b4cfe1133" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/7effba76-6c5d-4554-bde8-3cf43f112e98" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/68cd77fd-69cf-46f4-aca2-528d5d42077f" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/cb84146e-c07f-4e0c-95ae-d5504e269195" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/ba3352ea-4174-4707-9f4c-9f6bf2074968" width=25% align="top">
+    <img src="https://github.com/user-attachments/assets/347db0c0-15e0-436f-a85e-3c72c49d00fb" width=30% align="top">
 </div>
 
 <br>
@@ -32,8 +32,8 @@ A dockerized web responsive interface to manage <a href="https://github.com/Moti
 
 ## 📷 Supported cameras
 
-- **USB cameras**
 - **Network cameras** (RTSP, HTTP, etc.)
+- **USB cameras**
 
 ## 📦 Requirements
 

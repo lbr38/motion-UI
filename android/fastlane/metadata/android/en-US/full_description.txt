@@ -1,0 +1,11 @@
+The Android app for Motion-UI, a web interface to manage your own NVR with motion (an open-source motion detection software) and visualize cameras live stream.
+
+<b>Features:</b>
+
+- Visualize cameras stream (sound supported).
+- Record motion detection (sound supported).
+- Motion detection autostart based on time period.
+- Motion detection autostart based on device presence on the local network. If none of the known devices are connected to the local network then motion detection will be automatically started as nobody is at home.
+- Email alerts on motion detection.
+- Visualize recorded images and videos and download them.
+- Create timelapses.

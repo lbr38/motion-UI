@@ -31,7 +31,9 @@
 </form>
 
 <script>
-    selectToSelect2('#user-permissions-cameras-select', 'Select cameras...');
+$(document).ready(function(){
+    myselect2.convert('#user-permissions-cameras-select', 'Select cameras...');
+});
 </script>
 
 <?php

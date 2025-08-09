@@ -482,8 +482,8 @@ h3 {
 
 .camera-motion-indicator {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 12px;
+    left: 12px;
 }
 .camera-controls-container, #timelapse-controls-container {
     width: 100%;
@@ -551,6 +551,10 @@ h3 {
 .camera-image {
     width: 100%;
     min-height: 150px;
+}
+
+video {
+    touch-action: pan-x pan-y pinch-zoom !important;
 }
 
 .video-container {
@@ -793,7 +797,7 @@ footer #github img { width: 25px; }
 .body-veil img:last-child {
     width: 20px;
     height: 20px;
-    opacity: 0.8;
+    opacity: 0.5;
 }
 
 /* Desktop configuration */

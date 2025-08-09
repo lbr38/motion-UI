@@ -27,20 +27,37 @@
     </div>
 </footer>
 
+<!-- Import some classes -->
+<script src="/resources/js/classes/Layout.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Container.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Table.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Panel.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Cookie.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Alert.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/ConfirmBox.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Modal.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Select2.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Camera.js?<?= VERSION ?>"></script>
+
+<script>
+    const mylayout = new Layout();
+    const mycontainer = new Container();
+    const mytable = new Table();
+    const mypanel = new Panel();
+    const mycookie = new Cookie();
+    const myalert = new Alert();
+    const myconfirmbox = new ConfirmBox();
+    const mymodal = new Modal();
+    const myselect2 = new Select2();
+    const mycamera = new Camera();
+</script>
+
 <script src="/resources/js/functions.js?<?= VERSION ?>"></script>
 <script src="/resources/js/general.js?<?= VERSION ?>"></script>
 <script src="/resources/js/events/settings.js?<?= VERSION ?>"></script>
 <script src="/resources/js/events/user/userspace.js?<?= VERSION ?>"></script>
 <script src="/resources/js/events/user/permissions.js?<?= VERSION ?>"></script>
 <script src="/resources/js/notification.js?<?= VERSION ?>"></script>
-
-<!-- Import some classes -->
-<script src="/resources/js/classes/Panel.js?<?= VERSION ?>"></script>
-
-<script>
-    // I will gradually regroup some functions in classes
-    const mypanel = new Panel();
-</script>
 
 <?php
 /**

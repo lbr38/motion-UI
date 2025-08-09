@@ -8,6 +8,7 @@ namespace Controllers\Websocket;
 require ROOT . '/libs/vendor/autoload.php';
 
 use Exception;
+use JsonException;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
@@ -129,7 +130,11 @@ class WebsocketServer
 
             if ($key !== false) {
                 $this->log('[server] Sending message to connection #' . $socketConnection->resourceId);
-                $socketConnection->send(json_encode($message));
+                try {
+                    $socketConnection->send(json_encode($message, JSON_THROW_ON_ERROR));
+                } catch (JsonException $e) {
+                    $this->log('[server] Error sending message to connection #' . $socketConnection->resourceId . ': JSON encode error: ' . $e->getMessage());
+                }
             }
         }
     }

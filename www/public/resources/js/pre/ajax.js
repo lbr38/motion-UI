@@ -53,7 +53,7 @@ function ajaxRequest(controller, action, additionalData = null, printSuccessAler
                  */
                 // Print alert
                 if (printSuccessAlert === true) {
-                    printAlert(jsonValue.message, 'success');
+                    myalert.print(jsonValue.message, 'success');
                 }
                 // Print to console
                 if (printSuccessAlert == 'console') {
@@ -65,7 +65,7 @@ function ajaxRequest(controller, action, additionalData = null, printSuccessAler
                  */
                 if (reloadContainers != null) {
                     for (let i = 0; i < reloadContainers.length; i++) {
-                        reloadContainer(reloadContainers[i]);
+                        mycontainer.reload(reloadContainers[i]);
                     }
                 }
 
@@ -92,7 +92,7 @@ function ajaxRequest(controller, action, additionalData = null, printSuccessAler
                  */
                 // Print alert
                 if (printErrorAlert === true) {
-                    printAlert(jsonValue.message, 'error');
+                    myalert.print(jsonValue.message, 'error');
                 }
                 // Print to console
                 if (printErrorAlert == 'console') {

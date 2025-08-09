@@ -34,18 +34,9 @@ class Autoloader
         if ($level == 'all') {
             /**
              *  Define a cookie with the actual URI
-             *  Useful to redirect to the same page after logout/login
+             *  Useful to redirect to the same page after being logged out
              */
             if (!empty($_SERVER['REQUEST_URI'])) {
-                $origin = $_SERVER['REQUEST_URI'];
-
-                /**
-                 *  If the URI is '/login', '/logout' or '/media' then redirect to '/'
-                 */
-                if (in_array($_SERVER['REQUEST_URI'], array('/login', '/logout', '/media'))) {
-                    $origin = '/';
-                }
-
                 setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
             }
 
