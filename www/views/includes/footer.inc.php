@@ -38,6 +38,8 @@
 <script src="/resources/js/classes/Modal.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Select2.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Camera.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/AsyncChart.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/System.js?<?= VERSION ?>"></script>
 
 <script>
     const mylayout = new Layout();
@@ -50,6 +52,8 @@
     const mymodal = new Modal();
     const myselect2 = new Select2();
     const mycamera = new Camera();
+    const mychart = new AsyncChart();
+    const mysystem = new System();
 </script>
 
 <script src="/resources/js/functions.js?<?= VERSION ?>"></script>

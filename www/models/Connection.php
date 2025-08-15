@@ -55,12 +55,18 @@ class Connection extends SQLite3
     private function generateTables()
     {
         /**
-         *  Create live (cameras) table
+         *  Create cameras table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS cameras (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         Configuration TEXT,
         Motion_configuration TEXT)");
+
+        /**
+         *  Create cameras_sort table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS cameras_sort (
+        'Order' VARCHAR(255))");
 
         /**
          *  Create alerts table
@@ -158,6 +164,20 @@ class Connection extends SQLite3
         Motion_id_event INTEGER NOT NULL)");
 
         /**
+         *  Create system_monitoring table
+         */
+        $this->exec("CREATE TABLE IF NOT EXISTS system_monitoring (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Timestamp VARCHAR(255) NOT NULL,
+        Cpu_usage REAL,
+        Memory_usage REAL)");
+
+        /**
+         *  Create indexes on system_monitoring table
+         */
+        $this->exec("CREATE INDEX IF NOT EXISTS system_monitoring_index ON system_monitoring (Timestamp, Cpu_usage, Memory_usage)");
+
+        /**
          *  Create motion_status table
          */
         $this->exec("CREATE TABLE IF NOT EXISTS motion_status (
@@ -165,6 +185,11 @@ class Connection extends SQLite3
         Date DATE NOT NULL,
         Time TIME NOT NULL,
         Status VARCHAR(8))");
+
+        /**
+         *  Create indexes on motion_status table
+         */
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_status_index ON motion_status (Date, Time, Status)");
 
         /**
          *  Create settings table

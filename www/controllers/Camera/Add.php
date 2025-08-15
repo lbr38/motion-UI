@@ -15,6 +15,7 @@ class Add extends Camera
             throw new Exception('You are not allowed to add a new camera');
         }
 
+        $cameraStreamController = new \Controllers\Camera\Stream();
         $motionParams = [];
         $go2rtcStreams = [];
         $ffmpeg = false;
@@ -151,6 +152,11 @@ class Add extends Camera
          */
         $this->go2rtcController->addStream($id, $go2rtcStreams);
 
-        unset($configuration, $configurationJson, $motionConfiguration, $motionConfigurationJson);
+        /**
+         *  Add new camera Id to the order
+         */
+        $cameraStreamController->addToOrder($id);
+
+        unset($configuration, $configurationJson, $motionConfiguration, $motionConfigurationJson, $cameraStreamController);
     }
 }

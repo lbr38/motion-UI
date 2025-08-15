@@ -1,6 +1,5 @@
 <section class="main-buttons-container reloadable-container" container="motion/buttons/main">
     <div class="main-buttons">
-
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
                 <h6 class="center">MOTION DETECTION</h6>

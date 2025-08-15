@@ -3,15 +3,6 @@
  */
 websocket_client();
 
-$(document).ready(function () {
-    /**
-     *  Reload top and bottoms buttons to reload CPU load
-     */
-    setInterval(function () {
-        mylayout.reloadContentById('cpu-load');
-    }, 5000);
-});
-
 /**
  *  Event: hide slided window on escape button press
  */

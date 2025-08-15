@@ -150,12 +150,12 @@
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
                   <tbody>
                     <tr>
-                      <td style="background-color:#ffffff;border-radius:10px;vertical-align:top;padding-top:30px;padding-right:15px;padding-bottom:30px;padding-left:15px;">
+                      <td style="background-color:#ffffff;border-radius:20px;vertical-align:top;padding-top:30px;padding-right:15px;padding-bottom:30px;padding-left:15px;">
                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
                           <tbody>
                             <tr>
                               <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                <div style="font-family:helvetica;font-size:14px;line-height:1;text-align:left;color:#666666;"><?= $content ?></div>
+                                <div style="font-family:helvetica;font-size:14px;line-height:1.5;text-align:left;color:#666666;"><?= $content ?></div>
                               </td>
                             </tr>
                             <?php if (!empty($link)) : ?>
@@ -163,8 +163,8 @@
                               <td align="center" vertical-align="middle" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
                                   <tr>
-                                    <td align="center" bgcolor="#15bf7f" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#15bf7f;" valign="middle">
-                                      <a href="<?= $link ?>" style="display:inline-block;background:#15bf7f;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> <?= $linkName ?></a>
+                                    <td align="center" bgcolor="#15bf7f" role="presentation" style="border:none;border-radius:60px;cursor:auto;mso-padding-alt:10px 25px;background:#15bf7f;" valign="middle">
+                                      <a href="<?= $link ?>" style="display:inline-block;background:#15bf7f;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:60px;" target="_blank"> <?= $linkName ?></a>
                                     </td>
                                   </tr>
                                 </table>
@@ -196,7 +196,7 @@
                   <tbody>
                     <tr>
                       <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                        <div style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#666666;"><?= PROJECT_NAME ?> - release version <?= VERSION ?><br><a href="<?= PROJECT_GIT_REPO ?>" target="_blank" style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#666666;">Github</a></div>
+                        <div style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#8A99AA;"><?= PROJECT_NAME ?> - <a href="<?= PROJECT_GIT_REPO ?>" target="_blank" style="font-family:helvetica;font-size:12px;line-height:1;text-align:center;color:#8A99AA;">Github</a></div>
                       </td>
                     </tr>
                   </tbody>

@@ -31,9 +31,7 @@
          *  Print cameras if there are
          */
         if ($cameraTotal > 0) :
-            $camerasIds = $mycamera->getCamerasIds();
-
-            foreach ($camerasIds as $cameraId) :
+            foreach ($camerasOrder as $cameraId) :
                 /**
                  *  Check if current user is allowed to see this camera (only if not admin)
                  */
@@ -304,4 +302,10 @@
             <?php
         endif ?>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            mycamera.sort('camera-grid-container');
+        });
+    </script>
 </section>

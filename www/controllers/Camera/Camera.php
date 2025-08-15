@@ -8,6 +8,7 @@ class Camera
 {
     protected $model;
     protected $cameraConfigController;
+    protected $cameraStreamController;
     protected $motionConfigController;
     protected $motionTemplateController;
     protected $motionServiceController;

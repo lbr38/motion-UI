@@ -253,8 +253,11 @@ class Autostart
                 if ($startService === true) {
                     if (!$this->motionService->isRunning()) {
                         $this->log('Starting motion according to autostart time configuration');
-                        if (!$this->motionService->start()) {
-                            $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
+
+                        try {
+                            $this->motionService->start();
+                        } catch (Exception $e) {
+                            $this->logController->log('error', 'Motion autostart', 'Cannot start motion service: ' . $e->getMessage());
                         }
                     }
                 }
@@ -263,8 +266,11 @@ class Autostart
                 if ($startService === false) {
                     if ($this->motionService->isRunning()) {
                         $this->log('Stopping motion according to autostart time configuration');
-                        if (!$this->motionService->stop()) {
-                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
+
+                        try {
+                            $this->motionService->stop();
+                        } catch (Exception $e) {
+                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service: ' . $e->getMessage());
                         }
                     }
                 }
@@ -306,8 +312,11 @@ class Autostart
                                     $this->log('At least 1 active device has been found on the network - someone is home');
                                     if ($this->motionService->isRunning()) {
                                         $this->log('Stopping motion according to autostart device presence configuration');
-                                        if (!$this->motionService->stop()) {
-                                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service');
+
+                                        try {
+                                            $this->motionService->stop();
+                                        } catch (Exception $e) {
+                                            $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service: ' . $e->getMessage());
                                         }
                                     }
 
@@ -327,8 +336,11 @@ class Autostart
                         $this->log('No active device found on the network - nobody is home');
                         if (!$this->motionService->isRunning()) {
                             $this->log('Starting motion according to autostart device presence configuration');
-                            if (!$this->motionService->start()) {
-                                $this->logController->log('error', 'Motion autostart', 'Cannot start motion service');
+
+                            try {
+                                $this->motionService->start();
+                            } catch (Exception $e) {
+                                $this->logController->log('error', 'Motion autostart', 'Cannot start motion service: ' . $e->getMessage());
                             }
                         }
                     }

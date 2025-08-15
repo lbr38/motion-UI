@@ -2,9 +2,12 @@ class Container {
     /**
      * Reload container content
      * @param {*} container
+     * @param {string|null} identifier
      */
-    reload(container)
+    reload(container, identifier = null)
     {
+        var useMorphdom = false;
+
         return new Promise((resolve, reject) => {
             try {
                 /**
@@ -41,8 +44,49 @@ class Container {
                     // Print error alert:
                     true
                 ).then(() => {
-                    // Replace container with itself, with new content
-                    $('.reloadable-container[container="' + container + '"]').replaceWith(jsonValue.message);
+                    // Check if container must use Morphdom
+                    if (typeof containersUsingMorphdom !== 'undefined' && containersUsingMorphdom.includes(container)) {
+                        useMorphdom = true;
+                    }
+
+                    // If morphdom must be used
+                    if (useMorphdom) {
+                        // Replace with new content using morphdom
+                        morphdom($('.reloadable-container[container="' + container + '"]')[0], jsonValue.message, {
+                            // Avoid some elements to be updated if they are currently used (e.g. video playing)
+                            onBeforeElUpdated: function (fromEl, toEl) {
+                                /**
+                                 *  Case the element is a video and it is currently playing, do not update it
+                                 */
+                                if (fromEl.tagName === 'VIDEO' && !fromEl.paused) {
+                                    return false;
+                                }
+
+                                /**
+                                 *  Case the element is a checkbox and it is currently checked, do not update it
+                                 */
+                                if (fromEl.tagName === 'INPUT' && fromEl.type === 'checkbox' && fromEl.checked) {
+                                    return false;
+                                }
+
+                                return true;
+                            }
+                        });
+                    } else {
+                        // If an identifier is provided, reload only that specific container
+                        if (identifier) {
+                            // Find the specific identifier (e.g #identifier) in jsonValue.message
+                            const content = $(jsonValue.message).find(identifier);
+
+                            // If the content is found, replace the container with the new content
+                            if (content.length) {
+                                $('.reloadable-container[container="' + container + '"]').find(identifier).replaceWith(content);
+                            }
+                        // Otherwise, replace the entire container with the new content
+                        } else {
+                            $('.reloadable-container[container="' + container + '"]').replaceWith(jsonValue.message);
+                        }
+                    }
 
                     // Reload opened or closed elements that were opened/closed before reloading
                     mylayout.reloadOpenedClosedElements();

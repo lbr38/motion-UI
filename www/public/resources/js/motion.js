@@ -41,7 +41,9 @@ function deleteMedia()
                             true,
                             // Reload containers:
                             ['motion/events/list']
-                        );
+                        ).then(function () {
+                            loadEventDateTotalMediaSize();
+                        });
                     }
                 }]
             }
@@ -150,10 +152,6 @@ $(document).on('click','.start-stop-service-btn',function () {
         // Execute functions :
         []
     );
-
-    setTimeout(function () {
-        mycontainer.reload('motion/buttons/main');
-    }, 3500);
 });
 
 /**
@@ -276,7 +274,9 @@ $(document).on('change','.event-date-input',function () {
 
     document.cookie = "event-date=" + date + ";max-age=900;";
 
-    mycontainer.reload('motion/events/list');
+    mycontainer.reload('motion/events/list').then(() => {
+        loadEventDateTotalMediaSize();
+    });
 });
 
 /**

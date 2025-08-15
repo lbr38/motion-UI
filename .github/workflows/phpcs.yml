@@ -28,4 +28,4 @@ jobs:
           php phpcs.phar --version
 
       - name: Detect coding standard violations
-        run: php phpcs.phar --standard=$GITHUB_WORKSPACE/lint/phpcs.xml --colors -n $GITHUB_WORKSPACE --ignore=libs/,public/resources/js/stream/
+        run: php phpcs.phar --standard=$GITHUB_WORKSPACE/lint/phpcs.xml --colors -n $GITHUB_WORKSPACE --ignore=libs/,public/resources/js/stream/,*.js

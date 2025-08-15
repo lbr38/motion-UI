@@ -306,5 +306,7 @@
 </div>
 
 <script>
-    loadEventDateTotalMediaSize();
+    $(document).ready(function () {
+        loadEventDateTotalMediaSize();
+    });
 </script>
