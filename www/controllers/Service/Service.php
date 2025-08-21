@@ -4,6 +4,7 @@ namespace Controllers\Service;
 
 use Exception;
 use Datetime;
+use Controllers\Log\Cli as CliLog;
 
 class Service
 {
@@ -124,7 +125,7 @@ class Service
      */
     private function getNotifications()
     {
-        echo $this->getDate() . ' Getting notifications...' . PHP_EOL;
+        CliLog::log('Getting notifications...');
 
         try {
             $mynotification = new \Controllers\Notification();
@@ -147,7 +148,7 @@ class Service
      */
     private function checkVersion()
     {
-        echo $this->getDate() . ' Checking for a new version on github...' . PHP_EOL;
+        CliLog::log('Checking for a new version on github...');
 
         try {
             $outputFile = fopen(DATA_DIR . '/version.available', "w");
@@ -203,29 +204,33 @@ class Service
             return;
         }
 
-        echo $this->getDate() . ' A restart of motion service is required. Restarting...' . PHP_EOL;
+        CliLog::log('A restart of motion service is required. Restarting...');
 
         /**
          *  Stop motion service
          */
-        if (!$this->motionServiceController->stop()) {
-            echo $this->getDate() . ' Error while stopping motion service.' . PHP_EOL;
+        try {
+            $this->motionServiceController->stop();
+        } catch (Exception $e) {
+            CliLog::error('Error while stopping motion service', $e->getMessage());
             return;
         }
 
-        echo $this->getDate() . ' Motion service successfully stopped.' . PHP_EOL;
+        CliLog::log('Motion service successfully stopped.');
 
         /**
          *  Start motion service
          */
-        if (!$this->motionServiceController->start()) {
-            echo $this->getDate() . ' Error while starting motion service.' . PHP_EOL;
+        try {
+            $this->motionServiceController->start();
+        } catch (Exception $e) {
+            CliLog::error('Error while starting motion service', $e->getMessage());
             return;
         }
 
         unlink(DATA_DIR . '/motion.restart');
 
-        echo $this->getDate() . ' Motion service successfully restarted.' . PHP_EOL;
+        CliLog::log('Motion service successfully restarted.');
     }
 
     /**
@@ -237,11 +242,15 @@ class Service
          *  Start motion if following file is present
          */
         if (file_exists(DATA_DIR . '/start-motion.request')) {
-            echo $this->getDate() . ' A start of motion service is required. Starting...' . PHP_EOL;
+            CliLog::log('A start of motion service is required. Starting...');
+
             unlink(DATA_DIR . '/start-motion.request');
 
-            if (!$this->motionServiceController->start()) {
-                $this->logController->log('error', 'Service', 'Error while starting motion service.');
+            try {
+                $this->motionServiceController->start();
+            } catch (Exception $e) {
+                CliLog::error('Error while starting motion service', $e->getMessage());
+                return;
             }
         }
 
@@ -249,11 +258,15 @@ class Service
          *  Stop motion if following file is present
          */
         if (file_exists(DATA_DIR . '/stop-motion.request')) {
-            echo $this->getDate() . ' A stop of motion service is required. Stopping...' . PHP_EOL;
+            CliLog::log('A stop of motion service is required. Stopping...');
+
             unlink(DATA_DIR . '/stop-motion.request');
 
-            if (!$this->motionServiceController->stop()) {
-                $this->logController->log('error', 'Service', 'Error while stopping motion service.');
+            try {
+                $this->motionServiceController->stop();
+            } catch (Exception $e) {
+                CliLog::error('Error while stopping motion service', $e->getMessage());
+                return;
             }
         }
     }
@@ -309,6 +322,11 @@ class Service
             }
 
             /**
+             *  Run monitoring service
+             */
+            $this->runService('system monitoring', 'system-monitoring');
+
+            /**
              *  Execute timelapse
              */
             if ($this->timelapse === true) {
@@ -352,16 +370,16 @@ class Service
             if ($currentTime != $lastTime) {
                 if ($currentTime == '00:00') {
                     // Clean timelapse and motion events depending on retention
-                    echo $this->getDate() . ' Cleaning timelapse images and motion events...' . PHP_EOL;
+                    CliLog::log('Cleaning timelapse images and motion events...');
                     $this->timelapseController->clean($this->timelapseRetention);
                     $this->motionEventController->clean($this->eventRetention);
 
                     // Clean go2rtc files (logs)
-                    echo $this->getDate() . ' Cleaning go2rtc files...' . PHP_EOL;
+                    CliLog::log('Cleaning go2rtc logs...');
                     $this->go2rtcController->clean();
 
                     // Clean autostart logs
-                    echo $this->getDate() . ' Cleaning autostart logs...' . PHP_EOL;
+                    CliLog::log('Cleaning autostart logs...');
                     $this->motionAutostartController->clean();
                 }
             }
@@ -403,7 +421,7 @@ class Service
             /**
              *  Else, run the service with the specified parameter
              */
-            echo $this->getDate() . ' Running ' . $name . '...' . PHP_EOL;
+            CliLog::log('Running ' . $name . '...');
 
             $myprocess = new \Controllers\Process("/usr/bin/php " . ROOT . "/tools/service.php '" . $parameter . "' >/dev/null 2>/dev/null &");
             $myprocess->execute();

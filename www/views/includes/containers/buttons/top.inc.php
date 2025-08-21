@@ -1,20 +1,9 @@
 <section class="top-buttons margin-top-5 margin-bottom-30 reloadable-container" container="buttons/top">
     <div class="flex column-gap-20">
-        <?php
-        if ($load >= 0 && $load < 2) {
-            $iconColor = 'green';
-        }
-        if ($load >= 2 && $load < 3) {
-            $iconColor = 'yellow';
-        }
-        if ($load >= 3) {
-            $iconColor = 'red';
-        } ?>
-    
-        <div id="cpu-load" class="flex column-gap-10 align-item-center margin-left-15" title="CPU load">
+        <div id="cpu-usage-container" class="flex column-gap-10 align-item-center margin-left-15" title="CPU load">
             <img src="/assets/icons/cpu.svg" class="icon-medium icon-np lowopacity-cst margin-right-0" />
-            <span class="lowopacity-cst font-size-12"><?= $load ?></span>
-            <span class="round-item bkg-<?= $iconColor ?>"></span>
+            <img id="cpu-usage-loading" src="/assets/icons/loading.svg" class="mediumopacity-cst icon-medium" />
+            <p id="cpu-usage" class="lowopacity-cst font-size-12"></p>
         </div>
 
         <?php
@@ -44,4 +33,10 @@
             <img src="/assets/icons/menu.svg" class="pointer lowopacity get-panel-btn" panel="buttons/menu" title="Open menu" />
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            mysystem.getCpuUsage();
+        });
+    </script>
 </section>

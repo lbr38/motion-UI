@@ -15,6 +15,8 @@ class Delete extends Camera
             throw new Exception('You are not allowed to delete a camera');
         }
 
+        $cameraStreamController = new \Controllers\Camera\Stream();
+
         /**
          *  Check if camera Id exist
          */
@@ -58,5 +60,12 @@ class Delete extends Camera
          *  Do not restart go2rtc to avoid unnecessary restarts
          */
         $this->go2rtcController->removeStream($id, false);
+
+        /**
+         *  Remove camera Id from grid order
+         */
+        $cameraStreamController->removeFromOrder($id);
+
+        unset($cameraStreamController);
     }
 }

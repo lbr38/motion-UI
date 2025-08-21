@@ -3,9 +3,19 @@
 namespace Controllers\Camera;
 
 use Exception;
+use JsonException;
 
-class Stream extends Camera
+class Stream
 {
+    private $model;
+    private $cameraController;
+
+    public function __construct()
+    {
+        $this->model = new \Models\Camera\Stream();
+        $this->cameraController = new \Controllers\Camera\Camera();
+    }
+
     /**
      *  Enable or disable the camera stream
      */
@@ -18,7 +28,7 @@ class Stream extends Camera
         /**
          *  Get camera configuration
          */
-        $configuration = $this->getConfiguration($id);
+        $configuration = $this->cameraController->getConfiguration($id);
 
         /**
          *  Decode the configuration
@@ -46,6 +56,135 @@ class Stream extends Camera
         /**
          *  Save the configuration
          */
-        $this->model->saveGlobalConfiguration($id, $configuration);
+        $this->cameraController->saveGlobalConfiguration($id, $configuration);
+    }
+
+    /**
+     *  Get the camera grid order
+     */
+    public function getOrder() : array
+    {
+        $order = $this->model->getOrder();
+
+        if (empty($order)) {
+            return [];
+        }
+
+        try {
+            return json_decode($order, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException|Exception $e) {
+            throw new Exception('Could not decode camera order from JSON');
+        }
+    }
+
+    /**
+     *  Sort the camera grid
+     */
+    public function sort(array $order) : void
+    {
+        if (!IS_ADMIN) {
+            throw new Exception('You are not allowed to sort the cameras');
+        }
+
+        /**
+         *  Clean empty values from the order
+         */
+        $order = array_filter($order);
+
+        /**
+         *  Check that the order is an array of integers
+         */
+        foreach ($order as $key => $value) {
+            if (!is_numeric($value)) {
+                throw new Exception('Invalid order value: ' . $value);
+            }
+        }
+
+        /**
+         *  Encode the order to JSON
+         */
+        try {
+            $order = json_encode($order, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new Exception('Could not encode camera sort order to JSON');
+        }
+
+        /**
+         *  Save the order in the database
+         */
+        $this->model->sort($order);
+    }
+
+    /**
+     *  Add camera Id to the grid order
+     */
+    public function addToOrder(int $id) : void
+    {
+        /**
+         *  Get current cameras order
+         */
+        $order = $this->getOrder();
+
+        /**
+         *  If the camera Id already exists in the order, nothing to add
+         */
+        if (in_array($id, $order)) {
+            return;
+        }
+
+        /**
+         *  Add new camera Id to the order
+         */
+        $order[] = $id;
+
+        /**
+         *  Save the new order
+         */
+        try {
+            $this->sort(array_map('strval', $order)); // Convert all values to strings
+        } catch (Exception $e) {
+            throw new Exception('Could not save camera order: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     *  Remove camera Id from the grid order
+     */
+    public function removeFromOrder(int $id) : void
+    {
+        /**
+         *  Get current cameras order
+         */
+        $order = $this->getOrder();
+
+        /**
+         *  If there is no current order, nothing to remove
+         */
+        if (empty($order)) {
+            return;
+        }
+
+        /**
+         *  If the camera Id does not exist in the order, nothing to remove
+         */
+        if (($key = array_search($id, $order)) === false) {
+            return;
+        }
+
+        /**
+         *  Remove camera Id from order array if it exists
+         */
+        unset($order[$key]);
+
+        /**
+         *  Save the new order
+         */
+        try {
+            $this->sort($order);
+        } catch (Exception $e) {
+            throw new Exception('Could not save camera order: ' . $e->getMessage());
+        }
+
+        unset($order);
     }
 }

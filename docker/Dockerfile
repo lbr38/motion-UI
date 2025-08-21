@@ -15,9 +15,9 @@ ARG env
 # Debug only
 # ARG env=devel
 
-# Install dependencies, postfix
+# Install dependencies
 RUN apt-get update -y
-RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transport-https dnsutils vim gnupg2 ffmpeg mediainfo postfix -y
+RUN apt-get install findutils iputils-ping git curl ca-certificates apt-transport-https dnsutils vim gnupg2 ffmpeg mediainfo postfix python3-psutil -y
 
 # Add motion repository
 RUN curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.net.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.repomanager.net.gpg

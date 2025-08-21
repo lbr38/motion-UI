@@ -51,43 +51,41 @@ class Service
     /**
      *  Stop motion service
      */
-    public function stop() : bool
+    public function stop() : void
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion stop');
         $myprocess->execute();
-        $myprocess->getOutput();
+        $output = trim($myprocess->getOutput());
         $myprocess->close();
 
         if ($myprocess->getExitCode() != 0) {
-            return false;
+            throw new Exception('Error while stopping motion service: ' . $output);
         }
 
         // Set motion status to inactive in database
         $this->setStatusInDb('inactive');
         $this->layoutContainerReloadController->reload('motion/buttons/main');
-
-        return true;
+        $this->layoutContainerReloadController->reload('buttons/top');
     }
 
     /**
      *  Start motion service
      */
-    public function start() : bool
+    public function start() : void
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion start');
         $myprocess->execute();
-        $myprocess->getOutput();
+        $output = trim($myprocess->getOutput());
         $myprocess->close();
 
         if ($myprocess->getExitCode() != 0) {
-            return false;
+            throw new Exception('Error while starting motion service: ' . $output);
         }
 
         // Set motion status to active in database
         $this->setStatusInDb('active');
         $this->layoutContainerReloadController->reload('motion/buttons/main');
-
-        return true;
+        $this->layoutContainerReloadController->reload('buttons/top');
     }
 
     /**

@@ -31,6 +31,10 @@
     <!-- Stream -->
     <script type="module" src="/resources/js/stream/video-rtc.js?<?= VERSION ?>"></script>
     <script type="module" src="/resources/js/stream/video-stream.js?<?= VERSION ?>"></script>
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- App config files -->
+    <script src="/resources/js/app/container.config.js?<?= VERSION ?>"></script>
 
     <?php
     /**

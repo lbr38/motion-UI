@@ -27,7 +27,7 @@ class Select2
      * @param {*} tags
      * @returns
      */
-    update(select, data, placeholder = '', tags = false)
+    update(select, data, placeholder = '', allowNewOptions = false, hideSearch = true)
     {
         /**
          *  Quit if the select is not found
@@ -46,11 +46,14 @@ class Select2
          */
         $(select).select2({
             data: data,
-            closeOnSelect: false,
             placeholder: placeholder,
-            tags: tags,
-            /* disable search box */
-            minimumResultsForSearch: Infinity,
+            /* Close after selecting an option */
+            closeOnSelect: false,
+            /* If tags is true, allow adding new options */
+            tags: allowNewOptions,
+            /* Search box */
+            minimumResultsForSearch: hideSearch ? Infinity : 0,
+            /* Clear button */
             allowClear: true
         })
     }
