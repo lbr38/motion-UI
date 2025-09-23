@@ -62,7 +62,6 @@ async function getMediaTracks(media, constraints) {
  */
 async function connect(cameraId) {
     const pc = await PeerConnection(cameraId);
-    let pingInterval = null;
 
     /**
      *  Get current origin (http://xxxx:port) then replace 'http' with 'ws'
@@ -148,4 +147,15 @@ async function connect(cameraId) {
         // Close the PeerConnection
         pc.close();
     });
+
+    // Retourner les objets pour pouvoir les gérer depuis WebrtcConnect
+    return {
+        websocket: ws,
+        peerConnection: pc,
+        close: function() {
+            console.info('Closing WebRTC connection for camera #' + cameraId);
+            ws.close();
+            pc.close();
+        }
+    };
 }

@@ -1,18 +1,11 @@
 <?php
 
-namespace Controllers\System;
+namespace Controllers\System\Monitoring;
 
 use Exception;
 
 class Memory
 {
-    private $model;
-
-    public function __construct()
-    {
-        $this->model = new \Models\System\Memory();
-    }
-
     /**
      *  Get memory usage (%)
      *  Use a python library to get the memory usage
@@ -33,13 +26,5 @@ class Memory
         }
 
         return $output;
-    }
-
-    /**
-     *  Get memory usage for the last 60 minutes
-     */
-    public function get() : array
-    {
-        return $this->model->get();
     }
 }

@@ -26,9 +26,9 @@ RUN curl -sS https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.
 # RUN echo "deb https://packages.repomanager.net/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
 
 # Add nginx, PHP and go2rtc repositories
-RUN echo "deb https://packages.repomanager.net/repo/motionui-nginx/bookworm/nginx_prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
-RUN echo "deb https://packages.repomanager.net/repo/motionui-php/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/php.list
-RUN echo "deb https://packages.repomanager.net/repo/go2rtc/all/main_prod all main" > /etc/apt/sources.list.d/go2rtc.list
+RUN echo "deb https://packages.repomanager.net/repo/deb/motionui-nginx/bookworm/nginx/prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list
+RUN echo "deb https://packages.repomanager.net/repo/deb/motionui-php/bookworm/main/prod bookworm main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.repomanager.net/repo/deb/go2rtc/all/main/prod all main" > /etc/apt/sources.list.d/go2rtc.list
 RUN apt-get update -y
 
 # Install nginx and PHP 8.3

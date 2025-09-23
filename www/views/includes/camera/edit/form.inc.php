@@ -15,38 +15,44 @@
 
     <h6 class="required">RESOLUTION</h6>
     <p class="note">The selected resolution must match the resolution of the camera.</p>
-    <select class="form-param" param-name="main-stream-resolution">
-        <!-- 16/9 -->
-        <option disabled>16/9 resolutions:</option>
-        <option value="640x360" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '640x360') ? 'selected' : ''; ?>>640x360 (360p)</option>
-        <option value="854x480" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '854x480') ? 'selected' : ''; ?>>854x480 (480p)</option>
-        <option value="960x540" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '960x540') ? 'selected' : ''; ?>>960x540 (540p)</option>
-        <option value="1024x576" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1024x576') ? 'selected' : ''; ?>>1024x576 (576p)</option>
-        <option value="1280x720" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1280x720') ? 'selected' : ''; ?>>1280x720 (720p)</option>
-        <option value="1920x1080" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1920x1080') ? 'selected' : ''; ?>>1920x1080 (1080p)</option>
-        <option value="2560x1440" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '2560x1440') ? 'selected' : ''; ?>>2560x1440 (1440p)</option>
-        <option value="3840x2160" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '3840x2160') ? 'selected' : ''; ?>>3840x2160 (2160p)</option>
-        <option value="5120x2880" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '5120x2880') ? 'selected' : ''; ?>>5120x2880 (2880p)</option>
-        <option value="7680x4320" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
-        <!-- 4/3 -->
-        <option disabled>4/3 resolutions:</option>
-        <option value="640x480" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '640x480') ? 'selected' : ''; ?>>640x480</option>
-        <option value="800x600" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '800x600') ? 'selected' : ''; ?>>800x600</option>
-        <option value="960x720" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '960x720') ? 'selected' : ''; ?>>960x720</option>
-        <option value="1024x768" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1024x768') ? 'selected' : ''; ?>>1024x768</option>
-        <option value="1152x864" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1152x864') ? 'selected' : ''; ?>>1152x864</option>
-        <option value="1280x960" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1280x960') ? 'selected' : ''; ?>>1280x960</option>
-        <option value="1400x1050" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1400x1050') ? 'selected' : ''; ?>>1400x1050</option>
-        <option value="1440x1080" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1440x1080') ? 'selected' : ''; ?>>1440x1080</option>
-        <option value="1600x1200" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1600x1200') ? 'selected' : ''; ?>>1600x1200</option>
-        <option value="1856x1392" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1856x1392') ? 'selected' : ''; ?>>1856x1392</option>
-        <option value="1920x1440" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1920x1440') ? 'selected' : ''; ?>>1920x1440</option>
-        <option value="2048x1536" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '2048x1536') ? 'selected' : ''; ?>>2048x1536</option>
-    </select>
+    <div class="flex align-item-center column-gap-10">
+        <select class="form-param" param-name="main-stream-resolution">
+            <!-- 16/9 -->
+            <option disabled>16/9 resolutions:</option>
+            <option value="640x360" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '640x360') ? 'selected' : ''; ?>>640x360 (360p)</option>
+            <option value="854x480" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '854x480') ? 'selected' : ''; ?>>854x480 (480p)</option>
+            <option value="960x540" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '960x540') ? 'selected' : ''; ?>>960x540 (540p)</option>
+            <option value="1024x576" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1024x576') ? 'selected' : ''; ?>>1024x576 (576p)</option>
+            <option value="1280x720" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1280x720') ? 'selected' : ''; ?>>1280x720 (720p)</option>
+            <option value="1920x1080" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1920x1080') ? 'selected' : ''; ?>>1920x1080 (1080p)</option>
+            <option value="2560x1440" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '2560x1440') ? 'selected' : ''; ?>>2560x1440 (1440p)</option>
+            <option value="3840x2160" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '3840x2160') ? 'selected' : ''; ?>>3840x2160 (2160p)</option>
+            <option value="5120x2880" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '5120x2880') ? 'selected' : ''; ?>>5120x2880 (2880p)</option>
+            <option value="7680x4320" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
+            <!-- 4/3 -->
+            <option disabled>4/3 resolutions:</option>
+            <option value="640x480" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '640x480') ? 'selected' : ''; ?>>640x480</option>
+            <option value="800x600" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '800x600') ? 'selected' : ''; ?>>800x600</option>
+            <option value="960x720" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '960x720') ? 'selected' : ''; ?>>960x720</option>
+            <option value="1024x768" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1024x768') ? 'selected' : ''; ?>>1024x768</option>
+            <option value="1152x864" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1152x864') ? 'selected' : ''; ?>>1152x864</option>
+            <option value="1280x960" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1280x960') ? 'selected' : ''; ?>>1280x960</option>
+            <option value="1400x1050" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1400x1050') ? 'selected' : ''; ?>>1400x1050</option>
+            <option value="1440x1080" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1440x1080') ? 'selected' : ''; ?>>1440x1080</option>
+            <option value="1600x1200" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1600x1200') ? 'selected' : ''; ?>>1600x1200</option>
+            <option value="1856x1392" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1856x1392') ? 'selected' : ''; ?>>1856x1392</option>
+            <option value="1920x1440" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '1920x1440') ? 'selected' : ''; ?>>1920x1440</option>
+            <option value="2048x1536" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '2048x1536') ? 'selected' : ''; ?>>2048x1536</option>
+        </select>
+        <img src="/assets/icons/loading.svg" class="icon-np main-stream-resolution-loading hide" />
+    </div>
 
     <h6>FRAME RATE</h6>
     <p class="note">The specified frame rate must match the frame rate of the camera.</p>
-    <input type="number" class="form-param" param-name="main-stream-framerate" value="<?= $cameraRawParams['main-stream']['framerate'] ?>" min="2" />
+    <div class="flex align-item-center column-gap-10">
+        <input type="number" class="form-param" param-name="main-stream-framerate" value="<?= $cameraRawParams['main-stream']['framerate'] ?>" min="2" />
+        <img src="/assets/icons/loading.svg" class="icon-np main-stream-framerate-loading hide" />
+    </div>
 
     <h6>ROTATE</h6>
     <p class="note">Set to 0 to disable rotation. Warning: rotating the camera feed is a CPU intensive operation.</p>
@@ -88,38 +94,44 @@
 
     <h6>SECONDARY STREAM RESOLUTION</h6>
     <p class="note">The selected resolution must match the resolution of the secondary stream of the camera.</p>
-    <select class="form-param" param-name="secondary-stream-resolution">
-        <!-- 16/9 -->
-        <option disabled>16/9 resolutions:</option>
-        <option value="640x360" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '640x360') ? 'selected' : ''; ?>>640x360 (360p)</option>
-        <option value="854x480" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '854x480') ? 'selected' : ''; ?>>854x480 (480p)</option>
-        <option value="960x540" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '960x540') ? 'selected' : ''; ?>>960x540 (540p)</option>
-        <option value="1024x576" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1024x576') ? 'selected' : ''; ?>>1024x576 (576p)</option>
-        <option value="1280x720" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1280x720') ? 'selected' : ''; ?>>1280x720 (720p)</option>
-        <option value="1920x1080" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1920x1080') ? 'selected' : ''; ?>>1920x1080 (1080p)</option>
-        <option value="2560x1440" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '2560x1440') ? 'selected' : ''; ?>>2560x1440 (1440p)</option>
-        <option value="3840x2160" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '3840x2160') ? 'selected' : ''; ?>>3840x2160 (2160p)</option>
-        <option value="5120x2880" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '5120x2880') ? 'selected' : ''; ?>>5120x2880 (2880p)</option>
-        <option value="7680x4320" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
-        <!-- 4/3 -->
-        <option disabled>4/3 resolutions:</option>
-        <option value="640x480" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '640x480') ? 'selected' : ''; ?>>640x480</option>
-        <option value="800x600" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '800x600') ? 'selected' : ''; ?>>800x600</option>
-        <option value="960x720" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '960x720') ? 'selected' : ''; ?>>960x720</option>
-        <option value="1024x768" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1024x768') ? 'selected' : ''; ?>>1024x768</option>
-        <option value="1152x864" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1152x864') ? 'selected' : ''; ?>>1152x864</option>
-        <option value="1280x960" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1280x960') ? 'selected' : ''; ?>>1280x960</option>
-        <option value="1400x1050" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1400x1050') ? 'selected' : ''; ?>>1400x1050</option>
-        <option value="1440x1080" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1440x1080') ? 'selected' : ''; ?>>1440x1080</option>
-        <option value="1600x1200" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1600x1200') ? 'selected' : ''; ?>>1600x1200</option>
-        <option value="1856x1392" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1856x1392') ? 'selected' : ''; ?>>1856x1392</option>
-        <option value="1920x1440" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1920x1440') ? 'selected' : ''; ?>>1920x1440</option>
-        <option value="2048x1536" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '2048x1536') ? 'selected' : ''; ?>>2048x1536</option>
-    </select>
+    <div class="flex align-item-center column-gap-10">
+        <select class="form-param" param-name="secondary-stream-resolution">
+            <!-- 16/9 -->
+            <option disabled>16/9 resolutions:</option>
+            <option value="640x360" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '640x360') ? 'selected' : ''; ?>>640x360 (360p)</option>
+            <option value="854x480" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '854x480') ? 'selected' : ''; ?>>854x480 (480p)</option>
+            <option value="960x540" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '960x540') ? 'selected' : ''; ?>>960x540 (540p)</option>
+            <option value="1024x576" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1024x576') ? 'selected' : ''; ?>>1024x576 (576p)</option>
+            <option value="1280x720" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1280x720') ? 'selected' : ''; ?>>1280x720 (720p)</option>
+            <option value="1920x1080" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1920x1080') ? 'selected' : ''; ?>>1920x1080 (1080p)</option>
+            <option value="2560x1440" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '2560x1440') ? 'selected' : ''; ?>>2560x1440 (1440p)</option>
+            <option value="3840x2160" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '3840x2160') ? 'selected' : ''; ?>>3840x2160 (2160p)</option>
+            <option value="5120x2880" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '5120x2880') ? 'selected' : ''; ?>>5120x2880 (2880p)</option>
+            <option value="7680x4320" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
+            <!-- 4/3 -->
+            <option disabled>4/3 resolutions:</option>
+            <option value="640x480" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '640x480') ? 'selected' : ''; ?>>640x480</option>
+            <option value="800x600" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '800x600') ? 'selected' : ''; ?>>800x600</option>
+            <option value="960x720" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '960x720') ? 'selected' : ''; ?>>960x720</option>
+            <option value="1024x768" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1024x768') ? 'selected' : ''; ?>>1024x768</option>
+            <option value="1152x864" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1152x864') ? 'selected' : ''; ?>>1152x864</option>
+            <option value="1280x960" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1280x960') ? 'selected' : ''; ?>>1280x960</option>
+            <option value="1400x1050" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1400x1050') ? 'selected' : ''; ?>>1400x1050</option>
+            <option value="1440x1080" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1440x1080') ? 'selected' : ''; ?>>1440x1080</option>
+            <option value="1600x1200" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1600x1200') ? 'selected' : ''; ?>>1600x1200</option>
+            <option value="1856x1392" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1856x1392') ? 'selected' : ''; ?>>1856x1392</option>
+            <option value="1920x1440" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '1920x1440') ? 'selected' : ''; ?>>1920x1440</option>
+            <option value="2048x1536" <?php echo ($cameraRawParams['secondary-stream']['width'] . 'x' . $cameraRawParams['secondary-stream']['height'] == '2048x1536') ? 'selected' : ''; ?>>2048x1536</option>
+        </select>
+        <img src="/assets/icons/loading.svg" class="icon-np secondary-stream-resolution-loading hide" />
+    </div>
 
     <h6>SECONDARY STREAM FRAMERATE</h6>
     <p class="note">Specified frame rate must match the frame rate of the secondary stream of the camera.</p>
-    <input type="number" class="form-param" param-name="secondary-stream-framerate" value="<?= $cameraRawParams['secondary-stream']['framerate'] ?>" min="2" />
+    <div class="flex align-item-center column-gap-10">
+        <input type="number" class="form-param" param-name="secondary-stream-framerate" value="<?= $cameraRawParams['secondary-stream']['framerate'] ?>" min="2" />
+        <img src="/assets/icons/loading.svg" class="icon-np secondary-stream-framerate-loading hide" />
+    </div>
 
     <hr class="margin-top-20 margin-bottom-20">
 

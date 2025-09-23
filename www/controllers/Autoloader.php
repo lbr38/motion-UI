@@ -37,7 +37,13 @@ class Autoloader
              *  Useful to redirect to the same page after being logged out
              */
             if (!empty($_SERVER['REQUEST_URI'])) {
-                setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), array('secure' => true, 'httponly' => true));
+                if ($_SERVER["REQUEST_URI"] != '/login' and $_SERVER["REQUEST_URI"] != '/logout') {
+                    // Secure cookie only if HTTPS
+                    setcookie('origin', parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), [
+                        'secure' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'),
+                        'httponly' => true
+                    ]);
+                }
             }
 
             \Controllers\App\Config\Properties::get();

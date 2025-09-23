@@ -65,6 +65,14 @@ class Settings
             }
         }
 
+        if (!defined('DEBUG_MODE')) {
+            if (!empty($settings['DEBUG_MODE']) and $settings['DEBUG_MODE'] == 'true') {
+                define('DEBUG_MODE', true);
+            } else {
+                define('DEBUG_MODE', false);
+            }
+        }
+
         /**
          *  Alerts settings
          */

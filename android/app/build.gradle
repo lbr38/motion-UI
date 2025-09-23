@@ -5,22 +5,35 @@ plugins {
     id 'com.android.application'
 }
 
-// Ici on importe les secrets à partir d'un fichier dédié (keystore.properties)
+// Charger les secrets locaux uniquement si le fichier existe
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     signingConfigs {
         release {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyPassword keystoreProperties['keyPassword']
-            keyAlias keystoreProperties['keyAlias']
+            if (System.getenv("FDROID") != null) {
+                // F-Droid fournit un keystore temporaire
+                storeFile file(System.getenv("KEYSTORE"))
+                storePassword System.getenv("KEYSTOREPASS")
+                keyAlias System.getenv("KEYALIAS")
+                keyPassword System.getenv("KEYPASS")
+            } else if (keystorePropertiesFile.exists()) {
+                // Compilation locale avec le keystore local
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
         }
     }
+
     namespace 'app.motionui.android'
     compileSdk 34
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "app.motionui.android"
@@ -39,6 +52,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

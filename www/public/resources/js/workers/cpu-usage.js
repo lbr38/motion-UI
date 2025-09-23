@@ -16,19 +16,24 @@ async function fetchCpuUsage() {
         });
 
         const data = await response.json();
+
+        if (!response.ok) {
+            return null;
+        }
+
         return data.message;
     } catch (error) {
         return null;
     }
 }
 
-// Fetch the CPU usage immediately, send it to the main thread
-fetchCpuUsage().then(cpuUsage => {
-    postMessage({ cpuUsage });
-});
-
-// Then every 5 seconds, fetch and send the CPU usage data to the main thread
-setInterval(async () => {
+async function loop() {
     const cpuUsage = await fetchCpuUsage();
     postMessage({ cpuUsage });
-}, 5000);
+
+    // Wait 30 seconds before the next fetch
+    setTimeout(loop, 30000);
+}
+
+// Start the loop
+loop();

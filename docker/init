@@ -5,7 +5,7 @@ DATA_DIR="/var/lib/motionui"
 GO2RTC_DIR="/var/lib/motionui/go2rtc"
 
 # Make sure motion service is stopped
-/usr/sbin/service motion stop
+/usr/sbin/service motion stop > /dev/null
 
 if [ -f /run/motion/motion.pid ]; then
     rm -f /run/motion/motion.pid
@@ -54,13 +54,26 @@ if [ ! -z "$FQDN" ];then
 fi
 
 # Start services
-/usr/sbin/service php8.3-fpm start
-/usr/sbin/service nginx start
-/usr/sbin/service postfix start
+/usr/sbin/service php8.3-fpm start > /dev/null &&
+/usr/sbin/service nginx start > /dev/null &&
+/usr/sbin/service postfix start > /dev/null
+
+if [ $? -ne 0 ];then
+    exit 1
+fi
 
 # Initialize and update database (if needed)
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/database/initialize.php" www-data
+
+if [ $? -ne 0 ];then
+    exit 1
+fi
+
 /bin/su -s /bin/bash -c "php $WWW_DIR/tools/database/update.php" www-data
+
+if [ $? -ne 0 ];then
+    exit 1
+fi
 
 # Make sure go2rtc service is started
 /usr/sbin/service go2rtc start

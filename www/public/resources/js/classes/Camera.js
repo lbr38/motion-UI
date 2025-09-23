@@ -39,6 +39,33 @@ class Camera
     }
 
     /**
+     * Set camera as reconnecting
+     * @param {*} id 
+     */
+    setReconnecting(id, message = 'Reconnecting...')
+    {
+        $('.camera-reconnecting[camera-id=' + id + ']').remove();
+        $('.video-container[camera-id=' + id + ']').append('<div class="camera-reconnecting" camera-id="' + id + '"><p>' + message + '</p></div>');
+    }
+
+    /**
+     * Set camera as available
+     * @param { } id 
+     * @returns 
+     */
+    setAvailable(id)
+    {
+        // If the stream is already disabled, do nothing
+        if (this.isDisabled(id)) {
+            return;
+        }
+
+        $('.camera-reconnecting[camera-id=' + id + ']').remove();
+        $('.camera-unavailable[camera-id=' + id + ']').css('display', 'none');
+        $('.video-container[camera-id=' + id + ']').css('display', 'flex');
+    }
+
+    /**
      * Start the camera ping for keep-alive
      * This is useful for Android devices that close the connection after 60 seconds
      * The client sends a ping every 30 seconds to keep the connection alive
