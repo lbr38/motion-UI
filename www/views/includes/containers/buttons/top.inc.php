@@ -1,6 +1,6 @@
 <section class="top-buttons margin-top-5 margin-bottom-30 reloadable-container" container="buttons/top">
     <div class="flex column-gap-20">
-        <div id="cpu-usage-container" class="flex column-gap-10 align-item-center margin-left-15" title="CPU load">
+        <div id="cpu-usage-container" class="flex column-gap-10 align-item-center margin-left-15" title="CPU usage">
             <img src="/assets/icons/cpu.svg" class="icon-medium icon-np lowopacity-cst margin-right-0" />
             <img id="cpu-usage-loading" src="/assets/icons/loading.svg" class="mediumopacity-cst icon-medium" />
             <p id="cpu-usage" class="lowopacity-cst font-size-12"></p>

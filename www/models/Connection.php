@@ -170,7 +170,8 @@ class Connection extends SQLite3
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         Timestamp VARCHAR(255) NOT NULL,
         Cpu_usage REAL,
-        Memory_usage REAL)");
+        Memory_usage REAL,
+        Disk_usage REAL)");
 
         /**
          *  Create indexes on system_monitoring table

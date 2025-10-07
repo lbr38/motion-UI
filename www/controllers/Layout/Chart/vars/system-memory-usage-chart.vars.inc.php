@@ -1,5 +1,5 @@
 <?php
-$systemMemoryController = new \Controllers\System\Memory();
+$systemMonitoringController = new \Controllers\System\Monitoring\Monitoring();
 $datasets = [];
 $labels = [];
 $options = [];
@@ -8,7 +8,7 @@ $options = [];
  *  Get CPU usage data
  *  This will fetch the last 24 hours of CPU usage data
  */
-$memoryUsageStats = $systemMemoryController->get();
+$memoryUsageStats = $systemMonitoringController->get(time() - 3600, time());
 
 foreach ($memoryUsageStats as $stat) {
     // Convert timestamp to a human-readable format using Datetime
@@ -20,7 +20,7 @@ foreach ($memoryUsageStats as $stat) {
  *  Add current memory usage to the list
  */
 $labels[] = date('H:i:s');
-$datasets[0]['data'][] = \Controllers\System\Memory::getUsage();
+$datasets[0]['data'][] = \Controllers\System\Monitoring\Memory::getUsage();
 
 /**
  *  Prepare chart data
@@ -32,4 +32,4 @@ $datasets[0]['backgroundColor'] = 'rgba(243, 47, 99, 0.20)';
 $datasets[0]['borderColor'] = '#F32F63';
 $datasets[0]['label'] = 'Memory usage';
 
-unset($systemMemoryController, $memoryUsageStats, $stat);
+unset($systemMonitoringController, $memoryUsageStats, $stat);

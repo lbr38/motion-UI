@@ -1,21 +1,31 @@
-# motion-UI
+<div align="center">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/github-readme-black.png#gh-light-mode-only" align="top">
+</div>
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/github-readme-white.png#gh-dark-mode-only" align="top" width=70%>
+</div>
+
+<br>
 
 A web interface to manage your own NVR with <a href="https://github.com/Motion-Project/motion"><b>motion</b></a> (an open-source motion detection software) and visualize cameras live stream.
 
+<br>
+
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/11c77616-a414-459a-928b-e46e3164ae3f" width=30% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/screenshot01.png" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/438d4416-8510-452e-b31b-ac74811b75f0" width=30% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/screenshot02.png" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/9532c021-8f99-402d-81b0-dcbb47772e61" width=30% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/screenshot03.png" width=30% align="top">
 </div>
 <br>
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/7effba76-6c5d-4554-bde8-3cf43f112e98" width=30% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/screenshot04.png" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/cb84146e-c07f-4e0c-95ae-d5504e269195" width=30% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/screenshot05.png" width=30% align="top">
     &nbsp;
-    <img src="https://github.com/user-attachments/assets/347db0c0-15e0-436f-a85e-3c72c49d00fb" width=30% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/images/readme/screenshot06.png" width=30% align="top">
 </div>
 
 <br>

@@ -1,18 +1,11 @@
 <?php
 
-namespace Controllers\System;
+namespace Controllers\System\Monitoring;
 
 use Exception;
 
 class Cpu
 {
-    private $model;
-
-    public function __construct()
-    {
-        $this->model = new \Models\System\Cpu();
-    }
-
     /**
      *  Get CPU usage (%)
      *  Use a python library to get the CPU usage
@@ -33,13 +26,5 @@ class Cpu
         }
 
         return $output;
-    }
-
-    /**
-     *  Get CPU usage for the last 60 minutes
-     */
-    public function get() : array
-    {
-        return $this->model->get();
     }
 }

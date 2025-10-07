@@ -148,32 +148,4 @@ class Go2rtc
 
         return $content;
     }
-
-    /**
-     *  Clean old logs
-     */
-    public function clean()
-    {
-        if (!is_dir(GO2RTC_DIR . '/logs')) {
-            return;
-        }
-
-        /**
-         *  Get all log files
-         */
-        $logFiles = glob(GO2RTC_DIR . '/logs/*.log');
-
-        if (empty($logFiles)) {
-            return;
-        }
-
-        /**
-         *  Remove logs older than 7 days
-         */
-        foreach ($logFiles as $logFile) {
-            if (filemtime($logFile) < strtotime('-7 days')) {
-                unlink($logFile);
-            }
-        }
-    }
 }

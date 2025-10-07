@@ -2,8 +2,6 @@
 
 namespace Controllers\App\Config;
 
-use Exception;
-
 class Notification
 {
     public static function get()
@@ -21,11 +19,7 @@ class Notification
         /**
          *  If an update is available, generate a new notification
          */
-        if (UPDATE_AVAILABLE) {
-            $message = '<p>A new release is available: <a href="' . PROJECT_GIT_REPO . '/releases/latest" target="_blank" rel="noopener noreferrer" title="See changelog"><code>' . GIT_VERSION . '</code> <img src="/assets/icons/external-link.svg" class="icon-small" /></a></p>';
-            $message .= '<p>Please update your docker image by following the steps documented <b><a href="' . PROJECT_UPDATE_DOC_URL . '" target="_blank" rel="noopener noreferrer"><code>here</code></b> <img src="/assets/icons/external-link.svg" class="icon-small" /></a></p>';
-
-            $NOTIFICATION_MESSAGES[] = array('Title' => 'Update available', 'Message' =>  $message);
+        if (IS_ADMIN && UPDATE_AVAILABLE) {
             $NOTIFICATION++;
         }
 

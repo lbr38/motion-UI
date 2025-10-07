@@ -6,7 +6,7 @@ $(document).ready(function () {
      */
     var gridLayout = mycookie.get('liveGridLayout');
     if (gridLayout != null) {
-        $('#camera-grid-container').css('grid-template-columns', 'repeat('+gridLayout+', 1fr)');
+        $('#camera-grid-container').css('grid-template-columns', 'repeat(' + gridLayout + ', 1fr)');
     }
 });
 
@@ -21,6 +21,8 @@ async function loadStream()
 
 async function loadCameras(cameraId = null)
 {
+    var cameraStreamsConnections = {};
+
     /**
      *  Quit if there is no camera to load
      */
@@ -76,44 +78,17 @@ async function loadCameras(cameraId = null)
          *  See js/stream/webrtc.js
          */
         if (streamTechnology == 'webrtc') {
-            const video = document.querySelector('video[camera-id="' + cameraId + '"]');
+            // Create a new WebrtcConnect instance if it does not exist
+            cameraStreamsConnections[cameraId] = new WebrtcConnect();
+            cameraStreamsConnections[cameraId].connect(cameraId);
 
-            // Open connection to the camera
-            connect(cameraId);
-
-            if (video) {
-                let videoTimeout = null;
-
-                /**
-                 *  Custom timeout check to print a timeout error message if the camera is not available
-                 *  The setTimeout() function will be canceled if the connection is successful (video is playing)
-                 */
-                function setVideoTimeout()
-                {
-                    clearVideoTimeout();
-                    videoTimeout = setTimeout(() => {
-                        console.warn('Camera #' + cameraId + ' connection timeout');
-                        mycamera.setUnavailable(cameraId, 'Connection timeout');
-                    }, 30000);
-                }
-
-                function clearVideoTimeout()
-                {
-                    if (videoTimeout) {
-                        clearTimeout(videoTimeout);
-                        videoTimeout = null;
-                    }
-                }
-
-                // Restart the timeout when the video is playing
-                video.addEventListener('playing', setVideoTimeout);
-
-                // Restart the timeout when the video is updated (frame is changed)
-                video.addEventListener('timeupdate', setVideoTimeout);
-
-                // Start the timeout check
-                setVideoTimeout();
+            // Wait until the connection is closed
+            while (cameraStreamsConnections[cameraId].cameraConnection.connected === true) {
+                await new Promise(r => setTimeout(r, 1000));
             }
+
+            // Destroy class instance if the camera stream is disabled
+            delete cameraStreamsConnections[cameraId];
         }
 
         /**

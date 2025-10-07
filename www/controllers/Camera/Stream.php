@@ -78,6 +78,36 @@ class Stream
     }
 
     /**
+     *  Return stream informations (resolution, framerate)
+     */
+    public function getInfo(string $url)
+    {
+        $data = [];
+
+        $process = new \Controllers\Process('/usr/bin/ffprobe -loglevel quiet -select_streams v:0 -show_entries stream=width,height,r_frame_rate -of default=noprint_wrappers=1 ' . escapeshellarg($url));
+        $process->execute();
+        $output = trim($process->getOutput());
+        $process->close();
+
+        if ($process->getExitCode() != 0) {
+            throw new Exception('Could not get stream info from URL: ' . $output);
+        }
+
+        if (empty($output)) {
+            throw new Exception('No stream info found at the URL');
+        }
+
+        $lines = explode("\n", $output);
+
+        foreach ($lines as $line) {
+            [$key, $value] = explode('=', $line);
+            $data[$key] = $value;
+        }
+
+        return $data;
+    }
+
+    /**
      *  Sort the camera grid
      */
     public function sort(array $order) : void

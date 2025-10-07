@@ -57,6 +57,8 @@ $(document).on('submit','#settings-form',function () {
 $(document).on('click', '#motion-log-btn', function () {
     var log = $('#motion-log-select').val();
 
+    mymodal.loading();
+
     ajaxRequest(
         // Controller:
         'motion',
@@ -80,6 +82,8 @@ $(document).on('click', '#motion-log-btn', function () {
  */
 $(document).on('click', '#go2rtc-log-btn', function () {
     var log = $('#go2rtc-log-select').val();
+
+    mymodal.loading();
 
     ajaxRequest(
         // Controller:

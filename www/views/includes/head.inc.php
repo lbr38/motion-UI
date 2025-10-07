@@ -45,7 +45,4 @@
             echo '<script type="text/javascript" src="/resources/js/pre/' . basename($file) . '?' . VERSION . '"></script>';
         }
     } ?>
-
-    <!-- Favicon -->
-    <link rel="icon" href="/assets/favicon.ico" />
 </head>

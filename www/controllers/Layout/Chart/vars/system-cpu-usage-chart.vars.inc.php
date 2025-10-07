@@ -1,5 +1,5 @@
 <?php
-$systemCpuController = new \Controllers\System\Cpu();
+$systemMonitoringController = new \Controllers\System\Monitoring\Monitoring();
 $datasets = [];
 $labels = [];
 $options = [];
@@ -8,7 +8,7 @@ $options = [];
  *  Get CPU usage data
  *  This will fetch the last 24 hours of CPU usage data
  */
-$cpuUsageStats = $systemCpuController->get();
+$cpuUsageStats = $systemMonitoringController->get(time() - 3600, time());
 
 foreach ($cpuUsageStats as $stat) {
     // Convert timestamp to a human-readable format using Datetime
@@ -20,7 +20,7 @@ foreach ($cpuUsageStats as $stat) {
  *  Add current CPU usage to the list
  */
 $labels[] = date('H:i:s');
-$datasets[0]['data'][] = \Controllers\System\Cpu::getUsage();
+$datasets[0]['data'][] = \Controllers\System\Monitoring\Cpu::getUsage();
 
 /**
  *  Prepare chart data
@@ -32,4 +32,4 @@ $datasets[0]['backgroundColor'] = 'rgba(243, 47, 99, 0.20)';
 $datasets[0]['borderColor'] = '#F32F63';
 $datasets[0]['label'] = 'CPU usage';
 
-unset($systemCpuController, $cpuUsageStats, $stat);
+unset($systemMonitoringController, $cpuUsageStats, $stat);

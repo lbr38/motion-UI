@@ -75,34 +75,59 @@
                 <?php
             endif ?>
         </div>
+    </div>
 
-        <h6>AUTOSTART LOGS</h6>
-        <p class="note">View motion detection autostart logs.</p>
+    <div>
+        <hr>
+    </div>
 
-        <div class="flex align-item-center column-gap-10">
+    <div>
+        <h5 class="margin-top-0">SERVICE UNITS</h5>
+
+        <div class="flex flex-direction-column row-gap-20">
             <?php
-            $logFiles = glob(AUTOSTART_LOGS_DIR . '/*.log');
-
-            if (empty($logFiles)) {
-                echo '<p class="note">No logs for now.</p>';
-            }
-
-            if (!empty($logFiles)) :
-                rsort($logFiles); ?>
-
-                <select id="motion-autostart-log-select">
-                    <?php
-                    foreach ($logFiles as $logFile) {
-                        echo '<option value="' . basename($logFile) . '">' . basename($logFile) . '</option>';
-                    } ?>
-                </select>
-
+            foreach ($units as $name => $properties) : ?>
                 <div>
-                    <button id="motion-autostart-log-btn" type="button" class="btn-xsmall-green">View</button>
+                    <div class="flex align-item-center column-gap-5">
+                        <h6 class="margin-top-0"><?= strtoupper($properties['title']) ?></h6>
+                        <img src="/assets/icons/info.svg" class="icon-lowopacity icon-small icon-np unit-tooltip" unit="<?= $name ?>" description="<?= $properties['description'] ?>" />
+                    </div>
+
+                    <div class="flex align-item-center column-gap-5">
+                        <?php
+                        if (\Controllers\Service\Service::isRunning($name)) {
+                            echo '<img src="/assets/icons/check.svg" class="icon-np" />';
+                            echo '<p title="This service unit is currently running">Running</p>';
+                        } else {
+                            echo '<p class="note" title="This service unit is currently not running">Not running</p>';
+                        } ?>
+                    </div>
+
+                    <?php
+                    // Get logs for this unit
+                    $logDir = $properties['log-dir'] ?? $name;
+                    $logs   = glob(SERVICE_LOGS_DIR . '/' . $logDir . '/*.log');
+                    rsort($logs);
+
+                    if (!empty($logs)) { ?>
+                        <div class="flex align-item-center column-gap-10 unit-logs-container">
+                            <select unit="<?= $name ?>">
+                                <?php
+                                foreach ($logs as $log) {
+                                    $logFile = basename($log);
+                                    echo '<option value="' . $logFile . '">' . $logFile . '</option>';
+                                } ?>
+                            </select>
+                            <p><span class="unit-log-view-btn btn-xsmall-green" unit="<?= $name ?>" title="View log">View</span></p>
+                        </div>
+                        <?php
+                    } ?>
                 </div>
                 <?php
-            endif ?>
-        </div>        
+            endforeach;
+
+            unset($units, $name, $properties); ?>
+        </div>
     </div>
 </div>
 

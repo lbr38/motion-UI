@@ -27,6 +27,10 @@ class Main
         if (!defined('LOGS_DIR')) {
             define('LOGS_DIR', DATA_DIR . '/logs');
         }
+        // Service logs dir
+        if (!defined('SERVICE_LOGS_DIR')) {
+            define('SERVICE_LOGS_DIR', LOGS_DIR . '/service');
+        }
         // Websocket server logs dir
         if (!defined('WS_LOGS_DIR')) {
             define('WS_LOGS_DIR', LOGS_DIR . '/websocket');
@@ -73,16 +77,8 @@ class Main
             define('GIT_VERSION', trim(file_get_contents(DATA_DIR . '/version.available')));
         }
         if (!defined('UPDATE_AVAILABLE')) {
-            if (defined('VERSION') and defined('GIT_VERSION')) {
-                if (preg_match('/^[0-9]+\.[0-9]+\.[0-9]+$/', GIT_VERSION)) {
-                    if (VERSION !== GIT_VERSION) {
-                        define('UPDATE_AVAILABLE', true);
-                    } else {
-                        define('UPDATE_AVAILABLE', false);
-                    }
-                } else {
-                    define('UPDATE_AVAILABLE', false);
-                }
+            if (defined('VERSION') and defined('GIT_VERSION') and version_compare(GIT_VERSION, VERSION, '>')) {
+                define('UPDATE_AVAILABLE', true);
             } else {
                 define('UPDATE_AVAILABLE', false);
             }

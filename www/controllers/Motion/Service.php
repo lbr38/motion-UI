@@ -97,25 +97,9 @@ class Service
             return;
         }
 
-        if (!file_exists(DATA_DIR . '/motion.restart')) {
-            touch(DATA_DIR . '/motion.restart');
+        if (!file_exists(DATA_DIR . '/restart-motion.request')) {
+            touch(DATA_DIR . '/restart-motion.request');
         }
-    }
-
-    /**
-     *  Returns true if motionui service is running
-     */
-    public function motionuiServiceRunning() : bool
-    {
-        $myprocess = new \Controllers\Process('ps aux | grep "motionui.service" | grep -v grep');
-        $myprocess->execute();
-        $myprocess->close();
-
-        if ($myprocess->getExitCode() != 0) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
