@@ -35,6 +35,17 @@ android {
     compileSdk 34
     compileSdkVersion 34
 
+    // Configuration pour les reproductible builds
+    dependenciesInfo {
+        // Désactive l'inclusion des informations de dépendances dans l'APK
+        includeInApk false
+        includeInBundle false
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
     defaultConfig {
         applicationId "app.motionui.android"
         minSdk 30
@@ -50,12 +61,30 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            
+            // Configuration pour les reproductible builds
+            // Fixe le timestamp de build
+            buildConfigField "long", "BUILD_TIME", "1696636800000L"
+        }
+        
+        debug {
+            // Configuration debug
+            buildConfigField "long", "BUILD_TIME", "0L"
         }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // Configuration des noms de fichiers APK pour la reproductibilité
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (variant.buildType.name == "release") {
+                outputFileName = "motionui-${variant.versionName}.apk"
+            }
+        }
     }
 }
 
