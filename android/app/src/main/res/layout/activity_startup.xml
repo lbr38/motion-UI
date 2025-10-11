@@ -57,7 +57,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="text"
-            android:hint="Motion-UI URL https://..."
+            android:hint="https://motion-UI-server"
             android:textColor="@color/white"
             android:textColorHint="#8A99AA"
             android:textSize="16sp" />

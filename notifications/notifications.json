@@ -6,9 +6,5 @@
     "NT03" : {
         "title" : "New! Discord channel",
         "message" : "A Discord channel is available <b><a href='https://discord.gg/Dn8FurvWfX'>here</a></b> for any questions or quick help/debugging (English or French spoken)."
-    },
-    "NT05" : {
-        "title" : "Android app update",
-        "message" : "An update is available for download <b><a href='https://github.com/lbr38/motion-UI/releases/tag/android-1.1.0'>here</a></b> (in the assets section)."
     }
 }
