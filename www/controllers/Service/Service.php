@@ -3,6 +3,7 @@
 namespace Controllers\Service;
 
 use Exception;
+use Controllers\App\DebugMode;
 use Controllers\Log\Cli as CliLog;
 use Controllers\Log\File as FileLog;
 
@@ -95,11 +96,11 @@ class Service
     }
 
     /**
-     *  Log debug message to console and to log file if DEBUG_MODE is enabled
+     *  Log debug message to console and to log file if debug mode is enabled
      */
     public function logDebug(string $message) : void
     {
-        if (!DEBUG_MODE) {
+        if (!DebugMode::enabled()) {
             return;
         }
 

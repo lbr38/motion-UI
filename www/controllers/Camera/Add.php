@@ -2,6 +2,8 @@
 
 namespace Controllers\Camera;
 
+use Controllers\Utils\Validate;
+use JsonException;
 use Exception;
 
 class Add extends Camera
@@ -44,8 +46,8 @@ class Add extends Camera
         $configuration['main-stream']['width']       = explode('x', $params['main-stream-resolution'])[0];
         $configuration['main-stream']['height']      = explode('x', $params['main-stream-resolution'])[1];
         $configuration['main-stream']['framerate']   = $params['main-stream-framerate'];
-        $configuration['authentication']['username'] = \Controllers\Common::validateData($params['username']);
-        $configuration['authentication']['password'] = \Controllers\Common::validateData($params['password']);
+        $configuration['authentication']['username'] = Validate::string($params['username']);
+        $configuration['authentication']['password'] = Validate::string($params['password']);
         $configuration['motion-detection']['enable'] = $params['motion-detection-enable'];
         // If camera is a http:// camera, use mjpeg mode for streaming
         if (preg_match('#^https?://#', $configuration['main-stream']['device'])) {

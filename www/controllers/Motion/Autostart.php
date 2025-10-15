@@ -2,6 +2,7 @@
 
 namespace Controllers\Motion;
 
+use Controllers\Utils\Validate;
 use Exception;
 
 class Autostart
@@ -83,20 +84,20 @@ class Autostart
     public function configure(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd) : void
     {
         $this->model->configure(
-            \Controllers\Common::validateData($mondayStart),
-            \Controllers\Common::validateData($mondayEnd),
-            \Controllers\Common::validateData($tuesdayStart),
-            \Controllers\Common::validateData($tuesdayEnd),
-            \Controllers\Common::validateData($wednesdayStart),
-            \Controllers\Common::validateData($wednesdayEnd),
-            \Controllers\Common::validateData($thursdayStart),
-            \Controllers\Common::validateData($thursdayEnd),
-            \Controllers\Common::validateData($fridayStart),
-            \Controllers\Common::validateData($fridayEnd),
-            \Controllers\Common::validateData($saturdayStart),
-            \Controllers\Common::validateData($saturdayEnd),
-            \Controllers\Common::validateData($sundayStart),
-            \Controllers\Common::validateData($sundayEnd)
+            Validate::string($mondayStart),
+            Validate::string($mondayEnd),
+            Validate::string($tuesdayStart),
+            Validate::string($tuesdayEnd),
+            Validate::string($wednesdayStart),
+            Validate::string($wednesdayEnd),
+            Validate::string($thursdayStart),
+            Validate::string($thursdayEnd),
+            Validate::string($fridayStart),
+            Validate::string($fridayEnd),
+            Validate::string($saturdayStart),
+            Validate::string($saturdayEnd),
+            Validate::string($sundayStart),
+            Validate::string($sundayEnd)
         );
     }
 

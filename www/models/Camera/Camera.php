@@ -16,7 +16,7 @@ class Camera extends \Models\Model
      */
     public function get() : array
     {
-        $cameras = array();
+        $cameras = [];
 
         try {
             $result = $this->db->query("SELECT * FROM cameras");
@@ -82,7 +82,7 @@ class Camera extends \Models\Model
      */
     public function getCamerasIds() : array
     {
-        $id = array();
+        $id = [];
 
         try {
             $result = $this->db->query("SELECT Id FROM cameras");
@@ -103,7 +103,7 @@ class Camera extends \Models\Model
      */
     public function getConfiguration(int $id) : array
     {
-        $configuration = array();
+        $configuration = [];
 
         try {
             $stmt = $this->db->prepare("SELECT * FROM cameras WHERE Id = :id");

@@ -14,7 +14,7 @@ class Monitoring
     /**
      *  Get monitoring data between two timestamps
      */
-    public function get(string $timestampStart, string $timestampEnd) : array
+    public function get(int $timestampStart, int $timestampEnd) : array
     {
         return $this->model->get($timestampStart, $timestampEnd);
     }

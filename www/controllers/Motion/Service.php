@@ -18,9 +18,9 @@ class Service
     /**
      *  Get daily motion service status (for stats)
      */
-    public function getMotionServiceStatusStats()
+    public function getMotionServiceStatusStats(int $start, int $end) : array
     {
-        return $this->model->getMotionServiceStatusStats();
+        return $this->model->getMotionServiceStatusStats($start, $end);
     }
 
     /**
@@ -111,9 +111,9 @@ class Service
             throw new Exception('You are not allowed to view motion service logs');
         }
 
-        $log = realpath('/var/log/motion/' . $log);
+        $log = realpath(LOGS_DIR . '/motion/' . $log);
 
-        if (!preg_match('#^/var/log/motion/.*log#', $log)) {
+        if (!preg_match('#^' . LOGS_DIR . '/motion/.*log#', $log)) {
             throw new Exception('Invalid log file');
         }
 

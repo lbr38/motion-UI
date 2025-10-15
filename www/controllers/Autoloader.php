@@ -2,14 +2,11 @@
 
 namespace Controllers;
 
-use Exception;
-
 class Autoloader
 {
     public function __construct(string $level = 'all')
     {
         $__LOAD_GENERAL_ERROR = 0;
-        $__LOAD_ERROR_MESSAGES = array();
 
         if (!defined('ROOT')) {
             define('ROOT', '/var/www/motionui');

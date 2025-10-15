@@ -228,7 +228,7 @@ class Onvif
             $nonce = mt_rand();
         }
 
-        $data = array();
+        $data = [];
 
         /**
          *  Create password digest
@@ -442,7 +442,7 @@ class Onvif
      */
     protected function getActiveSources(array $videoSources, array $profiles) : array
     {
-        $sources = array();
+        $sources = [];
 
         // NVT is a camera
         if (isset($videoSources['@attributes'])) {

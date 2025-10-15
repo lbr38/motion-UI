@@ -6,12 +6,13 @@ services:
     image: motionui-image
     privileged: true
     network_mode: host
+    environment:
+      FQDN: motionui.example.com
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        env: prod
-        fqdn: motionui.example.com
+        branch: main
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro

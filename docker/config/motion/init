@@ -8,6 +8,7 @@ NAME=motion
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/motion
 PIDFILE=/run/motion/motion.pid
+LOG_DIR="/var/lib/motionui/logs/motion"
 
 trap "" 1
 export LANG=C
@@ -17,13 +18,17 @@ test -f $DAEMON || exit 0
 
 case "$1" in
     start)
-        LOGFILE="/var/log/motion/$(date +'%Y-%m-%d_%H-%M-%S')_motion.log"
+        LOGFILE="$LOG_DIR/$(date +'%Y-%m-%d_%H-%M-%S')_motion.log"
+
+        # Create log directory
+        mkdir -p "$LOG_DIR" -m 770
+        chown www-data:www-data "$LOG_DIR"
 
         echo -n "Starting motion detection: "
 
-        # If /var/log/motion/motion.log is a file, remove it
-        if [ -f "/var/log/motion/motion.log" ]; then
-            rm -f /var/log/motion/motion.log
+        # If log is a file (and not a symlink), remove it
+        if [ -f "$LOG_DIR/motion.log" ]; then
+            rm -f "$LOG_DIR/motion.log"
         fi
 
         # Create log file with date and time
@@ -34,7 +39,7 @@ case "$1" in
 
         chown www-data:www-data "$LOGFILE"
         
-        if ! ln -sf "$LOGFILE" /var/log/motion/motion.log; then
+        if ! ln -sf "$LOGFILE" "$LOG_DIR/motion.log"; then
             echo "could not create symlink to log file"
             exit 1
         fi
@@ -52,7 +57,7 @@ case "$1" in
 
   stop)
     echo -n "Stopping motion detection: "
-    # start-stop-daemon --stop --pidfile $PIDFILE --oknodo --exec $DAEMON --retry 30
+
     if [ -f "$PIDFILE" ]; then
         PID=$(cat "$PIDFILE")
 

@@ -7,7 +7,6 @@ namespace Controllers\Websocket;
  */
 require ROOT . '/libs/vendor/autoload.php';
 
-use Exception;
 use JsonException;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;

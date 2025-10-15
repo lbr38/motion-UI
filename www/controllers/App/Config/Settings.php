@@ -7,7 +7,7 @@ class Settings
     public static function get()
     {
         $__LOAD_SETTINGS_ERROR = 0;
-        $__LOAD_SETTINGS_MESSAGES = array();
+        $__LOAD_SETTINGS_MESSAGES = [];
 
         $mysettings = new \Controllers\Settings();
         $mymotionAlert = new \Controllers\Motion\Alert();
@@ -65,20 +65,11 @@ class Settings
             }
         }
 
-        if (!defined('DEBUG_MODE')) {
-            if (!empty($settings['DEBUG_MODE']) and $settings['DEBUG_MODE'] == 'true') {
-                define('DEBUG_MODE', true);
-            } else {
-                define('DEBUG_MODE', false);
-            }
-        }
-
         /**
          *  Alerts settings
          */
-        $alertEnabled = $mymotionAlert->getStatus();
         if (!defined('ALERT_ENABLED')) {
-            define('ALERT_ENABLED', $alertEnabled);
+            define('ALERT_ENABLED', $mymotionAlert->getStatus());
         }
 
         if (!defined('__LOAD_SETTINGS_ERROR')) {

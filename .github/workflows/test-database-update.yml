@@ -22,8 +22,8 @@ jobs:
 
       # Get all releases
       # Format them to a key-value array
-      # Start from release index 5.0.0
-      # Pull images starting from release 5.0.0
+      # Start from release index 6.0.0
+      # Pull images starting from release 6.0.0
       # Ignore releases which contain "android"
       # Then pull the next image of the index, etc..
       - name: Test all releases update from lbr38/motionui
@@ -38,7 +38,7 @@ jobs:
           done
 
           for i in "${!RELEASES_ARRAY[@]}"; do
-              if [[ "${RELEASES_ARRAY[$i]}" == "5.0.0" ]]; then
+              if [[ "${RELEASES_ARRAY[$i]}" == "6.0.0" ]]; then
                   start_index="$i"
                   break
               fi
@@ -70,22 +70,23 @@ jobs:
 
               echo -e "\nNow checking for errors in container logs\n"
 
-              # Wait 20sec for the container to start
-              sleep 20
-
               # Retrieve and check errors in container logs
-              OUTPUT=$(docker logs motionui -n10000)
+              while true; do
+                  OUTPUT=$(docker logs motionui -n10000)
 
-              # Check if the logs contains error or failed message
-              if echo "$OUTPUT" | grep -q -i -E "error|failed|unknown|uncaught|warning"; then
-                  echo "Database update seems to have failed: $OUTPUT"
-                  exit 1
-              fi
+                  # Check if the logs contains failed or error message
+                  if echo "$OUTPUT" | grep -q -i -E "error|failed|unknown|uncaught|warning"; then
+                      echo "Database update seems to have failed: $OUTPUT"
+                      exit 1
+                  fi
 
-              # Quit the loop if the maintenance page is disabled (meaning the update is done) => no maintenance page in oldest releases, looping forever
-              #if echo "$OUTPUT" | grep -q "Disabling maintenance page"; then
-              #    break
-              #fi
+                  # Quit the loop if the maintenance page is disabled (meaning the update is done)
+                  if echo "$OUTPUT" | grep -q "Disabling maintenance page"; then
+                      break
+                  fi
+              
+                  sleep 2
+              done
           done
 
       # Finally, test the devel image
@@ -96,10 +97,10 @@ jobs:
 
           echo -e "\Build devel image\n"
 
-          cd ${GITHUB_WORKSPACE}/docker
+          cd ${GITHUB_WORKSPACE}
 
-          sed -i 's/env:.*/env: devel/g' docker-compose.yml
-          sed -i 's/fqdn:.*/fqdn: motionui.test.com/g' docker-compose.yml
+          sed -i 's/branch:.*/branch: devel/g' docker-compose.yml
+          sed -i 's/FQDN:.*/FQDN: motionui.test.com/g' docker-compose.yml
 
           docker-compose -f docker-compose.yml up -d
 
@@ -112,14 +113,8 @@ jobs:
           while true; do
               OUTPUT=$(docker logs motionui -n10000)
 
-              # Check if the logs contains failed message
-              if echo "$OUTPUT" | grep -q -i "failed"; then
-                  echo "Database update seems to have failed: $OUTPUT"
-                  exit 1
-              fi
-
-              # Check if the logs contains error message
-              if echo "$OUTPUT" | grep -q -i "error"; then
+              # Check if the logs contains failed or error message
+              if echo "$OUTPUT" | grep -q -i -E "error|failed|unknown|uncaught|warning"; then
                   echo "Database update seems to have failed: $OUTPUT"
                   exit 1
               fi

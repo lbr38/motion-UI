@@ -33,7 +33,7 @@
         /**
          *  Retrieve pictures name for the specified date
          */
-        $pictures = array();
+        $pictures = [];
         $picturesGlob = glob($timelapseDir . '/' . $date . '/*.jpg');
 
         foreach ($picturesGlob as $pictureGlob) {

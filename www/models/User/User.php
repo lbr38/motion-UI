@@ -40,7 +40,7 @@ class User extends \Models\Model
      */
     public function getUsers() : array
     {
-        $data = array();
+        $data = [];
 
         try {
             $result = $this->db->query("SELECT users.Id, users.Username, users.First_name, users.Last_name, users.Email, users.Type, user_role.Name as Role_name
@@ -52,6 +52,26 @@ class User extends \Models\Model
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    /**
+     *  Get all users email from database
+     */
+    public function getEmails() : array
+    {
+        $data = [];
+
+        try {
+            $result = $this->db->query("SELECT Email FROM users");
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data[] = $row['Email'];
         }
 
         return $data;
@@ -167,23 +187,6 @@ class User extends \Models\Model
     }
 
     /**
-     *  Update user personnal info in database
-     */
-    public function edit(int $id, string $firstName = null, string $lastName = null, string $email = null) : void
-    {
-        try {
-            $stmt = $this->db->prepare("UPDATE users SET First_name = :firstName, Last_name = :lastName, Email = :email WHERE Id = :id");
-            $stmt->bindValue(':id', $id);
-            $stmt->bindValue(':firstName', $firstName);
-            $stmt->bindValue(':lastName', $lastName);
-            $stmt->bindValue(':email', $email);
-            $stmt->execute();
-        } catch (Exception $e) {
-            $this->db->logError($e->getMessage());
-        }
-    }
-
-    /**
      *  Return true if user Id exists in database
      */
     public function existsId(int $id) : bool
@@ -221,21 +224,6 @@ class User extends \Models\Model
         }
 
         return true;
-    }
-
-    /**
-     *  Update user password in database
-     */
-    public function updatePassword(int $id, string $hashedPassword) : void
-    {
-        try {
-            $stmt = $this->db->prepare("UPDATE users SET Password = :password WHERE Id = :id");
-            $stmt->bindValue(':id', $id);
-            $stmt->bindValue(':password', $hashedPassword);
-            $stmt->execute();
-        } catch (Exception $e) {
-            $this->db->logError($e->getMessage());
-        }
     }
 
     /**

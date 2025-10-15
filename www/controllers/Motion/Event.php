@@ -3,6 +3,8 @@
 namespace Controllers\Motion;
 
 use Exception;
+use Controllers\Mail;
+use Controllers\Utils\Convert;
 
 class Event
 {
@@ -124,7 +126,7 @@ class Event
         /**
          *  Attach file to event
          */
-        $this->model->attachFile($motionEventId, $file, \Controllers\Common::sizeFormat(filesize($file), true), $width, $height, $fps, $changed_pixels);
+        $this->model->attachFile($motionEventId, $file, Convert::sizeToHuman(filesize($file), true), $width, $height, $fps, $changed_pixels);
 
         /**
          *  If the file is a movie, then create a thumbnail image for it
@@ -239,7 +241,7 @@ class Event
                 $mailMessage .= '<b>Event</b>: #' . $motionEventIdShort . ' (#' . $motionEventId . ')<br>';
                 $mailMessage .= '<b>Date</b>: ' . $date . ' ' . $time . '<br><br></p>';
                 $mailMessage .= '<p>A new motion has been detected by this camera.<br></p>';
-                $mymail = new \Controllers\Mail($alertRecipient, $mailSubject, $mailMessage, 'http://' . WWW_HOSTNAME . '/live', 'Live stream');
+                new Mail($alertRecipient, $mailSubject, $mailMessage, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME . '/live', 'Live stream');
             }
 
             if ($type == 'file') {
@@ -258,10 +260,10 @@ class Event
                  */
                 if ($fileSize < 10000000) {
                     $mailMessage .= '<p>A new attached file has been generated from this event.<br></p>';
-                    $mymail = new \Controllers\Mail($alertRecipient, $mailSubject, $mailMessage, 'http://' . WWW_HOSTNAME . '/live', 'Live stream', $file);
+                    new Mail($alertRecipient, $mailSubject, $mailMessage, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME . '/live', 'Live stream', $file);
                 } else {
                     $mailMessage .= '<p>Cannot attach file to the mail because it is too big (>10MB).<br></p>';
-                    $mymail = new \Controllers\Mail($alertRecipient, $mailSubject, $mailMessage, 'http://' . WWW_HOSTNAME . '/live', 'Live stream');
+                    new Mail($alertRecipient, $mailSubject, $mailMessage, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME . '/live', 'Live stream');
                 }
             }
         }
@@ -337,7 +339,7 @@ class Event
     public function getTotalMediaSizeByDate(string $date)
     {
         if (!file_exists(CAPTURES_DIR)) {
-            throw new \Exception('No captures directory found');
+            throw new Exception('No captures directory found');
         }
 
         /**
@@ -355,7 +357,7 @@ class Event
         /**
          *  Format and return the size
          */
-        return \Controllers\Common::sizeFormat($totalSize);
+        return Convert::sizeToHuman($totalSize);
     }
 
     /**

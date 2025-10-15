@@ -215,6 +215,37 @@
         <span class="onoff-switch-slider"></span>
     </label>
 
+    <hr class="margin-top-20 margin-bottom-20">
+
+    <h6>ENABLE MONITORING</h6>
+    <p class="note">Email alert will be sent if the camera goes offline.</p>
+    <label class="onoff-switch-label">
+        <input type="checkbox" class="onoff-switch-input form-param" param-name="monitoring-enable" <?php echo $cameraRawParams['monitoring']['enable'] == "true" ? 'checked' : '' ?>>
+        <span class="onoff-switch-slider"></span>
+    </label>
+
+    <?php
+    if (isset($cameraRawParams['monitoring']['enable']) and $cameraRawParams['monitoring']['enable'] == "true") : ?>
+        <div class="monitoring-settings margin-top-15">
+            <h6>RECIPIENTS</h6>
+            <p class="note">Email addresses to receive the alert notifications (comma separated).</p>
+            <select class="form-param" param-name="monitoring-recipients" multiple>
+                <?php
+                // Current recipients
+                foreach ($cameraRawParams['monitoring']['recipients'] as $recipient) {
+                    echo '<option value="' . $recipient . '" selected>' . $recipient . '</option>';
+                }
+                // All users emails
+                foreach ($usersEmails as $email) {
+                    if (!in_array($email, $cameraRawParams['monitoring']['recipients'])) {
+                        echo '<option value="' . $email . '">' . $email . '</option>';
+                    }
+                } ?>
+            </select>
+        </div>
+        <?php
+    endif ?>
+
     <br><br>
     <div class="flex column-gap-10">
         <button type="submit" class="btn-small-green">Save</button>
@@ -224,3 +255,7 @@
 
 <br>
 <br>
+
+<script>
+    myselect2.convert('select.form-param[param-name="monitoring-recipients"]', 'Select or specify recipients...', true, false);
+</script>

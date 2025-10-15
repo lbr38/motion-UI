@@ -3,6 +3,7 @@
 namespace Controllers\Camera\Param;
 
 use Exception;
+use Controllers\Utils\Validate;
 
 class Name
 {
@@ -21,7 +22,7 @@ class Name
         /**
          *  Check that name is valid
          */
-        if (!\Controllers\Common::isAlphanumDash($name, array(' '))) {
+        if (!Validate::alphaNumericHyphen($name, [' '])) {
             throw new Exception('Name contains invalid characters');
         }
     }

@@ -16,11 +16,11 @@ class Notification extends Model
      */
     public function get()
     {
-        $notifications = array();
+        $notifications = [];
 
         try {
             $result = $this->db->query("SELECT * FROM notifications");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
 
@@ -36,11 +36,11 @@ class Notification extends Model
      */
     public function getUnread()
     {
-        $notifications = array();
+        $notifications = [];
 
         try {
             $result = $this->db->query("SELECT Id, Title, Message FROM notifications WHERE Status = 'new'");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
 
@@ -62,7 +62,7 @@ class Notification extends Model
             $stmt->bindValue(':title', $title);
             $stmt->bindValue(':message', $message);
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
     }
@@ -76,7 +76,7 @@ class Notification extends Model
             $stmt = $this->db->prepare("UPDATE notifications SET Status = 'acquitted' WHERE Id = :id");
             $stmt->bindValue(':id', $id);
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
     }
@@ -90,7 +90,7 @@ class Notification extends Model
             $stmt = $this->db->prepare("SELECT Id FROM notifications WHERE Id_notification = :id");
             $stmt->bindValue(':id', $id);
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
 

@@ -7,7 +7,7 @@ if ($_POST['action'] == 'get-log' and !empty($_POST['log'])) {
 
     try {
         $content = $go2rtcController->getLog($_POST['log']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 

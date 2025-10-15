@@ -38,6 +38,13 @@
     <p class="note">Number of days to keep timelapse images before automatic deletion.</p>
     <input type="number" min="1" class="settings-param" setting-name="timelapse-retention" value="<?= TIMELAPSE_RETENTION ?>">
 
+    <h6>DEBUG MODE</h6>
+    <p class="note">Debug mode will display additional information on the interface.</p>
+    <label class="onoff-switch-label">
+        <input id="debug-mode-btn" class="onoff-switch-input" type="checkbox" value="true" <?php echo \Controllers\App\DebugMode::enabled() === true ? 'checked' : ''; ?>>
+        <span class="onoff-switch-slider"></span>
+    </label>
+
     <br>
     <br>
     <button type="submit" class="btn-small-green" title="Save">Save</button>

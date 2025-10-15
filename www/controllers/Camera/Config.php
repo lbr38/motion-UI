@@ -2,8 +2,6 @@
 
 namespace Controllers\Camera;
 
-use Exception;
-
 class Config
 {
     /**
@@ -45,6 +43,10 @@ class Config
             ],
             'timelapse' => [
                 'enable' => 'false'
+            ],
+            'monitoring' => [
+                'enable' => 'false',
+                'recipients' => []
             ],
             'hardware-acceleration' => 'false',
             'onvif' => [

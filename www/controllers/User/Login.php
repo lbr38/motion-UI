@@ -1,6 +1,7 @@
 <?php
 namespace Controllers\User;
 
+use Controllers\Utils\Validate;
 use Exception;
 
 class Login extends User
@@ -11,7 +12,7 @@ class Login extends User
     public function login(string $username, string $password) : void
     {
         try {
-            $username = \Controllers\Common::validateData($username);
+            $username = Validate::string($username);
 
             /**
              *  Get user Id from username
@@ -28,7 +29,7 @@ class Login extends User
             /**
              *  Checking in database that username/password couple is matching
              */
-            $this->checkUsernamePwd($id, $_POST['password']);
+            $this->checkUsernamePwd($id, $password);
 
             /**
              *  Getting all user informations in datbase

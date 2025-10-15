@@ -130,9 +130,9 @@ class Go2rtc
             throw new Exception('You are not allowed to view go2rtc logs');
         }
 
-        $log = realpath(GO2RTC_DIR . '/logs/' . $log);
+        $log = realpath(LOGS_DIR . '/go2rtc/' . $log);
 
-        if (!preg_match('#^' . GO2RTC_DIR . '/logs/.*log#', $log)) {
+        if (!preg_match('#^' . LOGS_DIR . '/go2rtc/.*log#', $log)) {
             throw new Exception('Invalid log file');
         }
 

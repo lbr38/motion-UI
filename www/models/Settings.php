@@ -2,8 +2,6 @@
 
 namespace Models;
 
-use Exception;
-
 class Settings extends Model
 {
     public function __construct()
@@ -16,7 +14,7 @@ class Settings extends Model
      */
     public function get()
     {
-        $settings = array();
+        $settings = [];
 
         $result = $this->db->query("SELECT * FROM settings");
 

@@ -148,7 +148,7 @@ async function connect(cameraId) {
         pc.close();
     });
 
-    // Retourner les objets pour pouvoir les gérer depuis WebrtcConnect
+    // Return objects to manage them from WebrtcConnect
     return {
         websocket: ws,
         peerConnection: pc,

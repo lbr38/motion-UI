@@ -69,4 +69,29 @@ class Settings
 
         $this->model->edit($streamDefaultTechnology, $timelapseInterval, $timelapseRetention, $motionEventsRetention);
     }
+
+    /**
+     *  Enable or disable debug mode
+     */
+    public function enableDebugMode(bool $enable) : void
+    {
+        if (!IS_ADMIN) {
+            throw new Exception('You are not allowed to perform this action');
+        }
+
+        // Create or remove the .debug file in the data directory to enable or disable debug mode
+        if ($enable) {
+            if (!file_exists(DATA_DIR . '/.debug')) {
+                if (!touch(DATA_DIR . '/.debug')) {
+                    throw new Exception('Failed to enable debug mode');
+                }
+            }
+        } else {
+            if (file_exists(DATA_DIR . '/.debug')) {
+                if (!unlink(DATA_DIR . '/.debug')) {
+                    throw new Exception('Failed to disable debug mode');
+                }
+            }
+        }
+    }
 }
