@@ -1,4 +1,34 @@
 /**
+ *  Event: edit user personnal informations
+ */
+$(document).on('submit','#user-edit-info',function (e) {
+    e.preventDefault();
+
+    var firstName = $('#user-edit-info').find('input[type=text][name=first-name]').val();
+    var lastName = $('#user-edit-info').find('input[type=text][name=last-name]').val();
+    var email = $('#user-edit-info').find('input[type=email][name=email]').val();
+
+    ajaxRequest(
+        // Controller:
+        'userspace',
+        // Action:
+        'edit',
+        // Data:
+        {
+            firstName: firstName,
+            lastName: lastName,
+            email: email
+        },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true
+    );
+
+    return false;
+});
+
+/**
  *  Event: change password
  */
 $(document).on('submit','#new-password-form',function () {

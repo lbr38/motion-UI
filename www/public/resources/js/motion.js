@@ -642,23 +642,21 @@ $(document).on('submit','#alert-conf-form',function () {
  */
 function enableAutostart(status)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "enableAutostart",
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'enableAutostart',
+        // Data:
+        {
             status: status
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            mycontainer.reload('motion/buttons/main');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true
+    ).then(function () {
+        mycontainer.reload('motion/buttons/main');
     });
 }
 
@@ -720,24 +718,21 @@ function configureAutostart(mondayStart, mondayEnd, tuesdayStart, tuesdayEnd, we
  */
 function enableDevicePresence(status)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "enableDevicePresence",
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'enableDevicePresence',
+        // Data:
+        {
             status: status
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'success');
-            mypanel.reload('motion/autostart');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true
+    ).then(function () {
+        mypanel.reload('motion/autostart');
     });
 }
 
@@ -748,25 +743,22 @@ function enableDevicePresence(status)
  */
 function addDevice(name, ip)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "addDevice",
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'addDevice',
+        // Data:
+        {
             name: name,
             ip: ip
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'success');
-            mypanel.reload('motion/autostart');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true
+    ).then(function () {
+        mypanel.reload('motion/autostart');
     });
 }
 
@@ -776,24 +768,21 @@ function addDevice(name, ip)
  */
 function removeDevice(id)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "removeDevice",
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'removeDevice',
+        // Data:
+        {
             id: id
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'success');
-            mypanel.reload('motion/autostart');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true
+    ).then(function () {
+        mypanel.reload('motion/autostart');
     });
 }
 
@@ -803,23 +792,21 @@ function removeDevice(id)
  */
 function enableAlert(status)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "enableAlert",
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'enableAlert',
+        // Data:
+        {
             status: status
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            mycontainer.reload('motion/buttons/main');
-        },
-        error : function (jqXHR, ajaxOptions, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true
+    ).then(function () {
+        mycontainer.reload('motion/buttons/main');
     });
 }
 
@@ -828,24 +815,20 @@ function enableAlert(status)
  */
 function sendTestEmail(mailRecipient)
 {
-    $.ajax({
-        type: "POST",
-        url: "/ajax/controller.php",
-        data: {
-            controller: "motion",
-            action: "sendTestEmail",
+    ajaxRequest(
+        // Controller:
+        'motion',
+        // Action:
+        'sendTestEmail',
+        // Data:
+        {
             mailRecipient: mailRecipient
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'success');
-        },
-        error: function (jqXHR, textStatus, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
-    });
+        // Print success alert:
+        true,
+        // Print error alert:
+        true
+    );
 }
 
 /**

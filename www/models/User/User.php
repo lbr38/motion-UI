@@ -167,23 +167,6 @@ class User extends \Models\Model
     }
 
     /**
-     *  Update user personnal info in database
-     */
-    public function edit(int $id, string $firstName = null, string $lastName = null, string $email = null) : void
-    {
-        try {
-            $stmt = $this->db->prepare("UPDATE users SET First_name = :firstName, Last_name = :lastName, Email = :email WHERE Id = :id");
-            $stmt->bindValue(':id', $id);
-            $stmt->bindValue(':firstName', $firstName);
-            $stmt->bindValue(':lastName', $lastName);
-            $stmt->bindValue(':email', $email);
-            $stmt->execute();
-        } catch (Exception $e) {
-            $this->db->logError($e->getMessage());
-        }
-    }
-
-    /**
      *  Return true if user Id exists in database
      */
     public function existsId(int $id) : bool
@@ -221,21 +204,6 @@ class User extends \Models\Model
         }
 
         return true;
-    }
-
-    /**
-     *  Update user password in database
-     */
-    public function updatePassword(int $id, string $hashedPassword) : void
-    {
-        try {
-            $stmt = $this->db->prepare("UPDATE users SET Password = :password WHERE Id = :id");
-            $stmt->bindValue(':id', $id);
-            $stmt->bindValue(':password', $hashedPassword);
-            $stmt->execute();
-        } catch (Exception $e) {
-            $this->db->logError($e->getMessage());
-        }
     }
 
     /**

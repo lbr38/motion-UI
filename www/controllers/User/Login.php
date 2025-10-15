@@ -28,7 +28,7 @@ class Login extends User
             /**
              *  Checking in database that username/password couple is matching
              */
-            $this->checkUsernamePwd($id, $_POST['password']);
+            $this->checkUsernamePwd($id, $password);
 
             /**
              *  Getting all user informations in datbase

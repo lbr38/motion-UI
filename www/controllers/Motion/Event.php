@@ -3,6 +3,7 @@
 namespace Controllers\Motion;
 
 use Exception;
+use \Controllers\Mail;
 
 class Event
 {
@@ -239,7 +240,7 @@ class Event
                 $mailMessage .= '<b>Event</b>: #' . $motionEventIdShort . ' (#' . $motionEventId . ')<br>';
                 $mailMessage .= '<b>Date</b>: ' . $date . ' ' . $time . '<br><br></p>';
                 $mailMessage .= '<p>A new motion has been detected by this camera.<br></p>';
-                $mymail = new \Controllers\Mail($alertRecipient, $mailSubject, $mailMessage, 'http://' . WWW_HOSTNAME . '/live', 'Live stream');
+                new Mail($alertRecipient, $mailSubject, $mailMessage, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME . '/live', 'Live stream');
             }
 
             if ($type == 'file') {
@@ -258,10 +259,10 @@ class Event
                  */
                 if ($fileSize < 10000000) {
                     $mailMessage .= '<p>A new attached file has been generated from this event.<br></p>';
-                    $mymail = new \Controllers\Mail($alertRecipient, $mailSubject, $mailMessage, 'http://' . WWW_HOSTNAME . '/live', 'Live stream', $file);
+                    new Mail($alertRecipient, $mailSubject, $mailMessage, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME . '/live', 'Live stream', $file);
                 } else {
                     $mailMessage .= '<p>Cannot attach file to the mail because it is too big (>10MB).<br></p>';
-                    $mymail = new \Controllers\Mail($alertRecipient, $mailSubject, $mailMessage, 'http://' . WWW_HOSTNAME . '/live', 'Live stream');
+                    new Mail($alertRecipient, $mailSubject, $mailMessage, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME . '/live', 'Live stream');
                 }
             }
         }

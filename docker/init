@@ -82,6 +82,6 @@ fi
 /bin/bash "$WWW_DIR/bin/service.sh" &
 
 # Start motionui service
-/bin/su -s /bin/bash -c "php $WWW_DIR/tools/service.php" www-data
+exec setpriv --reuid www-data --regid www-data --groups www-data,motionui /usr/bin/php "$WWW_DIR/tools/service.php"
 
 /bin/bash

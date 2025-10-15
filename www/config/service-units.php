@@ -5,15 +5,15 @@
  *  The unit must have a method that hold the logic to execute or call other controllers/services
  */
 $units = [
-    // This cleans temporary files every hour
-    'cleanup-temp-files' => [
-        'title' => 'Temporary files cleanup',
-        'description' => 'Ensures temporary files under Motion-UI data directory are cleaned',
+    // This cleans files every hour
+    'cleanup-files' => [
+        'title' => 'Files cleanup',
+        'description' => 'Ensures temporary and old files are cleaned up',
         'controller' => 'Service\Unit\Cleanup\File',
         'method' => 'run',
         'interval' => 'every-day',
         'time' => '00:00',
-        'log-dir' => 'cleanup/temporary-files'
+        'log-dir' => 'cleanup/files'
     ],
     // This retrieves notifications from github every hour
     'notifications' => [
@@ -31,6 +31,15 @@ $units = [
         'method' => 'monitor',
         'interval' => 'every-minute',
         'log-dir' => 'system/monitoring'
+    ],
+    // This monitors cameras status every minute
+    'camera-monitoring' => [
+        'title' => 'Camera monitoring',
+        'description' => 'Monitors camera status every minute',
+        'controller' => 'Service\Unit\Monitoring',
+        'method' => 'cameraStatus',
+        'interval' => 'every-minute',
+        'log-dir' => 'camera/monitoring'
     ],
     // This monitors motion service status every minute
     'motion-monitoring' => [

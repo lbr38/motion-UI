@@ -173,6 +173,15 @@ class Connection extends SQLite3
         Memory_usage REAL,
         Disk_usage REAL)");
 
+        $this->exec("CREATE TABLE IF NOT EXISTS camera_monitoring (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Timestamp VARCHAR(255) NOT NULL,
+        Main_stream_status INTEGER, /* 0 = inactive, 1 = active, -1 = no stream configured */
+        Secondary_stream_status INTEGER, /* 0 = inactive, 1 = active, -1 = no stream configured */
+        Main_stream_error VARCHAR(255),
+        Secondary_stream_error VARCHAR(255),
+        Camera_id INTEGER)");
+
         /**
          *  Create indexes on system_monitoring table
          */
@@ -290,6 +299,7 @@ class Connection extends SQLite3
         Type CHAR(5) NOT NULL, /* info, error */
         Component VARCHAR(255),
         Message VARCHAR(255) NOT NULL,
+        Details TEXT,
         Status CHAR(9) NOT NULL)"); /* new, acquitted */
 
          /**

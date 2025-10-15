@@ -321,7 +321,7 @@ class Autostart extends \Controllers\Service\Service
                             $try = 0;
 
                             while ($try != 2) {
-                                $myprocess = new \Controllers\Process('ping -q -c1 -W2 -n "' . $device['Ip'] . '" > /dev/null');
+                                $myprocess = new \Controllers\Process('ping -q -c1 -W4 -n "' . $device['Ip'] . '" > /dev/null');
                                 $myprocess->execute();
                                 $myprocess->close();
 

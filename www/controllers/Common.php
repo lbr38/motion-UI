@@ -29,6 +29,18 @@ class Common
     }
 
     /**
+     *  Validate email address format
+     */
+    public static function validateMail(string $mail)
+    {
+        if (filter_var(trim($mail), FILTER_VALIDATE_EMAIL)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      *  Check that the string passed contains only numbers or letters
      */
     public static function isAlphanum(string $data, array $additionalValidCaracters = [])
