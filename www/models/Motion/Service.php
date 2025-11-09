@@ -14,25 +14,24 @@ class Service extends \Models\Model
     /**
      *  Get daily motion service status (for stats)
      */
-    public function getMotionServiceStatusStats() : array
+    public function getMotionServiceStatusStats(int $start, int $end) : array
     {
-        $status = array();
+        $data = [];
 
         try {
-            $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE (Date = :dateYesterday AND Time >= :timeNow) OR (Date = :dateToday)");
-            $stmt->bindValue(':dateYesterday', date('Y-m-d', strtotime('-1 day', strtotime(DATE_YMD))));
-            $stmt->bindValue(':timeNow', date('H:i:s'));
-            $stmt->bindValue(':dateToday', DATE_YMD);
+            $stmt = $this->db->prepare("SELECT * FROM motion_status WHERE Timestamp BETWEEN :start AND :end ORDER BY Timestamp ASC");
+            $stmt->bindValue(':start', $start);
+            $stmt->bindValue(':end', $end);
             $result = $stmt->execute();
         } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $status[] = $row;
+            $data[] = $row;
         }
 
-        return $status;
+        return $data;
     }
 
     /**
@@ -41,9 +40,8 @@ class Service extends \Models\Model
     public function setStatusInDb(string $status) : void
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO motion_status (Date, Time, Status) VALUES (:date, :time, :status)");
-            $stmt->bindValue(':date', date('Y-m-d'));
-            $stmt->bindValue(':time', date('H:i:s'));
+            $stmt = $this->db->prepare("INSERT INTO motion_status (Timestamp, Status) VALUES (:timestamp, :status)");
+            $stmt->bindValue(':timestamp', time());
             $stmt->bindValue(':status', $status);
             $stmt->execute();
         } catch (Exception $e) {

@@ -83,7 +83,7 @@ $(document).on('click','.copy-input-onclick',function (e) {
 /**
  *  Event: mark log as read
  */
-$(document).on('click','.acquit-log-btn',function () {
+$(document).on('click','.general-log-acquit-btn',function () {
     var id = $(this).attr('log-id');
 
     $.ajax({
@@ -135,4 +135,13 @@ $(document).on('click','.reloadable-table-page-btn',function () {
     mycookie.set('tables/' + table + '/offset', offset, 1);
 
     mytable.reload(table, offset);
+});
+
+/**
+ *  Event: show general log details
+ */
+$(document).on('click','.general-log-show-info-btn',function () {
+    var id = $(this).attr('log-id');
+
+    $('pre.general-log-details[log-id="' + id + '"]').toggle();
 });

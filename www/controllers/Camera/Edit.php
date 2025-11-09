@@ -2,6 +2,8 @@
 
 namespace Controllers\Camera;
 
+use Controllers\Utils\Validate;
+use JsonException;
 use Exception;
 
 class Edit extends Camera
@@ -11,14 +13,11 @@ class Edit extends Camera
      */
     public function edit(int $id, array $params) : void
     {
+        $go2rtcStreams = [];
+
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to edit camera settings');
         }
-
-        $motionParams = [];
-        $go2rtcStreams = [];
-        $ffmpeg = false;
-        $ffmpegParams = '';
 
         /**
          *  Check that camera Id exist
@@ -56,7 +55,7 @@ class Edit extends Camera
         $configuration = $this->cameraConfigController->getTemplate();
 
         /**
-         *  Get that minimal required parameters are set
+         *  Check that minimal required parameters are set
          */
         Param\Name::check($params['name']);
         // Main stream
@@ -73,6 +72,12 @@ class Edit extends Camera
         Param\BasicAuthPassword::check($params['password']);
         Param\OnvifEnable::check($params['onvif-enable']);
         Param\OnvifPort::check($params['onvif-port']);
+        // Monitoring
+        Param\MonitoringEnable::check($params['monitoring-enable']);
+        // Check that monitoring recipients are valid emails
+        if ($params['monitoring-enable'] == 'true' and isset($params['monitoring-recipients']) and is_array($params['monitoring-recipients'])) {
+            Param\MonitoringRecipients::check($params['monitoring-recipients']);
+        }
 
         /**
          *  Set camera configuration
@@ -85,10 +90,10 @@ class Edit extends Camera
         $configuration['main-stream']['height']                = explode('x', $params['main-stream-resolution'])[1];
         $configuration['main-stream']['framerate']             = $params['main-stream-framerate'];
         $configuration['main-stream']['rotate']                = $params['main-stream-rotate'];
-        $configuration['main-stream']['text-left']             = \Controllers\Common::validateData($params['main-stream-text-left']);
-        $configuration['main-stream']['text-right']            = \Controllers\Common::validateData($params['main-stream-text-right']);
-        $configuration['main-stream']['timestamp-left']        = \Controllers\Common::validateData($params['main-stream-timestamp-left']);
-        $configuration['main-stream']['timestamp-right']       = \Controllers\Common::validateData($params['main-stream-timestamp-right']);
+        $configuration['main-stream']['text-left']             = Validate::string($params['main-stream-text-left']);
+        $configuration['main-stream']['text-right']            = Validate::string($params['main-stream-text-right']);
+        $configuration['main-stream']['timestamp-left']        = Validate::string($params['main-stream-timestamp-left']);
+        $configuration['main-stream']['timestamp-right']       = Validate::string($params['main-stream-timestamp-right']);
         // Secondary stream
         $configuration['secondary-stream']['device']           = $params['secondary-stream-device'];
         $configuration['secondary-stream']['resolution']       = $params['secondary-stream-resolution'];
@@ -96,12 +101,14 @@ class Edit extends Camera
         $configuration['secondary-stream']['height']           = explode('x', $params['secondary-stream-resolution'])[1];
         $configuration['secondary-stream']['framerate']        = $params['secondary-stream-framerate'];
         // Authentication
-        $configuration['authentication']['username']           = \Controllers\Common::validateData($params['username']);
-        $configuration['authentication']['password']           = \Controllers\Common::validateData($params['password']);
+        $configuration['authentication']['username']           = Validate::string($params['username']);
+        $configuration['authentication']['password']           = Validate::string($params['password']);
         $configuration['stream']['enable']                     = $currentConfiguration['stream']['enable'];
         $configuration['stream']['technology']                 = $params['stream-technology'];
         $configuration['motion-detection']['enable']           = $params['motion-detection-enable'];
         $configuration['timelapse']['enable']                  = $params['timelapse-enable'];
+        $configuration['monitoring']['enable']                 = $params['monitoring-enable'];
+        $configuration['monitoring']['recipients']             = $params['monitoring-recipients'] ?? [];
         $configuration['onvif']['enable']                      = $params['onvif-enable'];
         $configuration['onvif']['port']                        = $params['onvif-port'];
 

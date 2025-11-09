@@ -160,7 +160,7 @@
                             </div>
 
                             <!-- PTZ buttons -->
-                            <div class="camera-ptz-btn-container flex-direction-column margin-top-20 hide" camera-id="<?= $cameraId ?>">
+                            <div class="camera-ptz-btn-container do-not-drag flex-direction-column margin-top-20 hide" camera-id="<?= $cameraId ?>">
                                 <div class="flex column-gap-20 align-item-center justify-center">
 
                                     <!-- PTZ Continuous move buttons -->
@@ -198,7 +198,7 @@
                                 <?php
                                 if ($cameraRawParams['stream']['technology'] != 'webrtc') : ?>
                                     <div class="margin-top-15">
-                                        <p class="note">For lower latency in movement control, please use WebRTC stream technology</p>
+                                        <p class="note text-center">For lower latency in movement control, please use WebRTC stream technology</p>
                                     </div>
                                     <?php
                                 endif ?>

@@ -9,7 +9,7 @@
 
         <div class="flex align-item-center column-gap-10">
             <?php
-            $logFiles = glob(GO2RTC_DIR . '/logs/*.log');
+            $logFiles = glob(LOGS_DIR . '/go2rtc/*.log');
 
             if (empty($logFiles)) {
                 echo '<p class="note">No logs for now.</p>';
@@ -49,7 +49,7 @@
 
         <div class="flex align-item-center column-gap-10">
             <?php
-            $logFiles = glob('/var/log/motion/*.log');
+            $logFiles = glob(LOGS_DIR . '/motion/*.log');
 
             if (empty($logFiles)) {
                 echo '<p class="note">No logs for now.</p>';

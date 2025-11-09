@@ -16,7 +16,7 @@ class Autostart extends \Models\Model
      */
     public function getConfiguration()
     {
-        $config = array();
+        $config = [];
 
         $result = $this->db->query("SELECT * FROM autostart");
 
@@ -32,7 +32,7 @@ class Autostart extends \Models\Model
      */
     public function getDevices()
     {
-        $devices = array();
+        $devices = [];
 
         $result = $this->db->query("SELECT * FROM devices");
 

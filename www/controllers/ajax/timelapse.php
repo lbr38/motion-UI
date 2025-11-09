@@ -8,7 +8,7 @@ $mytimelapse = new \Controllers\Camera\Timelapse();
 if ($_POST['action'] == 'get-timelapse' and !empty($_POST['cameraId'])) {
     try {
         $timelapse = $mytimelapse->display($_POST['cameraId']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -24,7 +24,7 @@ if ($_POST['action'] == 'get-timelapse' and !empty($_POST['cameraId'])) {
 if ($_POST['action'] == 'get-timelapse-by-date' and !empty($_POST['cameraId']) and !empty($_POST['date'])) {
     try {
         $timelapse = $mytimelapse->display($_POST['cameraId'], $_POST['date']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -40,7 +40,7 @@ if ($_POST['action'] == 'get-timelapse-by-date' and !empty($_POST['cameraId']) a
 if ($_POST['action'] == 'get-timelapse-by-picture' and !empty($_POST['cameraId']) and !empty($_POST['date']) and !empty($_POST['picture'])) {
     try {
         $timelapse = $mytimelapse->display($_POST['cameraId'], $_POST['date'], $_POST['picture']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 

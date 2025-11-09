@@ -61,7 +61,7 @@ class WebsocketServer extends \Models\Model
      */
     public function getAuthenticatedWsConnections()
     {
-        $connections = array();
+        $connections = [];
 
         try {
             $stmt = $this->db->prepare("SELECT * FROM ws_connections WHERE Authenticated = 'true'");
@@ -82,7 +82,7 @@ class WebsocketServer extends \Models\Model
      */
     public function getWsConnections(string|null $type = null)
     {
-        $connections = array();
+        $connections = [];
 
         try {
             // If a connection type is provided, return only connections of that type

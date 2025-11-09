@@ -66,7 +66,11 @@ It should help you **installing** and starting using motion-UI.
 
 ## 📱 Android app
 
-An Android app is available for download <a href="https://github.com/lbr38/motion-UI/releases/tag/android-1.0.0">here</a> (in the assets section).
+Get the android app to visualize your cameras and manage your motion-UI instance on your smartphone.
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/app.motionui.android)
 
 ## 📧 Contact
 

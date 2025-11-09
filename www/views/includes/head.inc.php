@@ -26,8 +26,8 @@
     <script src="/resources/js/libs/select2.js?<?= VERSION ?>"></script>
     <!-- Morhpdom -->
     <script src="/resources/js/libs/morphdom-umd.min.js?<?= VERSION ?>"></script>
-    <!-- ChartJS -->
-    <script src="/resources/js/libs/chartjs-4.4.8.umd.js?<?= VERSION ?>"></script>
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <!-- Stream -->
     <script type="module" src="/resources/js/stream/video-rtc.js?<?= VERSION ?>"></script>
     <script type="module" src="/resources/js/stream/video-stream.js?<?= VERSION ?>"></script>

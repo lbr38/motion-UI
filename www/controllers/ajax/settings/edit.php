@@ -3,12 +3,12 @@
 /**
  *  Edit global settings
  */
-if ($_POST['action'] == "edit" and !empty($_POST['settings_params_json'])) {
+if ($_POST['action'] == 'edit' and !empty($_POST['settings_params_json'])) {
     $mysettings = new \Controllers\Settings();
 
     try {
         $mysettings->edit($_POST['settings_params_json']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 

@@ -108,6 +108,10 @@ class Camera
             delay: 500,
             delayOnTouchOnly: true,
             ghostClass: 'sortable-ghost',
+            // Class name of the element that should not trigger drag
+            filter: '.do-not-drag',
+            // Prevent drag from starting on filtered elements
+            preventOnFilter: false,
 
             // On drag start
             onStart: function (evt) {

@@ -57,7 +57,7 @@ class Layout
          *  Reset the session array
          *  We empty it completely
          */
-        $_SESSION = array();
+        $_SESSION = [];
 
         /**
          *  If it's desired to kill the session, also delete the session cookie.

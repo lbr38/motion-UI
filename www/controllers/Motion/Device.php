@@ -2,6 +2,7 @@
 
 namespace Controllers\Motion;
 
+use Controllers\Utils\Validate;
 use Exception;
 
 class Device
@@ -18,8 +19,8 @@ class Device
      */
     public function add(string $name, string $ip)
     {
-        $name = \Controllers\Common::validateData($name);
-        $ip = \Controllers\Common::validateData($ip);
+        $name = Validate::string($name);
+        $ip = Validate::string($ip);
 
         $this->model->add($name, $ip);
     }

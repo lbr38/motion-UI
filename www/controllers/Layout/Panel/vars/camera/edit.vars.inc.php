@@ -4,6 +4,7 @@ if (!IS_ADMIN) {
 }
 
 $mycamera = new \Controllers\Camera\Camera();
+$userController = new \Controllers\User\User();
 $cameraId = $item['id'];
 $onvifFieldsClass = '';
 
@@ -11,6 +12,11 @@ $onvifFieldsClass = '';
  *  Get camera configuration
  */
 $camera = $mycamera->getConfiguration($cameraId);
+
+/**
+ *  Get all users emails
+ */
+$usersEmails = $userController->getEmails();
 
 /**
  *  Get cameras raw params
@@ -27,3 +33,5 @@ try {
 if (empty($cameraRawParams['onvif']['enable']) or $cameraRawParams['onvif']['enable'] != "true") {
     $onvifFieldsClass = 'hide';
 }
+
+unset($mycamera, $userController);

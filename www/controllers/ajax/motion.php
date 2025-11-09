@@ -4,7 +4,7 @@
  */
 if ($_POST['action'] == "sendTestEmail" and !empty($_POST['mailRecipient'])) {
     try {
-        $mymail = new \Controllers\Mail($_POST['mailRecipient'], 'Test email', 'This is a test email sent by motion-UI.');
+        new \Controllers\Mail($_POST['mailRecipient'], 'Test email', 'This is a test email sent by motion-UI.');
     } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
@@ -20,7 +20,7 @@ if ($_POST['action'] == "enableAlert" and !empty($_POST['status'])) {
 
     try {
         $mymotionAlert->enable($_POST['status']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -66,7 +66,7 @@ if ($_POST['action'] == "configureAlert"
             $_POST['sundayEnd'],
             $_POST['mailRecipient']
         );
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -81,7 +81,7 @@ if ($_POST['action'] == "enableAutostart" and !empty($_POST['status'])) {
 
     try {
         $mymotionAutostart->enable($_POST['status']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -96,7 +96,7 @@ if ($_POST['action'] == "start-stop" and !empty($_POST['status'])) {
 
     try {
         $mymotion->startStop($_POST['status']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -140,7 +140,7 @@ if ($_POST['action'] == "configureAutostart"
             $_POST['sundayStart'],
             $_POST['sundayEnd']
         );
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -155,7 +155,7 @@ if ($_POST['action'] == "addDevice" and !empty($_POST['name']) and !empty($_POST
 
     try {
         $mymotionDevice->add($_POST['name'], $_POST['ip']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -170,7 +170,7 @@ if ($_POST['action'] == "removeDevice" and !empty($_POST['id'])) {
 
     try {
         $mymotionDevice->remove($_POST['id']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -185,7 +185,7 @@ if ($_POST['action'] == "enableDevicePresence" and !empty($_POST['status'])) {
 
     try {
         $mymotionAutostart->enableDevicePresence($_POST['status']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -200,7 +200,7 @@ if ($_POST['action'] == 'acquit-events') {
 
     try {
         $mymotionEvent->acquitAll();
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -215,7 +215,7 @@ if ($_POST['action'] == "getFilePath" and !empty($_POST['fileId'])) {
 
     try {
         $symlinkName = $mymotion->getFilePath($_POST['fileId']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -230,7 +230,7 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
 
     try {
         $mymotionEvent->deleteFile($_POST['mediaId']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -244,7 +244,7 @@ if ($_POST['action'] == 'get-event-date-total-media-size' and !empty($_POST['dat
     try {
         $mymotionEvent = new \Controllers\Motion\Event();
         $size = $mymotionEvent->getTotalMediaSizeByDate($_POST['date']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -259,7 +259,7 @@ if ($_POST['action'] == "configure-motion" and !empty($_POST['cameraId']) and !e
 
     try {
         $mymotionConfig->configure($_POST['cameraId'], $_POST['params']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
@@ -274,7 +274,7 @@ if ($_POST['action'] == 'get-log' and !empty($_POST['log'])) {
 
     try {
         $content = $motionServiceController->getLog($_POST['log']);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 

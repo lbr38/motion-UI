@@ -4,6 +4,7 @@ namespace Controllers\Motion;
 
 use Exception;
 use JsonException;
+use Controllers\Utils\Validate;
 
 class Config
 {
@@ -128,14 +129,14 @@ class Config
         ksort($params);
 
         foreach ($params as $name => $details) {
-            $name    = \Controllers\Common::validateData($name);
+            $name    = Validate::string($name);
             $enabled = $details['enabled'];
             $value   = $details['value'];
 
             /**
              *  Check that parameter name is valid and does not contains invalid characters
              */
-            if (\Controllers\Common::isAlphanumDash($name) === false) {
+            if (!Validate::alphaNumericHyphen($name)) {
                 throw new Exception($name . ' parameter name contains invalid character(s)');
             }
 

@@ -5,15 +5,15 @@
  *  The unit must have a method that hold the logic to execute or call other controllers/services
  */
 $units = [
-    // This cleans temporary files every hour
-    'cleanup-temp-files' => [
-        'title' => 'Temporary files cleanup',
-        'description' => 'Ensures temporary files under Motion-UI data directory are cleaned',
+    // This cleans files every hour
+    'cleanup-files' => [
+        'title' => 'Files cleanup',
+        'description' => 'Ensures temporary and old files are cleaned up',
         'controller' => 'Service\Unit\Cleanup\File',
         'method' => 'run',
-        'interval' => 'every-day',
+        'frequency' => 'every-day',
         'time' => '00:00',
-        'log-dir' => 'cleanup/temporary-files'
+        'log-dir' => 'cleanup/files'
     ],
     // This retrieves notifications from github every hour
     'notifications' => [
@@ -21,7 +21,7 @@ $units = [
         'description' => 'Retrieve new notifications from GitHub',
         'controller' => 'Service\Unit\Notification',
         'method' => 'get',
-        'interval' => 'every-hour'
+        'frequency' => 'every-hour'
     ],
     // This monitors CPU, memory and disk usage every minute
     'system-monitoring' => [
@@ -29,8 +29,17 @@ $units = [
         'description' => 'Monitors CPU, memory and disk usage every minute',
         'controller' => 'Service\Unit\Monitoring',
         'method' => 'monitor',
-        'interval' => 'every-minute',
+        'frequency' => 'every-minute',
         'log-dir' => 'system/monitoring'
+    ],
+    // This monitors cameras status every minute
+    'camera-monitoring' => [
+        'title' => 'Camera monitoring',
+        'description' => 'Monitors camera status every minute',
+        'controller' => 'Service\Unit\Monitoring',
+        'method' => 'cameraStatus',
+        'frequency' => 'every-minute',
+        'log-dir' => 'camera/monitoring'
     ],
     // This monitors motion service status every minute
     'motion-monitoring' => [
@@ -38,7 +47,7 @@ $units = [
         'description' => 'Monitors motion service status every minute',
         'controller' => 'Service\Unit\Monitoring',
         'method' => 'motionStatus',
-        'interval' => 'every-hour',
+        'frequency' => 'every-hour',
         'log-dir' => 'motion/monitoring'
     ],
     // This checks for new version of the application every hour
@@ -47,7 +56,7 @@ $units = [
         'description' => 'Checks for new version of the application',
         'controller' => 'Service\Unit\Version',
         'method' => 'get',
-        'interval' => 'every-hour',
+        'frequency' => 'every-hour',
     ],
     // This runs the autostart function every minute
     'autostart' => [
@@ -55,7 +64,7 @@ $units = [
         'description' => 'Runs the autostart function to start and stop motion service automatically',
         'controller' => 'Service\Unit\Autostart',
         'method' => 'run',
-        'interval' => 'every-minute',
+        'frequency' => 'forever',
         'log-dir' => 'motion/autostart'
     ],
     // This runs the timelapse function every minute
@@ -64,7 +73,7 @@ $units = [
         'description' => 'Runs the timelapse function to capture images at defined intervals',
         'controller' => 'Service\Unit\Timelapse',
         'method' => 'run',
-        'interval' => 'every-minute',
+        'frequency' => 'every-minute',
         'log-dir' => 'camera/timelapse'
     ],
     // This runs the websocket server
@@ -74,6 +83,6 @@ $units = [
         'controller' => 'Service\Unit\WebsocketServer',
         'method' => 'run',
         // Make sure the websocket server is always running
-        'interval' => 'every-minute'
+        'frequency' => 'forever'
     ]
 ];

@@ -5,6 +5,8 @@ export TERM="xterm-256color"
 WWW_USER="www-data"
 WWW_DIR="/var/www/motionui"
 DATA_DIR="/var/lib/motionui"
+MOTION_CAPTURES_DIR="/var/lib/motion"
+MOTION_CONFIG_DIR="/usr/var/lib/motion"
 CONFIRM=""
 PWD=$(pwd)
 
@@ -16,7 +18,7 @@ RESET=$(tput sgr0)
 
 # Detecting user
 if [ "$(id -u)" -ne "0" ];then
-    echo -e "\n${YELLOW}Must be executed with sudo ${RESET}\n"
+    echo -e "\n${YELLOW}Must be executed with root${RESET}\n"
     exit
 fi
 
@@ -31,41 +33,60 @@ function help
 # Set correct permissions on all directories and files used by motionui
 function permissions
 {
-    echo -e "\n${YELLOW} Setting permissions... ${RESET}"
+    # Check if directories and files exist
+    if [ ! -d "$WWW_DIR" ];then
+        echo -e "[$YELLOW ERROR $RESET] '$WWW_DIR' web directory not found."
+        exit 1
+    fi
+    if [ ! -d "$DATA_DIR" ];then
+        echo -e "[$YELLOW ERROR $RESET] '$DATA_DIR' data directory not found."
+        exit 1
+    fi
+
+    echo "["$(date +"%a %b %-d %H:%M:%S")"][INF] Setting permissions... "
+
+    # Make sure motion captures directory exists
+    mkdir -p /var/lib/motion
+
+    # Make sure log directory exists and is writable for services to start
+    mkdir -p /var/lib/motionui/logs
+
+    # Make sur /run/go2rtc exists
+    mkdir -p /run/go2rtc
+    chown -R www-data:www-data /run/go2rtc
+    chmod 775 /run/go2rtc
+
+    # Make sure owner and group and permissions are correct on parent directories
+    chown www-data:www-data "$WWW_DIR" "$DATA_DIR"
+    chmod 770 "$WWW_DIR" "$DATA_DIR" "$MOTION_CONFIG_DIR" "$MOTION_CAPTURES_DIR"   
+
+    # Now go deeper and set permissions recursively
+    chown -R www-data:www-data "$WWW_DIR" > /dev/null 2>&1
+    chown -R www-data:www-data "$DATA_DIR" > /dev/null 2>&1
+    chown -R www-data:www-data "$MOTION_CONFIG_DIR" > /dev/null 2>&1
+    chown -R www-data:www-data "$MOTION_CAPTURES_DIR" > /dev/null 2>&1
+    chown -R www-data:www-data /usr/lib/motion /usr/var/lib/motion /var/run/motion
 
     # Set permissions for video devices, if any
     if ls /dev/video* > /dev/null 2>&1; then
-        chown root:motionui /dev/video*
+        chown root:www-data /dev/video*
     fi
 
     # Permissions on web directory
-    chmod 750 "$WWW_DIR/bin/motionui"
-    chmod 750 "$WWW_DIR/bin/on_event"*
-    chmod 750 "$WWW_DIR"
-    chown -R $WWW_USER "$WWW_DIR"
-    chgrp -R $WWW_USER "$WWW_DIR"
-    # Set 660 permissions on all files and directories except scripts in bin:
-    find "$WWW_DIR" -type f -not -not \( -path bin -prune \) -exec chmod 0660 {} \;
-    find "$WWW_DIR" -type d -exec chmod 0750 {} \;
+    find "$WWW_DIR" -type d -exec chmod 0750 {} \; > /dev/null 2>&1 &
+    find "$WWW_DIR" -type f -exec chmod 0640 {} \; > /dev/null 2>&1 &
 
-    # Permissions on data directory
-    chown -R ${WWW_USER}:motionui "$DATA_DIR"
-    find "$DATA_DIR" -type f -exec chmod 0660 {} \;
-    find "$DATA_DIR" -type d -exec chmod 0770 {} \;
-    chmod 770 "$DATA_DIR"
+    # Permissions on data directory (except /.gnupg directory)
+    find "$DATA_DIR" -type d -exec chmod 0770 {} \; > /dev/null 2>&1 &
+    find "$DATA_DIR" -type f -exec chmod 0660 {} \; > /dev/null 2>&1 &
+
+    # Set permissions on motion config dir
+    find "$MOTION_CONFIG_DIR" -type f -exec chmod 0660 {} \; > /dev/null 2>&1 &
+    find "$MOTION_CONFIG_DIR" -type d -exec chmod 0770 {} \; > /dev/null 2>&1 &
 
     # Set permissions on motion captures dir
-    mkdir -p /var/lib/motion
-    chown -R www-data:motionui /var/lib/motion
-    find "/var/lib/motion" -type f -exec chmod 0660 {} \;
-    find "/var/lib/motion" -type d -exec chmod 0770 {} \;
-
-    chmod 550 ${WWW_DIR}/bin/motionui
-
-    find "/usr/var/lib/motion" -type f -exec chmod 0660 {} \;
-    find "/usr/var/lib/motion" -type d -exec chmod 0770 {} \;
-    chown -R ${WWW_USER}:motionui /usr/var/lib/motion
-    chmod 770 /usr/var/lib/motion
+    find "$MOTION_CAPTURES_DIR" -type f -exec chmod 0660 {} \; > /dev/null 2>&1 &
+    find "$MOTION_CAPTURES_DIR" -type d -exec chmod 0770 {} \; > /dev/null 2>&1 &
 }
 
 echo '

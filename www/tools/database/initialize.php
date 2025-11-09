@@ -7,6 +7,7 @@ define('ROOT', '/var/www/motionui');
 
 require_once(ROOT . '/controllers/Autoloader.php');
 new \Controllers\Autoloader('minimal');
+use \Controllers\Log\Cli as CliLog;
 
 try {
     $databases = array('main', 'ws');
@@ -17,10 +18,11 @@ try {
     foreach ($databases as $database) {
         $myconn = new \Models\Connection($database);
     }
-} catch (\Exception $e) {
-    echo 'There was an error while initializing ' . $database . ' database: ' . $e->getMessage() .  PHP_EOL;
+} catch (Exception $e) {
+    CliLog::error('There was an error while initializing ' . $database . ' database', $e->getMessage());
     exit(1);
 }
 
-echo PHP_EOL . 'Databases check and initialization successful' . PHP_EOL;
+CliLog::log('Databases check and initialization successful');
+
 exit(0);

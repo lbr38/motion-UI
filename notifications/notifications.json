@@ -6,5 +6,9 @@
     "NT03" : {
         "title" : "New! Discord channel",
         "message" : "A Discord channel is available <b><a href='https://discord.gg/Dn8FurvWfX'>here</a></b> for any questions or quick help/debugging (English or French spoken)."
+    },
+    "NT06" : {
+        "title" : "Android app",
+        "message" : "Android app is now available on <b>F-Droid</b>.<br><a href='https://f-droid.org/packages/app.motionui.android'><img src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png' alt='Get it on F-Droid' height='80'></a>"
     }
 }

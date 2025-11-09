@@ -217,4 +217,38 @@ class Stream
 
         unset($order);
     }
+
+    /**
+     *  Check if the stream is active
+     *  Returns true if the stream is active, error message otherwise
+     */
+    public function isActive(string $url) : bool|string
+    {
+        $process = new \Controllers\Process('/usr/bin/ffprobe -timeout 5000000 -loglevel error -select_streams v:0 -show_entries stream=width,height -of default=noprint_wrappers=1 ' . escapeshellarg($url));
+        $process->execute();
+        $output = trim($process->getOutput());
+        $process->close();
+
+        if ($process->getExitCode() != 0) {
+            return $output;
+        }
+
+        return true;
+    }
+
+    /**
+     *  Get latest camera stream status from the database
+     */
+    public function getLatestStatus(int $id) : array
+    {
+        return $this->model->getLatestStatus($id);
+    }
+
+    /**
+     *  Set camera stream status in the database
+     */
+    public function setStatus(int $id, int $mainStreamStatus, int $secStreamStatus, string $mainStreamDetails = '', string $secStreamDetails = '') : void
+    {
+        $this->model->setStatus($id, $mainStreamStatus, $secStreamStatus, $mainStreamDetails, $secStreamDetails);
+    }
 }

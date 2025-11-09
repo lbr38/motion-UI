@@ -9,6 +9,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/go2rtc
 DAEMON_OPTS="-c /var/lib/motionui/go2rtc/go2rtc.yml"
 PIDFILE=/run/go2rtc/go2rtc.pid
+LOG_DIR="/var/lib/motionui/logs/go2rtc"
 
 trap "" 1
 export LANG=C
@@ -21,6 +22,12 @@ test -f $DAEMON || exit 0
 #
 function start()
 {
+    LOGFILE="$LOG_DIR/$(date +'%Y-%m-%d')_go2rtc.log"
+
+    # Create log directory
+    mkdir -p "$LOG_DIR" -m 770
+    chown www-data:www-data "$LOG_DIR"
+
     # If go2rtc is running
     if ps aux | grep "$DAEMON" | grep -q -v "grep"; then
         echo "go2rtc is already running"
@@ -30,20 +37,9 @@ function start()
     # Clean any existing PID file
     rm -f "$PIDFILE"
 
-    LOGFILE="/var/lib/motionui/go2rtc/logs/$(date +'%Y-%m-%d')_go2rtc.log"
-
-    # Create PID directory
-    mkdir -p /run/go2rtc
-    chmod 755 /run/go2rtc
-    chown www-data:www-data /run/go2rtc
-
-    # Create log directory
-    mkdir -p /var/lib/motionui/go2rtc/logs -m 750
-    chown www-data:www-data /var/lib/motionui/go2rtc/logs
-
-    # If /var/lib/motionui/go2rtc/logs/go2rtc.log is a file, remove it
-    if [ -f "/var/lib/motionui/go2rtc/logs/go2rtc.log" ]; then
-        rm -f /var/lib/motionui/go2rtc/logs/go2rtc.log
+    # If log is a file (and not a symlink), remove it
+    if [ -f "$LOG_DIR/go2rtc.log" ]; then
+        rm -f "$LOG_DIR/go2rtc.log"
     fi
 
     # Create log file with date and time
@@ -59,16 +55,15 @@ function start()
     fi
 
     # Create symlink to log file
-    if ! ln -sf "$LOGFILE" /var/lib/motionui/go2rtc/logs/go2rtc.log; then
+    if ! ln -sf "$LOGFILE" "$LOG_DIR/go2rtc.log"; then
         echo "Could not create symlink to log file"
         exit 1
     fi
 
     # Start go2rtc detection
-    # start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --exec $DAEMON -c /var/lib/motionui/go2rtc/config.yml --chuid www-data --umask 002 -- $DAEMON_OPTS
     start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile \
     --chuid www-data --umask 002 \
-    --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS > /var/lib/motionui/go2rtc/logs/go2rtc.log 2>&1"
+    --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS > $LOG_DIR/go2rtc.log 2>&1"
 
     # If no PID file was created, the process did not start properly
     if [ ! -f "$PIDFILE" ]; then
@@ -76,7 +71,7 @@ function start()
         exit 1
     fi
 
-    chmod 600 "$PIDFILE"
+    chmod 664 "$PIDFILE"
     chown www-data:www-data /run/go2rtc/go2rtc.pid
 
     PID=$(cat "$PIDFILE")
@@ -182,16 +177,6 @@ case "$1" in
     ;;
     status)
         status
-
-
-
-        echo "Status go2rtc"
-        if [ -f $PIDFILE ]; then
-            echo -n "Running process for $NAME : "
-            pidof $NAME  
-        else
-            echo "Stopped"
-        fi
     ;;
     *)
         echo "Usage: /etc/init.d/$NAME {start|stop|restart|status}"

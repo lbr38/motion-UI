@@ -3,6 +3,7 @@
 namespace Models;
 
 use SQLite3;
+use Exception;
 
 class Connection extends SQLite3
 {
@@ -33,7 +34,7 @@ class Connection extends SQLite3
             } else {
                 throw new Exception("unknown database: $database");
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             die('Error while trying to open database: ' . $e->getMessage());
         }
     }
@@ -173,6 +174,15 @@ class Connection extends SQLite3
         Memory_usage REAL,
         Disk_usage REAL)");
 
+        $this->exec("CREATE TABLE IF NOT EXISTS camera_monitoring (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        Timestamp VARCHAR(255) NOT NULL,
+        Main_stream_status INTEGER, /* 0 = inactive, 1 = active, -1 = no stream configured */
+        Secondary_stream_status INTEGER, /* 0 = inactive, 1 = active, -1 = no stream configured */
+        Main_stream_error VARCHAR(255),
+        Secondary_stream_error VARCHAR(255),
+        Camera_id INTEGER)");
+
         /**
          *  Create indexes on system_monitoring table
          */
@@ -183,14 +193,13 @@ class Connection extends SQLite3
          */
         $this->exec("CREATE TABLE IF NOT EXISTS motion_status (
         Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        Date DATE NOT NULL,
-        Time TIME NOT NULL,
+        Timestamp VARCHAR(255) NOT NULL,
         Status VARCHAR(8))");
 
         /**
          *  Create indexes on motion_status table
          */
-        $this->exec("CREATE INDEX IF NOT EXISTS motion_status_index ON motion_status (Date, Time, Status)");
+        $this->exec("CREATE INDEX IF NOT EXISTS motion_status_index ON motion_status (Timestamp, Status)");
 
         /**
          *  Create settings table
@@ -269,7 +278,7 @@ class Connection extends SQLite3
                 $stmt = $this->prepare("INSERT INTO users ('Username', 'Password', 'First_name', 'Role', 'State', 'Type') VALUES ('admin', :password_hashed, 'Administrator', '1', 'active', 'local')");
                 $stmt->bindValue(':password_hashed', $password_hashed);
                 $stmt->execute();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logError($e->getMessage());
             }
         }
@@ -290,6 +299,7 @@ class Connection extends SQLite3
         Type CHAR(5) NOT NULL, /* info, error */
         Component VARCHAR(255),
         Message VARCHAR(255) NOT NULL,
+        Details TEXT,
         Status CHAR(9) NOT NULL)"); /* new, acquitted */
 
          /**
@@ -357,7 +367,7 @@ class Connection extends SQLite3
      */
     public function columnExist(string $tableName, string $columnName)
     {
-        $columns = array();
+        $columns = [];
 
         $result = $this->query("PRAGMA table_info($tableName)");
 

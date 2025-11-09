@@ -7,7 +7,7 @@ class Notification
     public static function get()
     {
         $NOTIFICATION = 0;
-        $NOTIFICATION_MESSAGES = array();
+        $NOTIFICATION_MESSAGES = [];
         $mynotification = new \Controllers\Notification();
 
         /**

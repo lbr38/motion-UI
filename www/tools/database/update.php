@@ -8,6 +8,7 @@ ini_set('memory_limit', '512M');
 
 require_once(ROOT . '/controllers/Autoloader.php');
 new \Controllers\Autoloader('minimal');
+use \Controllers\Log\Cli as CliLog;
 
 $myupdate = new \Controllers\Update();
 $error = 0;
@@ -26,16 +27,17 @@ if (!empty($getOptions['release'])) {
 }
 
 try {
-    echo PHP_EOL . 'Enabling maintenance page.' . PHP_EOL;
+    CliLog::log('Enabling maintenance page');
+
     $myupdate->setMaintenance('on');
 
-    echo 'Updating database.' . PHP_EOL;
+    CliLog::log('Updating database');
 
     /**
      *  Only execute specified version update file
      */
     if (!empty($targetVersion)) {
-        echo 'Executing ' . $targetVersion . ' release SQL queries if there are...' . PHP_EOL;
+        CliLog::log('Executing ' . $targetVersion . ' release SQL queries if there are...');
         $myupdate->updateDB($targetVersion);
 
     /**
@@ -45,13 +47,12 @@ try {
         $myupdate->updateDB();
     }
 } catch (Exception $e) {
-    echo 'There was an error while executing update: ' . $e->getMessage() . PHP_EOL;
+    CliLog::error('There was an error while executing update', $e->getMessage());
     $error++;
+} finally {
+    CliLog::log('Disabling maintenance page');
+    $myupdate->setMaintenance('off');
 }
-
-echo 'Disabling maintenance page.' . PHP_EOL;
-
-$myupdate->setMaintenance('off');
 
 if ($error > 0) {
     exit(1);

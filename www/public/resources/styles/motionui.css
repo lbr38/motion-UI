@@ -4,10 +4,6 @@
     }
 }
 
-article {
-    min-height: 100vh;
-}
-
 h3 {
     margin-left: auto;
     margin-right: auto;
@@ -204,7 +200,7 @@ h3 {
     align-items: center;
 }
 
-#motion-stats-container div {
+#motion-stats-container > div {
     height: 250px !important;
 }
 
@@ -807,6 +803,24 @@ footer #github img { width: 25px; }
     width: 20px;
     height: 20px;
     opacity: 0.5;
+}
+
+/* Fond du menu */
+.apexcharts-menu {
+    background: #112334 !important;
+    border: 1px solid #333 !important;
+    color: #ddd !important;
+}
+
+/* Items du menu */
+.apexcharts-menu-item {
+    background: #112334 !important;
+    color: #ddd !important;
+}
+
+.apexcharts-menu-item:hover {
+    background: #333 !important;
+    color: #fff !important;
 }
 
 /* Desktop configuration */

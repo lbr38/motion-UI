@@ -40,11 +40,11 @@ if ($autostartDevicePresenceEnabled == 'enabled') :
     <form id="device-presence-form" autocomplete="off">
         <h6 class="required">NAME</h6>
         <p class="note">A name to identify the device.</p>
-        <input type="text" name="device-name" placeholder="Device name" required />
+        <input type="text" name="device-name" placeholder="e.g. Alice smartphone" required />
 
         <h6 class="required">IP ADDRESS</h6>
-        <p class="note">The IP address of the device on the local network. Example: <code>192.168.0.10</code></p>
-        <input type="text" name="device-ip" placeholder="IP address" required />
+        <p class="note">The IP address of the device on the local network.</p>
+        <input type="text" name="device-ip" placeholder="e.g. 192.168.0.10" required />
 
         <br><br>
         <button type="submit" class="btn-small-green">Add</button>

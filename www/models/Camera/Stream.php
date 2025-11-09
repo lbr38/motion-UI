@@ -54,4 +54,45 @@ class Stream extends \Models\Model
             $this->db->logError($e->getMessage());
         }
     }
+
+    /**
+     *  Get latest camera stream status from the database
+     */
+    public function getLatestStatus(int $id) : array
+    {
+        $data = [];
+
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM camera_monitoring WHERE Camera_id = :camera_id ORDER BY Timestamp DESC LIMIT 1");
+            $stmt->bindValue(':camera_id', $id);
+            $result = $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data = $row;
+        }
+
+        return $data;
+    }
+
+    /**
+     *  Set camera stream status in the database
+     */
+    public function setStatus(int $id, int $mainStreamStatus, int $secStreamStatus, string $mainStreamDetails = '', string $secStreamDetails = '') : void
+    {
+        try {
+            $stmt = $this->db->prepare("INSERT INTO camera_monitoring (Timestamp, Main_stream_status, Secondary_stream_status, Main_stream_error, Secondary_stream_error, Camera_id) VALUES (:timestamp, :main_stream_status, :secondary_stream_status, :Main_stream_error, :Secondary_stream_error, :camera_id)");
+            $stmt->bindValue(':timestamp', time());
+            $stmt->bindValue(':main_stream_status', $mainStreamStatus);
+            $stmt->bindValue(':secondary_stream_status', $secStreamStatus);
+            $stmt->bindValue(':Main_stream_error', $mainStreamDetails);
+            $stmt->bindValue(':Secondary_stream_error', $secStreamDetails);
+            $stmt->bindValue(':camera_id', $id);
+            $stmt->execute();
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
+    }
 }

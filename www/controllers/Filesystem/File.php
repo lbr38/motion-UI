@@ -23,7 +23,7 @@ class File
             throw new Exception('Set permissions error: type must be "file" or "dir": ' . $type);
         }
 
-        $files = array();
+        $files = [];
 
         /**
          *  Recursively search for all files in specified path
@@ -81,7 +81,7 @@ class File
             throw new Exception('Set permissions error: path does not exist: ' . $path);
         }
 
-        $files = array();
+        $files = [];
 
         /**
          *  Recursively search for all files in specified path
@@ -129,7 +129,7 @@ class File
      */
     public static function findRecursive(string $path, array $fileExtension = [], bool $absolute = true)
     {
-        $foundedFiles = array();
+        $foundedFiles = [];
 
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($path . '/', \FilesystemIterator::SKIP_DOTS),
@@ -183,7 +183,7 @@ class File
      */
     public static function recursiveScan(string $path, string|null $type = null, $relative = false) : array
     {
-        $files = array();
+        $files = [];
 
         try {
             if (!file_exists($path)) {

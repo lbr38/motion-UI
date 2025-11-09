@@ -16,7 +16,7 @@ class Log extends \Models\Model
      */
     public function getUnread(string $type = null, int $limit = 0)
     {
-        $logs = array();
+        $logs = [];
 
         try {
             if ($type == null) {
@@ -41,7 +41,7 @@ class Log extends \Models\Model
                 $stmt->bindValue(':limit', $limit);
             }
             $result = $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
 
@@ -55,19 +55,19 @@ class Log extends \Models\Model
     /**
      *  Log a message
      */
-    public function log(string $type, string $component, string $message)
+    public function log(string $type, string $component, string $message, string $details)
     {
-        try {
-            $stmt = $this->db->prepare("INSERT INTO logs (Date, Time, Type, Component, Message, Status) VALUES (:date, :time, :type, :component, :message, 'new')");
-            $stmt->bindValue(':date', date('Y-m-d'));
-            $stmt->bindValue(':time', date('H:i:s'));
-            $stmt->bindValue(':type', $type);
-            $stmt->bindValue(':component', $component);
-            $stmt->bindValue(':message', $message);
-            $stmt->execute();
-        } catch (\Exception $e) {
-            $this->db->logError($e->getMessage());
-        }
+        /**
+         *  No try/cacth here, if an error occurs, it will be caught in the controller
+         */
+        $stmt = $this->db->prepare("INSERT INTO logs (Date, Time, Type, Component, Message, Details, Status) VALUES (:date, :time, :type, :component, :message, :details, 'new')");
+        $stmt->bindValue(':date', date('Y-m-d'));
+        $stmt->bindValue(':time', date('H:i:s'));
+        $stmt->bindValue(':type', $type);
+        $stmt->bindValue(':component', $component);
+        $stmt->bindValue(':message', $message);
+        $stmt->bindValue(':details', $details);
+        $stmt->execute();
     }
 
     /**
@@ -79,7 +79,7 @@ class Log extends \Models\Model
             $stmt = $this->db->prepare("UPDATE logs SET Status = 'acquitted' WHERE Id = :id");
             $stmt->bindValue(':id', $id);
             $stmt->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->logError($e->getMessage());
         }
     }

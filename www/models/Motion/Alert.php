@@ -16,7 +16,7 @@ class Alert extends \Models\Model
      */
     public function getConfiguration()
     {
-        $config = array();
+        $config = [];
 
         $result = $this->db->query("SELECT * FROM alerts");
 

@@ -17,7 +17,7 @@ class Event extends \Models\Model
      */
     public function getByDate(string $date, bool $withOffset, int $offset)
     {
-        $events = array();
+        $events = [];
 
         $query = "SELECT * FROM motion_events WHERE Date_start = :date ORDER BY Time_start DESC";
 
@@ -48,7 +48,7 @@ class Event extends \Models\Model
      */
     public function getBetweenDate(string $dateStart, string $dateEnd)
     {
-        $events = array();
+        $events = [];
 
         $stmt = $this->db->prepare("SELECT DISTINCT Date_start
         FROM motion_events
@@ -70,7 +70,7 @@ class Event extends \Models\Model
      */
     public function getDetailsBeforeDate(string $date)
     {
-        $events = array();
+        $events = [];
 
         $stmt = $this->db->prepare("SELECT motion_events.*,
         motion_events_files.Id as FileId,
@@ -113,7 +113,7 @@ class Event extends \Models\Model
      */
     public function getFilesByMotionEventId(string $motionEventId)
     {
-        $files = array();
+        $files = [];
 
         $stmt = $this->db->prepare("SELECT *
         FROM motion_events_files
@@ -133,7 +133,7 @@ class Event extends \Models\Model
      */
     public function getFilesByDate(string $date)
     {
-        $files = array();
+        $files = [];
 
         $stmt = $this->db->prepare("SELECT *
         FROM motion_events_files

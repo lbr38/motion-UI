@@ -49,7 +49,7 @@
 <script src="/resources/js/classes/Select2.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Camera.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/WebrtcConnect.js?<?= VERSION ?>"></script>
-<script src="/resources/js/classes/AsyncChart.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/ApexChart.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/System.js?<?= VERSION ?>"></script>
 
 <script>
@@ -89,7 +89,7 @@ if (__ACTUAL_URI__[1] == 'events') {
     $jsFiles = ['events/general', 'camera', 'events/motion/event', 'motion'];
 }
 if (__ACTUAL_URI__[1] == 'stats') {
-    $jsFiles = ['events/general', 'functions/motion-charts', 'events/motion/charts'];
+    $jsFiles = ['events/general'];
 }
 
 if (!empty($jsFiles)) {

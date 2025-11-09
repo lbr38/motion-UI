@@ -6,7 +6,6 @@ if (!IS_ADMIN) {
 $mycamera = new \Controllers\Camera\Camera();
 $mymotionService = new \Controllers\Motion\Service();
 $mymotionAutostart = new \Controllers\Motion\Autostart();
-$mymotionAlert = new \Controllers\Motion\Alert();
 
 /**
  *  Get motion service status
@@ -26,3 +25,5 @@ $cameraTotal = $mycamera->getTotal();
 if ($cameraTotal > 0) {
     $cameraIds = $mycamera->getCamerasIds();
 }
+
+unset($mycamera, $mymotionService, $mymotionAutostart);
