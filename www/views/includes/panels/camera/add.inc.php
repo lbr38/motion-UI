@@ -1,16 +1,16 @@
 <?php ob_start(); ?> 
 
 <form id="new-camera-form" autocomplete="off">
-    <h6 class="required">NAME</h6>
-    <p class="note">Example: Outside camera</p>
+    <h6 class="required"><?= LC['views']['panels']['camera/add']['name_h6'] ?></h6>
+    <p class="note"><?= LC['views']['panels']['camera/add']['name_note'] ?></p>
     <input type="text" class="form-param" param-name="name" />
 
-    <h6 class="required">CAMERA MAIN STREAM</h6>
-    <p class="note">Device path like /dev/video0 or URL like http://... or rtsp://... are supported.</p>
+    <h6 class="required"><?= LC['views']['panels']['camera/add']['main_stream_h6'] ?></h6>
+    <p class="note"><?= LC['views']['panels']['camera/add']['main_stream_note'] ?></p>
     <input type="text" class="form-param" param-name="main-stream-device" />
 
-    <h6 class="required">RESOLUTION</h6>
-    <p class="note">The selected resolution must match the resolution of the camera.</p>
+    <h6 class="required"><?= LC['views']['panels']['camera/add']['resolution_h6'] ?></h6>
+    <p class="note"><?= LC['views']['panels']['camera/add']['resolution_note'] ?></p>
     <div class="flex align-item-center column-gap-10">
         <select class="form-param" param-name="main-stream-resolution">
             <!-- 16/9 -->
@@ -43,39 +43,39 @@
         <img src="/assets/icons/loading.svg" class="icon-np main-stream-resolution-loading hide" />
     </div>
 
-    <h6>FRAME RATE</h6>
-    <p class="note">The specified frame rate must match the frame rate of the camera.</p>
+    <h6><?= LC['views']['panels']['camera/add']['framerate_h6'] ?></h6>
+    <p class="note"><?= LC['views']['panels']['camera/add']['framerate_note'] ?></p>
     <input type="number" class="form-param" param-name="main-stream-framerate" value="25" min="2" />
 
-    <h6>AUTHENTICATION</h6>
-    <p class="note">If your camera requires authentication (to access the video stream or ONVIF service).</p>
+    <h6><?= LC['views']['panels']['camera/add']['authentication_h6'] ?></h6>
+    <p class="note"><?= LC['views']['panels']['camera/add']['authentication_note'] ?></p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input" type="checkbox">
         <span class="onoff-switch-slider toggle-btn" target=".basic-auth-fields"></span>
     </label>
     
     <div class="basic-auth-fields hide">
-        <h6>USERNAME</h6>
+        <h6><?= LC['views']['panels']['camera/add']['authentication_username_h6'] ?></h6>
         <input type="text" class="form-param" param-name="username" />
 
-        <h6>PASSWORD</h6>
+        <h6><?= LC['views']['panels']['camera/add']['authentication_password_h6'] ?></h6>
         <input type="password" class="form-param" param-name="password" />
     </div>
 
-    <h6>ENABLE MOTION DETECTION</h6>
-    <p class="note">Enable motion detection for this camera.</p>
+    <h6><?= LC['views']['panels']['camera/add']['enable_motion_detection_h6'] ?></h6>
+    <p class="note"><?= LC['views']['panels']['camera/add']['enable_motion_detection_note'] ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="motion-detection-enable" checked>
         <span class="onoff-switch-slider"></span>
     </label>
 
     <br><br>
-    <button type="submit" class="btn-small-green">Add</button>
+    <button type="submit" class="btn-small-green"><?= LC['views']['panels']['camera/add']['btn']['add_camera_text'] ?></button>
 </form>
 
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'camera/add';
-$slidePanelTitle = 'NEW CAMERA';
+$slidePanelTitle = LC['views']['panels']['camera/add']['title'];
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

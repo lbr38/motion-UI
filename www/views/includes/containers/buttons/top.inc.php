@@ -30,7 +30,7 @@
                 <?php
             endif ?>
 
-            <img src="/assets/icons/menu.svg" class="pointer lowopacity get-panel-btn" panel="buttons/menu" title="Open menu" />
+            <img src="/assets/icons/menu.svg" class="pointer lowopacity get-panel-btn" panel="buttons/menu" title="<?= LC['views']['containers']['buttons/top']['menu_title'] ?>" />
         </div>
     </div>
 

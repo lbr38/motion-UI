@@ -2,37 +2,37 @@
     <?php
     // If user is not admin, display only 'live' and 'events' buttons
     if (!IS_ADMIN) {
-        $buttons = array(
-            'live' => array(
+        $buttons = [
+            'live' => [
                 'icon' => 'videocam.svg',
-                'title' => 'Cameras and stream'
-            ),
-            'events' => array(
+                'title' => LC['views']['containers']['buttons/bottom']['live_title']
+            ],
+            'events' => [
                 'icon' => 'video.svg',
-                'title' => 'Motion events'
-            ),
-        );
+                'title' => LC['views']['containers']['buttons/bottom']['events_title']
+            ]
+        ];
 
     // If user is admin, display all buttons
     } else {
-        $buttons = array(
-            'live' => array(
+        $buttons = [
+            'live' => [
                 'icon' => 'videocam.svg',
-                'title' => 'Cameras and stream'
-            ),
-            'motion' => array(
+                'title' => LC['views']['containers']['buttons/bottom']['live_title']
+            ],
+            'motion' => [
                 'icon' => 'motion.svg',
-                'title' => 'Motion detection'
-            ),
-            'events' => array(
+                'title' => LC['views']['containers']['buttons/bottom']['motion_title']
+            ],
+            'events' => [
                 'icon' => 'video.svg',
-                'title' => 'Motion events'
-            ),
-            'stats' => array(
+                'title' => LC['views']['containers']['buttons/bottom']['events_title']
+            ],
+            'stats' => [
                 'icon' => 'stats.svg',
-                'title' => 'Stats'
-            )
-        );
+                'title' => LC['views']['containers']['buttons/bottom']['stats_title']
+            ]
+        ];
     }
 
     foreach ($buttons as $uri => $properties) :

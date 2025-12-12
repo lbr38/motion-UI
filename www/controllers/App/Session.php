@@ -2,8 +2,6 @@
 
 namespace Controllers\App;
 
-use Exception;
-
 class Session
 {
     /**

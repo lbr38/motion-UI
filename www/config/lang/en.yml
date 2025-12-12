@@ -1,0 +1,50 @@
+---
+# Controllers
+controller:
+
+# Views
+views:
+  login:
+    input:
+      username_placeholder: Username
+      password_placeholder: Password
+    btn:
+      submit_text: Login
+    output:
+      login_error: Invalid login and/or password
+
+  # Containers views
+  containers:
+    cameras/list:
+      btn:
+        add_camera_text: Add camera
+
+    buttons/top:
+      menu_title: Open menu
+
+    buttons/bottom:
+      live_title: Cameras and stream
+      motion_title: Motion detection
+      events_title: Motion events
+      stats_title: Stats     
+   
+  # Panel views
+  panels:
+    camera/add:
+      title: NEW CAMERA
+      name_h6: NAME
+      name_note: "Example: Outside camera"
+      main_stream_h6: CAMERA MAIN STREAM
+      main_stream_note: Device path like /dev/video0 or URL like http://... or rtsp://... are supported.
+      resolution_h6: RESOLUTION
+      resolution_note: The selected resolution must match the resolution of the camera.
+      framerate_h6: FRAME RATE
+      framerate_note: The specified frame rate must match the frame rate of the camera.
+      authentication_h6: AUTHENTICATION
+      authentication_note: If your camera requires authentication (to access the video stream or ONVIF service).
+      authentication_username_h6: USERNAME
+      authentication_password_h6: PASSWORD
+      enable_motion_detection_h6: MOTION DETECTION
+      enable_motion_detection_note: Enable motion detection for this camera.
+      btn:
+        add_camera_text: Add

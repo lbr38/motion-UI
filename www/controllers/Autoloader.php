@@ -19,6 +19,7 @@ class Autoloader
          *  Useful for login/logout
          */
         if ($level == 'minimal') {
+            \Controllers\App\Lang::load();
             \Controllers\App\Config\Properties::get();
             \Controllers\App\Config\Main::get();
             \Controllers\App\Config\Settings::get();
@@ -43,6 +44,7 @@ class Autoloader
                 }
             }
 
+            \Controllers\App\Lang::load();
             \Controllers\App\Config\Properties::get();
             \Controllers\App\Config\Main::get();
             \Controllers\App\Config\Settings::get();
@@ -56,6 +58,7 @@ class Autoloader
          *  Load components for API
          */
         if ($level == 'api') {
+            \Controllers\App\Lang::load();
             \Controllers\App\Config\Properties::get();
             \Controllers\App\Config\Main::get();
             \Controllers\App\Config\Settings::get();
