@@ -113,6 +113,9 @@ class Monitoring extends \Controllers\Service\Service
                     // Add auth to the URL
                     $mainStreamUrl = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . $auth, $mainStream);
 
+                    // Sanitize URL for logging
+                    $mainStreamSanitized = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . '****:****@', $mainStream);
+
                     parent::logDebug('Checking main stream URL: ' . $mainStreamUrl);
 
                     // Check stream status
@@ -126,13 +129,17 @@ class Monitoring extends \Controllers\Service\Service
                         $mainStreamStatus = 0;
                         $mainStreamError = $status;
                         parent::logError('Camera #' . $id . ' main stream error: ' . $mainStreamError);
-                        $errors[] = 'Main stream error: ' . $mainStreamError;
+
+                        $errors[] = 'Main stream error: ' . $mainStreamSanitized;
                     }
                 }
 
                 if (!empty($secondaryStream)) {
                     // Add auth to the URL
                     $secondaryStreamUrl = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . $auth, $secondaryStream);
+
+                    // Sanitize URL for logging
+                    $secondaryStreamSanitized = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . '****:****@', $secondaryStream);
 
                     parent::logDebug('Checking secondary stream URL: ' . $secondaryStreamUrl);
 
@@ -147,7 +154,8 @@ class Monitoring extends \Controllers\Service\Service
                         $secondaryStreamStatus = 0;
                         $secondaryStreamError = $status;
                         parent::logError('Camera #' . $id . ' secondary stream error: ' . $secondaryStreamError);
-                        $errors[] = 'Secondary stream error: ' . $secondaryStreamError;
+
+                        $errors[] = 'Secondary stream error: ' . $secondaryStreamSanitized;
                     }
                 }
 
@@ -183,7 +191,7 @@ class Monitoring extends \Controllers\Service\Service
                         }
 
                         $subject = 'Error detected on ' . $name . ' camera';
-                        $message = 'The following error(s) were detected on <b>' . $name . '</b> camera:<br><br>' . implode('<br>', $errors) . '<br><br>Please check the camera(s) configuration and connection.';
+                        $message = 'The following error(s) were detected on <b>' . $name . '</b> camera:<br><br>' . implode('<br><br>', $errors) . '<br><br>Please check the camera(s) configuration and connection.';
                         new Mail($recipients, $subject, $message, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME, 'Live stream');
                     }
                 }

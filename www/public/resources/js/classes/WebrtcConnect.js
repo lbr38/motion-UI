@@ -98,7 +98,7 @@ class WebrtcConnect
                     this.onNoFramesReceived(cameraId);
                 }
             }
-        }, 2000);
+        }, 5000);
     }
 
     /**

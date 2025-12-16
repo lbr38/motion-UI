@@ -55,7 +55,8 @@ COPY docker/config/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY docker/config/nginx/motionui.conf /etc/nginx/sites-enabled/motionui.conf
 
 # Configure PHP
-COPY docker/config/php/www.conf /etc/php/8.3/fpm/pool.d/www.conf
+COPY docker/config/php/opcache.ini /etc/php/${PHP_VERSION}/mods-available/opcache.ini
+COPY docker/config/php/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 
 # Configure Postfix
 COPY docker/config/postfix/main.cf /etc/postfix/main.cf

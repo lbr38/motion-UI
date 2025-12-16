@@ -1,0 +1,50 @@
+---
+# Controllers
+controller:
+
+# Views
+views:
+  login:
+    input:
+      username_placeholder: Utilisateur
+      password_placeholder: Mot de passe
+    btn:
+      submit_text: Connexion
+    output:
+      login_error: Identifiant et/ou mot de passe invalide
+
+  # Container views
+  containers:
+    cameras/list:
+      btn:
+        add_camera_text: Ajouter une caméra
+
+    buttons/top:
+      menu_title: Ouvrir le menu
+
+    buttons/bottom:
+      live_title: Cameras et flux direct
+      motion_title: Detection de mouvement
+      events_title: Evenements
+      stats_title: Statistiques
+
+  # Panel views
+  panels:
+    camera/add:
+      title: NOUVELLE CAMÉRA
+      name_h6: NOM
+      name_note: "Exemple: Caméra extérieure"
+      main_stream_h6: FLUX PRINCIPAL
+      main_stream_note: Les périphériques comme /dev/video0 ou une URL comme http://... ou rtsp://... sont supportés.
+      resolution_h6: RESOLUTION
+      resolution_note: La résolution sélectionnée doit correspondre à la résolution de la caméra.
+      framerate_h6: FRAME RATE
+      framerate_note: Le taux de rafraîchissement (FPS) spécifié doit correspondre à celui de la caméra.
+      authentication_h6: AUTHENTIFICATION
+      authentication_note: Si votre caméra nécessite une authentification (pour accéder au flux vidéo ou au service ONVIF).
+      authentication_username_h6: UTILISATEUR
+      authentication_password_h6: MOT DE PASSE
+      enable_motion_detection_h6: DÉTECTION DE MOUVEMENT
+      enable_motion_detection_note: Activer la détection de mouvement pour cette caméra.
+      btn:
+        add_camera_text: Ajouter

@@ -81,7 +81,7 @@ class Camera
                 // For debug purpose
                 // console.info('WebSocket ping sent');
             }
-        }, 30000);
+        }, 2000);
     }
 
     /**

@@ -297,7 +297,7 @@
         if (IS_ADMIN) : ?>
             <div class="add-camera-container pointer lowopacity get-panel-btn" panel="camera/add" title="Add a camera">
                 <img src="/assets/icons/plus.svg" />
-                <p class="font-size-18 margin-top-20">Add camera</p>
+                <p class="font-size-18 margin-top-20"><?= LC['views']['containers']['cameras/list']['btn']['add_camera_text'] ?></p>
             </div>
             <?php
         endif ?>
