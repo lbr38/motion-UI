@@ -71,12 +71,10 @@
                         <div class="camera-image relative" camera-id="<?= $cameraId ?>" stream-technology="<?= $cameraRawParams['stream']['technology'] ?>" width="<?= $cameraRawParams['main-stream']['width'] ?>" height="<?= $cameraRawParams['main-stream']['height'] ?>">
                             <?php
                             if ($cameraRawParams['stream']['enable'] == 'true') {
-                                $videoContainerClass = 'hide';
                                 $videoAttribute = '';
                                 $unavailableClass = 'hide';
                                 $loadingClass = 'flex';
                             } else {
-                                $videoContainerClass = 'hide';
                                 $videoAttribute = 'disabled';
                                 $unavailableClass = 'flex';
                                 $loadingClass = 'hide';
@@ -98,7 +96,7 @@
                             </div>
 
                             <!-- Camera stream -->
-                            <div class="video-container <?= $videoContainerClass ?>" camera-id="<?= $cameraId ?>">
+                            <div class="video-container hide" camera-id="<?= $cameraId ?>">
                                 <video camera-id="<?= $cameraId ?>" autoplay playsinline muted poster="/assets/images/motionui-video-poster.png" <?= $videoAttribute ?>></video>
                             </div>
 

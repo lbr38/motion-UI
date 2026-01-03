@@ -111,18 +111,7 @@ $(document).on('click','.disable-camera-stream-btn', function (e) {
         true
     ).then(function () {
         // Déconnecter la caméra de manière sécurisée
-        const disconnected = Camera.safeDisconnect(window.cameraInstances[cameraId], cameraId);
-
-        // // Supprimer l'instance du registre après déconnexion
-        // if (window.cameraInstances && window.cameraInstances[cameraId]) {
-        //     Camera.hideStreamError(cameraId);
-        //     Camera.hideStreamLoading(cameraId);
-        //     Camera.deleteStreamElement(cameraId);
-
-        //     delete window.cameraInstances[cameraId];
-
-        //     console.debug('Camera instance for camera ' + cameraId + ' deleted from registry.');
-        // }
+        Camera.safeDisconnect(window.cameraInstances[cameraId], cameraId);
 
         // Afficher le message de stream désactivé
         $('.camera-disabled[camera-id="' + cameraId + '"]').css('display', 'flex');
