@@ -63,7 +63,7 @@ export class VideoRTC extends HTMLElement {
          * tab or minimise browser windows.
          * @type {boolean}
          */
-        this.visibilityCheck = true;
+        this.visibilityCheck = false;
 
         /**
          * [config] WebRTC configuration
