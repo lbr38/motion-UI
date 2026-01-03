@@ -11,12 +11,8 @@
         } ?>
 
         <h6>SELECT DATE</h6>
-        <div>
-            <div>
-                <div class="flex column-gap-10">
-                    <input type="date" class="input-medium event-date-input" value="<?= $eventDate ?>" />
-                </div>
-            </div>
+        <div class="flex column-gap-10">
+            <input type="date" class="input-medium event-date-input" value="<?= $eventDate ?>" />
         </div>
 
         <?php \Controllers\Layout\Table\Render::render('motion/events'); ?>

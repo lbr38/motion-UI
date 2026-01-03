@@ -1,8 +1,8 @@
-<?php ob_start(); ?>
-
 <?php
+ob_start();
+
 if (NOTIFICATION == 0) :
-    echo '<p>Nothing for now!</p>';
+    echo '<p class="note">' . LC['views']['panels']['general/notification']['no_notification'] . '</p>';
 else :
     /**
      *  If an update is available, generate the update notification
@@ -55,17 +55,6 @@ else :
         </div>
         <?php
     endif;
-
-
-
-
-
-
-
-
-
-
-
 
     foreach (NOTIFICATION_MESSAGES as $notification) :
         if (!empty($notification['Title'])) {

@@ -19,7 +19,7 @@ class Lang
             throw new Exception('Failed to parse locale configuration file');
         }
 
-        // Define a cosntant array with all locale strings
+        // Define a constant array with all locale strings
         if (!defined('LC')) {
             define('LC', $config);
         }

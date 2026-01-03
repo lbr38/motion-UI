@@ -3,12 +3,12 @@
 import psutil
 import sys
 
-def cpu_usage(interval = 1):
+def cpu_usage(interval = 0.1):
     # interval = time in seconds between each measurement
     usage = psutil.cpu_percent(interval=interval)
     return usage
 
-def cpu_usage_per_core(interval = 1):
+def cpu_usage_per_core(interval = 0.1):
     usage = psutil.cpu_percent(interval=interval, percpu=True)
     return usage
 

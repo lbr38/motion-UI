@@ -2,16 +2,18 @@
     <div class="main-buttons">
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center">MOTION DETECTION</h6>
+                <h6 class="center"><?= LC['views']['containers']['motion/buttons/main']['h6']['motion_detection'] ?></h6>
                 <?php
                 if (!$motionActive) {
                     $status = 'start';
-                    $title = 'Start motion detection';
+                    $text = LC['views']['containers']['motion/buttons/main']['p']['motion_detection_start'];
+                    $title = LC['views']['containers']['motion/buttons/main']['btn']['motion_detection_start_title'];
                     $color = 'green';
                 }
                 if ($motionActive) {
                     $status = 'stop';
-                    $title = 'Stop motion detection';
+                    $text = LC['views']['containers']['motion/buttons/main']['p']['motion_detection_stop'];
+                    $title = LC['views']['containers']['motion/buttons/main']['btn']['motion_detection_stop_title'];
                     $color = 'red';
                 } ?>
 
@@ -19,7 +21,7 @@
                     <img src="/assets/icons/power.svg" class="icon" />
                 </button>
 
-                <span class="block center mediumopacity-cst"><?= ucfirst($status) ?></span>
+                <p class="block center mediumopacity-cst"><?= $text ?></p>
             </div>
 
             <div class="flex flex-direction-column row-gap-10">
@@ -32,7 +34,7 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center">MOTION DETECTION AUTOSTART</h6>
+                <h6 class="center"><?= LC['views']['containers']['motion/buttons/main']['h6']['motion_detection_autostart'] ?></h6>
                 <?php
                 if ($motionAutostartEnabled == "disabled") : ?>
                     <div class="flex justify-center">
@@ -41,9 +43,10 @@
                         </button>
                     </div>
 
-                    <span class="block center mediumopacity-cst">Enable & configure</span>
+                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_autostart_enable'] ?></p>
                     <?php
                 endif;
+
                 if ($motionAutostartEnabled == "enabled") : ?>
                     <div class="flex justify-center">
                         <button type="button" id="disable-autostart-btn" class="btn-semi-circle-red-left" title="Disable motion detection autostart">
@@ -55,7 +58,7 @@
                         </button>
                     </div>
 
-                    <p class="block center mediumopacity-cst">Disable or configure</p>
+                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_autostart_disable'] ?></p>
                     <?php
                 endif ?>
             </div>
@@ -63,7 +66,7 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center">MOTION DETECTION ALERTS</h6>
+                <h6 class="center"><?= LC['views']['containers']['motion/buttons/main']['h6']['motion_detection_alerts'] ?></h6>
                 <?php
                 if (ALERT_ENABLED == "disabled") : ?>
                     <div class="flex justify-center">
@@ -72,7 +75,7 @@
                         </button>
                     </div>
         
-                    <p class="block center mediumopacity-cst">Enable & configure</p>
+                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_alerts_enable'] ?></p>
                     <?php
                 endif;
 
@@ -87,7 +90,7 @@
                         </button>
                     </div>
                     
-                    <p class="block center mediumopacity-cst">Disable or configure alerts</p>
+                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_alerts_disable'] ?></p>
                     <?php
                 endif ?>
             </div>

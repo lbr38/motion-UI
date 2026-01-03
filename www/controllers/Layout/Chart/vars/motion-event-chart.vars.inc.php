@@ -7,7 +7,7 @@ $options = [];
 /**
  *  Get date start and end from cookies if there are, else set a default interval of 7 days.
  */
-$dateStart = date('Y-m-d', strtotime('-7 day', strtotime(DATE_YMD)));
+$dateStart = date('Y-m-d', strtotime('-' . $days . ' day', strtotime(DATE_YMD)));
 $dateEnd = DATE_YMD;
 
 /**
@@ -42,13 +42,11 @@ while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime($dateEnd)))) {
 /**
  *  Prepare chart data
  */
-$options['title']['text'] = 'Motion detection';
-
+$options['title']['text'] = 'Motion detection events';
+$options['legend']['show'] = true;
 $datasets[0]['color'] = '#15bf7f';
 $datasets[0]['name'] = 'Events';
 $datasets[1]['color'] = '#ffb536';
 $datasets[1]['name'] = 'Media files recorded';
-
-$options['toolbar']['show'] = false;
 
 unset($motionEventController, $dateLoop, $eventCount, $filesCount);

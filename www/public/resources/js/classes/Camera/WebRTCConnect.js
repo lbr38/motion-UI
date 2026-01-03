@@ -1,4 +1,4 @@
-class WebrtcConnect
+class WebRTCConnect
 {
     constructor()
     {
@@ -22,7 +22,7 @@ class WebrtcConnect
         const video = document.querySelector('video[camera-id="' + cameraId + '"]');
         
         if (!video) {
-            mycamera.setUnavailable(cameraId, 'Camera #' + cameraId + ' video element not found');
+            Camera.showStreamError(cameraId, 'Camera #' + cameraId + ' video element not found');
             return;
         }
 
@@ -59,7 +59,7 @@ class WebrtcConnect
         // Check every 2 seconds the stats
         this.statsInterval = setInterval(async () => {
             // If video has been disabled by the user then close the connection
-            if (mycamera.isDisabled(cameraId)) {
+            if (Camera.isDisabled(cameraId)) {
                 this.closeConnection();
                 return;
             }
@@ -110,7 +110,10 @@ class WebrtcConnect
         // Frames received successfully
         this.cameraConnection.connected = true;
         this.cameraConnection.retries = 0; // Reset retries on success
-        mycamera.setAvailable(cameraId);
+
+        Camera.hideStreamError(cameraId);
+        Camera.hideStreamLoading(cameraId);
+        Camera.showStream(cameraId);
         
         // Reset timeout
         this.clearVideoTimeout();
@@ -129,7 +132,10 @@ class WebrtcConnect
         if (this.cameraConnection.retries < 3) {
             this.cameraConnection.retries++;
             console.info('Camera #' + cameraId + ' reconnecting... (attempt ' + this.cameraConnection.retries + ')');
-            mycamera.setReconnecting(cameraId, 'Reconnecting... (attempt ' + this.cameraConnection.retries + '/3)');
+
+            Camera.hideStream(cameraId);
+            Camera.hideStreamError(cameraId);
+            Camera.showStreamLoading(cameraId, 'Error: no frames received, trying to reconnect (' + this.cameraConnection.retries + '/3)...');
 
             // Reconnect
             this.connect(cameraId);
@@ -137,7 +143,9 @@ class WebrtcConnect
         }
 
         // If we exhausted the attempts
-        mycamera.setUnavailable(cameraId, 'No frames received');
+        Camera.hideStreamLoading(cameraId);
+        Camera.showStreamError(cameraId, 'No frames received');
+
         this.closeConnection();
     }
 

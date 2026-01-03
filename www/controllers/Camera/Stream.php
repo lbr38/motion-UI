@@ -84,7 +84,7 @@ class Stream
     {
         $data = [];
 
-        $process = new \Controllers\Process('/usr/bin/ffprobe -loglevel quiet -select_streams v:0 -show_entries stream=width,height,r_frame_rate -of default=noprint_wrappers=1 ' . escapeshellarg($url));
+        $process = new \Controllers\Process('/usr/bin/ffprobe -loglevel quiet -select_streams v:0 -show_entries stream=width,height,avg_frame_rate -of default=noprint_wrappers=1 ' . escapeshellarg($url));
         $process->execute();
         $output = trim($process->getOutput());
         $process->close();

@@ -15,6 +15,11 @@ class VideoStream extends VideoRTC {
         if (state !== 'loading') return;
         this.querySelector('.mode').innerText = 'error';
         this.querySelector('.status').innerText = value;
+
+        // Custom: emit an error event
+        this.dispatchEvent(new CustomEvent('stream-error', {
+            detail: { message: value, cameraId: this.cameraId }
+        }));
     }
 
     /**
@@ -54,13 +59,26 @@ class VideoStream extends VideoRTC {
     onconnect() {
         console.debug('stream.onconnect');
         const result = super.onconnect();
-        if (result) this.divMode = 'loading';
+        if (result) {
+            this.divMode = 'loading';
+
+            // Custom: emit a connecting event
+            this.dispatchEvent(new CustomEvent('stream-connecting', {
+                detail: { cameraId: this.cameraId }
+            }));
+        }
+
         return result;
     }
 
     ondisconnect() {
         console.debug('stream.ondisconnect');
         super.ondisconnect();
+
+        // Custom: emit a disconnected event
+        this.dispatchEvent(new CustomEvent('stream-disconnected', {
+            detail: { cameraId: this.cameraId }
+        }));
     }
 
     onopen() {
@@ -68,16 +86,27 @@ class VideoStream extends VideoRTC {
         const result = super.onopen();
 
         this.onmessage['stream'] = msg => {
-            console.debug('stream.onmessge', msg);
+            console.debug('stream.onmessage', msg);
             switch (msg.type) {
                 case 'error':
                     this.divError = msg.value;
+
+                    // Custom: emit a WebSocket error event
+                    this.dispatchEvent(new CustomEvent('ws-error', {
+                        detail: { message: msg.value, cameraId: this.cameraId }
+                    }));
                     break;
                 case 'mse':
                 case 'hls':
                 case 'mp4':
                 case 'mjpeg':
                     this.divMode = msg.type.toUpperCase();
+
+                    // Custom: emit a stream ready event
+                    this.dispatchEvent(new CustomEvent('stream-ready', {
+                        detail: { mode: msg.type, cameraId: this.cameraId }
+                    }));
+
                     break;
             }
         };
@@ -87,6 +116,12 @@ class VideoStream extends VideoRTC {
 
     onclose() {
         console.debug('stream.onclose');
+
+        // Custom: emit a WebSocket closed event
+        this.dispatchEvent(new CustomEvent('ws-close', {
+            detail: { message: 'WebSocket connection closed', cameraId: this.cameraId }
+        }));
+
         return super.onclose();
     }
 
@@ -96,6 +131,11 @@ class VideoStream extends VideoRTC {
 
         if (this.pcState !== WebSocket.CLOSED) {
             this.divMode = 'RTC';
+
+            // Custom: emit a stream ready event for WebRTC
+            this.dispatchEvent(new CustomEvent('stream-ready', {
+                detail: { mode: 'webrtc', cameraId: this.cameraId }
+            }));
         }
     }
 }

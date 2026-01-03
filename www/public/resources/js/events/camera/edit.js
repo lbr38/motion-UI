@@ -54,9 +54,10 @@ $(document).on('change', '.form-param[param-name="main-stream-device"], .form-pa
             }
 
             // If frame rate is returned, set the framerate field
-            if (jsonValue.message.r_frame_rate) {
-                // Extract the number before the slash
-                const frameRate = jsonValue.message.r_frame_rate.split('/')[0];
+            if (jsonValue.message.avg_frame_rate) {
+                // Calculate the frame rate by dividing the fraction and round the result
+                const parts = jsonValue.message.avg_frame_rate.split('/');
+                const frameRate = Math.round(parseFloat(parts[0]) / parseFloat(parts[1] || 1));
                 $('.form-param[param-name="main-stream-framerate"]').val(frameRate);
             }
         }).finally(function () {
@@ -102,9 +103,10 @@ $(document).on('change', '.form-param[param-name="main-stream-device"], .form-pa
             }
 
             // If frame rate is returned, set the framerate field
-            if (jsonValue.message.r_frame_rate) {
-                // Extract the number before the slash
-                const frameRate = jsonValue.message.r_frame_rate.split('/')[0];
+            if (jsonValue.message.avg_frame_rate) {
+                // Calculate the frame rate by dividing the fraction and round the result
+                const parts = jsonValue.message.avg_frame_rate.split('/');
+                const frameRate = Math.round(parseFloat(parts[0]) / parseFloat(parts[1] || 1));
                 $('.form-param[param-name="secondary-stream-framerate"]').val(frameRate);
             }
         }).finally(function () {

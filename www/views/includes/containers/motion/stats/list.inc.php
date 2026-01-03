@@ -1,44 +1,64 @@
 <section class="main-container reloadable-container" container="motion/stats/list">
+    <div>
+        <h6>SELECT PERIOD</h6>
+        <select id="motion-stats-days-select" class="select-medium">
+            <option value="1" selected>1 day</option>
+            <option value="3" selected>3 days</option>
+            <option value="7">7 days</option>
+            <option value="15">15 days</option>
+            <option value="30">30 days</option>
+        </select>
+    </div>
+
     <div id="motion-stats-container" class="margin-top-30">
-        <div class="div-generic-blue relative">
+        <div class="div-generic-blue echart-container">
             <div id="motion-event-chart-loading" class="flex justify-center align-item-center height-100">
                 <img src="/assets/icons/loading.svg" class="icon-np">
             </div>
 
-            <div id="motion-event-chart"></div>
+            <div id="motion-event-chart" class="echart"></div>
         </div>
 
-        <div class="div-generic-blue relative">
+        <div class="div-generic-blue echart-container">
             <div id="motion-status-chart-loading" class="flex justify-center align-item-center height-100">
                 <img src="/assets/icons/loading.svg" class="icon-np">
             </div>
 
-            <div id="motion-status-chart"></div>
+            <div id="motion-status-chart" class="echart"></div>
         </div>
 
-        <div class="div-generic-blue relative">
+        <div class="div-generic-blue echart-container">
             <div id="system-cpu-usage-chart-loading" class="flex justify-center align-item-center height-100">
                 <img src="/assets/icons/loading.svg" class="icon-np">
             </div>
 
-            <div id="system-cpu-usage-chart"></div>
+            <div id="system-cpu-usage-chart" class="echart"></div>
         </div>
 
-        <div class="div-generic-blue">
+        <div class="div-generic-blue echart-container">
             <div id="system-memory-usage-chart-loading" class="flex justify-center align-item-center height-100">
                 <img src="/assets/icons/loading.svg" class="icon-np">
             </div>
 
-            <div id="system-memory-usage-chart"></div>
+            <div id="system-memory-usage-chart" class="echart"></div>
+        </div>
+
+        <div class="div-generic-blue echart-container">
+            <div id="system-disk-usage-chart-loading" class="flex justify-center align-item-center height-100">
+                <img src="/assets/icons/loading.svg" class="icon-np">
+            </div>
+
+            <div id="system-disk-usage-chart" class="echart"></div>
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            new ApexChart('line', 'motion-event-chart');
-            new ApexChart('line', 'motion-status-chart');
-            new ApexChart('line', 'system-cpu-usage-chart');
-            new ApexChart('line', 'system-memory-usage-chart');
-        });    
+            new EChart('line', 'motion-event-chart');
+            new EChart('line', 'motion-status-chart');
+            new EChart('line', 'system-cpu-usage-chart');
+            new EChart('line', 'system-memory-usage-chart');
+            new EChart('line', 'system-disk-usage-chart');
+        });
     </script>
 </section>
