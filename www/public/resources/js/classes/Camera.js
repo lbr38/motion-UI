@@ -4,8 +4,7 @@ class Camera
     {
         this.id = id;
         this.retry = 0;
-        this.streamTechnology = null;
-        this.cameraWidth = null;
+        this.mse = null; // Instance MSE
         this.webrtc = null; // Instance WebRTC
         
         // Stockage des références des event listeners pour pouvoir les supprimer
@@ -32,7 +31,7 @@ class Camera
                 // Send a message through the websocket connection
                 ws.send(JSON.stringify({type: 'ping'}));
                 // For debug purpose
-                // console.info('WebSocket ping sent');
+                console.info('WebSocket ping sent');
             }
         }, 2000);
     }
@@ -46,7 +45,7 @@ class Camera
             clearInterval(this.pingInterval);
             this.pingInterval = null;
             // For debug purpose
-            // console.info('WebSocket ping stopped');
+            console.info('WebSocket ping stopped');
         }
     }
 
@@ -151,10 +150,9 @@ class Camera
             }
         }
 
+        // Remove the video element to free resources
         $('.video-container[camera-id="' + id + '"] video-stream').remove();
         $('.video-container[camera-id="' + id + '"] video').remove();
-
-        // this.videoElement.remove();
     }
 
     /**
@@ -252,10 +250,10 @@ class Camera
     async connect()
     {
         // Get camera stream technology
-        this.streamTechnology = $('.camera-container[camera-id="' + this.id + '"]').find('div.camera-image').attr('stream-technology');
+        const streamTechnology = $('.camera-container[camera-id="' + this.id + '"]').find('div.camera-image').attr('stream-technology');
 
         // Get camera width
-        this.cameraWidth = $('.camera-container[camera-id="' + this.id + '"]').find('div.camera-image').attr('width');
+        const cameraWidth = $('.camera-container[camera-id="' + this.id + '"]').find('div.camera-image').attr('width');
 
         // Show loading message
         Camera.showStreamLoading(this.id);
@@ -267,158 +265,20 @@ class Camera
          *  Connect to the camera using MSE or MJPEG
          *  See js/stream/video-stream.js
          */
-        if (this.streamTechnology == 'mse' || this.streamTechnology == 'mjpeg') {
-            // const params = new URLSearchParams(location.search);
-
-            // support multiple streams and multiple modes
-            const width = '1 0 ' + this.cameraWidth;
-            
-            // Capturer l'ID de la caméra pour l'utiliser dans les event listeners
-            const id = this.id;
-
-            // videoElement must be the <video> with the camera-id attribute
-            const video = document.querySelector('video[camera-id="' + this.id + '"]');
-
-            /** @type {VideoStream} */
-            this.videoElement = document.createElement('video-stream');
-            this.videoElement.mode = this.streamTechnology;
-            this.videoElement.style.flex = width;
-            this.videoElement.src = new URL('api/ws?src=camera_' + this.id, location.href);
-            this.videoElement.cameraId = this.id;
-
-            // When video is loaded, hide the loading div, replace existing video with this.videoElement
-            video.replaceWith(this.videoElement);
-
-            // Save reference to 'this' camera instance, to use in event listeners
-            const self = this;
-
-            // Timeout pour détecter les échecs de connexion
-            // const connectionTimeout = setTimeout(() => {
-            //     self.showStreamError(id, 'Connection timeout');
-            // }, 15000); // 15 secondes
-
-            // Définir les fonctions d'événements et les stocker pour pouvoir les supprimer
-            this.eventListeners.onError = function(event) {
-                console.error('Video stream error for camera ' + id + ':', event);
-                Camera.showStreamError(id, 'Stream connection failed');
-            };
-
-            this.eventListeners.onWsError = function(event) {
-                console.error('WebSocket error for camera ' + id + ':', event.detail);
-                Camera.showStreamError(id, event.detail.message || 'Connection error', true);
-            };
-
-            this.eventListeners.onWsClose = function(event) {
-                console.warn('WebSocket closed for camera ' + id + ':', event.detail);
-
-                // Try to reconnect up to 3 times
-                if (self.retry < 3) {
-                    self.retry++;
-
-                    Camera.hideStreamError(id);
-                    Camera.showStreamLoading(id, 'Reconnecting (' + self.retry + ' of 3)...');
-                    
-                    setTimeout(() => {
-                        self.connect();
-                    }, 1000);
-                } else {
-                    console.error('Max retry attempts reached for camera ' + id + ' (' + self.retry + '). Giving up.');
-                    Camera.showStreamError(id, 'Max reconnection attempts reached');
-                }
-            };
-
-            this.eventListeners.onStreamReady = function(event) {
-                console.log('Stream ready for camera ' + id);
-                Camera.hideStreamError(id);
-                Camera.hideStreamLoading(id);
-                Camera.showStream(id);
-
-                // Reset retry counter
-                self.retry = 0;
-
-                // clearTimeout(connectionTimeout);
-            };
-
-            this.eventListeners.onStreamError = function(event) {
-                clearTimeout(connectionTimeout);
-                Camera.showStreamError(id, event.detail.message);
-            };
-
-            // Ajouter les event listeners
-            this.videoElement.addEventListener('error', this.eventListeners.onError);
-            this.videoElement.addEventListener('ws-error', this.eventListeners.onWsError);
-            this.videoElement.addEventListener('ws-close', this.eventListeners.onWsClose);
-            this.videoElement.addEventListener('stream-ready', this.eventListeners.onStreamReady);
-            this.videoElement.addEventListener('stream-error', this.eventListeners.onStreamError);
+        if (streamTechnology == 'mse' || streamTechnology == 'mjpeg') {          
+            // Create a new MSEConnect instance if it does not exist
+            this.mse = new MSEConnect(this.id, streamTechnology, cameraWidth);
+            this.mse.connect();
         }
 
         /**
          *  Connect to the camera using WebRTC
          *  See js/stream/webrtc.js
          */
-        if (this.streamTechnology == 'webrtc') {
-            // Create a new WebrtcConnect instance if it does not exist
-            this.webrtc = new WebrtcConnect();
+        if (streamTechnology == 'webrtc') {
+            // Create a new WebRTCConnect instance if it does not exist
+            this.webrtc = new WebRTCConnect();
             this.webrtc.connect(this.id);
-        }
-    }
-
-    /**
-     * Supprime un event listener spécifique
-     * @param {string} eventType - Type d'événement ('error', 'ws-error', 'ws-close', 'stream-ready', 'stream-error')
-     */
-    removeEventListener(eventType) {
-        if (!this.videoElement || !this.eventListeners) return;
-
-        const eventMap = {
-            'error': 'onError',
-            'ws-error': 'onWsError', 
-            'ws-close': 'onWsClose',
-            'stream-ready': 'onStreamReady',
-            'stream-error': 'onStreamError'
-        };
-
-        const listenerKey = eventMap[eventType];
-        if (listenerKey && this.eventListeners[listenerKey]) {
-            this.videoElement.removeEventListener(eventType, this.eventListeners[listenerKey]);
-            this.eventListeners[listenerKey] = null;
-            console.log(`Event listener '${eventType}' removed for camera ${this.id}`);
-        }
-    }
-
-    /**
-     * Nettoie tous les event listeners du stream vidéo
-     * Utile pour éviter les fuites mémoire et permettre une déconnexion propre
-     */
-    cleanupEventListeners() {
-        if (this.videoElement && this.eventListeners) {
-            // Supprimer tous les event listeners
-            if (this.eventListeners.onError) {
-                this.videoElement.removeEventListener('error', this.eventListeners.onError);
-            }
-            if (this.eventListeners.onWsError) {
-                this.videoElement.removeEventListener('ws-error', this.eventListeners.onWsError);
-            }
-            if (this.eventListeners.onWsClose) {
-                this.videoElement.removeEventListener('ws-close', this.eventListeners.onWsClose);
-            }
-            if (this.eventListeners.onStreamReady) {
-                this.videoElement.removeEventListener('stream-ready', this.eventListeners.onStreamReady);
-            }
-            if (this.eventListeners.onStreamError) {
-                this.videoElement.removeEventListener('stream-error', this.eventListeners.onStreamError);
-            }
-
-            // Réinitialiser les références
-            this.eventListeners = {
-                onError: null,
-                onWsError: null,
-                onWsClose: null,
-                onStreamReady: null,
-                onStreamError: null
-            };
-
-            console.log('All event listeners cleaned up for camera ' + this.id);
         }
     }
 
@@ -457,16 +317,21 @@ class Camera
      * Déconnecte complètement le stream et nettoie toutes les ressources
      */
     disconnect() {
-        // Nettoyer les event listeners
-        this.cleanupEventListeners();
-        
-        // Arrêter le ping si actif
-        this.stopPing();
-        
-        // Supprimer l'élément vidéo (case du MSE/MJPEG)
-        if (this.videoElement) {
-            this.videoElement.remove();
-            this.videoElement = null;
+        if (this.mse) {
+            // Nettoyer les event listeners
+            this.mse.cleanupEventListeners();
+            
+            // Arrêter le ping si actif
+            this.stopPing();
+            
+            // Supprimer l'élément vidéo (case du MSE/MJPEG)
+            if (this.mse.videoElement) {
+                this.mse.videoElement.remove();
+                this.mse.videoElement = null;
+            }
+
+            // Réinitialiser le compteur de retry
+            this.mse.retry = 0;
         }
 
         // Si WebRTC est utilisé, fermer la connexion
@@ -483,9 +348,6 @@ class Camera
             console.warn('WebRTC instance found but no closeConnection method available for camera ' + this.id);
             this.webrtc = null;
         }
-        
-        // Réinitialiser le compteur de retry
-        this.retry = 0;
         
         console.log('Camera ' + this.id + ' disconnected and cleaned up');
     }

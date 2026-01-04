@@ -1,4 +1,4 @@
-class WebrtcConnect
+class WebRTCConnect
 {
     constructor()
     {
@@ -133,6 +133,7 @@ class WebrtcConnect
             this.cameraConnection.retries++;
             console.info('Camera #' + cameraId + ' reconnecting... (attempt ' + this.cameraConnection.retries + ')');
 
+            Camera.hideStream(cameraId);
             Camera.hideStreamError(cameraId);
             Camera.showStreamLoading(cameraId, 'Error: no frames received, trying to reconnect (' + this.cameraConnection.retries + '/3)...');
 
