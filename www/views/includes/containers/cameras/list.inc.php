@@ -71,28 +71,33 @@
                         <div class="camera-image relative" camera-id="<?= $cameraId ?>" stream-technology="<?= $cameraRawParams['stream']['technology'] ?>" width="<?= $cameraRawParams['main-stream']['width'] ?>" height="<?= $cameraRawParams['main-stream']['height'] ?>">
                             <?php
                             if ($cameraRawParams['stream']['enable'] == 'true') {
-                                $videoContainerClass = '';
                                 $videoAttribute = '';
                                 $unavailableClass = 'hide';
+                                $loadingClass = 'flex';
                             } else {
-                                $videoContainerClass = 'hide';
                                 $videoAttribute = 'disabled';
                                 $unavailableClass = 'flex';
+                                $loadingClass = 'hide';
                             } ?>
-
-                            <!-- Camera stream -->
-                            <div class="video-container <?= $videoContainerClass ?>" camera-id="<?= $cameraId ?>">
-                                <video camera-id="<?= $cameraId ?>" autoplay playsinline muted poster="/assets/images/motionui-video-poster.png" <?= $videoAttribute ?>></video>
-                            </div>
 
                             <div class="camera-disabled <?= $unavailableClass ?>" camera-id="<?= $cameraId ?>">
                                 <img src="/assets/icons/videocam-off.svg" class="icon-np mediumopacity-cst" title="Live stream is disabled" />
-                                <p class="note">Stream is disabled</p>
+                                <p class="note">Stream disabled</p>
                             </div>
 
-                            <div class="camera-unavailable hide" camera-id="<?= $cameraId ?>">
+                            <div class="camera-loading <?= $loadingClass ?>" camera-id="<?= $cameraId ?>">
+                                <img src="/assets/icons/loading.svg" class="icon-np" title="Loading" />
+                                <p class="note">Connecting...</p>
+                            </div>
+
+                            <div class="camera-error hide" camera-id="<?= $cameraId ?>">
                                 <img src="/assets/icons/videocam-error.svg" class="icon-np" title="Stream error" />
-                                <p class="note">Stream error</p>
+                                <p class="note margin-left-20 margin-right-20">Stream error</p>
+                            </div>
+
+                            <!-- Camera stream -->
+                            <div class="video-container hide" camera-id="<?= $cameraId ?>">
+                                <video camera-id="<?= $cameraId ?>" autoplay playsinline muted poster="/assets/images/motionui-video-poster.png" <?= $videoAttribute ?>></video>
                             </div>
 
                             <!-- Motion detection indicator -->

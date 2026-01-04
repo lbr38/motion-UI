@@ -141,9 +141,6 @@ async function connect(cameraId) {
         // Stop the ping interval
         mycamera.stopPing();
 
-        // Set the camera as unavailable (unless the stream is disabled)
-        mycamera.setUnavailable(cameraId, 'Stream error');
-
         // Close the PeerConnection
         pc.close();
     });

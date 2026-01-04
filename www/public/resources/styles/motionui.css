@@ -546,39 +546,35 @@ h3 {
     min-height: 150px;
 }
 
-video {
-    touch-action: pan-x pan-y pinch-zoom !important;
-}
+
 
 .video-container {
     display: flex;
     justify-content: center;
     height: 100%;
 }
-.camera-disabled, .camera-unavailable {
+
+video, video-stream {
+    touch-action: pan-x pan-y pinch-zoom !important;
+}
+
+.camera-loading, .camera-loading, .camera-disabled, .camera-error {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     row-gap: 15px;
+    width: 100%;
     min-height: 250px;
     height: 100%;
-    max-height: 100vh;
 }
-.camera-disabled img, .camera-unavailable img {
+.camera-loading img, .camera-disabled img, .camera-error img {
     width: 64px;
     height: 64px;
 }
-.camera-reconnecting {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: #000000b3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px 20px 0 0;
+
+.camera-error img.icon-copy {
+    height: 13px !important;
+    width: 13px !important;
 }
 
 #fullscreen {

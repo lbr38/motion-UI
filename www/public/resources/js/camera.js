@@ -21,11 +21,12 @@ async function loadStream()
 
 async function loadCameras(cameraId = null)
 {
-    var cameraStreamsConnections = {};
+    // Initialize window.cameraInstances if it does not exist
+    if (!window.cameraInstances) {
+        window.cameraInstances = {};
+    }
 
-    /**
-     *  Quit if there is no camera to load
-     */
+    // Quit if there is no camera to load
     if ($('.camera-container').length == 0) {
         return;
     }
@@ -37,82 +38,23 @@ async function loadCameras(cameraId = null)
     if (cameraId != null) {
         var cameraContainers = $('.camera-container[camera-id="' + cameraId + '"]').toArray();
     } else {
-        /**
-         *  For each camera container, load the camera image and hide the loading div
-         */
+        // For each camera container, load the camera image and hide the loading div
         var cameraContainers = $('.camera-container').toArray();
     }
 
     await Promise.all(cameraContainers.map(async(container) => {
-        /**
-         *  If there is no camera-image div (case where the stream is disabled), then ignore it
-         */
-        if ($(container).find('div.camera-image').find('video').length == 0) {
-            return;
-        }
-
-        /**
-         *  If the video stream is disabled for this camera (has attribute "disabled"), then ignore it
-         */
+        // If the video stream is disabled for this camera (has attribute "disabled"), then ignore it
         if ($(container).find('div.camera-image').find('video').attr('disabled')) {
             return;
         }
 
-        /**
-         *  Retrieve camera Id
-         */
+        // Retrieve camera Id
         const cameraId = $(container).find('div.camera-image').attr('camera-id');
 
-        /**
-         *  Get camera stream technology
-         */
-        const streamTechnology = $(container).find('div.camera-image').attr('stream-technology');
-
-        /**
-         *  Get camera width
-         */
-        const cameraWidth = $(container).find('div.camera-image').attr('width');
-
-        /**
-         *  Connect to the camera using WebRTC
-         *  See js/stream/webrtc.js
-         */
-        if (streamTechnology == 'webrtc') {
-            // Create a new WebrtcConnect instance if it does not exist
-            cameraStreamsConnections[cameraId] = new WebrtcConnect();
-            cameraStreamsConnections[cameraId].connect(cameraId);
-
-            // Wait until the connection is closed
-            while (cameraStreamsConnections[cameraId].cameraConnection.connected === true) {
-                await new Promise(r => setTimeout(r, 1000));
-            }
-
-            // Destroy class instance if the camera stream is disabled
-            delete cameraStreamsConnections[cameraId];
-        }
-
-        /**
-         *  Connect to the camera using MSE or MJPEG
-         *  See js/stream/video-stream.js
-         */
-        if (streamTechnology == 'mse' || streamTechnology == 'mjpeg') {
-            // const params = new URLSearchParams(location.search);
-
-            // support multiple streams and multiple modes
-            const width = '1 0 ' + cameraWidth;
-
-            // videoElement must be the <video> with the camera-id attribute
-            const video = document.querySelector('video[camera-id="' + cameraId + '"]');
-
-            /** @type {VideoStream} */
-            const videoElement = document.createElement('video-stream');
-            videoElement.mode = streamTechnology;
-            videoElement.style.flex = width;
-            videoElement.src = new URL('api/ws?src=camera_' + cameraId, location.href);
-            videoElement.cameraId = cameraId;
-
-            // Replace existing video with videoElement
-            video.replaceWith(videoElement);
+        // Instantiate Camera class and connect if not already done
+        if (!window.cameraInstances[cameraId]) {
+            window.cameraInstances[cameraId] = new Camera(cameraId);
+            window.cameraInstances[cameraId].connect();
         }
     }));
 }

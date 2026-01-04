@@ -48,7 +48,8 @@
 <script src="/resources/js/classes/Tooltip.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Select2.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Camera.js?<?= VERSION ?>"></script>
-<script src="/resources/js/classes/WebrtcConnect.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Camera/MSEConnect.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/Camera/WebRTCConnect.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/ApexChart.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/System.js?<?= VERSION ?>"></script>
 
