@@ -11,21 +11,21 @@ $memoryUsageStats = $systemMonitoringController->get($timeStart, $timeEnd);
 
 foreach ($memoryUsageStats as $stat) {
     $labels[] = $stat['Timestamp'] * 1000;
-    $datasets[0]['data'][] = $stat['Memory_usage'];
+    $datasets[0]['data'][] = $stat['Disk_usage'];
 }
 
 /**
  *  Add current memory usage to the list
  */
 $labels[] = time() * 1000;
-$datasets[0]['data'][] = \Controllers\System\Monitoring\Memory::getUsage();
+$datasets[0]['data'][] = \Controllers\System\Monitoring\Disk::getUsage('/');
 
 /**
  *  Prepare chart data
  */
-$options['title']['text'] = 'Memory usage (%)';
+$options['title']['text'] = 'Disk usage (%)';
 $options['init-zoom'] = 60;
 $datasets[0]['color'] = '#F32F63';
-$datasets[0]['name'] = 'Memory usage';
+$datasets[0]['name'] = 'Disk usage';
 
 unset($systemMonitoringController, $memoryUsageStats, $stat);

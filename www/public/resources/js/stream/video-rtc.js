@@ -63,7 +63,7 @@ export class VideoRTC extends HTMLElement {
          * tab or minimise browser windows.
          * @type {boolean}
          */
-        this.visibilityCheck = true;
+        this.visibilityCheck = false;
 
         /**
          * [config] WebRTC configuration
@@ -248,6 +248,7 @@ export class VideoRTC extends HTMLElement {
         this.video.playsInline = true;
         this.video.preload = 'auto';
         this.video.poster = '/assets/images/motionui-video-poster.png';
+        this.video.muted = true; // Custom: mute by default
 
         this.video.style.display = 'block'; // fix bottom margin 4px
         this.video.style.width = '100%';

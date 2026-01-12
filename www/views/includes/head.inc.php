@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/styles/components/modal.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/components/tooltip.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/components/scrollbar.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/echart.css?<?= VERSION ?>">
     <link rel="stylesheet" type='text/css' href="/resources/styles/select2.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/motionui.css?<?= VERSION ?>">
 
@@ -27,8 +28,8 @@
     <script src="/resources/js/libs/select2.js?<?= VERSION ?>"></script>
     <!-- Morhpdom -->
     <script src="/resources/js/libs/morphdom-umd.min.js?<?= VERSION ?>"></script>
-    <!-- ApexCharts -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- ECharts -->
+    <script src="/resources/js/libs/echarts.min.js?<?= VERSION ?>"></script>
     <!-- Stream -->
     <script type="module" src="/resources/js/stream/video-rtc.js?<?= VERSION ?>"></script>
     <script type="module" src="/resources/js/stream/video-stream.js?<?= VERSION ?>"></script>

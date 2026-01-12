@@ -29,17 +29,48 @@ class Monitoring extends \Controllers\Service\Service
      */
     public function monitor() : void
     {
-        parent::log('Logging system usage');
+        parent::log('Starting system monitoring');
 
-        $cpuUsage    = Cpu::getUsage();
-        $memoryUsage = Memory::getUsage();
-        $diskUsage   = Disk::getUsage('/');
+        while (true) {
+            $currentSecond = date('s');
+            $cpuUsage      = Cpu::getUsage();
+            $memoryUsage   = Memory::getUsage();
+            $diskUsage     = Disk::getUsage('/');
 
-        // Add to database
-        $this->monitoringController->set($cpuUsage, $memoryUsage, $diskUsage);
+            // Create resources/monitoring/ directory if not exists
+            if (!is_dir(ROOT . '/public/resources/monitoring/')) {
+                if (!mkdir(ROOT . '/public/resources/monitoring/', 0755, true)) {
+                    parent::logError('Could not create monitoring resources directory');
+                }
+            }
 
-        // Delete old monitoring data (older than 30 days)
-        $this->monitoringController->clean(30);
+            // Write to file
+            if (!file_put_contents(ROOT . '/public/resources/monitoring/cpu-usage', $cpuUsage)) {
+                parent::logError('Could not write CPU usage to file');
+            }
+
+            if (!file_put_contents(ROOT . '/public/resources/monitoring/memory-usage', $memoryUsage)) {
+                parent::logError('Could not write memory usage to file');
+            }
+
+            if (!file_put_contents(ROOT . '/public/resources/monitoring/disk-usage', $diskUsage)) {
+                parent::logError('Could not write disk usage to file');
+            }
+
+            // If interval is :00 (every minute), log to databse
+            if ($currentSecond == '00') {
+                parent::log('Logging system monitoring data to database');
+                // Add to database
+                $this->monitoringController->set($cpuUsage, $memoryUsage, $diskUsage);
+
+                // Delete old monitoring data (older than 30 days)
+                $this->monitoringController->clean(30);
+            }
+
+            // Sleep to the next 10 second interval
+            $sleepTime = 10 - (time() % 10);
+            sleep($sleepTime);
+        }
     }
 
     /**
@@ -92,7 +123,7 @@ class Monitoring extends \Controllers\Service\Service
 
                 // If monitoring is not enabled for this camera, skip it
                 if ($configuration['monitoring']['enable'] != 'true') {
-                    parent::logDebug('Skipping camera #' . $id . ' as monitoring is disabled');
+                    parent::logDebug('Skipping camera #' . $id . ' (' . $name . ') as monitoring is disabled');
                     continue;
                 }
 
@@ -113,9 +144,6 @@ class Monitoring extends \Controllers\Service\Service
                     // Add auth to the URL
                     $mainStreamUrl = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . $auth, $mainStream);
 
-                    // Sanitize URL for logging
-                    $mainStreamSanitized = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . '****:****@', $mainStream);
-
                     parent::logDebug('Checking main stream URL: ' . $mainStreamUrl);
 
                     // Check stream status
@@ -128,18 +156,20 @@ class Monitoring extends \Controllers\Service\Service
                     } else {
                         $mainStreamStatus = 0;
                         $mainStreamError = $status;
-                        parent::logError('Camera #' . $id . ' main stream error: ' . $mainStreamError);
 
-                        $errors[] = 'Main stream error: ' . $mainStreamSanitized;
+                        // Sanitize error message
+                        $mainStreamErrorSanitized = preg_replace('/(rtsp|https?):\/\/[^:@\s]+:[^@\s]+@/', '$1://****:****@', $mainStreamError);
+                        $mainStreamErrorSanitized = preg_replace('/(rtsp|https?):\/\/([^@\/\s]+@)?([^\/\s]+)(\/\S*)/', '$1://$2$3/****', $mainStreamErrorSanitized);
+
+                        parent::logError('Camera #' . $id . ' (' . $name . ') main stream error: ' . $mainStreamError);
+
+                        $errors[] = 'Main stream error:<br>' . $mainStreamErrorSanitized;
                     }
                 }
 
                 if (!empty($secondaryStream)) {
                     // Add auth to the URL
                     $secondaryStreamUrl = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . $auth, $secondaryStream);
-
-                    // Sanitize URL for logging
-                    $secondaryStreamSanitized = preg_replace('/^(rtsp|http|https):\/\//', '$1://' . '****:****@', $secondaryStream);
 
                     parent::logDebug('Checking secondary stream URL: ' . $secondaryStreamUrl);
 
@@ -153,9 +183,14 @@ class Monitoring extends \Controllers\Service\Service
                     } else {
                         $secondaryStreamStatus = 0;
                         $secondaryStreamError = $status;
-                        parent::logError('Camera #' . $id . ' secondary stream error: ' . $secondaryStreamError);
 
-                        $errors[] = 'Secondary stream error: ' . $secondaryStreamSanitized;
+                        // Sanitize error message
+                        $secondaryStreamErrorSanitized = preg_replace('/(rtsp|https?):\/\/[^:@\s]+:[^@\s]+@/', '$1://****:****@', $secondaryStreamError);
+                        $secondaryStreamErrorSanitized = preg_replace('/(rtsp|https?):\/\/([^@\/\s]+@)?([^\/\s]+)(\/\S*)/', '$1://$2$3/****', $secondaryStreamErrorSanitized);
+
+                        parent::logError('Camera #' . $id . ' (' . $name . ') secondary stream error: ' . $secondaryStreamError);
+
+                        $errors[] = 'Secondary stream error:<br>' . $secondaryStreamErrorSanitized;
                     }
                 }
 
@@ -175,7 +210,7 @@ class Monitoring extends \Controllers\Service\Service
                         if ($latestStatus['Main_stream_status'] == $mainStreamStatus and $latestStatus['Secondary_stream_status'] == $secondaryStreamStatus) {
                             $sendMail = false;
 
-                            parent::logDebug('Not sending email for camera #' . $id . ' as the latest status is the same');
+                            parent::logDebug('Not sending email for camera #' . $id . ' (' . $name . ') as the latest status is the same');
                         }
                     }
 
@@ -183,15 +218,15 @@ class Monitoring extends \Controllers\Service\Service
                         // Get users
                         $users = $this->userController->getUsers();
 
-                        parent::logDebug('Sending email for camera #' . $id . ' as there are errors');
-
                         if (empty($recipients)) {
-                            parent::logDebug('No recipient is configured for camera #' . $id . ' monitoring');
+                            parent::logDebug('No recipient is configured for camera #' . $id . ' (' . $name . ') monitoring, skipping email sending');
                             continue;
                         }
 
+                        parent::logDebug('Sending email for camera #' . $id . ' (' . $name . ') as there are errors');
+
                         $subject = 'Error detected on ' . $name . ' camera';
-                        $message = 'The following error(s) were detected on <b>' . $name . '</b> camera:<br><br>' . implode('<br><br>', $errors) . '<br><br>Please check the camera(s) configuration and connection.';
+                        $message = 'The following error(s) were detected on <b>' . $name . '</b> camera.<br><br>' . implode('<br><br>', $errors) . "<br><br>Please check the camera's configuration and status.";
                         new Mail($recipients, $subject, $message, __SERVER_PROTOCOL__ . '://' . WWW_HOSTNAME, 'Live stream');
                     }
                 }

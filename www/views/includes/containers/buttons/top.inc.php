@@ -37,6 +37,10 @@
     <script>
         $(document).ready(function () {
             mysystem.getCpuUsage();
+
+            setInterval(() => {
+                mysystem.getCpuUsage();
+            }, 10000); // Refresh every 10 seconds
         });
     </script>
 </section>

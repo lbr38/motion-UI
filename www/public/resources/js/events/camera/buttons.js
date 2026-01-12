@@ -63,15 +63,10 @@ $(document).on('click','.enable-camera-stream-btn', function (e) {
         true
     ).then(function () {
         // Hide the camera stream disabled message
-        $('.camera-disabled[camera-id="' + cameraId + '"]').hide();
-        $('.camera-disabled[camera-id="' + cameraId + '"]').removeClass('flex');
+        Camera.hideStreamDisabled(cameraId);
 
-        // Hide the camera unavailable message
-        $('.camera-unavailable[camera-id="' + cameraId + '"]').hide();
-
-        // Show video container and add video stream
-        $('.video-container[camera-id="' + cameraId + '"]').css('display', 'flex');
-        $('.video-container[camera-id="' + cameraId + '"]').html('<video camera-id="' + cameraId + '" autoplay playsinline muted poster="/assets/images/motionui-video-poster.png"></video>')
+        // Set video element as enabled
+        Camera.setEnabled(cameraId);
 
         // Load stream
         loadCameras(cameraId);
@@ -115,15 +110,11 @@ $(document).on('click','.disable-camera-stream-btn', function (e) {
         // Print error alert:
         true
     ).then(function () {
-        // Hide video container and remove video stream
-        $('.video-container[camera-id="' + cameraId + '"]').css('display', 'none');
-        $('.video-container[camera-id="' + cameraId + '"]').find('video').attr('disabled', 'disabled');
+        // Safely disconnect the camera
+        Camera.safeDisconnect(window.cameraInstances[cameraId], cameraId);
 
-        // Hide the camera unavailable message
-        $('.camera-unavailable[camera-id="' + cameraId + '"]').hide();
-
-        // Display the camera stream disabled message
-        $('.camera-disabled[camera-id="' + cameraId + '"]').css('display', 'flex');
+        // Show the camera stream disabled message
+        Camera.showStreamDisabled(cameraId);
 
         // Change button icon
         $(thisButton).find('img').attr('src', '/assets/icons/videocam-off.svg');
