@@ -9,7 +9,7 @@ class OnvifUri
     /**
      *  Check that URI is valid
      */
-    public static function check(string $uri) : void
+    public static function check(string $uri): void
     {
         if (empty($uri)) {
             return;

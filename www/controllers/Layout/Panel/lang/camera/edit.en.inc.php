@@ -1,0 +1,52 @@
+<?php
+$_ = [
+    'h6' => [
+        'name' => 'NAME',
+        'main_stream' => 'CAMERA MAIN STREAM',
+        'resolution' => 'RESOLUTION',
+        'framerate' => 'FRAME RATE',
+        'rotate' => 'ROTATE',
+        'text_left' => 'TEXT LEFT',
+        'text_right' => 'TEXT RIGHT',
+        'timestamp_left' => 'TIMESTAMP LEFT',
+        'timestamp_right' => 'TIMESTAMP RIGHT',
+        'secondary_stream' => 'CAMERA SECONDARY STREAM',
+        'secondary_stream_note' => '',
+        'secondary_stream_resolution' => 'SECONDARY STREAM RESOLUTION',
+        'secondary_stream_framerate' => 'SECONDARY STREAM FRAME RATE',
+        'authentication' => 'AUTHENTICATION',
+        'authentication_username' => 'USERNAME',
+        'authentication_password' => 'PASSWORD',
+        'enable_onvif' => 'ENABLE ONVIF',
+        'onvif_port' => 'ONVIF PORT',
+        'enable_motion_detection' => 'MOTION DETECTION',
+        'configure_motion_detection' => 'CONFIGURE MOTION DETECTION',
+        'stream_technology' => 'STREAM TECHNOLOGY',
+        'enable_timelapse' => 'ENABLE TIMELAPSE',
+        'enable_monitoring' => 'ENABLE MONITORING',
+        'monitoring_recipients' => 'RECIPIENTS'
+    ],
+
+    'p' => [
+        'main_stream_note' => 'Device path like /dev/video0 or URL like http://... or rtsp://... are supported.',
+        'resolution_note' => 'The selected resolution must match the resolution of the camera.',
+        'framerate_note' => 'The specified frame rate must match the frame rate of the camera.',
+        'rotate_note' => 'Set to 0 to disable rotation. Warning: rotating the camera feed is a CPU intensive operation.',
+        'text_left_note' => 'Text to display on the left side of the camera feed.',
+        'text_right_note' => 'Text to display on the right side of the camera feed.',
+        'timestamp_left_note' => 'Display timestamp on the left side of the camera feed.',
+        'timestamp_right_note' => 'Display timestamp on the right side of the camera feed.',
+        'secondary_stream_note' => 'If the camera supports multiple streams and provides a secondary stream with a lower resolution, you can add it here.<br>This secondary stream will be used for the motion detection.<br>Device URL like http://... or rtsp://... are supported.',
+        'secondary_stream_resolution_note' => 'The selected resolution must match the resolution of the secondary stream of the camera.',
+        'secondary_stream_framerate_note' => 'The specified frame rate must match the frame rate of the secondary stream of the camera.',
+        'authentication_note' => 'If the camera requires authentication (to access the video stream or ONVIF service).',
+        'enable_onvif_note' => 'If camera supports ONVIF protocol. This will allow you to move the camera using the PTZ controls.',
+        'onvif_port_note' => 'Port number of the ONVIF service. Default is 80.',
+        'enable_motion_detection_note' => 'Enable motion detection for this camera.',
+        'configure_motion_detection_note' => 'Configure motion detection for this camera.',
+        'stream_technology_note' => 'MSE should work without any additional configuration.<br>WebRTC is more efficient and offer less latency but may not work in some cases.<br>MJPEG should be used with http:// cameras.',
+        'enable_timelapse_note' => 'Enable timelapse for this camera.',
+        'enable_monitoring_note' => 'Email alert will be sent if the camera goes offline.',
+        'monitoring_recipients_note' => 'Email addresses to receive the alert notifications (comma separated).'
+    ]
+];

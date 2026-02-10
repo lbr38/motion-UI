@@ -18,7 +18,7 @@ class WebsocketServer extends \Controllers\Service\Service
     /**
      *  Run the websocket server
      */
-    public function run() : void
+    public function run(): void
     {
         // Default port is 8085
         $port = 8085;

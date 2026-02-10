@@ -14,7 +14,7 @@ class Service extends \Models\Model
     /**
      *  Get daily motion service status (for stats)
      */
-    public function getMotionServiceStatusStats(int $start, int $end) : array
+    public function getMotionServiceStatusStats(int $start, int $end): array
     {
         $data = [];
 
@@ -37,7 +37,7 @@ class Service extends \Models\Model
     /**
      *  Set motion actual status in database
      */
-    public function setStatusInDb(string $status) : void
+    public function setStatusInDb(string $status): void
     {
         try {
             $stmt = $this->db->prepare("INSERT INTO motion_status (Timestamp, Status) VALUES (:timestamp, :status)");

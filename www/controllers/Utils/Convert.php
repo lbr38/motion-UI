@@ -11,7 +11,7 @@ class Convert
      *   Returns FALSE for "0", "false", "off" and "no"
      *   Returns NULL on failure if FILTER_NULL_ON_FAILURE is set
      */
-    public static function toBool(string $string) : bool|null
+    public static function toBool(string $string): bool|null
     {
         return filter_var($string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
@@ -19,7 +19,7 @@ class Convert
     /**
      *  Converts a microtime to a time format
      */
-    public static function microtimeToTime(string $microtime) : string
+    public static function microtimeToTime(string $microtime): string
     {
         return date('H:i:s', $microtime);
     }
@@ -27,7 +27,7 @@ class Convert
     /**
      *  Converts a microtime duration to a human readable format HHhMMmSSs
      */
-    public static function microtimeToHuman(string $duration) : string
+    public static function microtimeToHuman(string $duration): string
     {
         $time = '';
         $hours = (int)($duration/60/60);
@@ -54,7 +54,7 @@ class Convert
     /**
      *  Convert bytes size to the most suitable human readable format (B, MB, GB...)
      */
-    public static function sizeToHuman($bytes, $returnFormat = true) : string|int
+    public static function sizeToHuman($bytes, $returnFormat = true): string|int
     {
         $kb = 1024;
         $mb = $kb * 1024;

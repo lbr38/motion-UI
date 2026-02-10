@@ -184,10 +184,10 @@
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration"/>
 
     <!-- When you have a return type declaration present, there MUST be one space after the colon followed by the type declaration. The colon and declaration MUST be on the same line as the argument list closing parenthesis with no spaces between the two characters. -->
-    <!-- checked by PSR12.Functions.ReturnTypeDeclaration -->
+    <rule ref="PSR12.Functions.ReturnTypeDeclaration"/>
 
     <!-- In nullable type declarations, there MUST NOT be a space between the question mark and the type. -->
-    <!-- checked by PSR12.Functions.NullableTypeDeclaration -->
+    <rule ref="PSR12.Functions.NullableTypeDeclaration"/>
 
     <!-- 4.6 abstract, final, and static -->
 

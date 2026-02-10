@@ -20,7 +20,7 @@ class Ptz extends Onvif
     /**
      *  PTZ move
      */
-    public function ptzContinuousMove(string $profileToken, float $velocitPantiltX, float $velocitPantiltY) : void
+    public function ptzContinuousMove(string $profileToken, float $velocitPantiltX, float $velocitPantiltY): void
     {
         try {
             $data = $this->getToken($this->username, $this->password);
@@ -63,7 +63,7 @@ class Ptz extends Onvif
     /**
      *  PTZ move to relative position
      */
-    public function ptzRelativeMove(string $profileToken, float $translationPantiltX, float $translationPantiltY, float $speedPantiltX, float $speedPantiltY) : void
+    public function ptzRelativeMove(string $profileToken, float $translationPantiltX, float $translationPantiltY, float $speedPantiltX, float $speedPantiltY): void
     {
         try {
             $data = $this->getToken($this->username, $this->password);
@@ -109,7 +109,7 @@ class Ptz extends Onvif
     /**
      *  PTZ move to absolute position
      */
-    public function ptzAbsoluteMove(string $profileToken, float $positionPantiltX, float $positionPantiltY, float $zoom) : void
+    public function ptzAbsoluteMove(string $profileToken, float $positionPantiltX, float $positionPantiltY, float $zoom): void
     {
         try {
             $data = $this->getToken($this->username, $this->password);
@@ -153,7 +153,7 @@ class Ptz extends Onvif
     /**
      *  PTZ stop
      */
-    public function ptzStop(string $profileToken, bool $pantilt, bool $zoom) : void
+    public function ptzStop(string $profileToken, bool $pantilt, bool $zoom): void
     {
         try {
             $data = $this->getToken($this->username, $this->password);

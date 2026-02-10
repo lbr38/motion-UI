@@ -11,7 +11,7 @@ class Template
      *  Those are the minimal motion params for a camera, more are added by the form in the Motion UI
      *  https://motion-project.github.io/motionplus_config.html
      */
-    public function get(int $id) : array
+    public function get(int $id): array
     {
         $params = [
             // General settings

@@ -27,7 +27,7 @@ class Camera
     /**
      *  Get all cameras
      */
-    public function get() : array
+    public function get(): array
     {
         return $this->model->get();
     }
@@ -35,7 +35,7 @@ class Camera
     /**
      *  Get camera name by its Id
      */
-    public function getNameById(string $id) : string
+    public function getNameById(string $id): string
     {
         return $this->model->getNameById($id);
     }
@@ -43,7 +43,7 @@ class Camera
     /**
      *  Get camera name by motion event Id
      */
-    public function getNameByEventId(string $motionEventId) : string
+    public function getNameByEventId(string $motionEventId): string
     {
         return $this->model->getNameByEventId($motionEventId);
     }
@@ -51,7 +51,7 @@ class Camera
     /**
      *  Get camera's configuration
      */
-    public function getConfiguration(int $id) : array
+    public function getConfiguration(int $id): array
     {
         return $this->model->getConfiguration($id);
     }
@@ -59,7 +59,7 @@ class Camera
     /**
      *  Returns the total count of cameras
      */
-    public function getTotal() : int
+    public function getTotal(): int
     {
         return count($this->getCamerasIds());
     }
@@ -67,15 +67,23 @@ class Camera
     /**
      *  Returns all camera Id
      */
-    public function getCamerasIds() : array
+    public function getCamerasIds(): array
     {
         return $this->model->getCamerasIds();
     }
 
     /**
+     *  Get cameras names
+     */
+    public function getNames(): array
+    {
+        return $this->model->getNames();
+    }
+
+    /**
      *  Save camera's global configuration
      */
-    public function saveGlobalConfiguration(string $id, string $configuration) : void
+    public function saveGlobalConfiguration(string $id, string $configuration): void
     {
         $this->model->saveGlobalConfiguration($id, $configuration);
     }
@@ -83,7 +91,7 @@ class Camera
     /**
      *  Save camera's motion configuration
      */
-    public function saveMotionConfiguration(string $id, string $configuration) : void
+    public function saveMotionConfiguration(string $id, string $configuration): void
     {
         $this->model->saveMotionConfiguration($id, $configuration);
     }
@@ -91,7 +99,7 @@ class Camera
     /**
      *  Check if camera Id exist
      */
-    public function existId(string $id) : bool
+    public function existId(string $id): bool
     {
         return $this->model->existId($id);
     }

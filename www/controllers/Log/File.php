@@ -9,7 +9,7 @@ class File
     /**
      *  Write a message to the file
      */
-    public static function log(string $file, string $message) : void
+    public static function log(string $file, string $message): void
     {
         file_put_contents($file, self::date() . '[INF] ' . $message . PHP_EOL, FILE_APPEND);
     }
@@ -17,7 +17,7 @@ class File
     /**
      *  Write an error message to the file
      */
-    public static function error(string $file, string $message, string $title = null) : void
+    public static function error(string $file, string $message, string $title = null): void
     {
         if (!is_null($title)) {
             file_put_contents($file, self::date() . '[ERR] ' . $title . ':' . PHP_EOL, FILE_APPEND);
@@ -31,7 +31,7 @@ class File
     /**
      *  Write a warning message to the file
      */
-    public static function warning(string $file, string $message, string $title = null) : void
+    public static function warning(string $file, string $message, string $title = null): void
     {
         if (!is_null($title)) {
             file_put_contents($file, self::date() . '[WRN] ' . $title . ':' . PHP_EOL, FILE_APPEND);
@@ -45,7 +45,7 @@ class File
     /**
      *  Write a debug message to the file
      */
-    public static function debug(string $file, string $message) : void
+    public static function debug(string $file, string $message): void
     {
         if (!DebugMode::enabled()) {
             return;
@@ -57,7 +57,7 @@ class File
     /**
      *  Returns the current date and time
      */
-    public static function date() : string
+    public static function date(): string
     {
         return '[' . date('D M j H:i:s') . ']';
     }

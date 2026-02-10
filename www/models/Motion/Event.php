@@ -44,6 +44,39 @@ class Event extends \Models\Model
     }
 
     /**
+     *  Get events details for the specified date and camera(s)
+     */
+    public function getByDateAndCamera(string $date, array $cameras, bool $withOffset, int $offset): array
+    {
+        $data = [];
+
+        $query = "SELECT * FROM motion_events WHERE Date_start = :date";
+
+        // If there are cameras filter, add them to the query
+        if (!empty($cameras)) {
+            $query .= " AND Camera_id IN (" . implode(',', $cameras) . ")";
+        }
+
+        $query .= " ORDER BY Time_start DESC";
+
+        // If offset is specified
+        if ($withOffset) {
+            $query .= " LIMIT 10 OFFSET :offset";
+        }
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':date', $date);
+        $stmt->bindValue(':offset', $offset);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    /**
      *  Return events between dates
      */
     public function getBetweenDate(string $dateStart, string $dateEnd)
@@ -126,6 +159,29 @@ class Event extends \Models\Model
         }
 
         return $files;
+    }
+
+    /**
+     *  Get files recorded for the specified date and camera Id
+     */
+    public function getFilesByDateAndCamera(string $date, int $cameraId): array
+    {
+        $data = [];
+
+        $stmt = $this->db->prepare("SELECT *
+        FROM motion_events_files
+        LEFT JOIN motion_events
+        ON motion_events.Motion_id_event = motion_events_files.Motion_id_event
+        WHERE Date_start = :date AND Camera_id = :cameraId");
+        $stmt->bindValue(':date', $date);
+        $stmt->bindValue(':cameraId', $cameraId);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     /**

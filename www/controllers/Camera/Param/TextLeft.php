@@ -9,7 +9,7 @@ class TextLeft
     /**
      *  Check that text left is valid
      */
-    public static function check(string $text) : void
+    public static function check(string $text): void
     {
         /**
          *  Check that rotate is valid

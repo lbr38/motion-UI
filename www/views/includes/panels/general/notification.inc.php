@@ -2,7 +2,7 @@
 ob_start();
 
 if (NOTIFICATION == 0) :
-    echo '<p class="note">' . LC['views']['panels']['general/notification']['no_notification'] . '</p>';
+    echo '<p class="note">' . $_['p']['no_notification'] . '</p>';
 else :
     /**
      *  If an update is available, generate the update notification

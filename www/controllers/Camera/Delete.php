@@ -9,7 +9,7 @@ class Delete extends Camera
     /**
      *  Delete camera
      */
-    public function delete(string $id) : void
+    public function delete(string $id): void
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to delete a camera');

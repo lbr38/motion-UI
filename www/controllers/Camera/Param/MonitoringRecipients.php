@@ -10,7 +10,7 @@ class MonitoringRecipients
     /**
      *  Check that monitoring recipients are valid emails
      */
-    public static function check(array $recipients) : void
+    public static function check(array $recipients): void
     {
         foreach ($recipients as $recipient) {
             if (!Validate::email($recipient)) {

@@ -11,7 +11,7 @@ class Edit extends Camera
     /**
      *  Edit camera global settings
      */
-    public function edit(int $id, array $params) : void
+    public function edit(int $id, array $params): void
     {
         $go2rtcStreams = [];
 

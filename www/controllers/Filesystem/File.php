@@ -13,7 +13,7 @@ class File
      *  @param string $type 'file' or 'dir'
      *  @param int $mode
      */
-    public static function recursiveChmod(string $path, string $type, int $mode) : void
+    public static function recursiveChmod(string $path, string $type, int $mode): void
     {
         if (!file_exists($path)) {
             throw new Exception('Set permissions error: path does not exist: ' . $path);
@@ -75,7 +75,7 @@ class File
      *  @param string $owner
      *  @param string $group
      */
-    public static function recursiveChown(string $path, string $owner, string $group) : void
+    public static function recursiveChown(string $path, string $owner, string $group): void
     {
         if (!file_exists($path)) {
             throw new Exception('Set permissions error: path does not exist: ' . $path);
@@ -181,7 +181,7 @@ class File
      *  Type can be specified: 'file', 'symlink', 'dir' or null (all types will be returned)
      *  Relative path can be specified: true or false
      */
-    public static function recursiveScan(string $path, string|null $type = null, $relative = false) : array
+    public static function recursiveScan(string $path, string|null $type = null, $relative = false): array
     {
         $files = [];
 

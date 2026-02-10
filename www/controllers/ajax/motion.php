@@ -243,7 +243,7 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
 if ($_POST['action'] == 'get-event-date-total-media-size' and !empty($_POST['date'])) {
     try {
         $mymotionEvent = new \Controllers\Motion\Event();
-        $size = $mymotionEvent->getTotalMediaSizeByDate($_POST['date']);
+        $size = $mymotionEvent->getTotalMediaSizeByDate($_POST['date'], $_POST['cameras'] ?? []);
     } catch (Exception $e) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }

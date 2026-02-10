@@ -28,7 +28,7 @@ class HttpRequest
      *  Perform a GET request
      *  Returns the result as a string or saves it to a file (and returns true)
      */
-    public function get(array $params, bool $parseJson = false, string $jsonExtract = null) : bool|string|array
+    public function get(array $params, bool $parseJson = false, string $jsonExtract = null): bool|string|array
     {
         try {
             /**

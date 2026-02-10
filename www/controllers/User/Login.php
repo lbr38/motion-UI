@@ -9,7 +9,7 @@ class Login extends User
     /**
      *  Login local user
      */
-    public function login(string $username, string $password) : void
+    public function login(string $username, string $password): void
     {
         try {
             $username = Validate::string($username);

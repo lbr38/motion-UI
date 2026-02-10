@@ -73,22 +73,22 @@ class Onvif
         }
     }
 
-    public function getSources() : array
+    public function getSources(): array
     {
         return $this->sources;
     }
 
-    public function setMediaUri(string $mediauri) : void
+    public function setMediaUri(string $mediauri): void
     {
         $this->mediaUri = $mediauri;
     }
 
-    public function setUsername(string $username) : void
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    public function setPassword(string $password) : void
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
@@ -96,7 +96,7 @@ class Onvif
     /**
      *  Get system date and time
      */
-    public function getSystemDateAndTime() : array
+    public function getSystemDateAndTime(): array
     {
         try {
             $xml = '<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope">
@@ -124,7 +124,7 @@ class Onvif
     /**
      *  Get capabilities
      */
-    public function getCapabilities() : array
+    public function getCapabilities(): array
     {
         try {
             /**
@@ -168,7 +168,7 @@ class Onvif
     /**
      *  Return the ONVIF version
      */
-    protected function getOnvifVersion(array $capabilities) : array
+    protected function getOnvifVersion(array $capabilities): array
     {
         $version['media']  = $capabilities['Media']['XAddr'];
         $version['device'] = $capabilities['Device']['XAddr'];
@@ -204,7 +204,7 @@ class Onvif
     /**
      *  Make token for authentication, from username, password and timestamp
      */
-    protected function getToken(string $username, string $password) : array
+    protected function getToken(string $username, string $password): array
     {
         return $this->getPasswordDigest($username, $password, date('Y-m-d\TH:i:s.000\Z', time() - $this->deltatime));
     }
@@ -212,7 +212,7 @@ class Onvif
     /**
      *  Create password digest
      */
-    protected function getPasswordDigest(string $username, string $password, string $timestamp = 'default', $nonce = 'default') : array
+    protected function getPasswordDigest(string $username, string $password, string $timestamp = 'default', $nonce = 'default'): array
     {
         /**
          *  If timestamp is default, set it to current date
@@ -248,7 +248,7 @@ class Onvif
     /**
      *  Check if response contains a fault
      */
-    public function isFault($response) : void
+    public function isFault($response): void
     {
         if (array_key_exists('Fault', $response)) {
             throw new Exception('Fault: ' . $response['Fault']);
@@ -354,7 +354,7 @@ class Onvif
     /**
      *  Get video sources
      */
-    public function getVideoSources() : array
+    public function getVideoSources(): array
     {
         try {
             /**
@@ -397,7 +397,7 @@ class Onvif
     /**
      *  Get profiles
      */
-    public function getProfiles() : array
+    public function getProfiles(): array
     {
         try {
             /**
@@ -440,7 +440,7 @@ class Onvif
     /**
      *  Get active sources
      */
-    protected function getActiveSources(array $videoSources, array $profiles) : array
+    protected function getActiveSources(array $videoSources, array $profiles): array
     {
         $sources = [];
 
@@ -465,7 +465,7 @@ class Onvif
     /**
      *  Get profile data
      */
-    protected function getProfileData(array $sources, int $i, array $profiles) : array
+    protected function getProfileData(array $sources, int $i, array $profiles): array
     {
         $inprofile = 0;
 

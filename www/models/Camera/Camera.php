@@ -14,7 +14,7 @@ class Camera extends \Models\Model
     /**
      *  Get all cameras
      */
-    public function get() : array
+    public function get(): array
     {
         $cameras = [];
 
@@ -32,9 +32,29 @@ class Camera extends \Models\Model
     }
 
     /**
+     *  Get cameras names
+     */
+    public function getNames(): array
+    {
+        $cameras = [];
+
+        try {
+            $result = $this->db->query("SELECT Id, json_extract(COALESCE(Configuration, '{}'), '$.name') as Name FROM cameras");
+        } catch (Exception $e) {
+            $this->db->logError($e->getMessage());
+        }
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $cameras[] = $row;
+        }
+
+        return $cameras;
+    }
+
+    /**
      *  Get camera name by its Id
      */
-    public function getNameById(string $id) : string
+    public function getNameById(string $id): string
     {
         $name = '';
 
@@ -56,7 +76,7 @@ class Camera extends \Models\Model
     /**
      *  Get camera name by motion event Id
      */
-    public function getNameByEventId(string $motionEventId) : string
+    public function getNameByEventId(string $motionEventId): string
     {
         $name = '';
 
@@ -80,7 +100,7 @@ class Camera extends \Models\Model
     /**
      *  Returns all camera Id
      */
-    public function getCamerasIds() : array
+    public function getCamerasIds(): array
     {
         $id = [];
 
@@ -101,7 +121,7 @@ class Camera extends \Models\Model
     /**
      *  Get camera's configuration
      */
-    public function getConfiguration(int $id) : array
+    public function getConfiguration(int $id): array
     {
         $configuration = [];
 
@@ -123,7 +143,7 @@ class Camera extends \Models\Model
     /**
      *  Add a new camera
      */
-    public function add() : void
+    public function add(): void
     {
         try {
             $stmt = $this->db->prepare("INSERT INTO cameras ('Configuration') VALUES ('')");
@@ -136,7 +156,7 @@ class Camera extends \Models\Model
     /**
      *  Save camera's global configuration
      */
-    public function saveGlobalConfiguration(string $id, string $configuration) : void
+    public function saveGlobalConfiguration(string $id, string $configuration): void
     {
         try {
             $stmt = $this->db->prepare("UPDATE cameras SET Configuration = :configuration WHERE Id = :id");
@@ -151,7 +171,7 @@ class Camera extends \Models\Model
     /**
      *  Save camera's motion configuration
      */
-    public function saveMotionConfiguration(string $id, string $configuration) : void
+    public function saveMotionConfiguration(string $id, string $configuration): void
     {
         try {
             $stmt = $this->db->prepare("UPDATE cameras SET Motion_configuration = :configuration WHERE Id = :id");
@@ -166,7 +186,7 @@ class Camera extends \Models\Model
     /**
      *  Delete camera
      */
-    public function delete(string $id) : void
+    public function delete(string $id): void
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM cameras WHERE Id = :id");
@@ -180,7 +200,7 @@ class Camera extends \Models\Model
     /**
      *  Check if camera Id exist
      */
-    public function existId(string $id) : bool
+    public function existId(string $id): bool
     {
         try {
             $stmt = $this->db->prepare("SELECT Id FROM cameras WHERE Id = :id");

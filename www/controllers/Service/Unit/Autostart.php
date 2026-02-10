@@ -22,7 +22,7 @@ class Autostart extends \Controllers\Service\Service
     /**
      *  Start motion service if a start request file is found
      */
-    private function start() : void
+    private function start(): void
     {
         if (!file_exists(DATA_DIR . '/start-motion.request')) {
             return;
@@ -46,7 +46,7 @@ class Autostart extends \Controllers\Service\Service
     /**
      *  Stop motion service if a stop request file is found
      */
-    private function stop() : void
+    private function stop(): void
     {
         if (!file_exists(DATA_DIR . '/stop-motion.request')) {
             return;
@@ -70,7 +70,7 @@ class Autostart extends \Controllers\Service\Service
     /**
      *  Restart motion service if a restart request file is found
      */
-    private function restart() : void
+    private function restart(): void
     {
         if (!file_exists(DATA_DIR . '/restart-motion.request')) {
             return;
@@ -112,7 +112,7 @@ class Autostart extends \Controllers\Service\Service
     /**
      *  Run motion service autostart
      */
-    public function run() : void
+    public function run(): void
     {
         parent::log('Launching autostart');
 
@@ -317,10 +317,10 @@ class Autostart extends \Controllers\Service\Service
                              *  Else, try to ping the next device
                              */
 
-                            // There will be 2 pings tries for the same device. Some devices sometimes not respond on the first try but do on the second.
+                            // There will be 5 pings tries for the same device.
                             $try = 0;
 
-                            while ($try != 2) {
+                            while ($try != 5) {
                                 $myprocess = new \Controllers\Process('ping -q -c1 -W4 -n "' . $device['Ip'] . '" > /dev/null');
                                 $myprocess->execute();
                                 $myprocess->close();

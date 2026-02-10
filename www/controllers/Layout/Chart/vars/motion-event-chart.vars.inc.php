@@ -42,8 +42,7 @@ while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime($dateEnd)))) {
 /**
  *  Prepare chart data
  */
-$options['title']['text'] = 'Motion detection events';
-$options['legend']['show'] = true;
+$options['legend']['show'] = false;
 $datasets[0]['color'] = '#15bf7f';
 $datasets[0]['name'] = 'Events';
 $datasets[1]['color'] = '#ffb536';

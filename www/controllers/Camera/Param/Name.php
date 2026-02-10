@@ -10,7 +10,7 @@ class Name
     /**
      *  Check that name is valid
      */
-    public static function check(string $name) : void
+    public static function check(string $name): void
     {
         /**
          *  Check that name is not empty

@@ -16,7 +16,7 @@ class Timelapse
     /**
      *  Return timelapse container
      */
-    public function display(int $cameraId, string|null $date = null, string|null $picture = null) : string
+    public function display(int $cameraId, string|null $date = null, string|null $picture = null): string
     {
         ob_start();
         include(ROOT . '/views/includes/camera/timelapse.inc.php');

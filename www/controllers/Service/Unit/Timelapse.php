@@ -21,7 +21,7 @@ class Timelapse extends \Controllers\Service\Service
     /**
      *  Run timelapse
      */
-    public function run() : void
+    public function run(): void
     {
         parent::log('Starting timelapse');
 
@@ -73,28 +73,12 @@ class Timelapse extends \Controllers\Service\Service
 
                     parent::log('Capture timelapse for camera #' . $camera['Id'] . ' (' . $configuration['name'] . ')');
 
-                    /**
-                     *  Capture image
-                     */
-                    $content = file_get_contents('http://127.0.0.1:1984/api/frame.jpeg?src=camera_' . $camera['Id'], false, stream_context_create([
-                        'http' => [
-                            'timeout' => 3
-                        ]
-                    ]));
+                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -rw_timeout 3000000 -loglevel error -i http://127.0.0.1:1984/api/frame.jpeg?src=camera_' . $camera['Id'] . ' -c:v libsvtav1 -crf 30 -preset 10 -threads 1 ' . $targetDir . '/timelapse_' . date('H-i-s') . '.avif');
+                    $myprocess->execute();
+                    $myprocess->close();
 
-                    /**
-                     *  Ignore if it fails to capture image because the camera may not be running 24/7
-                     */
-                    if ($content === false or empty($content)) {
-                        continue;
-                    }
-
-                    /**
-                     *  Save image to file
-                     */
-                    $file = $targetDir . '/timelapse_' . date('H-i-s') . '.jpg';
-                    if (!file_put_contents($file, $content)) {
-                        throw new Exception('failed to save timelapse image to file: ' . $file);
+                    if ($myprocess->getExitCode() !== 0) {
+                        throw new Exception('failed to capture timelapse image for camera #' . $camera['Id']);
                     }
                 } catch (Exception $e) {
                     // Log error but continue with next camera

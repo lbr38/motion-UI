@@ -14,7 +14,7 @@ class Monitoring
     /**
      *  Get monitoring data between two timestamps
      */
-    public function get(int $timestampStart, int $timestampEnd) : array
+    public function get(int $timestampStart, int $timestampEnd): array
     {
         return $this->model->get($timestampStart, $timestampEnd);
     }
@@ -22,7 +22,7 @@ class Monitoring
     /**
      *  Set monitoring data (%) in the database
      */
-    public function set(float $cpuUsage, float $memoryUsage, float $diskUsage) : void
+    public function set(float $cpuUsage, float $memoryUsage, float $diskUsage): void
     {
         $this->model->set($cpuUsage, $memoryUsage, $diskUsage);
     }
@@ -30,7 +30,7 @@ class Monitoring
     /**
      *  Clean old monitoring data (older than X days)
      */
-    public function clean(int $days) : void
+    public function clean(int $days): void
     {
         // Calculate the cutoff timestamp
         $timestamp = time() - ($days * 24 * 60 * 60);

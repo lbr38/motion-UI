@@ -7,7 +7,7 @@ class Color
     /**
      *  Get the best contrasting text color (black or white) for a given background color
      */
-    public static function contrastingText($color) : string
+    public static function contrastingText($color): string
     {
         // Convert hexadecimal color to RGB
         $r = hexdec(substr($color, 1, 2));
@@ -24,7 +24,7 @@ class Color
     /**
      *  Get a random color from a valid hex colors list
      */
-    public static function random() : string
+    public static function random(): string
     {
         // Define a list of valid colors
         // Color must match well with background color #0e1e2f or #182b3e

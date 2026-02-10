@@ -14,7 +14,7 @@ class Version extends \Controllers\Service\Service
     /**
      *  Get latest version from github
      */
-    public function get() : void
+    public function get(): void
     {
         try {
             $httpRequestController = new \Controllers\HttpRequest();

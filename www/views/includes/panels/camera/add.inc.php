@@ -1,16 +1,16 @@
 <?php ob_start(); ?> 
 
 <form id="new-camera-form" autocomplete="off">
-    <h6 class="required"><?= LC['views']['panels']['camera/add']['name_h6'] ?></h6>
-    <p class="note"><?= LC['views']['panels']['camera/add']['name_note'] ?></p>
+    <h6 class="required"><?= $_['h6']['name'] ?></h6>
+    <p class="note"><?= $_['p']['name_note'] ?></p>
     <input type="text" class="form-param" param-name="name" />
 
-    <h6 class="required"><?= LC['views']['panels']['camera/add']['main_stream_h6'] ?></h6>
-    <p class="note"><?= LC['views']['panels']['camera/add']['main_stream_note'] ?></p>
+    <h6 class="required"><?= $_['h6']['main_stream'] ?></h6>
+    <p class="note"><?= $_['p']['main_stream_note'] ?></p>
     <input type="text" class="form-param" param-name="main-stream-device" />
 
-    <h6 class="required"><?= LC['views']['panels']['camera/add']['resolution_h6'] ?></h6>
-    <p class="note"><?= LC['views']['panels']['camera/add']['resolution_note'] ?></p>
+    <h6 class="required"><?= $_['h6']['resolution'] ?></h6>
+    <p class="note"><?= $_['p']['resolution_note'] ?></p>
     <div class="flex align-item-center column-gap-10">
         <select class="form-param" param-name="main-stream-resolution">
             <!-- 16/9 -->
@@ -43,39 +43,39 @@
         <img src="/assets/icons/loading.svg" class="icon-np main-stream-resolution-loading hide" />
     </div>
 
-    <h6><?= LC['views']['panels']['camera/add']['framerate_h6'] ?></h6>
-    <p class="note"><?= LC['views']['panels']['camera/add']['framerate_note'] ?></p>
+    <h6><?= $_['h6']['framerate'] ?></h6>
+    <p class="note"><?= $_['p']['framerate_note'] ?></p>
     <input type="number" class="form-param" param-name="main-stream-framerate" value="25" min="2" />
 
-    <h6><?= LC['views']['panels']['camera/add']['authentication_h6'] ?></h6>
-    <p class="note"><?= LC['views']['panels']['camera/add']['authentication_note'] ?></p>
+    <h6><?= $_['h6']['authentication'] ?></h6>
+    <p class="note"><?= $_['p']['authentication_note'] ?></p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input" type="checkbox">
         <span class="onoff-switch-slider toggle-btn" target=".basic-auth-fields"></span>
     </label>
     
     <div class="basic-auth-fields hide">
-        <h6><?= LC['views']['panels']['camera/add']['authentication_username_h6'] ?></h6>
+        <h6><?= $_['h6']['authentication_username'] ?></h6>
         <input type="text" class="form-param" param-name="username" />
 
-        <h6><?= LC['views']['panels']['camera/add']['authentication_password_h6'] ?></h6>
+        <h6><?= $_['h6']['authentication_password'] ?></h6>
         <input type="password" class="form-param" param-name="password" />
     </div>
 
-    <h6><?= LC['views']['panels']['camera/add']['enable_motion_detection_h6'] ?></h6>
-    <p class="note"><?= LC['views']['panels']['camera/add']['enable_motion_detection_note'] ?></p>
+    <h6><?= $_['h6']['enable_motion_detection'] ?></h6>
+    <p class="note"><?= $_['p']['enable_motion_detection_note'] ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="motion-detection-enable" checked>
         <span class="onoff-switch-slider"></span>
     </label>
 
     <br><br>
-    <button type="submit" class="btn-small-green"><?= LC['views']['panels']['camera/add']['btn']['add_camera_text'] ?></button>
+    <button type="submit" class="btn-small-green"><?= $_['btn']['add_camera_text'] ?></button>
 </form>
 
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'camera/add';
-$slidePanelTitle = LC['views']['panels']['camera/add']['title'];
+$slidePanelTitle = $_['title'];
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

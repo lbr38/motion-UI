@@ -73,7 +73,7 @@ class Settings
     /**
      *  Enable or disable debug mode
      */
-    public function enableDebugMode(bool $enable) : void
+    public function enableDebugMode(bool $enable): void
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to perform this action');

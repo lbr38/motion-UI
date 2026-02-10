@@ -5,11 +5,11 @@
         $buttons = [
             'live' => [
                 'icon' => 'videocam.svg',
-                'title' => LC['views']['containers']['buttons/bottom']['live_title']
+                'title' => $_['live_title']
             ],
             'events' => [
                 'icon' => 'video.svg',
-                'title' => LC['views']['containers']['buttons/bottom']['events_title']
+                'title' => $_['events_title']
             ]
         ];
 
@@ -18,19 +18,19 @@
         $buttons = [
             'live' => [
                 'icon' => 'videocam.svg',
-                'title' => LC['views']['containers']['buttons/bottom']['live_title']
+                'title' => $_['live_title']
             ],
             'motion' => [
                 'icon' => 'motion.svg',
-                'title' => LC['views']['containers']['buttons/bottom']['motion_title']
+                'title' => $_['motion_title']
             ],
             'events' => [
                 'icon' => 'video.svg',
-                'title' => LC['views']['containers']['buttons/bottom']['events_title']
+                'title' => $_['events_title']
             ],
             'stats' => [
                 'icon' => 'stats.svg',
-                'title' => LC['views']['containers']['buttons/bottom']['stats_title']
+                'title' => $_['stats_title']
             ]
         ];
     }

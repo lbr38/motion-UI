@@ -2,10 +2,12 @@
 
 namespace Controllers\Layout\Tab;
 
-class Timelapse
+use \Controllers\Layout\Container\Render;
+
+class Login
 {
     public static function render()
     {
-        include_once(ROOT . '/views/timelapse.php');
+        Render::render('login');
     }
 }

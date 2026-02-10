@@ -14,7 +14,7 @@ class Monitoring extends \Models\Model
     /**
      *  Get monitoring data between two timestamps
      */
-    public function get(int $timestampStart, int $timestampEnd) : array
+    public function get(int $timestampStart, int $timestampEnd): array
     {
         $data = [];
 
@@ -37,7 +37,7 @@ class Monitoring extends \Models\Model
     /**
      *  Set monitoring data (%) in the database
      */
-    public function set(float $cpuUsage, float $memoryUsage, float $diskUsage) : void
+    public function set(float $cpuUsage, float $memoryUsage, float $diskUsage): void
     {
         try {
             $stmt = $this->db->prepare("INSERT INTO system_monitoring (Timestamp, Cpu_usage, Memory_usage, Disk_usage) VALUES (:timestamp, :cpuUsage, :memoryUsage, :diskUsage)");
@@ -54,7 +54,7 @@ class Monitoring extends \Models\Model
     /**
      *  Clean old monitoring data
      */
-    public function clean(string $timestamp) : void
+    public function clean(string $timestamp): void
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM system_monitoring WHERE Timestamp < :timestamp");

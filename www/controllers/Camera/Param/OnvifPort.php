@@ -9,7 +9,7 @@ class OnvifPort
     /**
      *  Check that port is valid
      */
-    public static function check(string $port) : void
+    public static function check(string $port): void
     {
         if (empty($port)) {
             return;

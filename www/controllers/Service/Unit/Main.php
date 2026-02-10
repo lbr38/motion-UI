@@ -18,7 +18,7 @@ class Main extends \Controllers\Service\Service
     /**
      *  Run main service
      */
-    public function run() : void
+    public function run(): void
     {
         $counter = 0;
         $lastScheduledTaskRunning = null;
@@ -122,7 +122,7 @@ class Main extends \Controllers\Service\Service
     /**
      *  Run this service with the specified unit name
      */
-    private function runUnit(string $title, string $unit, bool $force = false) : void
+    private function runUnit(string $title, string $unit, bool $force = false): void
     {
         try {
             /**

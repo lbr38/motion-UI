@@ -14,7 +14,7 @@ class Monitoring extends \Models\Model
     /**
      *  Clean up old monitoring data
      */
-    public function clean(string $timestamp) : void
+    public function clean(string $timestamp): void
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM system_monitoring WHERE Timestamp < :timestamp");

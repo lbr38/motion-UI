@@ -18,7 +18,7 @@ class Permission
     /**
      *  Get user permissions
      */
-    public function get(int $id) : array
+    public function get(int $id): array
     {
         $permissions = $this->model->get($id);
 
@@ -36,7 +36,7 @@ class Permission
     /**
      *  Set user permissions
      */
-    private function set(int $id, string $permissions) : void
+    private function set(int $id, string $permissions): void
     {
         $this->model->set($id, $permissions);
     }
@@ -44,7 +44,7 @@ class Permission
     /**
      *  Delete user permissions
      */
-    public function delete(int $id) : void
+    public function delete(int $id): void
     {
         $this->model->delete($id);
     }
@@ -52,7 +52,7 @@ class Permission
     /**
      *  Grant camera access to user
      */
-    public function grantCameraAccess(int $id, array $cameras = []) : void
+    public function grantCameraAccess(int $id, array $cameras = []): void
     {
         $permissions = ['cameras_access' => []];
 

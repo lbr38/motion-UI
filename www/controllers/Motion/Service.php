@@ -18,7 +18,7 @@ class Service
     /**
      *  Get daily motion service status (for stats)
      */
-    public function getMotionServiceStatusStats(int $start, int $end) : array
+    public function getMotionServiceStatusStats(int $start, int $end): array
     {
         return $this->model->getMotionServiceStatusStats($start, $end);
     }
@@ -34,7 +34,7 @@ class Service
     /**
      *  Returns true if motion service is running
      */
-    public function isRunning() : bool
+    public function isRunning(): bool
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion status');
         $myprocess->execute();
@@ -51,7 +51,7 @@ class Service
     /**
      *  Stop motion service
      */
-    public function stop() : void
+    public function stop(): void
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion stop');
         $myprocess->execute();
@@ -71,7 +71,7 @@ class Service
     /**
      *  Start motion service
      */
-    public function start() : void
+    public function start(): void
     {
         $myprocess = new \Controllers\Process('/usr/sbin/service motion start');
         $myprocess->execute();
@@ -91,7 +91,7 @@ class Service
     /**
      *  Restart motion service if it is running
      */
-    public function restart() : void
+    public function restart(): void
     {
         if (!$this->isRunning()) {
             return;
@@ -105,7 +105,7 @@ class Service
     /**
      *  Return motion service log content
      */
-    public function getLog(string $log) : string
+    public function getLog(string $log): string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to view motion service logs');

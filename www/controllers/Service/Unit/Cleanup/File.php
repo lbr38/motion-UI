@@ -15,7 +15,7 @@ class File extends \Controllers\Service\Service
     /**
      *  Clean temporary files
      */
-    public function run() : void
+    public function run(): void
     {
         /**
          *  Clean service units logs older than 15 days
