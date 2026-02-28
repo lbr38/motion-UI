@@ -6,6 +6,7 @@ class Events
 {
     public static function render()
     {
+        \Controllers\Layout\Container\Render::render('motion/events/filter');
         \Controllers\Layout\Container\Render::render('motion/events/list');
     }
 }

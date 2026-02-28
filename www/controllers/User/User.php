@@ -20,7 +20,7 @@ class User
     /**
      *  Get username informations
      */
-    public function get(int $id) : array
+    public function get(int $id): array
     {
         return $this->model->get($id);
     }
@@ -28,7 +28,7 @@ class User
     /**
      *  Get users list from database
      */
-    public function getUsers() : array
+    public function getUsers(): array
     {
         return $this->model->getUsers();
     }
@@ -36,7 +36,7 @@ class User
     /**
      *  Get all users email from database
      */
-    public function getEmails() : array
+    public function getEmails(): array
     {
         return array_unique($this->model->getEmails());
     }
@@ -44,7 +44,7 @@ class User
     /**
      *  Get username by user Id
      */
-    public function getUsernameById(string $id) : string
+    public function getUsernameById(string $id): string
     {
         return $this->model->getUsernameById($id);
     }
@@ -52,7 +52,7 @@ class User
     /**
      *  Get role by user Id
      */
-    public function getRoleById(string $id) : string
+    public function getRoleById(string $id): string
     {
         return $this->model->getRoleById($id);
     }
@@ -60,7 +60,7 @@ class User
     /**
      *  Get user Id by username
      */
-    public function getIdByUsername(string $username) : int|null
+    public function getIdByUsername(string $username): int|null
     {
         return $this->model->getIdByUsername($username);
     }
@@ -68,7 +68,7 @@ class User
     /**
      *  Add a new user in database and return the generated password
      */
-    public function add(string $username, string $role) : string
+    public function add(string $username, string $role): string
     {
         $username = Validate::string($username);
         $role = Validate::string($role);
@@ -127,7 +127,7 @@ class User
     /**
      *  Delete specified user
      */
-    public function delete(string $id) : void
+    public function delete(string $id): void
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to execute this action.');
@@ -143,7 +143,7 @@ class User
     /**
      *  Return true if user Id exists
      */
-    public function existsId(int $id) : bool
+    public function existsId(int $id): bool
     {
         return $this->model->existsId($id);
     }
@@ -151,7 +151,7 @@ class User
     /**
      *  Return true if user username exists
      */
-    public function exists(string $username) : bool
+    public function exists(string $username): bool
     {
         return $this->model->exists($username);
     }
@@ -159,7 +159,7 @@ class User
     /**
      *  Check that specified username / password couple matches with database
      */
-    protected function checkUsernamePwd(int $id, string $password) : void
+    protected function checkUsernamePwd(int $id, string $password): void
     {
         /**
          *  Check that the user exists
@@ -191,7 +191,7 @@ class User
     /**
      *  Get specified user hashed password
      */
-    protected function getHashedPasswordFromDb(int $id) : string
+    protected function getHashedPasswordFromDb(int $id): string
     {
         return $this->model->getHashedPasswordFromDb($id);
     }

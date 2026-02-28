@@ -16,7 +16,7 @@ class Edit extends User
     /**
      *  Edit user personal informations
      */
-    public function edit(int $id, string $firstName = '', string $lastName = '', string $email = '') : void
+    public function edit(int $id, string $firstName = '', string $lastName = '', string $email = ''): void
     {
         $firstName = Validate::string($firstName);
         $lastName  = Validate::string($lastName);
@@ -54,7 +54,7 @@ class Edit extends User
     /**
      *  Update user password in database
      */
-    private function updatePassword(int $id, string $hashedPassword) : void
+    private function updatePassword(int $id, string $hashedPassword): void
     {
         $this->model->updatePassword($id, $hashedPassword);
     }
@@ -62,7 +62,7 @@ class Edit extends User
     /**
      *  Reset user password
      */
-    public function resetPassword(string $id) : string
+    public function resetPassword(string $id): string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to execute this action.');
@@ -115,7 +115,7 @@ class Edit extends User
     /**
      *  Changing user password
      */
-    public function changePassword(int $id, string $actualPassword, string $newPassword, string $newPasswordRetype) : void
+    public function changePassword(int $id, string $actualPassword, string $newPassword, string $newPasswordRetype): void
     {
         /**
          *  Check that user exists

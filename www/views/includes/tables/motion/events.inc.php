@@ -4,7 +4,7 @@
         echo '<p class="note">No events found for this date.</p>';
     }
 
-    if (!empty($reloadableTableContent)) : ?>
+    if (!empty($reloadableTableTotalItems)) : ?>
         <div class="flex align-item-center column-gap-10 margin-bottom-15">
             <p class="font-size-18"><b><?= $eventDateTitle ?></b></p>
 
@@ -30,9 +30,6 @@
 
         <?php
         foreach ($reloadableTableContent as $item) :
-            /**
-             *  Retrieve all files from current event
-             */
             $eventId = $item['Id'];
             $eventTime = $item['Time_start'];
             $eventTimeShort = new DateTimeImmutable($eventTime);
@@ -45,9 +42,12 @@
             $lastCameraId = '';
             $lastMotionEventId = '';
 
-            /**
-             *  Check if current user is allowed to see this camera (only if not admin)
-             */
+            // Check if a filter is set for cameras
+            if (!empty($_COOKIE['tmp/events-filter-cameras']) and !in_array($cameraId, explode(',', $_COOKIE['tmp/events-filter-cameras']))) {
+                continue;
+            }
+
+            // Check if current user is allowed to see this camera (only if not admin)
             if (!IS_ADMIN) {
                 // If the user has no camera access permissions, skip this camera
                 if (empty($permissions['cameras_access'])) {
@@ -66,21 +66,14 @@
             // Get total files count
             $totalFilesCount = $mymotionEvent->getTotalFilesByMotionEventId($motionEventId);
 
-            /**
-             *  File number counter
-             *  This will be used to number the files in the event
-             */
-            $fileNumberCounter = 1;
-
-            /**
-             *  Get current event files by motion event id
-             */
+            // Get current event files by motion event id
             $eventFiles = $mymotionEvent->getFilesByMotionEventId($motionEventId);
 
-            /**
-             *  Set avent as 'seen' now that it's displayed
-             */
-            $mymotionEvent->seen($eventId); ?>
+            // Set event as 'seen' now that it's displayed
+            $mymotionEvent->seen($eventId);
+
+            // File number counter, this will be used to number the files in the event
+            $fileNumberCounter = 1; ?>
 
             <div class="div-generic-blue event-container veil-on-reload">
                 <div class="event-metadata">
@@ -114,7 +107,7 @@
 
                                 <?php
                                 if ($eventSeen != 'true') : ?>
-                                    <p>
+                                    <p class="new-event-label">
                                         <code class="bkg-green font-size-10">New</code>
                                     </p>
                                     <?php
@@ -175,8 +168,9 @@
                                                     </div>
                                                 </div>
                                                 <?php
-                                            } else { ?>
-                                                <img src="/media?id=<?= $eventDetails['Id'] ?>" class="play-picture-btn pointer" file-id="<?= $eventDetails['Id'] ?>" title="Visualize picture" />
+                                            } else {
+                                                $file = str_replace(CAPTURES_DIR . '/', '', $eventDetails['File']); ?>
+                                                <img src="/media/<?= $file ?>" class="play-picture-btn pointer" file-id="<?= $eventDetails['Id'] ?>" title="Visualize picture" />
                                                 <?php
                                             } ?>
 
@@ -234,9 +228,19 @@
                                                     </div>
                                                 </div> 
                                                 <?php
-                                            } else { ?>
-                                                <video controls preload="metadata" poster="/assets/images/motionui-video-poster.png" poster-to-load="/media?thumbnail&id=<?= $eventDetails['Id'] ?>">
-                                                    <source data-src="/media?id=<?= $eventDetails['Id'] ?>">
+                                            } else {
+                                                $file = str_replace(CAPTURES_DIR . '/', '', $eventDetails['File']);
+
+                                                if (file_exists($eventDetails['File'] . '.thumbnail.avif')) {
+                                                    $thumbnail = str_replace(CAPTURES_DIR . '/', '', $eventDetails['File']) . '.thumbnail.avif';
+                                                } else if (file_exists($eventDetails['File'] . '.thumbnail.jpg')) {
+                                                    $thumbnail = str_replace(CAPTURES_DIR . '/', '', $eventDetails['File']) . '.thumbnail.jpg';
+                                                } else {
+                                                    $thumbnail = '/assets/images/motionui-video-poster.png';
+                                                } ?>
+
+                                                <video controls preload="none" poster="/assets/images/motionui-video-poster.png" poster-to-load="/media/<?= $thumbnail ?>">
+                                                    <source src="/media/<?= $file ?>">
                                                     <p>Your browser does not support the video.</p>
                                                 </video>
                                                 <?php

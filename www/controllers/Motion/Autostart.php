@@ -57,7 +57,7 @@ class Autostart
     /**
      *  Enable / disable motion autostart
      */
-    public function enable(string $status) : void
+    public function enable(string $status): void
     {
         if ($status != 'enabled' and $status != 'disabled') {
             throw new Exception('Invalid parameter');
@@ -69,7 +69,7 @@ class Autostart
     /**
      *  Enable / disable autostart on device presence
      */
-    public function enableDevicePresence(string $status) : void
+    public function enableDevicePresence(string $status): void
     {
         if ($status != 'enabled' and $status != 'disabled') {
             throw new Exception('Invalid parameter');
@@ -81,7 +81,7 @@ class Autostart
     /**
      *  Configure motion autostart
      */
-    public function configure(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd) : void
+    public function configure(string $mondayStart, string $mondayEnd, string $tuesdayStart, string $tuesdayEnd, string $wednesdayStart, string $wednesdayEnd, string $thursdayStart, string $thursdayEnd, string $fridayStart, string $fridayEnd, string $saturdayStart, string $saturdayEnd, string $sundayStart, string $sundayEnd): void
     {
         $this->model->configure(
             Validate::string($mondayStart),
@@ -104,7 +104,7 @@ class Autostart
     /**
      *  Return autostart log
      */
-    public function getLog(string $log) : string
+    public function getLog(string $log): string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to view motion autostart logs');
@@ -132,7 +132,7 @@ class Autostart
     /**
      *  Log to console and to autostart log file
      */
-    private function log(string $message) : void
+    private function log(string $message): void
     {
         $log = '[' . date('D M j H:i:s') . ']' . ' ' . $message;
 

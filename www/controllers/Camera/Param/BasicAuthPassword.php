@@ -9,7 +9,7 @@ class BasicAuthPassword
     /**
      *  Check that password is valid
      */
-    public static function check(string $password) : void
+    public static function check(string $password): void
     {
         /**
          *  Check that URL does not contain invalid characters

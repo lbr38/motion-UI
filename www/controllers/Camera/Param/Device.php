@@ -9,7 +9,7 @@ class Device
     /**
      *  Check that device/URL is valid
      */
-    public static function check(string $url, bool $required = true) : void
+    public static function check(string $url, bool $required = true): void
     {
         if (!$required && empty($url)) {
             return;

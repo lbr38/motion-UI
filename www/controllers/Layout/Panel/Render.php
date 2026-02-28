@@ -2,6 +2,7 @@
 
 namespace Controllers\Layout\Panel;
 
+use Controllers\App\Lang;
 use Exception;
 
 class Render
@@ -13,6 +14,14 @@ class Render
          */
         if (!file_exists(ROOT . '/views/includes/panels/' . $panel . '.inc.php')) {
             throw new Exception('Could not retrieve content: unknown panel ' . $panel);
+        }
+
+        // Include language file if exists
+        if (file_exists(ROOT . '/controllers/Layout/Panel/lang/' . $panel . '.' . Lang::detectBrowserLanguage() . '.inc.php')) {
+            include_once(ROOT . '/controllers/Layout/Panel/lang/' . $panel . '.' . Lang::detectBrowserLanguage() . '.inc.php');
+        } else if (file_exists(ROOT . '/controllers/Layout/Panel/lang/' . $panel . '.en.inc.php')) {
+            // Fallback to English if specific language file is not found
+            include_once(ROOT . '/controllers/Layout/Panel/lang/' . $panel . '.en.inc.php');
         }
 
         /**

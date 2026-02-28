@@ -1,9 +1,7 @@
 <?php
+$motionEventController = new \Controllers\Motion\Event();
 
-$mymotionEvent = new \Controllers\Motion\Event();
-$mycamera = new \Controllers\Camera\Camera();
+// Get total unseen events
+$unseenEventsTotal = $motionEventController->getUnseenCount();
 
-/**
- *  Get total unseen events
- */
-$unseenEventsTotal = $mymotionEvent->getUnseenCount();
+unset($motionEventController);

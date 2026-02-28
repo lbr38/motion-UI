@@ -1,0 +1,52 @@
+<?php
+$_ = [
+    'h6' => [
+        'name' => 'NOM',
+        'main_stream' => 'FLUX PRINCIPAL DE LA CAMÉRA',
+        'resolution' => 'RÉSOLUTION',
+        'framerate' => 'FRÉQUENCE D\'IMAGES',
+        'rotate' => 'ROTATION',
+        'text_left' => 'TEXTE À GAUCHE',
+        'text_right' => 'TEXTE À DROITE',
+        'timestamp_left' => 'HORODATAGE À GAUCHE',
+        'timestamp_right' => 'HORODATAGE À DROITE',
+        'secondary_stream' => 'FLUX SECONDAIRE DE LA CAMÉRA',
+        'secondary_stream_note' => '',
+        'secondary_stream_resolution' => 'RÉSOLUTION DU FLUX SECONDAIRE',
+        'secondary_stream_framerate' => 'FRÉQUENCE D\'IMAGES DU FLUX SECONDAIRE',
+        'authentication' => 'AUTHENTIFICATION',
+        'authentication_username' => 'NOM D\'UTILISATEUR',
+        'authentication_password' => 'MOT DE PASSE',
+        'enable_onvif' => 'ACTIVER ONVIF',
+        'onvif_port' => 'PORT ONVIF',
+        'enable_motion_detection' => 'DÉTECTION DE MOUVEMENT',
+        'configure_motion_detection' => 'CONFIGURER LA DÉTECTION DE MOUVEMENT',
+        'stream_technology' => 'TECHNOLOGIE DE DIFFUSION',
+        'enable_timelapse' => 'ACTIVER LE TIMELAPSE',
+        'enable_monitoring' => 'ACTIVER LA SURVEILLANCE',
+        'monitoring_recipients' => 'DESTINATAIRES'
+    ],
+
+    'p' => [
+        'main_stream_note' => 'Les périphériques comme /dev/video0 ou une URL comme http://... ou rtsp://... sont supportés.',
+        'resolution_note' => 'La résolution sélectionnée doit correspondre à la résolution de la caméra.',
+        'framerate_note' => 'La fréquence d\'images spécifiée doit correspondre à la fréquence d\'images de la caméra.',
+        'rotate_note' => 'Mettre à 0 pour désactiver la rotation. Attention : la rotation du flux de la caméra est une opération intensive en CPU.',
+        'text_left_note' => 'Texte à afficher sur le côté gauche du flux de la caméra.',
+        'text_right_note' => 'Texte à afficher sur le côté droit du flux de la caméra.',
+        'timestamp_left_note' => 'Afficher l\'horodatage sur le côté gauche du flux de la caméra.',
+        'timestamp_right_note' => 'Afficher l\'horodatage sur le côté droit du flux de la caméra.',
+        'secondary_stream_note' => 'Si la caméra supporte plusieurs flux et fournit un flux secondaire avec une résolution plus faible, vous pouvez l\'ajouter ici.<br>Ce flux secondaire sera utilisé pour la détection de mouvement.<br>Les URL de périphérique comme http://... ou rtsp://... sont supportées.',
+        'secondary_stream_resolution_note' => 'La résolution sélectionnée doit correspondre à la résolution du flux secondaire de la caméra.',
+        'secondary_stream_framerate_note' => 'La fréquence d\'images spécifiée doit correspondre à la fréquence d\'images du flux secondaire de la caméra.',
+        'authentication_note' => 'Si la caméra nécessite une authentification (pour accéder au flux vidéo ou au service ONVIF).',
+        'enable_onvif_note' => 'Si la caméra supporte le protocole ONVIF. Cela vous permettra de déplacer la caméra en utilisant les contrôles PTZ.',
+        'onvif_port_note' => 'Numéro de port du service ONVIF. Par défaut : 80.',
+        'enable_motion_detection_note' => 'Activer la détection de mouvement pour cette caméra.',
+        'configure_motion_detection_note' => 'Configurer la détection de mouvement pour cette caméra.',
+        'stream_technology_note' => 'MSE devrait fonctionner sans configuration supplémentaire.<br>WebRTC est plus efficace et offre moins de latence mais peut ne pas fonctionner dans certains cas.<br>MJPEG devrait être utilisé avec les caméras http://.',
+        'enable_timelapse_note' => 'Activer le timelapse pour cette caméra.',
+        'enable_monitoring_note' => 'Une alerte email sera envoyée si la caméra se déconnecte.',
+        'monitoring_recipients_note' => 'Adresses email pour recevoir les notifications d\'alerte (séparées par des virgules).'
+    ]
+];

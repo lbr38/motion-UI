@@ -11,7 +11,7 @@ class Add extends Camera
     /**
      *  Add a new camera
      */
-    public function add(array $params) : void
+    public function add(array $params): void
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to add a new camera');

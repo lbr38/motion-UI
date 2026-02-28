@@ -71,7 +71,7 @@ class PtzMove extends Ptz
     /**
      *  Move camera
      */
-    public function move(string $direction, string $moveType, float $moveSpeed) : void
+    public function move(string $direction, string $moveType, float $moveSpeed): void
     {
         if (!in_array($direction, ['up', 'down', 'left', 'right'])) {
             throw new Exception('Invalid direction');

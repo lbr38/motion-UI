@@ -6,7 +6,7 @@ use Exception;
 
 class Chart
 {
-    public static function get(string $id, int $days) : array
+    public static function get(string $id, int $days): array
     {
         try {
             if (!file_exists(ROOT . '/controllers/Layout/Chart/vars/' . $id . '.vars.inc.php')) {

@@ -14,7 +14,7 @@ class Stream extends \Models\Model
     /**
      *  Get the camera grid order
      */
-    public function getOrder() : string
+    public function getOrder(): string
     {
         $data = '';
 
@@ -34,7 +34,7 @@ class Stream extends \Models\Model
     /**
      *  Sort the camera grid
      */
-    public function sort(string $order) : void
+    public function sort(string $order): void
     {
         // Empty the current order before inserting the new one
         try {
@@ -58,7 +58,7 @@ class Stream extends \Models\Model
     /**
      *  Get latest camera stream status from the database
      */
-    public function getLatestStatus(int $id) : array
+    public function getLatestStatus(int $id): array
     {
         $data = [];
 
@@ -80,7 +80,7 @@ class Stream extends \Models\Model
     /**
      *  Set camera stream status in the database
      */
-    public function setStatus(int $id, int $mainStreamStatus, int $secStreamStatus, string $mainStreamDetails = '', string $secStreamDetails = '') : void
+    public function setStatus(int $id, int $mainStreamStatus, int $secStreamStatus, string $mainStreamDetails = '', string $secStreamDetails = ''): void
     {
         try {
             $stmt = $this->db->prepare("INSERT INTO camera_monitoring (Timestamp, Main_stream_status, Secondary_stream_status, Main_stream_error, Secondary_stream_error, Camera_id) VALUES (:timestamp, :main_stream_status, :secondary_stream_status, :Main_stream_error, :Secondary_stream_error, :camera_id)");

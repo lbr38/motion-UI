@@ -10,7 +10,7 @@ class Memory
      *  Get memory usage (%)
      *  Use a python library to get the memory usage
      */
-    public static function getUsage() : string
+    public static function getUsage(): string
     {
         $processController = new \Controllers\Process('python3 ' . ROOT . '/bin/get-memory-usage.py');
         $processController->execute();

@@ -2,18 +2,18 @@
     <div class="main-buttons">
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center"><?= LC['views']['containers']['motion/buttons/main']['h6']['motion_detection'] ?></h6>
+                <h6 class="center"><?= $_['h6']['motion_detection'] ?></h6>
                 <?php
                 if (!$motionActive) {
                     $status = 'start';
-                    $text = LC['views']['containers']['motion/buttons/main']['p']['motion_detection_start'];
-                    $title = LC['views']['containers']['motion/buttons/main']['btn']['motion_detection_start_title'];
+                    $text = $_['p']['motion_detection_start'];
+                    $title = $_['btn']['motion_detection_start_title'];
                     $color = 'green';
                 }
                 if ($motionActive) {
                     $status = 'stop';
-                    $text = LC['views']['containers']['motion/buttons/main']['p']['motion_detection_stop'];
-                    $title = LC['views']['containers']['motion/buttons/main']['btn']['motion_detection_stop_title'];
+                    $text = $_['p']['motion_detection_stop'];
+                    $title = $_['btn']['motion_detection_stop_title'];
                     $color = 'red';
                 } ?>
 
@@ -34,7 +34,7 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center"><?= LC['views']['containers']['motion/buttons/main']['h6']['motion_detection_autostart'] ?></h6>
+                <h6 class="center"><?= $_['h6']['motion_detection_autostart'] ?></h6>
                 <?php
                 if ($motionAutostartEnabled == "disabled") : ?>
                     <div class="flex justify-center">
@@ -43,7 +43,7 @@
                         </button>
                     </div>
 
-                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_autostart_enable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_autostart_enable'] ?></p>
                     <?php
                 endif;
 
@@ -58,7 +58,7 @@
                         </button>
                     </div>
 
-                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_autostart_disable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_autostart_disable'] ?></p>
                     <?php
                 endif ?>
             </div>
@@ -66,7 +66,7 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center"><?= LC['views']['containers']['motion/buttons/main']['h6']['motion_detection_alerts'] ?></h6>
+                <h6 class="center"><?= $_['h6']['motion_detection_alerts'] ?></h6>
                 <?php
                 if (ALERT_ENABLED == "disabled") : ?>
                     <div class="flex justify-center">
@@ -75,7 +75,7 @@
                         </button>
                     </div>
         
-                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_alerts_enable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_alerts_enable'] ?></p>
                     <?php
                 endif;
 
@@ -90,7 +90,7 @@
                         </button>
                     </div>
                     
-                    <p class="block center mediumopacity-cst"><?= LC['views']['containers']['motion/buttons/main']['p']['motion_detection_alerts_disable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_alerts_disable'] ?></p>
                     <?php
                 endif ?>
             </div>

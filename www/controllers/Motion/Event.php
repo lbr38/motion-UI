@@ -5,6 +5,7 @@ namespace Controllers\Motion;
 use Exception;
 use Controllers\Mail;
 use Controllers\Utils\Convert;
+use Controllers\Filesystem\Directory;
 
 class Event
 {
@@ -133,11 +134,6 @@ class Event
          */
         if (preg_match('/\.(mp4|mkv|mov|webm)$/', $file)) {
             /**
-             *  Get file directory location
-             */
-            $fileDir = dirname($file);
-
-            /**
              *  Create thumbnail if not already exist
              */
             if (!file_exists($file . '.thumbnail')) {
@@ -163,7 +159,7 @@ class Event
                     /**
                      *  Create thumbnail at the middle of the movie
                      */
-                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $totalSeconds / 2) . ' -i ' . $file . " -vf 'scale=320:320:force_original_aspect_ratio=decrease' -frames:v 1 -q:v 2 " . $file . '.thumbnail.jpg');
+                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -loglevel error -ss ' . gmdate("H:i:s", $totalSeconds / 2) . ' -i ' . $file . ' -vf "scale=320:320:force_original_aspect_ratio=decrease" -frames:v 1 -c:v libsvtav1 -preset 8 -threads 1 -crf 32 ' . $file . '.thumbnail.avif');
                     $myprocess->execute();
                     $output = $myprocess->getOutput();
                     $myprocess->close();
@@ -187,7 +183,7 @@ class Event
     /**
      *  Send a mail alert on a new motion event
      */
-    private function alert(string $type, string $date, string $time, string $motionEventId, string $file = null)
+    private function alert(string $type, string $date, string $time, string $motionEventId, string $file = '')
     {
         $mymotionAlert = new \Controllers\Motion\Alert();
         $mycamera = new \Controllers\Camera\Camera();
@@ -279,6 +275,33 @@ class Event
     }
 
     /**
+     *  Get events details for the specified date and camera(s)
+      * It is possible to add an offset to the request
+     */
+    public function getByDateAndCamera(string $date, array $cameras, bool $withOffset = false, int $offset = 0): array
+    {
+        return $this->model->getByDateAndCamera($date, $cameras, $withOffset, $offset);
+    }
+
+    /**
+     *  Get files recorded for the specified date and camera(s)
+     */
+    public function getFilesByDateAndCamera(string $date, array $cameras): array
+    {
+        $files = [];
+
+        foreach ($cameras as $cameraId) {
+            if (!is_numeric($cameraId)) {
+                throw new Exception('Invalid camera Id: ' . $cameraId);
+            }
+
+            $files = array_merge($files, $this->model->getFilesByDateAndCamera($date, $cameraId));
+        }
+
+        return $files;
+    }
+
+    /**
      *  Return events between dates
      */
     public function getBetweenDate(string $dateStart, string $dateEnd)
@@ -336,27 +359,34 @@ class Event
     /**
      *  Get total media size for the specified date
      */
-    public function getTotalMediaSizeByDate(string $date)
+    public function getTotalMediaSizeByDate(string $date, array $cameras): string
     {
+        $totalSize = 0;
+
         if (!file_exists(CAPTURES_DIR)) {
             throw new Exception('No captures directory found');
         }
 
-        /**
-         *  Loop through each camera directory to get the total size of the capture directory for the specified date
-         */
-        $camerasDirs = glob(CAPTURES_DIR . '/*', GLOB_ONLYDIR);
-        $totalSize = 0;
+        if (!empty($cameras)) {
+            foreach ($cameras as $cameraId) {
+                if (!is_numeric($cameraId)) {
+                    throw new Exception('Invalid camera Id: ' . $cameraId);
+                }
 
-        foreach ($camerasDirs as $cameraDir) {
-            if (is_dir($cameraDir . '/' . $_POST['date'])) {
-                $totalSize += \Controllers\Filesystem\Directory::getSize($cameraDir . '/' . $_POST['date']);
+                if (is_dir(CAPTURES_DIR . '/camera-' . $cameraId . '/' . $date)) {
+                    $totalSize += Directory::getSize(CAPTURES_DIR . '/camera-' . $cameraId . '/' . $date);
+                }
+            }
+        } else {
+            // Loop through each camera directory to get the total size of the capture directory for the specified date
+            foreach (glob(CAPTURES_DIR . '/*', GLOB_ONLYDIR) as $cameraDir) {
+                if (is_dir($cameraDir . '/' . $date)) {
+                    $totalSize += Directory::getSize($cameraDir . '/' . $date);
+                }
             }
         }
 
-        /**
-         *  Format and return the size
-         */
+        // Format and return the size
         return Convert::sizeToHuman($totalSize);
     }
 

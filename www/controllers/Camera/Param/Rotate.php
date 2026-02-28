@@ -9,7 +9,7 @@ class Rotate
     /**
      *  Check that rotate is valid
      */
-    public static function check(string $rotate) : void
+    public static function check(string $rotate): void
     {
         /**
          *  Check that rotate is not empty

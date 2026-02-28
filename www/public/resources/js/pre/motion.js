@@ -8,7 +8,10 @@ function loadEventDateTotalMediaSize()
     }
 
     // Get date
-    var date = $('#event-date-total-size').attr('event-date');
+    const date = $('#event-date-total-size').attr('event-date');
+
+    // Get selected cameras from select
+    const cameras = $('#events-filter-cameras').val();
 
     ajaxRequest(
         // Controller:
@@ -17,7 +20,8 @@ function loadEventDateTotalMediaSize()
         'get-event-date-total-media-size',
         // Data:
         {
-            date: date
+            date: date,
+            cameras: cameras
         },
         // Print success alert:
         false,
@@ -26,6 +30,6 @@ function loadEventDateTotalMediaSize()
     ).then(function () {
         $('#event-date-total-size').html('(' + jsonValue.message + ')');
     }).catch(function () {
-        $('#event-date-total-size').html();
+        $('#event-date-total-size').html('Error loading size');
     });
 }

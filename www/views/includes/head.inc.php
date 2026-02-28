@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/styles/components/tooltip.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/components/scrollbar.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/components/echart.css?<?= VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="/resources/styles/components/hide.css?<?= VERSION ?>">
     <link rel="stylesheet" type='text/css' href="/resources/styles/select2.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/motionui.css?<?= VERSION ?>">
 

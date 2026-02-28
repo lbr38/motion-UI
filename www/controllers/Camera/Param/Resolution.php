@@ -9,7 +9,7 @@ class Resolution
     /**
      *  Check that resolution is valid
      */
-    public static function check(string $resolution) : void
+    public static function check(string $resolution): void
     {
         /**
          *  Check that resolution is not empty

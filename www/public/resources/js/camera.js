@@ -519,15 +519,14 @@ function playTimelapse()
 
                 /**
                  *  Get JPEG picture filename from the array
-                 *  e.g. timelapse_08-17-50.jpg
+                 *  e.g. timelapse_08-17-50.avif
                  */
                 var picture = pictures[this.index];
 
                 /**
                  *  Define the path to the target picture
-                 *  e.g. /timelapse?id=14&picture=2024-06-04/timelapse_08-17-50.jpg
                  */
-                var path = '/timelapse?id=' + cameraId + '&picture=' + date + '/' + picture;
+                var path = '/timelapse/camera-' + cameraId + '/' + date + '/' + picture;
 
                 /**
                  *  Extract the time from the picture name

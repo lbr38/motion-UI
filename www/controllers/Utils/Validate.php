@@ -9,7 +9,7 @@ class Validate
     /**
      *  Validate a string and return it
      */
-    public static function string(string|int $string) : string|int
+    public static function string(string|int $string): string|int
     {
         return htmlspecialchars(stripslashes(trim($string)));
     }
@@ -17,7 +17,7 @@ class Validate
     /**
      *  Check that the string contains only letters and numbers, additional valid characters can be passed in argument
      */
-    public static function alphaNumeric(string $string, array $additionnalValidCharacters = []) : bool
+    public static function alphaNumeric(string $string, array $additionnalValidCharacters = []): bool
     {
         // If an empty string has been passed, it's valid
         if (empty($string)) {
@@ -43,7 +43,7 @@ class Validate
     /**
      *  Check that the string contains only letters and numbers, hyphen and underscore, additional valid characters can be passed in argument
      */
-    public static function alphaNumericHyphen(string $string, array $additionnalValidCharacters = []) : bool
+    public static function alphaNumericHyphen(string $string, array $additionnalValidCharacters = []): bool
     {
         // Merge the default valid characters with any additional valid characters passed as argument
         $validCharacters = ['-', '_'];
@@ -58,7 +58,7 @@ class Validate
     /**
      *  Validate an email address
      */
-    public static function email(string $mail) : bool
+    public static function email(string $mail): bool
     {
         if (filter_var(trim($mail), FILTER_VALIDATE_EMAIL)) {
             return true;
@@ -70,7 +70,7 @@ class Validate
     /**
      *  Validate a date in specific format, otherwise throw an exception
      */
-    public static function date(string $date, string $format = 'Y-m-d') : void
+    public static function date(string $date, string $format = 'Y-m-d'): void
     {
         $d = DateTime::createFromFormat($format, $date);
         if ($d === false || $d->format($format) !== $date) {
@@ -81,7 +81,7 @@ class Validate
     /**
      *  Returns true if string is a valid md5 hash
      */
-    public static function md5(string $md5) : bool
+    public static function md5(string $md5): bool
     {
         $result = preg_match('/^[a-f0-9]{32}$/', $md5);
 

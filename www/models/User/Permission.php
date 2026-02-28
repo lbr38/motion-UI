@@ -14,7 +14,7 @@ class Permission extends \Models\Model
     /**
      *  Get user permissions
      */
-    public function get(int $id) : string
+    public function get(int $id): string
     {
         $data = '';
 
@@ -36,7 +36,7 @@ class Permission extends \Models\Model
     /**
      *  Set user permissions
      */
-    public function set(int $id, string $permissions) : void
+    public function set(int $id, string $permissions): void
     {
         try {
             /**
@@ -59,7 +59,7 @@ class Permission extends \Models\Model
     /**
      *  Delete user permissions
      */
-    public function delete(int $id) : void
+    public function delete(int $id): void
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM user_permissions WHERE User_id = :id");

@@ -23,8 +23,6 @@ $datasets[0]['data'][] = \Controllers\System\Monitoring\Cpu::getUsage();
 /**
  *  Prepare chart data
  */
-$options['title']['text'] = 'CPU usage (%)';
-$options['init-zoom'] = 60;
 $datasets[0]['color'] = '#F32F63';
 $datasets[0]['name'] = 'CPU usage';
 

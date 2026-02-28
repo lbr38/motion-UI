@@ -5,7 +5,7 @@ $labels = [];
 $options = [];
 
 /**
- *  Get CPU usage data
+ *  Get memory usage data
  */
 $memoryUsageStats = $systemMonitoringController->get($timeStart, $timeEnd);
 
@@ -23,8 +23,6 @@ $datasets[0]['data'][] = \Controllers\System\Monitoring\Memory::getUsage();
 /**
  *  Prepare chart data
  */
-$options['title']['text'] = 'Memory usage (%)';
-$options['init-zoom'] = 60;
 $datasets[0]['color'] = '#F32F63';
 $datasets[0]['name'] = 'Memory usage';
 

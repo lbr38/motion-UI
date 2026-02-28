@@ -81,18 +81,18 @@
                             } ?>
 
                             <div class="camera-disabled <?= $unavailableClass ?>" camera-id="<?= $cameraId ?>">
-                                <img src="/assets/icons/videocam-off.svg" class="icon-np mediumopacity-cst" title="Live stream is disabled" />
-                                <p class="note">Stream disabled</p>
+                                <img src="/assets/icons/videocam-off.svg" class="icon-np mediumopacity-cst" title="<?= $_['p']['stream_disabled'] ?>" />
+                                <p class="note"><?= $_['p']['stream_disabled'] ?></p>
                             </div>
 
                             <div class="camera-loading <?= $loadingClass ?>" camera-id="<?= $cameraId ?>">
-                                <img src="/assets/icons/loading.svg" class="icon-np" title="Loading" />
-                                <p class="note">Connecting...</p>
+                                <img src="/assets/icons/loading.svg" class="icon-np" title="<?= $_['p']['stream_connecting'] ?>" />
+                                <p class="note"><?= $_['p']['stream_connecting'] ?></p>
                             </div>
 
                             <div class="camera-error hide" camera-id="<?= $cameraId ?>">
-                                <img src="/assets/icons/videocam-error.svg" class="icon-np" title="Stream error" />
-                                <p class="note margin-left-20 margin-right-20">Stream error</p>
+                                <img src="/assets/icons/videocam-error.svg" class="icon-np" title="<?= $_['p']['stream_error'] ?>" />
+                                <p class="note margin-left-20 margin-right-20"><?= $_['p']['stream_error'] ?></p>
                             </div>
 
                             <!-- Camera stream -->
@@ -111,11 +111,7 @@
                             </div>
 
                             <!-- Camera top buttons and controls -->
-                            <div class="camera-controls-container hide justify-space-between" camera-id="<?= $cameraId ?>">
-                                <div class="flex align-item-center column-gap-10">
-                                    
-                                </div>
-
+                            <div class="camera-controls-container hide justify-end" camera-id="<?= $cameraId ?>">
                                 <div class="flex align-item-center justify-end column-gap-10">
                                     <?php
                                     if ($cameraRawParams['timelapse']['enable'] == 'true') : ?>
@@ -126,14 +122,14 @@
                                     endif;
 
                                     if ($cameraRawParams['onvif']['enable'] == 'true' and isset($cameraRawParams['onvif']['url'])) : ?>
-                                        <span class="round-btn-tr display-ptz-btns <?php echo ($cameraRawParams['stream']['enable'] == 'false') ? 'hide' : '' ?>" camera-id="<?= $cameraId ?>" title="Move camera">
+                                        <span class="round-btn-tr display-ptz-btns <?php echo ($cameraRawParams['stream']['enable'] == 'false') ? 'hide' : '' ?>" camera-id="<?= $cameraId ?>" title="<?= $_['btn']['move_camera_text'] ?>">
                                             <img src="/assets/icons/move.svg" />
                                         </span>
                                         <?php
                                     endif;
 
                                     if (str_contains($cameraRawParams['main-stream']['device'], 'rtsp://') and $cameraRawParams['stream']['technology'] != 'mjpeg') : ?>
-                                        <span class="round-btn-tr audio-btn <?php echo ($cameraRawParams['stream']['enable'] == 'false') ? 'hide' : '' ?>" camera-id="<?= $cameraId ?>" title="Mute/Unmute">
+                                        <span class="round-btn-tr audio-btn <?php echo ($cameraRawParams['stream']['enable'] == 'false') ? 'hide' : '' ?>" camera-id="<?= $cameraId ?>" title="<?= $_['btn']['mute_unmute_camera_stream_text'] ?>">
                                             <img src="/assets/icons/volume-off.svg" class="icon" />
                                         </span>
                                         <?php
@@ -141,25 +137,25 @@
 
                                     if (IS_ADMIN) :
                                         if ($cameraRawParams['stream']['enable'] == 'true') : ?>
-                                            <span class="round-btn-tr disable-camera-stream-btn" camera-id="<?= $cameraId ?>" title="Disable stream">
+                                            <span class="round-btn-tr disable-camera-stream-btn" camera-id="<?= $cameraId ?>" title="<?= $_['btn']['disable_camera_stream_text'] ?>">
                                                 <img src="/assets/icons/videocam.svg" />
                                             </span>
                                             <?php
                                         endif;
                                         if ($cameraRawParams['stream']['enable'] == 'false') : ?>
-                                            <span class="round-btn-tr enable-camera-stream-btn" camera-id="<?= $cameraId ?>" title="Enable stream">
+                                            <span class="round-btn-tr enable-camera-stream-btn" camera-id="<?= $cameraId ?>" title="<?= $_['btn']['enable_camera_stream_text'] ?>">
                                                 <img src="/assets/icons/videocam-off.svg" />
                                             </span>
                                             <?php
                                         endif;
                                     endif ?>
 
-                                    <span class="round-btn-tr fullscreen-btn" camera-id="<?= $cameraId ?>" title="Fullscreen">
+                                    <span class="round-btn-tr fullscreen-btn" camera-id="<?= $cameraId ?>" title="<?= $_['btn']['fullscreen_camera_stream_text'] ?>">
                                         <img src="/assets/icons/fullscreen.svg" class="icon" />
                                     </span>
 
-                                    <span class="round-btn-tr fullscreen-close-btn hide" camera-id="<?= $cameraId ?>" title="Close fullscreen">
-                                        <img src="/assets/icons/fullscreen.svg" class="icon" />
+                                    <span class="round-btn-tr fullscreen-close-btn hide" camera-id="<?= $cameraId ?>" title="<?= $_['btn']['close_fullscreen_camera_stream_text'] ?>">
+                                        <img src="/assets/icons/close.svg" class="icon" />
                                     </span>
                                 </div>
                             </div>
@@ -302,7 +298,7 @@
         if (IS_ADMIN) : ?>
             <div class="add-camera-container pointer lowopacity get-panel-btn" panel="camera/add" title="Add a camera">
                 <img src="/assets/icons/plus.svg" />
-                <p class="font-size-18 margin-top-20"><?= LC['views']['containers']['cameras/list']['btn']['add_camera_text'] ?></p>
+                <p class="font-size-18 margin-top-20"><?= $_['btn']['add_camera_text'] ?></p>
             </div>
             <?php
         endif ?>

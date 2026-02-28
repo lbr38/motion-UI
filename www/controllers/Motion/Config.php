@@ -18,7 +18,7 @@ class Config
     /**
      *  Return motion configuration params from a file
      */
-    public function getConfig(string $file) : array
+    public function getConfig(string $file): array
     {
         $currentParams = [];
 
@@ -91,7 +91,7 @@ class Config
     /**
      *  Edit motion configuration file
      */
-    public function edit(string $file, array $params) : void
+    public function edit(string $file, array $params): void
     {
         /**
          *  Order params
@@ -107,7 +107,7 @@ class Config
     /**
      *  Write motion configuration to file
      */
-    public function write(string $file, array $params) : void
+    public function write(string $file, array $params): void
     {
         $content = '';
 
@@ -162,7 +162,7 @@ class Config
     /**
      *  Edit motion configuration file (in /var/lib/motionui/cameras/)
      */
-    public function configure(string $cameraId, array $params) : void
+    public function configure(string $cameraId, array $params): void
     {
         $cameraController = new \Controllers\Camera\Camera();
 
@@ -198,7 +198,7 @@ class Config
     /**
      *  Enable motion camera configuration file
      */
-    public function enable(int $id) : void
+    public function enable(int $id): void
     {
         $filenameAvailable = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
         $filenameEnabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
@@ -225,7 +225,7 @@ class Config
     /**
      *  Disable motion camera configuration file
      */
-    public function disable(int $id) : void
+    public function disable(int $id): void
     {
         $filenameAvailable = CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf';
         $filenameEnabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';

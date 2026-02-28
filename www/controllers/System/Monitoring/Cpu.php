@@ -10,7 +10,7 @@ class Cpu
      *  Get CPU usage (%)
      *  Use a python library to get the CPU usage
      */
-    public static function getUsage() : string
+    public static function getUsage(): string
     {
         $processController = new \Controllers\Process('python3 ' . ROOT . '/bin/get-cpu-usage.py');
         $processController->execute();

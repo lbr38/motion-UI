@@ -9,7 +9,7 @@ class Edit extends \Models\User\User
     /**
      *  Update user personnal info in database
      */
-    public function edit(int $id, string $firstName = '', string $lastName = '', string $email = '') : void
+    public function edit(int $id, string $firstName = '', string $lastName = '', string $email = ''): void
     {
         try {
             $stmt = $this->db->prepare("UPDATE users SET First_name = :firstName, Last_name = :lastName, Email = :email WHERE Id = :id");
@@ -26,7 +26,7 @@ class Edit extends \Models\User\User
     /**
      *  Update user password in database
      */
-    public function updatePassword(int $id, string $hashedPassword) : void
+    public function updatePassword(int $id, string $hashedPassword): void
     {
         try {
             $stmt = $this->db->prepare("UPDATE users SET Password = :password WHERE Id = :id");

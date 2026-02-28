@@ -9,7 +9,7 @@ class Go2rtc
     /**
      *  Return go2rtc config as array
      */
-    private function getConfig() : array
+    private function getConfig(): array
     {
         $config = yaml_parse_file(GO2RTC_DIR . '/go2rtc.yml');
 
@@ -124,7 +124,7 @@ class Go2rtc
     /**
      *  Return go2rtc log content
      */
-    public function getLog(string $log) : string
+    public function getLog(string $log): string
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to view go2rtc logs');

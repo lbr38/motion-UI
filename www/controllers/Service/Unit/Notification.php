@@ -16,7 +16,7 @@ class Notification extends \Controllers\Service\Service
     /**
      *  Get notifications
      */
-    public function get() : void
+    public function get(): void
     {
         parent::log('Getting notifications...');
 

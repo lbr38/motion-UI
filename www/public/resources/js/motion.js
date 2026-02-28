@@ -1,127 +1,4 @@
 /**
- *  Function: get selected media Id and delete them
- */
-function deleteMedia()
-{
-    var mediaId = [];
-
-    /**
-     *  Get all selected checkboxes and their file-id (media) attribute
-     */
-    $('#events-captures-div').find('input[class=event-media-checkbox]:checked').each(function () {
-        id = $(this).attr('file-id');
-        mediaId.push(id);
-    });
-
-    /**
-     *  Wait for previous confirm box to be removed
-     */
-    setTimeout(function () {
-        myconfirmbox.print(
-            {
-                'title': 'Delete medias',
-                'message': 'Are you sure you want to delete the selected media(s)?',
-                'buttons': [
-                {
-                    'text': 'Delete',
-                    'color': 'red',
-                    'callback': function () {
-                        ajaxRequest(
-                            // Controller:
-                            'motion',
-                            // Action:
-                            'deleteFile',
-                            // Data:
-                            {
-                                mediaId: mediaId
-                            },
-                            // Print success alert:
-                            true,
-                            // Print error alert:
-                            true,
-                            // Reload containers:
-                            ['motion/events/list']
-                        ).then(function () {
-                            loadEventDateTotalMediaSize();
-                        });
-                    }
-                }]
-            }
-        );
-    }, 10);
-}
-
-/**
- *  Function: get selected media Id and download them
- */
-function downloadMedia()
-{
-    filesForDownload = [];
-
-    /**
-     *  Get all selected checkboxes and their file-id (media) attribute
-     */
-    $('#events-captures-div').find('input[class=event-media-checkbox]:checked').each(function () {
-        filesForDownload.push({ fileId: $(this).attr('file-id'), filename: $(this).attr('file-name') });
-    });
-
-    /**
-     *  Append a temporary <a> element to download files
-     */
-    var temporaryDownloadLink = document.createElement("a");
-    temporaryDownloadLink.style.display = 'none';
-
-    document.body.appendChild(temporaryDownloadLink);
-
-    for (var n = 0; n < filesForDownload.length; n++) {
-        var download = filesForDownload[n];
-        // Set the href attribute to the file path, also include the filename for the android app to make sure it downloads the file with the correct name
-        temporaryDownloadLink.setAttribute('href', '/media?id=' + download.fileId + '&filename=' + download.filename);
-        // Set the download attribute to force download
-        temporaryDownloadLink.setAttribute('download', download.filename);
-
-        /**
-         *  Click on the <a> element to start download
-         */
-        temporaryDownloadLink.click();
-    }
-
-    /**
-     *  Remove temporary <a> element
-     */
-    document.body.removeChild(temporaryDownloadLink);
-}
-
-function reloadMotionConfigEditForm(id)
-{
-    setTimeout(function () {
-        ajaxRequest(
-            // Controller:
-            'general',
-            // Action:
-            'get-panel',
-            // Data:
-            {
-                name: 'motion/edit',
-                params: {
-                    'id': id
-                }
-            },
-            // Print success alert:
-            false,
-            // Print error alert:
-            true
-        ).then(function () {
-            // Get the #camera-edit-motion-config-form-container from jsonValue.message
-            content = $(jsonValue.message).find('#camera-edit-motion-config-form-container').html();
-
-            // Replace the content
-            $('#camera-edit-motion-config-form-container').html(content);
-        });
-    }, 50);
-}
-
-/**
  *  Start / stop motion service
  */
 $(document).on('click','.start-stop-service-btn',function () {
@@ -226,28 +103,6 @@ $(document).on('click','#send-test-email-btn',function () {
 });
 
 /**
- *  Event: acquit all events
- */
-$(document).on('click','.acquit-events-btn',function () {
-    myalert.print('Acquitting all events, please wait...');
-
-    ajaxRequest(
-        // Controller:
-        'motion',
-        // Action:
-        'acquit-events',
-        // Data:
-        {},
-        // Print success alert:
-        true,
-        // Print error alert:
-        true,
-        // Reload containers:
-        [ 'motion/events/list', 'buttons/bottom' ]
-    );
-});
-
-/**
  * Function: print events between selected dates
  * @param {*} dateStart
  * @param {*} dateEnd
@@ -265,19 +120,6 @@ function eventDateSelect(dateStart, dateEnd)
      */
     mycontainer.reload('motion/events/list');
 }
-
-/**
- *  Event: select events dates
- */
-$(document).on('change','.event-date-input',function () {
-    date = $(this).val();
-
-    document.cookie = "event-date=" + date + ";max-age=900;";
-
-    mycontainer.reload('motion/events/list').then(() => {
-        loadEventDateTotalMediaSize();
-    });
-});
 
 /**
  *  Event: vizualize event image
@@ -319,86 +161,68 @@ $(document).on('click','.event-print-file-close-btn',function () {
 $(document).on('click','input[class=event-media-checkbox]',function () {
     var eventId = $(this).attr('event-id');
 
-    /**
-     *  Count checked checkboxes
-     */
-    var count_checked = $('#events-captures-div').find('input[class=event-media-checkbox]:checked').length;
+    // Get checked checkboxes
+    const checkboxes = $('#events-captures-div').find('input[class=event-media-checkbox]:checked');
 
-    /**
-     *  If no checkbox is selected
-     */
-    if (count_checked == 0) {
-        /**
-         *  Hide confirm box, checkboxes and 'Select all' button
-         */
+    // If no checkbox is selected
+    if (checkboxes.length == 0) {
+        // Hide confirm box, checkboxes and 'Select all' button
         myconfirmbox.close();
         $('#events-captures-div').find('input[class=event-media-checkbox]').removeAttr('style');
         $('#events-captures-div').find('.select-all-media-checkbox').hide();
         return;
     }
 
-    /**
-     *  Print confirm box to delete selected medias
-     */
+    // Print confirm box to download or delete selected media(s)
     myconfirmbox.print(
         {
             'id': 'download-delete-media',
             'title': 'Download or delete selected media(s)',
-            'message': '',
+            'message': checkboxes.length + ' media' + (checkboxes.length > 1 ? 's' : '') + ' selected',
             'buttons': [
             {
                 'text': 'Download',
                 'color': 'blue',
                 'callback': function () {
-                    downloadMedia();
+                    mymotionmedia.download(checkboxes);
                 }
             },
             {
                 'text': 'Delete',
                 'color': 'red',
                 'callback': function () {
-                    deleteMedia();
+                    mymotionmedia.delete(checkboxes);
                 }
             }]
         }
     );
 
-    /**
-     *  Print related 'Select all' button
-     */
+    // Print related 'Select all' button
     $('#events-captures-div').find('.select-all-media-checkbox[event-id="' + eventId + '"]').css('display', 'initial');
 
-    /**
-     *  Print all related checkboxes with opacity 1
-     */
-    $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').css("visibility", "visible");
-    $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').css("opacity", "1");
+    // Print all related checkboxes with opacity 1
+    $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').css('visibility', 'visible');
+    $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').css('opacity', '1');
 });
 
 /**
  *  Event: on 'Select all' button click
  */
 $(document).on('click',".select-all-media-checkbox",function () {
-    var eventId = $(this).attr('event-id');
+    const eventId = $(this).attr('event-id');
 
-    /**
-     *  Count checked checkboxes
-     */
-    var count_checked = $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]:checked').length;
-
-    /**
-     *  Count total checkbox
-     */
-    var count_total = $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').length;
-
-    if (count_checked == count_total) {
-        $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', false);
-        // Hide 'select all' button
-        $(this).hide();
-        // Hide confirm box
-        myconfirmbox.close();
+    if ($(this).is(':checked')) {
+        // Loop on all unchecked checkboxes and check them
+        $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]:not(:checked)').each(function () {
+            $(this).click();
+        });
     } else {
-        $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').prop('checked', true);
+        // Uncheck all checkboxes
+        $('#events-captures-div').find('input[class=event-media-checkbox][event-id="' + eventId + '"]').each(function () {
+            if ($(this).is(':checked')) {
+                $(this).click();
+            }
+        });
     }
 });
 

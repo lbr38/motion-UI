@@ -38,7 +38,7 @@ class User extends \Models\Model
     /**
      *  Return users list from database
      */
-    public function getUsers() : array
+    public function getUsers(): array
     {
         $data = [];
 
@@ -60,7 +60,7 @@ class User extends \Models\Model
     /**
      *  Get all users email from database
      */
-    public function getEmails() : array
+    public function getEmails(): array
     {
         $data = [];
 
@@ -80,7 +80,7 @@ class User extends \Models\Model
     /**
      *  Get username by user Id
      */
-    public function getUsernameById(string $id) : string
+    public function getUsernameById(string $id): string
     {
         $data = '';
 
@@ -102,7 +102,7 @@ class User extends \Models\Model
     /**
      *  Get role by user Id
      */
-    public function getRoleById(string $id) : string
+    public function getRoleById(string $id): string
     {
         $data = '';
 
@@ -124,7 +124,7 @@ class User extends \Models\Model
     /**
      *  Get user Id by username
      */
-    public function getIdByUsername(string $username) : int|null
+    public function getIdByUsername(string $username): int|null
     {
         $data = null;
 
@@ -146,7 +146,7 @@ class User extends \Models\Model
     /**
      *  Add a new user in database
      */
-    public function add(string $username, string $hashedPassword, string $role) : void
+    public function add(string $username, string $hashedPassword, string $role): void
     {
         try {
             // Create new user
@@ -169,7 +169,7 @@ class User extends \Models\Model
     /**
      *  Delete user from database
      */
-    public function delete(string $id) : void
+    public function delete(string $id): void
     {
         try {
             // Delete user
@@ -189,7 +189,7 @@ class User extends \Models\Model
     /**
      *  Return true if user Id exists in database
      */
-    public function existsId(int $id) : bool
+    public function existsId(int $id): bool
     {
         try {
             $stmt = $this->db->prepare("SELECT Id FROM users WHERE Id = :id");
@@ -209,7 +209,7 @@ class User extends \Models\Model
     /**
      *  Return true if user username exists in database
      */
-    public function exists(string $username) : bool
+    public function exists(string $username): bool
     {
         try {
             $stmt = $this->db->prepare("SELECT * FROM users WHERE Username = :username");
@@ -229,7 +229,7 @@ class User extends \Models\Model
     /**
      *  Return specified username hashed password from db
      */
-    public function getHashedPasswordFromDb(int $id) : string
+    public function getHashedPasswordFromDb(int $id): string
     {
         $data = '';
 

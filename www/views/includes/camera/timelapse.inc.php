@@ -32,9 +32,11 @@
 
         /**
          *  Retrieve pictures name for the specified date
+         *  Glob pattern to match .avif and .jpg files (older pictures are in jpg, newer ones are in avif)
+         *  Remove jpg in one year
          */
         $pictures = [];
-        $picturesGlob = glob($timelapseDir . '/' . $date . '/*.jpg');
+        $picturesGlob = glob($timelapseDir . '/{' . $date . '}/*.{avif,jpg}', GLOB_BRACE);
 
         foreach ($picturesGlob as $pictureGlob) {
             $pictures[] = basename($pictureGlob);
@@ -62,7 +64,7 @@
         /**
          *  Print picture
          */
-        echo '<div><img id="timelapse-picture" src="/timelapse?id=' . $cameraId . '&picture=' . $picture . '" /></div>';
+        echo '<div><img id="timelapse-picture" src="/timelapse/camera-' . $cameraId . '/' . $picture . '" /></div>';
     } catch (Exception $e) {
         echo '<p>' . $e->getMessage() . '</p>';
     } ?>
@@ -76,7 +78,8 @@
                     /**
                      *  Print first picture time
                      */
-                    $firstPictureTime = str_replace('.jpg', '', explode('_', $pictures[0])[1]);
+                    $firstPictureTime = str_replace('avif', '', explode('_', $pictures[0])[1]);
+                    $firstPictureTime = str_replace('jpg', '', $firstPictureTime);
                     $firstPictureHour = explode('-', $firstPictureTime)[0];
                     $firstPictureMin = explode('-', $firstPictureTime)[1];
                     $firstPictureSec = explode('-', $firstPictureTime)[2];
@@ -86,7 +89,8 @@
                     /**
                      *  Print current picture time
                      */
-                    $pictureTime = str_replace('.jpg', '', explode('_', $picture)[1]);
+                    $pictureTime = str_replace('.avif', '', explode('_', $picture)[1]);
+                    $pictureTime = str_replace('.jpg', '', $pictureTime);
                     $pictureHour = explode('-', $pictureTime)[0];
                     $pictureMin = explode('-', $pictureTime)[1];
                     $pictureSec = explode('-', $pictureTime)[2];
@@ -96,7 +100,8 @@
                     /**
                      *  Print last picture time
                      */
-                    $lastPictureTime = str_replace('.jpg', '', explode('_', end($pictures))[1]);
+                    $lastPictureTime = str_replace('.avif', '', explode('_', end($pictures))[1]);
+                    $lastPictureTime = str_replace('.jpg', '', $lastPictureTime);
                     $lastPictureHour = explode('-', $lastPictureTime)[0];
                     $lastPictureMin = explode('-', $lastPictureTime)[1];
                     $lastPictureSec = explode('-', $lastPictureTime)[2];
@@ -114,6 +119,7 @@
                 $(document).ready(function () {
                     // Get date from the slider
                     var date = $('#picture-slider').attr('date');
+
                     // Get pictures from pictures array (php)
                     var pictures = <?= json_encode($pictures) ?>;
 
@@ -123,7 +129,7 @@
                     // Update the displayed image when the slider value changes (event)
                     document.getElementById('picture-slider').addEventListener('input', function(event) {
                         var index = event.target.value;
-                        var path = '/timelapse?id=' + <?= $cameraId ?> + '&picture=' + date + '/' + pictures[index];
+                        var path = '/timelapse/camera-' + <?= $cameraId ?> + '/' + date + '/' + pictures[index];
 
                         // Retrieve the current picture name
                         picture = pictures[index];

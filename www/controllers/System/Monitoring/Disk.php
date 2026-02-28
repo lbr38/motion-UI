@@ -7,7 +7,7 @@ class Disk
     /**
      *  Get Disk usage (%)
      */
-    public static function getUsage(string $path) : string
+    public static function getUsage(string $path): string
     {
         $diskTotalSpace = disk_total_space($path);
         $diskFreeSpace  = disk_free_space($path);

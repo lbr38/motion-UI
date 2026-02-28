@@ -34,7 +34,6 @@ if ($motionServiceController->isRunning()) {
 /**
  *  Prepare chart data
  */
-$options['title']['text'] = 'Motion detection activity';
 $options['yaxis']['min'] = 0;
 $options['yaxis']['max'] = 1;
 $options['yaxis']['tickAmount'] = 1;

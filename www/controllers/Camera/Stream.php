@@ -19,7 +19,7 @@ class Stream
     /**
      *  Enable or disable the camera stream
      */
-    public function enable(int $id, string $enable) : void
+    public function enable(int $id, string $enable): void
     {
         if (!in_array($enable, ['true', 'false'])) {
             throw new Exception('Invalid stream status');
@@ -62,7 +62,7 @@ class Stream
     /**
      *  Get the camera grid order
      */
-    public function getOrder() : array
+    public function getOrder(): array
     {
         $order = $this->model->getOrder();
 
@@ -110,7 +110,7 @@ class Stream
     /**
      *  Sort the camera grid
      */
-    public function sort(array $order) : void
+    public function sort(array $order): void
     {
         if (!IS_ADMIN) {
             throw new Exception('You are not allowed to sort the cameras');
@@ -148,7 +148,7 @@ class Stream
     /**
      *  Add camera Id to the grid order
      */
-    public function addToOrder(int $id) : void
+    public function addToOrder(int $id): void
     {
         /**
          *  Get current cameras order
@@ -180,7 +180,7 @@ class Stream
     /**
      *  Remove camera Id from the grid order
      */
-    public function removeFromOrder(int $id) : void
+    public function removeFromOrder(int $id): void
     {
         /**
          *  Get current cameras order
@@ -222,7 +222,7 @@ class Stream
      *  Check if the stream is active
      *  Returns true if the stream is active, error message otherwise
      */
-    public function isActive(string $url) : bool|string
+    public function isActive(string $url): bool|string
     {
         $process = new \Controllers\Process('/usr/bin/ffprobe -timeout 5000000 -loglevel error -select_streams v:0 -show_entries stream=width,height -of default=noprint_wrappers=1 ' . escapeshellarg($url));
         $process->execute();
@@ -239,7 +239,7 @@ class Stream
     /**
      *  Get latest camera stream status from the database
      */
-    public function getLatestStatus(int $id) : array
+    public function getLatestStatus(int $id): array
     {
         return $this->model->getLatestStatus($id);
     }
@@ -247,7 +247,7 @@ class Stream
     /**
      *  Set camera stream status in the database
      */
-    public function setStatus(int $id, int $mainStreamStatus, int $secStreamStatus, string $mainStreamDetails = '', string $secStreamDetails = '') : void
+    public function setStatus(int $id, int $mainStreamStatus, int $secStreamStatus, string $mainStreamDetails = '', string $secStreamDetails = ''): void
     {
         $this->model->setStatus($id, $mainStreamStatus, $secStreamStatus, $mainStreamDetails, $secStreamDetails);
     }

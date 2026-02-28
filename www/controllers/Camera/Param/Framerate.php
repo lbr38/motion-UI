@@ -9,7 +9,7 @@ class Framerate
     /**
      *  Check that frame rate is valid
      */
-    public static function check(string $framerate) : void
+    public static function check(string $framerate): void
     {
         /**
          *  Check that frame rate is not empty

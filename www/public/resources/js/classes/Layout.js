@@ -53,7 +53,7 @@ class Layout {
      */
     veilBody()
     {
-        $('body').append('<div class="body-veil"><img src="/assets/icons/motion.svg" /><img class="mediumopacity-cst" src="/assets/icons/loading.svg" /></div>');
+        $('body').append('<div class="body-veil"><img src="/assets/official-logo/logo.svg" /><img class="mediumopacity-cst" src="/assets/icons/loading.svg" /></div>');
     }
 
     /**

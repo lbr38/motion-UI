@@ -27,7 +27,7 @@ class Monitoring extends \Controllers\Service\Service
     /**
      *  Monitor CPU, memory and disk usage and log it
      */
-    public function monitor() : void
+    public function monitor(): void
     {
         parent::log('Starting system monitoring');
 
@@ -76,7 +76,7 @@ class Monitoring extends \Controllers\Service\Service
     /**
      *  Monitor motion service status and log it
      */
-    public function motionStatus() : void
+    public function motionStatus(): void
     {
         parent::log('Logging motion service status');
 
@@ -92,7 +92,7 @@ class Monitoring extends \Controllers\Service\Service
     /**
      *  Monitor camera status and log it
      */
-    public function cameraStatus() : void
+    public function cameraStatus(): void
     {
         parent::log('Logging camera status');
 

@@ -44,7 +44,7 @@ class Service
      *  Return Motion-UI settings
      *  A specific setting can be requested by passing its name as argument
      */
-    public static function getSettings(string $setting = null) : array|string
+    public static function getSettings(string $setting = null): array|string
     {
         $settingsController = new \Controllers\Settings();
 
@@ -64,7 +64,7 @@ class Service
     /**
      *  Return Motion-UI service status
      */
-    public static function isRunning(string $unit = 'main') : bool
+    public static function isRunning(string $unit = 'main'): bool
     {
         $myprocess = new \Controllers\Process('/usr/bin/ps -eo command  | grep "^motionui.' . $unit . '" | grep -v grep');
         $myprocess->execute();
@@ -80,7 +80,7 @@ class Service
     /**
      *  Log message to console and to log file
      */
-    public function log(string $message) : void
+    public function log(string $message): void
     {
         CliLog::log($message);
         FileLog::log($this->getLogFile(), $message);
@@ -89,7 +89,7 @@ class Service
     /**
      *  Log error message to console and to log file
      */
-    public function logError(string $message) : void
+    public function logError(string $message): void
     {
         CliLog::error('Service', $message);
         FileLog::error($this->getLogFile(), $message);
@@ -98,7 +98,7 @@ class Service
     /**
      *  Log debug message to console and to log file if debug mode is enabled
      */
-    public function logDebug(string $message) : void
+    public function logDebug(string $message): void
     {
         if (!DebugMode::enabled()) {
             return;
@@ -112,7 +112,7 @@ class Service
      *  Return the log file path for this service unit
      *  This is useful to always get the correct log file path even if the date changed
      */
-    private function getLogFile() : string
+    private function getLogFile(): string
     {
         return SERVICE_LOGS_DIR . '/' . $this->logDir . '/' . date('Y-m-d') . '-' . $this->unit . '.log';
     }
