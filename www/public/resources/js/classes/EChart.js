@@ -1171,13 +1171,16 @@ class EChart
         // Set options and render
         chart.setOption(options);
 
-        // Force zoom reset if period changed
+        // Force zoom reset if period changed - this ensures consistent behavior
         if (this._periodChanged) {
-            chart.dispatchAction({
-                type: 'dataZoom',
-                start: 0,
-                end: 100
-            });
+            // Add a small delay to ensure the chart is fully rendered
+            setTimeout(() => {
+                chart.dispatchAction({
+                    type: 'dataZoom',
+                    start: 0,
+                    end: 100
+                });
+            }, 50);
         }
 
         // Remove spinner
@@ -1376,17 +1379,27 @@ EChart.destroyInstance = function(chartId) {
  * @param {*} id 
  * @param {*} autoUpdate 
  * @param {*} autoUpdateInterval 
- * @param {*} days 
+ * @param {*} providedDays - Number of days for the chart. If null, preserves the current chart's days value.
  */
-EChart.recreate = function(type, id, autoUpdate = true, autoUpdateInterval = 15000, days = 1) {
+EChart.recreate = function(type, id, autoUpdate = true, autoUpdateInterval = 15000, providedDays = null) {
     // Check if existing chart was in natural state before destroying
     let wasInNaturalState = true;
     let periodChanged = false;
     let preservedCurrentType = type; // Default to original type
     let instance = null; // Declare instance variable
+    let days = providedDays; // The final days value to use
 
     try {
         instance = EChart.instances[id];
+        
+        // If no days specified, try to preserve current chart's days value
+        if (providedDays === null && instance) {
+            days = instance.days;
+            console.info('EChart.recreate: preserving current days value:', days);
+        } else if (providedDays === null) {
+            // Fallback if no instance exists
+            days = 1;
+        }
         
         // Get current chart element for zoom state check
         const chartElement = document.querySelector("#" + id);
@@ -1396,19 +1409,29 @@ EChart.recreate = function(type, id, autoUpdate = true, autoUpdateInterval = 150
                 wasInNaturalState = instance.isInNaturalState(currentOption.dataZoom);
             }
             
-            // Check if period has changed (using Number for comparison)
+            // Preserve the current chart type (may have been changed by magicType)
+            preservedCurrentType = instance.currentType || instance.type;
+        }
+        
+        // Check if period has changed - do this after days value is determined
+        if (instance) {
             const oldDays = Number(instance.days);
             const newDays = Number(days);
             periodChanged = oldDays !== newDays;
             
-            // Preserve the current chart type (may have been changed by magicType)
-            preservedCurrentType = instance.currentType || instance.type;
+            if (periodChanged) {
+                console.info('EChart.recreate: period changed from', oldDays, 'to', newDays, '- will reset zoom');
+            }
         }
     } catch (error) {
         console.warn('EChart.recreate: Error checking zoom state, defaulting to natural state', error);
         wasInNaturalState = true;
         periodChanged = false;
         preservedCurrentType = type;
+        // Ensure we have a fallback days value
+        if (days === null) {
+            days = 1;
+        }
     }
     
     if (EChart.destroyInstance(id)) {
@@ -1465,4 +1488,20 @@ $(document).ready(function () {
         // Destroy and recreate chart with new days value (pass as number)
         EChart.recreate(type, chartId, true, 15000, days);
     });
+
+    // Listen for changes on any select element with class 'echart-range'
+    // TODO: ranges
+    // $('select.echart-range').on('change', function() {
+    //     // Get chart Id
+    //     const chartId = $(this).attr('chart-id');
+
+    //     // Get selected value - convert to number to match internal storage
+    //     const range = Number($(this).val());
+
+    //     // Get chart type from 'type' or 'chart-type' attribute, default to 'line' if not specified
+    //     const type = $('#' + chartId).attr('type') || $('#' + chartId).attr('chart-type') || 'line';
+
+    //     // Destroy and recreate chart with new days value (pass as number)
+    //     EChart.recreate(type, chartId, true, 15000, days);
+    // });
 });

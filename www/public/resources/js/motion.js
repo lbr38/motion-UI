@@ -125,11 +125,9 @@ function eventDateSelect(dateStart, dateEnd)
  *  Event: vizualize event image
  */
 $(document).on('click','.play-picture-btn',function () {
-    var fileId = $(this).attr('file-id');
-
     html = '<div id="fullscreen">'
     + '<div class="flex align-item-center">'
-    + '<img src="/media?id=' + fileId + '" title="Full screen event picture" />'
+    + '<img src="' + $(this).attr('src') + '" title="Full screen event picture" />'
     + '</div>'
     + '<div class="flex align-item-center justify-center">'
     + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'

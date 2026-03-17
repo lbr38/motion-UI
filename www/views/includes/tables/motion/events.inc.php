@@ -170,19 +170,19 @@
                                                 <?php
                                             } else {
                                                 $file = str_replace(CAPTURES_DIR . '/', '', $eventDetails['File']); ?>
-                                                <img src="/media/<?= $file ?>" class="play-picture-btn pointer" file-id="<?= $eventDetails['Id'] ?>" title="Visualize picture" />
+                                                <img src="/media/<?= $file ?>" class="play-picture-btn pointer" title="Visualize picture" />
                                                 <?php
                                             } ?>
 
                                             <div class="event-media-file-number">
-                                                <p class="font-size-11">#<?= $fileNumberCounter ?></p>
+                                                <p class="font-size-13">#<?= $fileNumberCounter ?></p>
                                             </div>
 
                                             <div class="event-media-checkbox-container">
                                                 <?php
                                                 if (file_exists($eventDetails['File'])) {
                                                     if (is_writeable($eventDetails['File'])) {
-                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($eventDetails['File']) . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . $file . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
                                                     } else {
                                                         echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
                                                     }
@@ -254,7 +254,7 @@
                                                 <?php
                                                 if (file_exists($eventDetails['File'])) {
                                                     if (is_writeable($eventDetails['File'])) {
-                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . basename($eventDetails['File']) . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . $file . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
                                                     } else {
                                                         echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
                                                     }
