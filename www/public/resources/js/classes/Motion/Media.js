@@ -9,7 +9,7 @@ class Media
 
         // Get selected media Id
         $(checkboxes).each(function () {
-            files.push({ fileId: $(this).attr('file-id'), filename: $(this).attr('file-name') });
+            files.push($(this).attr('file-name'));
         });
 
         // Append a temporary <a> element to download files
@@ -19,12 +19,15 @@ class Media
         document.body.appendChild(temporaryDownloadLink);
 
         for (var n = 0; n < files.length; n++) {
-            var download = files[n];
+            var path = files[n];
+            var filename = path.split('/').pop();
 
-            // Set the href attribute to the file path, also include the filename for the android app to make sure it downloads the file with the correct name
-            temporaryDownloadLink.setAttribute('href', '/media?id=' + download.fileId + '&filename=' + download.filename);
+            // Set the href attribute to the file path, also include the filename as a query parameter for the Android app
+            temporaryDownloadLink.setAttribute('href', '/media/' + path + '?filename=' + encodeURIComponent(filename));
+
             // Set the download attribute to force download
-            temporaryDownloadLink.setAttribute('download', download.filename);
+            temporaryDownloadLink.setAttribute('download', filename);
+
             // Trigger click on the temporary <a> element to start download
             temporaryDownloadLink.click();
         }

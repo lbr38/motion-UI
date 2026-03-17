@@ -56,7 +56,7 @@
                             <div class="flex align-item-center column-gap-10">
                                 <h6 class="margin-top-0 <?= $required ?>"><?= $attributes['title'] ?></h6>
                                 <code><?= $param ?></code>
-                                <a href="https://motion-project.github.io/motionplus_config.html#<?= $param ?>" target="_blank" title="Open official Motion documentation for this parameter"><img src="/assets/icons/external-link.svg" class="icon-small mediumopacity" /></a>
+                                <a href="https://motion-project.github.io/motionv5_config.html#<?= $param ?>" target="_blank" title="Open official Motion documentation for this parameter"><img src="/assets/icons/external-link.svg" class="icon-small mediumopacity" /></a>
                             </div>
 
                             <p class="note param-description" param-name="<?= $param ?>" title="<?= $attributes['description'] ?>"><?= $attributes['description'] ?></p>

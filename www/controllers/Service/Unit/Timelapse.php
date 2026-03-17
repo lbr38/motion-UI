@@ -25,9 +25,6 @@ class Timelapse extends \Controllers\Service\Service
     {
         parent::log('Starting timelapse');
 
-        // Get list of cameras
-        $cameras = $this->cameraController->get();
-
         while (true) {
             // Always retrieve timelapse interval before running, in case it has been changed by the user
             $timelapseInterval = parent::getSettings('Timelapse_interval');
@@ -43,6 +40,9 @@ class Timelapse extends \Controllers\Service\Service
             if (time() < $nextInterval) {
                 sleep($nextInterval - time());
             }
+
+            // Get list of cameras
+            $cameras = $this->cameraController->get();
 
             // For each camera, if timelapse is enabled, execute timelapse
             foreach ($cameras as $camera) {
@@ -73,7 +73,7 @@ class Timelapse extends \Controllers\Service\Service
 
                     parent::log('Capture timelapse for camera #' . $camera['Id'] . ' (' . $configuration['name'] . ')');
 
-                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -rw_timeout 3000000 -loglevel error -i http://127.0.0.1:1984/api/frame.jpeg?src=camera_' . $camera['Id'] . ' -c:v libsvtav1 -crf 30 -preset 10 -threads 1 ' . $targetDir . '/timelapse_' . date('H-i-s') . '.avif');
+                    $myprocess = new \Controllers\Process('/usr/bin/ffmpeg -rw_timeout 3000000 -loglevel error -i http://127.0.0.1:1984/api/frame.jpeg?src=camera_' . $camera['Id'] . ' -c:v libsvtav1 -crf 30 -preset 10 ' . $targetDir . '/timelapse_' . date('H-i-s') . '.avif');
                     $myprocess->execute();
                     $myprocess->close();
 
@@ -86,6 +86,7 @@ class Timelapse extends \Controllers\Service\Service
                 }
             }
 
+            // Just for safety
             sleep(1);
         }
     }
