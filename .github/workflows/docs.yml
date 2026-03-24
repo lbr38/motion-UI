@@ -20,4 +20,6 @@ jobs:
       # - run: pip install -r requirements.txt
       - run: pip install mkdocs-material
 
-      - run: mkdocs gh-deploy --strict --force
+      - run: |
+          cd documentation
+          mkdocs gh-deploy --strict --force
