@@ -1,25 +1,29 @@
-# -- Métadonnées du site --
+# -- Site settings --
 site_name: Motion-UI
 site_description: A web interface to manage your own NVR with motion
-site_url: https://mon-equipe.github.io/docs/
+site_url: https://lbr38.github.io/motion-UI/
 
-# -- Thème Material --
+# -- Theme --
 theme:
   name: material
-  language: fr                    # Interface en français
+  language: en
   palette:
-    - scheme: default             # Mode clair
-      primary: indigo             # À adapter à votre charte graphique
-      accent: indigo              # À adapter à votre charte graphique
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: teal
       toggle:
         icon: material/brightness-7
-        name: Passer au mode sombre
-    - scheme: slate               # Mode sombre
-      primary: indigo             # À adapter à votre charte graphique
-      accent: indigo              # À adapter à votre charte graphique
+        name: Switch to dark mode
+
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: teal
       toggle:
         icon: material/brightness-4
-        name: Passer au mode clair
+        name: Switch to light mode
+
   features:
     - navigation.instant          # Navigation instantanée (fetch + replace)
     - navigation.instant.prefetch # Préchargement des pages au survol
@@ -38,19 +42,14 @@ theme:
 
 # -- Plugins --
 plugins:
-  - search:
-      lang: fr                    # Recherche en français
-  - tags                          # Système de tags
+  - search
 
-# -- Extensions Markdown --
+# -- Markdown Extensions --
 markdown_extensions:
   - admonition                              # Encadrés (note, tip, warning...)
   - pymdownx.details                        # Encadrés dépliables
-  - pymdownx.superfences:                   # Blocs de code avancés
-      custom_fences:
-        - name: mermaid                     # Diagrammes Mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences                    # Blocs de code avancés
+    
   - pymdownx.tabbed:                        # Onglets de contenu
       alternate_style: true
   - pymdownx.highlight:                     # Coloration syntaxique
@@ -81,12 +80,11 @@ markdown_extensions:
 # -- Navigation --
 nav:
   - Home: index.md
-  # - Getting Started:
-      # - Installation: getting-started/installation.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
       # - Configuration: getting-started/configuration.md
 
-
-# -- Pied de page et liens sociaux --
+# -- Footer --
 extra:
   social:
     - icon: fontawesome/brands/github
