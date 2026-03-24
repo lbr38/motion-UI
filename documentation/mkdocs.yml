@@ -7,6 +7,8 @@ site_url: https://lbr38.github.io/motion-UI/
 theme:
   name: material
   language: en
+  theme:
+    logo: assets/logo.svg
   palette:
     # Light mode
     - scheme: default
