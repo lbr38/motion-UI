@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.content.ActivityNotFoundException;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -200,7 +201,11 @@ public class MainActivity extends AppCompatActivity {
                  */
                 } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
-                    startActivity(intent);
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(view.getContext(), "No app found to open this link", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 return true;
