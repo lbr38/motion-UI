@@ -2,10 +2,7 @@ name: PHP_CodeSniffer
 
 on:
   push:
-    branches: [ devel ]
-  pull_request:
-    push:
-      branches: [ main ]
+
 jobs:
   phpcs:
     runs-on: ubuntu-latest
