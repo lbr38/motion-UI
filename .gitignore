@@ -7,3 +7,5 @@ app-release.aab
 local.properties
 .gradle
 yolo_nvr
+yolov8n.pt
+motiondetect

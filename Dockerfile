@@ -46,7 +46,22 @@ RUN apt-get update -y -qq && \
 
 # Build motion from sources
 # TODO: when motion 5.x.x package is released, use it instead
-RUN git clone https://github.com/Motion-Project/motion.git && cd motion && autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && make && make install && cd .. && rm motion -r
+# RUN git clone https://github.com/Motion-Project/motion.git && cd motion && autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && make && make install && cd .. && rm motion -r
+
+# Copy motiondetect files
+COPY motiondetect /var/lib/motiondetect
+
+# Install python packages for YOLO
+RUN apt-get update -y -qq && apt-get install -y -qq python3-pip && rm -rf /var/lib/apt/lists/*
+# Install PyTorch CPU-only first (much smaller than the default CUDA version: ~200MB vs ~2GB)
+RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu --break-system-packages
+RUN pip install -r /var/lib/motiondetect/requirements.txt --break-system-packages
+
+# Download YOLO model at build time (avoids runtime download + permission issues)
+RUN python3 -c "from ultralytics import YOLO; YOLO('yolov8n.pt')" && \
+    mkdir -p /usr/share/motiondetect/models && \
+    mv yolov8n.pt /usr/share/motiondetect/models/ && \
+    chown -R www-data:www-data /usr/share/motiondetect
 
 # SERVICES CONFIG
 # Configure Nginx
@@ -68,15 +83,18 @@ RUN mkdir -p $WWW_DIR $DATA_DIR
 COPY www/ $WWW_DIR/
 
 # Configure motion
-RUN mkdir -p /var/run/motion -m 775 && \
-    # New main directory is /usr/var/lib/motion
-    rm /usr/var/lib/motion/* -fr && \
-    mkdir -p /usr/var/lib/motion -m 770 && \
-    # Create a symbolic link to /etc/motion to keep compatibility
-    ln -s /usr/var/lib/motion /etc/motion
+# RUN mkdir -p /var/run/motion -m 775 && \
+#     # New main directory is /usr/var/lib/motion
+#     rm /usr/var/lib/motion/* -fr && \
+#     mkdir -p /usr/var/lib/motion -m 770 && \
+#     # Create a symbolic link to /etc/motion to keep compatibility
+#     ln -s /usr/var/lib/motion /etc/motion
+
+RUN mkdir -p /run/motiondetect/ -m 775 && \
+    mkdir /etc/motiondetect -m 770
 
 # Copy motion main config file
-COPY www/templates/motion/motion.conf /etc/motion/motion.conf
+# COPY www/templates/motion/motion.conf /etc/motion/motion.conf
 
 # Copy motion event bin files
 RUN mkdir -p /usr/lib/motion
@@ -84,8 +102,8 @@ COPY www/bin/on_event* /usr/lib/motion/
 RUN chown -R www-data:www-data /usr/lib/motion
 
 # Copy motion init script
-COPY docker/config/motion/init /etc/init.d/motion
-RUN chmod 755 /etc/init.d/motion
+COPY docker/config/motiondetect/init /etc/init.d/motiondetect
+RUN chmod 755 /etc/init.d/motiondetect
 
 # Some basic configurations
 RUN sed -i 's/# alias ll=/alias ll=/g' /root/.bashrc && \

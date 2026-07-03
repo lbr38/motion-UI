@@ -51,10 +51,15 @@ echo "$FQDN" > /etc/mailname
 echo "$FQDN" > "$WWW_DIR/.fqdn"
 
 # Make sure motion service is stopped
-/usr/sbin/service motion stop > /dev/null
+# /usr/sbin/service motion stop > /dev/null
 
-if [ -f /run/motion/motion.pid ]; then
-    rm -f /run/motion/motion.pid
+# if [ -f /run/motion/motion.pid ]; then
+#     rm -f /run/motion/motion.pid
+# fi
+
+# Copy motiondetect config file if not exists
+if [ ! -f "$DATA_DIR/motiondetect.yml" ]; then
+    cp "/var/lib/motiondetect/motiondetect.yml" "$DATA_DIR/motiondetect.yml"
 fi
 
 # Copy go2rtc template config file if not exists
@@ -78,15 +83,15 @@ if [ ! -f "$GO2RTC_DIR/.htpasswd" ]; then
 fi
 
 # If branch is devel
-if [ "$BRANCH" == "devel" ];then
-    # Create directory for XDebug
-    mkdir -p /tmp/xdebug
-    chown www-data:www-data /tmp/xdebug
-    chmod 770 /tmp/xdebug
+# if [ "$BRANCH" == "devel" ];then
+#     # Create directory for XDebug
+#     mkdir -p /tmp/xdebug
+#     chown www-data:www-data /tmp/xdebug
+#     chmod 770 /tmp/xdebug
 
-    # Create .devel file
-    touch "$WWW_DIR/.devel"
-fi
+#     # Create .devel file
+#     touch "$WWW_DIR/.devel"
+# fi
 
 # Set permissions
 /bin/bash $WWW_DIR/bin/motionui -p
@@ -121,11 +126,14 @@ terminate() {
     echo "Stopping Motion-UI service..."
     kill -s SIGTERM $main_pid
 
+    echo "Stopping motiondectect..."
+    /usr/sbin/service motiondetect stop > /dev/null
+
     echo "Stopping go2rtc..."
     /usr/sbin/service go2rtc stop > /dev/null
 
-    echo "Stopping motion..."
-    /usr/sbin/service motion stop > /dev/null
+    # echo "Stopping motion..."
+    # /usr/sbin/service motion stop > /dev/null
 
     echo "Stopping postfix..."
     /usr/sbin/service postfix stop > /dev/null
@@ -135,6 +143,7 @@ terminate() {
 
     echo "Stopping php-fpm..."
     /usr/sbin/service php8.3-fpm stop > /dev/null
+
     exit
 }
 
