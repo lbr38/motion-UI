@@ -2,10 +2,7 @@ name: Android app - Fastlane metadata check
 
 on:
   push:
-    branches: [ devel ]
-  pull_request:
-    push:
-      branches: [ main ]
+
 jobs:
   fastlane:
     runs-on: ubuntu-latest
