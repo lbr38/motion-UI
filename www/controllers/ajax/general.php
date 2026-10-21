@@ -18,7 +18,7 @@ if ($action == "acquitLog" && !empty($_POST['id'])) {
 /**
  *  Return specified container content
  */
-if ($action == "getContainer" && !empty($_POST['container'])) {
+if ($action == "get-container" && !empty($_POST['container'])) {
     try {
         ob_start();
         \Controllers\Layout\Container\Render::render($_POST['container']);
@@ -33,7 +33,7 @@ if ($action == "getContainer" && !empty($_POST['container'])) {
 /**
  *  Return specified table content
  */
-if ($action == "getTable" && !empty($_POST['table']) && isset($_POST['offset'])) {
+if ($action == "get-table" && !empty($_POST['table']) && isset($_POST['offset'])) {
     try {
         ob_start();
         \Controllers\Layout\Table\Render::render($_POST['table'], $_POST['offset']);

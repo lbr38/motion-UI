@@ -1,15 +1,15 @@
 # Dockerfile for motion-UI
 
 # Base image
-FROM debian:12-slim
+FROM debian:13-slim
 
 # Metadata
-LABEL version="1.0" maintainer="lbr38 <motionui@protonmail.com>"
+LABEL version="2.0" maintainer="lbr38 <motionui@protonmail.com>"
 
 # Variables
 ARG WWW_DIR="/var/www/motionui"
 ARG DATA_DIR="/var/lib/motionui"
-ARG PHP_VERSION="8.3"
+ARG PHP_VERSION="8.4"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG branch=main
 
@@ -21,11 +21,11 @@ ENV BRANCH=${branch}
 ADD https://packages.repomanager.net/repo/gpgkeys/packages.repomanager.net.pub /tmp/packages.repomanager.net.gpg
 RUN apt-get update -y -qq && apt-get install -y -qq gnupg2 ca-certificates && rm -rf /var/lib/apt/lists/* && \
     cat /tmp/packages.repomanager.net.gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.repomanager.net.gpg
-RUN echo "deb https://packages.repomanager.net/repo/deb/motionui-nginx/bookworm/nginx/prod bookworm nginx" > /etc/apt/sources.list.d/nginx.list && \
-    echo "deb https://packages.repomanager.net/repo/deb/motionui-php/bookworm/main/prod bookworm main" > /etc/apt/sources.list.d/php.list && \
+RUN echo "deb https://packages.repomanager.net/repo/deb/motionui-nginx/trixie/nginx/prod trixie nginx" > /etc/apt/sources.list.d/nginx.list && \
+    echo "deb https://packages.repomanager.net/repo/deb/motionui-php/trixie/main/prod trixie main" > /etc/apt/sources.list.d/php.list && \
     echo "deb https://packages.repomanager.net/repo/deb/go2rtc/all/main/prod all main" > /etc/apt/sources.list.d/go2rtc.list
     # TODO: when motion 5.x.x package is released, use it instead
-    # echo "deb https://packages.repomanager.net/repo/motion/bookworm/main_prod bookworm main" > /etc/apt/sources.list.d/motion.list
+    # echo "deb https://packages.repomanager.net/repo/motion/trixie/main_prod trixie main" > /etc/apt/sources.list.d/motion.list
 
 # Install dependencies
 RUN apt-get update -y -qq && \
@@ -38,15 +38,13 @@ RUN apt-get update -y -qq && \
     go2rtc \
     # Install motion dependencies - TODO: when motion 5.x.x package is released, use it instead
     autoconf automake autopoint build-essential pkgconf libtool libzip-dev libjpeg-dev git libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libavdevice-dev libwebp-dev gettext libmicrohttpd-dev libcamera-tools libcamera-dev libcamera-v4l2 \
-    # Install nginx and PHP 8.3
-    nginx php${PHP_VERSION}-fpm php${PHP_VERSION}-cli php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-curl php${PHP_VERSION}-yaml php${PHP_VERSION}-opcache php${PHP_VERSION}-xml sqlite3 \
-    # Install xdebug if branch is devel
-    $(if [ "$branch" = "devel" ]; then echo "php${PHP_VERSION}-xdebug"; fi) && \
+    # Install nginx and PHP 8.x
+    nginx php${PHP_VERSION}-fpm php${PHP_VERSION}-cli php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-curl php${PHP_VERSION}-yaml php${PHP_VERSION}-opcache php${PHP_VERSION}-xml sqlite3 && \
     apt-get -qq autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # Build motion from sources
 # TODO: when motion 5.x.x package is released, use it instead
-RUN git clone https://github.com/Motion-Project/motion.git && cd motion && autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && make && make install && cd .. && rm motion -r
+RUN git clone https://github.com/Motion-Project/motion.git && cd motion && git checkout --detach 8cf1700f785fd8938e0fd84f92fe772352e660d9 && autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && make && make install && cd .. && rm motion -r
 
 # SERVICES CONFIG
 # Configure Nginx
