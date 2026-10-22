@@ -96,7 +96,7 @@ if [ $? -ne 0 ];then
 fi
 
 # Start services
-/usr/sbin/service php8.3-fpm start > /dev/null
+/usr/sbin/service php8.4-fpm start > /dev/null
 /usr/sbin/service nginx start > /dev/null
 /usr/sbin/service postfix start > /dev/null
 /usr/sbin/service go2rtc start > /dev/null
@@ -134,7 +134,7 @@ terminate() {
     /usr/sbin/service nginx stop > /dev/null
 
     echo "Stopping php-fpm..."
-    /usr/sbin/service php8.3-fpm stop > /dev/null
+    /usr/sbin/service php8.4-fpm stop > /dev/null
     exit
 }
 

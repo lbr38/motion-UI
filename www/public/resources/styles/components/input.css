@@ -150,3 +150,32 @@ textarea:focus {
 .textarea-100 {
     min-height: 100px;
 }
+
+/**
+ *  Form block
+ *  Groups the parameters of a same item (e.g. a repository snapshot) into a distinct section of a form
+ */
+.form-block {
+    padding: 14px 18px 14px 18px;
+    margin-bottom: 24px;
+    background-color: #15273ae3;
+    border: 1px solid #24405c;
+    border-left: 3px solid #24405c;
+    border-radius: 16px;
+}
+
+.form-block > *:first-child {
+    margin-top: 0;
+}
+
+.form-block-accent-red {
+    border-left-color: #F32F63;
+}
+
+.form-block-accent-blue {
+    border-left-color: #5473e8;
+}
+
+.form-block-accent-green {
+    border-left-color: #15bf7f;
+}

@@ -7,32 +7,41 @@ class Container {
     reload(container, identifier = null)
     {
         var useMorphdom = false;
+        var partialConfig = (typeof containersPartialReload !== 'undefined') ? containersPartialReload[container] : null;
+        var partial = false;
 
         return new Promise((resolve, reject) => {
             try {
-                /**
-                 *  If the container to reload does not exist, return
-                 */
+                // If the container to reload does not exist, return
                 if (!$('.reloadable-container[container="' + container + '"]').length) {
                     return;
                 }
 
                 /**
-                 *  Print a loading icon on the bottom of the page
+                 *  If the user is actively interacting with the container, only the items that
+                 *  are not busy will be refreshed, to avoid losing selections and inputs
                  */
-                mylayout.printLoading();
+                if (partialConfig && this._isBusy($('.reloadable-container[container="' + container + '"]'))) {
+                    partial = true;
+                }
+
+                // Print a loading icon on the bottom of the page
+                // mylayout.printLoading();
 
                 /**
                  *  Check if container has children with class .veil-on-reload
                  *  If so print a veil on them
+                 *  The veil is not printed on a partial reload, as the user is working on the container
                  */
-                mylayout.printLoadingVeilByParentClass('reloadable-container[container="' + container + '"]');
+                /*if (!partial) {
+                    mylayout.printLoadingVeilByParentClass('reloadable-container[container="' + container + '"]');
+                }*/
 
                 ajaxRequest(
                     // Controller:
                     'general',
                     // Action:
-                    'getContainer',
+                    'get-container',
                     // Data:
                     {
                         sourceUrl: window.location.href,
@@ -41,18 +50,37 @@ class Container {
                     },
                     // Print success alert:
                     false,
-                    // Print error alert:
-                    true
+                    // Do not print error alert (it will be logged in the console)
+                    false
                 ).then(() => {
                     // Check if container must use Morphdom
                     if (typeof containersUsingMorphdom !== 'undefined' && containersUsingMorphdom.includes(container)) {
                         useMorphdom = true;
                     }
 
+                    // If only the non-busy items must be refreshed
+                    if (partial) {
+                        this._partialReplace(container, partialConfig, jsonValue.message);
+
                     // If morphdom must be used
-                    if (useMorphdom) {
+                    } else if (useMorphdom) {
                         // Replace with new content using morphdom
                         morphdom($('.reloadable-container[container="' + container + '"]')[0], jsonValue.message, {
+                            getNodeKey: function (element) {
+                                const rules = (typeof morphdomSkipRules !== 'undefined' && morphdomSkipRules[container]) || [];
+
+                                for (const rule of rules) {
+                                    if (rule.key && this._elementMatches(element, rule.element)) {
+                                        const values = rule.key.map(attribute => element.getAttribute(attribute));
+
+                                        if (values.every(value => value !== null)) {
+                                            return JSON.stringify([rule.element, ...values]);
+                                        }
+                                    }
+                                }
+
+                                return element.id;
+                            }.bind(this),
                             // Avoid some elements to be updated
                             onBeforeElUpdated: function (fromEl, toEl) {
                                 // Check container-specific rules first
@@ -96,15 +124,26 @@ class Container {
                     // Reload opened or closed elements that were opened/closed before reloading
                     mylayout.reloadOpenedClosedElements();
 
-                    // Hide loading icon
-                    mylayout.hideLoading();
-
                     // Resolve promise
                     resolve('Container reloaded');
+                }).catch(e => {
+                    // Log error to console
+                    console.error('Failed to reload container ' + container + ': ' + e);
+
+                    // Print error to the user
+                    myalert.print(e, 'error');
+
+                    // Reject promise
+                    reject('Failed to reload container ' + container + ': ' + e);
+                }).finally(() => {
+                    // Hide loading icon
+                    mylayout.hideLoading();
                 });
             } catch (error) {
+                // Catch synchronous errors (before the ajax request is sent)
+
                 // Reject promise
-                reject('Failed to reload container');
+                reject('Failed to reload container, synchronous error: ' + error.message);
             }
         });
     }
@@ -120,6 +159,18 @@ class Container {
         for (const rule of rules) {
             // Check if element matches the rule selector
             if (this._elementMatches(fromEl, rule.element)) {
+                for (const attribute of rule.preserveAttributes || []) {
+                    if (fromEl.hasAttribute(attribute)) {
+                        toEl.setAttribute(attribute, fromEl.getAttribute(attribute));
+                    } else {
+                        toEl.removeAttribute(attribute);
+                    }
+                }
+
+                for (const className of rule.preserveClasses || []) {
+                    toEl.classList.toggle(className, fromEl.classList.contains(className));
+                }
+
                 switch (rule.skipIf) {
                     case 'playing':
                         if (!fromEl.paused) {
@@ -151,18 +202,67 @@ class Container {
      * @returns {boolean}
      */
     _elementMatches(element, selector) {
-        // Handle simple cases like 'VIDEO', 'CANVAS', 'INPUT[type="checkbox"]'
-        if (selector === element.tagName) {
+        return typeof element.matches === 'function' && element.matches(selector);
+    }
+
+    /**
+     * Replace only the items of a container that are not busy, keeping the ones the user is working on
+     * @param {string} container
+     * @param {Object} config
+     * @param {string} html
+     */
+    _partialReplace(container, config, html) {
+        const current = $('.reloadable-container[container="' + container + '"]');
+        const received = $('<div>').html(html);
+
+        received.find(config.item).each((index, newItem) => {
+            const key = $(newItem).attr(config.key);
+
+            // Item cannot be matched without a key
+            if (!key) {
+                return;
+            }
+
+            // Find the matching item currently displayed
+            const existing = current.find(config.item).filter((i, el) => $(el).attr(config.key) === key);
+
+            // The item does not exist yet on the page, it will show up on the next complete reload
+            if (!existing.length) {
+                return;
+            }
+
+            // Leave the items the user is currently working on untouched
+            if (this._isBusy(existing)) {
+                return;
+            }
+
+            existing.replaceWith(newItem);
+        });
+    }
+
+    /**
+     * Check if the user is actively interacting with an element (focus, checked checkbox, filled input)
+     * @param {jQuery} element
+     * @returns {boolean}
+     */
+    _isBusy(element) {
+        // An element inside has the focus
+        if (element.find(':focus').length) {
             return true;
         }
-        
-        // Handle attribute selectors like 'INPUT[type="checkbox"]'
-        const match = selector.match(/^(\w+)\[([^=]+)="([^"]+)"\]$/);
-        if (match) {
-            const [, tagName, attr, value] = match;
-            return element.tagName === tagName && element.getAttribute(attr) === value;
+
+        // A checkbox inside is checked
+        if (element.find('input[type="checkbox"]:checked').length) {
+            return true;
         }
-        
+
+        // A text input or a textarea inside is filled
+        if (element.find('input[type="text"], input[type="search"], input:not([type]), textarea').filter(function () {
+            return $(this).val().trim() !== '';
+        }).length) {
+            return true;
+        }
+
         return false;
     }
 }

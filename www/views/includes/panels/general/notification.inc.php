@@ -66,10 +66,7 @@ else :
         
             <?php
             if (!empty($notification['Id'])) : ?>
-                <div class="slide-btn align-self-center acquit-notification-btn" notification-id="<?= $notification['Id'] ?>" title="Mark as read">
-                    <img src="/assets/icons/enabled.svg" />
-                    <span>Mark as read</span>
-                </div>
+                <button type="button" class="btn-fit-tr acquit-notification-btn margin-top-10" notification-id="<?= $notification['Id'] ?>" title="Mark as read">Mark as read</button>
                 <?php
             endif ?>
         </div>
