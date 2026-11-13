@@ -22,7 +22,7 @@ class Notification
         $notifications = file_get_contents(PROJECT_GIT_REPO_RAW . '/notifications/notifications.json');
 
         if ($notifications === false) {
-            throw new Exception('Unable to retrieve notifications');
+            throw new Exception(__('Unable to retrieve notifications'));
         }
 
         $notifications = json_decode($notifications, true);
@@ -72,7 +72,7 @@ class Notification
     public function acquit(string $id)
     {
         if (!is_numeric($id)) {
-            throw new Exception('Invalid notification id');
+            throw new Exception(__('Invalid notification id'));
         }
 
         $this->model->acquit($id);

@@ -207,6 +207,30 @@ class Event extends \Models\Model
     }
 
     /**
+     *  Return events start date and time, with their recorded files count, between dates (included)
+     */
+    public function getBetweenDateWithFilesCount(string $dateStart, string $dateEnd): array
+    {
+        $data = [];
+
+        $stmt = $this->db->prepare("SELECT motion_events.Date_start, motion_events.Time_start, COUNT(motion_events_files.Id) AS Files_count
+        FROM motion_events
+        LEFT JOIN motion_events_files
+        ON motion_events_files.Motion_id_event = motion_events.Motion_id_event
+        WHERE motion_events.Date_start BETWEEN :dateStart AND :dateEnd
+        GROUP BY motion_events.Id");
+        $stmt->bindValue(':dateStart', $dateStart);
+        $stmt->bindValue(':dateEnd', $dateEnd);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    /**
      *  Get path of a file from its Id
      */
     public function getFilePath($fileId)

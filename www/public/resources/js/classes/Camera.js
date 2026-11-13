@@ -128,7 +128,7 @@ class Camera
      * @param {int} id 
      * @param {string} message 
      */
-    static showStreamError(id, message = 'Stream error', copy = false) {
+    static showStreamError(id, message = __('Stream error'), copy = false) {
         Camera.hideStreamLoading(id);
         
         const errorDiv = document.querySelector('.camera-error[camera-id="' + id + '"]');

@@ -12,7 +12,7 @@ class OnvifEnable
     public static function check(string $enable): void
     {
         if ($enable != "true" and $enable != "false") {
-            throw new Exception('Onvif enable is invalid');
+            throw new Exception(__('Onvif enable is invalid'));
         }
     }
 }

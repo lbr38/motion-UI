@@ -1,4 +1,11 @@
 /**
+ *  Event: show or hide the authentication fields in camera add / edit form
+ */
+$(document).on('change', '.basic-auth-switch', function () {
+    $('.basic-auth-fields').toggle($(this).is(':checked'));
+});
+
+/**
  *  Event: enable ONVIF param in camera edit form
  */
 $(document).on('click', '.form-param[param-name="onvif-enable"]', function () {

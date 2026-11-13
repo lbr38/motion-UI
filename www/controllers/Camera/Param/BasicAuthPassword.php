@@ -15,7 +15,7 @@ class BasicAuthPassword
          *  Check that URL does not contain invalid characters
          */
         if (str_contains($password, "'") || str_contains($password, '"') || str_contains($password, '`') || str_contains($password, "\\") || str_contains($password, "/") || str_contains($password, '<') || str_contains($password, '>')) {
-            throw new Exception('Password contains invalid characters');
+            throw new Exception(__('Password contains invalid characters'));
         }
     }
 }

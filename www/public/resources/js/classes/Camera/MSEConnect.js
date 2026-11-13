@@ -57,13 +57,13 @@ class MSEConnect
         // On video error
         this.eventListeners.onError = function(event) {
             console.error('Video stream error for camera ' + self.id + ':', event);
-            Camera.showStreamError(self.id, 'Stream connection failed');
+            Camera.showStreamError(self.id, __('Stream connection failed'));
         };
 
         // On WebSocket error
         this.eventListeners.onWsError = function(event) {
             console.error('WebSocket error for camera ' + self.id + ':', event.detail);
-            Camera.showStreamError(self.id, event.detail.message || 'Connection error', true);
+            Camera.showStreamError(self.id, event.detail.message || __('Connection error'), true);
         };
 
         // On WebSocket close
@@ -76,14 +76,14 @@ class MSEConnect
 
                 Camera.hideStream(self.id);
                 Camera.hideStreamError(self.id);
-                Camera.showStreamLoading(self.id, 'Reconnecting (' + self.retry + ' of 3)...');
+                Camera.showStreamLoading(self.id, sprintf(__('Reconnecting (%d of %d)...'), self.retry, 3));
                 
                 setTimeout(() => {
                     self.connect();
                 }, 1000);
             } else {
                 console.error('Max retry attempts reached for camera ' + self.id + ' (' + self.retry + '). Giving up.');
-                Camera.showStreamError(self.id, 'Max reconnection attempts reached');
+                Camera.showStreamError(self.id, __('Max reconnection attempts reached'));
             }
         };
 

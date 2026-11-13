@@ -19,7 +19,7 @@ class ConfirmBox
         if (data.title != "") {
             innerHtml += '<div class="flex align-item-center justify-space-between">';
             innerHtml += '<h6 class="margin-top-0 margin-bottom-0 wordbreakall">' + data.title.toUpperCase() + '</h6>';
-            innerHtml += '<img src="/assets/icons/close.svg" class="icon-large lowopacity confirm-box-cancel-btn" title="Close" />';
+            innerHtml += '<img src="/assets/icons/close.svg" class="icon-large lowopacity confirm-box-cancel-btn" title="' + __('Close') + '" />';
             innerHtml += '</div>';
         }
 
@@ -91,7 +91,7 @@ class ConfirmBox
 
             // Get function from data
             if (empty(data.buttons[id].callback)) {
-                myalert.print('Error: no function specified for this button', 'error');
+                myalert.print(__('Error: no function specified for this button'), 'error');
                 return;
             }
 

@@ -13,7 +13,7 @@ if ($action == 'enable' and isset($_POST['enable'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Settings have been saved');
+    response(HTTP_OK, __('Settings have been saved'));
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

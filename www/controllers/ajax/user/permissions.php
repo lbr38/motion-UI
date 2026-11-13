@@ -11,7 +11,7 @@ if ($action == 'cameras-access' and !empty($_POST['id']) and isset($_POST['camer
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Permissions saved');
+    response(HTTP_OK, __('Permissions saved'));
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action: ' . $_POST['cameras']);
+response(HTTP_BAD_REQUEST, __('Invalid action'));

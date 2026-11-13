@@ -16,7 +16,7 @@ class OnvifPort
         }
 
         if ($port < 0 or $port > 65535) {
-            throw new Exception('Onvif port is invalid');
+            throw new Exception(__('Onvif port is invalid'));
         }
     }
 }

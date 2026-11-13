@@ -68,7 +68,7 @@ class Mail
 
             $mail->send();
         } catch (Exception $e) {
-            throw new Exception('Error while sending email: ' . $mail->ErrorInfo);
+            throw new Exception(sprintf(__('Error while sending email: %s'), $mail->ErrorInfo));
         }
     }
 }
