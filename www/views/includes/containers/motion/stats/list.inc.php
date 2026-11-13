@@ -1,18 +1,18 @@
 <section class="main-container reloadable-container" container="motion/stats/list">
     <div>
-        <h6><?= $_['h6']['select_period'] ?></h6>
+        <h6><?= __('SELECT PERIOD') ?></h6>
         <select id="motion-stats-days-select" class="select-medium">
-            <option value="1" selected><?= $_['select']['options']['1day'] ?></option>
-            <option value="3"><?= $_['select']['options']['3days'] ?></option>
-            <option value="7"><?= $_['select']['options']['7days'] ?></option>
-            <option value="15"><?= $_['select']['options']['15days'] ?></option>
-            <option value="30"><?= $_['select']['options']['30days'] ?></option>
+            <option value="1" selected><?= __('Last 24 hours') ?></option>
+            <option value="3"><?= __('Last 3 days') ?></option>
+            <option value="7"><?= __('Last 7 days') ?></option>
+            <option value="15"><?= __('Last 15 days') ?></option>
+            <option value="30"><?= __('Last 30 days') ?></option>
         </select>
     </div>
 
     <div id="motion-stats-container" class="margin-top-30">
         <div class="div-generic-blue">
-            <h6 class="margin-top-0"><?= $_['h6']['events_files_recorded'] ?></h6>
+            <h6 class="margin-top-0"><?= __('EVENTS & FILES RECORDED') ?></h6>
 
             <div class="echart-container">
                 <div id="motion-event-chart-loading" class="echart-loading">
@@ -24,7 +24,7 @@
         </div>
 
         <div class="div-generic-blue">
-            <h6 class="margin-top-0"><?= $_['h6']['motion_detection_activity'] ?></h6>
+            <h6 class="margin-top-0"><?= __('MOTION DETECTION ACTIVITY') ?></h6>
             <div class="echart-container">
                 <div id="motion-status-chart-loading" class="echart-loading">
                     <img src="/assets/icons/loading.svg" class="icon-np" />
@@ -35,7 +35,7 @@
         </div>
 
         <div class="div-generic-blue">
-            <h6 class="margin-top-0"><?= $_['h6']['cpu_usage'] ?></h6>
+            <h6 class="margin-top-0"><?= __('CPU USAGE (%)') ?></h6>
             <div class="echart-container">
                 <div id="system-cpu-usage-chart-loading" class="echart-loading">
                     <img src="/assets/icons/loading.svg" class="icon-np" />
@@ -46,7 +46,7 @@
         </div>
 
         <div class="div-generic-blue">
-            <h6 class="margin-top-0"><?= $_['h6']['memory_usage'] ?></h6>
+            <h6 class="margin-top-0"><?= __('MEMORY USAGE (%)') ?></h6>
             <div class="echart-container">
                 <div id="system-memory-usage-chart-loading" class="echart-loading">
                     <img src="/assets/icons/loading.svg" class="icon-np" />
@@ -57,7 +57,7 @@
         </div>
 
         <div class="div-generic-blue">
-            <h6 class="margin-top-0"><?= $_['h6']['disk_usage'] ?></h6>
+            <h6 class="margin-top-0"><?= __('DISK USAGE (%)') ?></h6>
             <div class="echart-container">
                 <div id="system-disk-usage-chart-loading" class="echart-loading">
                     <img src="/assets/icons/loading.svg" class="icon-np" />

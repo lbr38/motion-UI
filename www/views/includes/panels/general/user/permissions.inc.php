@@ -2,7 +2,7 @@
 
 <form id="user-permissions-form" user-id="<?= $userId ?>">
 
-    <h6>GRANT ACCESS TO CAMERAS</h6>
+    <h6><?= __('GRANT ACCESS TO CAMERAS') ?></h6>
     <select id="user-permissions-cameras-select" name="cameras" user-id="<?= $userId ?>" multiple>
         <?php
         foreach ($cameras as $camera) :
@@ -27,18 +27,18 @@
     </select>
 
     <br><br>
-    <button type="submit" class="btn-small-green">Save</button>
+    <button type="submit" class="btn-small-green"><?= __('Save') ?></button>
 </form>
 
 <script>
 $(document).ready(function(){
-    myselect2.convert('#user-permissions-cameras-select', 'Select cameras...');
+    myselect2.convert('#user-permissions-cameras-select', <?= json_encode(__('Select cameras...')) ?>);
 });
 </script>
 
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'general/user/permissions';
-$slidePanelTitle = 'EDIT USER PERMISSIONS';
+$slidePanelTitle = __('EDIT USER PERMISSIONS');
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

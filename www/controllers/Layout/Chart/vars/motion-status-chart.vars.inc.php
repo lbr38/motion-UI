@@ -39,6 +39,6 @@ $options['yaxis']['max'] = 1;
 $options['yaxis']['tickAmount'] = 1;
 $options['yaxis']['labels']['formatterName'] = 'activeState';
 $datasets[0]['color'] = '#F32F63';
-$datasets[0]['name'] = 'Motion detection activity';
+$datasets[0]['name'] = __('Motion detection activity');
 
 unset($motionServiceController, $motionDailyStatus, $motionStatus);

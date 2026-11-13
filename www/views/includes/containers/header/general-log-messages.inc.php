@@ -5,7 +5,7 @@
      */
     if (LOG > 0) : ?>
         <div class="div-generic-blue flex flex-direction-column row-gap-15">
-            <p class="lowopacity-cst">Log messages (<?= LOG ?>)</p>
+            <p class="lowopacity-cst"><?= __('Log messages') ?> (<?= LOG ?>)</p>
             <?php
             foreach (LOG_MESSAGES as $log) : ?>
                 <div class="flex justify-space-between">
@@ -31,16 +31,16 @@
                     <div>
                         <?php
                         if (!empty($log['Details'])) : ?>
-                            <div class="slide-btn-tr general-log-show-info-btn" log-id="<?= $log['Id'] ?>" title="More info">
+                            <div class="slide-btn-tr general-log-show-info-btn" log-id="<?= $log['Id'] ?>" title="<?= __('More info') ?>">
                                 <img src="/assets/icons/info.svg" />
-                                <span>More info</span>
+                                <span><?= __('More info') ?></span>
                             </div>
                             <?php
                         endif ?>
 
-                        <div class="slide-btn general-log-acquit-btn" log-id="<?= $log['Id'] ?>" title="Mark as read">
+                        <div class="slide-btn general-log-acquit-btn" log-id="<?= $log['Id'] ?>" title="<?= __('Mark as read') ?>">
                             <img src="/assets/icons/enabled.svg" />
-                            <span>Mark as read</span>
+                            <span><?= __('Mark as read') ?></span>
                         </div>
                     </div>
                 </div>

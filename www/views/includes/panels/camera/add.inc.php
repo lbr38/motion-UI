@@ -1,20 +1,20 @@
 <?php ob_start(); ?> 
 
 <form id="new-camera-form" autocomplete="off">
-    <h6 class="required"><?= $_['h6']['name'] ?></h6>
-    <p class="note"><?= $_['p']['name_note'] ?></p>
+    <h6 class="required"><?= __('NAME') ?></h6>
+    <p class="note"><?= __('Example: Outside camera') ?></p>
     <input type="text" class="form-param" param-name="name" />
 
-    <h6 class="required"><?= $_['h6']['main_stream'] ?></h6>
-    <p class="note"><?= $_['p']['main_stream_note'] ?></p>
+    <h6 class="required"><?= __('CAMERA MAIN STREAM') ?></h6>
+    <p class="note"><?= __('Device path like /dev/video0 or URL like http://... or rtsp://... are supported.') ?></p>
     <input type="text" class="form-param" param-name="main-stream-device" />
 
-    <h6 class="required"><?= $_['h6']['resolution'] ?></h6>
-    <p class="note"><?= $_['p']['resolution_note'] ?></p>
+    <h6 class="required"><?= __('RESOLUTION') ?></h6>
+    <p class="note"><?= __('The selected resolution must match the resolution of the camera.') ?></p>
     <div class="flex align-item-center column-gap-10">
         <select class="form-param" param-name="main-stream-resolution">
             <!-- 16/9 -->
-            <option disabled>16/9 resolutions:</option>
+            <option disabled><?= __('16/9 resolutions:') ?></option>
             <option value="640x360" selected>640x360 (360p)</option>
             <option value="854x480">854x480 (480p)</option>
             <option value="960x540">960x540 (540p)</option>
@@ -26,7 +26,7 @@
             <option value="5120x2880">5120x2880 (2880p)</option>
             <option value="7680x4320">7680x4320 (4320p)</option>
             <!-- 4/3 -->
-            <option disabled>4/3 resolutions:</option>
+            <option disabled><?= __('4/3 resolutions:') ?></option>
             <option value="640x480">640x480</option>
             <option value="800x600">800x600</option>
             <option value="960x720">960x720</option>
@@ -43,39 +43,39 @@
         <img src="/assets/icons/loading.svg" class="icon-np main-stream-resolution-loading hide" />
     </div>
 
-    <h6><?= $_['h6']['framerate'] ?></h6>
-    <p class="note"><?= $_['p']['framerate_note'] ?></p>
+    <h6><?= __('FRAME RATE') ?></h6>
+    <p class="note"><?= __('The specified frame rate must match the frame rate of the camera.') ?></p>
     <input type="number" class="form-param" param-name="main-stream-framerate" value="25" min="2" />
 
-    <h6><?= $_['h6']['authentication'] ?></h6>
-    <p class="note"><?= $_['p']['authentication_note'] ?></p>
+    <h6><?= __('AUTHENTICATION') ?></h6>
+    <p class="note"><?= __('If the camera requires authentication (to access the video stream or ONVIF service).') ?></p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input" type="checkbox">
         <span class="onoff-switch-slider toggle-btn" target=".basic-auth-fields"></span>
     </label>
     
     <div class="basic-auth-fields hide">
-        <h6><?= $_['h6']['authentication_username'] ?></h6>
+        <h6><?= __('USERNAME') ?></h6>
         <input type="text" class="form-param" param-name="username" />
 
-        <h6><?= $_['h6']['authentication_password'] ?></h6>
+        <h6><?= __('PASSWORD') ?></h6>
         <input type="password" class="form-param" param-name="password" />
     </div>
 
-    <h6><?= $_['h6']['enable_motion_detection'] ?></h6>
-    <p class="note"><?= $_['p']['enable_motion_detection_note'] ?></p>
+    <h6><?= __('MOTION DETECTION') ?></h6>
+    <p class="note"><?= __('Enable motion detection for this camera.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="motion-detection-enable" checked>
         <span class="onoff-switch-slider"></span>
     </label>
 
     <br><br>
-    <button type="submit" class="btn-small-green"><?= $_['btn']['add_camera_text'] ?></button>
+    <button type="submit" class="btn-small-green"><?= __('Add') ?></button>
 </form>
 
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'camera/add';
-$slidePanelTitle = $_['title'];
+$slidePanelTitle = __('NEW CAMERA');
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

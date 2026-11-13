@@ -1,7 +1,7 @@
 <section class="section-main">
-    <h3>ERROR</h3>
+    <h3><?= __('ERROR') ?></h3>
 
     <div class="div-generic-blue">
-        <p>An error occurred while trying to load <code><?= $container ?></code> container: <?= $e->getMessage() ?></p>
+        <p><?= sprintf(__('An error occurred while trying to load %s container:'), '<code>' . $container . '</code>') ?> <?= $e->getMessage() ?></p>
     </div>
 </section>

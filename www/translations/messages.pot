@@ -1,0 +1,2079 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Motion-UI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Motion-UI 6.11.3\n"
+"Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
+"POT-Creation-Date: 2026-11-01 12:07+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
+msgid "Events"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
+msgid "Media files recorded"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/motion-status-chart.vars.inc.php
+msgid "Motion detection activity"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/system-cpu-usage-chart.vars.inc.php
+#: views/includes/containers/buttons/top.inc.php
+msgid "CPU usage"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/system-disk-usage-chart.vars.inc.php
+msgid "Disk usage"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/system-memory-usage-chart.vars.inc.php
+msgid "Memory usage"
+msgstr ""
+
+#: controllers/Layout/Container/vars/login.vars.inc.php
+msgid "Invalid login and/or password"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "CAMERA DEVICE SETTINGS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DEVICE ID"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera device ID"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DEVICE NAME"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera device name"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "CAMERA DEVICE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The v4l2 device to be used for capturing. Example: <code>/dev/video0</code>."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "V4L2 PARAMETERS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Comma separated list of configuration parameters (aka controls) for the v4l2 "
+"device."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA URL"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Network camera URL, used for the motion detection. If your camera has a "
+"secondary stream with a lower resolution, it is recommended to use the low "
+"resolution stream for motion detection and the high resolution stream for "
+"recording (see NETWORK CAMERA HIGH RESOLUTION URL)."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Main camera stream"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Low resolution camera stream"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Go2RTC stream"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA PARAMS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Comma separated list of configuration parameters. Format is: "
+"option=value,option2=value2."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA HIGH RESOLUTION URL"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Network camera high resolution URL. It is recommended to use the high "
+"resolution stream of your camera for recording, and the low resolution "
+"stream for motion detection (see NETWORK CAMERA URL)."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA HIGH RESOLUTION PARAMS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA AUTHENTICATION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Username and password for the network camera specified as username:password."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "WIDTH"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The width of the image in pixels. Must be a multiple of 8. For better "
+"performance, width and height parameters must match the resolution of the "
+"camera."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "HEIGHT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The height of the image in pixels. Must be a multiple of 8. For better "
+"performance, width and height parameters must match the resolution of the "
+"camera."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "FRAME RATE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of frames to be processed per second for motion detection. For "
+"better performance, the framerate parameter must match the framerate of the "
+"camera. If you are using a network camera with two streams (low and high "
+"resolution), the framerate parameter must match the framerate of the low "
+"resolution stream (in fact the stream used for motion detection)."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+msgid "ROTATE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Rotate image the given number of degrees."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DEVICE TIMEOUT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Number of seconds that elapse before the device is deemed to be lost."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "WATCHDOG TIMEOUT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Number of seconds that elapse before a camera is deemed to be unresponsive "
+"and Motion triggers a watchdog timeout and begins to force the camera to "
+"shut down."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "WATCHDOG KILL"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Number of seconds that elapse after the watchdog_tmo that Motion waits until "
+"the kill processes begin to force the camera to shut down."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOTION DETECTION & IMAGE PROCESSING"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "EMULATE MOTION DETECTION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Always save images even if there was no motion (motion emulation)."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PAUSE MOTION DETECTION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Pause detection at start up."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOTION DETECTION SENSITIVITY"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Minimum number of changed pixels that triggers an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD MAXIMUM"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Maximum number of changed pixels that triggers an event. If the number of "
+"changed pixels is over the threshold maximum, no event is triggered. A value "
+"of zero disables threshold_maximum."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD TUNE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Continuously adjust the threshold for triggering an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD SDEVX"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum standard deviation of the changed pixels in the x (width) axis."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD SDEVY"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum standard deviation of the changed pixels in the y (height) axis."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD SDEVXY"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum standard deviation of the changed pixels in the x (width) and "
+"y(height) axis."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD RATIO"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum ratio comparing the pixels that went white to black and vice "
+"versa."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD RATIO CHANGE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The minimum change in the ratio to trigger a event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NOISE LEVEL"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The minimum amount of change in a single pixel before it is counted towards "
+"the threshold value."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NOISE TUNE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Continuously adjust the noise_level parameter."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DESPECKLE FILTER"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Despeckle the image using combinations of (E/e)rode or (D/d)ilate. And "
+"ending with optional (l)abeling. This reduces noise in the motion image. "
+"Adding a trailing l enables labeling in which only the largest section "
+"section is used to calculate the threshold. Typical value is EedDl."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MINIMUM MOTION FRAMES"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of frames that must contain motion in order to trigger an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "EVENT GAP"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The seconds of no motion detection that triggers the end of an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PRE CAPTURE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of pre-captured (buffered) frames to be captured before an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "POST CAPTURE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The number of frames to be captured after an event has ended."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+msgid "TEXT LEFT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Text to be written on the left of the image."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+msgid "TEXT RIGHT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Text to be written on the right of the image."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "TEXT CHANGES"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Show the number of pixels that changed in the upper right corner."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "TEXT SCALE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Text size."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "AREA DETECT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Detect motion in predefined areas (1 - 9) and when Motion is detected in the "
+"area, execute the script. This option is only to execute the on_area_detect "
+"script."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MASK FILE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and filename for the masking pgm file. If needed, the mask "
+"will be resized to match the width and height of the image. The areas in the "
+"mask file colored black will be excluded from motion detection. Shades of "
+"grey on the mask will diminish the detection while areas of white will not "
+"have any impact on motion detection."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MASK PRIVACY"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and filename for the privacy masking pgm file. This mask "
+"completely removes the indicated sections of the image."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "SMART MASK SPEED"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The smartmask is intended to be a dynamic, self-learning mask to decrease "
+"sensitivity in areas with frequent motion. The speed specified by this "
+"parameter is how quickly the mask gets adjusted. Zero disables the smart "
+"mask."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LOCATE MOTION MODE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Locate and draw around/on the moving object. Preview only applies to "
+"pictures."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LOCATE MOTION STYLE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Set the look and style of the locate mode."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LIGHTSWITCH PERCENT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The minimum change in the portion of the image that will trigger a "
+"lightswitch condition."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LIGHTSWITCH FRAMES"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of frames to ignore when the lightswitch condition is triggered "
+"(see above)."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "STATIC OBJECT TIME"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Number of seconds before a new object is included in the reference image."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIES GENERAL SETTINGS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE OUTPUT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Encode movies of the motion events."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE OUTPUT MOTION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Encode movies that show the pixels that changed. If labeling is enabled via "
+"the despeckle option, the largest area will be in blue. If smartmask is "
+"enabled it will be shown in red."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE MAX TIME"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum length of a movie in seconds. Set this to zero for unlimited "
+"length."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE BPS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Bitrate to use in encoding of movies. This option is ignored if "
+"movie_quality is specified."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE QUALITY"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"A value of 0 disables this option while values 1 - 100 change the quality of "
+"the movie. The value of 1 means worst quality and 100 is the best quality. "
+"High values of this option (e.g. 100) may cause difficulty with some players."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE CONTAINER"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Container/Codec to be used for the video. Preferred codec can be appended "
+"e.g. <code>mkv:libx265</code>"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE RETAIN"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Retain movie only if the secondary detection occurred."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE PASSTHROUGH"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"When using a RTSP, RTMP, mjpeg and some V4l2 cameras, create movie files "
+"with the packets obtained directly from the camera."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE FILENAME"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The file name and optionally the path for the movie relative to target_dir. "
+"The file extension is automatically added based upon the container."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE EXTPIPE USE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Specifies whether to send the pictures to pipe for external encoding into a "
+"movie."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE EXTPIPE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The program name and options for processing the images."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "VIDEO PIPE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The video4linux video loopback device for normal images. The device would be "
+"specified in the format like /dev/video1"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "VIDEO PIPE MOTION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The video4linux video loopback device for motion images. The device would be "
+"specified in the format like /dev/video1"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURES GENERAL SETTINGS"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE OUTPUT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"'on' saves all motion images during an event. 'first' saves only the first "
+"image that detected motion. 'best' saves image with most changed pixels."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE OUTPUT MOTION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Save the motion(debug) pictures with the pixels that change as a graytone "
+"image. If labeling is enabled via the despeckele option, the largest area "
+"will be blue and areas in red are those determined by the smartmask option."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE TYPE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The type of picture file to output."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE QUALITY"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The image quality for the jpeg or webp images in percent. The value of 1 is "
+"worst and 100 is best."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE EXIF"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The text for the JPEG EXIF comment with the EXIF timestamp."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE FILENAME"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The filename for the picture files. The default filename is %v-%Y%m%d%H%M%S-"
+"%q."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "SCRIPT EXECUTION"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON EVENT START"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed at the "
+"start of an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON EVENT END"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed at the end "
+"of an event."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON PICTURE SAVE"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"picture is saved."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON MOTION DETECTED"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when motion "
+"is detected."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON AREA DETECTED"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when motion "
+"is detected in the area specified."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON MOVIE START"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed at the "
+"creation of a movie."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON MOVIE END"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"movie ends."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON CAMERA LOST"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when the "
+"camera is no longer detected."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON CAMERA FOUND"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"previously lost camera is active again."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON SECONDARY DETECT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when "
+"secondary detection occurs."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON SOUND ALERT"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"sound alert is triggered."
+msgstr ""
+
+#: controllers/Layout/Table/Render.php
+msgid "Previous"
+msgstr ""
+
+#: controllers/Layout/Table/Render.php
+msgid "Next"
+msgstr ""
+
+#: controllers/Layout/Table/vars/motion/events.vars.inc.php
+msgid "TODAY"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "NAME"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "CAMERA MAIN STREAM"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid ""
+"Device path like /dev/video0 or URL like http://... or rtsp://... are "
+"supported."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "e.g. /dev/video0 or http(s)://... or rtsp://..."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "RESOLUTION"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "The selected resolution must match the resolution of the camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "16/9 resolutions:"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "4/3 resolutions:"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "The specified frame rate must match the frame rate of the camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"Set to 0 to disable rotation. Warning: rotating the camera feed is a CPU "
+"intensive operation."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Text to display on the left side of the camera feed."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Text to display on the right side of the camera feed."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "TIMESTAMP LEFT"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Display timestamp on the left side of the camera feed."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "TIMESTAMP RIGHT"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Display timestamp on the right side of the camera feed."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "CAMERA SECONDARY STREAM"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"If the camera supports multiple streams and provides a secondary stream with "
+"a lower resolution, you can add it here.<br>This secondary stream will be "
+"used for the motion detection.<br>Device URL like http://... or rtsp://... "
+"are supported."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "e.g. http(s)://... or rtsp://..."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "SECONDARY STREAM RESOLUTION"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"The selected resolution must match the resolution of the secondary stream of "
+"the camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "SECONDARY STREAM FRAME RATE"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"The specified frame rate must match the frame rate of the secondary stream "
+"of the camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "AUTHENTICATION"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid ""
+"If the camera requires authentication (to access the video stream or ONVIF "
+"service)."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "USERNAME"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "PASSWORD"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ENABLE ONVIF"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"If camera supports ONVIF protocol. This will allow you to move the camera "
+"using the PTZ controls."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ONVIF PORT"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Port number of the ONVIF service. Default is 80."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Target URL:"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/containers/motion/buttons/main.inc.php
+#: views/includes/panels/camera/add.inc.php
+#: views/includes/panels/general/logs.inc.php
+#: views/includes/panels/general/settings.inc.php
+msgid "MOTION DETECTION"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "Enable motion detection for this camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "CONFIGURE MOTION DETECTION"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Configure motion detection for this camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Configure"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "STREAM TECHNOLOGY"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"MSE should work without any additional configuration.<br>WebRTC is more "
+"efficient and offer less latency but may not work in some cases.<br>MJPEG "
+"should be used with http:// cameras."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ENABLE TIMELAPSE"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Enable timelapse for this camera."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ENABLE MONITORING"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Email alert will be sent if the camera goes offline."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "RECIPIENTS"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Email addresses to receive the alert notifications (comma separated)."
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/camera/edit/motion-config-form.inc.php
+#: views/includes/panels/general/settings.inc.php
+#: views/includes/panels/general/user/permissions.inc.php
+#: views/includes/panels/general/user/userspace.inc.php
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "Save"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Delete"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Delete camera"
+msgstr ""
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Select or specify recipients..."
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid ""
+"Some parameters can be overwritten by the camera settings form. You can lock "
+"a parameter to prevent it from being overwritten."
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Search"
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Open official Motion documentation for this parameter"
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Enable/Disable this parameter"
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Set On/Off value for this parameter"
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Lock/Unlock parameter to prevent overwriting"
+msgstr ""
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Select or specify a stream URL..."
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "Close timelapse"
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "No timelapse images for this date yet"
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "Play timelapse"
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "Pause timelapse"
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "slow"
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "medium"
+msgstr ""
+
+#: views/includes/camera/timelapse.inc.php
+msgid "fast"
+msgstr ""
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Cameras and stream"
+msgstr ""
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Motion events"
+msgstr ""
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Motion detection"
+msgstr ""
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Stats"
+msgstr ""
+
+#: views/includes/containers/buttons/top.inc.php
+msgid "Motion detection is running"
+msgstr ""
+
+#: views/includes/containers/buttons/top.inc.php
+msgid "Motion detection is stopped"
+msgstr ""
+
+#: views/includes/containers/buttons/top.inc.php
+msgid "Open menu"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+#, php-format
+msgid "Change grid layout to %d items per row"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Stream disabled"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Connecting..."
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Stream error"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Motion detection is disabled"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Motion detection is enabled"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Camera timelapse"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move camera"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Mute/Unmute"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Disable stream"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Enable stream"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Fullscreen"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Close fullscreen"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the top"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the left"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Stop movement"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the right"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the bottom"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Speed"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move up"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move left"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move right"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move down"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid ""
+"For lower latency in movement control, please use WebRTC stream technology"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Unknown"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Local device"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+#, php-format
+msgid "%d new event"
+msgid_plural "%d new events"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Camera settings"
+msgstr ""
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Add camera"
+msgstr ""
+
+#: views/includes/containers/error.inc.php
+msgid "ERROR"
+msgstr ""
+
+#: views/includes/containers/error.inc.php
+#, php-format
+msgid "An error occurred while trying to load %s container:"
+msgstr ""
+
+#: views/includes/containers/footer.inc.php
+msgid "Documentation"
+msgstr ""
+
+#: views/includes/containers/footer.inc.php
+msgid "Contact"
+msgstr ""
+
+#: views/includes/containers/footer.inc.php
+#, php-format
+msgid "Motion-UI - release version %s"
+msgstr ""
+
+#: views/includes/containers/footer.inc.php
+#, php-format
+msgid ""
+"Motion-UI is a free and open source software, licensed under the %s license."
+msgstr ""
+
+#: views/includes/containers/getting-started.inc.php
+msgid "GETTING STARTED"
+msgstr ""
+
+#: views/includes/containers/getting-started.inc.php
+#, php-format
+msgid "Go to the %s tab to add a camera"
+msgstr ""
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "Debug mode enabled."
+msgstr ""
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "POST data"
+msgstr ""
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "GET data"
+msgstr ""
+
+#: views/includes/containers/header/general-log-messages.inc.php
+msgid "Log messages"
+msgstr ""
+
+#: views/includes/containers/header/general-log-messages.inc.php
+msgid "More info"
+msgstr ""
+
+#: views/includes/containers/header/general-log-messages.inc.php
+#: views/includes/panels/general/notification.inc.php
+msgid "Mark as read"
+msgstr ""
+
+#: views/includes/containers/login.inc.php
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Username"
+msgstr ""
+
+#: views/includes/containers/login.inc.php
+msgid "Password"
+msgstr ""
+
+#: views/includes/containers/login.inc.php
+msgid "Login"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Start"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Start motion detection"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Stop"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Stop motion detection"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "MOTION DETECTION AUTOSTART"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Enable motion detection autostart"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Enable & configure"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Disable motion detection autostart"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Configure autostart"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Disable or configure"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "MOTION DETECTION ALERTS"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Enable motion alerts"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Disable motion alerts"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Configure alerts"
+msgstr ""
+
+#: views/includes/containers/motion/events/filter.inc.php
+msgid "SELECT DATE"
+msgstr ""
+
+#: views/includes/containers/motion/events/filter.inc.php
+msgid "FILTER BY CAMERA"
+msgstr ""
+
+#: views/includes/containers/motion/events/filter.inc.php
+msgid "Select camera(s)..."
+msgstr ""
+
+#: views/includes/containers/motion/events/list.inc.php
+msgid "Mark all events as seen"
+msgstr ""
+
+#: views/includes/containers/motion/events/list.inc.php
+msgid "Close full screen"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "SELECT PERIOD"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 24 hours"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 3 days"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 7 days"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 15 days"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 30 days"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "EVENTS & FILES RECORDED"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "MOTION DETECTION ACTIVITY"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "CPU USAGE (%)"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "MEMORY USAGE (%)"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "DISK USAGE (%)"
+msgstr ""
+
+#: views/includes/containers/motionui/service/status.inc.php
+msgid "Main service is not running. Please restart the docker container."
+msgstr ""
+
+#: views/includes/panels/buttons/menu.inc.php
+#: views/includes/panels/general/notification.inc.php
+msgid "NOTIFICATIONS"
+msgstr ""
+
+#: views/includes/panels/buttons/menu.inc.php
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "USERSPACE"
+msgstr ""
+
+#: views/includes/panels/buttons/menu.inc.php
+#: views/includes/panels/general/logs.inc.php
+msgid "LOGS"
+msgstr ""
+
+#: views/includes/panels/buttons/menu.inc.php
+msgid "SETTINGS"
+msgstr ""
+
+#: views/includes/panels/camera/add.inc.php
+msgid "Example: Outside camera"
+msgstr ""
+
+#: views/includes/panels/camera/add.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "Add"
+msgstr ""
+
+#: views/includes/panels/camera/add.inc.php
+msgid "NEW CAMERA"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "LIVE STREAM"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "GO2RTC LOGS"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View go2rtc streaming server logs."
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "No logs for now."
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "SERVICE LOGS"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View motion detection service logs."
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "SERVICE UNITS"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "Running"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "This service unit is currently running"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "Not running"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "This service unit is currently not running"
+msgstr ""
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View log"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Nothing for now!"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "UPDATE AVAILABLE:"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Major release"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Changelog"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "See changelog"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Update instructions"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Please follow the upgrade path to update:"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "current"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid "latest"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "HOME PAGE"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion-UI start page."
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Cameras and stream page"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion buttons page"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion events page"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion stats page"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "EVENTS MEDIAS RETENTION"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid ""
+"Number of days to keep event pictures & videos before automatic deletion."
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "TIMELAPSE"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "INTERVAL"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Interval between each image capture."
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "5 seconds"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "10 seconds"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "15 seconds"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "30 seconds"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "1 minute"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "5 minutes"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "10 minutes"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "15 minutes"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "30 minutes"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "1 hour"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "IMAGES RETENTION"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Number of days to keep timelapse images before automatic deletion."
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "DEBUG MODE"
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Debug mode will display additional information on the interface."
+msgstr ""
+
+#: views/includes/panels/general/settings.inc.php
+msgid "GLOBAL SETTINGS"
+msgstr ""
+
+#: views/includes/panels/general/user/permissions.inc.php
+msgid "GRANT ACCESS TO CAMERAS"
+msgstr ""
+
+#: views/includes/panels/general/user/permissions.inc.php
+msgid "Select cameras..."
+msgstr ""
+
+#: views/includes/panels/general/user/permissions.inc.php
+msgid "EDIT USER PERMISSIONS"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "PERSONAL INFORMATIONS"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "FIRST NAME"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "LAST NAME"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "EMAIL"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CHANGE PASSWORD"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CURRENT PASSWORD"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "NEW PASSWORD"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "NEW PASSWORD (confirm)"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "LOGOUT"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Logout"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "USERS"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CREATE USER"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Create a new user with a specific role."
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+#, php-format
+msgid "Once created, click on the%sicon to generate a password."
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Select role..."
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Usage (viewer)"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Administrator"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CURRENT USERS"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Edit permissions"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+#, php-format
+msgid "Reset password of user %s"
+msgstr ""
+
+#: views/includes/panels/general/user/userspace.inc.php
+#, php-format
+msgid "Delete user %s"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"Motion detection alerts are sent on new event and when picture or video is "
+"saved."
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "ALERTS TIME PERIOD"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"For each day, define the time period in which alerts will be sent. Outside "
+"of this time period, no alert will be sent."
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> "
+"if you wish not to receive any alert on one specific day of the week."
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> "
+"if you wish to receive alerts <b>24hours a day</b>."
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "Actual timezone:"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "MONDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgctxt "time period"
+msgid "Start"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgctxt "time period"
+msgid "End"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "TUESDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "WEDNESDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "THURSDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "FRIDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "SATURDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "SUNDAY"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "MAIL RECIPIENT"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "Specify mail alert recipient(s), separated by a comma."
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "Send test email"
+msgstr ""
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "CONFIGURE ALERTS"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "AUTOSTART ON DEVICE PRESENCE"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "ENABLE AUTOSTART ON DEVICE PRESENCE"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Motion detection will be started if none of the configured devices are "
+"present on the local network."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Motion detection will be stopped if at least <b>one</b> of the configured "
+"devices is connected to the local network."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "KNOWN DEVICES"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+#, php-format
+msgid "Remove device %s"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "ADD A DEVICE"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "It can be a smartphone, a tablet, etc ..."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "A name to identify the device."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "e.g. Alice smartphone"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "IP ADDRESS"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "The IP address of the device on the local network."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "e.g. 192.168.0.10"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "AUTOSTART TIME PERIOD"
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Autostart on device presence is enabled. Time period will be prioritized if "
+"current time is in the time period."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"For each day, define the time period in which <b>motion</b> will be running. "
+"Outside of this time period, device presence will take over."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"For each day, define the time period in which <b>motion</b> will be running. "
+"Outside of this time period, <b>motion</b> will be stopped."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> "
+"if you wish not to run motion on a specific day."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> "
+"if you wish to run motion <b>24hours a day</b>."
+msgstr ""
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "CONFIGURE AUTOSTART"
+msgstr ""
+
+#: views/includes/panels/motion/edit.inc.php
+msgid "EDIT MOTION CONFIGURATION"
+msgstr ""
+
+#: views/includes/slide-panel.inc.php
+msgid "Close"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "No events found for this date."
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "%d event"
+msgid_plural "%d events"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Total media files"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Event start time"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "Camera #%s"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "Event #%s"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "Full event ID #%s"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "New"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Select all media files"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "File deleted"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "File is unreadable"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Visualize picture"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Select media file"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "File cannot be selected: not writeable"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Picture file size"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Picture resolution"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "%s changed pixels"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Your browser does not support the video."
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Video file size"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Video resolution"
+msgstr ""
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Processing event"
+msgstr ""

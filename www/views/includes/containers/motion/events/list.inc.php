@@ -5,9 +5,9 @@
         <div id="motion-events-captures-acquit-container">
             <?php
             if ($unseenEventsTotal > 0) : ?>
-                <div class="slide-btn-medium-green acquit-events-btn" title="<?= $_['span']['mark_all_as_seen'] ?>">
+                <div class="slide-btn-medium-green acquit-events-btn" title="<?= __('Mark all events as seen') ?>">
                     <img src="/assets/icons/enabled.svg" />
-                    <span><?= $_['span']['mark_all_as_seen'] ?></span>
+                    <span><?= __('Mark all events as seen') ?></span>
                 </div>
                 <?php
             endif ?>
@@ -22,6 +22,6 @@
 
     <!-- Close button -->
     <div class="event-print-file-close-btn margin-bottom-30 hide" style="display: block;">
-        <img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close full screen">
+        <img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="<?= __('Close full screen') ?>">
     </div>
 </div>

@@ -2,7 +2,6 @@
 
 namespace Controllers\Layout\Container;
 
-use Controllers\App\Lang;
 use Exception;
 
 class Render
@@ -17,13 +16,6 @@ class Render
                 throw new Exception('Could not retrieve content: unknown container ' . $container);
             }
 
-            // Include language file if exists
-            if (file_exists(ROOT . '/controllers/Layout/Container/lang/' . $container . '.' . Lang::detectBrowserLanguage() . '.inc.php')) {
-                include_once(ROOT . '/controllers/Layout/Container/lang/' . $container . '.' . Lang::detectBrowserLanguage() . '.inc.php');
-            } else if (file_exists(ROOT . '/controllers/Layout/Container/lang/' . $container . '.en.inc.php')) {
-                // Fallback to English if specific language file is not found
-                include_once(ROOT . '/controllers/Layout/Container/lang/' . $container . '.en.inc.php');
-            }
 
             /**
              *  Include vars file if exists

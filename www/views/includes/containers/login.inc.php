@@ -3,11 +3,11 @@
         <img src="/assets/icons/motion.svg" class="margin-bottom-30 mediumopacity-cst" />
 
         <form id="login-form" action="/login" method="post" autocomplete="off">
-            <input type="text" name="username" placeholder="<?= $_['input']['username_placeholder'] ?>" required />
+            <input type="text" name="username" placeholder="<?= __('Username') ?>" required />
             <br>
-            <input type="password" name="password" placeholder="<?= $_['input']['password_placeholder'] ?>" required />
+            <input type="password" name="password" placeholder="<?= __('Password') ?>" required />
             <br>
-            <button class="btn-large-green" type="submit"><?= $_['btn']['submit_text'] ?></button>
+            <button class="btn-large-green" type="submit"><?= __('Login') ?></button>
         </form>
     </div>
 

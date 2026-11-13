@@ -44,8 +44,8 @@ while ($dateLoop != date('Y-m-d', strtotime('+1 day', strtotime($dateEnd)))) {
  */
 $options['legend']['show'] = false;
 $datasets[0]['color'] = '#15bf7f';
-$datasets[0]['name'] = 'Events';
+$datasets[0]['name'] = __('Events');
 $datasets[1]['color'] = '#ffb536';
-$datasets[1]['name'] = 'Media files recorded';
+$datasets[1]['name'] = __('Media files recorded');
 
 unset($motionEventController, $dateLoop, $eventCount, $filesCount);

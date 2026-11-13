@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<?= \Controllers\App\Lang::detectBrowserLanguage() ?>">
     <?php
     include_once(ROOT . '/views/includes/head.inc.php'); ?>
 

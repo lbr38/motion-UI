@@ -2,18 +2,18 @@
     <div class="main-buttons">
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center"><?= $_['h6']['motion_detection'] ?></h6>
+                <h6 class="center"><?= __('MOTION DETECTION') ?></h6>
                 <?php
                 if (!$motionActive) {
                     $status = 'start';
-                    $text = $_['p']['motion_detection_start'];
-                    $title = $_['btn']['motion_detection_start_title'];
+                    $text = __('Start');
+                    $title = __('Start motion detection');
                     $color = 'green';
                 }
                 if ($motionActive) {
                     $status = 'stop';
-                    $text = $_['p']['motion_detection_stop'];
-                    $title = $_['btn']['motion_detection_stop_title'];
+                    $text = __('Stop');
+                    $title = __('Stop motion detection');
                     $color = 'red';
                 } ?>
 
@@ -34,31 +34,31 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center"><?= $_['h6']['motion_detection_autostart'] ?></h6>
+                <h6 class="center"><?= __('MOTION DETECTION AUTOSTART') ?></h6>
                 <?php
                 if ($motionAutostartEnabled == "disabled") : ?>
                     <div class="flex justify-center">
-                        <button id="enable-autostart-btn" class="btn-round-green" title="Enable motion detection autostart">
+                        <button id="enable-autostart-btn" class="btn-round-green" title="<?= __('Enable motion detection autostart') ?>">
                             <img src="/assets/icons/time.svg" class="icon" />
                         </button>
                     </div>
 
-                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_autostart_enable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= __('Enable & configure') ?></p>
                     <?php
                 endif;
 
                 if ($motionAutostartEnabled == "enabled") : ?>
                     <div class="flex justify-center">
-                        <button type="button" id="disable-autostart-btn" class="btn-semi-circle-red-left" title="Disable motion detection autostart">
+                        <button type="button" id="disable-autostart-btn" class="btn-semi-circle-red-left" title="<?= __('Disable motion detection autostart') ?>">
                             <img src="/assets/icons/time.svg" class="icon">
                         </button>
 
-                        <button type="button" class="btn-semi-circle-blue-right get-panel-btn" panel="motion/autostart" title="Configure autostart">
+                        <button type="button" class="btn-semi-circle-blue-right get-panel-btn" panel="motion/autostart" title="<?= __('Configure autostart') ?>">
                             <img src="/assets/icons/cog.svg" class="icon">
                         </button>
                     </div>
 
-                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_autostart_disable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= __('Disable or configure') ?></p>
                     <?php
                 endif ?>
             </div>
@@ -66,31 +66,31 @@
 
         <div class="item">
             <div class="flex flex-direction-column justify-center row-gap-15">
-                <h6 class="center"><?= $_['h6']['motion_detection_alerts'] ?></h6>
+                <h6 class="center"><?= __('MOTION DETECTION ALERTS') ?></h6>
                 <?php
                 if (ALERT_ENABLED == "disabled") : ?>
                     <div class="flex justify-center">
-                        <button type="button" id="enable-alert-btn" class="btn-round-green" title="Enable motion alerts">
+                        <button type="button" id="enable-alert-btn" class="btn-round-green" title="<?= __('Enable motion alerts') ?>">
                             <img src="/assets/icons/alarm.svg" class="icon">
                         </button>
                     </div>
         
-                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_alerts_enable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= __('Enable & configure') ?></p>
                     <?php
                 endif;
 
                 if (ALERT_ENABLED == "enabled") : ?>
                     <div class="flex justify-center">
-                        <button type="button" id="disable-alert-btn" class="btn-semi-circle-red-left" title="Disable motion alerts">
+                        <button type="button" id="disable-alert-btn" class="btn-semi-circle-red-left" title="<?= __('Disable motion alerts') ?>">
                             <img src="/assets/icons/alarm.svg" class="icon">
                         </button>
 
-                        <button type="button" class="btn-semi-circle-blue-right get-panel-btn" panel="motion/alert" title="Configure alerts">
+                        <button type="button" class="btn-semi-circle-blue-right get-panel-btn" panel="motion/alert" title="<?= __('Configure alerts') ?>">
                             <img src="/assets/icons/cog.svg" class="icon">
                         </button>
                     </div>
                     
-                    <p class="block center mediumopacity-cst"><?= $_['p']['motion_detection_alerts_disable'] ?></p>
+                    <p class="block center mediumopacity-cst"><?= __('Disable or configure') ?></p>
                     <?php
                 endif ?>
             </div>

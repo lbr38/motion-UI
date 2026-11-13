@@ -6,19 +6,19 @@
 </div>
 
 <form id="edit-global-settings-form" camera-id="<?= $cameraId ?>" autocomplete="off">
-    <h6 class="required"><?= $_['h6']['name'] ?></h6>
+    <h6 class="required"><?= __('NAME') ?></h6>
     <input type="text" class="form-param" param-name="name" value="<?= $cameraRawParams['name'] ?>" />
 
-    <h6 class="required"><?= $_['h6']['main_stream'] ?></h6>
-    <p class="note"><?= $_['p']['main_stream_note'] ?></p>
-    <input type="text" class="form-param" param-name="main-stream-device" value="<?= $cameraRawParams['main-stream']['device'] ?>" placeholder="e.g. /dev/video0 or http(s)://... or rtsp://..." />
+    <h6 class="required"><?= __('CAMERA MAIN STREAM') ?></h6>
+    <p class="note"><?= __('Device path like /dev/video0 or URL like http://... or rtsp://... are supported.') ?></p>
+    <input type="text" class="form-param" param-name="main-stream-device" value="<?= $cameraRawParams['main-stream']['device'] ?>" placeholder="<?= __('e.g. /dev/video0 or http(s)://... or rtsp://...') ?>" />
 
-    <h6 class="required"><?= $_['h6']['resolution'] ?></h6>
-    <p class="note"><?= $_['p']['resolution_note'] ?></p>
+    <h6 class="required"><?= __('RESOLUTION') ?></h6>
+    <p class="note"><?= __('The selected resolution must match the resolution of the camera.') ?></p>
     <div class="flex align-item-center column-gap-10">
         <select class="form-param" param-name="main-stream-resolution">
             <!-- 16/9 -->
-            <option disabled>16/9 resolutions:</option>
+            <option disabled><?= __('16/9 resolutions:') ?></option>
             <option value="640x360" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '640x360') ? 'selected' : ''; ?>>640x360 (360p)</option>
             <option value="854x480" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '854x480') ? 'selected' : ''; ?>>854x480 (480p)</option>
             <option value="960x540" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '960x540') ? 'selected' : ''; ?>>960x540 (540p)</option>
@@ -30,7 +30,7 @@
             <option value="5120x2880" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '5120x2880') ? 'selected' : ''; ?>>5120x2880 (2880p)</option>
             <option value="7680x4320" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '7680x4320') ? 'selected' : ''; ?>>7680x4320 (4320p)</option>
             <!-- 4/3 -->
-            <option disabled>4/3 resolutions:</option>
+            <option disabled><?= __('4/3 resolutions:') ?></option>
             <option value="640x480" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '640x480') ? 'selected' : ''; ?>>640x480</option>
             <option value="800x600" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '800x600') ? 'selected' : ''; ?>>800x600</option>
             <option value="960x720" <?php echo ($cameraRawParams['main-stream']['width'] . 'x' . $cameraRawParams['main-stream']['height'] == '960x720') ? 'selected' : ''; ?>>960x720</option>
@@ -47,15 +47,15 @@
         <img src="/assets/icons/loading.svg" class="icon-np main-stream-resolution-loading hide" />
     </div>
 
-    <h6><?= $_['h6']['framerate'] ?></h6>
-    <p class="note"><?= $_['p']['framerate_note'] ?></p>
+    <h6><?= __('FRAME RATE') ?></h6>
+    <p class="note"><?= __('The specified frame rate must match the frame rate of the camera.') ?></p>
     <div class="flex align-item-center column-gap-10">
         <input type="number" class="form-param" param-name="main-stream-framerate" value="<?= $cameraRawParams['main-stream']['framerate'] ?>" min="2" />
         <img src="/assets/icons/loading.svg" class="icon-np main-stream-framerate-loading hide" />
     </div>
 
-    <h6><?= $_['h6']['rotate'] ?></h6>
-    <p class="note"><?= $_['p']['rotate_note'] ?></p>
+    <h6><?= __('ROTATE') ?></h6>
+    <p class="note"><?= __('Set to 0 to disable rotation. Warning: rotating the camera feed is a CPU intensive operation.') ?></p>
     <select class="form-param" param-name="main-stream-rotate">
         <option value="0" <?php echo $cameraRawParams['main-stream']['rotate'] == "0" ? 'selected' : '' ?>>0</option>
         <option value="90" <?php echo $cameraRawParams['main-stream']['rotate'] == "90" ? 'selected' : '' ?>>90</option>
@@ -63,23 +63,23 @@
         <option value="270" <?php echo $cameraRawParams['main-stream']['rotate'] == "270" ? 'selected' : '' ?>>270</option>
     </select>
 
-    <h6><?= $_['h6']['text_left'] ?></h6>
-    <p class="note"><?= $_['p']['text_left_note'] ?></p>
+    <h6><?= __('TEXT LEFT') ?></h6>
+    <p class="note"><?= __('Text to display on the left side of the camera feed.') ?></p>
     <input type="text" class="form-param" param-name="main-stream-text-left" value="<?= $cameraRawParams['main-stream']['text-left'] ?>" />
 
-    <h6><?= $_['h6']['text_right'] ?></h6>
-    <p class="note"><?= $_['p']['text_right_note'] ?></p>
+    <h6><?= __('TEXT RIGHT') ?></h6>
+    <p class="note"><?= __('Text to display on the right side of the camera feed.') ?></p>
     <input type="text" class="form-param" param-name="main-stream-text-right" value="<?= $cameraRawParams['main-stream']['text-right'] ?>" />  
     
-    <h6><?= $_['h6']['timestamp_left'] ?></h6>
-    <p class="note"><?= $_['p']['timestamp_left_note'] ?></p>
+    <h6><?= __('TIMESTAMP LEFT') ?></h6>
+    <p class="note"><?= __('Display timestamp on the left side of the camera feed.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="main-stream-timestamp-left" <?php echo $cameraRawParams['main-stream']['timestamp-left'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
     </label>
 
-    <h6><?= $_['h6']['timestamp_right'] ?></h6>
-    <p class="note"><?= $_['p']['timestamp_right_note'] ?></p>
+    <h6><?= __('TIMESTAMP RIGHT') ?></h6>
+    <p class="note"><?= __('Display timestamp on the right side of the camera feed.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="main-stream-timestamp-right" <?php echo $cameraRawParams['main-stream']['timestamp-right'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
@@ -87,12 +87,12 @@
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['secondary_stream'] ?></h6>
-    <p class="note"><?= $_['p']['secondary_stream_note'] ?></p>
-    <input type="text" class="form-param" param-name="secondary-stream-device" value="<?= $cameraRawParams['secondary-stream']['device'] ?>" placeholder="e.g. http(s)://... or rtsp://..." />
+    <h6><?= __('CAMERA SECONDARY STREAM') ?></h6>
+    <p class="note"><?= __('If the camera supports multiple streams and provides a secondary stream with a lower resolution, you can add it here.<br>This secondary stream will be used for the motion detection.<br>Device URL like http://... or rtsp://... are supported.') ?></p>
+    <input type="text" class="form-param" param-name="secondary-stream-device" value="<?= $cameraRawParams['secondary-stream']['device'] ?>" placeholder="<?= __('e.g. http(s)://... or rtsp://...') ?>" />
 
-    <h6><?= $_['h6']['secondary_stream_resolution'] ?></h6>
-    <p class="note"><?= $_['p']['secondary_stream_resolution_note'] ?></p>
+    <h6><?= __('SECONDARY STREAM RESOLUTION') ?></h6>
+    <p class="note"><?= __('The selected resolution must match the resolution of the secondary stream of the camera.') ?></p>
     <div class="flex align-item-center column-gap-10">
         <select class="form-param" param-name="secondary-stream-resolution">
             <!-- 16/9 -->
@@ -125,8 +125,8 @@
         <img src="/assets/icons/loading.svg" class="icon-np secondary-stream-resolution-loading hide" />
     </div>
 
-    <h6><?= $_['h6']['secondary_stream_framerate'] ?></h6>
-    <p class="note"><?= $_['p']['secondary_stream_framerate_note'] ?></p>
+    <h6><?= __('SECONDARY STREAM FRAME RATE') ?></h6>
+    <p class="note"><?= __('The specified frame rate must match the frame rate of the secondary stream of the camera.') ?></p>
     <div class="flex align-item-center column-gap-10">
         <input type="number" class="form-param" param-name="secondary-stream-framerate" value="<?= $cameraRawParams['secondary-stream']['framerate'] ?>" min="2" />
         <img src="/assets/icons/loading.svg" class="icon-np secondary-stream-framerate-loading hide" />
@@ -134,33 +134,33 @@
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['authentication'] ?></h6>
-    <p class="note"><?= $_['p']['authentication_note'] ?></p>
+    <h6><?= __('AUTHENTICATION') ?></h6>
+    <p class="note"><?= __('If the camera requires authentication (to access the video stream or ONVIF service).') ?></p>
     <label class="onoff-switch-label">
         <input class="onoff-switch-input" type="checkbox" <?php echo (!empty($cameraRawParams['authentication']['username']) || !empty($cameraRawParams['authentication']['password'])) ? 'checked' : ''; ?>>
         <span class="onoff-switch-slider toggle-btn" target=".basic-auth-fields"></span>
     </label>
 
     <div class="basic-auth-fields <?php echo (empty($cameraRawParams['authentication']['username']) && empty($cameraRawParams['authentication']['password'])) ? 'hide' : ''; ?>">
-        <h6><?= $_['h6']['authentication_username'] ?></h6>
+        <h6><?= __('USERNAME') ?></h6>
         <input type="text" class="form-param" param-name="username" value="<?= $cameraRawParams['authentication']['username'] ?>" />
 
-        <h6><?= $_['h6']['authentication_password'] ?></h6>
+        <h6><?= __('PASSWORD') ?></h6>
         <input type="password" class="form-param" param-name="password" value="<?= $cameraRawParams['authentication']['password'] ?>" />
     </div>
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['enable_onvif'] ?></h6>
-    <p class="note"><?= $_['p']['enable_onvif_note'] ?></p>
+    <h6><?= __('ENABLE ONVIF') ?></h6>
+    <p class="note"><?= __('If camera supports ONVIF protocol. This will allow you to move the camera using the PTZ controls.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="onvif-enable" <?php echo ($cameraRawParams['onvif']['enable'] == 'true') ? 'checked' : ''; ?> >
         <span class="onoff-switch-slider"></span>
     </label>
 
     <div id="onvif-fields" class="<?= $onvifFieldsClass ?>">
-        <h6><?= $_['h6']['onvif_port'] ?></h6>
-        <p class="note"><?= $_['p']['onvif_port_note'] ?></p>
+        <h6><?= __('ONVIF PORT') ?></h6>
+        <p class="note"><?= __('Port number of the ONVIF service. Default is 80.') ?></p>
         <input type="number" class="form-param" param-name="onvif-port" value="<?= $cameraRawParams['onvif']['port'] ?>" />
 
         <!-- <h6>ONVIF URI</h6>
@@ -168,27 +168,27 @@
 
         <?php
         if (!empty($cameraRawParams['onvif']['url'])) {
-            echo '<p class="note">Target URL: ' . $cameraRawParams['onvif']['url'] . '</p>';
+            echo '<p class="note">' . __('Target URL:') . ' ' . $cameraRawParams['onvif']['url'] . '</p>';
         } ?>
     </div>
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['enable_motion_detection'] ?></h6>
-    <p class="note"><?= $_['p']['enable_motion_detection_note'] ?></p>
+    <h6><?= __('MOTION DETECTION') ?></h6>
+    <p class="note"><?= __('Enable motion detection for this camera.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="motion-detection-enable" <?php echo $cameraRawParams['motion-detection']['enable'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
     </label>
 
-    <h6><?= $_['h6']['configure_motion_detection'] ?></h6>
-    <p class="note"><?= $_['p']['configure_motion_detection_note'] ?></p>
-    <button type="button" class="btn-medium-tr get-motion-config-form-btn margin-top-5" camera-id="<?= $cameraId ?>">Configure</button>
+    <h6><?= __('CONFIGURE MOTION DETECTION') ?></h6>
+    <p class="note"><?= __('Configure motion detection for this camera.') ?></p>
+    <button type="button" class="btn-medium-tr get-motion-config-form-btn margin-top-5" camera-id="<?= $cameraId ?>"><?= __('Configure') ?></button>
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['stream_technology'] ?></h6>
-    <p class="note"><?= $_['p']['stream_technology_note'] ?></p>
+    <h6><?= __('STREAM TECHNOLOGY') ?></h6>
+    <p class="note"><?= __('MSE should work without any additional configuration.<br>WebRTC is more efficient and offer less latency but may not work in some cases.<br>MJPEG should be used with http:// cameras.') ?></p>
 
     <select class="form-param" param-name="stream-technology">
         <option value="mse" <?php echo ($cameraRawParams['stream']['technology'] === 'mse') ? 'selected' : '' ?>>MSE</option>
@@ -198,8 +198,8 @@
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['enable_timelapse'] ?></h6>
-    <p class="note"><?= $_['p']['enable_timelapse_note'] ?></p>
+    <h6><?= __('ENABLE TIMELAPSE') ?></h6>
+    <p class="note"><?= __('Enable timelapse for this camera.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="timelapse-enable" <?php echo $cameraRawParams['timelapse']['enable'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
@@ -207,8 +207,8 @@
 
     <hr class="margin-top-20 margin-bottom-20">
 
-    <h6><?= $_['h6']['enable_monitoring'] ?></h6>
-    <p class="note"><?= $_['p']['enable_monitoring_note'] ?></p>
+    <h6><?= __('ENABLE MONITORING') ?></h6>
+    <p class="note"><?= __('Email alert will be sent if the camera goes offline.') ?></p>
     <label class="onoff-switch-label">
         <input type="checkbox" class="onoff-switch-input form-param" param-name="monitoring-enable" <?php echo $cameraRawParams['monitoring']['enable'] == "true" ? 'checked' : '' ?>>
         <span class="onoff-switch-slider"></span>
@@ -217,8 +217,8 @@
     <?php
     if (isset($cameraRawParams['monitoring']['enable']) and $cameraRawParams['monitoring']['enable'] == "true") : ?>
         <div class="monitoring-settings margin-top-15">
-            <h6><?= $_['h6']['monitoring_recipients'] ?></h6>
-            <p class="note"><?= $_['p']['monitoring_recipients_note'] ?></p>
+            <h6><?= __('RECIPIENTS') ?></h6>
+            <p class="note"><?= __('Email addresses to receive the alert notifications (comma separated).') ?></p>
             <select class="form-param" param-name="monitoring-recipients" multiple>
                 <?php
                 // Current recipients
@@ -238,8 +238,8 @@
 
     <br><br>
     <div class="flex column-gap-10">
-        <button type="submit" class="btn-small-green">Save</button>
-        <button type="button" class="btn-small-red delete-camera-btn" title="Delete camera" camera-id="<?= $cameraId ?>">Delete</button>
+        <button type="submit" class="btn-small-green"><?= __('Save') ?></button>
+        <button type="button" class="btn-small-red delete-camera-btn" title="<?= __('Delete camera') ?>" camera-id="<?= $cameraId ?>"><?= __('Delete') ?></button>
     </div>
 </form>
 
@@ -247,5 +247,5 @@
 <br>
 
 <script>
-    myselect2.convert('select.form-param[param-name="monitoring-recipients"]', 'Select or specify recipients...', true, false);
+    myselect2.convert('select.form-param[param-name="monitoring-recipients"]', <?= json_encode(__('Select or specify recipients...')) ?>, true, false);
 </script>

@@ -1,5 +1,11 @@
 {
     "require": {
-        "cboden/ratchet": "^0.4.4"
+        "cboden/ratchet": "^0.4.4",
+        "symfony/translation": "^7.4"
+    },
+    "config": {
+        "platform": {
+            "php": "8.4"
+        }
     }
 }

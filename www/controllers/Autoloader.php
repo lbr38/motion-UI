@@ -15,6 +15,11 @@ class Autoloader
         $this->register();
 
         /**
+         *  Load translation functions
+         */
+        require_once(ROOT . '/controllers/App/Lang/functions.php');
+
+        /**
          *  Load minimal components
          *  Useful for login/logout
          */

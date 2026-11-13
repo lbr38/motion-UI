@@ -24,6 +24,6 @@ $datasets[0]['data'][] = \Controllers\System\Monitoring\Memory::getUsage();
  *  Prepare chart data
  */
 $datasets[0]['color'] = '#F32F63';
-$datasets[0]['name'] = 'Memory usage';
+$datasets[0]['name'] = __('Memory usage');
 
 unset($systemMonitoringController, $memoryUsageStats, $stat);

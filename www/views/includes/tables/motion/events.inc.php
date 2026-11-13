@@ -1,7 +1,7 @@
 <div class="reloadable-table margin-top-20" table="<?= $table ?>" offset="<?= $reloadableTableOffset ?>">
     <?php
     if ($reloadableTableTotalItems == 0) {
-        echo '<p class="note">No events found for this date.</p>';
+        echo '<p class="note">' . __('No events found for this date.') . '</p>';
     }
 
     if (!empty($reloadableTableTotalItems)) : ?>
@@ -11,19 +11,14 @@
             <p class="mediumopacity-cst">●</p>
 
             <p class="mediumopacity-cst">
-                <?php
-                if ($reloadableTableTotalItems == 1) {
-                    echo '1 event';
-                } else {
-                    echo $reloadableTableTotalItems . ' events';
-                } ?>
+                <?= sprintf(_n('%d event', '%d events', $reloadableTableTotalItems), $reloadableTableTotalItems) ?>
             </p>
 
             <p class="mediumopacity-cst">●</p>
 
-            <div class="flex align-item-center column-gap-5" title="Total media files">
+            <div class="flex align-item-center column-gap-5" title="<?= __('Total media files') ?>">
                 <p class="mediumopacity-cst"><?= $totalFilesCount ?></p>
-                <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="Total media files">
+                <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="<?= __('Total media files') ?>">
                 <p id="event-date-total-size" class="mediumopacity-cst" event-date="<?= $eventDate ?>"><img src="/assets/icons/loading.svg" class="icon-np" /></p>
             </div>
         </div>
@@ -77,7 +72,7 @@
 
             <div class="div-generic-blue event-container veil-on-reload">
                 <div class="event-metadata">
-                    <div class="flex flex-direction-column align-item-center" title="Event start time">
+                    <div class="flex flex-direction-column align-item-center" title="<?= __('Event start time') ?>">
                         <p class="font-size-22"><?= $eventTimeShort ?></p>
                         <p class="mediumopacity-cst font-size-11"><?= $eventTime ?></p>
                     </div>
@@ -91,7 +86,7 @@
                                     if (!empty($cameraName)) {
                                         echo strtoupper($cameraName);
                                     } else {
-                                        echo 'Camera #' . $cameraId;
+                                        echo sprintf(__('Camera #%s'), $cameraId);
                                     } ?>
                                 </b>
                             </p>
@@ -103,12 +98,12 @@
                         <div class="event-id flex align-item-center column-gap-5">
                             <?php
                             if ($motionEventId != $lastMotionEventId) : ?>
-                                <p class="font-size-13" title="Full event ID #<?= $motionEventId ?>">Event #<?= $motionEventIdShort ?></p>
+                                <p class="font-size-13" title="<?= sprintf(__('Full event ID #%s'), $motionEventId) ?>"><?= sprintf(__('Event #%s'), $motionEventIdShort) ?></p>
 
                                 <?php
                                 if ($eventSeen != 'true') : ?>
                                     <p class="new-event-label">
-                                        <code class="bkg-green font-size-10">New</code>
+                                        <code class="bkg-green font-size-10"><?= __('New') ?></code>
                                     </p>
                                     <?php
                                 endif;
@@ -117,14 +112,14 @@
 
                         <div class="event-files-count margin-top-10">
                             <p class="mediumopacity-cst"><?= $totalFilesCount ?></p>
-                            <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="Total media files" />
+                            <img src="/assets/icons/medias.svg" class="mediumopacity-cst icon-np" title="<?= __('Total media files') ?>" />
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-direction-column row-gap-10 width-100">
                     <div class="flex align-self-end">
-                        <input type="checkbox" class="select-all-media-checkbox hide" event-id="<?= $eventId ?>" title="Select all media files" />
+                        <input type="checkbox" class="select-all-media-checkbox hide" event-id="<?= $eventId ?>" title="<?= __('Select all media files') ?>" />
                     </div>
 
                     <div class="event-camera">
@@ -156,7 +151,7 @@
                                                 <div class="file-unavailable">
                                                     <div class="flex flex-direction-column align-item-center row-gap-10">
                                                         <img src="/assets/icons/warning-red.svg" class="icon" />
-                                                        <p class="redtext">File deleted</p>
+                                                        <p class="redtext"><?= __('File deleted') ?></p>
                                                     </div>
                                                 </div>
                                                 <?php
@@ -164,13 +159,13 @@
                                                 <div class="file-unavailable">
                                                     <div class="flex flex-direction-column align-item-center row-gap-10">
                                                         <img src="/assets/icons/warning.svg" class="icon" />
-                                                        <p class="yellowtext">File is unreadable</p>
+                                                        <p class="yellowtext"><?= __('File is unreadable') ?></p>
                                                     </div>
                                                 </div>
                                                 <?php
                                             } else {
                                                 $file = str_replace(CAPTURES_DIR . '/', '', $eventDetails['File']); ?>
-                                                <img src="/media/<?= $file ?>" class="play-picture-btn pointer" title="Visualize picture" />
+                                                <img src="/media/<?= $file ?>" class="play-picture-btn pointer" title="<?= __('Visualize picture') ?>" />
                                                 <?php
                                             } ?>
 
@@ -182,9 +177,9 @@
                                                 <?php
                                                 if (file_exists($eventDetails['File'])) {
                                                     if (is_writeable($eventDetails['File'])) {
-                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . $file . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . $file . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="' . __('Select media file') . '" />';
                                                     } else {
-                                                        echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
+                                                        echo '<img src="/assets/icons/warning.svg" class="icon" title="' . __('File cannot be selected: not writeable') . '" />';
                                                     }
                                                 } ?>
                                             </div>
@@ -193,12 +188,12 @@
                                         <div class="flex align-item-center column-gap-5 justify-space-between mediumopacity-cst padding-10">
                                             <div class="flex align-item-center column-gap-5">
                                                 <img src="/assets/icons/picture.svg" class="icon-np" />
-                                                <p class="font-size-12" title="Picture file size">(<?= $eventDetails['Size'] ?>)</p>
+                                                <p class="font-size-12" title="<?= __('Picture file size') ?>">(<?= $eventDetails['Size'] ?>)</p>
                                             </div>
 
                                             <div class="flex flex-wrap align-item-center column-gap-5">
-                                                <p class="font-size-12" title="Picture resolution">● <?= $resolution ?></p>
-                                                <p class="font-size-12">● <?= $eventDetails['Changed_pixels'] ?> changed pixels</p>
+                                                <p class="font-size-12" title="<?= __('Picture resolution') ?>">● <?= $resolution ?></p>
+                                                <p class="font-size-12">● <?= sprintf(__('%s changed pixels'), $eventDetails['Changed_pixels']) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -216,7 +211,7 @@
                                                 <div class="file-unavailable">
                                                     <div class="flex flex-direction-column align-item-center row-gap-10">
                                                         <img src="/assets/icons/warning-red.svg" class="icon" />
-                                                        <p class="redtext">File deleted</p>
+                                                        <p class="redtext"><?= __('File deleted') ?></p>
                                                     </div>
                                                 </div>
                                                 <?php
@@ -224,7 +219,7 @@
                                                 <div class="file-unavailable">
                                                     <div class="flex flex-direction-column align-item-center row-gap-10">
                                                         <img src="/assets/icons/warning.svg" class="icon" />
-                                                        <p class="yellowtext">File is unreadable</p>
+                                                        <p class="yellowtext"><?= __('File is unreadable') ?></p>
                                                     </div>
                                                 </div> 
                                                 <?php
@@ -241,7 +236,7 @@
 
                                                 <video controls preload="none" poster="/assets/images/motionui-video-poster.png" poster-to-load="/media/<?= $thumbnail ?>">
                                                     <source src="/media/<?= $file ?>">
-                                                    <p>Your browser does not support the video.</p>
+                                                    <p><?= __('Your browser does not support the video.') ?></p>
                                                 </video>
                                                 <?php
                                             } ?>
@@ -254,9 +249,9 @@
                                                 <?php
                                                 if (file_exists($eventDetails['File'])) {
                                                     if (is_writeable($eventDetails['File'])) {
-                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . $file . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="Select media file" />';
+                                                        echo '<input type="checkbox" class="event-media-checkbox" file-name="' . $file . '" file-id="' . $eventDetails['Id'] . '" event-id="' . $eventId . '" title="' . __('Select media file') . '" />';
                                                     } else {
-                                                        echo '<img src="/assets/icons/warning.svg" class="icon" title="File cannot be selected: not writeable" />';
+                                                        echo '<img src="/assets/icons/warning.svg" class="icon" title="' . __('File cannot be selected: not writeable') . '" />';
                                                     }
                                                 } ?>
                                             </div>
@@ -265,13 +260,13 @@
                                         <div class="flex align-item-center column-gap-5 justify-space-between mediumopacity-cst padding-10">
                                             <div class="flex align-item-center column-gap-5">
                                                 <img src="/assets/icons/video.svg" class="icon-np" />
-                                                <p class="font-size-12" title="Video file size">(<?= $eventDetails['Size'] ?>)</p>
+                                                <p class="font-size-12" title="<?= __('Video file size') ?>">(<?= $eventDetails['Size'] ?>)</p>
                                             </div>
 
                                             <div class="flex flex-wrap align-item-center column-gap-5">
-                                                <p class="font-size-12" title="Video resolution"><?= $resolution ?></p>
+                                                <p class="font-size-12" title="<?= __('Video resolution') ?>"><?= $resolution ?></p>
                                                 <p class="font-size-12">● <?= $eventDetails['Fps'] ?> FPS</p>
-                                                <p class="font-size-12">● <?= $eventDetails['Changed_pixels'] ?> changed pixels</p>
+                                                <p class="font-size-12">● <?= sprintf(__('%s changed pixels'), $eventDetails['Changed_pixels']) ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -290,7 +285,7 @@
                          */
                         if ($eventStatus != 'done') : ?>
                             <div class="event-row event-loading flex align-item-center justify-center">
-                                <img src="/assets/icons/loading.svg" class="icon" title="Processing event" />
+                                <img src="/assets/icons/loading.svg" class="icon" title="<?= __('Processing event') ?>" />
                             </div>
                             <?php
                         endif ?>

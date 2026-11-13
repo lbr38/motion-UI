@@ -7,7 +7,7 @@ $reloadableTableOffset = 0;
 // Get date from cookies if there are, else set today's date
 if (empty($_COOKIE['event-date']) or $_COOKIE['event-date'] == DATE_YMD) {
     $eventDate = DATE_YMD;
-    $eventDateTitle = 'TODAY';
+    $eventDateTitle = __('TODAY');
 } else {
     $eventDate = $_COOKIE['event-date'];
     $eventDateTitle = $eventDate;

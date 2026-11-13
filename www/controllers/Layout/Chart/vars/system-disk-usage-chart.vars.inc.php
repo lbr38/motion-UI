@@ -24,6 +24,6 @@ $datasets[0]['data'][] = \Controllers\System\Monitoring\Disk::getUsage('/');
  *  Prepare chart data
  */
 $datasets[0]['color'] = '#F32F63';
-$datasets[0]['name'] = 'Disk usage';
+$datasets[0]['name'] = __('Disk usage');
 
 unset($systemMonitoringController, $memoryUsageStats, $stat);

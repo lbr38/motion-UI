@@ -1,6 +1,6 @@
 <div id="timelapse">
     <div id="timelapse-controls-container">
-        <span class="round-btn-tr close-timelapse-btn" title="Close timelapse">
+        <span class="round-btn-tr close-timelapse-btn" title="<?= __('Close timelapse') ?>">
             <img src="/assets/icons/close.svg" />
         </span>
     </div>
@@ -27,7 +27,7 @@
          *  Check if specified date directory exists
          */
         if (!file_exists($timelapseDir . '/' . $date)) {
-            throw new Exception('No timelapse images for this date yet');
+            throw new Exception(__('No timelapse images for this date yet'));
         }
 
         /**
@@ -46,7 +46,7 @@
          *  If there are no pictures, throw an exception
          */
         if (empty($pictures)) {
-            throw new Exception('No timelapse images for this date yet');
+            throw new Exception(__('No timelapse images for this date yet'));
         }
 
         /**
@@ -151,11 +151,11 @@
         </div>
 
         <div class="flex column-gap-10 align-item-center">
-            <div id="timelapse-play-btn" class="round-btn-tr" title="Play timelapse">
+            <div id="timelapse-play-btn" class="round-btn-tr" title="<?= __('Play timelapse') ?>">
                 <img src="/assets/icons/play.svg" />
             </div>
 
-            <div id="timelapse-pause-btn" class="round-btn-tr hide" title="Pause timelapse">
+            <div id="timelapse-pause-btn" class="round-btn-tr hide" title="<?= __('Pause timelapse') ?>">
                 <img src="/assets/icons/pause.svg" />
             </div>
 
@@ -164,9 +164,9 @@
             </div>
 
             <select id="timelapse-speed-input" class="select-small">
-                <option value="500">slow</option>
-                <option value="100">medium</option>
-                <option value="10" selected>fast</option>
+                <option value="500"><?= __('slow') ?></option>
+                <option value="100"><?= __('medium') ?></option>
+                <option value="10" selected><?= __('fast') ?></option>
             </select>
         </div>
     </div>

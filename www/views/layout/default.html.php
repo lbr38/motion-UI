@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<?= \Controllers\App\Lang::detectBrowserLanguage() ?>">
     <?php
     include_once(ROOT . '/views/includes/head.inc.php'); ?>
 
@@ -18,7 +18,7 @@
             <?= $content ?>
         </article>
 
-        <?php include_once(ROOT . '/views/includes/footer.inc.php'); ?>
+        <?php \Controllers\Layout\Container\Render::render('footer'); ?>
 
     </body>
 </html>

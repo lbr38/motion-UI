@@ -1,7 +1,7 @@
 <form id="camera-motion-settings-form" camera-id="<?= $id ?>">
-    <p class="note">Some parameters can be overwritten by the camera settings form. You can lock a parameter to prevent it from being overwritten.</p>
+    <p class="note"><?= __('Some parameters can be overwritten by the camera settings form. You can lock a parameter to prevent it from being overwritten.') ?></p>
 
-    <input id="camera-motion-settings-search" type="text" placeholder="Search" />
+    <input id="camera-motion-settings-search" type="text" placeholder="<?= __('Search') ?>" />
 
     <?php
     /**
@@ -56,7 +56,7 @@
                             <div class="flex align-item-center column-gap-10">
                                 <h6 class="margin-top-0 <?= $required ?>"><?= $attributes['title'] ?></h6>
                                 <code><?= $param ?></code>
-                                <a href="https://motion-project.github.io/motionv5_config.html#<?= $param ?>" target="_blank" title="Open official Motion documentation for this parameter"><img src="/assets/icons/external-link.svg" class="icon-small mediumopacity" /></a>
+                                <a href="https://motion-project.github.io/motionv5_config.html#<?= $param ?>" target="_blank" title="<?= __('Open official Motion documentation for this parameter') ?>"><img src="/assets/icons/external-link.svg" class="icon-small mediumopacity" /></a>
                             </div>
 
                             <p class="note param-description" param-name="<?= $param ?>" title="<?= $attributes['description'] ?>"><?= $attributes['description'] ?></p>
@@ -67,7 +67,7 @@
                          *  Print 'Enable' button only if the parameter is editable
                          */
                         if (!isset($attributes['editable']) or $attributes['editable'] === true) : ?>
-                            <div class="flex align-item-center column-gap-5" title="Enable/Disable this parameter">
+                            <div class="flex align-item-center column-gap-5" title="<?= __('Enable/Disable this parameter') ?>">
                                 <label class="onoff-switch-label">
                                     <input class="param-enable onoff-switch-input" type="checkbox" param-name="<?= $param ?>" <?= isset($currentMotionConfiguration[$param]['enabled']) && $currentMotionConfiguration[$param]['enabled'] == 'true' ? 'checked' : '' ?>>
                                     <span class="onoff-switch-slider"></span>
@@ -98,7 +98,7 @@
 
                             // If input type must be a on-off switch
                             if ($attributes['type'] == 'switch') : ?>
-                                <label class="onoff-switch-label" title="Set On/Off value for this parameter">
+                                <label class="onoff-switch-label" title="<?= __('Set On/Off value for this parameter') ?>">
                                     <input class="param-input-value onoff-switch-input" type="checkbox" param-name="<?= $param ?>" <?= $value == 'on' ? 'checked' : '' ?> <?= $editable ?>>
                                     <span class="onoff-switch-slider"></span>
                                 </label>
@@ -139,7 +139,7 @@
                             endif ?>
                         </div>
 
-                        <div title="Lock/Unlock parameter to prevent overwriting">
+                        <div title="<?= __('Lock/Unlock parameter to prevent overwriting') ?>">
                             <?php
                             /**
                              *  Print lock/unlock icon if the parameter is editable
@@ -166,14 +166,14 @@
     endforeach ?>
 
     <br>
-    <button type="submit" class="btn-small-green">Save</button>
+    <button type="submit" class="btn-small-green"><?= __('Save') ?></button>
 </form>
 
 <br><br>
 
 <script>
 $(document).ready(function(){
-    myselect2.convert('select.param-input-value[param-name="netcam_url"]', 'Select or specify a stream URL...', true, false);
-    myselect2.convert('select.param-input-value[param-name="netcam_high_url"]', 'Select or specify a stream URL...', true, false);
+    myselect2.convert('select.param-input-value[param-name="netcam_url"]', <?= json_encode(__('Select or specify a stream URL...')) ?>, true, false);
+    myselect2.convert('select.param-input-value[param-name="netcam_high_url"]', <?= json_encode(__('Select or specify a stream URL...')) ?>, true, false);
 });
 </script>
