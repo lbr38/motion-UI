@@ -40,4 +40,4 @@ if ($_POST['action'] == 'sort' and !empty($_POST['order'])) {
     response(HTTP_OK, '');
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

@@ -12,7 +12,7 @@ class Delete extends Camera
     public function delete(string $id): void
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to delete a camera');
+            throw new Exception(__('You are not allowed to delete a camera'));
         }
 
         $cameraStreamController = new \Controllers\Camera\Stream();
@@ -21,7 +21,7 @@ class Delete extends Camera
          *  Check if camera Id exist
          */
         if (!$this->existId($id)) {
-            throw new Exception('Camera does not exist');
+            throw new Exception(__('Camera does not exist'));
         }
 
         /**
@@ -34,7 +34,7 @@ class Delete extends Camera
          */
         if (file_exists(CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf')) {
             if (!unlink(CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf')) {
-                throw new Exception('Could not delete camera config file: ' . CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf');
+                throw new Exception(sprintf(__('Could not delete camera config file: %s'), CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf'));
             }
 
             // Trigger motion restart if camera config file was enabled
@@ -42,7 +42,7 @@ class Delete extends Camera
         }
         if (file_exists(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
             if (!unlink(CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf')) {
-                throw new Exception('Could not delete camera config file: ' . CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf');
+                throw new Exception(sprintf(__('Could not delete camera config file: %s'), CAMERAS_MOTION_CONF_AVAILABLE_DIR . '/camera-' . $id . '.conf'));
             }
         }
 
@@ -51,7 +51,7 @@ class Delete extends Camera
          */
         if (is_dir(CAMERAS_TIMELAPSE_DIR . '/camera-' . $id)) {
             if (!\Controllers\Filesystem\Directory::deleteRecursive(CAMERAS_TIMELAPSE_DIR . '/camera-' . $id)) {
-                throw new Exception('Could not delete camera data directory: ' . CAMERAS_TIMELAPSE_DIR . '/camera-' . $id);
+                throw new Exception(sprintf(__('Could not delete camera data directory: %s'), CAMERAS_TIMELAPSE_DIR . '/camera-' . $id));
             }
         }
 

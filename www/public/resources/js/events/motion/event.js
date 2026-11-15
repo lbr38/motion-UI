@@ -106,7 +106,7 @@ $(document).on('change','select#events-filter-cameras',function () {
  *  Event: acquit all events
  */
 $(document).on('click','.acquit-events-btn',function () {
-    myalert.print('Acquitting all events, please wait...');
+    myalert.print(__('Acquitting all events, please wait...'));
 
     ajaxRequest(
         // Controller:

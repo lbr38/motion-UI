@@ -20,7 +20,7 @@ class OnvifUri
          *  Should start with '/' or '?' and contain only allowed characters
          */
         if (!preg_match('/^[\?\/a-zA-Z0-9\-\_\&\=\%]+$/', $uri)) {
-            throw new Exception('Invalid ONVIF URI');
+            throw new Exception(__('Invalid ONVIF URI'));
         }
     }
 }

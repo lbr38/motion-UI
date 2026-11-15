@@ -30,6 +30,6 @@ function loadEventDateTotalMediaSize()
     ).then(function () {
         $('#event-date-total-size').html('(' + jsonValue.message + ')');
     }).catch(function () {
-        $('#event-date-total-size').html('Error loading size');
+        $('#event-date-total-size').html(__('Error loading size'));
     });
 }

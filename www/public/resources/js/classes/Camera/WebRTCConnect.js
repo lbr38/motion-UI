@@ -22,7 +22,7 @@ class WebRTCConnect
         const video = document.querySelector('video[camera-id="' + cameraId + '"]');
         
         if (!video) {
-            Camera.showStreamError(cameraId, 'Camera #' + cameraId + ' video element not found');
+            Camera.showStreamError(cameraId, sprintf(__('Camera #%s video element not found'), cameraId));
             return;
         }
 
@@ -135,7 +135,7 @@ class WebRTCConnect
 
             Camera.hideStream(cameraId);
             Camera.hideStreamError(cameraId);
-            Camera.showStreamLoading(cameraId, 'Error: no frames received, trying to reconnect (' + this.cameraConnection.retries + '/3)...');
+            Camera.showStreamLoading(cameraId, sprintf(__('Error: no frames received, trying to reconnect (%d of %d)...'), this.cameraConnection.retries, 3));
 
             // Reconnect
             this.connect(cameraId);
@@ -144,7 +144,7 @@ class WebRTCConnect
 
         // If we exhausted the attempts
         Camera.hideStreamLoading(cameraId);
-        Camera.showStreamError(cameraId, 'No frames received');
+        Camera.showStreamError(cameraId, __('No frames received'));
 
         this.closeConnection();
     }

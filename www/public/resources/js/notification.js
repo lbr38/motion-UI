@@ -13,24 +13,22 @@ $(document).on('click','.acquit-notification-btn',function () {
  */
 function acquitNotification(id)
 {
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "notification",
-            action: "acquit",
+    ajaxRequest(
+        // Controller:
+        'notification',
+        // Action:
+        'acquit',
+        // Data:
+        {
             id: id
         },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'success');
-            mypanel.reload('general/notification');
-            mycontainer.reload('buttons/bottom');
-        },
-        error : function (jqXHR, textStatus, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        // Print success alert:
+        true,
+        // Print error alert:
+        true,
+        // Reload container:
+        ['buttons/top']
+    ).then(function () {
+        mypanel.reload('general/notification')
     });
 }

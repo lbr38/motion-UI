@@ -9,12 +9,12 @@ if (empty($_COOKIE['event-date'])) {
 <section class="main-container">
     <div class="flex flex-wrap align-item-center column-gap-20">
         <div>
-            <h6><?= $_['h6']['select_date'] ?></h6>
+            <h6><?= __('SELECT DATE') ?></h6>
             <input type="date" class="input-medium event-date-input" value="<?= $eventDate ?>" />
         </div>
 
         <div>
-            <h6><?= $_['h6']['filter_by_camera'] ?></h6>
+            <h6><?= __('FILTER BY CAMERA') ?></h6>
             <select id="events-filter-cameras" class="select-large" multiple>
                 <?php
                 foreach ($cameras as $camera) :
@@ -34,6 +34,6 @@ if (empty($_COOKIE['event-date'])) {
 
 <script>
     $('#events-filter-cameras').ready(function(){
-        myselect2.convert('select#events-filter-cameras', '<?= $_['select']['select_camera_placeholder'] ?>', false);
+        myselect2.convert('select#events-filter-cameras', <?= json_encode(__('Select camera(s)...')) ?>, false);
     });
 </script>

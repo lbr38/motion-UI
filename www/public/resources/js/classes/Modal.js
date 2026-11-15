@@ -10,7 +10,7 @@ class Modal
         var html = '<div class="modal-window-container modal-loading">'
             + '<div class="modal-window">'
             + '<div class="modal-window-title">'
-            + '<h4 class="margin-0">Loading...</h4>'
+            + '<h4 class="margin-0">' + __('Loading...') + '</h4>'
             + '</div>'
             + '<div class="modal-window-content flex justify-center align-item-center height-100">'
             + '<img src="/assets/icons/loading.svg" class="icon-np icon-large" />'
@@ -43,7 +43,7 @@ class Modal
             + '<div class="modal-window">'
             + '<div class="modal-window-title">'
             + '<h4 class="margin-0">' + title + '</h4>'
-            + '<span class="modal-window-close-btn" modal="' + id + '"><img title="Close" class="close-btn lowopacity" src="/assets/icons/close.svg" /></span>'
+            + '<span class="modal-window-close-btn" modal="' + id + '"><img title="' + __('Close') + '" class="close-btn lowopacity" src="/assets/icons/close.svg" /></span>'
             + '</div>'
             + '<div class="modal-window-content">';
 

@@ -7,6 +7,6 @@
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'motion/edit';
-$slidePanelTitle = 'EDIT MOTION CONFIGURATION';
+$slidePanelTitle = __('EDIT MOTION CONFIGURATION');
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

@@ -16,14 +16,14 @@ class Edit extends Camera
         $go2rtcStreams = [];
 
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to edit camera settings');
+            throw new Exception(__('You are not allowed to edit camera settings'));
         }
 
         /**
          *  Check that camera Id exist
          */
         if (!$this->existId($id)) {
-            throw new Exception('Camera does not exist');
+            throw new Exception(__('Camera does not exist'));
         }
 
         /**
@@ -118,18 +118,18 @@ class Edit extends Camera
         if ($params['onvif-enable'] == 'true') {
             // If the Url is a device, it cannot be moved
             if (preg_match('#/dev/video#', $configuration['main-stream']['device'])) {
-                throw new Exception('Device camera are not movable');
+                throw new Exception(__('Device camera are not movable'));
             }
 
             // Parse camera URL to extract IP/hostname
             $parsedUrl = parse_url($configuration['main-stream']['device']);
 
             if ($parsedUrl === false or empty($parsedUrl)) {
-                throw new Exception('Could not retrieve camera IP from URL');
+                throw new Exception(__('Could not retrieve camera IP from URL'));
             }
 
             if (empty($parsedUrl['host'])) {
-                throw new Exception('Could not determine camera IP from URL');
+                throw new Exception(__('Could not determine camera IP from URL'));
             }
 
             $cameraIp = $parsedUrl['host'];

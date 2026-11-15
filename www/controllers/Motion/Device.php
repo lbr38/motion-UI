@@ -31,7 +31,7 @@ class Device
     public function remove(int $id)
     {
         if (!is_numeric($id)) {
-            throw new Exception('Invalid device id');
+            throw new Exception(__('Invalid device id'));
         }
 
         $this->model->remove($id);

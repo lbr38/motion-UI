@@ -12,7 +12,7 @@ if ($action == "acquit" and !empty($_POST['id'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Notification marked as read');
+    response(HTTP_OK, __('Notification marked as read'));
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

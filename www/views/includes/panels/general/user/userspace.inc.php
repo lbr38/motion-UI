@@ -1,62 +1,62 @@
 <?php ob_start(); ?>
 
-<h5>PERSONAL INFORMATIONS</h5>
+<h5><?= __('PERSONAL INFORMATIONS') ?></h5>
 
 <div>
     <form id="user-edit-info" autocomplete="off">
         <input type="hidden" name="username" value="<?= $_SESSION['username'] ?>" />
-        <h6>FIRST NAME</h6>
+        <h6><?= __('FIRST NAME') ?></h6>
         <input type="text" class="input-large" name="first-name" value="<?php echo !empty($_SESSION['first_name']) ? $_SESSION['first_name'] : ''; ?>" <?php echo $_SESSION['type'] != 'local' ? 'readonly' : ''; ?>>
 
-        <h6>LAST NAME</h6>
+        <h6><?= __('LAST NAME') ?></h6>
         <input type="text" class="input-large" name="last-name" value="<?php echo !empty($_SESSION['last_name']) ? $_SESSION['last_name'] : ''; ?>" <?php echo $_SESSION['type'] != 'local' ? 'readonly' : ''; ?>>
 
-        <h6>EMAIL</h6>
+        <h6><?= __('EMAIL') ?></h6>
         <input type="email" class="input-large" name="email" value="<?php echo !empty($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" <?php echo $_SESSION['type'] != 'local' ? 'readonly' : ''; ?>>
 
         <br><br>
-        <button class="btn-small-green">Save</button>
+        <button class="btn-small-green"><?= __('Save') ?></button>
     </form>
 </div>
 
-<h5>CHANGE PASSWORD</h5>
+<h5><?= __('CHANGE PASSWORD') ?></h5>
 
 <form id="new-password-form" user-id="<?= $_SESSION['id'] ?>">
-    <h6 class="required">CURRENT PASSWORD</h6>
+    <h6 class="required"><?= __('CURRENT PASSWORD') ?></h6>
     <input type="password" class="input-large" name="actual-password" autocomplete required />
 
-    <h6 class="required">NEW PASSWORD</h6>
+    <h6 class="required"><?= __('NEW PASSWORD') ?></h6>
     <input type="password" class="input-large" name="new-password" autocomplete required />
 
-    <h6 class="required">NEW PASSWORD (confirm)</h6>
+    <h6 class="required"><?= __('NEW PASSWORD (confirm)') ?></h6>
     <input type="password" class="input-large" name="new-password-retype" autocomplete required />
     
     <br><br>
-    <button type="submit" class="btn-small-green">Save</button>
+    <button type="submit" class="btn-small-green"><?= __('Save') ?></button>
 </form>
 
-<h5 class="margin-bottom-5">LOGOUT</h5>
+<h5 class="margin-bottom-5"><?= __('LOGOUT') ?></h5>
 <a href="/logout?user">
-    <button type="button" class="btn-small-red" title="Logout">Logout</button>
+    <button type="button" class="btn-small-red" title="<?= __('Logout') ?>"><?= __('Logout') ?></button>
 </a>
 
 <?php
 if (IS_ADMIN) : ?>
-    <h5>USERS</h5>
+    <h5><?= __('USERS') ?></h5>
 
     <div id="users-settings-container">
-        <h6 class="margin-top-0">CREATE USER</h6>
-        <p class="note">Create a new user with a specific role.</p>
-        <p class="note">Once created, click on the<img src="/assets/icons/update.svg" class="icon-np margin-left-5 margin-right-5" />icon to generate a password.</p>
+        <h6 class="margin-top-0"><?= __('CREATE USER') ?></h6>
+        <p class="note"><?= __('Create a new user with a specific role.') ?></p>
+        <p class="note"><?= sprintf(__('Once created, click on the%sicon to generate a password.'), '<img src="/assets/icons/update.svg" class="icon-np margin-left-5 margin-right-5" />') ?></p>
 
         <form id="new-user-form" autocomplete="off">
             <div class="flex align-item-center column-gap-10">
-                <input type="text" name="username" placeholder="Username" />
+                <input type="text" name="username" placeholder="<?= __('Username') ?>" />
 
                 <select name="role" required>
-                    <option value="">Select role...</option>
-                    <option value="usage">Usage (viewer)</option>
-                    <option value="administrator">Administrator</option>
+                    <option value=""><?= __('Select role...') ?></option>
+                    <option value="usage"><?= __('Usage (viewer)') ?></option>
+                    <option value="administrator"><?= __('Administrator') ?></option>
                 </select>
 
                 <div>
@@ -70,7 +70,7 @@ if (IS_ADMIN) : ?>
         <?php
         if (!empty($users)) : ?>
             <div id="currentUsers">
-                <h6 class="margin-bottom-5">CURRENT USERS</h6>
+                <h6 class="margin-bottom-5"><?= __('CURRENT USERS') ?></h6>
 
                 <?php
                 foreach ($users as $user) : ?>
@@ -83,7 +83,7 @@ if (IS_ADMIN) : ?>
 
                             <?php
                             if ($user['Role_name'] == 'usage') {
-                                echo '<button type="button" class="user-permissions-edit-btn btn-medium-tr" user-id="' . $user['Id'] . '">Edit permissions</button>';
+                                echo '<button type="button" class="user-permissions-edit-btn btn-medium-tr" user-id="' . $user['Id'] . '">' . __('Edit permissions') . '</button>';
                             } else {
                                 echo '<div></div>';
                             } ?>
@@ -106,11 +106,11 @@ if (IS_ADMIN) : ?>
 
                         if ($printButtons) : ?>
                             <div class="flex column-gap-10 justify-end">
-                                <p class="reset-password-btn" user-id="<?= $user['Id'] ?>" username="<?= $user['Username'] ?>" title="Reset password of user <?= $user['Username'] ?>">
+                                <p class="reset-password-btn" user-id="<?= $user['Id'] ?>" username="<?= $user['Username'] ?>" title="<?= sprintf(__('Reset password of user %s'), $user['Username']) ?>">
                                     <img src="/assets/icons/update.svg" class="icon-lowopacity" />
                                 </p>
 
-                                <p class="delete-user-btn" user-id="<?= $user['Id'] ?>" username="<?= $user['Username'] ?>" title="Delete user <?= $user['Username'] ?>">
+                                <p class="delete-user-btn" user-id="<?= $user['Id'] ?>" username="<?= $user['Username'] ?>" title="<?= sprintf(__('Delete user %s'), $user['Username']) ?>">
                                     <img src="/assets/icons/delete.svg" class="icon-lowopacity" />
                                 </p>
                             </div>
@@ -131,6 +131,6 @@ endif ?>
 <?php
 $content = ob_get_clean();
 $slidePanelName = 'general/user/userspace';
-$slidePanelTitle = 'USERSPACE';
+$slidePanelTitle = __('USERSPACE');
 
 include(ROOT . '/views/includes/slide-panel.inc.php');

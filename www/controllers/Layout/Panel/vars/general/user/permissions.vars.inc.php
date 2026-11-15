@@ -3,11 +3,11 @@ $mypermission = new \Controllers\User\Permission();
 $mycamera = new \Controllers\Camera\Camera();
 
 if (!IS_ADMIN) {
-    throw new Exception('You are not allowed to access this panel.');
+    throw new Exception(__('You are not allowed to access this panel.'));
 }
 
 if (!isset($item['Id'])) {
-    throw new Exception('User Id not set.');
+    throw new Exception(__('User Id not set.'));
 }
 
 $userId = $item['Id'];

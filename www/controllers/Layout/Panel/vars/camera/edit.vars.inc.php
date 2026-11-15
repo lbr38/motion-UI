@@ -1,6 +1,6 @@
 <?php
 if (!IS_ADMIN) {
-    throw new Exception('You are not allowed to access this panel.');
+    throw new Exception(__('You are not allowed to access this panel.'));
 }
 
 $mycamera = new \Controllers\Camera\Camera();
@@ -24,7 +24,7 @@ $usersEmails = $userController->getEmails();
 try {
     $cameraRawParams = json_decode($camera['Configuration'], true, 512, JSON_THROW_ON_ERROR);
 } catch (JsonException $e) {
-    throw new Exception('Error: could not retrieve camera #' . $cameraId . ' configuration: ' . $e->getMessage());
+    throw new Exception(sprintf(__('Error: could not retrieve camera #%s configuration: %s'), $cameraId, $e->getMessage()));
 }
 
 /**

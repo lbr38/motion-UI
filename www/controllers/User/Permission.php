@@ -57,14 +57,14 @@ class Permission
         $permissions = ['cameras_access' => []];
 
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to execute this action.');
+            throw new Exception(__('You are not allowed to execute this action.'));
         }
 
         /**
          *  Check that user exists
          */
         if (!$this->userController->existsId($id)) {
-            throw new Exception('User does not exist');
+            throw new Exception(__('User does not exist'));
         }
 
         try {
@@ -92,7 +92,7 @@ class Permission
              */
             $this->set($id, $permissions);
         } catch (Exception $e) {
-            throw new Exception('Could not grant camera access: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not grant camera access: %s'), $e->getMessage()));
         }
     }
 }

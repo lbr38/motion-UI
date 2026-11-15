@@ -12,7 +12,7 @@ if ($_POST['action'] == 'edit' and !empty($_POST['settings_params_json'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Settings saved.');
+    response(HTTP_OK, __('Settings saved.'));
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));
