@@ -3,34 +3,61 @@
 namespace Controllers\Layout\Table;
 
 use Exception;
+use Controllers\Exception\InvalidTableException;
+use Controllers\Utils\Validate;
 
 class Render
 {
-    public static function render(string $table, int $offset = 0)
+    /**
+     *  Tables that are only available to administrators (their tabs are only available to administrators)
+     */
+    private const ADMIN_ONLY = ['cves/', 'history/'];
+
+    /**
+     *  Render table content
+     *  InvalidTableException is thrown when the table name is invalid or the table file does not
+     *  exist, which should not be the case unless someone is trying to do something nasty
+     *  Otherwise, a generic Exception is thrown when the table file exists but an error occurs during rendering. The error is then shown in the table content.
+     */
+    public static function render(string $table, int $offset = 0): void
     {
         try {
-            /**
-             *  Check if table exists
-             */
-            if (!file_exists(ROOT . '/views/includes/tables/' . $table . '.inc.php')) {
-                throw new Exception('Could not retrieve content: unknown table ' . $table);
+            // Check if the table name is valid
+            if (!Validate::alphaNumericHyphen($table, ['/'])) {
+                throw new InvalidTableException('Invalid table name');
             }
 
-
-            /**
-             *  Include vars file if exists
-             */
-            if (file_exists(ROOT . '/controllers/Layout/Table/vars/' . $table . '.vars.inc.php')) {
-                include_once(ROOT . '/controllers/Layout/Table/vars/' . $table . '.vars.inc.php');
+            // Check that the user is allowed to access the table
+            foreach (self::ADMIN_ONLY as $prefix) {
+                if (str_starts_with($table, $prefix) and !IS_ADMIN) {
+                    throw new InvalidTableException('You are not allowed to access this table');
+                }
             }
 
-            /**
-             *  Include table content
-             */
-            include_once(ROOT . '/views/includes/tables/' . $table . '.inc.php');
+            $_view = realpath(ROOT . '/views/includes/tables/' . $table . '.inc.php');
+            $_vars = realpath(ROOT . '/controllers/Layout/Table/vars/' . $table . '.vars.inc.php');
+
+            // Check that the table exists and is located inside the tables directory (prevent path traversal)
+            if ($_view === false || !str_starts_with($_view, ROOT . '/views/includes/tables/')) {
+                throw new InvalidTableException('Unknown table name');
+            }
+
+            // Include vars file if exists
+            if ($_vars !== false && file_exists($_vars)) {
+                include_once($_vars);
+            }
+
+            // Include table content
+            include_once($_view);
+        } catch (InvalidTableException $e) {
+            // Rethrow the exception to be handled by the caller (when called via ajax)
+            throw $e;
         } catch (Exception $e) {
-            echo '<p>' . $e->getMessage() . '</p>';
+            // Otherwise include error container
+            include(ROOT . '/views/includes/tables/error.inc.php');
         }
+
+        unset($_view, $_vars);
     }
 
     /**
@@ -40,8 +67,8 @@ class Render
     {
         $output = '';
 
-        // Don't print pagination if only one page
-        if ($totalPages == 1) {
+        // Don't print pagination if only one page (or none, when there is nothing to print)
+        if ($totalPages <= 1) {
             return;
         }
 

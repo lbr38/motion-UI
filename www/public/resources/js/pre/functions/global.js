@@ -3,11 +3,7 @@
  * @param {*} controller
  * @param {*} action
  * @param {*} additionalData
- * @param {*} printSuccessAlert
- * @param {*} printErrorAlert
  * @param {*} reloadContainers
- * @param {*} execOnSuccess
- * @param {*} execOnError
  */
 function ajaxRequest(controller, action, additionalData = null, printSuccessAlert = true, printErrorAlert = true, reloadContainers = null, execOnSuccess = null, execOnError = null)
 {

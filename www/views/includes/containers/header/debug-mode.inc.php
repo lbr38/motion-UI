@@ -1,26 +1,34 @@
-<section class="main-container reloadable-container" container="header/debug-mode">
+<div class="reloadable-container width-100" container="header/debug-mode">
     <?php
-    if (\Controllers\App\DebugMode::enabled()) : ?>
-        <div class="div-generic-blue">
-            <div class="flex align-item-center column-gap-5">
-                <img src="/assets/icons/build.svg" class="icon-mediumopacity" />
-                <p class="note"><?= __('Debug mode enabled.') ?></p>
-            </div>
+    if (IS_ADMIN && \Controllers\App\DebugMode::enabled()) : ?>
+        <section class="section-main">
+            <div class="div-generic-blue">
+                <div class="flex align-item-center column-gap-5">
+                    <img src="/assets/icons/build.svg" class="icon-mediumopacity" />
+                    <p class="note"><?= __('Debug mode enabled.') ?></p>
+                </div>
 
-            <?php
-            if (!empty($_POST)) {
-                echo '<h6>' . __('POST data') . '</h6>';
-                echo '<pre class="codeblock copy">';
-                print_r($_POST);
-                echo '</pre>';
-            }
-            if (!empty($_GET)) {
-                echo '<h6>' . __('GET data') . '</h6>';
-                echo '<pre class="codeblock copy">';
-                print_r($_GET);
-                echo '</pre>';
-            } ?>
-        </div>
+                <?php
+                if (!empty($_SESSION)) {
+                    echo '<h6>' . __('SESSION data') . '</h6>';
+                    echo '<pre class="codeblock copy">';
+                    print_r($_SESSION);
+                    echo '</pre>';
+                }
+                if (!empty($_POST)) {
+                    echo '<h6>' . __('POST data') . '</h6>';
+                    echo '<pre class="codeblock copy">';
+                    print_r($_POST);
+                    echo '</pre>';
+                }
+                if (!empty($_GET)) {
+                    echo '<h6>' . __('GET data') . '</h6>';
+                    echo '<pre class="codeblock copy">';
+                    print_r($_GET);
+                    echo '</pre>';
+                } ?>
+            </div>
+        </section>
         <?php
     endif ?>
-</section>
+</div>

@@ -65,7 +65,7 @@
             <a href="/<?= $uri ?>" onclick="mylayout.veilBody()">
                 <div class="flex align-item-center column-gap-10 <?= $class ?>" title="<?= $properties['title'] ?>">
                     <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer" title="<?= $properties['title'] ?>" />
-                    <p class="bottom-buttons-title hide font-size-13"><b><?= strtoupper($properties['title']) ?></b></p>
+                    <p class="bottom-buttons-title hide font-size-13"><b><?= $properties['title'] ?></b></p>
                 </div>
             </a>
         </div>

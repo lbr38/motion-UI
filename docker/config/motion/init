@@ -61,13 +61,8 @@ case "$1" in
     if [ -f "$PIDFILE" ]; then
         PID=$(cat "$PIDFILE")
 
-        # If the PID is empty, the process is not running
-        if [ -z "$PID" ]; then
-            exit 0
-        fi
-
         # Check if a process with this PID is still running
-        if /usr/bin/ps -p "$PID" > /dev/null; then
+        if [ -n "$PID" ] && /usr/bin/ps -p "$PID" > /dev/null; then
             kill "$PID"
         fi
 
@@ -99,18 +94,26 @@ case "$1" in
 
         # Wait 8sec to make sure motion is truly stopped even if there is no more process
         sleep 8
-
-        echo "done"
     fi
+
+    # Remove the pid file, motion does not always remove it (e.g. killed or crashed),
+    # a stale pid file would make the status command report motion as still running
+    rm -f "$PIDFILE"
+
+    echo "done"
     ;;
 
   status)
     echo -n "Status motion detection: "
 
-    # Check if a pid file exists
-    if [ -f $PIDFILE ]; then
-        echo "process is running with PID $(pidof $NAME)"
-        exit 0
+    # Check if a pid file exists and if the process with this PID is running
+    if [ -f "$PIDFILE" ]; then
+        PID=$(cat "$PIDFILE")
+
+        if [ -n "$PID" ] && /usr/bin/ps -p "$PID" > /dev/null; then
+            echo "process is running with PID $PID"
+            exit 0
+        fi
     fi
 
     # Also check if a motion process is running

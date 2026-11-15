@@ -2,9 +2,6 @@
 
 namespace Controllers\Layout;
 
-use Exception;
-use Datetime;
-
 class ContainerReload
 {
     private $model;
@@ -43,6 +40,14 @@ class ContainerReload
     public function exists(string $name)
     {
         return $this->model->exists($name);
+    }
+
+    /**
+     *  Delete the specified containers entries
+     */
+    public function delete(array $names): void
+    {
+        $this->model->delete($names);
     }
 
     /**

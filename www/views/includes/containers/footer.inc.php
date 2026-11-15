@@ -1,5 +1,5 @@
-<footer class="margin-bottom-30">
-    <div class="flex flex-direction-column row-gap-10">
+<footer>
+    <div class="flex align-item-center flex-wrap column-gap-20 row-gap-10">
         <div class="flex align-item-center column-gap-5 max-width-fit mediumopacity">
             <img src="/assets/icons/file.svg" class="icon-np" />
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/lbr38/motion-UI/wiki">
@@ -27,12 +27,11 @@
                 <p>GitHub</p>
             </a>
         </div>
-    </div> 
+    </div>
 
-    <div class="flex flex-direction-column align-item-center row-gap-10 mediumopacity-cst">
-        <img src="/assets/official-logo/logo.svg" class="icon-np" />
-        <p class="text-center"><?= sprintf(__('Motion-UI - release version %s'), VERSION) ?></p>
-        <p class="text-center"><?= sprintf(__('Motion-UI is a free and open source software, licensed under the %s license.'), '<a target="_blank" rel="noopener noreferrer" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a>') ?></p>
+    <div class="flex align-item-center column-gap-20 mediumopacity-cst">
+        <p><?= sprintf(__('Version %s'), VERSION) ?></p>
+        <p><a href='https://github.com/lbr38/motion-UI'><?= __('Star me on GitHub') ?> ⭐</a></p>
     </div>
 </footer>
 
@@ -47,6 +46,7 @@
 <script src="/resources/js/classes/Modal.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Tooltip.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/Select2.js?<?= VERSION ?>"></script>
+<script src="/resources/js/classes/DateRangePicker.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/EChart.js?<?= VERSION ?>"></script>
 <script src="/resources/js/classes/System.js?<?= VERSION ?>"></script>
 
@@ -62,6 +62,7 @@
     const myselect2 = new Select2();
     const mysystem = new System();
     const mytooltip = new Tooltip();
+    const mydaterangepicker = new DateRangePicker();
 </script>
 
 <script src="/resources/js/functions.js?<?= VERSION ?>"></script>
@@ -71,6 +72,8 @@
 <script src="/resources/js/events/user/permissions.js?<?= VERSION ?>"></script>
 <script src="/resources/js/events/general/logs.js?<?= VERSION ?>"></script>
 <script src="/resources/js/notification.js?<?= VERSION ?>"></script>
+<script src="/resources/js/events/tooltip.js?<?= VERSION ?>"></script>
+<script src="/resources/js/events/toggle.js?<?= VERSION ?>"></script>
 
 <?php
 /**
@@ -78,17 +81,14 @@
  */
 if (in_array(__ACTUAL_URI__[1], ['', 'live'])) {
     $jsClasses = ['Camera', 'Camera/MSEConnect', 'Camera/WebRTCConnect'];
-    $jsFiles = ['events/general', 'events/camera/buttons', 'events/camera/edit', 'events/camera/ptz', 'camera', 'motion', 'stream/webrtc'];
+    $jsFiles = ['events/camera/buttons', 'events/camera/edit', 'events/camera/ptz', 'camera', 'motion', 'stream/webrtc'];
 }
 if (__ACTUAL_URI__[1] == 'motion') {
-    $jsFiles = ['events/general', 'camera', 'events/motion/motion', 'motion'];
+    $jsFiles = ['camera', 'events/motion/motion', 'motion'];
 }
 if (__ACTUAL_URI__[1] == 'events') {
     $jsClasses = ['Motion/Media'];
-    $jsFiles = ['events/general', 'camera', 'events/motion/event', 'motion'];
-}
-if (__ACTUAL_URI__[1] == 'stats') {
-    $jsFiles = ['events/general', 'events/motion/stats'];
+    $jsFiles = ['camera', 'events/motion/event', 'motion'];
 }
 
 // Load additional JS classes

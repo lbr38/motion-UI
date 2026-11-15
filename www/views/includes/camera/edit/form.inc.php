@@ -137,8 +137,8 @@
     <h6><?= __('AUTHENTICATION') ?></h6>
     <p class="note"><?= __('If the camera requires authentication (to access the video stream or ONVIF service).') ?></p>
     <label class="onoff-switch-label">
-        <input class="onoff-switch-input" type="checkbox" <?php echo (!empty($cameraRawParams['authentication']['username']) || !empty($cameraRawParams['authentication']['password'])) ? 'checked' : ''; ?>>
-        <span class="onoff-switch-slider toggle-btn" target=".basic-auth-fields"></span>
+        <input class="onoff-switch-input basic-auth-switch" type="checkbox" <?php echo (!empty($cameraRawParams['authentication']['username']) || !empty($cameraRawParams['authentication']['password'])) ? 'checked' : ''; ?>>
+        <span class="onoff-switch-slider"></span>
     </label>
 
     <div class="basic-auth-fields <?php echo (empty($cameraRawParams['authentication']['username']) && empty($cameraRawParams['authentication']['password'])) ? 'hide' : ''; ?>">

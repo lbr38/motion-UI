@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Motion-UI 6.11.3\n"
 "Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
-"POT-Creation-Date: 2026-11-01 12:07+0100\n"
+"POT-Creation-Date: 2026-11-15 08:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
+msgid "Events & files recorded"
+msgstr ""
 
 #: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
 msgid "Events"
@@ -31,12 +35,24 @@ msgid "Motion detection activity"
 msgstr ""
 
 #: controllers/Layout/Chart/vars/system-cpu-usage-chart.vars.inc.php
+msgid "CPU usage (%)"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/system-cpu-usage-chart.vars.inc.php
 #: views/includes/containers/buttons/top.inc.php
 msgid "CPU usage"
 msgstr ""
 
 #: controllers/Layout/Chart/vars/system-disk-usage-chart.vars.inc.php
+msgid "Disk usage (%)"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/system-disk-usage-chart.vars.inc.php
 msgid "Disk usage"
+msgstr ""
+
+#: controllers/Layout/Chart/vars/system-memory-usage-chart.vars.inc.php
+msgid "Memory usage (%)"
 msgstr ""
 
 #: controllers/Layout/Chart/vars/system-memory-usage-chart.vars.inc.php
@@ -978,7 +994,6 @@ msgid "Target URL:"
 msgstr ""
 
 #: views/includes/camera/edit/form.inc.php
-#: views/includes/containers/motion/buttons/main.inc.php
 #: views/includes/panels/camera/add.inc.php
 #: views/includes/panels/general/logs.inc.php
 #: views/includes/panels/general/settings.inc.php
@@ -1126,6 +1141,7 @@ msgid "Motion events"
 msgstr ""
 
 #: views/includes/containers/buttons/bottom.inc.php
+#: views/includes/containers/motion/buttons/main.inc.php
 msgid "Motion detection"
 msgstr ""
 
@@ -1267,7 +1283,7 @@ msgid "Add camera"
 msgstr ""
 
 #: views/includes/containers/error.inc.php
-msgid "ERROR"
+msgid "CONTAINER LOADING ERROR"
 msgstr ""
 
 #: views/includes/containers/error.inc.php
@@ -1285,13 +1301,11 @@ msgstr ""
 
 #: views/includes/containers/footer.inc.php
 #, php-format
-msgid "Motion-UI - release version %s"
+msgid "Version %s"
 msgstr ""
 
 #: views/includes/containers/footer.inc.php
-#, php-format
-msgid ""
-"Motion-UI is a free and open source software, licensed under the %s license."
+msgid "Star me on GitHub"
 msgstr ""
 
 #: views/includes/containers/getting-started.inc.php
@@ -1305,6 +1319,10 @@ msgstr ""
 
 #: views/includes/containers/header/debug-mode.inc.php
 msgid "Debug mode enabled."
+msgstr ""
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "SESSION data"
 msgstr ""
 
 #: views/includes/containers/header/debug-mode.inc.php
@@ -1342,7 +1360,7 @@ msgid "Login"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
-msgid "Start"
+msgid "Stop motion detection"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
@@ -1350,15 +1368,7 @@ msgid "Start motion detection"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
-msgid "Stop"
-msgstr ""
-
-#: views/includes/containers/motion/buttons/main.inc.php
-msgid "Stop motion detection"
-msgstr ""
-
-#: views/includes/containers/motion/buttons/main.inc.php
-msgid "MOTION DETECTION AUTOSTART"
+msgid "Disable motion detection autostart"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
@@ -1366,11 +1376,7 @@ msgid "Enable motion detection autostart"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
-msgid "Enable & configure"
-msgstr ""
-
-#: views/includes/containers/motion/buttons/main.inc.php
-msgid "Disable motion detection autostart"
+msgid "Autostart"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
@@ -1378,11 +1384,7 @@ msgid "Configure autostart"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
-msgid "Disable or configure"
-msgstr ""
-
-#: views/includes/containers/motion/buttons/main.inc.php
-msgid "MOTION DETECTION ALERTS"
+msgid "Disable motion alerts"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
@@ -1390,7 +1392,7 @@ msgid "Enable motion alerts"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
-msgid "Disable motion alerts"
+msgid "Alerts"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
@@ -1419,46 +1421,6 @@ msgstr ""
 
 #: views/includes/containers/motion/stats/list.inc.php
 msgid "SELECT PERIOD"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "Last 24 hours"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "Last 3 days"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "Last 7 days"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "Last 15 days"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "Last 30 days"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "EVENTS & FILES RECORDED"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "MOTION DETECTION ACTIVITY"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "CPU USAGE (%)"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "MEMORY USAGE (%)"
-msgstr ""
-
-#: views/includes/containers/motion/stats/list.inc.php
-msgid "DISK USAGE (%)"
 msgstr ""
 
 #: views/includes/containers/motionui/service/status.inc.php
@@ -1495,6 +1457,15 @@ msgstr ""
 
 #: views/includes/panels/camera/add.inc.php
 msgid "NEW CAMERA"
+msgstr ""
+
+#: views/includes/panels/error.inc.php
+msgid "PANEL LOADING ERROR"
+msgstr ""
+
+#: views/includes/panels/error.inc.php
+#, php-format
+msgid "An error occurred while trying to load %s panel:"
 msgstr ""
 
 #: views/includes/panels/general/logs.inc.php
@@ -1551,6 +1522,12 @@ msgstr ""
 
 #: views/includes/panels/general/notification.inc.php
 msgid "Nothing for now!"
+msgstr ""
+
+#: views/includes/panels/general/notification.inc.php
+msgid ""
+"You have no notifications at the moment. Motion-UI will notify you when an "
+"update is available or if there are any important messages to read."
 msgstr ""
 
 #: views/includes/panels/general/notification.inc.php
@@ -1985,6 +1962,15 @@ msgstr ""
 
 #: views/includes/slide-panel.inc.php
 msgid "Close"
+msgstr ""
+
+#: views/includes/tables/error.inc.php
+msgid "TABLE LOADING ERROR"
+msgstr ""
+
+#: views/includes/tables/error.inc.php
+#, php-format
+msgid "An error occurred while trying to load %s table:"
 msgstr ""
 
 #: views/includes/tables/motion/events.inc.php

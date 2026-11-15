@@ -616,6 +616,22 @@ $(document).on('click','.close-fullscreen-btn',function () {
 });
 
 /**
+ *  Event: exit browser fullscreen mode (Esc key)
+ *  This is different than clicking the close button
+ */
+$(document).on('fullscreenchange' ,function () {
+    // If fullscreen mode is exited, show or hide some elements and buttons that are available or hidden in normal mode
+    if (!document.fullscreenElement) {
+        // Show all stream images
+        $('.camera-image').show();
+        $('.fullscreen-close-btn').hide();
+        $('.fullscreen-btn').css('display', 'flex');
+        $('.timelapse-camera-btn').css('display', 'flex');
+        $('#timelapse').remove();
+    }
+});
+
+/**
  * Ajax: reload camera configuration form
  * @param {*} id
  */

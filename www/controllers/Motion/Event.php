@@ -318,6 +318,14 @@ class Event
     }
 
     /**
+     *  Return events start date and time, with their recorded files count, between dates (included)
+     */
+    public function getBetweenDateWithFilesCount(string $dateStart, string $dateEnd): array
+    {
+        return $this->model->getBetweenDateWithFilesCount($dateStart, $dateEnd);
+    }
+
+    /**
      *  Get files recorded for the specified motion event Id
      */
     public function getFilesByMotionEventId(string $motionEventId)
