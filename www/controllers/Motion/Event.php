@@ -107,21 +107,21 @@ class Event
          *  Check that provided file is valid (must be in captures directory)
          */
         if (!preg_match('#^' . CAPTURES_DIR . '#', realpath($file))) {
-            throw new Exception('The specified file is invalid.');
+            throw new Exception(__('The specified file is invalid.'));
         }
 
         /**
          *  File must be a picture or a movie
          */
         if (!preg_match('/\.(jpg|jpeg|mp4|mov|mkv|webm)$/', $file)) {
-            throw new Exception('The specified file extension is not allowed.');
+            throw new Exception(__('The specified file extension is not allowed.'));
         }
 
         /**
          *  Check that MIME type is valid
          */
         if (!in_array(mime_content_type($file), ['image/jpeg', 'video/mp4', 'video/quicktime', 'video/x-matroska', 'video/webm'])) {
-            throw new Exception('The specified file MIME type is not allowed.');
+            throw new Exception(__('The specified file MIME type is not allowed.'));
         }
 
         /**
@@ -292,7 +292,7 @@ class Event
 
         foreach ($cameras as $cameraId) {
             if (!is_numeric($cameraId)) {
-                throw new Exception('Invalid camera Id: ' . $cameraId);
+                throw new Exception(sprintf(__('Invalid camera Id: %s'), $cameraId));
             }
 
             $files = array_merge($files, $this->model->getFilesByDateAndCamera($date, $cameraId));
@@ -358,7 +358,7 @@ class Event
          *  File Id must be numeric
          */
         if (!is_numeric($fileId)) {
-            throw new Exception('The specified file is invalid.');
+            throw new Exception(__('The specified file is invalid.'));
         }
 
         return $this->model->getFilePath($fileId);
@@ -372,13 +372,13 @@ class Event
         $totalSize = 0;
 
         if (!file_exists(CAPTURES_DIR)) {
-            throw new Exception('No captures directory found');
+            throw new Exception(__('No captures directory found'));
         }
 
         if (!empty($cameras)) {
             foreach ($cameras as $cameraId) {
                 if (!is_numeric($cameraId)) {
-                    throw new Exception('Invalid camera Id: ' . $cameraId);
+                    throw new Exception(sprintf(__('Invalid camera Id: %s'), $cameraId));
                 }
 
                 if (is_dir(CAPTURES_DIR . '/camera-' . $cameraId . '/' . $date)) {
@@ -413,11 +413,11 @@ class Event
     {
         // TODO: add a permission for usage users to delete or not files
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to delete files');
+            throw new Exception(__('You are not allowed to delete files'));
         }
 
         if (empty($filesId)) {
-            throw new Exception('No file has been specified');
+            throw new Exception(__('No file has been specified'));
         }
 
         foreach ($filesId as $fileId) {
@@ -430,14 +430,14 @@ class Event
              *  Check that file is writeable
              */
             if (!is_writeable($filePath)) {
-                throw new Exception('File <b>' . $filePath . '</b> is not writeable');
+                throw new Exception(sprintf(__('File %s is not writeable'), '<b>' . $filePath . '</b>'));
             }
 
             /**
              *  Delete file
              */
             if (!unlink($filePath)) {
-                throw new Exception('Could not delete file <b>' . $filePath . '</b>');
+                throw new Exception(sprintf(__('Could not delete file %s'), '<b>' . $filePath . '</b>'));
             }
         }
     }

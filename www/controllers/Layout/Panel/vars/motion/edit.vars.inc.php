@@ -1,6 +1,6 @@
 <?php
 if (!IS_ADMIN) {
-    throw new Exception('You are not allowed to access this panel.');
+    throw new Exception(__('You are not allowed to access this panel.'));
 }
 
 $mycamera = new \Controllers\Camera\Camera();
@@ -9,7 +9,7 @@ $mycamera = new \Controllers\Camera\Camera();
  *  Check if camera exists
  */
 if ($mycamera->existId($item['id']) === false) {
-    throw new Exception('Camera does not exist');
+    throw new Exception(__('Camera does not exist'));
 }
 
 $id = $item['id'];
@@ -32,7 +32,7 @@ try {
  *  If device ID is not found in current configuration, throw an error
  */
 if (empty($currentMotionConfiguration['device_id'])) {
-    throw new Exception('Device ID not found in current configuration');
+    throw new Exception(__('Device ID not found in current configuration'));
 }
 
 unset($configuration);

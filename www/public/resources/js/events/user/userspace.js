@@ -100,11 +100,11 @@ $(document).on('click','.reset-password-btn',function () {
 
     myconfirmbox.print(
         {
-            'title': 'Reset password',
-            'message': 'Reset password of user ' + username + '?',
+            'title': __('Reset password'),
+            'message': sprintf(__('Reset password of user %s?'), username),
             'buttons': [
             {
-                'text': 'Reset',
+                'text': __('Reset'),
                 'color': 'red',
                 'callback': function () {
                     ajaxRequest(
@@ -122,7 +122,7 @@ $(document).on('click','.reset-password-btn',function () {
                         true
                     ).then(function () {
                         // Print new generated password
-                        $('#users-settings-container').find('#user-settings-generated-passwd').html('<p class="note margin-top-5">New password generated for <b>' + username + '</b>:<br><span class="greentext copy">' + jsonValue.message.password + '</span></p>');
+                        $('#users-settings-container').find('#user-settings-generated-passwd').html('<p class="note margin-top-5">' + sprintf(__('New password generated for %s:'), '<b>' + username + '</b>') + '<br><span class="greentext copy">' + jsonValue.message.password + '</span></p>');
                     });
                 }
             }]
@@ -139,11 +139,11 @@ $(document).on('click','.delete-user-btn',function () {
 
     myconfirmbox.print(
         {
-            'title': 'Delete user',
-            'message': 'Delete user ' + username + '?',
+            'title': __('Delete user'),
+            'message': sprintf(__('Delete user %s?'), username),
             'buttons': [
             {
-                'text': 'Delete',
+                'text': __('Delete'),
                 'color': 'red',
                 'callback': function () {
                     ajaxRequest(

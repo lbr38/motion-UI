@@ -14,7 +14,7 @@ class Add extends Camera
     public function add(array $params): void
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to add a new camera');
+            throw new Exception(__('You are not allowed to add a new camera'));
         }
 
         $cameraStreamController = new \Controllers\Camera\Stream();
@@ -65,7 +65,7 @@ class Add extends Camera
         $id = $this->model->getLastInsertRowID();
 
         if (empty($id)) {
-            throw new Exception('Could not retrieve camera Id');
+            throw new Exception(__('Could not retrieve camera Id'));
         }
 
         /**

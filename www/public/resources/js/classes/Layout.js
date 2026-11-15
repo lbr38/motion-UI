@@ -97,7 +97,7 @@ class Layout {
      */
     printLoadingVeilByClass(name)
     {
-        $('.' + name).append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+        $('.' + name).append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">' + __('Loading') + '</span></div>');
     }
 
     /**
@@ -106,7 +106,7 @@ class Layout {
      */
     printLoadingVeilByParentClass(name)
     {
-        $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+        $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">' + __('Loading') + '</span></div>');
     }
 
     /**

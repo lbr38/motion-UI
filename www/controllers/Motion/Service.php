@@ -108,23 +108,23 @@ class Service
     public function getLog(string $log): string
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to view motion service logs');
+            throw new Exception(__('You are not allowed to view motion service logs'));
         }
 
         $log = realpath(LOGS_DIR . '/motion/' . $log);
 
         if (!preg_match('#^' . LOGS_DIR . '/motion/.*log#', $log)) {
-            throw new Exception('Invalid log file');
+            throw new Exception(__('Invalid log file'));
         }
 
         if (!file_exists($log)) {
-            throw new Exception('Log file does not exist');
+            throw new Exception(__('Log file does not exist'));
         }
 
         $content = file_get_contents($log);
 
         if ($content === false) {
-            throw new Exception('Failed to read log file');
+            throw new Exception(__('Failed to read log file'));
         }
 
         return $content;

@@ -14,4 +14,4 @@ if ($_POST['action'] == 'get-log' and !empty($_POST['log'])) {
     response(HTTP_OK, $content);
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

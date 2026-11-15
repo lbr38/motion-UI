@@ -10,7 +10,7 @@ if ($_POST['action'] == 'edit' and isset($_POST['firstName']) and isset($_POST['
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Personnal informations saved');
+    response(HTTP_OK, __('Personnal informations saved'));
 }
 
 /**
@@ -24,7 +24,7 @@ if ($_POST['action'] == "change-password" and !empty($_POST['id']) and !empty($_
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Password changed.');
+    response(HTTP_OK, __('Password changed.'));
 }
 
 /**
@@ -39,7 +39,7 @@ if ($action == 'create-user' and !empty($_POST['username']) and !empty($_POST['r
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, array('message' => 'User <b>' . $_POST['username'] . '</b> has been created', 'password' => $generatedPassword));
+    response(HTTP_OK, array('message' => sprintf(__('User %s has been created'), '<b>' . $_POST['username'] . '</b>'), 'password' => $generatedPassword));
 }
 
 /**
@@ -53,7 +53,7 @@ if ($action == 'reset-password' and !empty($_POST['id'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, array('message' => 'Password has been regenerated', 'password' => $generatedPassword));
+    response(HTTP_OK, array('message' => __('Password has been regenerated'), 'password' => $generatedPassword));
 }
 
 /**
@@ -68,7 +68,7 @@ if ($action == 'delete-user' and !empty($_POST['id'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'User has been deleted');
+    response(HTTP_OK, __('User has been deleted'));
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

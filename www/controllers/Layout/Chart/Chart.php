@@ -17,16 +17,16 @@ class Chart
              *  Only allow safe characters in the chart ID to prevent path traversal / local file inclusion
              */
             if (!preg_match('/^[a-z0-9-]+$/i', $id)) {
-                throw new Exception('invalid chart ID');
+                throw new Exception(__('invalid chart ID'));
             }
 
             // System charts are only available to administrators (status tab)
             if (str_starts_with($id, 'system-') and !IS_ADMIN) {
-                throw new Exception('You are not allowed to access this chart');
+                throw new Exception(__('You are not allowed to access this chart'));
             }
 
             if (!file_exists(ROOT . '/controllers/Layout/Chart/vars/' . $id . '.vars.inc.php')) {
-                throw new Exception('could not retrieve chart data for chart ID ' . $id);
+                throw new Exception(sprintf(__('Could not retrieve chart data for chart ID %s'), $id));
             }
 
             // Default period is the last 24 hours
@@ -37,7 +37,7 @@ class Chart
 
             // Check that timeStart and timeEnd are valid timestamps
             if (!is_numeric($timeStart) || !is_numeric($timeEnd) || $timeStart > $timeEnd) {
-                throw new Exception('invalid time range specified');
+                throw new Exception(__('invalid time range specified'));
             }
 
             $timeStart = (int) $timeStart;
@@ -56,7 +56,7 @@ class Chart
                 'options' => $options
             ];
         } catch (Exception $e) {
-            throw new Exception('Error rendering chart #' . $id . ': ' . $e->getMessage());
+            throw new Exception(sprintf(__('Error rendering chart #%s: %s'), $id, $e->getMessage()));
         }
     }
 }

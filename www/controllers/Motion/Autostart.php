@@ -60,7 +60,7 @@ class Autostart
     public function enable(string $status): void
     {
         if ($status != 'enabled' and $status != 'disabled') {
-            throw new Exception('Invalid parameter');
+            throw new Exception(__('Invalid parameter'));
         }
 
         $this->model->enable($status);
@@ -72,7 +72,7 @@ class Autostart
     public function enableDevicePresence(string $status): void
     {
         if ($status != 'enabled' and $status != 'disabled') {
-            throw new Exception('Invalid parameter');
+            throw new Exception(__('Invalid parameter'));
         }
 
         $this->model->enableDevicePresence($status);
@@ -107,23 +107,23 @@ class Autostart
     public function getLog(string $log): string
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to view motion autostart logs');
+            throw new Exception(__('You are not allowed to view motion autostart logs'));
         }
 
         $log = realpath(AUTOSTART_LOGS_DIR . '/' . $log);
 
         if (!preg_match('#^' . AUTOSTART_LOGS_DIR . '/.*log#', $log)) {
-            throw new Exception('Invalid log file');
+            throw new Exception(__('Invalid log file'));
         }
 
         if (!file_exists($log)) {
-            throw new Exception('Log file does not exist');
+            throw new Exception(__('Log file does not exist'));
         }
 
         $content = file_get_contents($log);
 
         if ($content === false) {
-            throw new Exception('Failed to read log file');
+            throw new Exception(__('Failed to read log file'));
         }
 
         return $content;

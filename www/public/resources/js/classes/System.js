@@ -27,7 +27,7 @@ class System {
 
             // If the CPU usage is null, display an error
             if (this.value === null) {
-                cpuUsage.text('Error');
+                cpuUsage.text(__('Error'));
                 cpuUsageIcon
                     .removeClass('bkg-green bkg-yellow bkg-red')
                     .addClass('bkg-red');

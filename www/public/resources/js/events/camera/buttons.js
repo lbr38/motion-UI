@@ -73,7 +73,7 @@ $(document).on('click','.enable-camera-stream-btn', function (e) {
 
         // Change button icon
         $(thisButton).find('img').attr('src', '/assets/icons/videocam.svg');
-        $(thisButton).find('img').attr('title', 'Disable stream');
+        $(thisButton).find('img').attr('title', __('Disable stream'));
 
         // Change class
         $(thisButton).removeClass('enable-camera-stream-btn');
@@ -118,7 +118,7 @@ $(document).on('click','.disable-camera-stream-btn', function (e) {
 
         // Change button icon
         $(thisButton).find('img').attr('src', '/assets/icons/videocam-off.svg');
-        $(thisButton).find('img').attr('title', 'Enable stream');
+        $(thisButton).find('img').attr('title', __('Enable stream'));
 
         // Change class
         $(thisButton).removeClass('disable-camera-stream-btn');
@@ -169,7 +169,7 @@ $(document).on('click','.fullscreen-btn', function (e) {
         videoContainer.msRequestFullscreen();
     } else {
         // Fallback for browsers that don't support fullscreen API
-        alert('Your browser does not support fullscreen mode.');
+        alert(__('Your browser does not support fullscreen mode.'));
         return;
     }
 
@@ -196,7 +196,7 @@ $(document).on('click','.fullscreen-close-btn', function (e) {
     } else if (document.msExitFullscreen) { // IE/Edge
         document.msExitFullscreen();
     } else {
-        alert('Your browser does not support fullscreen mode.');
+        alert(__('Your browser does not support fullscreen mode.'));
         return;
     }
 

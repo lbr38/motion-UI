@@ -22,7 +22,7 @@ class Stream
     public function enable(int $id, string $enable): void
     {
         if (!in_array($enable, ['true', 'false'])) {
-            throw new Exception('Invalid stream status');
+            throw new Exception(__('Invalid stream status'));
         }
 
         /**
@@ -90,11 +90,11 @@ class Stream
         $process->close();
 
         if ($process->getExitCode() != 0) {
-            throw new Exception('Could not get stream info from URL: ' . $output);
+            throw new Exception(sprintf(__('Could not get stream info from URL: %s'), $output));
         }
 
         if (empty($output)) {
-            throw new Exception('No stream info found at the URL');
+            throw new Exception(__('No stream info found at the URL'));
         }
 
         $lines = explode("\n", $output);
@@ -113,7 +113,7 @@ class Stream
     public function sort(array $order): void
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to sort the cameras');
+            throw new Exception(__('You are not allowed to sort the cameras'));
         }
 
         /**
@@ -126,7 +126,7 @@ class Stream
          */
         foreach ($order as $key => $value) {
             if (!is_numeric($value)) {
-                throw new Exception('Invalid order value: ' . $value);
+                throw new Exception(sprintf(__('Invalid order value: %s'), $value));
             }
         }
 
@@ -173,7 +173,7 @@ class Stream
         try {
             $this->sort(array_map('strval', $order)); // Convert all values to strings
         } catch (Exception $e) {
-            throw new Exception('Could not save camera order: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not save camera order: %s'), $e->getMessage()));
         }
     }
 
@@ -212,7 +212,7 @@ class Stream
         try {
             $this->sort($order);
         } catch (Exception $e) {
-            throw new Exception('Could not save camera order: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not save camera order: %s'), $e->getMessage()));
         }
 
         unset($order);

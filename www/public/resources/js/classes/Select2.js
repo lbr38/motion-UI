@@ -92,7 +92,7 @@ class Select2
      *  Convert select tag to a select2 by specified element
      *  @param {*} element
      */
-    convert(element, placeholder = 'Select...', allowNewOptions = false, hideSearch = true)
+    convert(element, placeholder = __('Select...'), allowNewOptions = false, hideSearch = true)
     {
         $(element).select2(this.options(placeholder, allowNewOptions, hideSearch));
     }

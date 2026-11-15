@@ -83,9 +83,9 @@ $(document).keyup(function (e) {
 $(document).on('mouseenter','.copy',function () {
     // If the element is a <pre> tag, the copy icon is in the top right corner
     if ($(this).is('pre')) {
-        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy-top-right margin-left-5" title="Copy to clipboard">');
+        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy-top-right margin-left-5" title="' + __('Copy to clipboard') + '">');
     } else {
-        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy margin-left-5" title="Copy to clipboard">');
+        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy margin-left-5" title="' + __('Copy to clipboard') + '">');
     }
 });
 
@@ -107,9 +107,9 @@ $(document).on('click','.icon-copy, .icon-copy-top-right',function (e) {
     var text = $(this).parent().text().trim();
 
     navigator.clipboard.writeText(text).then(() => {
-        myalert.print('Copied to clipboard', 'success');
+        myalert.print(__('Copied to clipboard'), 'success');
     },() => {
-        myalert.print('Failed to copy', 'error');
+        myalert.print(__('Failed to copy'), 'error');
     });
 });
 
@@ -120,9 +120,9 @@ $(document).on('click','.copy-input-onclick',function (e) {
     var text = $(this).val().trim();
 
     navigator.clipboard.writeText(text).then(() => {
-        myalert.print('Copied to clipboard', 'success');
+        myalert.print(__('Copied to clipboard'), 'success');
     },() => {
-        myalert.print('Failed to copy', 'error');
+        myalert.print(__('Failed to copy'), 'error');
     });
 });
 

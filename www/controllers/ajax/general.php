@@ -70,4 +70,4 @@ if ($action == 'get-panel' && !empty($_POST['name']) && isset($_POST['params']))
     response(HTTP_OK, $content);
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

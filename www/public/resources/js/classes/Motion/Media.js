@@ -54,11 +54,11 @@ class Media
             myconfirmbox.print(
                 {
                     'id': 'delete-media',
-                    'title': 'Delete medias',
-                    'message': 'Are you sure you want to delete ' + mediaId.length + ' media' + (mediaId.length > 1 ? 's' : '') + ' ?',
+                    'title': __('Delete medias'),
+                    'message': sprintf(_n('Are you sure you want to delete %d media?', 'Are you sure you want to delete %d medias?', mediaId.length), mediaId.length),
                     'buttons': [
                     {
-                        'text': 'Delete',
+                        'text': __('Delete'),
                         'color': 'red',
                         'callback': function () {
                             ajaxRequest(

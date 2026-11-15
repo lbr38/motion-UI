@@ -27,7 +27,14 @@
     <link rel="stylesheet" type='text/css' href="/resources/styles/select2.css?<?= VERSION ?>">
     <link rel="stylesheet" type="text/css" href="/resources/styles/motionui.css?<?= VERSION ?>">
 
+    <!-- Translations for the javascript code -->
+    <script>
+        const LANG = <?= json_encode(\Controllers\App\Lang::get()) ?>;
+        const TRANSLATIONS = <?= json_encode(\Controllers\App\Lang::catalogue('javascript'), JSON_FORCE_OBJECT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?>;
+    </script>
+
     <!-- Load pre JS -->
+    <script type="text/javascript" src="/resources/js/pre/functions/lang.js?<?= VERSION ?>"></script>
     <script type="text/javascript" src="/resources/js/pre/functions/global.js?<?= VERSION ?>"></script>
     <!-- jQuery -->
     <script src="/resources/js/libs/jquery-3.7.1.min.js?<?= VERSION ?>"></script>

@@ -15,14 +15,14 @@ class Resolution
          *  Check that resolution is not empty
          */
         if (empty($resolution)) {
-            throw new Exception('Resolution is required');
+            throw new Exception(__('Resolution is required'));
         }
 
         /**
          *  Check that resolution is valid
          */
         if (!preg_match('#^([0-9]+)x([0-9]+)$#', $resolution)) {
-            throw new Exception('Specified resolution is invalid');
+            throw new Exception(__('Specified resolution is invalid'));
         }
     }
 }

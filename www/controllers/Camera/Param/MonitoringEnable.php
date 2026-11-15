@@ -12,7 +12,7 @@ class MonitoringEnable
     public static function check(string $enable): void
     {
         if ($enable != "true" and $enable != "false") {
-            throw new Exception('Monitoring enable is invalid');
+            throw new Exception(__('Monitoring enable is invalid'));
         }
     }
 }

@@ -267,11 +267,11 @@ $(document).on('click','.delete-camera-btn',function () {
 
     myconfirmbox.print(
         {
-            'title': 'Delete camera',
-            'message': 'Are you sure you want to delete this camera?',
+            'title': __('Delete camera'),
+            'message': __('Are you sure you want to delete this camera?'),
             'buttons': [
             {
-                'text': 'Delete',
+                'text': __('Delete'),
                 'color': 'red',
                 'callback': function () {
                     ajaxRequest(
@@ -344,7 +344,7 @@ $(document).on('click','.timelapse-camera-btn',function (e) {
             timelapseContainer.msRequestFullscreen();
         } else {
             // Fallback for browsers that don't support fullscreen API
-            alert('Your browser does not support fullscreen mode.');
+            alert(__('Your browser does not support fullscreen mode.'));
             return;
         }
 
@@ -418,7 +418,7 @@ function playTimelapse()
      *  Quit if no date was found
      */
     if (!date) {
-        myalert.print('No timelapse date found', 'error');
+        myalert.print(__('No timelapse date found'), 'error');
         return;
     }
 
@@ -426,7 +426,7 @@ function playTimelapse()
      *  Quit if no max range was found
      */
     if (!max) {
-        myalert.print('No timelapse max range found', 'error');
+        myalert.print(__('No timelapse max range found'), 'error');
         return;
     }
 
@@ -434,7 +434,7 @@ function playTimelapse()
      *  Quit if no pictures were found
      */
     if (!pictures) {
-        myalert.print('No timelapse images to play', 'error');
+        myalert.print(__('No timelapse images to play'), 'error');
         return;
     }
 
@@ -442,7 +442,7 @@ function playTimelapse()
      *  Quit if max = 0
      */
     if (max == 0) {
-        myalert.print('No timelapse images to play', 'error');
+        myalert.print(__('No timelapse images to play'), 'error');
         return;
     }
 

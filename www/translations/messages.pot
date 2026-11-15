@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Motion-UI 6.11.3\n"
 "Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
-"POT-Creation-Date: 2026-11-15 08:41+0100\n"
+"POT-Creation-Date: 2026-11-15 09:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,196 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: controllers/Camera/Add.php
+msgid "You are not allowed to add a new camera"
+msgstr ""
+
+#: controllers/Camera/Add.php
+msgid "Could not retrieve camera Id"
+msgstr ""
+
+#: controllers/Camera/Delete.php
+msgid "You are not allowed to delete a camera"
+msgstr ""
+
+#: controllers/Camera/Delete.php controllers/Camera/Edit.php
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera does not exist"
+msgstr ""
+
+#: controllers/Camera/Delete.php
+#, php-format
+msgid "Could not delete camera config file: %s"
+msgstr ""
+
+#: controllers/Camera/Delete.php
+#, php-format
+msgid "Could not delete camera data directory: %s"
+msgstr ""
+
+#: controllers/Camera/Edit.php
+msgid "You are not allowed to edit camera settings"
+msgstr ""
+
+#: controllers/Camera/Edit.php controllers/Onvif/PtzMove.php
+msgid "Device camera are not movable"
+msgstr ""
+
+#: controllers/Camera/Edit.php
+msgid "Could not retrieve camera IP from URL"
+msgstr ""
+
+#: controllers/Camera/Edit.php
+msgid "Could not determine camera IP from URL"
+msgstr ""
+
+#: controllers/Camera/Param/BasicAuthPassword.php
+msgid "Password contains invalid characters"
+msgstr ""
+
+#: controllers/Camera/Param/BasicAuthUsername.php
+msgid "Username contains invalid characters"
+msgstr ""
+
+#: controllers/Camera/Param/Device.php
+msgid "Device or URL is required"
+msgstr ""
+
+#: controllers/Camera/Param/Device.php
+msgid ""
+"Device or URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/"
+"video</b>"
+msgstr ""
+
+#: controllers/Camera/Param/Device.php
+msgid "Device or URL contains invalid characters"
+msgstr ""
+
+#: controllers/Camera/Param/Framerate.php
+msgid "Frame rate is required"
+msgstr ""
+
+#: controllers/Camera/Param/Framerate.php
+msgid "Frame rate value is invalid"
+msgstr ""
+
+#: controllers/Camera/Param/MonitoringEnable.php
+msgid "Monitoring enable is invalid"
+msgstr ""
+
+#: controllers/Camera/Param/MonitoringRecipients.php
+#, php-format
+msgid "Monitoring recipient \"%s\" is not a valid email"
+msgstr ""
+
+#: controllers/Camera/Param/Name.php
+msgid "Name is required"
+msgstr ""
+
+#: controllers/Camera/Param/Name.php
+msgid "Name contains invalid characters"
+msgstr ""
+
+#: controllers/Camera/Param/OnvifEnable.php
+msgid "Onvif enable is invalid"
+msgstr ""
+
+#: controllers/Camera/Param/OnvifPort.php
+msgid "Onvif port is invalid"
+msgstr ""
+
+#: controllers/Camera/Param/OnvifUri.php
+msgid "Invalid ONVIF URI"
+msgstr ""
+
+#: controllers/Camera/Param/Resolution.php
+msgid "Resolution is required"
+msgstr ""
+
+#: controllers/Camera/Param/Resolution.php
+msgid "Specified resolution is invalid"
+msgstr ""
+
+#: controllers/Camera/Param/Rotate.php
+msgid "Rotate is required"
+msgstr ""
+
+#: controllers/Camera/Param/Rotate.php
+msgid "Rotate value is invalid"
+msgstr ""
+
+#: controllers/Camera/Stream.php
+msgid "Invalid stream status"
+msgstr ""
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Could not get stream info from URL: %s"
+msgstr ""
+
+#: controllers/Camera/Stream.php
+msgid "No stream info found at the URL"
+msgstr ""
+
+#: controllers/Camera/Stream.php
+msgid "You are not allowed to sort the cameras"
+msgstr ""
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Invalid order value: %s"
+msgstr ""
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Could not save camera order: %s"
+msgstr ""
+
+#: controllers/Go2rtc/Go2rtc.php
+msgid "Failed to restart go2rtc:"
+msgstr ""
+
+#: controllers/Go2rtc/Go2rtc.php
+msgid "You are not allowed to view go2rtc logs"
+msgstr ""
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Invalid log file"
+msgstr ""
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Log file does not exist"
+msgstr ""
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Failed to read log file"
+msgstr ""
+
+#: controllers/Layout/Chart/Chart.php
+msgid "invalid chart ID"
+msgstr ""
+
+#: controllers/Layout/Chart/Chart.php
+msgid "You are not allowed to access this chart"
+msgstr ""
+
+#: controllers/Layout/Chart/Chart.php
+#, php-format
+msgid "Could not retrieve chart data for chart ID %s"
+msgstr ""
+
+#: controllers/Layout/Chart/Chart.php
+msgid "invalid time range specified"
+msgstr ""
+
+#: controllers/Layout/Chart/Chart.php
+#, php-format
+msgid "Error rendering chart #%s: %s"
+msgstr ""
 
 #: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
 msgid "Events & files recorded"
@@ -60,7 +250,35 @@ msgid "Memory usage"
 msgstr ""
 
 #: controllers/Layout/Container/vars/login.vars.inc.php
+#: controllers/User/Login.php
 msgid "Invalid login and/or password"
+msgstr ""
+
+#: controllers/Layout/Container/vars/motion/buttons/main.vars.inc.php
+#: controllers/Layout/Container/vars/motion/stats/list.vars.inc.php
+msgid "You are not allowed to access this page."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
+#: controllers/Layout/Panel/vars/general/settings.vars.inc.php
+#: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/alert.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/autostart.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "You are not allowed to access this panel."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
+#, php-format
+msgid "Error: could not retrieve camera #%s configuration: %s"
+msgstr ""
+
+#: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
+msgid "User Id not set."
+msgstr ""
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Device ID not found in current configuration"
 msgstr ""
 
 #: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
@@ -836,6 +1054,361 @@ msgstr ""
 msgid "TODAY"
 msgstr ""
 
+#: controllers/Mail.php
+#, php-format
+msgid "Error while sending email: %s"
+msgstr ""
+
+#: controllers/Motion/Alert.php controllers/Motion/Autostart.php
+msgid "Invalid parameter"
+msgstr ""
+
+#: controllers/Motion/Autostart.php
+msgid "You are not allowed to view motion autostart logs"
+msgstr ""
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not read configuration file: %s"
+msgstr ""
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not retrieve configuration file content: %s"
+msgstr ""
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Motion configuration file is not readable: %s"
+msgstr ""
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Motion configuration file is not writeable: %s"
+msgstr ""
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "%s parameter name contains invalid character(s)"
+msgstr ""
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not write to configuration file: %s"
+msgstr ""
+
+#: controllers/Motion/Config.php
+msgid "Camera configuration file does not exist"
+msgstr ""
+
+#: controllers/Motion/Config.php
+msgid "Could not enable camera configuration file"
+msgstr ""
+
+#: controllers/Motion/Config.php
+msgid "Could not disable camera configuration file"
+msgstr ""
+
+#: controllers/Motion/Device.php
+msgid "Invalid device id"
+msgstr ""
+
+#: controllers/Motion/Event.php
+msgid "The specified file is invalid."
+msgstr ""
+
+#: controllers/Motion/Event.php
+msgid "The specified file extension is not allowed."
+msgstr ""
+
+#: controllers/Motion/Event.php
+msgid "The specified file MIME type is not allowed."
+msgstr ""
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "Invalid camera Id: %s"
+msgstr ""
+
+#: controllers/Motion/Event.php
+msgid "No captures directory found"
+msgstr ""
+
+#: controllers/Motion/Event.php
+msgid "You are not allowed to delete files"
+msgstr ""
+
+#: controllers/Motion/Event.php
+msgid "No file has been specified"
+msgstr ""
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "File %s is not writeable"
+msgstr ""
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "Could not delete file %s"
+msgstr ""
+
+#: controllers/Motion/Service.php
+msgid "You are not allowed to view motion service logs"
+msgstr ""
+
+#: controllers/Notification.php
+msgid "Unable to retrieve notifications"
+msgstr ""
+
+#: controllers/Notification.php
+msgid "Invalid notification id"
+msgstr ""
+
+#: controllers/Onvif/Ptz.php controllers/Onvif/PtzMove.php
+msgid "PTZ URI is not set"
+msgstr ""
+
+#: controllers/Onvif/Ptz.php
+#, php-format
+msgid "Could not move PTZ: %s"
+msgstr ""
+
+#: controllers/Onvif/Ptz.php
+#, php-format
+msgid "Could not stop PTZ: %s"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Camera Id does not exist"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Camera URL is not set"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Username is not set"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Password is not set"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+#, php-format
+msgid "Could not move camera: %s"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid direction"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid move type"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid move speed"
+msgstr ""
+
+#: controllers/Onvif/PtzMove.php
+msgid "Could not get profile token"
+msgstr ""
+
+#: controllers/Settings.php
+msgid "Unable to save Home page settings"
+msgstr ""
+
+#: controllers/Settings.php
+msgid "You are not allowed to perform this action"
+msgstr ""
+
+#: controllers/Settings.php
+msgid "Failed to enable debug mode"
+msgstr ""
+
+#: controllers/Settings.php
+msgid "Failed to disable debug mode"
+msgstr ""
+
+#: controllers/User/Edit.php
+msgid "Invalid email address format"
+msgstr ""
+
+#: controllers/User/Edit.php controllers/User/Permission.php
+#: controllers/User/User.php
+msgid "User does not exist"
+msgstr ""
+
+#: controllers/User/Edit.php controllers/User/Permission.php
+#: controllers/User/User.php
+msgid "You are not allowed to execute this action."
+msgstr ""
+
+#: controllers/User/Edit.php controllers/User/User.php
+msgid "Specified user does not exist"
+msgstr ""
+
+#: controllers/User/Edit.php
+msgid "You are not allowed to reset password of another administrator"
+msgstr ""
+
+#: controllers/User/Edit.php
+#, php-format
+msgid "Error while creating a new password for user %s"
+msgstr ""
+
+#: controllers/User/Edit.php
+msgid "You are not allowed to change password of another user"
+msgstr ""
+
+#: controllers/User/Edit.php controllers/User/User.php
+msgid "An error occured while checking user password"
+msgstr ""
+
+#: controllers/User/Edit.php
+msgid "New password and password re-type are different"
+msgstr ""
+
+#: controllers/User/Edit.php
+msgid "New password must be different then the actual one"
+msgstr ""
+
+#: controllers/User/Login.php
+msgid "Unknown login"
+msgstr ""
+
+#: controllers/User/Permission.php
+#, php-format
+msgid "Could not grant camera access: %s"
+msgstr ""
+
+#: controllers/User/User.php
+msgid "Username cannot contain special characters except hyphen and underscore"
+msgstr ""
+
+#: controllers/User/User.php
+msgid "Selected user role is invalid"
+msgstr ""
+
+#: controllers/User/User.php
+#, php-format
+msgid "Username %s already exists"
+msgstr ""
+
+#: controllers/User/User.php
+msgid "Error while hashing user password"
+msgstr ""
+
+#: controllers/User/User.php
+msgid "Bad password"
+msgstr ""
+
+#: controllers/Utils/Validate.php
+#, php-format
+msgid "Invalid date format, expected %s"
+msgstr ""
+
+#: controllers/ajax/camera.php
+msgid "Camera added"
+msgstr ""
+
+#: controllers/ajax/camera.php
+msgid "Camera settings saved"
+msgstr ""
+
+#: controllers/ajax/camera.php
+msgid "Camera deleted"
+msgstr ""
+
+#: controllers/ajax/camera.php controllers/ajax/camera/ptz.php
+#: controllers/ajax/camera/stream.php controllers/ajax/chart.php
+#: controllers/ajax/general.php controllers/ajax/general/service.php
+#: controllers/ajax/go2rtc.php controllers/ajax/motion.php
+#: controllers/ajax/motion/autostart.php controllers/ajax/notification.php
+#: controllers/ajax/settings/debug-mode.php controllers/ajax/settings/edit.php
+#: controllers/ajax/system.php controllers/ajax/timelapse.php
+#: controllers/ajax/user/permissions.php controllers/ajax/userspace.php
+msgid "Invalid action"
+msgstr ""
+
+#: controllers/ajax/general/service.php
+msgid "Invalid unit"
+msgstr ""
+
+#: controllers/ajax/general/service.php
+msgid "Log file not found"
+msgstr ""
+
+#: controllers/ajax/general/service.php
+msgid "Unable to read log file"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "Email sent"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "Settings saved"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "Device added"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "Device removed"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "All events acquitted"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "Media file(s) successfully deleted"
+msgstr ""
+
+#: controllers/ajax/motion.php
+msgid "Configuration saved."
+msgstr ""
+
+#: controllers/ajax/notification.php
+msgid "Notification marked as read"
+msgstr ""
+
+#: controllers/ajax/settings/debug-mode.php
+msgid "Settings have been saved"
+msgstr ""
+
+#: controllers/ajax/settings/edit.php
+msgid "Settings saved."
+msgstr ""
+
+#: controllers/ajax/user/permissions.php
+msgid "Permissions saved"
+msgstr ""
+
+#: controllers/ajax/userspace.php
+msgid "Personnal informations saved"
+msgstr ""
+
+#: controllers/ajax/userspace.php
+msgid "Password changed."
+msgstr ""
+
+#: controllers/ajax/userspace.php
+#, php-format
+msgid "User %s has been created"
+msgstr ""
+
+#: controllers/ajax/userspace.php
+msgid "Password has been regenerated"
+msgstr ""
+
+#: controllers/ajax/userspace.php
+msgid "User has been deleted"
+msgstr ""
+
 #: views/includes/camera/edit/form.inc.php
 #: views/includes/panels/camera/add.inc.php
 #: views/includes/panels/motion/autostart.inc.php
@@ -1421,6 +1994,10 @@ msgstr ""
 
 #: views/includes/containers/motion/stats/list.inc.php
 msgid "SELECT PERIOD"
+msgstr ""
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 24 Hours"
 msgstr ""
 
 #: views/includes/containers/motionui/service/status.inc.php

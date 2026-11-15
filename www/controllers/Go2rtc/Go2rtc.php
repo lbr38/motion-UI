@@ -117,7 +117,7 @@ class Go2rtc
         $myprocess->close();
 
         if ($myprocess->getExitCode() != 0) {
-            throw new Exception('Failed to restart go2rtc:<br><pre class="codeblock">' . $output . '</pre>');
+            throw new Exception(__('Failed to restart go2rtc:') . '<br><pre class="codeblock">' . $output . '</pre>');
         }
     }
 
@@ -127,23 +127,23 @@ class Go2rtc
     public function getLog(string $log): string
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to view go2rtc logs');
+            throw new Exception(__('You are not allowed to view go2rtc logs'));
         }
 
         $log = realpath(LOGS_DIR . '/go2rtc/' . $log);
 
         if (!preg_match('#^' . LOGS_DIR . '/go2rtc/.*log#', $log)) {
-            throw new Exception('Invalid log file');
+            throw new Exception(__('Invalid log file'));
         }
 
         if (!file_exists($log)) {
-            throw new Exception('Log file does not exist');
+            throw new Exception(__('Log file does not exist'));
         }
 
         $content = file_get_contents($log);
 
         if ($content === false) {
-            throw new Exception('Failed to read log file');
+            throw new Exception(__('Failed to read log file'));
         }
 
         return $content;

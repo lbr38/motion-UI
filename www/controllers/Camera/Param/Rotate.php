@@ -15,14 +15,14 @@ class Rotate
          *  Check that rotate is not empty
          */
         if (!isset($rotate)) {
-            throw new Exception('Rotate is required');
+            throw new Exception(__('Rotate is required'));
         }
 
         /**
          *  Check that rotate is valid
          */
         if (!is_numeric($rotate) or $rotate < 0 or $rotate > 270) {
-            throw new Exception('Rotate value is invalid');
+            throw new Exception(__('Rotate value is invalid'));
         }
     }
 }

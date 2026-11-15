@@ -430,7 +430,7 @@ class EChart
                 $('#' + id + '-loading').remove();
 
                 // Replace chart with error message
-                $('#' + id).html('<div class="flex align-item-center justify-center height-100"><p>Failed to get chart data: ' + error.toLowerCase() + '</p></div>');
+                $('#' + id).html('<div class="flex align-item-center justify-center height-100"><p>' + __('Failed to get chart data:') + ' ' + error.toLowerCase() + '</p></div>');
 
                 // Reject promise
                 reject('Failed to get chart data: ' + error);

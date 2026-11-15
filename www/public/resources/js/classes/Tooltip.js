@@ -145,7 +145,7 @@ class Tooltip {
      */
     loading(e)
     {
-        this.show(e.currentTarget, '<div class="flex align-item-center column-gap-5"><p>Loading</p><img src="/assets/icons/loading.svg" class="icon"/></div>', { delay: 0 });
+        this.show(e.currentTarget, '<div class="flex align-item-center column-gap-5"><p>' + __('Loading') + '</p><img src="/assets/icons/loading.svg" class="icon"/></div>', { delay: 0 });
     }
 
     /**

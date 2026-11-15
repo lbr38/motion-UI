@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Motion-UI\n"
 "Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
-"POT-Creation-Date: 2026-11-15 08:41+0100\n"
+"POT-Creation-Date: 2026-11-15 09:05+0100\n"
 "PO-Revision-Date: 2026-11-01 12:00+0100\n"
 "Last-Translator: Ludovic\n"
 "Language-Team: French\n"
@@ -14,6 +14,196 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: controllers/Camera/Add.php
+msgid "You are not allowed to add a new camera"
+msgstr "Vous n'êtes pas autorisé à ajouter une caméra"
+
+#: controllers/Camera/Add.php
+msgid "Could not retrieve camera Id"
+msgstr "Impossible de récupérer l'ID de la caméra"
+
+#: controllers/Camera/Delete.php
+msgid "You are not allowed to delete a camera"
+msgstr "Vous n'êtes pas autorisé à supprimer une caméra"
+
+#: controllers/Camera/Delete.php controllers/Camera/Edit.php
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera does not exist"
+msgstr "La caméra n'existe pas"
+
+#: controllers/Camera/Delete.php
+#, php-format
+msgid "Could not delete camera config file: %s"
+msgstr "Impossible de supprimer le fichier de configuration de la caméra : %s"
+
+#: controllers/Camera/Delete.php
+#, php-format
+msgid "Could not delete camera data directory: %s"
+msgstr "Impossible de supprimer le répertoire de données de la caméra : %s"
+
+#: controllers/Camera/Edit.php
+msgid "You are not allowed to edit camera settings"
+msgstr "Vous n'êtes pas autorisé à modifier les paramètres de la caméra"
+
+#: controllers/Camera/Edit.php controllers/Onvif/PtzMove.php
+msgid "Device camera are not movable"
+msgstr "Les caméras locales ne sont pas orientables"
+
+#: controllers/Camera/Edit.php
+msgid "Could not retrieve camera IP from URL"
+msgstr "Impossible de récupérer l'IP de la caméra depuis l'URL"
+
+#: controllers/Camera/Edit.php
+msgid "Could not determine camera IP from URL"
+msgstr "Impossible de déterminer l'IP de la caméra depuis l'URL"
+
+#: controllers/Camera/Param/BasicAuthPassword.php
+msgid "Password contains invalid characters"
+msgstr "Le mot de passe contient des caractères invalides"
+
+#: controllers/Camera/Param/BasicAuthUsername.php
+msgid "Username contains invalid characters"
+msgstr "Le nom d'utilisateur contient des caractères invalides"
+
+#: controllers/Camera/Param/Device.php
+msgid "Device or URL is required"
+msgstr "Le périphérique ou l'URL est requis"
+
+#: controllers/Camera/Param/Device.php
+msgid ""
+"Device or URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/"
+"video</b>"
+msgstr "Le périphérique ou l'URL doit commencer par <b>http(s)://</b>, <b>rtsp://</b> ou <b>/dev/video</b>"
+
+#: controllers/Camera/Param/Device.php
+msgid "Device or URL contains invalid characters"
+msgstr "Le périphérique ou l'URL contient des caractères invalides"
+
+#: controllers/Camera/Param/Framerate.php
+msgid "Frame rate is required"
+msgstr "La fréquence d'images est requise"
+
+#: controllers/Camera/Param/Framerate.php
+msgid "Frame rate value is invalid"
+msgstr "La fréquence d'images est invalide"
+
+#: controllers/Camera/Param/MonitoringEnable.php
+msgid "Monitoring enable is invalid"
+msgstr "La valeur d'activation de la surveillance est invalide"
+
+#: controllers/Camera/Param/MonitoringRecipients.php
+#, php-format
+msgid "Monitoring recipient \"%s\" is not a valid email"
+msgstr "Le destinataire de surveillance \"%s\" n'est pas une adresse email valide"
+
+#: controllers/Camera/Param/Name.php
+msgid "Name is required"
+msgstr "Le nom est requis"
+
+#: controllers/Camera/Param/Name.php
+msgid "Name contains invalid characters"
+msgstr "Le nom contient des caractères invalides"
+
+#: controllers/Camera/Param/OnvifEnable.php
+msgid "Onvif enable is invalid"
+msgstr "La valeur d'activation ONVIF est invalide"
+
+#: controllers/Camera/Param/OnvifPort.php
+msgid "Onvif port is invalid"
+msgstr "Le port ONVIF est invalide"
+
+#: controllers/Camera/Param/OnvifUri.php
+msgid "Invalid ONVIF URI"
+msgstr "URI ONVIF invalide"
+
+#: controllers/Camera/Param/Resolution.php
+msgid "Resolution is required"
+msgstr "La résolution est requise"
+
+#: controllers/Camera/Param/Resolution.php
+msgid "Specified resolution is invalid"
+msgstr "La résolution spécifiée est invalide"
+
+#: controllers/Camera/Param/Rotate.php
+msgid "Rotate is required"
+msgstr "La rotation est requise"
+
+#: controllers/Camera/Param/Rotate.php
+msgid "Rotate value is invalid"
+msgstr "La valeur de rotation est invalide"
+
+#: controllers/Camera/Stream.php
+msgid "Invalid stream status"
+msgstr "Statut de flux invalide"
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Could not get stream info from URL: %s"
+msgstr "Impossible de récupérer les informations du flux depuis l'URL : %s"
+
+#: controllers/Camera/Stream.php
+msgid "No stream info found at the URL"
+msgstr "Aucune information de flux trouvée à cette URL"
+
+#: controllers/Camera/Stream.php
+msgid "You are not allowed to sort the cameras"
+msgstr "Vous n'êtes pas autorisé à trier les caméras"
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Invalid order value: %s"
+msgstr "Valeur d'ordre invalide : %s"
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Could not save camera order: %s"
+msgstr "Impossible d'enregistrer l'ordre des caméras : %s"
+
+#: controllers/Go2rtc/Go2rtc.php
+msgid "Failed to restart go2rtc:"
+msgstr "Impossible de redémarrer go2rtc :"
+
+#: controllers/Go2rtc/Go2rtc.php
+msgid "You are not allowed to view go2rtc logs"
+msgstr "Vous n'êtes pas autorisé à consulter les journaux de go2rtc"
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Invalid log file"
+msgstr "Fichier journal invalide"
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Log file does not exist"
+msgstr "Le fichier journal n'existe pas"
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Failed to read log file"
+msgstr "Impossible de lire le fichier journal"
+
+#: controllers/Layout/Chart/Chart.php
+msgid "invalid chart ID"
+msgstr "ID de graphique invalide"
+
+#: controllers/Layout/Chart/Chart.php
+msgid "You are not allowed to access this chart"
+msgstr "Vous n'êtes pas autorisé à accéder à ce graphique"
+
+#: controllers/Layout/Chart/Chart.php
+#, php-format
+msgid "Could not retrieve chart data for chart ID %s"
+msgstr "Impossible de récupérer les données du graphique %s"
+
+#: controllers/Layout/Chart/Chart.php
+msgid "invalid time range specified"
+msgstr "période spécifiée invalide"
+
+#: controllers/Layout/Chart/Chart.php
+#, php-format
+msgid "Error rendering chart #%s: %s"
+msgstr "Erreur lors de l'affichage du graphique #%s : %s"
 
 #: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
 msgid "Events & files recorded"
@@ -57,8 +247,36 @@ msgid "Memory usage"
 msgstr "Utilisation mémoire"
 
 #: controllers/Layout/Container/vars/login.vars.inc.php
+#: controllers/User/Login.php
 msgid "Invalid login and/or password"
 msgstr "Identifiant et/ou mot de passe invalide"
+
+#: controllers/Layout/Container/vars/motion/buttons/main.vars.inc.php
+#: controllers/Layout/Container/vars/motion/stats/list.vars.inc.php
+msgid "You are not allowed to access this page."
+msgstr "Vous n'êtes pas autorisé à accéder à cette page."
+
+#: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
+#: controllers/Layout/Panel/vars/general/settings.vars.inc.php
+#: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/alert.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/autostart.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "You are not allowed to access this panel."
+msgstr "Vous n'êtes pas autorisé à accéder à ce panneau."
+
+#: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
+#, php-format
+msgid "Error: could not retrieve camera #%s configuration: %s"
+msgstr "Erreur : impossible de récupérer la configuration de la caméra #%s : %s"
+
+#: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
+msgid "User Id not set."
+msgstr "ID utilisateur non défini."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Device ID not found in current configuration"
+msgstr "ID de périphérique introuvable dans la configuration actuelle"
 
 #: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
 msgid "CAMERA DEVICE SETTINGS"
@@ -958,6 +1176,361 @@ msgstr "Suivant"
 msgid "TODAY"
 msgstr "AUJOURD'HUI"
 
+#: controllers/Mail.php
+#, php-format
+msgid "Error while sending email: %s"
+msgstr "Erreur lors de l'envoi de l'email : %s"
+
+#: controllers/Motion/Alert.php controllers/Motion/Autostart.php
+msgid "Invalid parameter"
+msgstr "Paramètre invalide"
+
+#: controllers/Motion/Autostart.php
+msgid "You are not allowed to view motion autostart logs"
+msgstr "Vous n'êtes pas autorisé à consulter les journaux du démarrage automatique"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not read configuration file: %s"
+msgstr "Impossible de lire le fichier de configuration : %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not retrieve configuration file content: %s"
+msgstr "Impossible de récupérer le contenu du fichier de configuration : %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Motion configuration file is not readable: %s"
+msgstr "Le fichier de configuration de motion n'est pas lisible : %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Motion configuration file is not writeable: %s"
+msgstr "Le fichier de configuration de motion n'est pas modifiable : %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "%s parameter name contains invalid character(s)"
+msgstr "Le nom du paramètre %s contient des caractères invalides"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not write to configuration file: %s"
+msgstr "Impossible d'écrire dans le fichier de configuration : %s"
+
+#: controllers/Motion/Config.php
+msgid "Camera configuration file does not exist"
+msgstr "Le fichier de configuration de la caméra n'existe pas"
+
+#: controllers/Motion/Config.php
+msgid "Could not enable camera configuration file"
+msgstr "Impossible d'activer le fichier de configuration de la caméra"
+
+#: controllers/Motion/Config.php
+msgid "Could not disable camera configuration file"
+msgstr "Impossible de désactiver le fichier de configuration de la caméra"
+
+#: controllers/Motion/Device.php
+msgid "Invalid device id"
+msgstr "ID de périphérique invalide"
+
+#: controllers/Motion/Event.php
+msgid "The specified file is invalid."
+msgstr "Le fichier spécifié est invalide."
+
+#: controllers/Motion/Event.php
+msgid "The specified file extension is not allowed."
+msgstr "L'extension du fichier spécifié n'est pas autorisée."
+
+#: controllers/Motion/Event.php
+msgid "The specified file MIME type is not allowed."
+msgstr "Le type MIME du fichier spécifié n'est pas autorisé."
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "Invalid camera Id: %s"
+msgstr "ID de caméra invalide : %s"
+
+#: controllers/Motion/Event.php
+msgid "No captures directory found"
+msgstr "Aucun répertoire de captures trouvé"
+
+#: controllers/Motion/Event.php
+msgid "You are not allowed to delete files"
+msgstr "Vous n'êtes pas autorisé à supprimer des fichiers"
+
+#: controllers/Motion/Event.php
+msgid "No file has been specified"
+msgstr "Aucun fichier n'a été spécifié"
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "File %s is not writeable"
+msgstr "Le fichier %s n'est pas modifiable"
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "Could not delete file %s"
+msgstr "Impossible de supprimer le fichier %s"
+
+#: controllers/Motion/Service.php
+msgid "You are not allowed to view motion service logs"
+msgstr "Vous n'êtes pas autorisé à consulter les journaux du service de détection de mouvement"
+
+#: controllers/Notification.php
+msgid "Unable to retrieve notifications"
+msgstr "Impossible de récupérer les notifications"
+
+#: controllers/Notification.php
+msgid "Invalid notification id"
+msgstr "ID de notification invalide"
+
+#: controllers/Onvif/Ptz.php controllers/Onvif/PtzMove.php
+msgid "PTZ URI is not set"
+msgstr "L'URI PTZ n'est pas définie"
+
+#: controllers/Onvif/Ptz.php
+#, php-format
+msgid "Could not move PTZ: %s"
+msgstr "Impossible de déplacer la caméra PTZ : %s"
+
+#: controllers/Onvif/Ptz.php
+#, php-format
+msgid "Could not stop PTZ: %s"
+msgstr "Impossible d'arrêter la caméra PTZ : %s"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Camera Id does not exist"
+msgstr "L'ID de caméra n'existe pas"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Camera URL is not set"
+msgstr "L'URL de la caméra n'est pas définie"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Username is not set"
+msgstr "Le nom d'utilisateur n'est pas défini"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Password is not set"
+msgstr "Le mot de passe n'est pas défini"
+
+#: controllers/Onvif/PtzMove.php
+#, php-format
+msgid "Could not move camera: %s"
+msgstr "Impossible de déplacer la caméra : %s"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid direction"
+msgstr "Direction invalide"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid move type"
+msgstr "Type de mouvement invalide"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid move speed"
+msgstr "Vitesse de mouvement invalide"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Could not get profile token"
+msgstr "Impossible de récupérer le jeton de profil"
+
+#: controllers/Settings.php
+msgid "Unable to save Home page settings"
+msgstr "Impossible d'enregistrer les paramètres de la page d'accueil"
+
+#: controllers/Settings.php
+msgid "You are not allowed to perform this action"
+msgstr "Vous n'êtes pas autorisé à effectuer cette action"
+
+#: controllers/Settings.php
+msgid "Failed to enable debug mode"
+msgstr "Impossible d'activer le mode debug"
+
+#: controllers/Settings.php
+msgid "Failed to disable debug mode"
+msgstr "Impossible de désactiver le mode debug"
+
+#: controllers/User/Edit.php
+msgid "Invalid email address format"
+msgstr "Format d'adresse email invalide"
+
+#: controllers/User/Edit.php controllers/User/Permission.php
+#: controllers/User/User.php
+msgid "User does not exist"
+msgstr "L'utilisateur n'existe pas"
+
+#: controllers/User/Edit.php controllers/User/Permission.php
+#: controllers/User/User.php
+msgid "You are not allowed to execute this action."
+msgstr "Vous n'êtes pas autorisé à effectuer cette action."
+
+#: controllers/User/Edit.php controllers/User/User.php
+msgid "Specified user does not exist"
+msgstr "L'utilisateur spécifié n'existe pas"
+
+#: controllers/User/Edit.php
+msgid "You are not allowed to reset password of another administrator"
+msgstr "Vous n'êtes pas autorisé à réinitialiser le mot de passe d'un autre administrateur"
+
+#: controllers/User/Edit.php
+#, php-format
+msgid "Error while creating a new password for user %s"
+msgstr "Erreur lors de la création d'un nouveau mot de passe pour l'utilisateur %s"
+
+#: controllers/User/Edit.php
+msgid "You are not allowed to change password of another user"
+msgstr "Vous n'êtes pas autorisé à changer le mot de passe d'un autre utilisateur"
+
+#: controllers/User/Edit.php controllers/User/User.php
+msgid "An error occured while checking user password"
+msgstr "Une erreur est survenue lors de la vérification du mot de passe"
+
+#: controllers/User/Edit.php
+msgid "New password and password re-type are different"
+msgstr "Le nouveau mot de passe et sa confirmation sont différents"
+
+#: controllers/User/Edit.php
+msgid "New password must be different then the actual one"
+msgstr "Le nouveau mot de passe doit être différent de l'actuel"
+
+#: controllers/User/Login.php
+msgid "Unknown login"
+msgstr "Identifiant inconnu"
+
+#: controllers/User/Permission.php
+#, php-format
+msgid "Could not grant camera access: %s"
+msgstr "Impossible d'accorder l'accès à la caméra : %s"
+
+#: controllers/User/User.php
+msgid "Username cannot contain special characters except hyphen and underscore"
+msgstr "Le nom d'utilisateur ne peut pas contenir de caractères spéciaux, à l'exception du tiret et du tiret bas"
+
+#: controllers/User/User.php
+msgid "Selected user role is invalid"
+msgstr "Le rôle utilisateur sélectionné est invalide"
+
+#: controllers/User/User.php
+#, php-format
+msgid "Username %s already exists"
+msgstr "Le nom d'utilisateur %s existe déjà"
+
+#: controllers/User/User.php
+msgid "Error while hashing user password"
+msgstr "Erreur lors du hachage du mot de passe"
+
+#: controllers/User/User.php
+msgid "Bad password"
+msgstr "Mot de passe incorrect"
+
+#: controllers/Utils/Validate.php
+#, php-format
+msgid "Invalid date format, expected %s"
+msgstr "Format de date invalide, format attendu : %s"
+
+#: controllers/ajax/camera.php
+msgid "Camera added"
+msgstr "Caméra ajoutée"
+
+#: controllers/ajax/camera.php
+msgid "Camera settings saved"
+msgstr "Paramètres de la caméra enregistrés"
+
+#: controllers/ajax/camera.php
+msgid "Camera deleted"
+msgstr "Caméra supprimée"
+
+#: controllers/ajax/camera.php controllers/ajax/camera/ptz.php
+#: controllers/ajax/camera/stream.php controllers/ajax/chart.php
+#: controllers/ajax/general.php controllers/ajax/general/service.php
+#: controllers/ajax/go2rtc.php controllers/ajax/motion.php
+#: controllers/ajax/motion/autostart.php controllers/ajax/notification.php
+#: controllers/ajax/settings/debug-mode.php controllers/ajax/settings/edit.php
+#: controllers/ajax/system.php controllers/ajax/timelapse.php
+#: controllers/ajax/user/permissions.php controllers/ajax/userspace.php
+msgid "Invalid action"
+msgstr "Action invalide"
+
+#: controllers/ajax/general/service.php
+msgid "Invalid unit"
+msgstr "Unité invalide"
+
+#: controllers/ajax/general/service.php
+msgid "Log file not found"
+msgstr "Fichier journal introuvable"
+
+#: controllers/ajax/general/service.php
+msgid "Unable to read log file"
+msgstr "Impossible de lire le fichier journal"
+
+#: controllers/ajax/motion.php
+msgid "Email sent"
+msgstr "Email envoyé"
+
+#: controllers/ajax/motion.php
+msgid "Settings saved"
+msgstr "Paramètres enregistrés"
+
+#: controllers/ajax/motion.php
+msgid "Device added"
+msgstr "Périphérique ajouté"
+
+#: controllers/ajax/motion.php
+msgid "Device removed"
+msgstr "Périphérique supprimé"
+
+#: controllers/ajax/motion.php
+msgid "All events acquitted"
+msgstr "Tous les événements ont été acquittés"
+
+#: controllers/ajax/motion.php
+msgid "Media file(s) successfully deleted"
+msgstr "Fichier(s) média(s) supprimé(s)"
+
+#: controllers/ajax/motion.php
+msgid "Configuration saved."
+msgstr "Configuration enregistrée."
+
+#: controllers/ajax/notification.php
+msgid "Notification marked as read"
+msgstr "Notification marquée comme lue"
+
+#: controllers/ajax/settings/debug-mode.php
+msgid "Settings have been saved"
+msgstr "Les paramètres ont été enregistrés"
+
+#: controllers/ajax/settings/edit.php
+msgid "Settings saved."
+msgstr "Paramètres enregistrés."
+
+#: controllers/ajax/user/permissions.php
+msgid "Permissions saved"
+msgstr "Permissions enregistrées"
+
+#: controllers/ajax/userspace.php
+msgid "Personnal informations saved"
+msgstr "Informations personnelles enregistrées"
+
+#: controllers/ajax/userspace.php
+msgid "Password changed."
+msgstr "Mot de passe modifié."
+
+#: controllers/ajax/userspace.php
+#, php-format
+msgid "User %s has been created"
+msgstr "L'utilisateur %s a été créé"
+
+#: controllers/ajax/userspace.php
+msgid "Password has been regenerated"
+msgstr "Le mot de passe a été régénéré"
+
+#: controllers/ajax/userspace.php
+msgid "User has been deleted"
+msgstr "L'utilisateur a été supprimé"
+
 #: views/includes/camera/edit/form.inc.php
 #: views/includes/panels/camera/add.inc.php
 #: views/includes/panels/motion/autostart.inc.php
@@ -1573,6 +2146,10 @@ msgstr "Fermer le plein écran"
 #: views/includes/containers/motion/stats/list.inc.php
 msgid "SELECT PERIOD"
 msgstr "PÉRIODE"
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 24 Hours"
+msgstr "Dernières 24 heures"
 
 #: views/includes/containers/motionui/service/status.inc.php
 msgid "Main service is not running. Please restart the docker container."
@@ -2264,9 +2841,6 @@ msgstr "Événement en cours de traitement"
 
 #~ msgid "ERROR"
 #~ msgstr "ERREUR"
-
-#~ msgid "Last 24 hours"
-#~ msgstr "24 heures"
 
 #~ msgid "Last 3 days"
 #~ msgstr "3 derniers jours"

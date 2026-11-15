@@ -23,7 +23,7 @@ class Login extends User
              *  If no matching user has been found, throw an exception
              */
             if (empty($id)) {
-                throw new Exception('Unknown login');
+                throw new Exception(__('Unknown login'));
             }
 
             /**
@@ -91,7 +91,7 @@ class Login extends User
             /**
              *  Throw back an exception with generic message to display on login page
              */
-            throw new Exception('Invalid login and/or password');
+            throw new Exception(__('Invalid login and/or password'));
         }
     }
 }

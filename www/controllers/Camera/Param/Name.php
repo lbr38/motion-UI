@@ -16,14 +16,14 @@ class Name
          *  Check that name is not empty
          */
         if (empty($name)) {
-            throw new Exception('Name is required');
+            throw new Exception(__('Name is required'));
         }
 
         /**
          *  Check that name is valid
          */
         if (!Validate::alphaNumericHyphen($name, [' '])) {
-            throw new Exception('Name contains invalid characters');
+            throw new Exception(__('Name contains invalid characters'));
         }
     }
 }

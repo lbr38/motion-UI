@@ -43,7 +43,7 @@ class Alert
     public function enable(string $status)
     {
         if ($status != 'enabled' and $status != 'disabled') {
-            throw new Exception('Invalid parameter');
+            throw new Exception(__('Invalid parameter'));
         }
 
         $this->model->enable($status);

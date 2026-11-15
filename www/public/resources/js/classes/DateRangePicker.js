@@ -8,14 +8,42 @@ class DateRangePicker
     presets()
     {
         return {
-            'Last 24 Hours': [moment().subtract(24, 'hours'), moment()],
-            'Today': [moment().startOf('day'), moment().endOf('day')],
-            'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-            'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
-            'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment().endOf('day')],
-            'Last 3 Months': [moment().subtract(3, 'month').startOf('month'), moment().endOf('month')],
-            'Last 6 Months': [moment().subtract(6, 'month').startOf('month'), moment().endOf('month')],
-            'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+            [__('Last 24 Hours')]: [moment().subtract(24, 'hours'), moment()],
+            [__('Today')]: [moment().startOf('day'), moment().endOf('day')],
+            [__('Yesterday')]: [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            [__('Last 7 Days')]: [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
+            [__('Last 30 Days')]: [moment().subtract(29, 'days').startOf('day'), moment().endOf('day')],
+            [__('Last 3 Months')]: [moment().subtract(3, 'month').startOf('month'), moment().endOf('month')],
+            [__('Last 6 Months')]: [moment().subtract(6, 'month').startOf('month'), moment().endOf('month')],
+            [__('Last Year')]: [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+        };
+    }
+
+    /**
+     * Return the date range picker locale, translated in the current language
+     * Day and month names are provided by the browser (Intl), in the current language
+     * @returns {object}
+     */
+    locale()
+    {
+        const lang = typeof LANG !== 'undefined' ? LANG : 'en';
+        const weekday = new Intl.DateTimeFormat(lang, { weekday: 'short' });
+        const month = new Intl.DateTimeFormat(lang, { month: 'long' });
+        const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+
+        // 2023-01-01 is a Sunday, the date range picker expects days starting from Sunday
+        const daysOfWeek = [...Array(7).keys()].map(i => capitalize(weekday.format(new Date(2023, 0, 1 + i))));
+        const monthNames = [...Array(12).keys()].map(i => capitalize(month.format(new Date(2023, i, 1))));
+
+        return {
+            format: 'DD-MM-YYYY',
+            applyLabel: __('Apply'),
+            cancelLabel: __('Cancel'),
+            customRangeLabel: __('Custom Range'),
+            daysOfWeek: daysOfWeek,
+            monthNames: monthNames,
+            // Week starts on Monday, except in English
+            firstDay: lang == 'en' ? 0 : 1
         };
     }
 
@@ -64,16 +92,16 @@ class DateRangePicker
                     if (start.isSame(end, 'second')) {
                         text = start.format('DD-MM-YYYY HH:mm');
                     } else {
-                        text = 'From ' + start.format('DD-MM-YYYY HH:mm') + ' to ' + end.format('HH:mm');
+                        text = sprintf(__('From %s to %s'), start.format('DD-MM-YYYY HH:mm'), end.format('HH:mm'));
                     }
                 } else {
                     text = start.format('DD-MM-YYYY');
                 }
             } else {
                 if (timePicker) {
-                    text = 'From ' + start.format('DD-MM-YYYY HH:mm') + ' to ' + end.format('DD-MM-YYYY HH:mm');
+                    text = sprintf(__('From %s to %s'), start.format('DD-MM-YYYY HH:mm'), end.format('DD-MM-YYYY HH:mm'));
                 } else {
-                    text = 'From ' + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY');
+                    text = sprintf(__('From %s to %s'), start.format('DD-MM-YYYY'), end.format('DD-MM-YYYY'));
                 }
             }
 
@@ -88,9 +116,7 @@ class DateRangePicker
         var config = {
             startDate: start,
             endDate: end,
-            locale: {
-                format: 'DD-MM-YYYY'
-            }
+            locale: this.locale()
         };
 
         // Add time picker if enabled

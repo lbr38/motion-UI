@@ -16,7 +16,7 @@ class Panel {
             var html  = '<div class="slide-panel-container" slide-panel="' + name + '">';
             html += '<div class="slide-panel">';
             html += '<div class="flex justify-end">';
-            html += '<img src="/assets/icons/close.svg" class="slide-panel-close-btn float-right lowopacity" slide-panel="' + name + '" title="Close" />';
+            html += '<img src="/assets/icons/close.svg" class="slide-panel-close-btn float-right lowopacity" slide-panel="' + name + '" title="' + __('Close') + '" />';
             html += '</div>';
             html += '<div class="flex justify-center align-item-center height-100">';
             html += '<img src="/assets/icons/loading.svg" class="icon-np" />';
