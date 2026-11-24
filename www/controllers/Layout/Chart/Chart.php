@@ -10,7 +10,7 @@ class Chart
      *  Get chart data for the period defined by timeStart and timeEnd timestamps
      *  If no period is specified, the period is the last 24 hours
      */
-    public static function get(string $id, string $timeStart = '', string $timeEnd = '') : array
+    public static function get(string $id, string $timeStart = '', string $timeEnd = ''): array
     {
         try {
             /**
