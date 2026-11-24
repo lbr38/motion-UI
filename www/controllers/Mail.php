@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-require_once(ROOT . '/libs/PHPMailer/Exception.php');
-require_once(ROOT . '/libs/PHPMailer/PHPMailer.php');
-require_once(ROOT . '/libs/PHPMailer/SMTP.php');
+require_once(ROOT . '/libs/vendor/autoload.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

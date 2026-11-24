@@ -1,7 +1,8 @@
 {
     "require": {
         "cboden/ratchet": "^0.4.4",
-        "symfony/translation": "^7.4"
+        "symfony/translation": "^7.4",
+        "phpmailer/phpmailer": "^6.8"
     },
     "config": {
         "platform": {
