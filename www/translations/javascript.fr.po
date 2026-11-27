@@ -1,0 +1,283 @@
+# French translations for Motion-UI.
+# This file is distributed under the same license as the Motion-UI package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Motion-UI 6.11.3\n"
+"Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
+"POT-Creation-Date: 2026-11-27 13:45+0000\n"
+"PO-Revision-Date: 2026-11-15 08:54+0100\n"
+"Last-Translator: Ludovic\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: public/resources/js/camera.js
+msgid "Delete camera"
+msgstr "Supprimer la caméra"
+
+#: public/resources/js/camera.js
+msgid "Are you sure you want to delete this camera?"
+msgstr "Êtes-vous sûr de vouloir supprimer cette caméra ?"
+
+#: public/resources/js/camera.js public/resources/js/classes/Motion/Media.js
+#: public/resources/js/events/user/userspace.js public/resources/js/motion.js
+msgid "Delete"
+msgstr "Supprimer"
+
+#: public/resources/js/camera.js public/resources/js/events/camera/buttons.js
+msgid "Your browser does not support fullscreen mode."
+msgstr "Votre navigateur ne supporte pas le mode plein écran."
+
+#: public/resources/js/camera.js
+msgid "No timelapse date found"
+msgstr "Aucune date de timelapse trouvée"
+
+#: public/resources/js/camera.js
+msgid "No timelapse max range found"
+msgstr "Aucune plage maximale de timelapse trouvée"
+
+#: public/resources/js/camera.js
+msgid "No timelapse images to play"
+msgstr "Aucune image de timelapse à lire"
+
+#: public/resources/js/classes/Camera.js
+msgid "Stream error"
+msgstr "Erreur de flux"
+
+#: public/resources/js/classes/Camera/MSEConnect.js
+msgid "Stream connection failed"
+msgstr "Échec de la connexion au flux"
+
+#: public/resources/js/classes/Camera/MSEConnect.js
+msgid "Connection error"
+msgstr "Erreur de connexion"
+
+#: public/resources/js/classes/Camera/MSEConnect.js
+#, javascript-format
+msgid "Reconnecting (%d of %d)..."
+msgstr "Reconnexion (%d sur %d)..."
+
+#: public/resources/js/classes/Camera/MSEConnect.js
+msgid "Max reconnection attempts reached"
+msgstr "Nombre maximal de tentatives de reconnexion atteint"
+
+#: public/resources/js/classes/Camera/WebRTCConnect.js
+#, javascript-format
+msgid "Camera #%s video element not found"
+msgstr "Élément vidéo de la caméra #%s introuvable"
+
+#: public/resources/js/classes/Camera/WebRTCConnect.js
+#, javascript-format
+msgid "Error: no frames received, trying to reconnect (%d of %d)..."
+msgstr "Erreur : aucune image reçue, tentative de reconnexion (%d sur %d)..."
+
+#: public/resources/js/classes/Camera/WebRTCConnect.js
+msgid "No frames received"
+msgstr "Aucune image reçue"
+
+#: public/resources/js/classes/ConfirmBox.js
+#: public/resources/js/classes/Modal.js public/resources/js/classes/Panel.js
+msgid "Close"
+msgstr "Fermer"
+
+#: public/resources/js/classes/ConfirmBox.js
+msgid "Error: no function specified for this button"
+msgstr "Erreur : aucune fonction définie pour ce bouton"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Last 24 Hours"
+msgstr "Dernières 24 heures"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Yesterday"
+msgstr "Hier"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Last 7 Days"
+msgstr "7 derniers jours"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Last 30 Days"
+msgstr "30 derniers jours"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Last 3 Months"
+msgstr "3 derniers mois"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Last 6 Months"
+msgstr "6 derniers mois"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Last Year"
+msgstr "Année dernière"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Apply"
+msgstr "Appliquer"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Cancel"
+msgstr "Annuler"
+
+#: public/resources/js/classes/DateRangePicker.js
+msgid "Custom Range"
+msgstr "Période personnalisée"
+
+#: public/resources/js/classes/DateRangePicker.js
+#, javascript-format
+msgid "From %s to %s"
+msgstr "Du %s au %s"
+
+#: public/resources/js/classes/EChart.js
+msgid "Failed to get chart data:"
+msgstr "Impossible de récupérer les données du graphique :"
+
+#: public/resources/js/classes/EChart.js
+msgid "active"
+msgstr "actif"
+
+#: public/resources/js/classes/EChart.js
+msgid "inactive"
+msgstr "inactif"
+
+#: public/resources/js/classes/Layout.js public/resources/js/classes/Tooltip.js
+msgid "Loading"
+msgstr "Chargement"
+
+#: public/resources/js/classes/Modal.js
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: public/resources/js/classes/Motion/Media.js
+msgid "Delete medias"
+msgstr "Supprimer les médias"
+
+#: public/resources/js/classes/Motion/Media.js
+#, javascript-format
+msgid "Are you sure you want to delete %d media?"
+msgid_plural "Are you sure you want to delete %d medias?"
+msgstr[0] "Êtes-vous sûr de vouloir supprimer %d média ?"
+msgstr[1] "Êtes-vous sûr de vouloir supprimer %d médias ?"
+
+#: public/resources/js/classes/Select2.js
+msgid "Select..."
+msgstr "Sélectionner..."
+
+#: public/resources/js/classes/System.js
+msgid "Error"
+msgstr "Erreur"
+
+#: public/resources/js/events/camera/buttons.js
+msgid "Disable stream"
+msgstr "Désactiver le flux en direct"
+
+#: public/resources/js/events/camera/buttons.js
+msgid "Enable stream"
+msgstr "Activer le flux en direct"
+
+#: public/resources/js/events/general/logs.js
+msgid "Unit"
+msgstr "Unité"
+
+#: public/resources/js/events/general/logs.js
+msgid "Description"
+msgstr "Description"
+
+#: public/resources/js/events/motion/event.js
+msgid "Acquitting all events, please wait..."
+msgstr "Acquittement de tous les événements, veuillez patienter..."
+
+#: public/resources/js/events/settings.js
+msgid "MOTION LOG"
+msgstr "LOG DE MOTION"
+
+#: public/resources/js/events/settings.js
+msgid "GO2RTC LOG"
+msgstr "LOG DE GO2RTC"
+
+#: public/resources/js/events/user/userspace.js
+msgid "Reset password"
+msgstr "Réinitialiser le mot de passe"
+
+#: public/resources/js/events/user/userspace.js
+#, javascript-format
+msgid "Reset password of user %s?"
+msgstr "Réinitialiser le mot de passe de l'utilisateur %s ?"
+
+#: public/resources/js/events/user/userspace.js
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: public/resources/js/events/user/userspace.js
+#, javascript-format
+msgid "New password generated for %s:"
+msgstr "Nouveau mot de passe généré pour %s :"
+
+#: public/resources/js/events/user/userspace.js
+msgid "Delete user"
+msgstr "Supprimer l'utilisateur"
+
+#: public/resources/js/events/user/userspace.js
+#, javascript-format
+msgid "Delete user %s?"
+msgstr "Supprimer l'utilisateur %s ?"
+
+#: public/resources/js/general.js
+msgid "Copy to clipboard"
+msgstr "Copier dans le presse-papiers"
+
+#: public/resources/js/general.js
+msgid "Copied to clipboard"
+msgstr "Copié dans le presse-papiers"
+
+#: public/resources/js/general.js
+msgid "Failed to copy"
+msgstr "Échec de la copie"
+
+#: public/resources/js/motion.js
+msgid "Starting motion detection, please wait..."
+msgstr "Démarrage de la détection de mouvement, veuillez patienter..."
+
+#: public/resources/js/motion.js
+msgid "Stopping motion detection, please wait..."
+msgstr "Arrêt de la détection de mouvement, veuillez patienter..."
+
+#: public/resources/js/motion.js
+msgid "MOTION AUTOSTART LOG"
+msgstr "LOG DU DÉMARRAGE AUTOMATIQUE DE MOTION"
+
+#: public/resources/js/motion.js
+msgid "Full screen event picture"
+msgstr "Image de l'événement en plein écran"
+
+#: public/resources/js/motion.js
+msgid "Close fullscreen"
+msgstr "Quitter le plein écran"
+
+#: public/resources/js/motion.js
+msgid "Download or delete selected media(s)"
+msgstr "Télécharger ou supprimer le(s) média(s) sélectionné(s)"
+
+#: public/resources/js/motion.js
+#, javascript-format
+msgid "%d media selected"
+msgid_plural "%d medias selected"
+msgstr[0] "%d média sélectionné"
+msgstr[1] "%d médias sélectionnés"
+
+#: public/resources/js/motion.js
+msgid "Download"
+msgstr "Télécharger"
+
+#: public/resources/js/pre/motion.js
+msgid "Error loading size"
+msgstr "Erreur lors du chargement de la taille"

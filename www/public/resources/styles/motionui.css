@@ -48,93 +48,131 @@ h3 {
     animation: blinker 1.5s linear infinite;
 }
 
-/* Square buttons */
-[class^="btn-round"] {
-    width: 125px;
-    height: 125px;
-    border: none;
+/* Motion main toggle buttons (motion detection, autostart, alerts) */
+/*
+ *  On mobile, the size of the buttons adapts to the available screen height
+ *  (screen height minus header, bottom bar and minimal spacing), between 130px and 180px
+ */
+.motion-toggle-item {
+    position: relative;
+    width: clamp(130px, calc((100vh - 255px) / 3), 180px);
+    width: clamp(130px, calc((100dvh - 255px) / 3), 180px);
+    aspect-ratio: 1;
+}
+
+.motion-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 8px;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 50%;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: #1c3047;
     color: white;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    font-size: 13px;
     cursor: pointer;
+    box-shadow: 0px 12px 24px -14px rgb(0 0 0), inset 0px 1px 0px rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Size of the icons in the square buttons */
-[class^="btn-round"] img.icon {
-    max-height: inherit;
-    width: 30%;
-    height: 30%;
+.motion-toggle img.icon {
+    width: 28%;
+    height: auto;
+    max-height: none;
+    opacity: 0.45;
+    transition: opacity 0.2s;
 }
 
-.btn-round-green {
-    box-shadow: rgb(0 0 0) 0px 10px 13px -12px, rgb(0 0 0 / 15%) 0px 0px 10px 2px;
+.motion-toggle-label {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    opacity: 0.7;
 }
-.btn-round-red {
-    box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
+
+.motion-toggle-state {
+    padding: 3px 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
 }
-.btn-round-blue {
-    background-color: #5473e8;
+
+.motion-toggle:hover {
+    background-color: #223a54;
 }
-.btn-round-green {
+
+.motion-toggle:hover img.icon {
+    opacity: 0.7;
+}
+
+.motion-toggle:active {
+    transform: scale(0.97);
+}
+
+.motion-toggle:focus-visible, .motion-toggle-config:focus-visible {
+    outline: 2px solid #5473e8;
+    outline-offset: 4px;
+}
+
+/* Enabled / running state */
+.motion-toggle-on {
+    border-color: transparent;
     background-color: #15bf7f;
+    box-shadow: 0px 0px 0px 6px rgba(21, 191, 127, 0.15), 0px 14px 30px -12px rgba(21, 191, 127, 0.7);
 }
-.btn-round-red {
-    background-color: #FF495C;
-}
-.btn-round-none {
-    background-color: #43414100;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-.btn-round-blue:hover {
-    transition-duration: 0.2s;
-    background-color: #4e69cd;
-}
-.btn-round-green:hover {
-    transition-duration: 0.2s;
+
+.motion-toggle-on:hover {
     background-color: #12a16a;
 }
-.btn-round-red:hover {
-    transition-duration: 0.2s;
-    background-color: #ff3347;
+
+.motion-toggle-on img.icon, .motion-toggle-on:hover img.icon, .motion-toggle-on .motion-toggle-label {
+    opacity: 1;
 }
 
-[class^="btn-semi-circle"] {
-    width: 62.5px;
-    height: 125px;
+.motion-toggle-on .motion-toggle-state {
+    background-color: rgba(0, 0, 0, 0.18);
+    color: white;
 }
 
-[class^="btn-semi-circle"] img.icon {
-    max-height: inherit;
-    width: 45%;
-    height: 45%;
-}
-
-.btn-semi-circle-red-left {
-    border-radius: 125px 0 0 125px;
-    background-color: #FF495C;
-    box-shadow: 0px 0px 5px 0.5px rgb(0 0 0 / 80%) inset;
-}
-
-.btn-semi-circle-blue-right {
-    border-radius: 0 125px 125px 0;
+/* Small satellite button to open the configuration panel */
+.motion-toggle-config {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
     background-color: #13273a;
-    box-shadow: 0px 0px 2px 0px #000000;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 4px rgba(10, 20, 31, 0.6), 0px 6px 14px -6px rgb(0 0 0);
+    transition: background-color 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.btn-semi-circle-red-left:hover {
-    transition-duration: 0.2s;
-    background-color: #ff3347;
+.motion-toggle-config img.icon {
+    width: 24px;
+    height: 24px;
 }
 
-.btn-semi-circle-blue-right:hover {
-    transition-duration: 0.2s;
+.motion-toggle-config:hover {
     background-color: #19344d;
+}
+
+.motion-toggle-config:active {
+    transform: scale(0.94);
 }
 
 .bottom-buttons, .top-buttons {
@@ -171,18 +209,24 @@ h3 {
     height: 30px;
 }
 
-.main-buttons {
-    display: grid;
-    grid-template-columns: repeat(1, 100%);
-    justify-content: center;
+/*
+ *  On mobile, the buttons fill the whole available screen height:
+ *  100vh minus the top header (85px) and the fixed bottom bar (50px)
+ */
+.main-buttons-container {
+    display: flex;
+    min-height: calc(100vh - 135px);
+    min-height: calc(100dvh - 135px);
 }
 
-.item {
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
+.main-buttons {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    row-gap: 24px;
+    padding-block: 16px;
 }
 
 .main-container {
@@ -632,23 +676,18 @@ video, video-stream {
     margin: auto;
 }
 
+/* The footer bottom padding also includes the height of the fixed bottom buttons (50px) */
 footer {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    row-gap: 40px;
-    width: auto;
-    height: 300px;
-    flex-grow: 1;
-    margin-top: 100px;
-    padding: 40px 25px 50px 25px;
-    box-shadow:
-     0px 1px 1px 0px rgba(0, 0, 0, 0.5) inset,
-     0px 2px 2px 0px rgba(109, 109, 109, 0.2);
-    background-color:#182b3e;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;
+    padding: 80px 20px 75px 20px;
 }
-
-footer #github img { width: 25px; }
 
 .event-print-file-container {
     position: fixed;
@@ -774,28 +813,29 @@ footer #github img { width: 25px; }
         display: grid;
         align-items: center;
         height: 60vh;
+        min-height: auto;
     }
 
     .main-buttons {
-        grid-template-columns: repeat(3, 30%);
+        flex-direction: row;
+        justify-content: space-evenly;
     }
 
-    [class^="btn-round"] {
-        width: 230px;
-        height: 230px;
+    .motion-toggle-item {
+        width: 220px;
     }
 
-    [class^="btn-semi-circle"] {
-        width: 115px;
-        height: 230px;
+    .motion-toggle {
+        row-gap: 10px;
     }
 
-    .btn-semi-circle-red-left {
-        border-radius: 250px 0 0 250px;
+    .motion-toggle-label {
+        font-size: 15px;
     }
 
-    .btn-semi-circle-blue-right {
-        border-radius: 0 250px 250px 0;
+    .motion-toggle-config {
+        width: 58px;
+        height: 58px;
     }
 
     .main-container {
@@ -916,5 +956,6 @@ footer #github img { width: 25px; }
 
     .bottom-buttons-title {
         display: block;
+        text-transform: uppercase;
     }
 }

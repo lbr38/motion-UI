@@ -77,21 +77,21 @@ class User
          *  Check that username does not contain invalid characters
          */
         if (Validate::alphaNumericHyphen($username) === false) {
-            throw new Exception('Username cannot contain special characters except hyphen and underscore');
+            throw new Exception(__('Username cannot contain special characters except hyphen and underscore'));
         }
 
         /**
          *  Check that user role is valid
          */
         if (!in_array($role, $this->validRoles)) {
-            throw new Exception('Selected user role is invalid');
+            throw new Exception(__('Selected user role is invalid'));
         }
 
         /**
          *  Check that username does not already exist
          */
         if ($this->exists($username)) {
-            throw new Exception('Username ' . $username . ' already exists');
+            throw new Exception(sprintf(__('Username %s already exists'), $username));
         }
 
         /**
@@ -105,7 +105,7 @@ class User
         $password_hashed = password_hash($password, PASSWORD_BCRYPT);
 
         if ($password_hashed === false) {
-            throw new Exception('Error while hashing user password');
+            throw new Exception(__('Error while hashing user password'));
         }
 
         /**
@@ -130,11 +130,11 @@ class User
     public function delete(string $id): void
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to execute this action.');
+            throw new Exception(__('You are not allowed to execute this action.'));
         }
 
         if (!$this->existsId($id)) {
-            throw new Exception('Specified user does not exist');
+            throw new Exception(__('Specified user does not exist'));
         }
 
         $this->model->delete($id);
@@ -165,7 +165,7 @@ class User
          *  Check that the user exists
          */
         if ($this->existsId($id) === false) {
-            throw new Exception('User does not exist');
+            throw new Exception(__('User does not exist'));
         }
 
         /**
@@ -177,14 +177,14 @@ class User
          *  If result is empty then it is anormal
          */
         if (empty($hashedPassword)) {
-            throw new Exception('An error occured while checking user password');
+            throw new Exception(__('An error occurred while checking user password'));
         }
 
         /**
          *  If specified password does not matche database passord, then it is invalid
          */
         if (!password_verify($password, $hashedPassword)) {
-            throw new Exception('Bad password');
+            throw new Exception(__('Bad password'));
         }
     }
 

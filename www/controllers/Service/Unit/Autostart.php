@@ -34,13 +34,12 @@ class Autostart extends \Controllers\Service\Service
 
         try {
             $this->motionServiceController->start();
+            parent::log('Motion service successfully started');
         } catch (Exception $e) {
             // Log to the web interface so the user can see the error
             $this->logController->log('error', 'Motion start request', 'Error while starting motion service: ' . $e->getMessage());
             parent::logError('Error while starting motion service: ' . $e->getMessage());
         }
-
-        parent::log('Motion service successfully started');
     }
 
     /**
@@ -58,13 +57,12 @@ class Autostart extends \Controllers\Service\Service
 
         try {
             $this->motionServiceController->stop();
+            parent::log('Motion service successfully stopped');
         } catch (Exception $e) {
             // Log to the web interface so the user can see the error
             $this->logController->log('error', 'Motion stop request', 'Error while stopping motion service: ' . $e->getMessage());
             parent::logError('Error while stopping motion service: ' . $e->getMessage());
         }
-
-        parent::log('Motion service successfully stopped');
     }
 
     /**
@@ -85,14 +83,13 @@ class Autostart extends \Controllers\Service\Service
          */
         try {
             $this->motionServiceController->stop();
+            parent::log('Motion service successfully stopped');
         } catch (Exception $e) {
             // Log to the web interface so the user can see the error
             $this->logController->log('error', 'Motion restart request', 'Error while stopping motion service: ' . $e->getMessage());
             parent::logError('Error while stopping motion service: ' . $e->getMessage());
             return;
         }
-
-        parent::log('Motion service successfully stopped');
 
         /**
          *  Start motion service
@@ -268,13 +265,12 @@ class Autostart extends \Controllers\Service\Service
 
                         try {
                             $this->motionServiceController->start();
+                            parent::log('Motion service successfully started');
                         } catch (Exception $e) {
                             // Log to the web interface so the user can see the error
                             $this->logController->log('error', 'Motion autostart', 'Cannot start motion service: ' . $e->getMessage());
                             parent::logError('Cannot start motion service: ' . $e->getMessage());
                         }
-
-                        parent::log('Motion service successfully started');
                     }
                 }
 
@@ -285,13 +281,12 @@ class Autostart extends \Controllers\Service\Service
 
                         try {
                             $this->motionServiceController->stop();
+                            parent::log('Motion service successfully stopped');
                         } catch (Exception $e) {
                             // Log to the web interface so the user can see the error
                             $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service: ' . $e->getMessage());
                             parent::logError('Cannot stop motion service: ' . $e->getMessage());
                         }
-
-                        parent::log('Motion service successfully stopped');
                     }
                 }
 
@@ -335,13 +330,12 @@ class Autostart extends \Controllers\Service\Service
 
                                         try {
                                             $this->motionServiceController->stop();
+                                            parent::log('Motion service successfully stopped');
                                         } catch (Exception $e) {
                                             // Log to the web interface so the user can see the error
                                             $this->logController->log('error', 'Motion autostart', 'Cannot stop motion service: ' . $e->getMessage());
                                             parent::logError('Cannot stop motion service: ' . $e->getMessage());
                                         }
-
-                                        parent::log('Motion service successfully stopped');
                                     }
 
                                     // Break this 'while' loop and go back to the 'while true' loop
@@ -363,13 +357,12 @@ class Autostart extends \Controllers\Service\Service
 
                             try {
                                 $this->motionServiceController->start();
+                                parent::log('Motion service successfully started');
                             } catch (Exception $e) {
                                 // Log to the web interface so the user can see the error
                                 $this->logController->log('error', 'Motion autostart', 'Cannot start motion service: ' . $e->getMessage());
                                 parent::logError('Cannot start motion service: ' . $e->getMessage());
                             }
-
-                            parent::log('Motion service successfully started');
                         }
                     }
                 } catch (Exception $e) {

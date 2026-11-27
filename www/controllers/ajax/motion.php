@@ -9,7 +9,7 @@ if ($_POST['action'] == "sendTestEmail" and !empty($_POST['mailRecipient'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Email sent');
+    response(HTTP_OK, __('Email sent'));
 }
 
 /*
@@ -70,7 +70,7 @@ if ($_POST['action'] == "configureAlert"
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Settings saved');
+    response(HTTP_OK, __('Settings saved'));
 }
 
 /*
@@ -144,7 +144,7 @@ if ($_POST['action'] == "configureAutostart"
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Settings saved');
+    response(HTTP_OK, __('Settings saved'));
 }
 
 /**
@@ -159,7 +159,7 @@ if ($_POST['action'] == "addDevice" and !empty($_POST['name']) and !empty($_POST
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Device added');
+    response(HTTP_OK, __('Device added'));
 }
 
 /**
@@ -174,7 +174,7 @@ if ($_POST['action'] == "removeDevice" and !empty($_POST['id'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Device removed');
+    response(HTTP_OK, __('Device removed'));
 }
 
 /**
@@ -189,7 +189,7 @@ if ($_POST['action'] == "enableDevicePresence" and !empty($_POST['status'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Settings saved');
+    response(HTTP_OK, __('Settings saved'));
 }
 
 /**
@@ -204,7 +204,7 @@ if ($_POST['action'] == 'acquit-events') {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'All events acquitted');
+    response(HTTP_OK, __('All events acquitted'));
 }
 
 /**
@@ -234,7 +234,7 @@ if ($_POST['action'] == "deleteFile" and !empty($_POST['mediaId'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Media file(s) successfully deleted');
+    response(HTTP_OK, __('Media file(s) successfully deleted'));
 }
 
 /**
@@ -263,7 +263,7 @@ if ($_POST['action'] == "configure-motion" and !empty($_POST['cameraId']) and !e
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Configuration saved.');
+    response(HTTP_OK, __('Configuration saved.'));
 }
 
 /**
@@ -281,4 +281,4 @@ if ($_POST['action'] == 'get-log' and !empty($_POST['log'])) {
     response(HTTP_OK, $content);
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

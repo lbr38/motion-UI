@@ -4,7 +4,61 @@
 websocket_client();
 
 /**
- *  Event: hide slided window on escape button press
+ *  Event: get panel
+ */
+$(document).on('click','.get-panel-btn',function () {
+    mypanel.get($(this).attr('panel'));
+});
+
+/**
+ *  Slide panel closing
+ */
+$(document).on('click','.slide-panel-close-btn',function () {
+    mypanel.close($(this).attr('slide-panel'));
+});
+
+/**
+ *  Event: show general log details
+ */
+$(document).on('click','.general-log-show-info-btn',function () {
+    var id = $(this).attr('log-id');
+
+    $('pre.general-log-details[log-id="' + id + '"]').toggle();
+});
+
+/**
+ *  Event: mark general log as read
+ */
+$(document).on('click','.general-log-acquit-btn',function () {
+    var id = $(this).attr('log-id');
+
+    ajaxRequest(
+        // Controller:
+        'general',
+        // Action:
+        'acquit-log',
+        // Data:
+        {
+            id: id
+        },
+        // Print success alert:
+        false,
+        // Print error alert:
+        true,
+        // Reload containers:
+        ['header/general-log-messages']
+    );
+});
+
+/**
+ *  Event: close request log details
+ */
+$(document).on('click','.modal-window-close-btn',function () {
+    $('.modal-window-container[modal="' + $(this).attr('modal') + '"]').remove();
+});
+
+/**
+ *  Event: hide slided window and modal window on escape button press
  */
 $(document).keyup(function (e) {
     if (e.key === "Escape") {
@@ -16,30 +70,14 @@ $(document).keyup(function (e) {
 });
 
 /**
- *  Event: exit browser fullscreen mode (Esc key)
- *  This is different than clicking the close button
- */
-$(document).on('fullscreenchange' ,function () {
-    // If fullscreen mode is exited, show or hide some elements and buttons that are available or hidden in normal mode
-    if (!document.fullscreenElement) {
-        // Show all stream images
-        $('.camera-image').show();
-        $('.fullscreen-close-btn').hide();
-        $('.fullscreen-btn').css('display', 'flex');
-        $('.timelapse-camera-btn').css('display', 'flex');
-        $('#timelapse').remove();
-    }
-});
-
-/**
  *  Event: print a copy icon on element with .copy class
  */
 $(document).on('mouseenter','.copy',function () {
     // If the element is a <pre> tag, the copy icon is in the top right corner
     if ($(this).is('pre')) {
-        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy-top-right margin-left-5" title="Copy to clipboard">');
+        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy-top-right margin-left-5" title="' + __('Copy to clipboard') + '">');
     } else {
-        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy margin-left-5" title="Copy to clipboard">');
+        $(this).append('<img src="/assets/icons/duplicate.svg" class="icon-lowopacity icon-copy margin-left-5" title="' + __('Copy to clipboard') + '">');
     }
 });
 
@@ -61,9 +99,9 @@ $(document).on('click','.icon-copy, .icon-copy-top-right',function (e) {
     var text = $(this).parent().text().trim();
 
     navigator.clipboard.writeText(text).then(() => {
-        myalert.print('Copied to clipboard', 'success');
+        myalert.print(__('Copied to clipboard'), 'success');
     },() => {
-        myalert.print('Failed to copy', 'error');
+        myalert.print(__('Failed to copy'), 'error');
     });
 });
 
@@ -74,35 +112,9 @@ $(document).on('click','.copy-input-onclick',function (e) {
     var text = $(this).val().trim();
 
     navigator.clipboard.writeText(text).then(() => {
-        myalert.print('Copied to clipboard', 'success');
+        myalert.print(__('Copied to clipboard'), 'success');
     },() => {
-        myalert.print('Failed to copy', 'error');
-    });
-});
-
-/**
- *  Event: mark log as read
- */
-$(document).on('click','.general-log-acquit-btn',function () {
-    var id = $(this).attr('log-id');
-
-    $.ajax({
-        type: "POST",
-        url: "ajax/controller.php",
-        data: {
-            controller: "general",
-            action: "acquitLog",
-            id: id
-        },
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            mycontainer.reload('header/general-log-messages');
-        },
-        error : function (jqXHR, textStatus, thrownError) {
-            jsonValue = jQuery.parseJSON(jqXHR.responseText);
-            myalert.print(jsonValue.message, 'error');
-        },
+        myalert.print(__('Failed to copy'), 'error');
     });
 });
 
@@ -117,9 +129,10 @@ $(document).on('click','.reloadable-table-page-btn',function () {
     var page = $(this).attr('page');
 
     /**
-     *  Calculate offset (page * 10 - 10)
+     *  Calculate offset from the number of items per page (10 by default)
      */
-    offset = parseInt(page) * 10 - 10;
+    var perPage = parseInt($(this).parents('.reloadable-table').attr('per-page')) || 10;
+    offset = parseInt(page) * perPage - perPage;
 
     /**
      *  If offset is negative, set it to 0
@@ -135,13 +148,4 @@ $(document).on('click','.reloadable-table-page-btn',function () {
     mycookie.set('tables/' + table + '/offset', offset, 1);
 
     mytable.reload(table, offset);
-});
-
-/**
- *  Event: show general log details
- */
-$(document).on('click','.general-log-show-info-btn',function () {
-    var id = $(this).attr('log-id');
-
-    $('pre.general-log-details[log-id="' + id + '"]').toggle();
 });

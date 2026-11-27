@@ -7,5 +7,5 @@ try {
         $userLoginController->login($_POST['username'], $_POST['password']);
     }
 } catch (Exception $e) {
-    $loginError = $_['output']['login_error'];
+    $loginError = __('Invalid login and/or password');
 }

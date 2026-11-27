@@ -74,7 +74,7 @@ class Validate
     {
         $d = DateTime::createFromFormat($format, $date);
         if ($d === false || $d->format($format) !== $date) {
-            throw new Exception('Invalid date format, expected ' . $format);
+            throw new Exception(sprintf(__('Invalid date format, expected %s'), $format));
         }
     }
 

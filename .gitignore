@@ -7,3 +7,4 @@ app-release.aab
 local.properties
 .gradle
 yolo_nvr
+www/libs/vendor/

@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-require_once(ROOT . '/libs/PHPMailer/Exception.php');
-require_once(ROOT . '/libs/PHPMailer/PHPMailer.php');
-require_once(ROOT . '/libs/PHPMailer/SMTP.php');
+require_once(ROOT . '/libs/vendor/autoload.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -68,7 +66,7 @@ class Mail
 
             $mail->send();
         } catch (Exception $e) {
-            throw new Exception('Error while sending email: ' . $mail->ErrorInfo);
+            throw new Exception(sprintf(__('Error while sending email: %s'), $mail->ErrorInfo));
         }
     }
 }

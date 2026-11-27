@@ -5,11 +5,11 @@
         $buttons = [
             'live' => [
                 'icon' => 'videocam.svg',
-                'title' => $_['live_title']
+                'title' => __('Cameras and stream')
             ],
             'events' => [
                 'icon' => 'video.svg',
-                'title' => $_['events_title']
+                'title' => __('Motion events')
             ]
         ];
 
@@ -18,19 +18,19 @@
         $buttons = [
             'live' => [
                 'icon' => 'videocam.svg',
-                'title' => $_['live_title']
+                'title' => __('Cameras and stream')
             ],
             'motion' => [
                 'icon' => 'motion.svg',
-                'title' => $_['motion_title']
+                'title' => __('Motion detection')
             ],
             'events' => [
                 'icon' => 'video.svg',
-                'title' => $_['events_title']
+                'title' => __('Motion events')
             ],
             'stats' => [
                 'icon' => 'stats.svg',
-                'title' => $_['stats_title']
+                'title' => __('Stats')
             ]
         ];
     }
@@ -65,7 +65,7 @@
             <a href="/<?= $uri ?>" onclick="mylayout.veilBody()">
                 <div class="flex align-item-center column-gap-10 <?= $class ?>" title="<?= $properties['title'] ?>">
                     <img src="/assets/icons/<?= $properties['icon'] ?>" class="pointer" title="<?= $properties['title'] ?>" />
-                    <p class="bottom-buttons-title hide font-size-13"><b><?= strtoupper($properties['title']) ?></b></p>
+                    <p class="bottom-buttons-title hide font-size-13"><b><?= $properties['title'] ?></b></p>
                 </div>
             </a>
         </div>

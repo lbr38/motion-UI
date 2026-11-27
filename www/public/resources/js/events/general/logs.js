@@ -7,10 +7,10 @@ $(document).on('mouseenter', '.unit-tooltip', function (e) {
 
     mytooltip.loading(e);
 
-    content  = '<p>Unit</p>';
+    content  = '<p>' + __('Unit') + '</p>';
     content += '<p class="copy"><code>' + unit + '</code></p>';
 
-    content += '<p class="margin-top-10">Description</p>';
+    content += '<p class="margin-top-10">' + __('Description') + '</p>';
     content += '<p>' + description + '</p>';
 
     // Print tooltip

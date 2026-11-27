@@ -37,6 +37,8 @@ jobs:
       - name: Build and push docker
         uses: docker/build-push-action@v6
         with:
+          # Without context, the action clones the triggering ref and ignores the checkout above
+          context: .
           file: Dockerfile
           push: true
           tags: lbr38/motionui:devel

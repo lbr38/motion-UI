@@ -1,16 +1,17 @@
-
 /**
  *  Open websocket connection with server
  */
 function websocket_client()
 {
-    const server = window.location.hostname;
+    const server = window.location.host;
 
-    /**
-     *  Get current origin (http://xxxx:port) then replace 'http' with 'ws'
-     *  wss (secured) will automatically be used if the server uses https
-     */
-    const path = window.location.origin.replace('http', 'ws') + '/ws';
+    // If the target server uses https, then use wss://
+    if (window.location.protocol == 'https:') {
+        var path = 'wss://' + server + '/ws';
+    } else {
+        var path = 'ws://' + server + '/ws';
+    }
+
     const socket = new WebSocket(path);
 
     // Handle connection open
@@ -97,8 +98,6 @@ function getGetParams()
 
 /**
  * Return true if the value is empty
- * @param {*} value
- * @returns
  */
 function empty(value)
 {

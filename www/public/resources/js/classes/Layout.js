@@ -9,34 +9,12 @@ class Layout {
     }
 
     /**
-     * Print a loading icon
-     */
-    printLoading()
-    {
-        // Remove existing loading icon if any
-        $('#loading').remove();
-
-        // Append a new loading icon to the body
-        $('body').append('<div id="loading"><img src="/assets/icons/loading.svg"></div>');
-    }
-
-    /**
-     * Remove the loading icon
-     */
-    hideLoading()
-    {
-        setTimeout(function () {
-            $('#loading').remove();
-        }, 1000);
-    }
-
-    /**
      * Print a veil on specified element by class name, parent element must be relative
      * @param {*} name
      */
     printLoadingVeilByClass(name)
     {
-        $('.' + name).append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+        $('.' + name).append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">' + __('Loading') + '</span></div>');
     }
 
     /**
@@ -45,7 +23,7 @@ class Layout {
      */
     printLoadingVeilByParentClass(name)
     {
-        $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">Loading</span></div>');
+        $('.' + name).find('.veil-on-reload').append('<div class="loading-veil"><img src="/assets/icons/loading.svg" class="icon" /><span class="lowopacity-cst">' + __('Loading') + '</span></div>');
     }
 
     /**
@@ -59,6 +37,46 @@ class Layout {
     toggleElementById(id)
     {
         $('#' + id).toggle();
+    }
+
+    /**
+     * Return the state (id, value, cursor position) of the text field the user is typing in, if it is inside the specified element
+     * Used to restore it once the element has been replaced by a reload, null if the user is not typing in it
+     * @param {*} element
+     * @returns {Object|null}
+     */
+    getFocusedField(element)
+    {
+        const field = document.activeElement;
+
+        if (!field || !field.id || !$(field).is('input[type="text"], input[type="search"], textarea') || !$(element).has(field).length) {
+            return null;
+        }
+
+        return {
+            id: field.id,
+            value: field.value,
+            start: field.selectionStart,
+            end: field.selectionEnd
+        };
+    }
+
+    /**
+     * Restore the text field the user was typing in before it has been replaced by a reload (see getFocusedField())
+     * The value typed by the user is kept, as it may not have been taken into account by the reload yet
+     * @param {Object|null} state
+     */
+    restoreFocusedField(state)
+    {
+        const field = state ? document.getElementById(state.id) : null;
+
+        if (!field) {
+            return;
+        }
+
+        field.value = state.value;
+        field.focus();
+        field.setSelectionRange(state.start, state.end);
     }
 
     /**

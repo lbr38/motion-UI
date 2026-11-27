@@ -8,15 +8,12 @@ class Panel {
      */
     get(name, params = [''], append = true)
     {
-        // Print a loading icon on the bottom of the page
-        mylayout.printLoading();
-
         if ($('.slide-panel-container[slide-panel="' + name + '"]').length == 0) {
             // Create an empty panel container, append it to the body and show it
             var html  = '<div class="slide-panel-container" slide-panel="' + name + '">';
             html += '<div class="slide-panel">';
             html += '<div class="flex justify-end">';
-            html += '<img src="/assets/icons/close.svg" class="slide-panel-close-btn float-right lowopacity" slide-panel="' + name + '" title="Close" />';
+            html += '<img src="/assets/icons/close.svg" class="slide-panel-close-btn float-right lowopacity" slide-panel="' + name + '" title="' + __('Close') + '" />';
             html += '</div>';
             html += '<div class="flex justify-center align-item-center height-100">';
             html += '<img src="/assets/icons/loading.svg" class="icon-np" />';
@@ -86,9 +83,6 @@ class Panel {
 
                     // Reject promise
                     reject('Failed to get panel: ' + e);
-                }).finally(() => {
-                    // Hide loading icon
-                    mylayout.hideLoading();
                 });
             } catch (error) {
                 // Catch synchronous errors (before the ajax request is sent)
@@ -107,9 +101,6 @@ class Panel {
      */
     reload(name, params = [''])
     {
-        // Print a loading icon on the bottom of the page
-        // mylayout.printLoading();
-
         // Check if panel has children with class .veil-on-reload, if so print a veil on them
         mylayout.printLoadingVeilByParentClass('slide-panel-reloadable-div[slide-panel="' + name + '"]');
 
@@ -150,9 +141,6 @@ class Panel {
                 resolve('Panel reloaded successfully');
             }).catch((e) => {
                 reject('Failed to reload panel ' + name + ': ' + e);
-            }).finally(() => {
-                // Hide loading icon
-                mylayout.hideLoading();
             });
         });
     }
@@ -163,6 +151,18 @@ class Panel {
      */
     close(name = null)
     {
+        const container = name != null ? $('.slide-panel-container[slide-panel="' + name + '"]') : $('.slide-panel-container');
+
+        /**
+         *  Close the select2 dropdowns of the panel: they are attached to the body and would stay displayed once the panel is removed
+         *  (e.g. on Escape key press when the focus is not in the select2 anymore)
+         */
+        container.find('select.select2-hidden-accessible').each(function () {
+            if ($(this).data('select2') && $(this).data('select2').isOpen()) {
+                $(this).select2('close');
+            }
+        });
+
         if (name != null) {
             $('.slide-panel-container[slide-panel="' + name + '"]').find('.slide-panel').animate({
                 right: '-1000px',

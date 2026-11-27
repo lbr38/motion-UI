@@ -13,7 +13,7 @@ if ($_POST['action'] == "add" and !empty($_POST['params'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Camera added');
+    response(HTTP_OK, __('Camera added'));
 }
 
 /**
@@ -27,7 +27,7 @@ if ($_POST['action'] == 'edit-global-settings' and !empty($_POST['id']) and !emp
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Camera settings saved');
+    response(HTTP_OK, __('Camera settings saved'));
 }
 
 /**
@@ -41,7 +41,7 @@ if ($_POST['action'] == "delete" and !empty($_POST['cameraId'])) {
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, 'Camera deleted');
+    response(HTTP_OK, __('Camera deleted'));
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

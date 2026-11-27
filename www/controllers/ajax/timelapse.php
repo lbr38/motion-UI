@@ -50,4 +50,4 @@ if ($_POST['action'] == 'get-timelapse-by-picture' and !empty($_POST['cameraId']
     response(HTTP_OK, $timelapse);
 }
 
-response(HTTP_BAD_REQUEST, 'Invalid action');
+response(HTTP_BAD_REQUEST, __('Invalid action'));

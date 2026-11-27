@@ -15,7 +15,7 @@ class PtzMove extends Ptz
              *  Check if camera exists
              */
             if (!$cameraController->existId($cameraId)) {
-                throw new Exception('Camera Id does not exist');
+                throw new Exception(__('Camera Id does not exist'));
             }
 
             /**
@@ -33,24 +33,24 @@ class PtzMove extends Ptz
              *  If camera is a device, it cannot be moved
              */
             if (preg_match('#/dev/video#', $configuration['main-stream']['device'])) {
-                throw new Exception('Device camera are not movable');
+                throw new Exception(__('Device cameras are not movable'));
             }
 
             /**
              *  Get camera Onvif url
              */
             if (empty($configuration['onvif']['url'])) {
-                throw new Exception('Camera URL is not set');
+                throw new Exception(__('Camera URL is not set'));
             }
 
             $url = $configuration['onvif']['url'];
 
             if (empty($configuration['authentication']['username'])) {
-                throw new Exception('Username is not set');
+                throw new Exception(__('Username is not set'));
             }
 
             if (empty($configuration['authentication']['password'])) {
-                throw new Exception('Password is not set');
+                throw new Exception(__('Password is not set'));
             }
 
             /**
@@ -59,12 +59,12 @@ class PtzMove extends Ptz
             parent::__construct($url, $configuration['authentication']['username'], $configuration['authentication']['password']);
 
             if (empty($this->ptzUri)) {
-                throw new Exception('PTZ URI is not set');
+                throw new Exception(__('PTZ URI is not set'));
             }
 
             unset($cameraController, $configuration);
         } catch (Exception $e) {
-            throw new Exception('Could not move camera: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not move camera: %s'), $e->getMessage()));
         }
     }
 
@@ -74,15 +74,15 @@ class PtzMove extends Ptz
     public function move(string $direction, string $moveType, float $moveSpeed): void
     {
         if (!in_array($direction, ['up', 'down', 'left', 'right'])) {
-            throw new Exception('Invalid direction');
+            throw new Exception(__('Invalid direction'));
         }
 
         if (!in_array($moveType, ['continuous', 'discontinuous'])) {
-            throw new Exception('Invalid move type');
+            throw new Exception(__('Invalid move type'));
         }
 
         if ($moveSpeed < 0.1 or $moveSpeed > 1) {
-            throw new Exception('Invalid move speed');
+            throw new Exception(__('Invalid move speed'));
         }
 
         /**
@@ -91,7 +91,7 @@ class PtzMove extends Ptz
         $sources = $this->getSources();
 
         if (empty($sources[0][0]['profiletoken'])) {
-            throw new Exception('Could not get profile token');
+            throw new Exception(__('Could not get profile token'));
         }
 
         /**
@@ -134,7 +134,7 @@ class PtzMove extends Ptz
         $sources = $this->getSources();
 
         if (empty($sources[0][0]['profiletoken'])) {
-            throw new Exception('Could not get profile token');
+            throw new Exception(__('Could not get profile token'));
         }
 
         /**

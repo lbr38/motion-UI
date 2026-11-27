@@ -1,5 +1,11 @@
 # Dockerfile for motion-UI
 
+# PHP dependencies (composer), built in a separate stage so composer is not shipped in the final image
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY www/libs/composer.json www/libs/composer.lock ./
+RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
+
 # Base image
 FROM debian:13-slim
 
@@ -64,6 +70,7 @@ COPY docker/config/postfix/master.cf /etc/postfix/master.cf
 # Copy motionui files
 RUN mkdir -p $WWW_DIR $DATA_DIR
 COPY www/ $WWW_DIR/
+COPY --from=vendor /app/vendor $WWW_DIR/libs/vendor
 
 # Configure motion
 RUN mkdir -p /var/run/motion -m 775 && \

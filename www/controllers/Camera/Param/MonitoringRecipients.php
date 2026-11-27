@@ -14,7 +14,7 @@ class MonitoringRecipients
     {
         foreach ($recipients as $recipient) {
             if (!Validate::email($recipient)) {
-                throw new Exception('Monitoring recipient "' . $recipient . '" is not a valid email');
+                throw new Exception(sprintf(__('Monitoring recipient "%s" is not a valid email'), $recipient));
             }
         }
     }

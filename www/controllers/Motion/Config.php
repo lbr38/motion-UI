@@ -26,13 +26,13 @@ class Config
          *  Get current params in the file
          */
         if (!is_readable($file)) {
-            throw new Exception('Could not read configuration file: ' . $file);
+            throw new Exception(sprintf(__('Could not read configuration file: %s'), $file));
         }
 
         $content = file_get_contents($file);
 
         if ($content === false) {
-            throw new Exception('Could not retrieve configuration file content: ' . $file);
+            throw new Exception(sprintf(__('Could not retrieve configuration file content: %s'), $file));
         }
 
         /**
@@ -116,10 +116,10 @@ class Config
          */
         if (file_exists($file)) {
             if (!is_readable($file)) {
-                throw new Exception('Motion configuration file is not readable: ' . $file);
+                throw new Exception(sprintf(__('Motion configuration file is not readable: %s'), $file));
             }
             if (!is_writeable($file)) {
-                throw new Exception('Motion configuration file is not writeable: ' . $file);
+                throw new Exception(sprintf(__('Motion configuration file is not writeable: %s'), $file));
             }
         }
 
@@ -137,7 +137,7 @@ class Config
              *  Check that parameter name is valid and does not contains invalid characters
              */
             if (!Validate::alphaNumericHyphen($name)) {
-                throw new Exception($name . ' parameter name contains invalid character(s)');
+                throw new Exception(sprintf(__('%s parameter name contains invalid character(s)'), $name));
             }
 
             if ($enabled == 'true') {
@@ -153,7 +153,7 @@ class Config
          *  Write new params to file
          */
         if (!file_put_contents($file, trim($content))) {
-            throw new Exception('Could not write to configuration file: ' . $file);
+            throw new Exception(sprintf(__('Could not write to configuration file: %s'), $file));
         }
 
         unset($content);
@@ -204,7 +204,7 @@ class Config
         $filenameEnabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
 
         if (!file_exists($filenameAvailable)) {
-            throw new Exception('Camera configuration file does not exist');
+            throw new Exception(__('Camera configuration file does not exist'));
         }
 
         /**
@@ -212,7 +212,7 @@ class Config
          */
         if (!file_exists($filenameEnabled)) {
             if (!symlink($filenameAvailable, $filenameEnabled)) {
-                throw new Exception('Could not enable camera configuration file');
+                throw new Exception(__('Could not enable camera configuration file'));
             }
         }
 
@@ -231,7 +231,7 @@ class Config
         $filenameEnabled = CAMERAS_MOTION_CONF_ENABLED_DIR . '/camera-' . $id . '.conf';
 
         if (!file_exists($filenameAvailable)) {
-            throw new Exception('Camera configuration file does not exist');
+            throw new Exception(__('Camera configuration file does not exist'));
         }
 
         /**
@@ -245,7 +245,7 @@ class Config
          *  Disable camera configuration file
          */
         if (!unlink($filenameEnabled)) {
-            throw new Exception('Could not disable camera configuration file');
+            throw new Exception(__('Could not disable camera configuration file'));
         }
 
         /**

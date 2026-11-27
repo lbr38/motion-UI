@@ -13,7 +13,7 @@ class Ptz extends Onvif
         parent::__construct($uri, $username, $password);
 
         if (empty($this->ptzUri)) {
-            throw new Exception('PTZ URI is not set');
+            throw new Exception(__('PTZ URI is not set'));
         }
     }
 
@@ -56,7 +56,7 @@ class Ptz extends Onvif
              */
             $this->isFault($response);
         } catch (Exception $e) {
-            throw new Exception('could not move PTZ: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not move PTZ: %s'), $e->getMessage()));
         }
     }
 
@@ -102,7 +102,7 @@ class Ptz extends Onvif
              */
             $this->isFault($response);
         } catch (Exception $e) {
-            throw new Exception('could not move PTZ: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not move PTZ: %s'), $e->getMessage()));
         }
     }
 
@@ -146,7 +146,7 @@ class Ptz extends Onvif
              */
             $this->isFault($response);
         } catch (Exception $e) {
-            throw new Exception('could not move PTZ: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not move PTZ: %s'), $e->getMessage()));
         }
     }
 
@@ -188,7 +188,7 @@ class Ptz extends Onvif
              */
             $this->isFault($response);
         } catch (Exception $e) {
-            throw new Exception('could not stop PTZ: ' . $e->getMessage());
+            throw new Exception(sprintf(__('Could not stop PTZ: %s'), $e->getMessage()));
         }
     }
 }

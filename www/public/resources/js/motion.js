@@ -5,10 +5,10 @@ $(document).on('click','.start-stop-service-btn',function () {
     var status = $(this).attr('status');
 
     if (status == 'start') {
-        myalert.print('Starting motion detection, please wait...');
+        myalert.print(__('Starting motion detection, please wait...'));
     }
     if (status == 'stop') {
-        myalert.print('Stopping motion detection, please wait...');
+        myalert.print(__('Stopping motion detection, please wait...'));
     }
 
     ajaxRequest(
@@ -76,7 +76,7 @@ $(document).on('click', '#motion-autostart-log-btn', function () {
         // Print error alert:
         true
     ).then(function () {
-        mymodal.print(jsonValue.message, 'MOTION AUTOSTART LOG');
+        mymodal.print(jsonValue.message, __('MOTION AUTOSTART LOG'));
     });
 });
 
@@ -127,10 +127,10 @@ function eventDateSelect(dateStart, dateEnd)
 $(document).on('click','.play-picture-btn',function () {
     html = '<div id="fullscreen">'
     + '<div class="flex align-item-center">'
-    + '<img src="' + $(this).attr('src') + '" title="Full screen event picture" />'
+    + '<img src="' + $(this).attr('src') + '" title="' + __('Full screen event picture') + '" />'
     + '</div>'
     + '<div class="flex align-item-center justify-center">'
-    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="Close fullscreen">'
+    + '<img src="/assets/icons/close.svg" class="close-fullscreen-btn pointer lowopacity" title="' + __('Close fullscreen') + '">'
     + '</div>'
     + '</div>';
 
@@ -175,18 +175,18 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
     myconfirmbox.print(
         {
             'id': 'download-delete-media',
-            'title': 'Download or delete selected media(s)',
-            'message': checkboxes.length + ' media' + (checkboxes.length > 1 ? 's' : '') + ' selected',
+            'title': __('Download or delete selected media(s)'),
+            'message': sprintf(_n('%d media selected', '%d medias selected', checkboxes.length), checkboxes.length),
             'buttons': [
             {
-                'text': 'Download',
+                'text': __('Download'),
                 'color': 'blue',
                 'callback': function () {
                     mymotionmedia.download(checkboxes);
                 }
             },
             {
-                'text': 'Delete',
+                'text': __('Delete'),
                 'color': 'red',
                 'callback': function () {
                     mymotionmedia.delete(checkboxes);

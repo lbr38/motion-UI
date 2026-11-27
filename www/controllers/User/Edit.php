@@ -27,7 +27,7 @@ class Edit extends User
          */
         if (!empty($email)) {
             if (!Validate::email($email)) {
-                throw new Exception('Invalid email address format');
+                throw new Exception(__('Invalid email address format'));
             }
         }
 
@@ -35,7 +35,7 @@ class Edit extends User
          *  Check that user exists
          */
         if (!$this->existsId($id)) {
-            throw new Exception('User does not exist');
+            throw new Exception(__('User does not exist'));
         }
 
         /**
@@ -65,11 +65,11 @@ class Edit extends User
     public function resetPassword(string $id): string
     {
         if (!IS_ADMIN) {
-            throw new Exception('You are not allowed to execute this action.');
+            throw new Exception(__('You are not allowed to execute this action.'));
         }
 
         if (!$this->existsId($id)) {
-            throw new Exception('Specified user does not exist');
+            throw new Exception(__('Specified user does not exist'));
         }
 
         /**
@@ -83,7 +83,7 @@ class Edit extends User
          */
         if (!IS_SUPERADMIN) {
             if ($role == 2) {
-                throw new Exception('You are not allowed to reset password of another administrator');
+                throw new Exception(__('You are not allowed to reset password of another administrator'));
             }
         }
 
@@ -98,7 +98,7 @@ class Edit extends User
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         if ($hashedPassword === false) {
-            throw new Exception('Error while creating a new password for user' . $username);
+            throw new Exception(sprintf(__('Error while creating a new password for user %s'), $username));
         }
 
         /**
@@ -121,14 +121,14 @@ class Edit extends User
          *  Check that user exists
          */
         if ($this->existsId($id) === false) {
-            throw new Exception('User does not exist');
+            throw new Exception(__('User does not exist'));
         }
 
         /**
          *  Check that the provided Id matches the current user Id (in session)
          */
         if ($id != $_SESSION['id']) {
-            throw new Exception('You are not allowed to change password of another user');
+            throw new Exception(__('You are not allowed to change password of another user'));
         }
 
         /**
@@ -149,21 +149,21 @@ class Edit extends User
          *  If result is empty then it is anormal
          */
         if (empty($actualPasswordHashed)) {
-            throw new Exception('An error occured while checking user password');
+            throw new Exception(__('An error occurred while checking user password'));
         }
 
         /**
          *  Check that new specified password and its retype are the same
          */
         if ($newPassword !== $newPasswordRetype) {
-            throw new Exception('New password and password re-type are different');
+            throw new Exception(__('New password and password re-type are different'));
         }
 
         /**
          *  Check that new specified password is different that the actual one in database
          */
         if (password_verify($newPassword, $actualPasswordHashed)) {
-            throw new Exception('New password must be different then the actual one');
+            throw new Exception(__('New password must be different from the current one'));
         }
 
         /**
