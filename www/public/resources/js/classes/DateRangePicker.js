@@ -3,19 +3,20 @@ class DateRangePicker
     /**
      * Return the predefined ranges, computed from the current date
      * Called again each time a relative range needs to be recomputed (e.g. charts auto-update)
-     * @returns {object} - Predefined ranges, label => [start, end]
+     * Ranges are identified by a key that does not depend on the language, the label is only used for display
+     * @returns {object} - Predefined ranges, key => {label, start, end}
      */
     presets()
     {
         return {
-            [__('Last 24 Hours')]: [moment().subtract(24, 'hours'), moment()],
-            [__('Today')]: [moment().startOf('day'), moment().endOf('day')],
-            [__('Yesterday')]: [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-            [__('Last 7 Days')]: [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
-            [__('Last 30 Days')]: [moment().subtract(29, 'days').startOf('day'), moment().endOf('day')],
-            [__('Last 3 Months')]: [moment().subtract(3, 'month').startOf('month'), moment().endOf('month')],
-            [__('Last 6 Months')]: [moment().subtract(6, 'month').startOf('month'), moment().endOf('month')],
-            [__('Last Year')]: [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+            'last-24-hours': { label: __('Last 24 Hours'), start: moment().subtract(24, 'hours'), end: moment() },
+            'today': { label: __('Today'), start: moment().startOf('day'), end: moment().endOf('day') },
+            'yesterday': { label: __('Yesterday'), start: moment().subtract(1, 'days').startOf('day'), end: moment().subtract(1, 'days').endOf('day') },
+            'last-7-days': { label: __('Last 7 Days'), start: moment().subtract(6, 'days').startOf('day'), end: moment().endOf('day') },
+            'last-30-days': { label: __('Last 30 Days'), start: moment().subtract(29, 'days').startOf('day'), end: moment().endOf('day') },
+            'last-3-months': { label: __('Last 3 Months'), start: moment().subtract(3, 'month').startOf('month'), end: moment().endOf('month') },
+            'last-6-months': { label: __('Last 6 Months'), start: moment().subtract(6, 'month').startOf('month'), end: moment().endOf('month') },
+            'last-year': { label: __('Last Year'), start: moment().subtract(1, 'year').startOf('year'), end: moment().subtract(1, 'year').endOf('year') }
         };
     }
 
@@ -50,7 +51,7 @@ class DateRangePicker
     /**
      * Convert an input element into a date range picker
      * @param {string} element - The selector of the input element to convert
-     * @param {string} preset - The label of the predefined range to select by default (default: none, start and end dates are set to now)
+     * @param {string} preset - The key of the predefined range to select by default (e.g. 'last-24-hours', default: none, start and end dates are set to now)
      * @param {boolean} timePicker - Enable the time picker (default: true)
      * @param {boolean} predefinedRanges - Enable the predefined ranges (default: true)
      */
@@ -61,12 +62,19 @@ class DateRangePicker
         var end = moment();
 
         if (preset && presets[preset]) {
-            start = presets[preset][0];
-            end = presets[preset][1];
+            start = presets[preset].start;
+            end = presets[preset].end;
+
+            // Select the predefined range by its key and display its label
+            $(element).attr('range', preset);
+            $(element).find('p').text(presets[preset].label).attr('title', presets[preset].label);
         }
 
         function cb(start, end, label) {
             var text = '';
+
+            // The date range picker returns the label of the selected range: get the key of the matching predefined range, if any
+            const key = Object.keys(presets).find(key => presets[key].label === label);
 
             // Add a "value" attribute to the element with the selected date range in "YYYY-MM-DD - YYYY-MM-DD" format
             if (timePicker) {
@@ -75,16 +83,16 @@ class DateRangePicker
                 $(element).attr('value', start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             }
 
-            // Add "start" and "end" attributes with the selected dates as timestamps, and a "range" attribute with the selected range label
-            // (label of a predefined range, or "Custom Range")
+            // Add "start" and "end" attributes with the selected dates as timestamps, and a "range" attribute with the key of the
+            // selected predefined range ("custom" for a custom range)
             $(element).attr('start', start.unix());
             $(element).attr('end', end.unix());
-            $(element).attr('range', label);
+            $(element).attr('range', key ?? 'custom');
 
             // Format <p> inner text to a more human readable format "DD-MM-YYYY - DD-MM-YYYY"
 
             // If a predefined range is selected, display its label
-            if (presets[label]) {
+            if (key) {
                 text = label;
             // If the start and the end date are the same, only display one date with times if enabled, otherwise display the range
             } else if (start.isSame(end, 'day')) {
@@ -128,8 +136,13 @@ class DateRangePicker
         }
 
         // Add predefined ranges if enabled
+        // The date range picker expects label => [start, end]
         if (predefinedRanges) {
-            config.ranges = presets;
+            config.ranges = {};
+
+            for (const key in presets) {
+                config.ranges[presets[key].label] = [presets[key].start, presets[key].end];
+            }
         }
 
         // Convert the input element into a date range picker

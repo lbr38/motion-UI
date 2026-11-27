@@ -1,6 +1,6 @@
 <?php ob_start(); ?>
 
-<h5><?= __('PERSONAL INFORMATIONS') ?></h5>
+<h5><?= __('PERSONAL INFORMATION') ?></h5>
 
 <div>
     <form id="user-edit-info" autocomplete="off">

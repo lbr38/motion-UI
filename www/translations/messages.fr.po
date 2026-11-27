@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Motion-UI\n"
 "Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
-"POT-Creation-Date: 2026-11-15 09:05+0100\n"
+"POT-Creation-Date: 2026-11-27 13:45+0000\n"
 "PO-Revision-Date: 2026-11-01 12:00+0100\n"
 "Last-Translator: Ludovic\n"
 "Language-Team: French\n"
@@ -47,7 +47,7 @@ msgid "You are not allowed to edit camera settings"
 msgstr "Vous n'êtes pas autorisé à modifier les paramètres de la caméra"
 
 #: controllers/Camera/Edit.php controllers/Onvif/PtzMove.php
-msgid "Device camera are not movable"
+msgid "Device cameras are not movable"
 msgstr "Les caméras locales ne sont pas orientables"
 
 #: controllers/Camera/Edit.php
@@ -74,7 +74,9 @@ msgstr "Le périphérique ou l'URL est requis"
 msgid ""
 "Device or URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/"
 "video</b>"
-msgstr "Le périphérique ou l'URL doit commencer par <b>http(s)://</b>, <b>rtsp://</b> ou <b>/dev/video</b>"
+msgstr ""
+"Le périphérique ou l'URL doit commencer par <b>http(s)://</b>, <b>rtsp://</"
+"b> ou <b>/dev/video</b>"
 
 #: controllers/Camera/Param/Device.php
 msgid "Device or URL contains invalid characters"
@@ -95,7 +97,8 @@ msgstr "La valeur d'activation de la surveillance est invalide"
 #: controllers/Camera/Param/MonitoringRecipients.php
 #, php-format
 msgid "Monitoring recipient \"%s\" is not a valid email"
-msgstr "Le destinataire de surveillance \"%s\" n'est pas une adresse email valide"
+msgstr ""
+"Le destinataire de surveillance \"%s\" n'est pas une adresse email valide"
 
 #: controllers/Camera/Param/Name.php
 msgid "Name is required"
@@ -268,7 +271,8 @@ msgstr "Vous n'êtes pas autorisé à accéder à ce panneau."
 #: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
 #, php-format
 msgid "Error: could not retrieve camera #%s configuration: %s"
-msgstr "Erreur : impossible de récupérer la configuration de la caméra #%s : %s"
+msgstr ""
+"Erreur : impossible de récupérer la configuration de la caméra #%s : %s"
 
 #: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
 msgid "User Id not set."
@@ -1187,7 +1191,8 @@ msgstr "Paramètre invalide"
 
 #: controllers/Motion/Autostart.php
 msgid "You are not allowed to view motion autostart logs"
-msgstr "Vous n'êtes pas autorisé à consulter les journaux du démarrage automatique"
+msgstr ""
+"Vous n'êtes pas autorisé à consulter les journaux du démarrage automatique"
 
 #: controllers/Motion/Config.php
 #, php-format
@@ -1276,7 +1281,9 @@ msgstr "Impossible de supprimer le fichier %s"
 
 #: controllers/Motion/Service.php
 msgid "You are not allowed to view motion service logs"
-msgstr "Vous n'êtes pas autorisé à consulter les journaux du service de détection de mouvement"
+msgstr ""
+"Vous n'êtes pas autorisé à consulter les journaux du service de détection de "
+"mouvement"
 
 #: controllers/Notification.php
 msgid "Unable to retrieve notifications"
@@ -1373,19 +1380,23 @@ msgstr "L'utilisateur spécifié n'existe pas"
 
 #: controllers/User/Edit.php
 msgid "You are not allowed to reset password of another administrator"
-msgstr "Vous n'êtes pas autorisé à réinitialiser le mot de passe d'un autre administrateur"
+msgstr ""
+"Vous n'êtes pas autorisé à réinitialiser le mot de passe d'un autre "
+"administrateur"
 
 #: controllers/User/Edit.php
 #, php-format
 msgid "Error while creating a new password for user %s"
-msgstr "Erreur lors de la création d'un nouveau mot de passe pour l'utilisateur %s"
+msgstr ""
+"Erreur lors de la création d'un nouveau mot de passe pour l'utilisateur %s"
 
 #: controllers/User/Edit.php
 msgid "You are not allowed to change password of another user"
-msgstr "Vous n'êtes pas autorisé à changer le mot de passe d'un autre utilisateur"
+msgstr ""
+"Vous n'êtes pas autorisé à changer le mot de passe d'un autre utilisateur"
 
 #: controllers/User/Edit.php controllers/User/User.php
-msgid "An error occured while checking user password"
+msgid "An error occurred while checking user password"
 msgstr "Une erreur est survenue lors de la vérification du mot de passe"
 
 #: controllers/User/Edit.php
@@ -1393,7 +1404,7 @@ msgid "New password and password re-type are different"
 msgstr "Le nouveau mot de passe et sa confirmation sont différents"
 
 #: controllers/User/Edit.php
-msgid "New password must be different then the actual one"
+msgid "New password must be different from the current one"
 msgstr "Le nouveau mot de passe doit être différent de l'actuel"
 
 #: controllers/User/Login.php
@@ -1407,7 +1418,9 @@ msgstr "Impossible d'accorder l'accès à la caméra : %s"
 
 #: controllers/User/User.php
 msgid "Username cannot contain special characters except hyphen and underscore"
-msgstr "Le nom d'utilisateur ne peut pas contenir de caractères spéciaux, à l'exception du tiret et du tiret bas"
+msgstr ""
+"Le nom d'utilisateur ne peut pas contenir de caractères spéciaux, à "
+"l'exception du tiret et du tiret bas"
 
 #: controllers/User/User.php
 msgid "Selected user role is invalid"
@@ -1511,7 +1524,7 @@ msgid "Permissions saved"
 msgstr "Permissions enregistrées"
 
 #: controllers/ajax/userspace.php
-msgid "Personnal informations saved"
+msgid "Personal information saved"
 msgstr "Informations personnelles enregistrées"
 
 #: controllers/ajax/userspace.php
@@ -2092,6 +2105,14 @@ msgid "Start motion detection"
 msgstr "Démarrer la détection de mouvement"
 
 #: views/includes/containers/motion/buttons/main.inc.php
+msgid "OFF"
+msgstr "OFF"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "ON"
+msgstr "ON"
+
+#: views/includes/containers/motion/buttons/main.inc.php
 msgid "Disable motion detection autostart"
 msgstr "Désactiver le démarrage automatique de la détection de mouvement"
 
@@ -2417,7 +2438,7 @@ msgid "EDIT USER PERMISSIONS"
 msgstr "MODIFIER LES PERMISSIONS"
 
 #: views/includes/panels/general/user/userspace.inc.php
-msgid "PERSONAL INFORMATIONS"
+msgid "PERSONAL INFORMATION"
 msgstr "INFORMATIONS PERSONNELLES"
 
 #: views/includes/panels/general/user/userspace.inc.php

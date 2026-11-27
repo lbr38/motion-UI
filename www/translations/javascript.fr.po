@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Motion-UI 6.11.3\n"
 "Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
-"POT-Creation-Date: 2026-11-15 09:05+0100\n"
+"POT-Creation-Date: 2026-11-27 13:45+0000\n"
 "PO-Revision-Date: 2026-11-15 08:54+0100\n"
 "Last-Translator: Ludovic\n"
 "Language-Team: French\n"
@@ -140,6 +140,14 @@ msgstr "Du %s au %s"
 #: public/resources/js/classes/EChart.js
 msgid "Failed to get chart data:"
 msgstr "Impossible de récupérer les données du graphique :"
+
+#: public/resources/js/classes/EChart.js
+msgid "active"
+msgstr "actif"
+
+#: public/resources/js/classes/EChart.js
+msgid "inactive"
+msgstr "inactif"
 
 #: public/resources/js/classes/Layout.js public/resources/js/classes/Tooltip.js
 msgid "Loading"

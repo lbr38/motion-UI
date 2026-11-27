@@ -10,7 +10,7 @@ if ($_POST['action'] == 'edit' and isset($_POST['firstName']) and isset($_POST['
         response(HTTP_BAD_REQUEST, $e->getMessage());
     }
 
-    response(HTTP_OK, __('Personnal informations saved'));
+    response(HTTP_OK, __('Personal information saved'));
 }
 
 /**

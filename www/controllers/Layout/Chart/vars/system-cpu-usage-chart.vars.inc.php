@@ -6,7 +6,6 @@ $options = [];
 
 /**
  *  Get CPU usage data
- *  This will fetch the last 60 minutes of CPU usage data
  */
 $cpuUsageStats = $systemMonitoringController->get($timeStart, $timeEnd);
 

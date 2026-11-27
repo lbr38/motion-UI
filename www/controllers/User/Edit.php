@@ -149,7 +149,7 @@ class Edit extends User
          *  If result is empty then it is anormal
          */
         if (empty($actualPasswordHashed)) {
-            throw new Exception(__('An error occured while checking user password'));
+            throw new Exception(__('An error occurred while checking user password'));
         }
 
         /**
@@ -163,7 +163,7 @@ class Edit extends User
          *  Check that new specified password is different that the actual one in database
          */
         if (password_verify($newPassword, $actualPasswordHashed)) {
-            throw new Exception(__('New password must be different then the actual one'));
+            throw new Exception(__('New password must be different from the current one'));
         }
 
         /**

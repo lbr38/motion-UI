@@ -1549,22 +1549,27 @@ EChart.getRange = function(id) {
         return null;
     }
 
-    const label = picker.attr('range');
+    const key = picker.attr('range');
     const presets = mydaterangepicker.presets();
 
     // Predefined range
-    if (presets[label]) {
+    if (presets[key]) {
         return {
-            key: label,
+            key: key,
             relative: true,
-            start: presets[label][0].unix(),
-            end: presets[label][1].unix()
+            start: presets[key].start.unix(),
+            end: presets[key].end.unix()
         };
     }
 
     // Custom range
     const start = Number(picker.attr('start'));
     const end = Number(picker.attr('end'));
+
+    // No valid period selected: let the server use its default period
+    if (!start || !end) {
+        return null;
+    }
 
     return {
         key: start + '-' + end,
@@ -1643,7 +1648,7 @@ EChart.recreate = function(type, id, autoUpdate = true, autoUpdateInterval = 150
  */
 EChart.formatters = {
     // Example usage: formatterName: "activeState"
-    activeState: (val) => val === 1 ? "active" : "inactive",
+    activeState: (val) => val === 1 ? __('active') : __('inactive'),
 };
 
 $(document).ready(function () {

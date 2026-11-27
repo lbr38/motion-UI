@@ -4,14 +4,6 @@
 websocket_client();
 
 /**
- *  Add a red dot on the favicon if tasks are running
- *  (on document ready, as mylayout is instantiated after this file is loaded)
- */
-$(document).ready(function () {
-    mylayout.updateFavicon();
-});
-
-/**
  *  Event: get panel
  */
 $(document).on('click','.get-panel-btn',function () {

@@ -16,7 +16,7 @@
             <button type="button" class="motion-toggle <?= $motionActive ? 'motion-toggle-on' : '' ?> start-stop-service-btn" status="<?= $status ?>" title="<?= $title ?>" aria-pressed="<?= $motionActive ? 'true' : 'false' ?>">
                 <img src="/assets/icons/power.svg" class="icon" alt="" />
                 <span class="motion-toggle-label"><?= __('Motion detection') ?></span>
-                <span class="motion-toggle-state"><?= $motionActive ? 'ON' : 'OFF' ?></span>
+                <span class="motion-toggle-state"><?= $motionActive ? __('ON') : __('OFF') ?></span>
             </button>
         </div>
 
@@ -30,7 +30,7 @@
             <button type="button" id="<?= $autostartEnabled ? 'disable-autostart-btn' : 'enable-autostart-btn' ?>" class="motion-toggle <?= $autostartEnabled ? 'motion-toggle-on' : '' ?>" title="<?= $autostartEnabled ? __('Disable motion detection autostart') : __('Enable motion detection autostart') ?>" aria-pressed="<?= $autostartEnabled ? 'true' : 'false' ?>">
                 <img src="/assets/icons/time.svg" class="icon" alt="" />
                 <span class="motion-toggle-label"><?= __('Autostart') ?></span>
-                <span class="motion-toggle-state"><?= $autostartEnabled ? 'ON' : 'OFF' ?></span>
+                <span class="motion-toggle-state"><?= $autostartEnabled ? __('ON') : __('OFF') ?></span>
             </button>
 
             <?php
@@ -52,7 +52,7 @@
             <button type="button" id="<?= $alertEnabled ? 'disable-alert-btn' : 'enable-alert-btn' ?>" class="motion-toggle <?= $alertEnabled ? 'motion-toggle-on' : '' ?>" title="<?= $alertEnabled ? __('Disable motion alerts') : __('Enable motion alerts') ?>" aria-pressed="<?= $alertEnabled ? 'true' : 'false' ?>">
                 <img src="/assets/icons/alarm.svg" class="icon" alt="" />
                 <span class="motion-toggle-label"><?= __('Alerts') ?></span>
-                <span class="motion-toggle-state"><?= $alertEnabled ? 'ON' : 'OFF' ?></span>
+                <span class="motion-toggle-state"><?= $alertEnabled ? __('ON') : __('OFF') ?></span>
             </button>
 
             <?php

@@ -33,7 +33,7 @@ class PtzMove extends Ptz
              *  If camera is a device, it cannot be moved
              */
             if (preg_match('#/dev/video#', $configuration['main-stream']['device'])) {
-                throw new Exception(__('Device camera are not movable'));
+                throw new Exception(__('Device cameras are not movable'));
             }
 
             /**

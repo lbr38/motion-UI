@@ -118,7 +118,7 @@ class Edit extends Camera
         if ($params['onvif-enable'] == 'true') {
             // If the Url is a device, it cannot be moved
             if (preg_match('#/dev/video#', $configuration['main-stream']['device'])) {
-                throw new Exception(__('Device camera are not movable'));
+                throw new Exception(__('Device cameras are not movable'));
             }
 
             // Parse camera URL to extract IP/hostname

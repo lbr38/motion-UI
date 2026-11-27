@@ -8,8 +8,6 @@ class Table {
     {
         return new Promise((resolve, reject) => {
             try {
-                mylayout.printLoading();
-
                 ajaxRequest(
                     // Controller:
                     'general',
@@ -52,9 +50,6 @@ class Table {
 
                     // Reject promise
                     reject('Failed to reload table ' + table + ': ' + e);
-                }).finally(() => {
-                    // Hide loading icon
-                    mylayout.hideLoading();
                 });
             } catch (error) {
                 // Catch synchronous errors (before the ajax request is sent)

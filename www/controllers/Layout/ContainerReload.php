@@ -43,14 +43,6 @@ class ContainerReload
     }
 
     /**
-     *  Delete the specified containers entries
-     */
-    public function delete(array $names): void
-    {
-        $this->model->delete($names);
-    }
-
-    /**
      *  Clean all containers entries
      */
     public function clean()

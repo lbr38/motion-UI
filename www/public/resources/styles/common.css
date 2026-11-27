@@ -478,20 +478,6 @@ code {
     cursor: pointer;
 }
 
-#loading {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    display: none;
-    align-items: center;
-    column-gap: 8px ;
-    z-index: 700;
-}
-
-#loading img {
-    height: 18px;
-}
-
 .loading-veil {
     display: flex;
     justify-content: center;
@@ -523,9 +509,5 @@ code {
 
     .slide-panel {
         width: 47%;
-    }
-
-    #loading {
-        display: flex;
     }
 }

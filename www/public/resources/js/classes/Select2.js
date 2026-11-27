@@ -58,7 +58,7 @@ class Select2
             tags: allowNewOptions,
             /**
              *  Do not create a new option when the typed value already exists: select2 only compares the typed value with the
-             *  options text, an option whose text differs from its value (e.g. 'bookworm (Debian 12)') would be selected twice
+             *  options text, an option whose text differs from its value (e.g. a label displayed instead of a URL) would be selected twice
              *  (the new option and the existing one, as they share the same value)
              */
             createTag: function (params) {

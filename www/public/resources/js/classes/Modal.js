@@ -5,8 +5,6 @@ class Modal
      */
     loading()
     {
-        mylayout.printLoading();
-
         var html = '<div class="modal-window-container modal-loading">'
             + '<div class="modal-window">'
             + '<div class="modal-window-title">'
@@ -30,8 +28,6 @@ class Modal
      */
     print(content, title, inPre = true)
     {
-        mylayout.printLoading();
-
         // Generate random number id for the modal
         const id = Math.random().toString(36).substring(2, 15);
 
@@ -73,7 +69,5 @@ class Modal
 
         // Append the modal window to the body
         $('body').append(html);
-
-        mylayout.hideLoading();
     }
 }

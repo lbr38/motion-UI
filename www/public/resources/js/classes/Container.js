@@ -25,9 +25,6 @@ class Container {
                     partial = true;
                 }
 
-                // Print a loading icon on the bottom of the page
-                mylayout.printLoading();
-
                 /**
                  *  Check if container has children with class .veil-on-reload
                  *  If so print a veil on them
@@ -140,9 +137,6 @@ class Container {
 
                     // Reject promise
                     reject('Failed to reload container ' + container + ': ' + e);
-                }).finally(() => {
-                    // Hide loading icon
-                    mylayout.hideLoading();
                 });
             } catch (error) {
                 // Catch synchronous errors (before the ajax request is sent)

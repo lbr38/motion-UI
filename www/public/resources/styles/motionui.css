@@ -676,7 +676,7 @@ video, video-stream {
     margin: auto;
 }
 
-/* Same footer as Repomanager, the bottom padding also includes the height of the fixed bottom buttons (50px) */
+/* The footer bottom padding also includes the height of the fixed bottom buttons (50px) */
 footer {
     display: flex;
     align-items: center;

@@ -20,7 +20,7 @@ class Chart
                 throw new Exception(__('invalid chart ID'));
             }
 
-            // System charts are only available to administrators (status tab)
+            // System charts are only available to administrators (stats page)
             if (str_starts_with($id, 'system-') and !IS_ADMIN) {
                 throw new Exception(__('You are not allowed to access this chart'));
             }

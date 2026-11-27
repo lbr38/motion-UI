@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Motion-UI 6.11.3\n"
+"Project-Id-Version: Motion-UI 6.12.0\n"
 "Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
-"POT-Creation-Date: 2026-11-15 09:05+0100\n"
+"POT-Creation-Date: 2026-11-27 13:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgid "You are not allowed to edit camera settings"
 msgstr ""
 
 #: controllers/Camera/Edit.php controllers/Onvif/PtzMove.php
-msgid "Device camera are not movable"
+msgid "Device cameras are not movable"
 msgstr ""
 
 #: controllers/Camera/Edit.php
@@ -1263,7 +1263,7 @@ msgid "You are not allowed to change password of another user"
 msgstr ""
 
 #: controllers/User/Edit.php controllers/User/User.php
-msgid "An error occured while checking user password"
+msgid "An error occurred while checking user password"
 msgstr ""
 
 #: controllers/User/Edit.php
@@ -1271,7 +1271,7 @@ msgid "New password and password re-type are different"
 msgstr ""
 
 #: controllers/User/Edit.php
-msgid "New password must be different then the actual one"
+msgid "New password must be different from the current one"
 msgstr ""
 
 #: controllers/User/Login.php
@@ -1389,7 +1389,7 @@ msgid "Permissions saved"
 msgstr ""
 
 #: controllers/ajax/userspace.php
-msgid "Personnal informations saved"
+msgid "Personal information saved"
 msgstr ""
 
 #: controllers/ajax/userspace.php
@@ -1941,6 +1941,14 @@ msgid "Start motion detection"
 msgstr ""
 
 #: views/includes/containers/motion/buttons/main.inc.php
+msgid "OFF"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "ON"
+msgstr ""
+
+#: views/includes/containers/motion/buttons/main.inc.php
 msgid "Disable motion detection autostart"
 msgstr ""
 
@@ -2257,7 +2265,7 @@ msgid "EDIT USER PERMISSIONS"
 msgstr ""
 
 #: views/includes/panels/general/user/userspace.inc.php
-msgid "PERSONAL INFORMATIONS"
+msgid "PERSONAL INFORMATION"
 msgstr ""
 
 #: views/includes/panels/general/user/userspace.inc.php

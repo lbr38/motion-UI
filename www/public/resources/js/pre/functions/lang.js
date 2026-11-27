@@ -38,14 +38,17 @@ function _x(text, context)
 
 /**
  *  Replace %s and %d placeholders of a (translated) string with the specified values, in order
+ *  Positional placeholders (%1$s, %2$d...) are also supported, so that a translation can change the order of the values (same as PHP)
  *  e.g. sprintf(__('Delete user %s?'), username)
  */
 function sprintf(format, ...values)
 {
     var i = 0;
 
-    return format.replace(/%[sd]/g, function (match) {
-        return i < values.length ? values[i++] : match;
+    return format.replace(/%(?:(\d+)\$)?[sd]/g, function (match, position) {
+        var index = position !== undefined ? parseInt(position) - 1 : i++;
+
+        return index >= 0 && index < values.length ? values[index] : match;
     });
 }
 

@@ -1,7 +1,7 @@
 <section class="main-container reloadable-container" container="motion/stats/list">
     <div>
         <h6><?= __('SELECT PERIOD') ?></h6>
-        <div class="pointer input-daterangepicker input-large echart-range" chart-id="motion-event-chart motion-status-chart system-cpu-usage-chart system-memory-usage-chart system-disk-usage-chart" range="<?= __('Last 24 Hours') ?>">
+        <div class="pointer input-daterangepicker input-large echart-range" chart-id="motion-event-chart motion-status-chart system-cpu-usage-chart system-memory-usage-chart system-disk-usage-chart" range="last-24-hours">
             <p><?= __('Last 24 Hours') ?></p>
         </div>
     </div>
@@ -50,7 +50,7 @@
 
     <script>
         $(document).ready(function() {
-            mydaterangepicker.convert('div.echart-range[chart-id~="motion-event-chart"]', __('Last 24 Hours'));
+            mydaterangepicker.convert('div.echart-range[chart-id~="motion-event-chart"]', 'last-24-hours');
 
             new EChart('line', 'motion-event-chart');
             new EChart('line', 'motion-status-chart');
