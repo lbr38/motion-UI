@@ -1,22 +1,18 @@
 name: Database update tests
 
 on:
-  push:
+  # Wait for the devel image to be built and pushed, then test it
+  workflow_run:
+    workflows: [ "Build Docker devel image" ]
+    types: [ completed ]
 
 jobs:
   test-database-update:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install docker-compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
       # Get all releases
       # Format them to a key-value array
       # Start from release index 6.0.0
@@ -92,17 +88,17 @@ jobs:
           docker rm -f motionui
           docker system prune -a -f
 
-          echo -e "\Build devel image\n"
+          echo -e "\nPulling devel image\n"
 
-          cd ${GITHUB_WORKSPACE}
-
-          sed -i 's/branch:.*/branch: devel/g' docker-compose.yml
-          sed -i 's/FQDN:.*/FQDN: motionui.test.com/g' docker-compose.yml
-
-          docker compose -f docker-compose.yml up -d
+          docker run -d --restart always --name motionui --network=host \
+          -e FQDN=motionui.test.com \
+          -v /etc/localtime:/etc/localtime:ro \
+          -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
+          -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
+          lbr38/motionui:devel
 
           if [ $? -ne 0 ]; then
-              echo "Failed to build devel image"
+              echo "Failed to pull devel image"
               exit 1
           fi
 
