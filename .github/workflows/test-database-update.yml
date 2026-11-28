@@ -99,7 +99,7 @@ jobs:
           sed -i 's/branch:.*/branch: devel/g' docker-compose.yml
           sed -i 's/FQDN:.*/FQDN: motionui.test.com/g' docker-compose.yml
 
-          docker-compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml up -d
 
           if [ $? -ne 0 ]; then
               echo "Failed to build devel image"
