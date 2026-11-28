@@ -146,6 +146,13 @@ export class VideoRTC extends HTMLElement {
          * @type {number}
          */
         this.cameraId = null;
+
+        /**
+         * Custom: MSE live delay target, in seconds (upstream keeps a 1 second buffer)
+         * Raised on each playback stall, up to 1 second (see oninit)
+         * @type {number}
+         */
+        this.liveDelay = 0.3;
     }
 
     /**
@@ -262,6 +269,13 @@ export class VideoRTC extends HTMLElement {
         this.video.addEventListener('error', ev => {
             console.warn(ev);
             if (this.ws) this.ws.close(); // run reconnect for broken MSE stream
+        });
+
+        // Custom: buffer underrun while playing, increase the live delay to get a smoother stream
+        this.video.addEventListener('waiting', () => {
+            if (this.video.currentTime > 0) {
+                this.liveDelay = Math.min(this.liveDelay + 0.2, 1);
+            }
         });
 
         // all Safari lies about supported audio codecs
@@ -472,7 +486,8 @@ export class VideoRTC extends HTMLElement {
                         this.video.currentTime = start;
                     }
                     const gap = end - this.video.currentTime;
-                    this.video.playbackRate = gap > 0.1 ? gap : 0.1;
+                    // Custom: same regulation as upstream (playbackRate = gap) but around this.liveDelay instead of 1 second
+                    this.video.playbackRate = Math.max(1 + gap - this.liveDelay, 0.1);
                     // console.debug('VideoRTC.buffered', gap, this.video.playbackRate, this.video.readyState);
                 }
             });

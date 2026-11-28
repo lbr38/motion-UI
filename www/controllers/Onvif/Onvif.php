@@ -10,25 +10,62 @@ use DOMDocument;
 
 class Onvif
 {
+    /**
+     *  Max age of the cached camera discovery data (in seconds)
+     */
+    private const CACHE_TTL = 86400;
+
+    protected $uri;
     protected $username;
     protected $password;
     protected $ptzUri;
     protected $mediaUri;
     protected $deviceUri;
     protected $curlHandle;
+    protected $deltatime = 0;
+    protected $videosources = [];
+    protected $profiles = [];
+    protected $sources = [];
+    protected $cacheFile;
+    protected $fromCache = false;
 
-    public function __construct(string $mediaUri, string $username, string $password)
+    /**
+     *  $cacheFile: optional file used to cache the camera discovery data (time offset, services URIs, sources)
+     *  Discovery requires 4 requests to the camera, some of them being slow (GetProfiles), so caching it
+     *  makes subsequent requests (e.g. PTZ moves) much faster
+     */
+    public function __construct(string $mediaUri, string $username, string $password, ?string $cacheFile = null)
     {
-        $this->mediaUri = $mediaUri;
-        $this->username = $username;
-        $this->password = $password;
+        $this->uri       = $mediaUri;
+        $this->mediaUri  = $mediaUri;
+        $this->username  = $username;
+        $this->password  = $password;
+        $this->cacheFile = $cacheFile;
+
+        /**
+         *  Initialize curl (the same handle is reused for all requests, to keep the connection alive)
+         */
+        $this->curlHandle = curl_init();
+
+        /**
+         *  Load discovery data from cache if possible, otherwise discover the camera
+         */
+        if ($this->loadCache()) {
+            return;
+        }
+
+        $this->discover();
+    }
+
+    /**
+     *  Discover the camera: time offset, services URIs, video sources and profiles
+     */
+    protected function discover(): void
+    {
+        $this->fromCache = false;
+        $this->mediaUri  = $this->uri;
 
         try {
-            /**
-             *  Initialize curl
-             */
-            $this->curlHandle = curl_init();
-
             /**
              *  Get system date and time
              */
@@ -71,6 +108,112 @@ class Onvif
         } catch (Exception $e) {
             throw new Exception('Error while initializing the Onvif camera: ' . $e->getMessage());
         }
+
+        $this->saveCache();
+    }
+
+    /**
+     *  Execute a callback, if it fails while using cached discovery data (camera rebooted, IP changed,
+     *  clock drift...), then rediscover the camera and execute the callback again
+     */
+    protected function execute(callable $callback): mixed
+    {
+        try {
+            return $callback();
+        } catch (Exception $e) {
+            if (!$this->fromCache) {
+                throw $e;
+            }
+
+            $this->discover();
+
+            return $callback();
+        }
+    }
+
+    /**
+     *  Load discovery data from cache file
+     *  Return true if cache is valid and has been loaded
+     */
+    private function loadCache(): bool
+    {
+        if (empty($this->cacheFile) or !is_file($this->cacheFile)) {
+            return false;
+        }
+
+        try {
+            $cache = json_decode(file_get_contents($this->cacheFile), true, 512, JSON_THROW_ON_ERROR);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        /**
+         *  Ignore cache if it has expired or if it was built for another URI or username
+         */
+        if (!is_array($cache) or empty($cache['time']) or empty($cache['mediaUri']) or empty($cache['sources'])) {
+            return false;
+        }
+
+        if ((time() - $cache['time']) > self::CACHE_TTL or ($cache['key'] ?? '') !== $this->getCacheKey()) {
+            return false;
+        }
+
+        $this->deltatime = (int) $cache['deltatime'];
+        $this->mediaUri  = $cache['mediaUri'];
+        $this->deviceUri = $cache['deviceUri'] ?? null;
+        $this->ptzUri    = $cache['ptzUri'] ?? null;
+        $this->sources   = $cache['sources'];
+        $this->fromCache = true;
+
+        return true;
+    }
+
+    /**
+     *  Save discovery data to cache file
+     *  Failing to write the cache is not fatal
+     */
+    private function saveCache(): void
+    {
+        if (empty($this->cacheFile)) {
+            return;
+        }
+
+        $cache = json_encode([
+            'time'      => time(),
+            'key'       => $this->getCacheKey(),
+            'deltatime' => $this->deltatime,
+            'mediaUri'  => $this->mediaUri,
+            'deviceUri' => $this->deviceUri,
+            'ptzUri'    => $this->ptzUri,
+            'sources'   => $this->sources
+        ]);
+
+        /**
+         *  Write to a temporary file then rename it, so that concurrent requests never read a partial file
+         */
+        $tmpFile = $this->cacheFile . '.' . getmypid() . '.tmp';
+
+        if (@file_put_contents($tmpFile, $cache) === false or !@rename($tmpFile, $this->cacheFile)) {
+            @unlink($tmpFile);
+        }
+    }
+
+    /**
+     *  Delete cache file
+     */
+    public static function deleteCache(string $cacheFile): void
+    {
+        if (is_file($cacheFile)) {
+            unlink($cacheFile);
+        }
+    }
+
+    /**
+     *  Return the key identifying the camera the cache was built for
+     */
+    private function getCacheKey(): string
+    {
+        return hash('sha256', $this->uri . '|' . $this->username);
     }
 
     public function getSources(): array
@@ -255,7 +398,6 @@ class Onvif
         }
 
         if (array_key_exists('Fault', $response['Envelope']['Body'])) {
-            print_r($response);
             throw new Exception('Fault: ' . $response['Envelope']['Body']['Fault']['Reason']['Text']);
         }
     }
@@ -322,8 +464,6 @@ class Onvif
             return $this->xmlToArray($result);
         } catch (Exception $e) {
             throw new Exception('request error: ' . $e->getMessage());
-        } finally {
-            curl_close($this->curlHandle);
         }
     }
 

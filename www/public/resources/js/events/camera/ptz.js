@@ -17,11 +17,21 @@ $(document).on('click','.display-ptz-btns',function (e) {
 });
 
 /**
- *  Event: click on PTZ button
+ *  Event: prevent click on PTZ buttons to trigger parent (camera image) click event
  */
-$(document).on('click','.camera-ptz-btn',function (e) {
-    // Prevent parent to be triggered
+$(document).on('click','.camera-ptz-btn, .camera-ptz-stop-btn',function (e) {
     e.stopPropagation();
+});
+
+/**
+ *  Event: press on PTZ button
+ *  pointerdown is used instead of click, because click is only triggered when the button is released
+ */
+$(document).on('pointerdown','.camera-ptz-btn',function (e) {
+    // Only primary button (left click, touch or pen)
+    if (e.button !== 0) {
+        return;
+    }
 
     var cameraId = $(this).attr('camera-id');
     var direction = $(this).attr('direction');
@@ -48,9 +58,14 @@ $(document).on('click','.camera-ptz-btn',function (e) {
 });
 
 /**
- *  Event: click on PTZ stop button
+ *  Event: press on PTZ stop button
  */
-$(document).on('click','.camera-ptz-stop-btn',function () {
+$(document).on('pointerdown','.camera-ptz-stop-btn',function (e) {
+    // Only primary button (left click, touch or pen)
+    if (e.button !== 0) {
+        return;
+    }
+
     var cameraId = $(this).attr('camera-id');
 
     ajaxRequest(

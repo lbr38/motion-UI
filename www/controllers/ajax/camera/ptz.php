@@ -1,5 +1,11 @@
 <?php
 /**
+ *  Release the session lock: session is not needed anymore and keeping it locked would make
+ *  any other request (e.g. stop) wait for the current one (e.g. discontinuous move) to complete
+ */
+session_write_close();
+
+/**
  *  Move the camera
  */
 if ($_POST['action'] == 'move' and !empty($_POST['cameraId']) and !empty($_POST['direction']) and !empty($_POST['moveType']) and !empty($_POST['moveSpeed'])) {

@@ -41,6 +41,10 @@ class Directory
             mkdir(CAMERAS_TIMELAPSE_DIR, 0770, true);
         }
 
+        if (!is_dir(CAMERAS_ONVIF_DIR)) {
+            mkdir(CAMERAS_ONVIF_DIR, 0770, true);
+        }
+
         if (!is_dir(CAPTURES_DIR)) {
             mkdir(CAPTURES_DIR, 0770, true);
         }

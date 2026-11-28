@@ -8,9 +8,16 @@ use Exception;
 
 class Ptz extends Onvif
 {
-    public function __construct(string $uri, string $username, string $password)
+    public function __construct(string $uri, string $username, string $password, ?string $cacheFile = null)
     {
-        parent::__construct($uri, $username, $password);
+        parent::__construct($uri, $username, $password, $cacheFile);
+
+        /**
+         *  Cached data may be outdated, rediscover the camera before giving up
+         */
+        if (empty($this->ptzUri) and $this->fromCache) {
+            $this->discover();
+        }
 
         if (empty($this->ptzUri)) {
             throw new Exception(__('PTZ URI is not set'));
@@ -172,8 +179,8 @@ class Ptz extends Onvif
                 <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                     <Stop xmlns="http://www.onvif.org/ver20/ptz/wsdl">
                         <ProfileToken>' . $profileToken . '</ProfileToken>
-                        <PanTilt>' . $pantilt . '</PanTilt>
-                        <Zoom>' . $zoom . '</Zoom>
+                        <PanTilt>' . ($pantilt ? 'true' : 'false') . '</PanTilt>
+                        <Zoom>' . ($zoom ? 'true' : 'false') . '</Zoom>
                     </Stop>
                 </s:Body>
             </s:Envelope>';

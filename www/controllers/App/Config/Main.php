@@ -51,6 +51,9 @@ class Main
         if (!defined('CAMERAS_TIMELAPSE_DIR')) {
             define('CAMERAS_TIMELAPSE_DIR', CAMERAS_DIR . '/timelapse');
         }
+        if (!defined('CAMERAS_ONVIF_DIR')) {
+            define('CAMERAS_ONVIF_DIR', CAMERAS_DIR . '/onvif');
+        }
         if (!defined('CAPTURES_DIR')) {
             define('CAPTURES_DIR', '/var/lib/motion');
         }

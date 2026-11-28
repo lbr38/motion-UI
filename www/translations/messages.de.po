@@ -1,0 +1,2849 @@
+# German translations for Motion-UI.
+# This file is distributed under the same license as the Motion-UI package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Motion-UI 6.12.0\n"
+"Report-Msgid-Bugs-To: https://github.com/lbr38/motion-UI/issues\n"
+"POT-Creation-Date: 2026-11-27 13:45+0000\n"
+"PO-Revision-Date: 2026-11-27 12:00+0100\n"
+"Last-Translator: Ludovic\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: controllers/Camera/Add.php
+msgid "You are not allowed to add a new camera"
+msgstr "Sie sind nicht berechtigt, eine neue Kamera hinzuzufügen"
+
+#: controllers/Camera/Add.php
+msgid "Could not retrieve camera Id"
+msgstr "Kamera-ID konnte nicht abgerufen werden"
+
+#: controllers/Camera/Delete.php
+msgid "You are not allowed to delete a camera"
+msgstr "Sie sind nicht berechtigt, eine Kamera zu löschen"
+
+#: controllers/Camera/Delete.php controllers/Camera/Edit.php
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera does not exist"
+msgstr "Kamera existiert nicht"
+
+#: controllers/Camera/Delete.php
+#, php-format
+msgid "Could not delete camera config file: %s"
+msgstr "Kamera-Konfigurationsdatei konnte nicht gelöscht werden: %s"
+
+#: controllers/Camera/Delete.php
+#, php-format
+msgid "Could not delete camera data directory: %s"
+msgstr "Datenverzeichnis der Kamera konnte nicht gelöscht werden: %s"
+
+#: controllers/Camera/Edit.php
+msgid "You are not allowed to edit camera settings"
+msgstr "Sie sind nicht berechtigt, Kameraeinstellungen zu bearbeiten"
+
+#: controllers/Camera/Edit.php controllers/Onvif/PtzMove.php
+msgid "Device cameras are not movable"
+msgstr "Gerätekameras sind nicht schwenkbar"
+
+#: controllers/Camera/Edit.php
+msgid "Could not retrieve camera IP from URL"
+msgstr "Kamera-IP konnte nicht aus der URL abgerufen werden"
+
+#: controllers/Camera/Edit.php
+msgid "Could not determine camera IP from URL"
+msgstr "Kamera-IP konnte nicht aus der URL ermittelt werden"
+
+#: controllers/Camera/Param/BasicAuthPassword.php
+msgid "Password contains invalid characters"
+msgstr "Passwort enthält ungültige Zeichen"
+
+#: controllers/Camera/Param/BasicAuthUsername.php
+msgid "Username contains invalid characters"
+msgstr "Benutzername enthält ungültige Zeichen"
+
+#: controllers/Camera/Param/Device.php
+msgid "Device or URL is required"
+msgstr "Gerät oder URL ist erforderlich"
+
+#: controllers/Camera/Param/Device.php
+msgid ""
+"Device or URL must start with <b>http(s)://</b>, <b>rtsp://</b> or <b>/dev/"
+"video</b>"
+msgstr ""
+"Gerät oder URL muss mit <b>http(s)://</b>, <b>rtsp://</b> oder <b>/dev/"
+"video</b> beginnen"
+
+#: controllers/Camera/Param/Device.php
+msgid "Device or URL contains invalid characters"
+msgstr "Gerät oder URL enthält ungültige Zeichen"
+
+#: controllers/Camera/Param/Framerate.php
+msgid "Frame rate is required"
+msgstr "Bildrate ist erforderlich"
+
+#: controllers/Camera/Param/Framerate.php
+msgid "Frame rate value is invalid"
+msgstr "Wert der Bildrate ist ungültig"
+
+#: controllers/Camera/Param/MonitoringEnable.php
+msgid "Monitoring enable is invalid"
+msgstr "Überwachungsaktivierung ist ungültig"
+
+#: controllers/Camera/Param/MonitoringRecipients.php
+#, php-format
+msgid "Monitoring recipient \"%s\" is not a valid email"
+msgstr "Überwachungsempfänger \"%s\" ist keine gültige E-Mail-Adresse"
+
+#: controllers/Camera/Param/Name.php
+msgid "Name is required"
+msgstr "Name ist erforderlich"
+
+#: controllers/Camera/Param/Name.php
+msgid "Name contains invalid characters"
+msgstr "Name enthält ungültige Zeichen"
+
+#: controllers/Camera/Param/OnvifEnable.php
+msgid "Onvif enable is invalid"
+msgstr "ONVIF-Aktivierung ist ungültig"
+
+#: controllers/Camera/Param/OnvifPort.php
+msgid "Onvif port is invalid"
+msgstr "ONVIF-Port ist ungültig"
+
+#: controllers/Camera/Param/OnvifUri.php
+msgid "Invalid ONVIF URI"
+msgstr "Ungültige ONVIF-URI"
+
+#: controllers/Camera/Param/Resolution.php
+msgid "Resolution is required"
+msgstr "Auflösung ist erforderlich"
+
+#: controllers/Camera/Param/Resolution.php
+msgid "Specified resolution is invalid"
+msgstr "Angegebene Auflösung ist ungültig"
+
+#: controllers/Camera/Param/Rotate.php
+msgid "Rotate is required"
+msgstr "Drehung ist erforderlich"
+
+#: controllers/Camera/Param/Rotate.php
+msgid "Rotate value is invalid"
+msgstr "Wert der Drehung ist ungültig"
+
+#: controllers/Camera/Stream.php
+msgid "Invalid stream status"
+msgstr "Ungültiger Stream-Status"
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Could not get stream info from URL: %s"
+msgstr "Stream-Informationen konnten nicht von der URL abgerufen werden: %s"
+
+#: controllers/Camera/Stream.php
+msgid "No stream info found at the URL"
+msgstr "Keine Stream-Informationen unter der URL gefunden"
+
+#: controllers/Camera/Stream.php
+msgid "You are not allowed to sort the cameras"
+msgstr "Sie sind nicht berechtigt, die Kameras zu sortieren"
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Invalid order value: %s"
+msgstr "Ungültiger Reihenfolgewert: %s"
+
+#: controllers/Camera/Stream.php
+#, php-format
+msgid "Could not save camera order: %s"
+msgstr "Kamerareihenfolge konnte nicht gespeichert werden: %s"
+
+#: controllers/Go2rtc/Go2rtc.php
+msgid "Failed to restart go2rtc:"
+msgstr "go2rtc konnte nicht neu gestartet werden:"
+
+#: controllers/Go2rtc/Go2rtc.php
+msgid "You are not allowed to view go2rtc logs"
+msgstr "Sie sind nicht berechtigt, go2rtc-Protokolle anzuzeigen"
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Invalid log file"
+msgstr "Ungültige Protokolldatei"
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Log file does not exist"
+msgstr "Protokolldatei existiert nicht"
+
+#: controllers/Go2rtc/Go2rtc.php controllers/Motion/Autostart.php
+#: controllers/Motion/Service.php
+msgid "Failed to read log file"
+msgstr "Protokolldatei konnte nicht gelesen werden"
+
+#: controllers/Layout/Chart/Chart.php
+msgid "invalid chart ID"
+msgstr "ungültige Diagramm-ID"
+
+#: controllers/Layout/Chart/Chart.php
+msgid "You are not allowed to access this chart"
+msgstr "Sie sind nicht berechtigt, auf dieses Diagramm zuzugreifen"
+
+#: controllers/Layout/Chart/Chart.php
+#, php-format
+msgid "Could not retrieve chart data for chart ID %s"
+msgstr "Diagrammdaten für Diagramm-ID %s konnten nicht abgerufen werden"
+
+#: controllers/Layout/Chart/Chart.php
+msgid "invalid time range specified"
+msgstr "ungültiger Zeitraum angegeben"
+
+#: controllers/Layout/Chart/Chart.php
+#, php-format
+msgid "Error rendering chart #%s: %s"
+msgstr "Fehler beim Darstellen des Diagramms #%s: %s"
+
+#: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
+msgid "Events & files recorded"
+msgstr "Ereignisse & aufgezeichnete Dateien"
+
+#: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
+msgid "Events"
+msgstr "Ereignisse"
+
+#: controllers/Layout/Chart/vars/motion-event-chart.vars.inc.php
+msgid "Media files recorded"
+msgstr "Aufgezeichnete Mediendateien"
+
+#: controllers/Layout/Chart/vars/motion-status-chart.vars.inc.php
+msgid "Motion detection activity"
+msgstr "Aktivität der Bewegungserkennung"
+
+#: controllers/Layout/Chart/vars/system-cpu-usage-chart.vars.inc.php
+msgid "CPU usage (%)"
+msgstr "CPU-Auslastung (%)"
+
+#: controllers/Layout/Chart/vars/system-cpu-usage-chart.vars.inc.php
+#: views/includes/containers/buttons/top.inc.php
+msgid "CPU usage"
+msgstr "CPU-Auslastung"
+
+#: controllers/Layout/Chart/vars/system-disk-usage-chart.vars.inc.php
+msgid "Disk usage (%)"
+msgstr "Festplattennutzung (%)"
+
+#: controllers/Layout/Chart/vars/system-disk-usage-chart.vars.inc.php
+msgid "Disk usage"
+msgstr "Festplattennutzung"
+
+#: controllers/Layout/Chart/vars/system-memory-usage-chart.vars.inc.php
+msgid "Memory usage (%)"
+msgstr "Speichernutzung (%)"
+
+#: controllers/Layout/Chart/vars/system-memory-usage-chart.vars.inc.php
+msgid "Memory usage"
+msgstr "Speichernutzung"
+
+#: controllers/Layout/Container/vars/login.vars.inc.php
+#: controllers/User/Login.php
+msgid "Invalid login and/or password"
+msgstr "Ungültiger Benutzername und/oder Passwort"
+
+#: controllers/Layout/Container/vars/motion/buttons/main.vars.inc.php
+#: controllers/Layout/Container/vars/motion/stats/list.vars.inc.php
+msgid "You are not allowed to access this page."
+msgstr "Sie sind nicht berechtigt, auf diese Seite zuzugreifen."
+
+#: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
+#: controllers/Layout/Panel/vars/general/settings.vars.inc.php
+#: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/alert.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/autostart.vars.inc.php
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "You are not allowed to access this panel."
+msgstr "Sie sind nicht berechtigt, auf dieses Panel zuzugreifen."
+
+#: controllers/Layout/Panel/vars/camera/edit.vars.inc.php
+#, php-format
+msgid "Error: could not retrieve camera #%s configuration: %s"
+msgstr "Fehler: Konfiguration der Kamera #%s konnte nicht abgerufen werden: %s"
+
+#: controllers/Layout/Panel/vars/general/user/permissions.vars.inc.php
+msgid "User Id not set."
+msgstr "Benutzer-ID nicht gesetzt."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Device ID not found in current configuration"
+msgstr "Geräte-ID in der aktuellen Konfiguration nicht gefunden"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "CAMERA DEVICE SETTINGS"
+msgstr "KAMERAGERÄT-EINSTELLUNGEN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DEVICE ID"
+msgstr "GERÄTE-ID"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera device ID"
+msgstr "Geräte-ID der Kamera"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DEVICE NAME"
+msgstr "GERÄTENAME"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Camera device name"
+msgstr "Gerätename der Kamera"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "CAMERA DEVICE"
+msgstr "KAMERAGERÄT"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The v4l2 device to be used for capturing. Example: <code>/dev/video0</code>."
+msgstr ""
+"Das für die Aufnahme zu verwendende v4l2-Gerät. Beispiel: <code>/dev/video0</"
+"code>."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "V4L2 PARAMETERS"
+msgstr "V4L2-PARAMETER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Comma separated list of configuration parameters (aka controls) for the v4l2 "
+"device."
+msgstr ""
+"Kommagetrennte Liste von Konfigurationsparametern (auch Controls genannt) "
+"für das v4l2-Gerät."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA URL"
+msgstr "NETZWERKKAMERA-URL"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Network camera URL, used for the motion detection. If your camera has a "
+"secondary stream with a lower resolution, it is recommended to use the low "
+"resolution stream for motion detection and the high resolution stream for "
+"recording (see NETWORK CAMERA HIGH RESOLUTION URL)."
+msgstr ""
+"URL der Netzwerkkamera, verwendet für die Bewegungserkennung. Wenn Ihre "
+"Kamera einen zweiten Stream mit niedrigerer Auflösung hat, wird empfohlen, "
+"den Stream mit niedriger Auflösung für die Bewegungserkennung und den Stream "
+"mit hoher Auflösung für die Aufnahme zu verwenden (siehe NETZWERKKAMERA-URL "
+"HOHE AUFLÖSUNG)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Main camera stream"
+msgstr "Haupt-Stream der Kamera"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Low resolution camera stream"
+msgstr "Kamera-Stream mit niedriger Auflösung"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Go2RTC stream"
+msgstr "Go2RTC-Stream"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA PARAMS"
+msgstr "NETZWERKKAMERA-PARAMETER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Comma separated list of configuration parameters. Format is: "
+"option=value,option2=value2."
+msgstr ""
+"Kommagetrennte Liste von Konfigurationsparametern. Format: "
+"option=wert,option2=wert2."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA HIGH RESOLUTION URL"
+msgstr "NETZWERKKAMERA-URL HOHE AUFLÖSUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Network camera high resolution URL. It is recommended to use the high "
+"resolution stream of your camera for recording, and the low resolution "
+"stream for motion detection (see NETWORK CAMERA URL)."
+msgstr ""
+"URL der Netzwerkkamera mit hoher Auflösung. Es wird empfohlen, den Stream "
+"mit hoher Auflösung Ihrer Kamera für die Aufnahme und den Stream mit "
+"niedriger Auflösung für die Bewegungserkennung zu verwenden (siehe "
+"NETZWERKKAMERA-URL)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA HIGH RESOLUTION PARAMS"
+msgstr "NETZWERKKAMERA-PARAMETER HOHE AUFLÖSUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NETWORK CAMERA AUTHENTICATION"
+msgstr "NETZWERKKAMERA-AUTHENTIFIZIERUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Username and password for the network camera specified as username:password."
+msgstr ""
+"Benutzername und Passwort der Netzwerkkamera im Format benutzername:passwort."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "WIDTH"
+msgstr "BREITE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The width of the image in pixels. Must be a multiple of 8. For better "
+"performance, width and height parameters must match the resolution of the "
+"camera."
+msgstr ""
+"Die Breite des Bildes in Pixeln. Muss ein Vielfaches von 8 sein. Für eine "
+"bessere Leistung müssen Breite und Höhe der Auflösung der Kamera entsprechen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "HEIGHT"
+msgstr "HÖHE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The height of the image in pixels. Must be a multiple of 8. For better "
+"performance, width and height parameters must match the resolution of the "
+"camera."
+msgstr ""
+"Die Höhe des Bildes in Pixeln. Muss ein Vielfaches von 8 sein. Für eine "
+"bessere Leistung müssen Breite und Höhe der Auflösung der Kamera entsprechen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "FRAME RATE"
+msgstr "BILDRATE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of frames to be processed per second for motion detection. For "
+"better performance, the framerate parameter must match the framerate of the "
+"camera. If you are using a network camera with two streams (low and high "
+"resolution), the framerate parameter must match the framerate of the low "
+"resolution stream (in fact the stream used for motion detection)."
+msgstr ""
+"Die Anzahl der Bilder pro Sekunde, die für die Bewegungserkennung "
+"verarbeitet werden. Für eine bessere Leistung muss der Parameter der "
+"Bildrate der Kamera entsprechen. Wenn Sie eine Netzwerkkamera mit zwei "
+"Streams (niedrige und hohe Auflösung) verwenden, muss der Parameter der "
+"Bildrate des Streams mit niedriger Auflösung entsprechen (also des Streams, "
+"der für die Bewegungserkennung verwendet wird)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+msgid "ROTATE"
+msgstr "DREHUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Rotate image the given number of degrees."
+msgstr "Das Bild um die angegebene Gradzahl drehen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DEVICE TIMEOUT"
+msgstr "GERÄTE-TIMEOUT"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Number of seconds that elapse before the device is deemed to be lost."
+msgstr "Anzahl der Sekunden, nach denen das Gerät als verloren gilt."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "WATCHDOG TIMEOUT"
+msgstr "WATCHDOG-TIMEOUT"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Number of seconds that elapse before a camera is deemed to be unresponsive "
+"and Motion triggers a watchdog timeout and begins to force the camera to "
+"shut down."
+msgstr ""
+"Anzahl der Sekunden, nach denen eine Kamera als nicht reagierend gilt und "
+"Motion einen Watchdog-Timeout auslöst und beginnt, das Herunterfahren der "
+"Kamera zu erzwingen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "WATCHDOG KILL"
+msgstr "WATCHDOG KILL"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Number of seconds that elapse after the watchdog_tmo that Motion waits until "
+"the kill processes begin to force the camera to shut down."
+msgstr ""
+"Anzahl der Sekunden nach watchdog_tmo, die Motion wartet, bevor die Kill-"
+"Prozesse beginnen, das Herunterfahren der Kamera zu erzwingen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOTION DETECTION & IMAGE PROCESSING"
+msgstr "BEWEGUNGSERKENNUNG & BILDVERARBEITUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "EMULATE MOTION DETECTION"
+msgstr "BEWEGUNGSERKENNUNG EMULIEREN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Always save images even if there was no motion (motion emulation)."
+msgstr ""
+"Bilder immer speichern, auch wenn keine Bewegung erkannt wurde "
+"(Bewegungsemulation)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PAUSE MOTION DETECTION"
+msgstr "BEWEGUNGSERKENNUNG PAUSIEREN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Pause detection at start up."
+msgstr "Erkennung beim Start pausieren."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOTION DETECTION SENSITIVITY"
+msgstr "EMPFINDLICHKEIT DER BEWEGUNGSERKENNUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Minimum number of changed pixels that triggers an event."
+msgstr "Minimale Anzahl geänderter Pixel, die ein Ereignis auslöst."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD MAXIMUM"
+msgstr "SCHWELLENWERT MAXIMUM"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Maximum number of changed pixels that triggers an event. If the number of "
+"changed pixels is over the threshold maximum, no event is triggered. A value "
+"of zero disables threshold_maximum."
+msgstr ""
+"Maximale Anzahl geänderter Pixel, die ein Ereignis auslöst. Liegt die Anzahl "
+"geänderter Pixel über dem maximalen Schwellenwert, wird kein Ereignis "
+"ausgelöst. Ein Wert von null deaktiviert threshold_maximum."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD TUNE"
+msgstr "SCHWELLENWERT-ANPASSUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Continuously adjust the threshold for triggering an event."
+msgstr ""
+"Den Schwellenwert für das Auslösen eines Ereignisses kontinuierlich anpassen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD SDEVX"
+msgstr "SCHWELLENWERT SDEVX"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum standard deviation of the changed pixels in the x (width) axis."
+msgstr ""
+"Die maximale Standardabweichung der geänderten Pixel auf der x-Achse "
+"(Breite)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD SDEVY"
+msgstr "SCHWELLENWERT SDEVY"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum standard deviation of the changed pixels in the y (height) axis."
+msgstr ""
+"Die maximale Standardabweichung der geänderten Pixel auf der y-Achse (Höhe)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD SDEVXY"
+msgstr "SCHWELLENWERT SDEVXY"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum standard deviation of the changed pixels in the x (width) and "
+"y(height) axis."
+msgstr ""
+"Die maximale Standardabweichung der geänderten Pixel auf der x-Achse "
+"(Breite) und der y-Achse (Höhe)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD RATIO"
+msgstr "SCHWELLENWERT-VERHÄLTNIS"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum ratio comparing the pixels that went white to black and vice "
+"versa."
+msgstr ""
+"Das maximale Verhältnis zwischen Pixeln, die von Weiß zu Schwarz wechseln, "
+"und umgekehrt."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "THRESHOLD RATIO CHANGE"
+msgstr "ÄNDERUNG DES SCHWELLENWERT-VERHÄLTNISSES"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The minimum change in the ratio to trigger a event."
+msgstr "Die minimale Änderung des Verhältnisses, um ein Ereignis auszulösen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NOISE LEVEL"
+msgstr "RAUSCHPEGEL"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The minimum amount of change in a single pixel before it is counted towards "
+"the threshold value."
+msgstr ""
+"Die minimale Änderung eines einzelnen Pixels, bevor es für den Schwellenwert "
+"gezählt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "NOISE TUNE"
+msgstr "RAUSCHANPASSUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Continuously adjust the noise_level parameter."
+msgstr "Den Parameter noise_level kontinuierlich anpassen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "DESPECKLE FILTER"
+msgstr "DESPECKLE-FILTER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Despeckle the image using combinations of (E/e)rode or (D/d)ilate. And "
+"ending with optional (l)abeling. This reduces noise in the motion image. "
+"Adding a trailing l enables labeling in which only the largest section "
+"section is used to calculate the threshold. Typical value is EedDl."
+msgstr ""
+"Entrauscht das Bild mit Kombinationen aus (E/e)rode oder (D/d)ilate, "
+"optional abgeschlossen mit (l)abeling. Dies reduziert das Rauschen im "
+"Bewegungsbild. Ein abschließendes l aktiviert das Labeling, bei dem nur der "
+"größte Bereich zur Berechnung des Schwellenwerts verwendet wird. Typischer "
+"Wert ist EedDl."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MINIMUM MOTION FRAMES"
+msgstr "MINIMALE BEWEGUNGSBILDER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of frames that must contain motion in order to trigger an event."
+msgstr ""
+"Die Anzahl der Bilder, die Bewegung enthalten müssen, um ein Ereignis "
+"auszulösen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "EVENT GAP"
+msgstr "EREIGNISPAUSE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The seconds of no motion detection that triggers the end of an event."
+msgstr ""
+"Die Sekunden ohne Bewegungserkennung, die das Ende eines Ereignisses "
+"auslösen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PRE CAPTURE"
+msgstr "VORAUFNAHME"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of pre-captured (buffered) frames to be captured before an event."
+msgstr ""
+"Die Anzahl der vorab aufgenommenen (gepufferten) Bilder, die vor einem "
+"Ereignis aufgenommen werden."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "POST CAPTURE"
+msgstr "NACHAUFNAHME"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The number of frames to be captured after an event has ended."
+msgstr ""
+"Die Anzahl der Bilder, die nach dem Ende eines Ereignisses aufgenommen "
+"werden."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+msgid "TEXT LEFT"
+msgstr "TEXT LINKS"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Text to be written on the left of the image."
+msgstr "Text, der links auf das Bild geschrieben wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+#: views/includes/camera/edit/form.inc.php
+msgid "TEXT RIGHT"
+msgstr "TEXT RECHTS"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Text to be written on the right of the image."
+msgstr "Text, der rechts auf das Bild geschrieben wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "TEXT CHANGES"
+msgstr "TEXT ÄNDERUNGEN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Show the number of pixels that changed in the upper right corner."
+msgstr "Die Anzahl der geänderten Pixel in der oberen rechten Ecke anzeigen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "TEXT SCALE"
+msgstr "TEXTGRÖSSE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Text size."
+msgstr "Textgröße."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "AREA DETECT"
+msgstr "BEREICHSERKENNUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Detect motion in predefined areas (1 - 9) and when Motion is detected in the "
+"area, execute the script. This option is only to execute the on_area_detect "
+"script."
+msgstr ""
+"Bewegung in vordefinierten Bereichen (1 - 9) erkennen und das Skript "
+"ausführen, wenn Motion eine Bewegung im Bereich erkennt. Diese Option dient "
+"nur zur Ausführung des Skripts on_area_detect."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MASK FILE"
+msgstr "MASKENDATEI"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and filename for the masking pgm file. If needed, the mask "
+"will be resized to match the width and height of the image. The areas in the "
+"mask file colored black will be excluded from motion detection. Shades of "
+"grey on the mask will diminish the detection while areas of white will not "
+"have any impact on motion detection."
+msgstr ""
+"Der vollständige Pfad und Dateiname der PGM-Maskendatei. Bei Bedarf wird die "
+"Maske an Breite und Höhe des Bildes angepasst. Die schwarz gefärbten "
+"Bereiche der Maskendatei werden von der Bewegungserkennung ausgeschlossen. "
+"Grautöne auf der Maske verringern die Erkennung, während weiße Bereiche "
+"keinen Einfluss auf die Bewegungserkennung haben."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MASK PRIVACY"
+msgstr "PRIVATSPHÄRE-MASKE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and filename for the privacy masking pgm file. This mask "
+"completely removes the indicated sections of the image."
+msgstr ""
+"Der vollständige Pfad und Dateiname der PGM-Datei für die Privatsphäre-"
+"Maske. Diese Maske entfernt die angegebenen Bereiche des Bildes vollständig."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "SMART MASK SPEED"
+msgstr "GESCHWINDIGKEIT DER SMART-MASKE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The smartmask is intended to be a dynamic, self-learning mask to decrease "
+"sensitivity in areas with frequent motion. The speed specified by this "
+"parameter is how quickly the mask gets adjusted. Zero disables the smart "
+"mask."
+msgstr ""
+"Die Smart-Maske ist eine dynamische, selbstlernende Maske, die die "
+"Empfindlichkeit in Bereichen mit häufiger Bewegung verringert. Die durch "
+"diesen Parameter angegebene Geschwindigkeit bestimmt, wie schnell die Maske "
+"angepasst wird. Null deaktiviert die Smart-Maske."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LOCATE MOTION MODE"
+msgstr "MODUS DER BEWEGUNGSLOKALISIERUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Locate and draw around/on the moving object. Preview only applies to "
+"pictures."
+msgstr ""
+"Das sich bewegende Objekt lokalisieren und um/auf ihm zeichnen. Preview gilt "
+"nur für Bilder."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LOCATE MOTION STYLE"
+msgstr "STIL DER BEWEGUNGSLOKALISIERUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Set the look and style of the locate mode."
+msgstr "Aussehen und Stil des Lokalisierungsmodus festlegen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LIGHTSWITCH PERCENT"
+msgstr "LICHTWECHSEL-PROZENTSATZ"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The minimum change in the portion of the image that will trigger a "
+"lightswitch condition."
+msgstr ""
+"Die minimale Änderung des Bildanteils, die einen Lichtwechsel-Zustand "
+"auslöst."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "LIGHTSWITCH FRAMES"
+msgstr "LICHTWECHSEL-BILDER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The number of frames to ignore when the lightswitch condition is triggered "
+"(see above)."
+msgstr ""
+"Die Anzahl der Bilder, die ignoriert werden, wenn ein Lichtwechsel-Zustand "
+"ausgelöst wird (siehe oben)."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "STATIC OBJECT TIME"
+msgstr "ZEIT FÜR STATISCHE OBJEKTE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Number of seconds before a new object is included in the reference image."
+msgstr ""
+"Anzahl der Sekunden, bevor ein neues Objekt in das Referenzbild aufgenommen "
+"wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIES GENERAL SETTINGS"
+msgstr "ALLGEMEINE VIDEO-EINSTELLUNGEN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE OUTPUT"
+msgstr "VIDEOAUSGABE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Encode movies of the motion events."
+msgstr "Videos der Bewegungsereignisse kodieren."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE OUTPUT MOTION"
+msgstr "VIDEOAUSGABE BEWEGUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Encode movies that show the pixels that changed. If labeling is enabled via "
+"the despeckle option, the largest area will be in blue. If smartmask is "
+"enabled it will be shown in red."
+msgstr ""
+"Videos kodieren, die die geänderten Pixel zeigen. Wenn das Labeling über die "
+"Option despeckle aktiviert ist, wird der größte Bereich blau dargestellt. "
+"Wenn die Smart-Maske aktiviert ist, wird sie rot dargestellt."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE MAX TIME"
+msgstr "MAXIMALE VIDEODAUER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The maximum length of a movie in seconds. Set this to zero for unlimited "
+"length."
+msgstr ""
+"Die maximale Länge eines Videos in Sekunden. Auf null setzen für unbegrenzte "
+"Länge."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE BPS"
+msgstr "VIDEO-BITRATE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Bitrate to use in encoding of movies. This option is ignored if "
+"movie_quality is specified."
+msgstr ""
+"Bitrate für die Kodierung der Videos. Diese Option wird ignoriert, wenn "
+"movie_quality angegeben ist."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE QUALITY"
+msgstr "VIDEOQUALITÄT"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"A value of 0 disables this option while values 1 - 100 change the quality of "
+"the movie. The value of 1 means worst quality and 100 is the best quality. "
+"High values of this option (e.g. 100) may cause difficulty with some players."
+msgstr ""
+"Ein Wert von 0 deaktiviert diese Option, während Werte von 1 - 100 die "
+"Qualität des Videos ändern. Der Wert 1 bedeutet schlechteste und 100 beste "
+"Qualität. Hohe Werte dieser Option (z. B. 100) können bei manchen Playern "
+"Probleme verursachen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE CONTAINER"
+msgstr "VIDEO-CONTAINER"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Container/Codec to be used for the video. Preferred codec can be appended "
+"e.g. <code>mkv:libx265</code>"
+msgstr ""
+"Für das Video zu verwendender Container/Codec. Der bevorzugte Codec kann "
+"angehängt werden, z. B. <code>mkv:libx265</code>"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE RETAIN"
+msgstr "VIDEO BEHALTEN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "Retain movie only if the secondary detection occurred."
+msgstr "Video nur behalten, wenn die sekundäre Erkennung stattgefunden hat."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE PASSTHROUGH"
+msgstr "VIDEO-PASSTHROUGH"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"When using a RTSP, RTMP, mjpeg and some V4l2 cameras, create movie files "
+"with the packets obtained directly from the camera."
+msgstr ""
+"Bei RTSP-, RTMP-, MJPEG- und einigen V4L2-Kameras Videodateien mit den "
+"direkt von der Kamera erhaltenen Paketen erstellen."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE FILENAME"
+msgstr "VIDEO-DATEINAME"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The file name and optionally the path for the movie relative to target_dir. "
+"The file extension is automatically added based upon the container."
+msgstr ""
+"Der Dateiname und optional der Pfad des Videos relativ zu target_dir. Die "
+"Dateierweiterung wird automatisch anhand des Containers hinzugefügt."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE EXTPIPE USE"
+msgstr "VIDEO EXTPIPE VERWENDEN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Specifies whether to send the pictures to pipe for external encoding into a "
+"movie."
+msgstr ""
+"Gibt an, ob die Bilder zur externen Kodierung in ein Video an eine Pipe "
+"gesendet werden."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "MOVIE EXTPIPE"
+msgstr "VIDEO EXTPIPE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The program name and options for processing the images."
+msgstr "Der Programmname und die Optionen für die Verarbeitung der Bilder."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "VIDEO PIPE"
+msgstr "VIDEO-PIPE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The video4linux video loopback device for normal images. The device would be "
+"specified in the format like /dev/video1"
+msgstr ""
+"Das video4linux-Loopback-Gerät für normale Bilder. Das Gerät wird im Format /"
+"dev/video1 angegeben"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "VIDEO PIPE MOTION"
+msgstr "VIDEO-PIPE BEWEGUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The video4linux video loopback device for motion images. The device would be "
+"specified in the format like /dev/video1"
+msgstr ""
+"Das video4linux-Loopback-Gerät für Bewegungsbilder. Das Gerät wird im "
+"Format /dev/video1 angegeben"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURES GENERAL SETTINGS"
+msgstr "ALLGEMEINE BILD-EINSTELLUNGEN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE OUTPUT"
+msgstr "BILDAUSGABE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"'on' saves all motion images during an event. 'first' saves only the first "
+"image that detected motion. 'best' saves image with most changed pixels."
+msgstr ""
+"'on' speichert alle Bewegungsbilder während eines Ereignisses. 'first' "
+"speichert nur das erste Bild, das eine Bewegung erkannt hat. 'best' "
+"speichert das Bild mit den meisten geänderten Pixeln."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE OUTPUT MOTION"
+msgstr "BILDAUSGABE BEWEGUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"Save the motion(debug) pictures with the pixels that change as a graytone "
+"image. If labeling is enabled via the despeckele option, the largest area "
+"will be blue and areas in red are those determined by the smartmask option."
+msgstr ""
+"Die Bewegungsbilder (Debug) mit den geänderten Pixeln als Graustufenbild "
+"speichern. Wenn das Labeling über die Option despeckle aktiviert ist, wird "
+"der größte Bereich blau dargestellt und die roten Bereiche sind diejenigen, "
+"die von der Option smartmask bestimmt werden."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE TYPE"
+msgstr "BILDTYP"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The type of picture file to output."
+msgstr "Der Typ der auszugebenden Bilddatei."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE QUALITY"
+msgstr "BILDQUALITÄT"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The image quality for the jpeg or webp images in percent. The value of 1 is "
+"worst and 100 is best."
+msgstr ""
+"Die Bildqualität der JPEG- oder WebP-Bilder in Prozent. Der Wert 1 ist die "
+"schlechteste und 100 die beste Qualität."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE EXIF"
+msgstr "BILD-EXIF"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "The text for the JPEG EXIF comment with the EXIF timestamp."
+msgstr "Der Text für den JPEG-EXIF-Kommentar mit dem EXIF-Zeitstempel."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "PICTURE FILENAME"
+msgstr "BILD-DATEINAME"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The filename for the picture files. The default filename is %v-%Y%m%d%H%M%S-"
+"%q."
+msgstr ""
+"Der Dateiname der Bilddateien. Der Standard-Dateiname ist %v-%Y%m%d%H%M%S-%q."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "SCRIPT EXECUTION"
+msgstr "SKRIPTAUSFÜHRUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON EVENT START"
+msgstr "BEI EREIGNISBEGINN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed at the "
+"start of an event."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das zu Beginn "
+"eines Ereignisses ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON EVENT END"
+msgstr "BEI EREIGNISENDE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed at the end "
+"of an event."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das am Ende eines "
+"Ereignisses ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON PICTURE SAVE"
+msgstr "BEIM SPEICHERN EINES BILDES"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"picture is saved."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das beim "
+"Speichern eines Bildes ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON MOTION DETECTED"
+msgstr "BEI ERKANNTER BEWEGUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when motion "
+"is detected."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das bei Erkennung "
+"einer Bewegung ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON AREA DETECTED"
+msgstr "BEI ERKANNTEM BEREICH"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when motion "
+"is detected in the area specified."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das ausgeführt "
+"wird, wenn eine Bewegung im angegebenen Bereich erkannt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON MOVIE START"
+msgstr "BEI VIDEOBEGINN"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed at the "
+"creation of a movie."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das bei der "
+"Erstellung eines Videos ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON MOVIE END"
+msgstr "BEI VIDEOENDE"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"movie ends."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das am Ende eines "
+"Videos ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON CAMERA LOST"
+msgstr "BEI KAMERAVERLUST"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when the "
+"camera is no longer detected."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das ausgeführt "
+"wird, wenn die Kamera nicht mehr erkannt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON CAMERA FOUND"
+msgstr "BEI WIEDERGEFUNDENER KAMERA"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"previously lost camera is active again."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das ausgeführt "
+"wird, wenn eine zuvor verlorene Kamera wieder aktiv ist."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON SECONDARY DETECT"
+msgstr "BEI SEKUNDÄRER ERKENNUNG"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when "
+"secondary detection occurs."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das bei einer "
+"sekundären Erkennung ausgeführt wird."
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid "ON SOUND ALERT"
+msgstr "BEI TONALARM"
+
+#: controllers/Layout/Panel/vars/motion/edit.vars.inc.php
+msgid ""
+"The full path and file name of the program/script to be executed when a "
+"sound alert is triggered."
+msgstr ""
+"Der vollständige Pfad und Dateiname des Programms/Skripts, das bei Auslösung "
+"eines Tonalarms ausgeführt wird."
+
+#: controllers/Layout/Table/Render.php
+msgid "Previous"
+msgstr "Zurück"
+
+#: controllers/Layout/Table/Render.php
+msgid "Next"
+msgstr "Weiter"
+
+#: controllers/Layout/Table/vars/motion/events.vars.inc.php
+msgid "TODAY"
+msgstr "HEUTE"
+
+#: controllers/Mail.php
+#, php-format
+msgid "Error while sending email: %s"
+msgstr "Fehler beim Senden der E-Mail: %s"
+
+#: controllers/Motion/Alert.php controllers/Motion/Autostart.php
+msgid "Invalid parameter"
+msgstr "Ungültiger Parameter"
+
+#: controllers/Motion/Autostart.php
+msgid "You are not allowed to view motion autostart logs"
+msgstr "Sie sind nicht berechtigt, die Motion-Autostart-Protokolle anzuzeigen"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not read configuration file: %s"
+msgstr "Konfigurationsdatei konnte nicht gelesen werden: %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not retrieve configuration file content: %s"
+msgstr "Inhalt der Konfigurationsdatei konnte nicht abgerufen werden: %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Motion configuration file is not readable: %s"
+msgstr "Motion-Konfigurationsdatei ist nicht lesbar: %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Motion configuration file is not writeable: %s"
+msgstr "Motion-Konfigurationsdatei ist nicht beschreibbar: %s"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "%s parameter name contains invalid character(s)"
+msgstr "Parametername %s enthält ungültige Zeichen"
+
+#: controllers/Motion/Config.php
+#, php-format
+msgid "Could not write to configuration file: %s"
+msgstr "In die Konfigurationsdatei konnte nicht geschrieben werden: %s"
+
+#: controllers/Motion/Config.php
+msgid "Camera configuration file does not exist"
+msgstr "Kamera-Konfigurationsdatei existiert nicht"
+
+#: controllers/Motion/Config.php
+msgid "Could not enable camera configuration file"
+msgstr "Kamera-Konfigurationsdatei konnte nicht aktiviert werden"
+
+#: controllers/Motion/Config.php
+msgid "Could not disable camera configuration file"
+msgstr "Kamera-Konfigurationsdatei konnte nicht deaktiviert werden"
+
+#: controllers/Motion/Device.php
+msgid "Invalid device id"
+msgstr "Ungültige Geräte-ID"
+
+#: controllers/Motion/Event.php
+msgid "The specified file is invalid."
+msgstr "Die angegebene Datei ist ungültig."
+
+#: controllers/Motion/Event.php
+msgid "The specified file extension is not allowed."
+msgstr "Die angegebene Dateierweiterung ist nicht erlaubt."
+
+#: controllers/Motion/Event.php
+msgid "The specified file MIME type is not allowed."
+msgstr "Der angegebene MIME-Typ der Datei ist nicht erlaubt."
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "Invalid camera Id: %s"
+msgstr "Ungültige Kamera-ID: %s"
+
+#: controllers/Motion/Event.php
+msgid "No captures directory found"
+msgstr "Kein Aufnahmeverzeichnis gefunden"
+
+#: controllers/Motion/Event.php
+msgid "You are not allowed to delete files"
+msgstr "Sie sind nicht berechtigt, Dateien zu löschen"
+
+#: controllers/Motion/Event.php
+msgid "No file has been specified"
+msgstr "Keine Datei angegeben"
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "File %s is not writeable"
+msgstr "Datei %s ist nicht beschreibbar"
+
+#: controllers/Motion/Event.php
+#, php-format
+msgid "Could not delete file %s"
+msgstr "Datei %s konnte nicht gelöscht werden"
+
+#: controllers/Motion/Service.php
+msgid "You are not allowed to view motion service logs"
+msgstr ""
+"Sie sind nicht berechtigt, die Protokolle des Motion-Dienstes anzuzeigen"
+
+#: controllers/Notification.php
+msgid "Unable to retrieve notifications"
+msgstr "Benachrichtigungen konnten nicht abgerufen werden"
+
+#: controllers/Notification.php
+msgid "Invalid notification id"
+msgstr "Ungültige Benachrichtigungs-ID"
+
+#: controllers/Onvif/Ptz.php controllers/Onvif/PtzMove.php
+msgid "PTZ URI is not set"
+msgstr "PTZ-URI ist nicht gesetzt"
+
+#: controllers/Onvif/Ptz.php
+#, php-format
+msgid "Could not move PTZ: %s"
+msgstr "PTZ konnte nicht bewegt werden: %s"
+
+#: controllers/Onvif/Ptz.php
+#, php-format
+msgid "Could not stop PTZ: %s"
+msgstr "PTZ konnte nicht gestoppt werden: %s"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Camera Id does not exist"
+msgstr "Kamera-ID existiert nicht"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Camera URL is not set"
+msgstr "Kamera-URL ist nicht gesetzt"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Username is not set"
+msgstr "Benutzername ist nicht gesetzt"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Password is not set"
+msgstr "Passwort ist nicht gesetzt"
+
+#: controllers/Onvif/PtzMove.php
+#, php-format
+msgid "Could not move camera: %s"
+msgstr "Kamera konnte nicht bewegt werden: %s"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid direction"
+msgstr "Ungültige Richtung"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid move type"
+msgstr "Ungültiger Bewegungstyp"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Invalid move speed"
+msgstr "Ungültige Bewegungsgeschwindigkeit"
+
+#: controllers/Onvif/PtzMove.php
+msgid "Could not get profile token"
+msgstr "Profil-Token konnte nicht abgerufen werden"
+
+#: controllers/Settings.php
+msgid "Unable to save Home page settings"
+msgstr "Einstellungen der Startseite konnten nicht gespeichert werden"
+
+#: controllers/Settings.php
+msgid "You are not allowed to perform this action"
+msgstr "Sie sind nicht berechtigt, diese Aktion auszuführen"
+
+#: controllers/Settings.php
+msgid "Failed to enable debug mode"
+msgstr "Debug-Modus konnte nicht aktiviert werden"
+
+#: controllers/Settings.php
+msgid "Failed to disable debug mode"
+msgstr "Debug-Modus konnte nicht deaktiviert werden"
+
+#: controllers/User/Edit.php
+msgid "Invalid email address format"
+msgstr "Ungültiges E-Mail-Adressformat"
+
+#: controllers/User/Edit.php controllers/User/Permission.php
+#: controllers/User/User.php
+msgid "User does not exist"
+msgstr "Benutzer existiert nicht"
+
+#: controllers/User/Edit.php controllers/User/Permission.php
+#: controllers/User/User.php
+msgid "You are not allowed to execute this action."
+msgstr "Sie sind nicht berechtigt, diese Aktion auszuführen."
+
+#: controllers/User/Edit.php controllers/User/User.php
+msgid "Specified user does not exist"
+msgstr "Angegebener Benutzer existiert nicht"
+
+#: controllers/User/Edit.php
+msgid "You are not allowed to reset password of another administrator"
+msgstr ""
+"Sie sind nicht berechtigt, das Passwort eines anderen Administrators "
+"zurückzusetzen"
+
+#: controllers/User/Edit.php
+#, php-format
+msgid "Error while creating a new password for user %s"
+msgstr "Fehler beim Erstellen eines neuen Passworts für Benutzer %s"
+
+#: controllers/User/Edit.php
+msgid "You are not allowed to change password of another user"
+msgstr ""
+"Sie sind nicht berechtigt, das Passwort eines anderen Benutzers zu ändern"
+
+#: controllers/User/Edit.php controllers/User/User.php
+msgid "An error occurred while checking user password"
+msgstr "Beim Überprüfen des Benutzerpassworts ist ein Fehler aufgetreten"
+
+#: controllers/User/Edit.php
+msgid "New password and password re-type are different"
+msgstr "Neues Passwort und Passwortwiederholung stimmen nicht überein"
+
+#: controllers/User/Edit.php
+msgid "New password must be different from the current one"
+msgstr "Das neue Passwort muss sich vom aktuellen unterscheiden"
+
+#: controllers/User/Login.php
+msgid "Unknown login"
+msgstr "Unbekannter Benutzername"
+
+#: controllers/User/Permission.php
+#, php-format
+msgid "Could not grant camera access: %s"
+msgstr "Kamerazugriff konnte nicht gewährt werden: %s"
+
+#: controllers/User/User.php
+msgid "Username cannot contain special characters except hyphen and underscore"
+msgstr ""
+"Benutzername darf außer Bindestrich und Unterstrich keine Sonderzeichen "
+"enthalten"
+
+#: controllers/User/User.php
+msgid "Selected user role is invalid"
+msgstr "Ausgewählte Benutzerrolle ist ungültig"
+
+#: controllers/User/User.php
+#, php-format
+msgid "Username %s already exists"
+msgstr "Benutzername %s existiert bereits"
+
+#: controllers/User/User.php
+msgid "Error while hashing user password"
+msgstr "Fehler beim Hashen des Benutzerpassworts"
+
+#: controllers/User/User.php
+msgid "Bad password"
+msgstr "Falsches Passwort"
+
+#: controllers/Utils/Validate.php
+#, php-format
+msgid "Invalid date format, expected %s"
+msgstr "Ungültiges Datumsformat, erwartet: %s"
+
+#: controllers/ajax/camera.php
+msgid "Camera added"
+msgstr "Kamera hinzugefügt"
+
+#: controllers/ajax/camera.php
+msgid "Camera settings saved"
+msgstr "Kameraeinstellungen gespeichert"
+
+#: controllers/ajax/camera.php
+msgid "Camera deleted"
+msgstr "Kamera gelöscht"
+
+#: controllers/ajax/camera.php controllers/ajax/camera/ptz.php
+#: controllers/ajax/camera/stream.php controllers/ajax/chart.php
+#: controllers/ajax/general.php controllers/ajax/general/service.php
+#: controllers/ajax/go2rtc.php controllers/ajax/motion.php
+#: controllers/ajax/motion/autostart.php controllers/ajax/notification.php
+#: controllers/ajax/settings/debug-mode.php controllers/ajax/settings/edit.php
+#: controllers/ajax/system.php controllers/ajax/timelapse.php
+#: controllers/ajax/user/permissions.php controllers/ajax/userspace.php
+msgid "Invalid action"
+msgstr "Ungültige Aktion"
+
+#: controllers/ajax/general/service.php
+msgid "Invalid unit"
+msgstr "Ungültige Unit"
+
+#: controllers/ajax/general/service.php
+msgid "Log file not found"
+msgstr "Protokolldatei nicht gefunden"
+
+#: controllers/ajax/general/service.php
+msgid "Unable to read log file"
+msgstr "Protokolldatei kann nicht gelesen werden"
+
+#: controllers/ajax/motion.php
+msgid "Email sent"
+msgstr "E-Mail gesendet"
+
+#: controllers/ajax/motion.php
+msgid "Settings saved"
+msgstr "Einstellungen gespeichert"
+
+#: controllers/ajax/motion.php
+msgid "Device added"
+msgstr "Gerät hinzugefügt"
+
+#: controllers/ajax/motion.php
+msgid "Device removed"
+msgstr "Gerät entfernt"
+
+#: controllers/ajax/motion.php
+msgid "All events acquitted"
+msgstr "Alle Ereignisse quittiert"
+
+#: controllers/ajax/motion.php
+msgid "Media file(s) successfully deleted"
+msgstr "Mediendatei(en) erfolgreich gelöscht"
+
+#: controllers/ajax/motion.php
+msgid "Configuration saved."
+msgstr "Konfiguration gespeichert."
+
+#: controllers/ajax/notification.php
+msgid "Notification marked as read"
+msgstr "Benachrichtigung als gelesen markiert"
+
+#: controllers/ajax/settings/debug-mode.php
+msgid "Settings have been saved"
+msgstr "Einstellungen wurden gespeichert"
+
+#: controllers/ajax/settings/edit.php
+msgid "Settings saved."
+msgstr "Einstellungen gespeichert."
+
+#: controllers/ajax/user/permissions.php
+msgid "Permissions saved"
+msgstr "Berechtigungen gespeichert"
+
+#: controllers/ajax/userspace.php
+msgid "Personal information saved"
+msgstr "Persönliche Informationen gespeichert"
+
+#: controllers/ajax/userspace.php
+msgid "Password changed."
+msgstr "Passwort geändert."
+
+#: controllers/ajax/userspace.php
+#, php-format
+msgid "User %s has been created"
+msgstr "Benutzer %s wurde erstellt"
+
+#: controllers/ajax/userspace.php
+msgid "Password has been regenerated"
+msgstr "Passwort wurde neu generiert"
+
+#: controllers/ajax/userspace.php
+msgid "User has been deleted"
+msgstr "Benutzer wurde gelöscht"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "NAME"
+msgstr "NAME"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "CAMERA MAIN STREAM"
+msgstr "HAUPT-STREAM DER KAMERA"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid ""
+"Device path like /dev/video0 or URL like http://... or rtsp://... are "
+"supported."
+msgstr ""
+"Gerätepfade wie /dev/video0 oder URLs wie http://... oder rtsp://... werden "
+"unterstützt."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "e.g. /dev/video0 or http(s)://... or rtsp://..."
+msgstr "z. B. /dev/video0 oder http(s)://... oder rtsp://..."
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "RESOLUTION"
+msgstr "AUFLÖSUNG"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "The selected resolution must match the resolution of the camera."
+msgstr "Die ausgewählte Auflösung muss der Auflösung der Kamera entsprechen."
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "16/9 resolutions:"
+msgstr "16/9-Auflösungen:"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "4/3 resolutions:"
+msgstr "4/3-Auflösungen:"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "The specified frame rate must match the frame rate of the camera."
+msgstr "Die angegebene Bildrate muss der Bildrate der Kamera entsprechen."
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"Set to 0 to disable rotation. Warning: rotating the camera feed is a CPU "
+"intensive operation."
+msgstr ""
+"Auf 0 setzen, um die Drehung zu deaktivieren. Achtung: Das Drehen des "
+"Kamerabildes ist eine CPU-intensive Operation."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Text to display on the left side of the camera feed."
+msgstr "Text, der links im Kamerabild angezeigt wird."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Text to display on the right side of the camera feed."
+msgstr "Text, der rechts im Kamerabild angezeigt wird."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "TIMESTAMP LEFT"
+msgstr "ZEITSTEMPEL LINKS"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Display timestamp on the left side of the camera feed."
+msgstr "Zeitstempel links im Kamerabild anzeigen."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "TIMESTAMP RIGHT"
+msgstr "ZEITSTEMPEL RECHTS"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Display timestamp on the right side of the camera feed."
+msgstr "Zeitstempel rechts im Kamerabild anzeigen."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "CAMERA SECONDARY STREAM"
+msgstr "SEKUNDÄRER STREAM DER KAMERA"
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"If the camera supports multiple streams and provides a secondary stream with "
+"a lower resolution, you can add it here.<br>This secondary stream will be "
+"used for the motion detection.<br>Device URL like http://... or rtsp://... "
+"are supported."
+msgstr ""
+"Wenn die Kamera mehrere Streams unterstützt und einen sekundären Stream mit "
+"niedrigerer Auflösung bereitstellt, können Sie ihn hier hinzufügen."
+"<br>Dieser sekundäre Stream wird für die Bewegungserkennung verwendet."
+"<br>Geräte-URLs wie http://... oder rtsp://... werden unterstützt."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "e.g. http(s)://... or rtsp://..."
+msgstr "z. B. http(s)://... oder rtsp://..."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "SECONDARY STREAM RESOLUTION"
+msgstr "AUFLÖSUNG DES SEKUNDÄREN STREAMS"
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"The selected resolution must match the resolution of the secondary stream of "
+"the camera."
+msgstr ""
+"Die ausgewählte Auflösung muss der Auflösung des sekundären Streams der "
+"Kamera entsprechen."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "SECONDARY STREAM FRAME RATE"
+msgstr "BILDRATE DES SEKUNDÄREN STREAMS"
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"The specified frame rate must match the frame rate of the secondary stream "
+"of the camera."
+msgstr ""
+"Die angegebene Bildrate muss der Bildrate des sekundären Streams der Kamera "
+"entsprechen."
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "AUTHENTICATION"
+msgstr "AUTHENTIFIZIERUNG"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid ""
+"If the camera requires authentication (to access the video stream or ONVIF "
+"service)."
+msgstr ""
+"Falls die Kamera eine Authentifizierung erfordert (für den Zugriff auf den "
+"Videostream oder den ONVIF-Dienst)."
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "USERNAME"
+msgstr "BENUTZERNAME"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "PASSWORD"
+msgstr "PASSWORT"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ENABLE ONVIF"
+msgstr "ONVIF AKTIVIEREN"
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"If camera supports ONVIF protocol. This will allow you to move the camera "
+"using the PTZ controls."
+msgstr ""
+"Falls die Kamera das ONVIF-Protokoll unterstützt. Damit können Sie die "
+"Kamera über die PTZ-Steuerung bewegen."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ONVIF PORT"
+msgstr "ONVIF-PORT"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Port number of the ONVIF service. Default is 80."
+msgstr "Portnummer des ONVIF-Dienstes. Standard ist 80."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Target URL:"
+msgstr "Ziel-URL:"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+#: views/includes/panels/general/logs.inc.php
+#: views/includes/panels/general/settings.inc.php
+msgid "MOTION DETECTION"
+msgstr "BEWEGUNGSERKENNUNG"
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/panels/camera/add.inc.php
+msgid "Enable motion detection for this camera."
+msgstr "Bewegungserkennung für diese Kamera aktivieren."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "CONFIGURE MOTION DETECTION"
+msgstr "BEWEGUNGSERKENNUNG KONFIGURIEREN"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Configure motion detection for this camera."
+msgstr "Bewegungserkennung für diese Kamera konfigurieren."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Configure"
+msgstr "Konfigurieren"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "STREAM TECHNOLOGY"
+msgstr "STREAM-TECHNOLOGIE"
+
+#: views/includes/camera/edit/form.inc.php
+msgid ""
+"MSE should work without any additional configuration.<br>WebRTC is more "
+"efficient and offer less latency but may not work in some cases.<br>MJPEG "
+"should be used with http:// cameras."
+msgstr ""
+"MSE sollte ohne zusätzliche Konfiguration funktionieren.<br>WebRTC ist "
+"effizienter und bietet eine geringere Latenz, funktioniert aber "
+"möglicherweise nicht in allen Fällen.<br>MJPEG sollte bei http://-Kameras "
+"verwendet werden."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ENABLE TIMELAPSE"
+msgstr "ZEITRAFFER AKTIVIEREN"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Enable timelapse for this camera."
+msgstr "Zeitraffer für diese Kamera aktivieren."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "ENABLE MONITORING"
+msgstr "ÜBERWACHUNG AKTIVIEREN"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Email alert will be sent if the camera goes offline."
+msgstr ""
+"Eine E-Mail-Benachrichtigung wird gesendet, wenn die Kamera offline geht."
+
+#: views/includes/camera/edit/form.inc.php
+msgid "RECIPIENTS"
+msgstr "EMPFÄNGER"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Email addresses to receive the alert notifications (comma separated)."
+msgstr ""
+"E-Mail-Adressen, die die Benachrichtigungen erhalten sollen (kommagetrennt)."
+
+#: views/includes/camera/edit/form.inc.php
+#: views/includes/camera/edit/motion-config-form.inc.php
+#: views/includes/panels/general/settings.inc.php
+#: views/includes/panels/general/user/permissions.inc.php
+#: views/includes/panels/general/user/userspace.inc.php
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "Save"
+msgstr "Speichern"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Delete"
+msgstr "Löschen"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Delete camera"
+msgstr "Kamera löschen"
+
+#: views/includes/camera/edit/form.inc.php
+msgid "Select or specify recipients..."
+msgstr "Empfänger auswählen oder angeben..."
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid ""
+"Some parameters can be overwritten by the camera settings form. You can lock "
+"a parameter to prevent it from being overwritten."
+msgstr ""
+"Einige Parameter können durch das Formular der Kameraeinstellungen "
+"überschrieben werden. Sie können einen Parameter sperren, um zu verhindern, "
+"dass er überschrieben wird."
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Search"
+msgstr "Suchen"
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Open official Motion documentation for this parameter"
+msgstr "Offizielle Motion-Dokumentation zu diesem Parameter öffnen"
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Enable/Disable this parameter"
+msgstr "Diesen Parameter aktivieren/deaktivieren"
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Set On/Off value for this parameter"
+msgstr "On/Off-Wert für diesen Parameter festlegen"
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Lock/Unlock parameter to prevent overwriting"
+msgstr "Parameter sperren/entsperren, um ein Überschreiben zu verhindern"
+
+#: views/includes/camera/edit/motion-config-form.inc.php
+msgid "Select or specify a stream URL..."
+msgstr "Stream-URL auswählen oder angeben..."
+
+#: views/includes/camera/timelapse.inc.php
+msgid "Close timelapse"
+msgstr "Zeitraffer schließen"
+
+#: views/includes/camera/timelapse.inc.php
+msgid "No timelapse images for this date yet"
+msgstr "Noch keine Zeitraffer-Bilder für dieses Datum"
+
+#: views/includes/camera/timelapse.inc.php
+msgid "Play timelapse"
+msgstr "Zeitraffer abspielen"
+
+#: views/includes/camera/timelapse.inc.php
+msgid "Pause timelapse"
+msgstr "Zeitraffer pausieren"
+
+#: views/includes/camera/timelapse.inc.php
+msgid "slow"
+msgstr "langsam"
+
+#: views/includes/camera/timelapse.inc.php
+msgid "medium"
+msgstr "mittel"
+
+#: views/includes/camera/timelapse.inc.php
+msgid "fast"
+msgstr "schnell"
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Cameras and stream"
+msgstr "Kameras und Stream"
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Motion events"
+msgstr "Bewegungsereignisse"
+
+#: views/includes/containers/buttons/bottom.inc.php
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Motion detection"
+msgstr "Bewegungserkennung"
+
+#: views/includes/containers/buttons/bottom.inc.php
+msgid "Stats"
+msgstr "Statistiken"
+
+#: views/includes/containers/buttons/top.inc.php
+msgid "Motion detection is running"
+msgstr "Bewegungserkennung läuft"
+
+#: views/includes/containers/buttons/top.inc.php
+msgid "Motion detection is stopped"
+msgstr "Bewegungserkennung ist gestoppt"
+
+#: views/includes/containers/buttons/top.inc.php
+msgid "Open menu"
+msgstr "Menü öffnen"
+
+#: views/includes/containers/cameras/list.inc.php
+#, php-format
+msgid "Change grid layout to %d items per row"
+msgstr "Rasterlayout auf %d Elemente pro Zeile ändern"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Stream disabled"
+msgstr "Stream deaktiviert"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Connecting..."
+msgstr "Verbindung wird hergestellt..."
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Stream error"
+msgstr "Stream-Fehler"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Motion detection is disabled"
+msgstr "Bewegungserkennung ist deaktiviert"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Motion detection is enabled"
+msgstr "Bewegungserkennung ist aktiviert"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Camera timelapse"
+msgstr "Kamera-Zeitraffer"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move camera"
+msgstr "Kamera bewegen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Mute/Unmute"
+msgstr "Ton ein/aus"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Disable stream"
+msgstr "Stream deaktivieren"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Enable stream"
+msgstr "Stream aktivieren"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Fullscreen"
+msgstr "Vollbild"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Close fullscreen"
+msgstr "Vollbild schließen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the top"
+msgstr "Nach oben bewegen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the left"
+msgstr "Nach links bewegen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Stop movement"
+msgstr "Bewegung stoppen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the right"
+msgstr "Nach rechts bewegen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move to the bottom"
+msgstr "Nach unten bewegen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Speed"
+msgstr "Geschwindigkeit"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move up"
+msgstr "Nach oben"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move left"
+msgstr "Nach links"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move right"
+msgstr "Nach rechts"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Move down"
+msgstr "Nach unten"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid ""
+"For lower latency in movement control, please use WebRTC stream technology"
+msgstr ""
+"Für eine geringere Latenz bei der Bewegungssteuerung verwenden Sie bitte die "
+"Stream-Technologie WebRTC"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Local device"
+msgstr "Lokales Gerät"
+
+#: views/includes/containers/cameras/list.inc.php
+#, php-format
+msgid "%d new event"
+msgid_plural "%d new events"
+msgstr[0] "%d neues Ereignis"
+msgstr[1] "%d neue Ereignisse"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Camera settings"
+msgstr "Kameraeinstellungen"
+
+#: views/includes/containers/cameras/list.inc.php
+msgid "Add camera"
+msgstr "Kamera hinzufügen"
+
+#: views/includes/containers/error.inc.php
+msgid "CONTAINER LOADING ERROR"
+msgstr "FEHLER BEIM LADEN DES CONTAINERS"
+
+#: views/includes/containers/error.inc.php
+#, php-format
+msgid "An error occurred while trying to load %s container:"
+msgstr "Beim Laden des Containers %s ist ein Fehler aufgetreten:"
+
+#: views/includes/containers/footer.inc.php
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: views/includes/containers/footer.inc.php
+msgid "Contact"
+msgstr "Kontakt"
+
+#: views/includes/containers/footer.inc.php
+#, php-format
+msgid "Version %s"
+msgstr "Version %s"
+
+#: views/includes/containers/footer.inc.php
+msgid "Star me on GitHub"
+msgstr "Auf GitHub einen Stern geben"
+
+#: views/includes/containers/getting-started.inc.php
+msgid "GETTING STARTED"
+msgstr "ERSTE SCHRITTE"
+
+#: views/includes/containers/getting-started.inc.php
+#, php-format
+msgid "Go to the %s tab to add a camera"
+msgstr "Gehen Sie zum Tab %s, um eine Kamera hinzuzufügen"
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "Debug mode enabled."
+msgstr "Debug-Modus aktiviert."
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "SESSION data"
+msgstr "SESSION-Daten"
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "POST data"
+msgstr "POST-Daten"
+
+#: views/includes/containers/header/debug-mode.inc.php
+msgid "GET data"
+msgstr "GET-Daten"
+
+#: views/includes/containers/header/general-log-messages.inc.php
+msgid "Log messages"
+msgstr "Protokollmeldungen"
+
+#: views/includes/containers/header/general-log-messages.inc.php
+msgid "More info"
+msgstr "Weitere Informationen"
+
+#: views/includes/containers/header/general-log-messages.inc.php
+#: views/includes/panels/general/notification.inc.php
+msgid "Mark as read"
+msgstr "Als gelesen markieren"
+
+#: views/includes/containers/login.inc.php
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Username"
+msgstr "Benutzername"
+
+#: views/includes/containers/login.inc.php
+msgid "Password"
+msgstr "Passwort"
+
+#: views/includes/containers/login.inc.php
+msgid "Login"
+msgstr "Anmelden"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Stop motion detection"
+msgstr "Bewegungserkennung stoppen"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Start motion detection"
+msgstr "Bewegungserkennung starten"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "OFF"
+msgstr "OFF"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "ON"
+msgstr "ON"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Disable motion detection autostart"
+msgstr "Autostart der Bewegungserkennung deaktivieren"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Enable motion detection autostart"
+msgstr "Autostart der Bewegungserkennung aktivieren"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Autostart"
+msgstr "Autostart"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Configure autostart"
+msgstr "Autostart konfigurieren"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Disable motion alerts"
+msgstr "Bewegungsalarme deaktivieren"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Enable motion alerts"
+msgstr "Bewegungsalarme aktivieren"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Alerts"
+msgstr "Alarme"
+
+#: views/includes/containers/motion/buttons/main.inc.php
+msgid "Configure alerts"
+msgstr "Alarme konfigurieren"
+
+#: views/includes/containers/motion/events/filter.inc.php
+msgid "SELECT DATE"
+msgstr "DATUM AUSWÄHLEN"
+
+#: views/includes/containers/motion/events/filter.inc.php
+msgid "FILTER BY CAMERA"
+msgstr "NACH KAMERA FILTERN"
+
+#: views/includes/containers/motion/events/filter.inc.php
+msgid "Select camera(s)..."
+msgstr "Kamera(s) auswählen..."
+
+#: views/includes/containers/motion/events/list.inc.php
+msgid "Mark all events as seen"
+msgstr "Alle Ereignisse als gesehen markieren"
+
+#: views/includes/containers/motion/events/list.inc.php
+msgid "Close full screen"
+msgstr "Vollbild schließen"
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "SELECT PERIOD"
+msgstr "ZEITRAUM AUSWÄHLEN"
+
+#: views/includes/containers/motion/stats/list.inc.php
+msgid "Last 24 Hours"
+msgstr "Letzte 24 Stunden"
+
+#: views/includes/containers/motionui/service/status.inc.php
+msgid "Main service is not running. Please restart the docker container."
+msgstr ""
+"Der Hauptdienst läuft nicht. Bitte starten Sie den Docker-Container neu."
+
+#: views/includes/panels/buttons/menu.inc.php
+#: views/includes/panels/general/notification.inc.php
+msgid "NOTIFICATIONS"
+msgstr "BENACHRICHTIGUNGEN"
+
+#: views/includes/panels/buttons/menu.inc.php
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "USERSPACE"
+msgstr "BENUTZERBEREICH"
+
+#: views/includes/panels/buttons/menu.inc.php
+#: views/includes/panels/general/logs.inc.php
+msgid "LOGS"
+msgstr "PROTOKOLLE"
+
+#: views/includes/panels/buttons/menu.inc.php
+msgid "SETTINGS"
+msgstr "EINSTELLUNGEN"
+
+#: views/includes/panels/camera/add.inc.php
+msgid "Example: Outside camera"
+msgstr "Beispiel: Außenkamera"
+
+#: views/includes/panels/camera/add.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: views/includes/panels/camera/add.inc.php
+msgid "NEW CAMERA"
+msgstr "NEUE KAMERA"
+
+#: views/includes/panels/error.inc.php
+msgid "PANEL LOADING ERROR"
+msgstr "FEHLER BEIM LADEN DES PANELS"
+
+#: views/includes/panels/error.inc.php
+#, php-format
+msgid "An error occurred while trying to load %s panel:"
+msgstr "Beim Laden des Panels %s ist ein Fehler aufgetreten:"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "LIVE STREAM"
+msgstr "LIVE-STREAM"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "GO2RTC LOGS"
+msgstr "GO2RTC-PROTOKOLLE"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View go2rtc streaming server logs."
+msgstr "Protokolle des go2rtc-Streaming-Servers anzeigen."
+
+#: views/includes/panels/general/logs.inc.php
+msgid "No logs for now."
+msgstr "Derzeit keine Protokolle."
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View"
+msgstr "Anzeigen"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "SERVICE LOGS"
+msgstr "DIENST-PROTOKOLLE"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View motion detection service logs."
+msgstr "Protokolle des Bewegungserkennungsdienstes anzeigen."
+
+#: views/includes/panels/general/logs.inc.php
+msgid "SERVICE UNITS"
+msgstr "DIENST-UNITS"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "Running"
+msgstr "Läuft"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "This service unit is currently running"
+msgstr "Diese Dienst-Unit läuft derzeit"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "Not running"
+msgstr "Läuft nicht"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "This service unit is currently not running"
+msgstr "Diese Dienst-Unit läuft derzeit nicht"
+
+#: views/includes/panels/general/logs.inc.php
+msgid "View log"
+msgstr "Protokoll anzeigen"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Nothing for now!"
+msgstr "Derzeit nichts!"
+
+#: views/includes/panels/general/notification.inc.php
+msgid ""
+"You have no notifications at the moment. Motion-UI will notify you when an "
+"update is available or if there are any important messages to read."
+msgstr ""
+"Sie haben derzeit keine Benachrichtigungen. Motion-UI benachrichtigt Sie, "
+"wenn ein Update verfügbar ist oder wichtige Nachrichten zu lesen sind."
+
+#: views/includes/panels/general/notification.inc.php
+msgid "UPDATE AVAILABLE:"
+msgstr "UPDATE VERFÜGBAR:"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Major release"
+msgstr "Hauptversion"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Changelog"
+msgstr "Changelog"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "See changelog"
+msgstr "Changelog ansehen"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Update instructions"
+msgstr "Update-Anleitung"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "Please follow the upgrade path to update:"
+msgstr "Bitte folgen Sie dem Update-Pfad, um zu aktualisieren:"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "current"
+msgstr "aktuell"
+
+#: views/includes/panels/general/notification.inc.php
+msgid "latest"
+msgstr "neueste"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "HOME PAGE"
+msgstr "STARTSEITE"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion-UI start page."
+msgstr "Startseite von Motion-UI."
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Cameras and stream page"
+msgstr "Seite Kameras und Stream"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion buttons page"
+msgstr "Seite Motion-Schaltflächen"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion events page"
+msgstr "Seite Bewegungsereignisse"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Motion stats page"
+msgstr "Seite Motion-Statistiken"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "EVENTS MEDIAS RETENTION"
+msgstr "AUFBEWAHRUNG DER EREIGNISMEDIEN"
+
+#: views/includes/panels/general/settings.inc.php
+msgid ""
+"Number of days to keep event pictures & videos before automatic deletion."
+msgstr ""
+"Anzahl der Tage, die Ereignisbilder & -videos vor der automatischen Löschung "
+"aufbewahrt werden."
+
+#: views/includes/panels/general/settings.inc.php
+msgid "TIMELAPSE"
+msgstr "ZEITRAFFER"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "INTERVAL"
+msgstr "INTERVALL"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Interval between each image capture."
+msgstr "Intervall zwischen zwei Bildaufnahmen."
+
+#: views/includes/panels/general/settings.inc.php
+msgid "5 seconds"
+msgstr "5 Sekunden"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "10 seconds"
+msgstr "10 Sekunden"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "15 seconds"
+msgstr "15 Sekunden"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "30 seconds"
+msgstr "30 Sekunden"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "1 minute"
+msgstr "1 Minute"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "5 minutes"
+msgstr "5 Minuten"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "10 minutes"
+msgstr "10 Minuten"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "15 minutes"
+msgstr "15 Minuten"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "30 minutes"
+msgstr "30 Minuten"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "1 hour"
+msgstr "1 Stunde"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "IMAGES RETENTION"
+msgstr "AUFBEWAHRUNG DER BILDER"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Number of days to keep timelapse images before automatic deletion."
+msgstr ""
+"Anzahl der Tage, die Zeitraffer-Bilder vor der automatischen Löschung "
+"aufbewahrt werden."
+
+#: views/includes/panels/general/settings.inc.php
+msgid "DEBUG MODE"
+msgstr "DEBUG-MODUS"
+
+#: views/includes/panels/general/settings.inc.php
+msgid "Debug mode will display additional information on the interface."
+msgstr "Der Debug-Modus zeigt zusätzliche Informationen in der Oberfläche an."
+
+#: views/includes/panels/general/settings.inc.php
+msgid "GLOBAL SETTINGS"
+msgstr "ALLGEMEINE EINSTELLUNGEN"
+
+#: views/includes/panels/general/user/permissions.inc.php
+msgid "GRANT ACCESS TO CAMERAS"
+msgstr "ZUGRIFF AUF KAMERAS GEWÄHREN"
+
+#: views/includes/panels/general/user/permissions.inc.php
+msgid "Select cameras..."
+msgstr "Kameras auswählen..."
+
+#: views/includes/panels/general/user/permissions.inc.php
+msgid "EDIT USER PERMISSIONS"
+msgstr "BENUTZERBERECHTIGUNGEN BEARBEITEN"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "PERSONAL INFORMATION"
+msgstr "PERSÖNLICHE INFORMATIONEN"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "FIRST NAME"
+msgstr "VORNAME"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "LAST NAME"
+msgstr "NACHNAME"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "EMAIL"
+msgstr "E-MAIL"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CHANGE PASSWORD"
+msgstr "PASSWORT ÄNDERN"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CURRENT PASSWORD"
+msgstr "AKTUELLES PASSWORT"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "NEW PASSWORD"
+msgstr "NEUES PASSWORT"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "NEW PASSWORD (confirm)"
+msgstr "NEUES PASSWORT (bestätigen)"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "LOGOUT"
+msgstr "ABMELDEN"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Logout"
+msgstr "Abmelden"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "USERS"
+msgstr "BENUTZER"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CREATE USER"
+msgstr "BENUTZER ERSTELLEN"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Create a new user with a specific role."
+msgstr "Einen neuen Benutzer mit einer bestimmten Rolle erstellen."
+
+#: views/includes/panels/general/user/userspace.inc.php
+#, php-format
+msgid "Once created, click on the%sicon to generate a password."
+msgstr ""
+"Klicken Sie nach dem Erstellen auf das Symbol%sum ein Passwort zu generieren."
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Select role..."
+msgstr "Rolle auswählen..."
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Usage (viewer)"
+msgstr "Nutzung (Betrachter)"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Administrator"
+msgstr "Administrator"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "CURRENT USERS"
+msgstr "AKTUELLE BENUTZER"
+
+#: views/includes/panels/general/user/userspace.inc.php
+msgid "Edit permissions"
+msgstr "Berechtigungen bearbeiten"
+
+#: views/includes/panels/general/user/userspace.inc.php
+#, php-format
+msgid "Reset password of user %s"
+msgstr "Passwort des Benutzers %s zurücksetzen"
+
+#: views/includes/panels/general/user/userspace.inc.php
+#, php-format
+msgid "Delete user %s"
+msgstr "Benutzer %s löschen"
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"Motion detection alerts are sent on new event and when picture or video is "
+"saved."
+msgstr ""
+"Alarme der Bewegungserkennung werden bei einem neuen Ereignis und beim "
+"Speichern eines Bildes oder Videos gesendet."
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "ALERTS TIME PERIOD"
+msgstr "ALARM-ZEITRAUM"
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"For each day, define the time period in which alerts will be sent. Outside "
+"of this time period, no alert will be sent."
+msgstr ""
+"Legen Sie für jeden Tag den Zeitraum fest, in dem Alarme gesendet werden. "
+"Außerhalb dieses Zeitraums wird kein Alarm gesendet."
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> "
+"if you wish not to receive any alert on one specific day of the week."
+msgstr ""
+"Geben Sie <b>Beginn:</b> <code>--:--</code> und <b>Ende:</b> <code>--:--</"
+"code> an, wenn Sie an einem bestimmten Wochentag keine Alarme erhalten "
+"möchten."
+
+#: views/includes/panels/motion/alert.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> "
+"if you wish to receive alerts <b>24hours a day</b>."
+msgstr ""
+"Geben Sie <b>Beginn:</b> <code>00:00</code> und <b>Ende:</b> <code>00:00</"
+"code> an, wenn Sie Alarme <b>rund um die Uhr</b> erhalten möchten."
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "Actual timezone:"
+msgstr "Aktuelle Zeitzone:"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "MONDAY"
+msgstr "MONTAG"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgctxt "time period"
+msgid "Start"
+msgstr "Beginn"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgctxt "time period"
+msgid "End"
+msgstr "Ende"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "TUESDAY"
+msgstr "DIENSTAG"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "WEDNESDAY"
+msgstr "MITTWOCH"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "THURSDAY"
+msgstr "DONNERSTAG"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "FRIDAY"
+msgstr "FREITAG"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "SATURDAY"
+msgstr "SAMSTAG"
+
+#: views/includes/panels/motion/alert.inc.php
+#: views/includes/panels/motion/autostart.inc.php
+msgid "SUNDAY"
+msgstr "SONNTAG"
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "MAIL RECIPIENT"
+msgstr "E-MAIL-EMPFÄNGER"
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "Specify mail alert recipient(s), separated by a comma."
+msgstr "Empfänger der E-Mail-Alarme angeben, durch Komma getrennt."
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "Send test email"
+msgstr "Test-E-Mail senden"
+
+#: views/includes/panels/motion/alert.inc.php
+msgid "CONFIGURE ALERTS"
+msgstr "ALARME KONFIGURIEREN"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "AUTOSTART ON DEVICE PRESENCE"
+msgstr "AUTOSTART BEI GERÄTEANWESENHEIT"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "ENABLE AUTOSTART ON DEVICE PRESENCE"
+msgstr "AUTOSTART BEI GERÄTEANWESENHEIT AKTIVIEREN"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Motion detection will be started if none of the configured devices are "
+"present on the local network."
+msgstr ""
+"Die Bewegungserkennung wird gestartet, wenn keines der konfigurierten Geräte "
+"im lokalen Netzwerk vorhanden ist."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Motion detection will be stopped if at least <b>one</b> of the configured "
+"devices is connected to the local network."
+msgstr ""
+"Die Bewegungserkennung wird gestoppt, wenn mindestens <b>eines</b> der "
+"konfigurierten Geräte mit dem lokalen Netzwerk verbunden ist."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "KNOWN DEVICES"
+msgstr "BEKANNTE GERÄTE"
+
+#: views/includes/panels/motion/autostart.inc.php
+#, php-format
+msgid "Remove device %s"
+msgstr "Gerät %s entfernen"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "ADD A DEVICE"
+msgstr "GERÄT HINZUFÜGEN"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "It can be a smartphone, a tablet, etc ..."
+msgstr "Das kann ein Smartphone, ein Tablet usw. sein ..."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "A name to identify the device."
+msgstr "Ein Name zur Identifizierung des Geräts."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "e.g. Alice smartphone"
+msgstr "z. B. Smartphone von Alice"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "IP ADDRESS"
+msgstr "IP-ADRESSE"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "The IP address of the device on the local network."
+msgstr "Die IP-Adresse des Geräts im lokalen Netzwerk."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "e.g. 192.168.0.10"
+msgstr "z. B. 192.168.0.10"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "AUTOSTART TIME PERIOD"
+msgstr "AUTOSTART-ZEITRAUM"
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Autostart on device presence is enabled. Time period will be prioritized if "
+"current time is in the time period."
+msgstr ""
+"Autostart bei Geräteanwesenheit ist aktiviert. Der Zeitraum hat Vorrang, "
+"wenn die aktuelle Uhrzeit innerhalb des Zeitraums liegt."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"For each day, define the time period in which <b>motion</b> will be running. "
+"Outside of this time period, device presence will take over."
+msgstr ""
+"Legen Sie für jeden Tag den Zeitraum fest, in dem <b>motion</b> läuft. "
+"Außerhalb dieses Zeitraums übernimmt die Geräteanwesenheit."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"For each day, define the time period in which <b>motion</b> will be running. "
+"Outside of this time period, <b>motion</b> will be stopped."
+msgstr ""
+"Legen Sie für jeden Tag den Zeitraum fest, in dem <b>motion</b> läuft. "
+"Außerhalb dieses Zeitraums wird <b>motion</b> gestoppt."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>--:--</code> and <b>End:</b> <code>--:--</code> "
+"if you wish not to run motion on a specific day."
+msgstr ""
+"Geben Sie <b>Beginn:</b> <code>--:--</code> und <b>Ende:</b> <code>--:--</"
+"code> an, wenn motion an einem bestimmten Tag nicht laufen soll."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid ""
+"Specify <b>Start:</b> <code>00:00</code> and <b>End:</b> <code>00:00</code> "
+"if you wish to run motion <b>24hours a day</b>."
+msgstr ""
+"Geben Sie <b>Beginn:</b> <code>00:00</code> und <b>Ende:</b> <code>00:00</"
+"code> an, wenn motion <b>rund um die Uhr</b> laufen soll."
+
+#: views/includes/panels/motion/autostart.inc.php
+msgid "CONFIGURE AUTOSTART"
+msgstr "AUTOSTART KONFIGURIEREN"
+
+#: views/includes/panels/motion/edit.inc.php
+msgid "EDIT MOTION CONFIGURATION"
+msgstr "MOTION-KONFIGURATION BEARBEITEN"
+
+#: views/includes/slide-panel.inc.php
+msgid "Close"
+msgstr "Schließen"
+
+#: views/includes/tables/error.inc.php
+msgid "TABLE LOADING ERROR"
+msgstr "FEHLER BEIM LADEN DER TABELLE"
+
+#: views/includes/tables/error.inc.php
+#, php-format
+msgid "An error occurred while trying to load %s table:"
+msgstr "Beim Laden der Tabelle %s ist ein Fehler aufgetreten:"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "No events found for this date."
+msgstr "Keine Ereignisse für dieses Datum gefunden."
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "%d event"
+msgid_plural "%d events"
+msgstr[0] "%d Ereignis"
+msgstr[1] "%d Ereignisse"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Total media files"
+msgstr "Mediendateien gesamt"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Event start time"
+msgstr "Beginn des Ereignisses"
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "Camera #%s"
+msgstr "Kamera #%s"
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "Event #%s"
+msgstr "Ereignis #%s"
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "Full event ID #%s"
+msgstr "Vollständige Ereignis-ID #%s"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "New"
+msgstr "Neu"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Select all media files"
+msgstr "Alle Mediendateien auswählen"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "File deleted"
+msgstr "Datei gelöscht"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "File is unreadable"
+msgstr "Datei ist nicht lesbar"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Visualize picture"
+msgstr "Bild anzeigen"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Select media file"
+msgstr "Mediendatei auswählen"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "File cannot be selected: not writeable"
+msgstr "Datei kann nicht ausgewählt werden: nicht beschreibbar"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Picture file size"
+msgstr "Dateigröße des Bildes"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Picture resolution"
+msgstr "Bildauflösung"
+
+#: views/includes/tables/motion/events.inc.php
+#, php-format
+msgid "%s changed pixels"
+msgstr "%s geänderte Pixel"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Your browser does not support the video."
+msgstr "Ihr Browser unterstützt das Video nicht."
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Video file size"
+msgstr "Dateigröße des Videos"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Video resolution"
+msgstr "Videoauflösung"
+
+#: views/includes/tables/motion/events.inc.php
+msgid "Processing event"
+msgstr "Ereignis wird verarbeitet"

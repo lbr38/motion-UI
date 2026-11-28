@@ -56,6 +56,11 @@ class Delete extends Camera
         }
 
         /**
+         *  Delete camera Onvif cache
+         */
+        \Controllers\Onvif\Onvif::deleteCache(\Controllers\Onvif\PtzMove::getCacheFile($id));
+
+        /**
          *  Remove stream from go2rtc
          *  Do not restart go2rtc to avoid unnecessary restarts
          */

@@ -6,7 +6,25 @@ WORKDIR /app
 COPY www/libs/composer.json www/libs/composer.lock ./
 RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
 
-# Base image
+# Motion, built from sources in a separate stage so build tools are not shipped in the final image
+# TODO: when motion 5.x.x package is released, use it instead
+FROM debian:13-slim AS motion-build
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -y -qq && \
+    apt-get install -y -qq ca-certificates git autoconf automake autopoint build-essential pkgconf libtool gettext \
+    libzip-dev libjpeg-dev libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libavdevice-dev libwebp-dev libmicrohttpd-dev libcamera-dev && \
+    rm -rf /var/lib/apt/lists/*
+RUN git clone https://github.com/Motion-Project/motion.git /src/motion && cd /src/motion && \
+    git checkout --detach 8cf1700f785fd8938e0fd84f92fe772352e660d9 && \
+    autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && \
+    make -j"$(nproc)" && make install DESTDIR=/out
+# List the runtime packages providing the shared libraries motion is linked against
+RUN for lib in $(ldd /out/usr/bin/motion | awk '/=> \// {print $3}'); do \
+        dpkg -S "$lib" 2>/dev/null || dpkg -S "$(realpath "$lib")"; \
+    done | cut -d: -f1 | sort -u > /motion-runtime-deps.txt && \
+    cat /motion-runtime-deps.txt
+
+# Base image
 FROM debian:13-slim
 
 # Metadata
@@ -34,6 +52,7 @@ RUN echo "deb https://packages.repomanager.net/repo/deb/motionui-nginx/trixie/ng
     # echo "deb https://packages.repomanager.net/repo/motion/trixie/main_prod trixie main" > /etc/apt/sources.list.d/motion.list
 
 # Install dependencies
+COPY --from=motion-build /motion-runtime-deps.txt /tmp/motion-runtime-deps.txt
 RUN apt-get update -y -qq && \
     apt-get install -y -qq findutils iputils-ping apt-transport-https dnsutils vim ffmpeg mediainfo postfix python3-psutil \
     # Install postfix
@@ -42,15 +61,15 @@ RUN apt-get update -y -qq && \
     # motion \
     # Install go2rtc
     go2rtc \
-    # Install motion dependencies - TODO: when motion 5.x.x package is released, use it instead
-    autoconf automake autopoint build-essential pkgconf libtool libzip-dev libjpeg-dev git libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libavdevice-dev libwebp-dev gettext libmicrohttpd-dev libcamera-tools libcamera-dev libcamera-v4l2 \
+    # Install motion runtime dependencies (computed in the motion-build stage)
+    # TODO: when motion 5.x.x package is released, use it instead
+    $(cat /tmp/motion-runtime-deps.txt) libcamera-tools libcamera-v4l2 \
     # Install nginx and PHP 8.x
     nginx php${PHP_VERSION}-fpm php${PHP_VERSION}-cli php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-curl php${PHP_VERSION}-yaml php${PHP_VERSION}-opcache php${PHP_VERSION}-xml sqlite3 && \
-    apt-get -qq autoremove -y && rm -rf /var/lib/apt/lists/*
+    apt-get -qq autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/motion-runtime-deps.txt
 
-# Build motion from sources
-# TODO: when motion 5.x.x package is released, use it instead
-RUN git clone https://github.com/Motion-Project/motion.git && cd motion && git checkout --detach 8cf1700f785fd8938e0fd84f92fe772352e660d9 && autoreconf -fiv && ./configure --prefix=/usr --sysconfdir=/etc && make && make install && cd .. && rm motion -r
+# Copy motion built in the motion-build stage
+COPY --from=motion-build /out/ /
 
 # SERVICES CONFIG
 # Configure Nginx

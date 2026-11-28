@@ -56,11 +56,7 @@ class PtzMove extends Ptz
             /**
              *  Construct parent class
              */
-            parent::__construct($url, $configuration['authentication']['username'], $configuration['authentication']['password']);
-
-            if (empty($this->ptzUri)) {
-                throw new Exception(__('PTZ URI is not set'));
-            }
+            parent::__construct($url, $configuration['authentication']['username'], $configuration['authentication']['password'], self::getCacheFile($cameraId));
 
             unset($cameraController, $configuration);
         } catch (Exception $e) {
@@ -86,31 +82,21 @@ class PtzMove extends Ptz
         }
 
         /**
-         *  Get sources
+         *  Pan/tilt velocity, depending on direction
          */
-        $sources = $this->getSources();
-
-        if (empty($sources[0][0]['profiletoken'])) {
-            throw new Exception(__('Could not get profile token'));
-        }
-
-        /**
-         *  Get profile token
-         */
-        $profileToken = $sources[0][0]['profiletoken'];
+        $velocity = [
+            'up'    => [0, $moveSpeed],
+            'down'  => [0, -$moveSpeed],
+            'left'  => [-$moveSpeed, 0],
+            'right' => [$moveSpeed, 0]
+        ][$direction];
 
         /**
          *  Move camera
          */
-        if ($direction == 'up') {
-            $this->ptzContinuousMove($profileToken, 0, $moveSpeed);
-        } elseif ($direction == 'down') {
-            $this->ptzContinuousMove($profileToken, 0, -$moveSpeed);
-        } elseif ($direction == 'left') {
-            $this->ptzContinuousMove($profileToken, -$moveSpeed, 0);
-        } elseif ($direction == 'right') {
-            $this->ptzContinuousMove($profileToken, $moveSpeed, 0);
-        }
+        $this->execute(function () use ($velocity) {
+            $this->ptzContinuousMove($this->getProfileToken(), $velocity[0], $velocity[1]);
+        });
 
         if ($moveType == 'continuous') {
             return;
@@ -120,7 +106,7 @@ class PtzMove extends Ptz
          *  Wait for 1sec and stop camera movement
          */
         sleep(1);
-        $this->ptzStop($profileToken, true, true);
+        $this->ptzStop($this->getProfileToken(), true, true);
     }
 
     /**
@@ -128,23 +114,30 @@ class PtzMove extends Ptz
      */
     public function stop(): void
     {
-        /**
-         *  Get sources
-         */
+        $this->execute(function () {
+            $this->ptzStop($this->getProfileToken(), true, true);
+        });
+    }
+
+    /**
+     *  Return the file used to cache the Onvif discovery data of a camera
+     */
+    public static function getCacheFile(int $cameraId): string
+    {
+        return CAMERAS_ONVIF_DIR . '/camera-' . $cameraId . '.json';
+    }
+
+    /**
+     *  Get profile token of the first source
+     */
+    private function getProfileToken(): string
+    {
         $sources = $this->getSources();
 
         if (empty($sources[0][0]['profiletoken'])) {
             throw new Exception(__('Could not get profile token'));
         }
 
-        /**
-         *  Get profile token
-         */
-        $profileToken = $sources[0][0]['profiletoken'];
-
-        /**
-         *  Stop camera
-         */
-        $this->ptzStop($profileToken, true, true);
+        return $sources[0][0]['profiletoken'];
     }
 }

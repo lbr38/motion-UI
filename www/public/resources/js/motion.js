@@ -180,7 +180,6 @@ $(document).on('click','input[class=event-media-checkbox]',function () {
             'buttons': [
             {
                 'text': __('Download'),
-                'color': 'blue',
                 'callback': function () {
                     mymotionmedia.download(checkboxes);
                 }
